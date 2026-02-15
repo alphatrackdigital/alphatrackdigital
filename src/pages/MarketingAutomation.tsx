@@ -1,116 +1,183 @@
+import { Link } from "react-router-dom";
 import Breadcrumbs from "@/components/shared/Breadcrumbs";
-import CTASection from "@/components/shared/CTASection";
 import FAQAccordion from "@/components/shared/FAQAccordion";
 import ServiceTierCard from "@/components/shared/ServiceTierCard";
 import { motion } from "framer-motion";
-import { Workflow, Mail, Users, BarChart3 } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
-const steps = [
-  { icon: Users, title: "Capture", description: "Capture leads from every channel into one unified CRM." },
-  { icon: Workflow, title: "Segment", description: "Automatically segment contacts based on behavior and intent." },
-  { icon: Mail, title: "Nurture", description: "Trigger personalized email & SMS sequences at the right moment." },
-  { icon: BarChart3, title: "Convert", description: "Score leads, alert your sales team, and close deals faster." },
+const problemCards = [
+  { emoji: "⏰", title: "Slow Follow-Up", description: "Research shows that responding within 5 minutes makes a lead 21x more likely to convert. Manual follow-up can take hours or days." },
+  { emoji: "🕳️", title: "Leads Fall Through", description: "Without a CRM and automated workflows, enquiries get lost in inboxes. No one knows who was contacted, when, or what was said." },
+  { emoji: "🔄", title: "Repetitive Manual Work", description: "Your team spends hours on follow-up emails, spreadsheet updates, and reminders that a system could handle automatically." },
+];
+
+const processSteps = [
+  { num: 1, title: "Map Your Process", description: "We understand how leads come in, how they're qualified, and where they drop off today." },
+  { num: 2, title: "Build the Workflows", description: "Automated email sequences, CRM pipelines, lead scoring, and notification rules — all configured in Brevo." },
+  { num: 3, title: "Test & Validate", description: "Every automation is tested end-to-end. We trigger test leads, verify emails fire, and confirm CRM entries are correct." },
+  { num: 4, title: "Handover & Train", description: "We walk your team through the system and hand over documentation so you can manage it independently." },
 ];
 
 const tiers = [
   {
+    tierLabel: "Tier 1",
     name: "Starter",
-    description: "For businesses beginning their automation journey.",
+    description: "Businesses with manual lead follow-up",
+    price: "£800",
+    priceNote: "from",
     features: [
-      "CRM setup & data migration",
-      "Up to 3 automated workflows",
-      "Basic lead capture forms",
-      "Email template design (up to 5)",
-      "30-day support",
+      "Brevo CRM setup & configuration",
+      "Lead form integration (website → CRM)",
+      "1 automated email sequence (welcome/nurture)",
+      "Basic contact segmentation",
+      "New lead notification workflows",
+      "Documentation & handover",
     ],
   },
   {
-    name: "Professional",
-    description: "For growing teams ready to scale their pipeline.",
+    tierLabel: "Tier 2",
+    name: "Growth",
+    description: "Businesses scaling lead generation",
+    price: "£1,800",
+    priceNote: "from",
     features: [
       "Everything in Starter",
-      "Up to 10 automated workflows",
-      "Lead scoring implementation",
-      "SMS automation",
-      "Pipeline & deal tracking",
-      "Monthly optimization",
+      "Multiple email sequences (nurture, re-engage)",
+      "Lead scoring rules",
+      "Multi-channel automation (email + SMS)",
+      "A/B testing on sequences",
+      "Monthly performance review",
     ],
     highlighted: true,
+    highlightLabel: "POPULAR",
   },
   {
-    name: "Scale",
-    description: "For businesses with complex sales processes.",
+    tierLabel: "Tier 3",
+    name: "Advanced",
+    description: "Complex sales processes & integrations",
+    price: "£3,500",
+    priceNote: "from",
     features: [
-      "Everything in Professional",
-      "Unlimited workflows",
-      "Custom API integrations",
-      "Advanced reporting & dashboards",
-      "Multi-channel automation",
-      "Dedicated automation strategist",
+      "Everything in Growth",
+      "Custom conditional workflows",
+      "CRM reporting dashboards",
+      "API integrations with other tools",
+      "Advanced segmentation & personalisation",
+      "Ongoing optimisation support",
     ],
   },
 ];
 
+const whyCards = [
+  { emoji: "⚙️", title: "Built on Brevo", description: "No expensive enterprise tools. Brevo gives you CRM, email, automation, and meetings in one platform — at a fraction of the cost of HubSpot or Marketo." },
+  { emoji: "🔗", title: "Paired With Tracking", description: "We're the same team that builds your conversion tracking. That means complete visibility from ad click to closed deal — no gaps." },
+  { emoji: "🏠", title: "We Use It Ourselves", description: "Our own lead capture, CRM, and automation runs on the same Brevo stack we build for clients. We're our own proof of concept." },
+  { emoji: "📈", title: "Designed to Scale", description: "Start with a simple welcome sequence. Grow into lead scoring, multi-channel automation, and advanced workflows — all without rebuilding." },
+];
+
 const faqs = [
-  {
-    question: "Which CRM platforms do you work with?",
-    answer: "We specialize in HubSpot, Brevo (formerly Sendinblue), ActiveCampaign, and Zoho CRM. We can also integrate with most platforms via APIs.",
-  },
-  {
-    question: "Can you migrate our existing contacts and data?",
-    answer: "Yes. Data migration is included in all plans. We'll clean, deduplicate, and organize your data during the transition.",
-  },
-  {
-    question: "How quickly will we see results?",
-    answer: "Most clients see improved lead response times within the first week. Meaningful pipeline impact typically shows within 30-60 days.",
-  },
-  {
-    question: "Do you provide training for our team?",
-    answer: "Absolutely. Every engagement includes team training sessions and documentation so your team can confidently manage the system day-to-day.",
-  },
+  { question: "What CRM and automation platform do you use?", answer: "We build on Brevo (formerly Sendinblue). It includes CRM, email marketing, automation workflows, meetings scheduling, and SMS — all in one platform. It's cost-effective and powerful enough for most growing businesses." },
+  { question: "How long does the setup take?", answer: "Starter setups take about 1–2 weeks. Growth and Advanced tiers take 2–4 weeks depending on the number of workflows and integrations involved." },
+  { question: "Can it integrate with my existing tools?", answer: "Yes. Brevo integrates with WordPress, Shopify, Zapier, Google Sheets, Slack, and hundreds of other tools via native integrations and APIs. We'll assess your stack during the discovery call." },
+  { question: "Do I need conversion tracking as well?", answer: "Not necessarily, but they work best together. Tracking tells you which channels bring leads. Automation handles what happens after they arrive. Together, you get complete visibility from click to close." },
+  { question: "What happens after the setup is complete?", answer: "We hand over full documentation and train your team. You own the Brevo account and all the workflows. If you want ongoing optimisation, we offer monthly support retainers." },
+  { question: "Will I need a Brevo subscription?", answer: "Brevo has a free plan that works for small setups. As you scale, paid plans start from about $25/month — significantly cheaper than HubSpot or similar platforms." },
 ];
 
 const MarketingAutomation = () => {
   return (
     <>
-      <section className="relative overflow-hidden py-24 md:py-32">
-        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 h-80 w-80 rounded-full bg-secondary/6 blur-[120px]" />
+      {/* Page Banner */}
+      <section className="relative overflow-hidden py-24 md:py-32" style={{ background: "linear-gradient(180deg, rgba(62,207,142,0.03) 0%, transparent 100%)" }}>
         <div className="container relative mx-auto px-4 lg:px-8">
           <Breadcrumbs items={[
             { label: "Home", path: "/" },
             { label: "Services", path: "/service" },
-            { label: "Marketing Automation & CRM" },
+            { label: "Marketing Automation" },
           ]} />
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="mt-8 max-w-3xl">
-            <h1 className="text-4xl font-bold md:text-5xl lg:text-6xl">
-              Marketing Automation & <span className="text-gradient">CRM</span>
-            </h1>
-            <p className="mt-6 max-w-2xl text-lg text-muted-foreground">
-              Stop losing leads to manual follow-ups. We build automated systems that nurture, score, and convert — so your team can focus on closing deals.
+          <h1 className="mt-4 text-3xl font-bold">Marketing Automation & CRM</h1>
+        </div>
+      </section>
+
+      {/* Hero */}
+      <section className="relative overflow-hidden py-20">
+        <div className="absolute -top-[200px] -right-[200px] h-[600px] w-[600px] rounded-full bg-secondary/[0.06] blur-[200px] pointer-events-none" />
+        <div className="container relative mx-auto px-4 lg:px-8">
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="max-w-3xl">
+            <div className="mb-5 inline-block rounded border border-primary/15 bg-primary/[0.08] px-3.5 py-1.5 text-xs font-semibold uppercase tracking-widest text-primary">
+              Marketing Automation & CRM
+            </div>
+            <h2 className="text-4xl font-extrabold leading-tight md:text-5xl lg:text-6xl">
+              Capture the Lead.<br />Nurture the <span className="text-gradient">Sale.</span>
+            </h2>
+            <p className="mt-6 max-w-xl text-lg text-muted-foreground leading-relaxed">
+              We build the automated workflows, email sequences, and CRM systems that turn your captured leads into paying clients — without the manual work that lets them slip through the cracks.
             </p>
+            <div className="mt-10 flex flex-wrap items-center gap-5">
+              <Button asChild size="lg" className="gap-2 rounded-xl bg-primary px-9 text-primary-foreground font-bold hover:bg-primary/90">
+                <Link to="/book-a-call">Book a Free Discovery Call →</Link>
+              </Button>
+              <Link to="/contact-us" className="text-base font-medium text-primary hover:text-primary/80 transition-colors">
+                Or tell us about your project →
+              </Link>
+            </div>
           </motion.div>
         </div>
       </section>
 
-      {/* 4-Step Framework */}
-      <section className="border-t border-white/10 py-20">
+      {/* Problem */}
+      <section className="py-24 bg-white/[0.015]">
         <div className="container mx-auto px-4 lg:px-8">
-          <h2 className="mb-12 text-center text-3xl font-bold">Our 4-Step Framework</h2>
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {steps.map((step, i) => (
+          <span className="mb-4 inline-block text-xs font-bold uppercase tracking-widest text-primary">The Challenge</span>
+          <h3 className="text-3xl font-extrabold md:text-4xl">Leads Come In. Then What?</h3>
+          <p className="mt-5 max-w-2xl text-lg text-muted-foreground leading-relaxed">
+            Most businesses invest heavily in getting leads — ads, content, SEO — but have no system for what happens after someone fills out a form or sends an enquiry. Follow-up is manual, inconsistent, and slow. Leads go cold before anyone picks up the phone.
+          </p>
+          <div className="mt-12 grid gap-6 md:grid-cols-3">
+            {problemCards.map((card, i) => (
               <motion.div
-                key={step.title}
+                key={card.title}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1, duration: 0.4 }}
-                className="glass-card p-7 text-center"
+                className="glass-card p-8 transition-all duration-300 hover:border-primary/20 hover:-translate-y-1"
               >
-                <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10">
-                  <step.icon className="h-6 w-6 text-primary" />
+                <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-2xl">
+                  {card.emoji}
                 </div>
-                <span className="text-xs font-bold uppercase tracking-widest text-primary">Step {i + 1}</span>
-                <h3 className="mt-2 text-lg font-semibold">{step.title}</h3>
+                <h4 className="text-lg font-bold">{card.title}</h4>
+                <p className="mt-3 text-sm text-muted-foreground leading-relaxed">{card.description}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Process */}
+      <section className="py-24">
+        <div className="container mx-auto px-4 lg:px-8">
+          <span className="mb-4 inline-block text-xs font-bold uppercase tracking-widest text-primary">How We Solve It</span>
+          <h3 className="text-3xl font-extrabold md:text-4xl">Automated From First Touch to Close</h3>
+          <p className="mt-4 max-w-xl text-muted-foreground leading-relaxed">
+            We design automation around your actual sales process — not a template. Every workflow is built to move leads forward without your team needing to chase.
+          </p>
+          <div className="relative mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="absolute top-7 left-16 right-16 hidden h-0.5 bg-gradient-to-r from-primary/30 to-primary/10 lg:block" />
+            {processSteps.map((step, i) => (
+              <motion.div
+                key={step.num}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1, duration: 0.4 }}
+                className="relative z-10 text-center"
+              >
+                <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-primary to-secondary text-xl font-extrabold text-primary-foreground shadow-[0_0_30px_rgba(62,207,142,0.2)]">
+                  {step.num}
+                </div>
+                <h4 className="text-base font-bold">{step.title}</h4>
                 <p className="mt-2 text-sm text-muted-foreground">{step.description}</p>
               </motion.div>
             ))}
@@ -119,22 +186,87 @@ const MarketingAutomation = () => {
       </section>
 
       {/* Tiers */}
-      <section className="py-20">
+      <section className="py-24 bg-white/[0.015]">
         <div className="container mx-auto px-4 lg:px-8">
-          <h2 className="mb-4 text-center text-3xl font-bold">Choose Your Plan</h2>
-          <p className="mx-auto mb-12 max-w-xl text-center text-muted-foreground">
-            Every plan includes setup, training, and ongoing support to ensure your automation engine runs smoothly.
+          <span className="mb-4 inline-block text-xs font-bold uppercase tracking-widest text-primary">Service Tiers</span>
+          <h3 className="text-3xl font-extrabold md:text-4xl">Choose the Right Level for Your Business</h3>
+          <p className="mt-4 max-w-xl text-muted-foreground">
+            Start with what you need now. Every automation setup is built to grow — no rebuilds when you're ready to scale.
           </p>
-          <div className="grid gap-6 md:grid-cols-3">
+          <div className="mt-12 grid gap-6 md:grid-cols-3">
             {tiers.map((tier) => (
-              <ServiceTierCard key={tier.name} {...tier} />
+              <ServiceTierCard key={tier.name} {...tier} ctaLabel="Get Started" />
+            ))}
+          </div>
+          <div className="mt-10 text-center">
+            <Button asChild size="lg" className="gap-2 rounded-xl bg-primary text-primary-foreground font-bold hover:bg-primary/90">
+              <Link to="/book-a-call">Not sure which tier? Book a free call →</Link>
+            </Button>
+          </div>
+
+          {/* Cross-sell */}
+          <div className="mt-16 rounded-2xl bg-gradient-to-br from-primary/5 to-secondary/5 border border-primary/10 p-10 text-center">
+            <h3 className="text-xl font-bold">Works Best With <span className="text-gradient">Accurate Tracking</span></h3>
+            <p className="mx-auto mt-3 max-w-lg text-[15px] text-muted-foreground leading-relaxed">
+              Marketing automation is most powerful when you know exactly which channels are driving your leads. Pair it with our Conversion Tracking service for end-to-end visibility.
+            </p>
+            <Button asChild className="mt-6 gap-2 rounded-xl bg-primary text-primary-foreground font-bold hover:bg-primary/90">
+              <Link to="/service/conversion-tracking">See Conversion Tracking →</Link>
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* Why ATD */}
+      <section className="py-24">
+        <div className="container mx-auto px-4 lg:px-8">
+          <span className="mb-4 inline-block text-xs font-bold uppercase tracking-widest text-primary">Why Us</span>
+          <h3 className="text-3xl font-extrabold md:text-4xl">Why Work With AlphaTrack Digital</h3>
+          <p className="mt-4 max-w-xl text-muted-foreground">We don't just configure tools. We design systems that work for your business.</p>
+          <div className="mt-12 grid gap-5 md:grid-cols-2">
+            {whyCards.map((card, i) => (
+              <motion.div
+                key={card.title}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.08, duration: 0.35 }}
+                className="glass-card flex gap-5 p-7 transition-all hover:border-primary/15 hover:-translate-y-1"
+              >
+                <div className="flex h-11 w-11 min-w-[44px] items-center justify-center rounded-xl bg-primary/10 text-xl">
+                  {card.emoji}
+                </div>
+                <div>
+                  <h4 className="text-base font-bold">{card.title}</h4>
+                  <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{card.description}</p>
+                </div>
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
 
+      {/* FAQ */}
       <FAQAccordion items={faqs} />
-      <CTASection />
+
+      {/* Final CTA */}
+      <section className="relative py-28 text-center">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(62,207,142,0.06)_0%,transparent_70%)] pointer-events-none" />
+        <div className="container relative mx-auto px-4 lg:px-8">
+          <h2 className="text-3xl font-extrabold md:text-4xl">
+            Ready to Automate Your <span className="text-gradient">Growth?</span>
+          </h2>
+          <p className="mx-auto mt-5 max-w-lg text-lg text-muted-foreground">
+            Book a free 15-minute discovery call. We'll look at how your leads flow today and show you exactly where automation can help.
+          </p>
+          <Button asChild size="lg" className="mt-10 gap-2 rounded-xl bg-primary px-10 text-primary-foreground font-bold text-lg hover:bg-primary/90">
+            <Link to="/book-a-call">Book a Discovery Call →</Link>
+          </Button>
+          <p className="mt-5 text-sm text-muted-foreground">
+            Prefer to write? <Link to="/contact-us" className="text-primary font-semibold">Contact us here →</Link>
+          </p>
+        </div>
+      </section>
     </>
   );
 };
