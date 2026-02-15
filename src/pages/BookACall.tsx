@@ -1,96 +1,82 @@
 import Breadcrumbs from "@/components/shared/Breadcrumbs";
-import { Check, Calendar, MessageSquare, Target, Shield } from "lucide-react";
+import { Check } from "lucide-react";
 import { motion } from "framer-motion";
 
 const expectations = [
-  { icon: MessageSquare, title: "Discovery Chat", description: "We'll understand your business, goals, and current setup." },
-  { icon: Target, title: "Quick Audit", description: "We'll identify quick wins and key gaps in your digital stack." },
-  { icon: Calendar, title: "Custom Roadmap", description: "You'll leave with a clear action plan — whether you work with us or not." },
-];
-
-const idealFor = [
-  "You're spending on ads but can't track ROI",
-  "You're losing leads due to manual follow-ups",
-  "Your data is scattered across multiple platforms",
-  "You want to scale but lack the digital infrastructure",
-  "You need expert guidance on marketing technology",
+  { emoji: "⏱", title: "15 Minutes", description: "Quick intro video call to understand your goals and current setup." },
+  { emoji: "🤝", title: "No Pressure", description: "We'll share what we see, you decide next steps. No hard sell." },
+  { emoji: "💡", title: "Actionable", description: "Walk away with at least one insight, even if we don't work together." },
 ];
 
 const BookACall = () => {
   return (
     <>
-      <section className="relative overflow-hidden py-24 md:py-32">
-        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 h-80 w-80 rounded-full bg-primary/6 blur-[120px]" />
-        <div className="container relative mx-auto px-4 lg:px-8">
+      {/* Page Banner */}
+      <section className="py-24 md:py-32" style={{ background: "linear-gradient(180deg, rgba(62,207,142,0.04) 0%, transparent 100%)", borderBottom: "1px solid rgba(255,255,255,0.04)" }}>
+        <div className="container mx-auto px-4 lg:px-8">
           <Breadcrumbs items={[
             { label: "Home", path: "/" },
             { label: "Book a Call" },
           ]} />
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="mt-8">
-            <h1 className="max-w-3xl text-4xl font-bold md:text-5xl">
-              Book a Free <span className="text-gradient">Strategy Call</span>
-            </h1>
-            <p className="mt-4 max-w-xl text-lg text-muted-foreground">
-              30 minutes. No pressure. Just actionable insights to help you grow.
-            </p>
-          </motion.div>
+          <h1 className="mt-2 text-3xl font-bold">Book a Call</h1>
         </div>
       </section>
 
-      <section className="pb-24">
-        <div className="container mx-auto grid gap-12 px-4 lg:grid-cols-2 lg:px-8">
-          {/* Left — content */}
-          <div className="space-y-10">
-            <div>
-              <h2 className="text-2xl font-bold">What To Expect</h2>
-              <div className="mt-6 space-y-4">
+      {/* Booking Section */}
+      <section className="py-16 pb-24">
+        <div className="container mx-auto px-4 lg:px-8">
+          <div className="grid gap-16 lg:grid-cols-2 items-start">
+            {/* Left */}
+            <div className="pt-5">
+              <div className="mb-5 inline-block rounded border border-primary/15 bg-primary/[0.08] px-3.5 py-1.5 text-xs font-semibold uppercase tracking-widest text-primary">
+                Book a Call
+              </div>
+              <h2 className="text-4xl font-extrabold leading-tight">
+                Let's Talk About<br />Your <span className="text-gradient">Growth</span>
+              </h2>
+              <p className="mt-4 text-base text-muted-foreground leading-relaxed">
+                Pick a time that works for you. This is a free, no-pressure 15-minute intro call where we'll discuss your tracking and measurement needs.
+              </p>
+
+              <ul className="mt-10 space-y-0 divide-y divide-white/[0.04]">
                 {expectations.map((item) => (
-                  <div key={item.title} className="glass-card flex items-start gap-4 p-5">
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10">
-                      <item.icon className="h-5 w-5 text-primary" />
+                  <li key={item.title} className="flex gap-4 py-4">
+                    <div className="flex h-11 w-11 min-w-[44px] items-center justify-center rounded-xl bg-primary/10 text-lg">
+                      {item.emoji}
                     </div>
                     <div>
-                      <h3 className="font-semibold">{item.title}</h3>
-                      <p className="mt-1 text-sm text-muted-foreground">{item.description}</p>
+                      <h4 className="text-[15px] font-semibold">{item.title}</h4>
+                      <p className="mt-1 text-[13px] text-muted-foreground">{item.description}</p>
                     </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div>
-              <h2 className="text-2xl font-bold">This Call Is For You If…</h2>
-              <ul className="mt-4 space-y-3">
-                {idealFor.map((item) => (
-                  <li key={item} className="flex items-start gap-2.5 text-sm">
-                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
-                    <span className="text-muted-foreground">{item}</span>
                   </li>
                 ))}
               </ul>
             </div>
-          </div>
 
-          {/* Right — embed placeholder */}
-          <div className="glass-card flex min-h-[500px] flex-col items-center justify-center rounded-3xl p-10 text-center">
-            <Calendar className="mb-4 h-12 w-12 text-primary" />
-            <h3 className="text-xl font-bold">Schedule Your Call</h3>
-            <p className="mt-2 max-w-sm text-sm text-muted-foreground">
-              Our Brevo Meetings calendar will appear here. Choose a time that works for you.
-            </p>
-            <div className="mt-6 rounded-lg border border-dashed border-white/20 p-8 text-xs text-muted-foreground">
-              [Brevo Meetings Embed Placeholder]
+            {/* Right — Embed */}
+            <div className="rounded-2xl border border-white/[0.06] bg-white/[0.03] overflow-hidden min-h-[720px]">
+              {/* Production: Replace with <iframe frameBorder="0" width="100%" height="720" src="https://meet.brevo.com/meet-atd/borderless?l=discovery"></iframe> */}
+              <div className="flex h-[720px] flex-col items-center justify-center gap-4 p-10" style={{ background: "linear-gradient(135deg, rgba(62,207,142,0.05), rgba(0,175,239,0.05))" }}>
+                <span className="text-5xl opacity-60">📅</span>
+                <h3 className="text-xl font-semibold text-muted-foreground">Brevo Meetings Scheduler</h3>
+                <p className="max-w-xs text-center text-sm text-muted-foreground">
+                  Select a date and time that works for you. Powered by Brevo Meetings.
+                </p>
+                <div className="rounded-lg bg-primary/[0.06] border border-primary/[0.12] px-4 py-3 text-xs text-primary text-center">
+                  ⚡ Production: Replace this placeholder with the Brevo iframe embed
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Reassurance */}
-      <section className="border-t border-white/10 py-10">
-        <div className="container mx-auto flex flex-wrap items-center justify-center gap-8 px-4 text-sm text-muted-foreground lg:px-8">
-          <div className="flex items-center gap-2"><Shield className="h-4 w-4 text-primary" /> No obligation</div>
-          <div className="flex items-center gap-2"><Shield className="h-4 w-4 text-primary" /> 100% free</div>
-          <div className="flex items-center gap-2"><Shield className="h-4 w-4 text-primary" /> Actionable insights guaranteed</div>
+      {/* Trust Bar */}
+      <section className="border-t border-white/[0.04] py-10 text-center">
+        <div className="container mx-auto px-4">
+          <p className="text-[13px] text-muted-foreground">
+            <span className="text-primary">✓</span> Free 15-minute call · <span className="text-primary">✓</span> No commitment required · <span className="text-primary">✓</span> Get actionable advice
+          </p>
         </div>
       </section>
     </>

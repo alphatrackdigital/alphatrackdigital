@@ -1,3 +1,4 @@
+import { Link, useNavigate } from "react-router-dom";
 import { Mail, Phone, MapPin, ArrowUpRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -5,6 +6,14 @@ import { Textarea } from "@/components/ui/textarea";
 import { motion } from "framer-motion";
 
 const ContactUs = () => {
+  const navigate = useNavigate();
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // In production, submit form data here
+    navigate("/contact-us/thank-you");
+  };
+
   return (
     <>
       <section className="relative overflow-hidden py-24 md:py-32">
@@ -49,8 +58,8 @@ const ContactUs = () => {
                 </div>
                 <div>
                   <h3 className="font-semibold">Email</h3>
-                  <a href="mailto:hello@alphatrack.digital" className="mt-1 text-sm text-muted-foreground hover:text-primary transition-colors">
-                    hello@alphatrack.digital
+                  <a href="mailto:info@alphatrack.digital" className="mt-1 text-sm text-muted-foreground hover:text-primary transition-colors">
+                    info@alphatrack.digital
                   </a>
                 </div>
               </div>
@@ -61,8 +70,8 @@ const ContactUs = () => {
                 </div>
                 <div>
                   <h3 className="font-semibold">Phone</h3>
-                  <a href="tel:+233000000000" className="mt-1 text-sm text-muted-foreground hover:text-primary transition-colors">
-                    +233 (0) 000 000 000
+                  <a href="tel:+233530985334" className="mt-1 text-sm text-muted-foreground hover:text-primary transition-colors">
+                    +233 530 985 334
                   </a>
                 </div>
               </div>
@@ -73,7 +82,7 @@ const ContactUs = () => {
           <div className="glass-card p-8 md:p-10">
             <h2 className="text-xl font-bold">Send Us a Message</h2>
             <p className="mt-1 text-sm text-muted-foreground">Fill out the form and we'll get back to you soon.</p>
-            <form className="mt-6 space-y-5" onSubmit={(e) => e.preventDefault()}>
+            <form className="mt-6 space-y-5" onSubmit={handleSubmit}>
               <div className="grid gap-5 sm:grid-cols-2">
                 <div>
                   <label className="mb-1.5 block text-sm font-medium">First Name</label>
