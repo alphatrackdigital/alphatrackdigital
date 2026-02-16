@@ -1,18 +1,68 @@
+// Set VITE_BREVO_API_KEY in .env — get key from Brevo Dashboard > Settings > API Keys
 import { Link, useNavigate } from "react-router-dom";
-import { Mail, Phone, MapPin, ArrowUpRight } from "lucide-react";
+import { Mail, Phone, MapPin, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import SEO from "@/components/shared/SEO";
 import { motion } from "framer-motion";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { useState } from "react";
+import { toast } from "sonner";
+
+const contactSchema = z.object({
+  firstName: z.string().trim().min(1, "First name is required").max(100),
+  lastName: z.string().trim().min(1, "Last name is required").max(100),
+  email: z.string().trim().email("Please enter a valid email").max(255),
+  company: z.string().trim().max(200).optional().or(z.literal("")),
+  message: z.string().trim().min(10, "Message must be at least 10 characters").max(2000),
+});
+
+type ContactFormData = z.infer<typeof contactSchema>;
 
 const ContactUs = () => {
   const navigate = useNavigate();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // In production, submit form data here
-    navigate("/contact-us/thank-you");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<ContactFormData>({
+    resolver: zodResolver(contactSchema),
+  });
+
+  const onSubmit = async (data: ContactFormData) => {
+    setIsSubmitting(true);
+    try {
+      const res = await fetch("https://api.brevo.com/v3/contacts", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "api-key": import.meta.env.VITE_BREVO_API_KEY,
+        },
+        body: JSON.stringify({
+          email: data.email,
+          attributes: {
+            FIRSTNAME: data.firstName,
+            LASTNAME: data.lastName,
+            COMPANY: data.company || "",
+            MESSAGE: data.message,
+            SOURCE: "Contact Form",
+          },
+          listIds: [2],
+          updateEnabled: true,
+        }),
+      });
+      if (!res.ok) throw new Error("Request failed");
+      navigate("/contact-us/thank-you");
+    } catch {
+      toast.error("Something went wrong. Please try again or email info@alphatrack.digital");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -84,31 +134,41 @@ const ContactUs = () => {
           <div className="glass-card p-8 md:p-10">
             <h2 className="text-xl font-bold">Send Us a Message</h2>
             <p className="mt-1 text-sm text-muted-foreground">Fill out the form and we'll get back to you soon.</p>
-            <form className="mt-6 space-y-5" onSubmit={handleSubmit}>
+            <form className="mt-6 space-y-5" onSubmit={handleSubmit(onSubmit)}>
               <div className="grid gap-5 sm:grid-cols-2">
                 <div>
                   <label className="mb-1.5 block text-sm font-medium">First Name</label>
-                  <Input placeholder="John" className="border-white/10 bg-white/5" />
+                  <Input placeholder="John" className="border-white/10 bg-white/5" {...register("firstName")} />
+                  {errors.firstName && <p className="mt-1 text-xs text-red-500">{errors.firstName.message}</p>}
                 </div>
                 <div>
                   <label className="mb-1.5 block text-sm font-medium">Last Name</label>
-                  <Input placeholder="Doe" className="border-white/10 bg-white/5" />
+                  <Input placeholder="Doe" className="border-white/10 bg-white/5" {...register("lastName")} />
+                  {errors.lastName && <p className="mt-1 text-xs text-red-500">{errors.lastName.message}</p>}
                 </div>
               </div>
               <div>
                 <label className="mb-1.5 block text-sm font-medium">Email</label>
-                <Input type="email" placeholder="john@example.com" className="border-white/10 bg-white/5" />
+                <Input type="email" placeholder="john@example.com" className="border-white/10 bg-white/5" {...register("email")} />
+                {errors.email && <p className="mt-1 text-xs text-red-500">{errors.email.message}</p>}
               </div>
               <div>
                 <label className="mb-1.5 block text-sm font-medium">Company</label>
-                <Input placeholder="Your company" className="border-white/10 bg-white/5" />
+                <Input placeholder="Your company" className="border-white/10 bg-white/5" {...register("company")} />
               </div>
               <div>
                 <label className="mb-1.5 block text-sm font-medium">Message</label>
-                <Textarea placeholder="Tell us about your project..." rows={4} className="border-white/10 bg-white/5" />
+                <Textarea placeholder="Tell us about your project..." rows={4} className="border-white/10 bg-white/5" {...register("message")} />
+                {errors.message && <p className="mt-1 text-xs text-red-500">{errors.message.message}</p>}
               </div>
-              <Button type="submit" className="w-full gap-1.5 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90">
-                Send Message <ArrowUpRight className="h-4 w-4" />
+              <Button type="submit" disabled={isSubmitting} className="w-full gap-1.5 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90">
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="h-4 w-4 animate-spin" /> Sending...
+                  </>
+                ) : (
+                  "Send Message →"
+                )}
               </Button>
             </form>
           </div>

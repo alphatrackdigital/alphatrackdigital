@@ -1,9 +1,27 @@
+// Set VITE_BREVO_API_KEY in .env — get key from Brevo Dashboard > Settings > API Keys
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import SEO from "@/components/shared/SEO";
 import { motion } from "framer-motion";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { useState } from "react";
+import { toast } from "sonner";
+import { Loader2, CheckCircle } from "lucide-react";
 import logo from "@/assets/logo.png";
+
+const auditSchema = z.object({
+  firstName: z.string().trim().min(1, "First name is required").max(100),
+  lastName: z.string().trim().min(1, "Last name is required").max(100),
+  email: z.string().trim().email("Please enter a valid email").max(255),
+  websiteUrl: z.string().trim().url("Please enter a valid URL").max(500),
+  monthlyAdSpend: z.string().min(1, "Please select your ad spend"),
+  adPlatforms: z.string().trim().min(1, "Please tell us which platforms you use").max(500),
+});
+
+type AuditFormData = z.infer<typeof auditSchema>;
 
 const painPoints = [
   { emoji: "📊", title: "GA4 Says One Thing, Meta Says Another", description: "Your numbers don't match across platforms. You can't trust any of them to make budget decisions." },
@@ -46,7 +64,59 @@ const proofStats = [
   { stat: "£0", label: "Cost of the audit — even if you don't work with us after" },
 ];
 
+const adSpendOptions = [
+  { value: "", label: "Select range" },
+  { value: "Under £1,000", label: "Under £1,000" },
+  { value: "£1,000 – £5,000", label: "£1,000 – £5,000" },
+  { value: "£5,000 – £20,000", label: "£5,000 – £20,000" },
+  { value: "£20,000+", label: "£20,000+" },
+];
+
 const TrackingLandingPage = () => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<AuditFormData>({
+    resolver: zodResolver(auditSchema),
+    defaultValues: { monthlyAdSpend: "" },
+  });
+
+  const onSubmit = async (data: AuditFormData) => {
+    setIsSubmitting(true);
+    try {
+      const res = await fetch("https://api.brevo.com/v3/contacts", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "api-key": import.meta.env.VITE_BREVO_API_KEY,
+        },
+        body: JSON.stringify({
+          email: data.email,
+          attributes: {
+            FIRSTNAME: data.firstName,
+            LASTNAME: data.lastName,
+            WEBSITE: data.websiteUrl,
+            AD_SPEND: data.monthlyAdSpend,
+            AD_PLATFORMS: data.adPlatforms,
+            SOURCE: "Tracking Audit Landing Page",
+          },
+          listIds: [3],
+          updateEnabled: true,
+        }),
+      });
+      if (!res.ok) throw new Error("Request failed");
+      setIsSubmitted(true);
+    } catch {
+      toast.error("Something went wrong. Please try again or email info@alphatrack.digital");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <div className="min-h-screen flex flex-col" style={{ background: "#080808", color: "#fff" }}>
       <SEO title="Free Conversion Tracking Audit | Founders Offer | AlphaTrack Digital" description="Get a free conversion tracking audit and 20% off your setup. We'll show you exactly what's broken and what it's costing you." />
@@ -165,50 +235,78 @@ const TrackingLandingPage = () => {
           <p className="mt-3 text-muted-foreground">Fill in the form below and we'll schedule your tracking audit within 48 hours.</p>
 
           <div className="mt-9 rounded-2xl border border-primary/15 bg-white/[0.03] p-9 text-left">
-            <form onSubmit={(e) => e.preventDefault()} className="space-y-5">
-              <div className="grid gap-4 sm:grid-cols-2">
-                <div>
-                  <label className="mb-1.5 block text-[13px] font-semibold text-muted-foreground">First Name</label>
-                  <Input placeholder="John" className="border-white/10 bg-white/5" />
+            {isSubmitted ? (
+              <div className="text-center py-8">
+                <CheckCircle className="mx-auto h-14 w-14 text-primary mb-4" />
+                <h3 className="text-2xl font-bold">Audit Requested!</h3>
+                <p className="mt-3 text-muted-foreground leading-relaxed">
+                  We'll review your setup and be in touch within 48 hours.
+                </p>
+                <Button asChild className="mt-6 gap-2 rounded-lg bg-primary text-primary-foreground font-bold hover:bg-primary/90">
+                  <Link to="/book-a-call">Book a Call While You Wait →</Link>
+                </Button>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <div>
+                    <label className="mb-1.5 block text-[13px] font-semibold text-muted-foreground">First Name</label>
+                    <Input placeholder="John" className="border-white/10 bg-white/5" {...register("firstName")} />
+                    {errors.firstName && <p className="mt-1 text-xs text-red-500">{errors.firstName.message}</p>}
+                  </div>
+                  <div>
+                    <label className="mb-1.5 block text-[13px] font-semibold text-muted-foreground">Last Name</label>
+                    <Input placeholder="Doe" className="border-white/10 bg-white/5" {...register("lastName")} />
+                    {errors.lastName && <p className="mt-1 text-xs text-red-500">{errors.lastName.message}</p>}
+                  </div>
                 </div>
                 <div>
-                  <label className="mb-1.5 block text-[13px] font-semibold text-muted-foreground">Last Name</label>
-                  <Input placeholder="Doe" className="border-white/10 bg-white/5" />
+                  <label className="mb-1.5 block text-[13px] font-semibold text-muted-foreground">Work Email</label>
+                  <Input type="email" placeholder="john@company.com" className="border-white/10 bg-white/5" {...register("email")} />
+                  {errors.email && <p className="mt-1 text-xs text-red-500">{errors.email.message}</p>}
                 </div>
-              </div>
-              <div>
-                <label className="mb-1.5 block text-[13px] font-semibold text-muted-foreground">Work Email</label>
-                <Input type="email" placeholder="john@company.com" className="border-white/10 bg-white/5" />
-              </div>
-              <div>
-                <label className="mb-1.5 block text-[13px] font-semibold text-muted-foreground">Website URL</label>
-                <Input type="url" placeholder="https://yourwebsite.com" className="border-white/10 bg-white/5" />
-              </div>
-              <div>
-                <label className="mb-1.5 block text-[13px] font-semibold text-muted-foreground">Monthly Ad Spend</label>
-                <select className="w-full rounded-md border border-white/10 bg-white/5 px-3 py-2.5 text-sm text-foreground">
-                  <option>Select range</option>
-                  <option>Under £1,000</option>
-                  <option>£1,000 – £5,000</option>
-                  <option>£5,000 – £20,000</option>
-                  <option>£20,000+</option>
-                </select>
-              </div>
-              <div>
-                <label className="mb-1.5 block text-[13px] font-semibold text-muted-foreground">What platforms are you running ads on?</label>
-                <Input placeholder="e.g. Meta, Google Ads, LinkedIn" className="border-white/10 bg-white/5" />
-              </div>
-              <Button type="submit" className="w-full rounded-lg bg-primary py-4 text-primary-foreground font-extrabold hover:bg-primary/90">
-                Get My Free Audit →
-              </Button>
-              <p className="text-center text-xs text-muted-foreground">No spam, no hard sell. We'll review your setup and send a written report.</p>
-            </form>
+                <div>
+                  <label className="mb-1.5 block text-[13px] font-semibold text-muted-foreground">Website URL</label>
+                  <Input type="url" placeholder="https://yourwebsite.com" className="border-white/10 bg-white/5" {...register("websiteUrl")} />
+                  {errors.websiteUrl && <p className="mt-1 text-xs text-red-500">{errors.websiteUrl.message}</p>}
+                </div>
+                <div>
+                  <label className="mb-1.5 block text-[13px] font-semibold text-muted-foreground">Monthly Ad Spend</label>
+                  <select
+                    className="w-full rounded-md border border-white/10 bg-white/5 px-3 py-2.5 text-sm text-foreground"
+                    {...register("monthlyAdSpend")}
+                  >
+                    {adSpendOptions.map((opt) => (
+                      <option key={opt.value} value={opt.value}>{opt.label}</option>
+                    ))}
+                  </select>
+                  {errors.monthlyAdSpend && <p className="mt-1 text-xs text-red-500">{errors.monthlyAdSpend.message}</p>}
+                </div>
+                <div>
+                  <label className="mb-1.5 block text-[13px] font-semibold text-muted-foreground">What platforms are you running ads on?</label>
+                  <Input placeholder="e.g. Meta, Google Ads, LinkedIn" className="border-white/10 bg-white/5" {...register("adPlatforms")} />
+                  {errors.adPlatforms && <p className="mt-1 text-xs text-red-500">{errors.adPlatforms.message}</p>}
+                </div>
+                <Button type="submit" disabled={isSubmitting} className="w-full rounded-lg bg-primary py-4 text-primary-foreground font-extrabold hover:bg-primary/90">
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="h-4 w-4 animate-spin mr-2" /> Sending...
+                    </>
+                  ) : (
+                    "Get My Free Audit →"
+                  )}
+                </Button>
+                <p className="text-center text-xs text-muted-foreground">No spam, no hard sell. We'll review your setup and send a written report.</p>
+              </form>
+            )}
           </div>
 
-          <div className="mt-5 mx-auto inline-flex items-center gap-2.5 rounded-lg border px-5 py-3 text-sm font-semibold" style={{ background: "rgba(255,180,0,0.06)", borderColor: "rgba(255,180,0,0.15)", color: "#ffb400" }}>
-            <span className="h-2 w-2 rounded-full bg-[#ffb400] animate-pulse" />
-            7 of 10 spots remaining
-          </div>
+          {!isSubmitted && (
+            <div className="mt-5 mx-auto inline-flex items-center gap-2.5 rounded-lg border px-5 py-3 text-sm font-semibold" style={{ background: "rgba(255,180,0,0.06)", borderColor: "rgba(255,180,0,0.15)", color: "#ffb400" }}>
+              <span className="h-2 w-2 rounded-full bg-[#ffb400] animate-pulse" />
+              7 of 10 spots remaining
+            </div>
+          )}
         </div>
       </section>
 
