@@ -14,6 +14,8 @@ import MarketingAutomation from "./pages/MarketingAutomation";
 import BookACall from "./pages/BookACall";
 import ThankYou from "./pages/ThankYou";
 import TrackingLandingPage from "./pages/TrackingLandingPage";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsOfService from "./pages/TermsOfService";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -35,10 +37,12 @@ const App = () => (
             <Route path="/contact-us/thank-you" element={<ContactUsThankYou />} />
             <Route path="/book-a-call" element={<BookACall />} />
             <Route path="/book-a-call/thank-you" element={<ThankYou />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+            <Route path="/terms-of-service" element={<TermsOfService />} />
+            <Route path="*" element={<NotFound />} />
           </Route>
           {/* Standalone landing page (no shared header/footer) */}
           <Route path="/offer/tracking-audit" element={<TrackingLandingPage />} />
-          <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
     </TooltipProvider>
