@@ -1,4 +1,6 @@
+import { Helmet } from "react-helmet-async";
 import Breadcrumbs from "@/components/shared/Breadcrumbs";
+import SEO from "@/components/shared/SEO";
 import { Check } from "lucide-react";
 import { motion } from "framer-motion";
 
@@ -11,6 +13,17 @@ const expectations = [
 const BookACall = () => {
   return (
     <>
+      <SEO title="Book a Free Discovery Call | AlphaTrack Digital" description="Book a free 15-minute intro call to discuss your tracking and measurement needs. No pressure, actionable advice." />
+      <Helmet>
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://alphatrack.digital/" },
+            { "@type": "ListItem", "position": 2, "name": "Book a Call", "item": "https://alphatrack.digital/book-a-call" }
+          ]
+        })}</script>
+      </Helmet>
       {/* Page Banner */}
       <section className="py-24 md:py-32" style={{ background: "linear-gradient(180deg, rgba(62,207,142,0.04) 0%, transparent 100%)", borderBottom: "1px solid rgba(255,255,255,0.04)" }}>
         <div className="container mx-auto px-4 lg:px-8">

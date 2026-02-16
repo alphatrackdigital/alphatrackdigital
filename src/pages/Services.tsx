@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { ArrowUpRight } from "lucide-react";
 import CTASection from "@/components/shared/CTASection";
+import SEO from "@/components/shared/SEO";
 import { motion } from "framer-motion";
 
 const primaryServices = [
@@ -43,6 +44,7 @@ const supportingServices = [
 const Services = () => {
   return (
     <>
+      <SEO title="Our Services | AlphaTrack Digital" description="End-to-end digital growth solutions. Conversion tracking, paid media management, marketing automation, SEO, email marketing, and website development." />
       <section className="relative overflow-hidden py-24 md:py-32">
         <div className="absolute top-1/3 left-1/2 -translate-x-1/2 h-80 w-80 rounded-full bg-primary/6 blur-[120px]" />
         <div className="container relative mx-auto px-4 text-center lg:px-8">

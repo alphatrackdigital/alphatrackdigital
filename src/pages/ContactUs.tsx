@@ -3,6 +3,7 @@ import { Mail, Phone, MapPin, ArrowUpRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import SEO from "@/components/shared/SEO";
 import { motion } from "framer-motion";
 
 const ContactUs = () => {
@@ -16,6 +17,7 @@ const ContactUs = () => {
 
   return (
     <>
+      <SEO title="Contact Us | AlphaTrack Digital" description="Have a question or ready to get started? Reach out to AlphaTrack Digital. Offices in Accra and Lagos." />
       <section className="relative overflow-hidden py-24 md:py-32">
         <div className="absolute top-1/3 right-0 h-80 w-80 rounded-full bg-secondary/5 blur-[120px]" />
         <div className="container relative mx-auto px-4 lg:px-8">

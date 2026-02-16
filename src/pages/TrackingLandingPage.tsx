@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import SEO from "@/components/shared/SEO";
 import { motion } from "framer-motion";
 import logo from "@/assets/logo.png";
 
@@ -48,6 +49,7 @@ const proofStats = [
 const TrackingLandingPage = () => {
   return (
     <div className="min-h-screen flex flex-col" style={{ background: "#080808", color: "#fff" }}>
+      <SEO title="Free Conversion Tracking Audit | Founders Offer | AlphaTrack Digital" description="Get a free conversion tracking audit and 20% off your setup. We'll show you exactly what's broken and what it's costing you." />
       {/* Minimal Header */}
       <header className="fixed top-0 left-0 right-0 z-50 border-b border-white/[0.04]" style={{ background: "rgba(8,8,8,0.95)", backdropFilter: "blur(20px)" }}>
         <div className="mx-auto flex max-w-[1100px] items-center justify-between px-6 py-3.5">

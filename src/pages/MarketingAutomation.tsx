@@ -1,7 +1,9 @@
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 import Breadcrumbs from "@/components/shared/Breadcrumbs";
 import FAQAccordion from "@/components/shared/FAQAccordion";
 import ServiceTierCard from "@/components/shared/ServiceTierCard";
+import SEO from "@/components/shared/SEO";
 import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -88,6 +90,30 @@ const faqs = [
 const MarketingAutomation = () => {
   return (
     <>
+      <SEO
+        title="Marketing Automation & CRM Services | AlphaTrack Digital"
+        description="We build automated workflows, email sequences, and CRM systems on Brevo that turn captured leads into paying clients without the manual work."
+        schema={{
+          "@context": "https://schema.org",
+          "@type": "Service",
+          "name": "Marketing Automation & CRM",
+          "provider": { "@type": "Organization", "name": "AlphaTrack Digital", "url": "https://alphatrack.digital" },
+          "description": "We build automated workflows, email sequences, and CRM systems that turn captured leads into paying clients.",
+          "areaServed": ["Ghana", "Nigeria", "United Kingdom"],
+          "url": "https://alphatrack.digital/service/marketing-automation"
+        }}
+      />
+      <Helmet>
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://alphatrack.digital/" },
+            { "@type": "ListItem", "position": 2, "name": "Services", "item": "https://alphatrack.digital/service" },
+            { "@type": "ListItem", "position": 3, "name": "Marketing Automation", "item": "https://alphatrack.digital/service/marketing-automation" }
+          ]
+        })}</script>
+      </Helmet>
       {/* Page Banner */}
       <section className="relative overflow-hidden py-24 md:py-32" style={{ background: "linear-gradient(180deg, rgba(62,207,142,0.03) 0%, transparent 100%)" }}>
         <div className="container relative mx-auto px-4 lg:px-8">

@@ -1,8 +1,10 @@
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 import Breadcrumbs from "@/components/shared/Breadcrumbs";
 import CTASection from "@/components/shared/CTASection";
 import FAQAccordion from "@/components/shared/FAQAccordion";
 import ServiceTierCard from "@/components/shared/ServiceTierCard";
+import SEO from "@/components/shared/SEO";
 import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -105,6 +107,30 @@ const faqs = [
 const ConversionTracking = () => {
   return (
     <>
+      <SEO
+        title="Conversion Tracking Setup Services | AlphaTrack Digital"
+        description="We set up GA4, Meta, and Google Ads conversion tracking that tells you exactly which channels drive your leads and sales. Accurate, auditable, proven."
+        schema={{
+          "@context": "https://schema.org",
+          "@type": "Service",
+          "name": "Conversion Tracking & Measurement",
+          "provider": { "@type": "Organization", "name": "AlphaTrack Digital", "url": "https://alphatrack.digital" },
+          "description": "We set up GA4, Meta, and Google Ads conversion tracking that tells you exactly which channels drive your leads and sales.",
+          "areaServed": ["Ghana", "Nigeria", "United Kingdom"],
+          "url": "https://alphatrack.digital/service/conversion-tracking"
+        }}
+      />
+      <Helmet>
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://alphatrack.digital/" },
+            { "@type": "ListItem", "position": 2, "name": "Services", "item": "https://alphatrack.digital/service" },
+            { "@type": "ListItem", "position": 3, "name": "Conversion Tracking", "item": "https://alphatrack.digital/service/conversion-tracking" }
+          ]
+        })}</script>
+      </Helmet>
       {/* Page Banner */}
       <section className="relative overflow-hidden py-24 md:py-32" style={{ background: "linear-gradient(180deg, rgba(62,207,142,0.03) 0%, transparent 100%)" }}>
         <div className="container relative mx-auto px-4 lg:px-8">
