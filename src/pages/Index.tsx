@@ -3,6 +3,7 @@ import { ArrowUpRight, BarChart3, Megaphone, Zap, Mail, Globe, Search, PenTool, 
 import { Button } from "@/components/ui/button";
 import CTASection from "@/components/shared/CTASection";
 import FAQAccordion from "@/components/shared/FAQAccordion";
+import SEO from "@/components/shared/SEO";
 import { motion } from "framer-motion";
 
 const primaryServices = [
@@ -80,6 +81,23 @@ const faqs = [
 const Index = () => {
   return (
     <>
+      <SEO
+        title="AlphaTrack Digital | Data-Driven Performance Marketing Agency"
+        description="We navigate the digital landscape for you, blending creativity and tech to unlock business growth. Conversion tracking, paid media, and marketing automation."
+        schema={{
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          "name": "AlphaTrack Digital",
+          "url": "https://alphatrack.digital",
+          "logo": "https://alphatrack.digital/wp-content/uploads/2025/08/Group-320.png",
+          "description": "Data-driven performance marketing agency based in Accra and Lagos.",
+          "address": [
+            { "@type": "PostalAddress", "addressLocality": "Accra", "addressCountry": "GH" },
+            { "@type": "PostalAddress", "addressLocality": "Lagos", "addressCountry": "NG" }
+          ],
+          "contactPoint": { "@type": "ContactPoint", "telephone": "+233530985334", "email": "info@alphatrack.digital", "contactType": "sales" }
+        }}
+      />
       {/* Hero */}
       <section className="relative flex min-h-[85vh] items-center overflow-hidden">
         <div className="absolute top-1/4 left-1/2 -translate-x-1/2 h-96 w-96 rounded-full bg-primary/8 blur-[120px]" />

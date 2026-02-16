@@ -1,18 +1,12 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import SEO from "@/components/shared/SEO";
 import { motion } from "framer-motion";
-import { useEffect } from "react";
 
 const ContactUsThankYou = () => {
-  useEffect(() => {
-    const meta = document.createElement("meta");
-    meta.name = "robots";
-    meta.content = "noindex, nofollow";
-    document.head.appendChild(meta);
-    return () => { document.head.removeChild(meta); };
-  }, []);
-
   return (
+    <>
+    <SEO title="Message Received | AlphaTrack Digital" description="Thanks for reaching out. We'll be in touch." noindex />
     <section className="relative flex min-h-[80vh] items-center justify-center py-24">
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[600px] w-[600px] rounded-full bg-[radial-gradient(circle,rgba(62,207,142,0.08)_0%,transparent_70%)] pointer-events-none" />
       <div className="container relative mx-auto px-4 lg:px-8">
@@ -67,6 +61,7 @@ const ContactUsThankYou = () => {
         </div>
       </div>
     </section>
+    </>
   );
 };
 

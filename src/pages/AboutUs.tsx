@@ -1,5 +1,6 @@
 import { Target, BarChart3, Lightbulb, Users } from "lucide-react";
 import CTASection from "@/components/shared/CTASection";
+import SEO from "@/components/shared/SEO";
 import { motion } from "framer-motion";
 
 const values = [
@@ -28,6 +29,7 @@ const values = [
 const AboutUs = () => {
   return (
     <>
+      <SEO title="About Us | AlphaTrack Digital" description="AlphaTrack Digital is a measurement-first digital growth agency based in Accra and Lagos. We help businesses track, automate, and scale with precision." />
       {/* Hero */}
       <section className="relative overflow-hidden py-24 md:py-32">
         <div className="absolute top-1/3 left-1/2 -translate-x-1/2 h-80 w-80 rounded-full bg-primary/6 blur-[120px]" />
