@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X, ArrowUpRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import logo from "@/assets/logo.png";
 
+// TODO: Add { label: "Blog", path: "/blog" } when blog pages are built
 const navLinks = [
   { label: "Home", path: "/" },
   { label: "About Us", path: "/about-us" },
@@ -15,6 +16,10 @@ const navLinks = [
 const Header = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
+
+  useEffect(() => {
+    setMobileOpen(false);
+  }, [location.pathname]);
 
   return (
     <header className="glass-nav fixed top-0 left-0 right-0 z-50">

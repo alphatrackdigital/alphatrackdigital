@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import SEO from "@/components/shared/SEO";
+import WhatsAppWidget from "@/components/shared/WhatsAppWidget";
 import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -319,6 +320,7 @@ const TrackingLandingPage = () => {
           <p className="mt-2 text-xs text-muted-foreground">© AlphaTrack Digital 2026. All Rights Reserved.</p>
         </div>
       </footer>
+      <WhatsAppWidget />
     </div>
   );
 };

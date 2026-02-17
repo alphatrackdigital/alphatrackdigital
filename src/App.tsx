@@ -4,6 +4,8 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "@/components/layout/Layout";
+import ScrollToTop from "@/components/shared/ScrollToTop";
+import ErrorBoundary from "@/components/shared/ErrorBoundary";
 import Index from "./pages/Index";
 import AboutUs from "./pages/AboutUs";
 import Services from "./pages/Services";
@@ -26,6 +28,8 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
+        <ErrorBoundary>
+        <ScrollToTop />
         <Routes>
           <Route element={<Layout />}>
             <Route path="/" element={<Index />} />
@@ -44,6 +48,7 @@ const App = () => (
           {/* Standalone landing page (no shared header/footer) */}
           <Route path="/offer/tracking-audit" element={<TrackingLandingPage />} />
         </Routes>
+        </ErrorBoundary>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

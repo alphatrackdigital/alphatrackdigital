@@ -3,43 +3,7 @@ import { ArrowUpRight } from "lucide-react";
 import CTASection from "@/components/shared/CTASection";
 import SEO from "@/components/shared/SEO";
 import { motion } from "framer-motion";
-
-const primaryServices = [
-  {
-    emoji: "📊",
-    badge: "Flagship",
-    flagship: true,
-    title: "Conversion Tracking & Measurement",
-    description: "We set up the tracking that tells you exactly which channels, campaigns, and clicks are driving your leads and sales. GA4, Meta, Google Ads — accurate, auditable, and proven before go-live.",
-    path: "/service/conversion-tracking",
-    available: true,
-  },
-  {
-    emoji: "📣",
-    badge: "Core",
-    flagship: false,
-    title: "Paid Media Management",
-    description: "Strategic paid social and search campaigns that drive qualified traffic. We combine Meta Ads, Google Ads, and LinkedIn to reach your audience where they are — and prove every pound spent.",
-    path: "/service",
-    available: false,
-  },
-  {
-    emoji: "⚡",
-    badge: "Core",
-    flagship: false,
-    title: "Marketing Automation & CRM",
-    description: "Once a lead converts, what happens next? We build the automated workflows, email sequences, and CRM systems that nurture prospects into paying clients — without manual effort.",
-    path: "/service/marketing-automation",
-    available: true,
-  },
-];
-
-const supportingServices = [
-  { emoji: "✉️", title: "Email Marketing", description: "Targeted email campaigns that engage your audience and drive action." },
-  { emoji: "💻", title: "Website Development", description: "Fast, conversion-focused websites built on WordPress and modern platforms." },
-  { emoji: "📈", title: "SEO", description: "Organic search visibility that compounds over time." },
-  { emoji: "✏️", title: "Content & Media Strategy", description: "Strategic content and media planning aligned to your growth goals." },
-];
+import { primaryServices, supportingServices } from "@/data/services";
 
 const Services = () => {
   return (
@@ -91,7 +55,7 @@ const Services = () => {
                   <span className="mb-4 text-4xl">{service.emoji}</span>
                   <h3 className="text-xl font-semibold">{service.title}</h3>
                   <p className="mt-2 flex-1 text-sm text-muted-foreground leading-relaxed">{service.description}</p>
-                  {service.available ? (
+                  {!service.comingSoon ? (
                     <Link
                       to={service.path}
                       className="mt-5 inline-flex items-center gap-1 text-sm font-medium text-primary transition-colors hover:text-primary/80"

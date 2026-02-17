@@ -5,40 +5,32 @@ import CTASection from "@/components/shared/CTASection";
 import FAQAccordion from "@/components/shared/FAQAccordion";
 import SEO from "@/components/shared/SEO";
 import { motion } from "framer-motion";
+import { primaryServices, supportingServices } from "@/data/services";
 
-const primaryServices = [
+const testimonials = [
   {
-    emoji: "📊",
-    badge: "Flagship",
-    flagship: true,
-    title: "Conversion Tracking & Measurement",
-    description: "We set up the tracking that tells you exactly which channels, campaigns, and clicks are driving your leads and sales. GA4, Meta, Google Ads — accurate, auditable, and proven before go-live.",
-    path: "/service/conversion-tracking",
-  },
-  {
-    emoji: "📣",
-    badge: "Core",
-    flagship: false,
-    title: "Paid Media Management",
-    description: "Strategic paid social and search campaigns that drive qualified traffic. We combine Meta Ads, Google Ads, and LinkedIn to reach your audience where they are — and prove every pound spent.",
-    path: "/service",
-    comingSoon: true,
-  },
-  {
-    emoji: "⚡",
-    badge: "Core",
-    flagship: false,
-    title: "Marketing Automation & CRM",
-    description: "Once a lead converts, what happens next? We build the automated workflows, email sequences, and CRM systems that nurture prospects into paying clients — without manual effort.",
-    path: "/service/marketing-automation",
+    quote: "Working with Alpha Track Digital Limited was an excellent experience. They delivered a sleek, modern, and highly functional website right on schedule. Edits were handled quickly, communication was seamless, and the service was truly top notch. Would definitely recommend!",
+    name: "Courtney Quist-Therson",
+    title: "CEO and Founder of Pearl House Ghana",
   },
 ];
 
-const supportingServices = [
-  { emoji: "✉️", title: "Email Marketing", description: "Targeted email campaigns that engage your audience and drive action." },
-  { emoji: "💻", title: "Website Development", description: "Fast, conversion-focused websites built on WordPress and modern platforms." },
-  { emoji: "📈", title: "SEO", description: "Organic search visibility that compounds over time." },
-  { emoji: "✏️", title: "Content & Media Strategy", description: "Strategic content and media planning aligned to your growth goals." },
+const blogPosts = [
+  {
+    title: "How to Skyrocket Your ROI with Paid Social Campaigns",
+    url: "https://alphatrack.digital/how-to-skyrocket-your-roi-with-paid-social-campaigns/",
+    image: "https://alphatrack.digital/wp-content/uploads/2025/09/dlxmedia-hu-ZMlcuVf2URA-unsplash-scaled.jpg",
+  },
+  {
+    title: "The Power of No-Code Web Design for Small Businesses",
+    url: "https://alphatrack.digital/the-power-of-no-code-web-design-for-small-businesses/",
+    image: "https://alphatrack.digital/wp-content/uploads/2025/09/tekimax-AfwnOr1taq0-unsplash-scaled.jpg",
+  },
+  {
+    title: "Why Programmatic Advertising is a Game-Changer",
+    url: "https://alphatrack.digital/why-programmatic-advertising-is-a-game-changer/",
+    image: "https://alphatrack.digital/wp-content/uploads/2025/09/programmatic-ads.jpg",
+  },
 ];
 
 const trustBadges = [
@@ -100,8 +92,11 @@ const Index = () => {
       />
       {/* Hero */}
       <section className="relative flex min-h-[85vh] items-center overflow-hidden">
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 h-96 w-96 rounded-full bg-primary/8 blur-[120px]" />
-        <div className="absolute bottom-0 right-0 h-64 w-64 rounded-full bg-secondary/5 blur-[100px]" />
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute -top-[40%] -right-[20%] h-[80%] w-[60%] rounded-full bg-primary/[0.07] blur-[150px]" />
+          <div className="absolute -bottom-[30%] -left-[10%] h-[60%] w-[50%] rounded-full bg-secondary/[0.05] blur-[130px]" />
+          <div className="absolute top-[20%] left-[30%] h-[40%] w-[30%] rounded-full bg-primary/[0.04] blur-[100px]" />
+        </div>
 
         <div className="container relative mx-auto px-4 py-20 lg:px-8">
           <motion.div
@@ -259,6 +254,73 @@ const Index = () => {
             <p className="mx-auto mt-4 max-w-2xl text-muted-foreground">
               We don't just run campaigns — we embed ourselves in your business, aligning every strategy with measurable outcomes. From Accra to Lagos and beyond, we partner with ambitious businesses ready to scale.
             </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials */}
+      <section className="border-t border-white/10 py-20">
+        <div className="container mx-auto px-4 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="mx-auto max-w-3xl text-center"
+          >
+            <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-primary">Testimonials</p>
+            <h2 className="mb-10 text-3xl font-bold md:text-4xl">What Our Clients Say</h2>
+            {/* TODO: Convert to carousel when more testimonials are available */}
+            {testimonials.map((t, i) => (
+              <div key={i} className="glass-card border-l-2 border-primary p-8 md:p-10 text-left">
+                <span className="block text-6xl leading-none text-primary/30 select-none">&ldquo;</span>
+                <p className="mt-2 text-lg italic leading-relaxed text-muted-foreground">{t.quote}</p>
+                <div className="mt-6">
+                  <p className="font-semibold text-foreground">{t.name}</p>
+                  <p className="text-sm text-muted-foreground">{t.title}</p>
+                </div>
+              </div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Blog Preview */}
+      {/* TODO: Replace with internal blog when blog pages are built */}
+      <section className="border-t border-white/10 py-20">
+        <div className="container mx-auto px-4 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="text-center"
+          >
+            <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-primary">Insights</p>
+            <h2 className="mb-10 text-3xl font-bold md:text-4xl">From Our Blog</h2>
+          </motion.div>
+          <div className="mx-auto grid max-w-5xl grid-cols-1 gap-6 md:grid-cols-3">
+            {blogPosts.map((post, i) => (
+              <motion.a
+                key={i}
+                href={post.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: i * 0.1 }}
+                className="group overflow-hidden rounded-xl border border-white/10 bg-card transition-all duration-300 hover:-translate-y-1 hover:border-white/20"
+              >
+                <div className="h-48 w-full overflow-hidden bg-card">
+                  <img src={post.image} alt={post.title} className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105" loading="lazy" />
+                </div>
+                <div className="p-6">
+                  <h3 className="text-base font-semibold text-foreground leading-snug">{post.title}</h3>
+                  <span className="mt-3 inline-block text-sm text-primary">Read more →</span>
+                </div>
+              </motion.a>
+            ))}
           </div>
         </div>
       </section>
