@@ -52,7 +52,7 @@ const Services = () => {
                   >
                     {service.badge}
                   </span>
-                  <span className="mb-4 text-4xl">{service.emoji}</span>
+                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 transition-colors duration-300 group-hover:bg-primary"><service.icon className="h-6 w-6 text-primary transition-colors duration-300 group-hover:text-primary-foreground" /></div>
                   <h3 className="text-xl font-semibold">{service.title}</h3>
                   <p className="mt-2 flex-1 text-sm text-muted-foreground leading-relaxed">{service.description}</p>
                   {!service.comingSoon ? (
@@ -81,9 +81,9 @@ const Services = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.06, duration: 0.35 }}
-                  className="rounded-xl border border-border bg-[#0d0d0d] p-6 transition-colors hover:border-muted-foreground/30"
+                  className="group rounded-xl border border-border bg-[#0d0d0d] p-6 transition-all duration-300 hover:border-muted-foreground/30 hover:shadow-[0_4px_20px_rgba(62,207,142,0.06)]"
                 >
-                  <span className="mb-3 block text-2xl">{s.emoji}</span>
+                  <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 transition-colors duration-300 group-hover:bg-primary"><s.icon className="h-5 w-5 text-primary transition-colors duration-300 group-hover:text-primary-foreground" /></div>
                   <h4 className="text-[15px] font-semibold">{s.title}</h4>
                   <p className="mt-1.5 text-[13px] text-muted-foreground leading-relaxed">{s.description}</p>
                 </motion.div>

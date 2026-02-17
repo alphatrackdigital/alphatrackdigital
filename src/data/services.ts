@@ -1,6 +1,25 @@
-export const primaryServices = [
+import { Target, Megaphone, Workflow, Mail, Globe, Search, PenTool } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
+
+export interface PrimaryService {
+  icon: LucideIcon;
+  badge: string;
+  flagship: boolean;
+  title: string;
+  description: string;
+  path: string;
+  comingSoon?: boolean;
+}
+
+export interface SupportingService {
+  icon: LucideIcon;
+  title: string;
+  description: string;
+}
+
+export const primaryServices: PrimaryService[] = [
   {
-    emoji: "📊",
+    icon: Target,
     badge: "Flagship",
     flagship: true,
     title: "Conversion Tracking & Measurement",
@@ -8,7 +27,7 @@ export const primaryServices = [
     path: "/service/conversion-tracking",
   },
   {
-    emoji: "📣",
+    icon: Megaphone,
     badge: "Core",
     flagship: false,
     title: "Paid Media Management",
@@ -17,7 +36,7 @@ export const primaryServices = [
     comingSoon: true,
   },
   {
-    emoji: "⚡",
+    icon: Workflow,
     badge: "Core",
     flagship: false,
     title: "Marketing Automation & CRM",
@@ -26,9 +45,9 @@ export const primaryServices = [
   },
 ];
 
-export const supportingServices = [
-  { emoji: "✉️", title: "Email Marketing", description: "Targeted email campaigns that engage your audience and drive action." },
-  { emoji: "💻", title: "Website Development", description: "Fast, conversion-focused websites built on WordPress and modern platforms." },
-  { emoji: "📈", title: "SEO", description: "Organic search visibility that compounds over time." },
-  { emoji: "✏️", title: "Content & Media Strategy", description: "Strategic content and media planning aligned to your growth goals." },
+export const supportingServices: SupportingService[] = [
+  { icon: Mail, title: "Email Marketing", description: "Targeted email campaigns that engage your audience and drive action." },
+  { icon: Globe, title: "Website Development", description: "Fast, conversion-focused websites built on WordPress and modern platforms." },
+  { icon: Search, title: "SEO", description: "Organic search visibility that compounds over time." },
+  { icon: PenTool, title: "Content & Media Strategy", description: "Strategic content and media planning aligned to your growth goals." },
 ];

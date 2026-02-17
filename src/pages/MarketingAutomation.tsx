@@ -7,11 +7,19 @@ import SEO from "@/components/shared/SEO";
 import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Clock, UserX, RotateCcw, Settings, Link2, Building, TrendingUp, Workflow } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 
-const problemCards = [
-  { emoji: "⏰", title: "Slow Follow-Up", description: "Research shows that responding within 5 minutes makes a lead 21x more likely to convert. Manual follow-up can take hours or days." },
-  { emoji: "🕳️", title: "Leads Fall Through", description: "Without a CRM and automated workflows, enquiries get lost in inboxes. No one knows who was contacted, when, or what was said." },
-  { emoji: "🔄", title: "Repetitive Manual Work", description: "Your team spends hours on follow-up emails, spreadsheet updates, and reminders that a system could handle automatically." },
+interface IconCard {
+  icon: LucideIcon;
+  title: string;
+  description: string;
+}
+
+const problemCards: IconCard[] = [
+  { icon: Clock, title: "Slow Follow-Up", description: "Research shows that responding within 5 minutes makes a lead 21x more likely to convert. Manual follow-up can take hours or days." },
+  { icon: UserX, title: "Leads Fall Through", description: "Without a CRM and automated workflows, enquiries get lost in inboxes. No one knows who was contacted, when, or what was said." },
+  { icon: RotateCcw, title: "Repetitive Manual Work", description: "Your team spends hours on follow-up emails, spreadsheet updates, and reminders that a system could handle automatically." },
 ];
 
 const processSteps = [
@@ -71,11 +79,11 @@ const tiers = [
   },
 ];
 
-const whyCards = [
-  { emoji: "⚙️", title: "Built on Brevo", description: "No expensive enterprise tools. Brevo gives you CRM, email, automation, and meetings in one platform — at a fraction of the cost of HubSpot or Marketo." },
-  { emoji: "🔗", title: "Paired With Tracking", description: "We're the same team that builds your conversion tracking. That means complete visibility from ad click to closed deal — no gaps." },
-  { emoji: "🏠", title: "We Use It Ourselves", description: "Our own lead capture, CRM, and automation runs on the same Brevo stack we build for clients. We're our own proof of concept." },
-  { emoji: "📈", title: "Designed to Scale", description: "Start with a simple welcome sequence. Grow into lead scoring, multi-channel automation, and advanced workflows — all without rebuilding." },
+const whyCards: IconCard[] = [
+  { icon: Settings, title: "Built on Brevo", description: "No expensive enterprise tools. Brevo gives you CRM, email, automation, and meetings in one platform — at a fraction of the cost of HubSpot or Marketo." },
+  { icon: Link2, title: "Paired With Tracking", description: "We're the same team that builds your conversion tracking. That means complete visibility from ad click to closed deal — no gaps." },
+  { icon: Building, title: "We Use It Ourselves", description: "Our own lead capture, CRM, and automation runs on the same Brevo stack we build for clients. We're our own proof of concept." },
+  { icon: TrendingUp, title: "Designed to Scale", description: "Start with a simple welcome sequence. Grow into lead scoring, multi-channel automation, and advanced workflows — all without rebuilding." },
 ];
 
 const faqs = [
@@ -170,8 +178,8 @@ const MarketingAutomation = () => {
                 transition={{ delay: i * 0.1, duration: 0.4 }}
                 className="glass-card p-8 transition-all duration-300 hover:border-primary/20 hover:-translate-y-1"
               >
-                <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-2xl">
-                  {card.emoji}
+                <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10">
+                  <card.icon className="h-6 w-6 text-primary" />
                 </div>
                 <h4 className="text-lg font-bold">{card.title}</h4>
                 <p className="mt-3 text-sm text-muted-foreground leading-relaxed">{card.description}</p>
@@ -259,8 +267,8 @@ const MarketingAutomation = () => {
                 transition={{ delay: i * 0.08, duration: 0.35 }}
                 className="glass-card flex gap-5 p-7 transition-all hover:border-primary/15 hover:-translate-y-1"
               >
-                <div className="flex h-11 w-11 min-w-[44px] items-center justify-center rounded-xl bg-primary/10 text-xl">
-                  {card.emoji}
+                <div className="flex h-11 w-11 min-w-[44px] items-center justify-center rounded-xl bg-primary/10">
+                  <card.icon className="h-5 w-5 text-primary" />
                 </div>
                 <div>
                   <h4 className="text-base font-bold">{card.title}</h4>

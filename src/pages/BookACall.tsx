@@ -1,13 +1,14 @@
 import { Helmet } from "react-helmet-async";
 import Breadcrumbs from "@/components/shared/Breadcrumbs";
 import SEO from "@/components/shared/SEO";
-import { Check } from "lucide-react";
+import { Check, Clock, Handshake, Lightbulb } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 import { motion } from "framer-motion";
 
-const expectations = [
-  { emoji: "⏱", title: "15 Minutes", description: "Quick intro video call to understand your goals and current setup." },
-  { emoji: "🤝", title: "No Pressure", description: "We'll share what we see, you decide next steps. No hard sell." },
-  { emoji: "💡", title: "Actionable", description: "Walk away with at least one insight, even if we don't work together." },
+const expectations: { icon: LucideIcon; title: string; description: string }[] = [
+  { icon: Clock, title: "15 Minutes", description: "Quick intro video call to understand your goals and current setup." },
+  { icon: Handshake, title: "No Pressure", description: "We'll share what we see, you decide next steps. No hard sell." },
+  { icon: Lightbulb, title: "Actionable", description: "Walk away with at least one insight, even if we don't work together." },
 ];
 
 const BookACall = () => {
@@ -54,8 +55,8 @@ const BookACall = () => {
               <ul className="mt-10 space-y-0 divide-y divide-white/[0.04]">
                 {expectations.map((item) => (
                   <li key={item.title} className="flex gap-4 py-4">
-                    <div className="flex h-11 w-11 min-w-[44px] items-center justify-center rounded-xl bg-primary/10 text-lg">
-                      {item.emoji}
+                    <div className="flex h-11 w-11 min-w-[44px] items-center justify-center rounded-xl bg-primary/10">
+                      <item.icon className="h-5 w-5 text-primary" />
                     </div>
                     <div>
                       <h4 className="text-[15px] font-semibold">{item.title}</h4>
@@ -70,13 +71,13 @@ const BookACall = () => {
             <div className="rounded-2xl border border-white/[0.06] bg-white/[0.03] overflow-hidden min-h-[720px]">
               {/* Production: Replace with <iframe frameBorder="0" width="100%" height="720" src="https://meet.brevo.com/meet-atd/borderless?l=discovery"></iframe> */}
               <div className="flex h-[720px] flex-col items-center justify-center gap-4 p-10" style={{ background: "linear-gradient(135deg, rgba(62,207,142,0.05), rgba(0,175,239,0.05))" }}>
-                <span className="text-5xl opacity-60">📅</span>
+                <span className="text-5xl opacity-60"><Clock className="h-12 w-12 text-primary/40" /></span>
                 <h3 className="text-xl font-semibold text-muted-foreground">Brevo Meetings Scheduler</h3>
                 <p className="max-w-xs text-center text-sm text-muted-foreground">
                   Select a date and time that works for you. Powered by Brevo Meetings.
                 </p>
                 <div className="rounded-lg bg-primary/[0.06] border border-primary/[0.12] px-4 py-3 text-xs text-primary text-center">
-                  ⚡ Production: Replace this placeholder with the Brevo iframe embed
+                  Production: Replace this placeholder with the Brevo iframe embed
                 </div>
               </div>
             </div>
@@ -87,8 +88,10 @@ const BookACall = () => {
       {/* Trust Bar */}
       <section className="border-t border-white/[0.04] py-10 text-center">
         <div className="container mx-auto px-4">
-          <p className="text-[13px] text-muted-foreground">
-            <span className="text-primary">✓</span> Free 15-minute call · <span className="text-primary">✓</span> No commitment required · <span className="text-primary">✓</span> Get actionable advice
+          <p className="text-[13px] text-muted-foreground flex flex-wrap items-center justify-center gap-x-4 gap-y-1">
+            <span className="flex items-center gap-1"><Check className="h-3.5 w-3.5 text-primary" /> Free 15-minute call</span>
+            <span className="flex items-center gap-1"><Check className="h-3.5 w-3.5 text-primary" /> No commitment required</span>
+            <span className="flex items-center gap-1"><Check className="h-3.5 w-3.5 text-primary" /> Get actionable advice</span>
           </p>
         </div>
       </section>

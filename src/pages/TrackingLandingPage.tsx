@@ -10,7 +10,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useState } from "react";
 import { toast } from "sonner";
-import { Loader2, CheckCircle } from "lucide-react";
+import { Loader2, CheckCircle, BarChart3, Ghost, Flame } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 import logo from "@/assets/logo.png";
 
 const auditSchema = z.object({
@@ -24,10 +25,16 @@ const auditSchema = z.object({
 
 type AuditFormData = z.infer<typeof auditSchema>;
 
-const painPoints = [
-  { emoji: "📊", title: "GA4 Says One Thing, Meta Says Another", description: "Your numbers don't match across platforms. You can't trust any of them to make budget decisions." },
-  { emoji: "👻", title: "Conversions Are Missing or Doubled", description: "Form submissions, calls, and purchases aren't being tracked — or they're counted twice." },
-  { emoji: "🔥", title: "Ad Platforms Can't Optimise", description: "Without accurate conversion data, your ads are flying blind. Cost per lead keeps climbing." },
+interface PainPoint {
+  icon: LucideIcon;
+  title: string;
+  description: string;
+}
+
+const painPoints: PainPoint[] = [
+  { icon: BarChart3, title: "GA4 Says One Thing, Meta Says Another", description: "Your numbers don't match across platforms. You can't trust any of them to make budget decisions." },
+  { icon: Ghost, title: "Conversions Are Missing or Doubled", description: "Form submissions, calls, and purchases aren't being tracked — or they're counted twice." },
+  { icon: Flame, title: "Ad Platforms Can't Optimise", description: "Without accurate conversion data, your ads are flying blind. Cost per lead keeps climbing." },
 ];
 
 const offerCards = [
@@ -169,7 +176,9 @@ const TrackingLandingPage = () => {
           <div className="mt-12 grid gap-5 sm:grid-cols-3 max-w-[900px] mx-auto">
             {painPoints.map((p) => (
               <div key={p.title} className="rounded-xl border p-7 text-left" style={{ background: "rgba(255,60,60,0.04)", borderColor: "rgba(255,60,60,0.08)" }}>
-                <span className="text-3xl mb-3 block">{p.emoji}</span>
+                <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
+                  <p.icon className="h-5 w-5 text-primary" />
+                </div>
                 <h4 className="text-base font-semibold" style={{ color: "#ff8a8a" }}>{p.title}</h4>
                 <p className="mt-1.5 text-[13px] text-muted-foreground leading-relaxed">{p.description}</p>
               </div>

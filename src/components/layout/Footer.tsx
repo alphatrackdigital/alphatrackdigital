@@ -12,7 +12,7 @@ const Footer = () => {
               <img src={logo} alt="AlphaTrack Digital" className="h-9" />
             </Link>
             <p className="text-sm leading-relaxed text-muted-foreground">
-              We are not just another marketing agency — we are mission control for your brand, combining strategy, creativity, and technology to fuel growth.
+              Measurement-first digital growth agency. We build the tracking, automation, and paid media systems that turn your marketing spend into provable revenue.
             </p>
             <div className="mt-4 flex gap-3">
               <a href="https://web.facebook.com/AlphaTrack.Digital" target="_blank" rel="noopener noreferrer" className="flex h-9 w-9 items-center justify-center rounded-lg bg-white/5 text-muted-foreground transition-colors hover:bg-primary/10 hover:text-primary" aria-label="Facebook">

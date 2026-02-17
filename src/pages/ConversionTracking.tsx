@@ -8,11 +8,19 @@ import SEO from "@/components/shared/SEO";
 import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { BadgeDollarSign, TrendingDown, EyeOff, ClipboardCheck, Building, Layers, ShieldCheck, Target } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 
-const problemCards = [
-  { emoji: "💸", title: "Wasted Ad Spend", description: "If your conversion tracking is broken, your ad platforms can't learn. They optimise towards the wrong audience, and your cost per lead climbs." },
-  { emoji: "📉", title: "Unreliable Reports", description: "When GA4 says one thing and Meta says another, no one trusts the data. Decisions stall. Budgets get cut." },
-  { emoji: "🔍", title: "Invisible ROI", description: "You're generating leads, but you can't prove which channel brought them. That makes it impossible to scale what works." },
+interface IconCard {
+  icon: LucideIcon;
+  title: string;
+  description: string;
+}
+
+const problemCards: IconCard[] = [
+  { icon: BadgeDollarSign, title: "Wasted Ad Spend", description: "If your conversion tracking is broken, your ad platforms can't learn. They optimise towards the wrong audience, and your cost per lead climbs." },
+  { icon: TrendingDown, title: "Unreliable Reports", description: "When GA4 says one thing and Meta says another, no one trusts the data. Decisions stall. Budgets get cut." },
+  { icon: EyeOff, title: "Invisible ROI", description: "You're generating leads, but you can't prove which channel brought them. That makes it impossible to scale what works." },
 ];
 
 const processSteps = [
@@ -26,7 +34,7 @@ const tiers = [
   {
     tierLabel: "Tier 1",
     name: "Starter",
-    description: "Best for lead-gen websites running ads",
+    description: "Lead-gen websites running ads on 1–2 platforms",
     price: "£750",
     priceNote: "from",
     features: [
@@ -39,12 +47,12 @@ const tiers = [
     ],
     enables: "Accurate lead tracking. Reliable ad optimisation. Clear performance reporting.",
     highlighted: true,
-    highlightLabel: "RECOMMENDED",
+    highlightLabel: "MOST POPULAR",
   },
   {
     tierLabel: "Tier 2",
     name: "Growth",
-    description: "Scaling paid media or adding channels",
+    description: "Scaling paid media across multiple channels",
     price: "£1,500",
     priceNote: "from",
     features: [
@@ -52,46 +60,49 @@ const tiers = [
       "Additional platforms (LinkedIn, TikTok)",
       "Improved conversion signals",
       "Cross-channel consistency",
-      "Ongoing optimisation support",
+      "Advanced Looker Studio dashboard",
+      "60-day optimisation support",
     ],
     enables: "Better ad performance at scale. Cleaner attribution across channels.",
   },
   {
     tierLabel: "Tier 3",
     name: "Advanced",
-    description: "Ecommerce, regulated markets, or CRO",
+    description: "Ecommerce, regulated markets, or conversion optimisation",
     price: "£3,000",
     priceNote: "from",
     features: [
       "Everything in Growth",
-      "Ecommerce tracking (Shopify, Woo)",
-      "Privacy & consent tracking",
-      "Advanced engagement insights",
-      "Deeper QA and auditing",
+      "Ecommerce tracking (Shopify, WooCommerce)",
+      "Privacy & consent mode v2 implementation",
+      "Enhanced engagement insights",
+      "Deeper QA and auditing protocols",
+      "90-day support",
     ],
-    enables: "Revenue-level reporting. Compliance. Conversion-rate optimisation.",
+    enables: "Revenue-level reporting. Compliance-ready. Conversion-rate optimisation.",
   },
   {
     tierLabel: "Tier 4",
     name: "Enterprise",
-    description: "Complex websites, large ad spend",
+    description: "Complex architectures, large ad budgets, multi-domain",
     price: "Custom",
     features: [
       "Custom tracking architecture",
-      "Server-side tracking",
-      "Conversion APIs (CAPI, EC)",
-      "Multi-domain setups",
-      "Dedicated technical support",
+      "Server-side GTM",
+      "Conversion APIs (Meta CAPI, Google EC)",
+      "Multi-domain & cross-domain setups",
+      "Dedicated technical account manager",
+      "Ongoing support & training",
     ],
-    enables: "Maximum data reliability. Enterprise-grade attribution.",
+    enables: "Maximum data reliability. Enterprise-grade attribution. Full-stack measurement.",
   },
 ];
 
-const whyCards = [
-  { emoji: "📋", title: "Measurement-First Approach", description: "We define what success means before touching any tools. Your tracking is built on a plan, not guesswork." },
-  { emoji: "🏠", title: "We Practice What We Preach", description: "Our own website runs on the same tracking stack we set up for clients. We're our own first case study." },
-  { emoji: "🚀", title: "Upgrade-Ready Architecture", description: "Start with what you need now. Our setups grow with you — no rebuilds needed when you scale." },
-  { emoji: "✅", title: "Every Event Is Provable", description: "We don't ship tracking that \"probably works.\" Every conversion event is validated before go-live." },
+const whyCards: IconCard[] = [
+  { icon: ClipboardCheck, title: "Measurement-First Approach", description: "We define what success means before touching any tools. Your tracking is built on a plan, not guesswork." },
+  { icon: Building, title: "We Practice What We Preach", description: "Our own website runs on the same tracking stack we set up for clients. We're our own first case study." },
+  { icon: Layers, title: "Upgrade-Ready Architecture", description: "Start with what you need now. Our setups grow with you — no rebuilds needed when you scale." },
+  { icon: ShieldCheck, title: "Every Event Is Provable", description: "We don't ship tracking that \"probably works.\" Every conversion event is validated before go-live." },
 ];
 
 const faqs = [
@@ -149,7 +160,7 @@ const ConversionTracking = () => {
         <div className="container relative mx-auto px-4 lg:px-8">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="max-w-3xl">
             <div className="mb-6 inline-flex items-center gap-2 rounded-md border border-primary/15 bg-primary/[0.07] px-4 py-2 text-xs font-bold uppercase tracking-widest text-primary">
-              📊 Conversion Tracking & Measurement
+              <Target className="h-4 w-4" /> Conversion Tracking & Measurement
             </div>
             <h2 className="text-4xl font-extrabold leading-tight md:text-5xl lg:text-6xl">
               Stop Guessing.<br />Start <span className="text-gradient">Measuring.</span>
@@ -187,8 +198,8 @@ const ConversionTracking = () => {
                 transition={{ delay: i * 0.1, duration: 0.4 }}
                 className="glass-card p-8 transition-all duration-300 hover:border-primary/20 hover:-translate-y-1"
               >
-                <div className="mb-5 flex h-13 w-13 items-center justify-center rounded-xl bg-primary/10 border border-primary/10 text-2xl">
-                  {card.emoji}
+                <div className="mb-5 flex h-13 w-13 items-center justify-center rounded-xl bg-primary/10 border border-primary/10">
+                  <card.icon className="h-6 w-6 text-primary" />
                 </div>
                 <h4 className="text-xl font-bold">{card.title}</h4>
                 <p className="mt-3 text-[15px] text-muted-foreground leading-relaxed">{card.description}</p>
@@ -265,8 +276,8 @@ const ConversionTracking = () => {
                 transition={{ delay: i * 0.08, duration: 0.35 }}
                 className="glass-card flex gap-5 p-7 transition-all hover:border-primary/15 hover:-translate-y-1"
               >
-                <div className="flex h-12 w-12 min-w-[48px] items-center justify-center rounded-xl bg-primary/10 border border-primary/10 text-xl">
-                  {card.emoji}
+                <div className="flex h-12 w-12 min-w-[48px] items-center justify-center rounded-xl bg-primary/10 border border-primary/10">
+                  <card.icon className="h-6 w-6 text-primary" />
                 </div>
                 <div>
                   <h4 className="text-lg font-bold">{card.title}</h4>
