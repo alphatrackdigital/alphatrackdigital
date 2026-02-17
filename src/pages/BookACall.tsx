@@ -69,17 +69,14 @@ const BookACall = () => {
 
             {/* Right — Embed */}
             <div className="rounded-2xl border border-white/[0.06] bg-white/[0.03] overflow-hidden min-h-[720px]">
-              {/* Production: Replace with <iframe frameBorder="0" width="100%" height="720" src="https://meet.brevo.com/meet-atd/borderless?l=discovery"></iframe> */}
-              <div className="flex h-[720px] flex-col items-center justify-center gap-4 p-10" style={{ background: "linear-gradient(135deg, rgba(62,207,142,0.05), rgba(0,175,239,0.05))" }}>
-                <span className="text-5xl opacity-60"><Clock className="h-12 w-12 text-primary/40" /></span>
-                <h3 className="text-xl font-semibold text-muted-foreground">Brevo Meetings Scheduler</h3>
-                <p className="max-w-xs text-center text-sm text-muted-foreground">
-                  Select a date and time that works for you. Powered by Brevo Meetings.
-                </p>
-                <div className="rounded-lg bg-primary/[0.06] border border-primary/[0.12] px-4 py-3 text-xs text-primary text-center">
-                  Production: Replace this placeholder with the Brevo iframe embed
-                </div>
-              </div>
+              <iframe
+                frameBorder="0"
+                width="100%"
+                height="720"
+                src="https://meet.brevo.com/meet-atd/borderless?l=discovery"
+                title="Book a Discovery Call"
+                style={{ border: "none", minHeight: "720px" }}
+              />
             </div>
           </div>
         </div>

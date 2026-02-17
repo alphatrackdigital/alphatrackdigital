@@ -19,22 +19,22 @@ const blogPosts = [
   {
     title: "How to Skyrocket Your ROI with Paid Social Campaigns",
     excerpt: "Learn the data-driven strategies that separate profitable paid social campaigns from money pits.",
-    url: "https://alphatrack.digital/how-to-skyrocket-your-roi-with-paid-social-campaigns/",
+    url: "/blog/how-to-skyrocket-your-roi-with-paid-social-campaigns",
     image: "https://alphatrack.digital/wp-content/uploads/2025/09/dlxmedia-hu-ZMlcuVf2URA-unsplash-scaled.jpg",
     readTime: "5 min read",
   },
   {
     title: "The Power of No-Code Web Design for Small Businesses",
     excerpt: "Why modern no-code platforms are levelling the playing field for small business websites.",
-    url: "https://alphatrack.digital/the-power-of-no-code-web-design-for-small-businesses/",
+    url: "/blog/the-power-of-no-code-web-design-for-small-businesses",
     image: "https://alphatrack.digital/wp-content/uploads/2025/09/tekimax-AfwnOr1taq0-unsplash-scaled.jpg",
     readTime: "4 min read",
   },
   {
     title: "Why Programmatic Advertising is a Game-Changer",
-    excerpt: "Programmatic advertising is reshaping how brands reach audiences at scale — here's what you need to know.",
-    url: "https://alphatrack.digital/why-programmatic-advertising-is-a-game-changer/",
-    image: "https://alphatrack.digital/wp-content/uploads/2025/09/programmatic-ads.jpg",
+    excerpt: "Programmatic advertising is reshaping how brands reach audiences at scale \u2014 here\u2019s what you need to know.",
+    url: "/blog/why-programmatic-advertising-is-a-game-changer",
+    image: "https://alphatrack.digital/wp-content/uploads/2025/09/alan-w-AP7tG4LTeXA-unsplash-scaled.jpg",
     readTime: "6 min read",
   },
 ];
@@ -117,10 +117,21 @@ const Index = () => {
       />
       {/* Hero */}
       <section className="relative flex min-h-[85vh] items-center overflow-hidden">
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {/* Background layers */}
+        <div className="absolute inset-0 pointer-events-none">
+          {/* Gradient orbs */}
           <div className="absolute -top-[40%] -right-[20%] h-[80%] w-[60%] rounded-full bg-primary/[0.07] blur-[150px]" />
           <div className="absolute -bottom-[30%] -left-[10%] h-[60%] w-[50%] rounded-full bg-secondary/[0.05] blur-[130px]" />
           <div className="absolute top-[20%] left-[30%] h-[40%] w-[30%] rounded-full bg-primary/[0.04] blur-[100px]" />
+          {/* Grid pattern overlay */}
+          <div className="absolute inset-0 opacity-[0.035]" style={{
+            backgroundImage: `linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)`,
+            backgroundSize: '60px 60px',
+          }} />
+          {/* Top-down radial vignette for depth */}
+          <div className="absolute inset-0" style={{
+            background: 'radial-gradient(ellipse 80% 60% at 50% 0%, transparent 0%, hsl(0 0% 3.1%) 100%)',
+          }} />
         </div>
 
         <div className="container relative mx-auto px-4 py-20 lg:px-8">
@@ -222,24 +233,28 @@ const Index = () => {
                   </div>
                   <h3 className="text-xl font-semibold">{service.title}</h3>
                   <p className="mt-2 flex-1 text-sm text-muted-foreground leading-relaxed">{service.description}</p>
-                  {service.comingSoon ? (
-                    <span className="mt-4 text-xs font-medium text-muted-foreground">Coming Soon</span>
-                  ) : (
-                    <Link
+                  <Link
                       to={service.path}
                       className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-primary transition-colors hover:text-primary/80"
                     >
                       Learn more <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                     </Link>
-                  )}
                 </div>
               </motion.div>
             ))}
           </div>
 
           {/* Supporting 4 */}
-          <div className="mt-14 border-t border-border pt-8">
-            <p className="mb-5 text-xs font-semibold uppercase tracking-widest text-muted-foreground">We Also Deliver</p>
+          <div className="mt-14 border-t border-border pt-10">
+            <div className="mb-6 flex items-center justify-between">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-widest text-primary">We Also Deliver</p>
+                <p className="mt-1 text-sm text-muted-foreground">Complementary services to round out your digital growth stack.</p>
+              </div>
+              <Link to="/service" className="hidden items-center gap-1 text-sm font-medium text-primary transition-colors hover:text-primary/80 sm:inline-flex">
+                View all services <ArrowRight className="h-3.5 w-3.5" />
+              </Link>
+            </div>
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
               {supportingServices.map((s, i) => (
                 <motion.div
@@ -248,13 +263,20 @@ const Index = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.06, duration: 0.35 }}
-                  className="group rounded-xl border border-border bg-[#0d0d0d] p-6 transition-all duration-300 hover:border-muted-foreground/30 hover:shadow-[0_4px_20px_rgba(62,207,142,0.06)]"
                 >
-                  <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 transition-colors duration-300 group-hover:bg-primary">
-                    <s.icon className="h-5 w-5 text-primary transition-colors duration-300 group-hover:text-primary-foreground" />
-                  </div>
-                  <h4 className="text-[15px] font-semibold">{s.title}</h4>
-                  <p className="mt-1.5 text-[13px] text-muted-foreground leading-relaxed">{s.description}</p>
+                  <Link
+                    to={s.path}
+                    className="group flex h-full flex-col rounded-xl border border-border bg-card/50 p-6 transition-all duration-300 hover:border-primary/30 hover:-translate-y-0.5 hover:shadow-[0_4px_24px_rgba(62,207,142,0.08)]"
+                  >
+                    <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 transition-colors duration-300 group-hover:bg-primary">
+                      <s.icon className="h-5 w-5 text-primary transition-colors duration-300 group-hover:text-primary-foreground" />
+                    </div>
+                    <h4 className="text-[15px] font-semibold">{s.title}</h4>
+                    <p className="mt-1.5 flex-1 text-[13px] text-muted-foreground leading-relaxed">{s.description}</p>
+                    <span className="mt-3 inline-flex items-center gap-1 text-xs font-medium text-primary opacity-0 transition-opacity duration-200 group-hover:opacity-100">
+                      Learn more <ArrowUpRight className="h-3 w-3" />
+                    </span>
+                  </Link>
                 </motion.div>
               ))}
             </div>
@@ -362,17 +384,17 @@ const Index = () => {
           </motion.div>
           <div className="mx-auto grid max-w-5xl grid-cols-1 gap-6 md:grid-cols-3">
             {blogPosts.map((post, i) => (
-              <motion.a
+              <motion.div
                 key={i}
-                href={post.url}
-                target="_blank"
-                rel="noopener noreferrer"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: i * 0.1 }}
-                className="group overflow-hidden rounded-xl border border-white/10 bg-card transition-all duration-300 hover:-translate-y-1 hover:border-white/20 hover:shadow-[0_8px_32px_rgba(62,207,142,0.06)]"
               >
+                <Link
+                  to={post.url}
+                  className="group flex h-full flex-col overflow-hidden rounded-xl border border-white/10 bg-card transition-all duration-300 hover:-translate-y-1 hover:border-white/20 hover:shadow-[0_8px_32px_rgba(62,207,142,0.06)]"
+                >
                 <div className="h-48 w-full overflow-hidden bg-card">
                   <img src={post.image} alt={post.title} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" />
                 </div>
@@ -384,7 +406,8 @@ const Index = () => {
                     Read more <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1" />
                   </span>
                 </div>
-              </motion.a>
+                </Link>
+              </motion.div>
             ))}
           </div>
         </div>

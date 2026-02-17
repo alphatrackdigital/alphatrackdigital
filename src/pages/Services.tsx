@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, ArrowRight } from "lucide-react";
 import CTASection from "@/components/shared/CTASection";
 import SEO from "@/components/shared/SEO";
 import { motion } from "framer-motion";
@@ -29,63 +29,49 @@ const Services = () => {
           {/* Primary Services */}
           <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
             {primaryServices.map((service, i) => (
-              <motion.div
-                key={service.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.08, duration: 0.4 }}
-              >
-                <div
-                  className={`group flex h-full flex-col rounded-xl border p-8 transition-all duration-300 hover:-translate-y-1 ${
+              <motion.div key={service.title} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08, duration: 0.4 }}>
+                <Link to={service.path} className={`group flex h-full flex-col rounded-xl border p-8 transition-all duration-300 hover:-translate-y-1 ${
                     service.flagship
                       ? "border-primary bg-gradient-to-br from-card to-[hsl(152_30%_8%)] border-2 hover:shadow-[0_8px_32px_rgba(62,207,142,0.12)]"
                       : "border-primary/60 bg-card hover:shadow-[0_8px_32px_rgba(62,207,142,0.08)]"
-                  }`}
-                >
-                  <span
-                    className={`mb-4 inline-block w-fit rounded px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wide ${
-                      service.flagship
-                        ? "bg-primary text-primary-foreground"
-                        : "bg-primary/10 text-primary"
-                    }`}
-                  >
-                    {service.badge}
-                  </span>
-                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 transition-colors duration-300 group-hover:bg-primary"><service.icon className="h-6 w-6 text-primary transition-colors duration-300 group-hover:text-primary-foreground" /></div>
+                  }`}>
+                  <span className={`mb-4 inline-block w-fit rounded px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wide ${
+                      service.flagship ? "bg-primary text-primary-foreground" : "bg-primary/10 text-primary"
+                    }`}>{service.badge}</span>
+                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 transition-colors duration-300 group-hover:bg-primary">
+                    <service.icon className="h-6 w-6 text-primary transition-colors duration-300 group-hover:text-primary-foreground" />
+                  </div>
                   <h3 className="text-xl font-semibold">{service.title}</h3>
                   <p className="mt-2 flex-1 text-sm text-muted-foreground leading-relaxed">{service.description}</p>
-                  {!service.comingSoon ? (
-                    <Link
-                      to={service.path}
-                      className="mt-5 inline-flex items-center gap-1 text-sm font-medium text-primary transition-colors hover:text-primary/80"
-                    >
-                      Learn more <ArrowUpRight className="h-3.5 w-3.5" />
-                    </Link>
-                  ) : (
-                    <span className="mt-5 text-xs font-medium text-muted-foreground">Coming Soon</span>
-                  )}
-                </div>
+                  <span className="mt-5 inline-flex items-center gap-1 text-sm font-medium text-primary transition-colors">
+                    Learn more <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                  </span>
+                </Link>
               </motion.div>
             ))}
           </div>
 
           {/* Supporting */}
-          <div className="mt-14 border-t border-border pt-8">
-            <p className="mb-5 text-xs font-semibold uppercase tracking-widest text-muted-foreground">We Also Deliver</p>
+          <div className="mt-14 border-t border-border pt-10">
+            <div className="mb-6 flex items-center justify-between">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-widest text-primary">We Also Deliver</p>
+                <p className="mt-1 text-sm text-muted-foreground">Complementary services to round out your digital growth stack.</p>
+              </div>
+            </div>
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
               {supportingServices.map((s, i) => (
-                <motion.div
-                  key={s.title}
-                  initial={{ opacity: 0, y: 16 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.06, duration: 0.35 }}
-                  className="group rounded-xl border border-border bg-[#0d0d0d] p-6 transition-all duration-300 hover:border-muted-foreground/30 hover:shadow-[0_4px_20px_rgba(62,207,142,0.06)]"
-                >
-                  <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 transition-colors duration-300 group-hover:bg-primary"><s.icon className="h-5 w-5 text-primary transition-colors duration-300 group-hover:text-primary-foreground" /></div>
-                  <h4 className="text-[15px] font-semibold">{s.title}</h4>
-                  <p className="mt-1.5 text-[13px] text-muted-foreground leading-relaxed">{s.description}</p>
+                <motion.div key={s.title} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.06, duration: 0.35 }}>
+                  <Link to={s.path} className="group flex h-full flex-col rounded-xl border border-border bg-card/50 p-6 transition-all duration-300 hover:border-primary/30 hover:-translate-y-0.5 hover:shadow-[0_4px_24px_rgba(62,207,142,0.08)]">
+                    <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 transition-colors duration-300 group-hover:bg-primary">
+                      <s.icon className="h-5 w-5 text-primary transition-colors duration-300 group-hover:text-primary-foreground" />
+                    </div>
+                    <h4 className="text-[15px] font-semibold">{s.title}</h4>
+                    <p className="mt-1.5 flex-1 text-[13px] text-muted-foreground leading-relaxed">{s.description}</p>
+                    <span className="mt-3 inline-flex items-center gap-1 text-xs font-medium text-primary opacity-0 transition-opacity duration-200 group-hover:opacity-100">
+                      Learn more <ArrowUpRight className="h-3 w-3" />
+                    </span>
+                  </Link>
                 </motion.div>
               ))}
             </div>
