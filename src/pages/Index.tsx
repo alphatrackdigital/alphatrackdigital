@@ -18,7 +18,7 @@ import FAQAccordion from "@/components/shared/FAQAccordion";
 import SEO from "@/components/shared/SEO";
 import { motion, useInView, useReducedMotion } from "framer-motion";
 import { primaryServices, supportingServices } from "@/data/services";
-import { getFeaturedBlogPosts } from "@/data/blogPosts";
+import { getFeaturedBlogPosts, blogPosts } from "@/data/blogPosts";
 import { cn } from "@/lib/utils";
 
 // --- Sub-components ---
@@ -191,6 +191,7 @@ const faqs = [
 const Index = () => {
   const shouldReduceMotion = useReducedMotion();
   const featuredBlogPosts = getFeaturedBlogPosts(3);
+  const latestPost = blogPosts[blogPosts.length - 1];
 
   return (
     <>
@@ -347,6 +348,24 @@ const Index = () => {
                   </div>
                 ))}
               </div>
+
+              {/* Mobile metric tiles — visible when floating cards are hidden on desktop */}
+              <div className="mt-8 grid grid-cols-2 gap-3 lg:hidden">
+                {[
+                  { label: "ROAS", value: "4.2×", sub: "Return on ad spend" },
+                  { label: "Lead Volume", value: "+68%", sub: "Month-over-month" },
+                  { label: "Accuracy", value: "99.4%", sub: "Tracking accuracy" },
+                  { label: "Wasted Spend", value: "−25%", sub: "Budget saved" },
+                ].map((m) => (
+                  <div key={m.label} className="glass-card p-4 text-center">
+                    <p className="text-[10px] font-semibold uppercase tracking-wide text-muted-foreground">
+                      {m.label}
+                    </p>
+                    <p className="mt-1 text-xl font-bold text-gradient">{m.value}</p>
+                    <p className="mt-0.5 text-[11px] text-muted-foreground">{m.sub}</p>
+                  </div>
+                ))}
+              </div>
             </motion.div>
 
             {/* Right: floating metric cards — desktop only */}
@@ -452,16 +471,24 @@ const Index = () => {
       </section>
 
       {/* Stats — animated count-up on scroll */}
-      <section className="border-b border-white/10 py-12">
-        <div className="container mx-auto flex flex-col items-center justify-center gap-10 px-4 sm:flex-row sm:gap-16 lg:px-8">
-          {stats.map((stat) => (
-            <div key={stat.label} className="text-center">
-              <p className="text-3xl font-bold text-gradient">
-                <CountUp value={stat.numericValue} suffix={stat.suffix} disabled={shouldReduceMotion} />
-              </p>
-              <p className="mt-1 text-sm text-muted-foreground">{stat.label}</p>
-            </div>
-          ))}
+      <section
+        className="border-b border-white/10 py-14"
+        style={{ background: "linear-gradient(180deg, rgba(62,207,142,0.04) 0%, transparent 100%)" }}
+      >
+        <div className="container mx-auto px-4 lg:px-8">
+          <p className="mb-8 text-center text-xs font-semibold uppercase tracking-widest text-muted-foreground/60">
+            Results we've driven for clients across 3 countries
+          </p>
+          <div className="flex flex-col items-center gap-8 sm:flex-row sm:gap-0 sm:divide-x sm:divide-white/10">
+            {stats.map((stat) => (
+              <div key={stat.label} className="flex flex-1 flex-col items-center text-center">
+                <p className="text-4xl font-bold text-gradient">
+                  <CountUp value={stat.numericValue} suffix={stat.suffix} disabled={shouldReduceMotion} />
+                </p>
+                <p className="mt-2 text-sm text-muted-foreground">{stat.label}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -704,12 +731,25 @@ const Index = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="text-center"
+            className="mb-10 flex flex-col items-start gap-4 sm:flex-row sm:items-end sm:justify-between"
           >
-            <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-primary">
-              Insights
-            </p>
-            <h2 className="mb-10 text-3xl font-bold md:text-4xl">From Our Blog</h2>
+            <div>
+              <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-primary">
+                Insights
+              </p>
+              <h2 className="text-3xl font-bold md:text-4xl">From Our Blog</h2>
+            </div>
+            <Link
+              to={`/blog/${latestPost.slug}`}
+              className="inline-flex shrink-0 items-center gap-2 rounded-lg border border-primary/20 bg-primary/[0.06] px-4 py-2 text-sm font-medium text-primary transition-colors hover:bg-primary/10"
+            >
+              <span className="relative flex h-1.5 w-1.5">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-60" />
+                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-primary" />
+              </span>
+              Latest: {latestPost.category}
+              <ArrowRight className="h-3.5 w-3.5" />
+            </Link>
           </motion.div>
           <div className="mx-auto grid max-w-5xl grid-cols-1 gap-6 md:grid-cols-3">
             {featuredBlogPosts.map((post, i) => (
