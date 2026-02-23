@@ -495,45 +495,47 @@ const Index = () => {
 
       {/* Platforms & Tools Marquee */}
       <section className="overflow-hidden border-b border-white/10 py-10">
-        <p className="mb-5 text-center text-xs font-semibold uppercase tracking-widest text-muted-foreground/50">
-          Platforms &amp; Tools We Work With
-        </p>
-        <div
-          className={cn("relative", !shouldReduceMotion && "overflow-hidden")}
-          style={
-            shouldReduceMotion
-              ? undefined
-              : {
-                  WebkitMaskImage:
-                    "linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%)",
-                  maskImage:
-                    "linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%)",
-                }
-          }
-        >
+        <div className="container mx-auto px-4 lg:px-8">
+          <p className="mb-5 text-center text-xs font-semibold uppercase tracking-widest text-muted-foreground/50">
+            Platforms &amp; Tools We Work With
+          </p>
           <div
-            className={cn(
-              "flex gap-3.5",
+            className={cn("relative mx-auto max-w-5xl", !shouldReduceMotion && "overflow-hidden")}
+            style={
               shouldReduceMotion
-                ? "flex-wrap items-center justify-center"
-                : "w-max whitespace-nowrap animate-marquee will-change-transform hover:[animation-play-state:paused]"
-            )}
+                ? undefined
+                : {
+                    WebkitMaskImage:
+                      "linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%)",
+                    maskImage:
+                      "linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%)",
+                  }
+            }
           >
-            {marqueeTools.map((tool, i) => (
-              <span
-                key={`${tool.name}-${i}`}
-                aria-hidden={!shouldReduceMotion && i >= tools.length}
-                className="inline-flex shrink-0 items-center gap-2 rounded-full border border-white/[0.10] bg-white/[0.04] px-3.5 py-1.5 text-sm text-muted-foreground/95"
-              >
+            <div
+              className={cn(
+                "flex gap-3.5",
+                shouldReduceMotion
+                  ? "flex-wrap items-center justify-center"
+                  : "w-max whitespace-nowrap animate-marquee will-change-transform hover:[animation-play-state:paused]"
+              )}
+            >
+              {marqueeTools.map((tool, i) => (
                 <span
-                  className="flex h-4 min-w-4 shrink-0 items-center justify-center rounded px-1 text-[8px] font-bold tracking-wide text-white"
-                  style={{ backgroundColor: tool.color }}
+                  key={`${tool.name}-${i}`}
+                  aria-hidden={!shouldReduceMotion && i >= tools.length}
+                  className="inline-flex shrink-0 items-center gap-2 rounded-full border border-white/[0.10] bg-white/[0.04] px-3.5 py-1.5 text-sm text-muted-foreground/95"
                 >
-                  {tool.initials}
+                  <span
+                    className="flex h-4 min-w-4 shrink-0 items-center justify-center rounded px-1 text-[8px] font-bold tracking-wide text-white"
+                    style={{ backgroundColor: tool.color }}
+                  >
+                    {tool.initials}
+                  </span>
+                  {tool.name}
                 </span>
-                {tool.name}
-              </span>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
       </section>
