@@ -10,6 +10,7 @@ import {
   BarChart3,
   Quote,
   Star,
+  CheckCircle2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import CTASection from "@/components/shared/CTASection";
@@ -204,23 +205,35 @@ const Index = () => {
       />
 
       {/* Hero */}
-      <section className="relative flex min-h-[85vh] items-center overflow-hidden">
+      <section className="relative flex min-h-[88vh] items-center overflow-hidden">
+        {/* Background layer */}
         <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute -top-[40%] -right-[20%] h-[80%] w-[60%] rounded-full bg-primary/[0.07] blur-[150px]" />
-          <div className="absolute -bottom-[30%] -left-[10%] h-[60%] w-[50%] rounded-full bg-secondary/[0.05] blur-[130px]" />
-          <div className="absolute top-[20%] left-[30%] h-[40%] w-[30%] rounded-full bg-primary/[0.04] blur-[100px]" />
+          {/* Primary spotlight — concentrated behind headline */}
+          <div className="absolute left-[5%] top-[10%] h-[70%] w-[55%] rounded-full bg-primary/[0.13] blur-[120px]" />
+          {/* Cyan accent — upper right */}
+          <div className="absolute -right-[10%] top-[5%] h-[50%] w-[40%] rounded-full bg-secondary/[0.08] blur-[100px]" />
+          {/* Deep green fill — lower left */}
+          <div className="absolute -bottom-[20%] -left-[5%] h-[50%] w-[40%] rounded-full bg-primary/[0.06] blur-[110px]" />
+          {/* Dot-matrix texture */}
           <div
-            className="absolute inset-0 opacity-[0.035]"
+            className="absolute inset-0 opacity-[0.045]"
             style={{
-              backgroundImage: `linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)`,
-              backgroundSize: "60px 60px",
+              backgroundImage: `radial-gradient(circle, rgba(255,255,255,0.8) 1px, transparent 1px)`,
+              backgroundSize: "28px 28px",
             }}
           />
+          {/* Top vignette */}
           <div
             className="absolute inset-0"
             style={{
-              background:
-                "radial-gradient(ellipse 80% 60% at 50% 0%, transparent 0%, hsl(0 0% 3.1%) 100%)",
+              background: "radial-gradient(ellipse 100% 40% at 50% 0%, hsl(0 0% 3.1%) 0%, transparent 100%)",
+            }}
+          />
+          {/* Bottom fade — blends hero into stats section */}
+          <div
+            className="absolute bottom-0 inset-x-0 h-32"
+            style={{
+              background: "linear-gradient(to top, hsl(0 0% 3.1%) 0%, transparent 100%)",
             }}
           />
         </div>
@@ -233,25 +246,37 @@ const Index = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: shouldReduceMotion ? 0 : 0.6 }}
             >
-              <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5">
-                <TrendingUp className="h-4 w-4 text-primary" />
+              {/* Badge with live pulse dot */}
+              <div className="mb-6 inline-flex items-center gap-2.5 rounded-full border border-primary/25 bg-primary/8 px-4 py-1.5 shadow-[0_0_16px_rgba(62,207,142,0.08)]">
+                <span className="relative flex h-2 w-2">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-60" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-primary" />
+                </span>
                 <span className="text-sm font-medium text-primary">
                   Performance Marketing That Proves Its Value
                 </span>
               </div>
+
+              {/* Headline — gradient on its own line */}
               <h1 className="text-4xl font-bold leading-tight md:text-5xl lg:text-6xl">
-                Track Every Conversion. Automate Every Lead.{" "}
+                Track Every Conversion.{" "}
+                <br className="hidden sm:block" />
+                Automate Every Lead.{" "}
+                <br />
                 <span className="text-gradient">Scale What Works.</span>
               </h1>
+
               <p className="mt-6 max-w-lg text-lg text-muted-foreground">
                 We build the measurement, automation, and paid media systems that turn your marketing
                 budget into provable revenue. Based in Accra & Lagos.
               </p>
+
+              {/* CTAs */}
               <div className="mt-10 flex flex-col gap-4 sm:flex-row">
                 <Button
                   asChild
                   size="lg"
-                  className="gap-1.5 rounded-lg bg-primary px-8 text-primary-foreground hover:bg-primary/90"
+                  className="gap-1.5 rounded-lg bg-primary px-8 text-primary-foreground shadow-[0_0_24px_rgba(62,207,142,0.3)] transition-shadow hover:bg-primary/90 hover:shadow-[0_0_36px_rgba(62,207,142,0.45)]"
                 >
                   <Link to="/book-a-call">
                     Book a Call <ArrowUpRight className="h-4 w-4" />
@@ -268,16 +293,19 @@ const Index = () => {
                   </Link>
                 </Button>
               </div>
-              <div className="mt-6 flex flex-wrap gap-3 text-xs text-muted-foreground">
-                <span className="rounded-full border border-primary/20 bg-primary/10 px-3 py-1">
-                  No-pressure discovery call
-                </span>
-                <span className="rounded-full border border-primary/20 bg-primary/10 px-3 py-1">
-                  Transparent reporting
-                </span>
-                <span className="rounded-full border border-primary/20 bg-primary/10 px-3 py-1">
-                  Response within 1 business day
-                </span>
+
+              {/* Trust items — checkmark style */}
+              <div className="mt-7 flex flex-col gap-2">
+                {[
+                  "No-pressure discovery call",
+                  "Transparent reporting — real numbers, always",
+                  "Response within 1 business day",
+                ].map((item) => (
+                  <div key={item} className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <CheckCircle2 className="h-4 w-4 shrink-0 text-primary" />
+                    {item}
+                  </div>
+                ))}
               </div>
             </motion.div>
 
@@ -289,11 +317,15 @@ const Index = () => {
               className="relative hidden h-[440px] lg:block"
               aria-hidden="true"
             >
+              {/* Collective card halo glow */}
+              <div className="absolute inset-0 rounded-3xl bg-primary/[0.06] blur-[60px]" />
+              <div className="absolute inset-0 rounded-3xl bg-secondary/[0.04] blur-[80px]" />
+
               {/* ROAS card */}
               <motion.div
                 animate={shouldReduceMotion ? {} : { y: [0, -10, 0] }}
                 transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
-                className="glass-card absolute left-0 top-8 w-52 p-5"
+                className="glass-card absolute left-0 top-8 w-52 border-white/15 p-5 shadow-[0_8px_32px_rgba(0,0,0,0.3)]"
               >
                 <div className="mb-2 flex items-center gap-2">
                   <div className="flex h-7 w-7 items-center justify-center rounded-md bg-primary/10">
@@ -314,7 +346,7 @@ const Index = () => {
               <motion.div
                 animate={shouldReduceMotion ? {} : { y: [0, -14, 0] }}
                 transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 0.8 }}
-                className="glass-card absolute right-0 top-0 w-56 p-5"
+                className="glass-card absolute right-0 top-0 w-56 border-white/15 p-5 shadow-[0_8px_32px_rgba(0,0,0,0.3)]"
               >
                 <div className="mb-2 flex items-center gap-2">
                   <div className="flex h-7 w-7 items-center justify-center rounded-md bg-primary/10">
@@ -335,7 +367,7 @@ const Index = () => {
               <motion.div
                 animate={shouldReduceMotion ? {} : { y: [0, -8, 0] }}
                 transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 1.5 }}
-                className="glass-card absolute bottom-14 left-8 w-52 p-5"
+                className="glass-card absolute bottom-14 left-8 w-52 border-white/15 p-5 shadow-[0_8px_32px_rgba(0,0,0,0.3)]"
               >
                 <div className="mb-2 flex items-center gap-2">
                   <div className="flex h-7 w-7 items-center justify-center rounded-md bg-primary/10">
@@ -361,7 +393,7 @@ const Index = () => {
               <motion.div
                 animate={shouldReduceMotion ? {} : { y: [0, -12, 0] }}
                 transition={{ duration: 3.8, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-                className="glass-card absolute bottom-0 right-4 w-48 p-5"
+                className="glass-card absolute bottom-0 right-4 w-48 border-white/15 p-5 shadow-[0_8px_32px_rgba(0,0,0,0.3)]"
               >
                 <div className="mb-2 flex items-center gap-2">
                   <div className="flex h-7 w-7 items-center justify-center rounded-md bg-primary/10">
@@ -380,7 +412,7 @@ const Index = () => {
       </section>
 
       {/* Stats — animated count-up on scroll */}
-      <section className="border-y border-white/10 py-12">
+      <section className="border-b border-white/10 py-12">
         <div className="container mx-auto flex flex-col items-center justify-center gap-10 px-4 sm:flex-row sm:gap-16 lg:px-8">
           {stats.map((stat) => (
             <div key={stat.label} className="text-center">
