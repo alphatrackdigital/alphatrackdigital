@@ -91,7 +91,7 @@ const Services = () => {
                     </div>
                     <h4 className="text-[15px] font-semibold">{s.title}</h4>
                     <p className="mt-1.5 flex-1 text-[13px] text-muted-foreground leading-relaxed">{s.description}</p>
-                    <span className="mt-3 inline-flex items-center gap-1 text-xs font-medium text-primary opacity-0 transition-opacity duration-200 group-hover:opacity-100">
+                    <span className="mt-3 inline-flex items-center gap-1 text-xs font-medium text-primary opacity-60 transition-opacity duration-200 group-hover:opacity-100">
                       Learn more <ArrowUpRight className="h-3 w-3" />
                     </span>
                   </Link>

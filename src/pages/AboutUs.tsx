@@ -62,11 +62,25 @@ const AboutUs = () => {
               So we built an agency around the opposite principle — data first, always. From conversion tracking architectures to full CRM automation, every solution we deliver is designed to give our clients clarity, efficiency, and confidence in their growth.
             </p>
           </div>
-          <div className="glass-card flex items-center justify-center rounded-3xl p-10">
-            <div className="text-center">
-              <p className="text-5xl font-bold text-gradient">2+</p>
-              <p className="mt-2 text-muted-foreground">Years of driving measurable growth across Africa</p>
-            </div>
+          <div className="grid grid-cols-2 gap-4">
+            {[
+              { value: "2+", label: "Years of measurable growth" },
+              { value: "6+", label: "Industries served" },
+              { value: "3", label: "Countries we operate in" },
+              { value: "100%", label: "Data-backed strategies" },
+            ].map(({ value, label }, i) => (
+              <motion.div
+                key={label}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1, duration: 0.4 }}
+                className="glass-card flex flex-col items-center justify-center rounded-2xl p-7 text-center"
+              >
+                <p className="text-4xl font-bold text-gradient">{value}</p>
+                <p className="mt-2 text-sm text-muted-foreground">{label}</p>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>

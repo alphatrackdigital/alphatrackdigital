@@ -1,10 +1,73 @@
 import { useParams, Link, Navigate } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
 import SEO from "@/components/shared/SEO";
 import CTASection from "@/components/shared/CTASection";
 import Breadcrumbs from "@/components/shared/Breadcrumbs";
 import { getBlogPostBySlug, getRelatedBlogPosts } from "@/data/blogPosts";
-import { ArrowLeft, Clock, Calendar } from "lucide-react";
+import { ArrowLeft, Clock, Calendar, Twitter, Linkedin, Link2 } from "lucide-react";
 
+// --- Reading progress hook ---
+const useReadingProgress = () => {
+  const [progress, setProgress] = useState(0);
+  useEffect(() => {
+    const update = () => {
+      const el = document.documentElement;
+      const scrolled = el.scrollTop || document.body.scrollTop;
+      const total = el.scrollHeight - el.clientHeight;
+      setProgress(total > 0 ? (scrolled / total) * 100 : 0);
+    };
+    window.addEventListener("scroll", update, { passive: true });
+    return () => window.removeEventListener("scroll", update);
+  }, []);
+  return progress;
+};
+
+// --- Social share ---
+const ShareBar = ({ title, slug }: { title: string; slug: string }) => {
+  const [copied, setCopied] = useState(false);
+  const url = `https://alphatrack.digital/blog/${slug}`;
+
+  const copyLink = () => {
+    navigator.clipboard.writeText(url).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    });
+  };
+
+  return (
+    <div className="mt-10 flex items-center gap-3 border-t border-white/10 pt-8">
+      <span className="text-sm font-medium text-muted-foreground">Share:</span>
+      <a
+        href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(url)}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Share on X (Twitter)"
+        className="flex h-8 w-8 items-center justify-center rounded-lg border border-white/10 bg-card text-muted-foreground transition-colors hover:border-primary/30 hover:text-primary"
+      >
+        <Twitter className="h-3.5 w-3.5" />
+      </a>
+      <a
+        href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Share on LinkedIn"
+        className="flex h-8 w-8 items-center justify-center rounded-lg border border-white/10 bg-card text-muted-foreground transition-colors hover:border-primary/30 hover:text-primary"
+      >
+        <Linkedin className="h-3.5 w-3.5" />
+      </a>
+      <button
+        onClick={copyLink}
+        aria-label="Copy link"
+        className="flex h-8 w-8 items-center justify-center rounded-lg border border-white/10 bg-card text-muted-foreground transition-colors hover:border-primary/30 hover:text-primary"
+      >
+        <Link2 className="h-3.5 w-3.5" />
+      </button>
+      {copied && <span className="text-xs text-primary">Copied!</span>}
+    </div>
+  );
+};
+
+// --- Article content ---
 const articleContent: Record<string, JSX.Element> = {
   "how-to-skyrocket-your-roi-with-paid-social-campaigns": (
     <>
@@ -127,15 +190,50 @@ const BlogPost = () => {
   if (!post || !slug || !articleContent[slug]) return <Navigate to="/blog" replace />;
 
   const relatedPosts = getRelatedBlogPosts(slug, 3);
+  const progress = useReadingProgress();
+
+  const articleSchema = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: post.title,
+    description: post.excerpt,
+    image: post.image,
+    datePublished: post.date,
+    author: {
+      "@type": "Organization",
+      name: "AlphaTrack Digital",
+      url: "https://alphatrack.digital",
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "AlphaTrack Digital",
+      logo: {
+        "@type": "ImageObject",
+        url: "https://alphatrack.digital/wp-content/uploads/2025/08/Group-320.png",
+      },
+    },
+  };
 
   return (
     <>
+      {/* Reading progress bar */}
+      <div
+        className="fixed top-0 left-0 z-[9999] h-0.5 bg-gradient-to-r from-primary to-secondary transition-all duration-100"
+        style={{ width: `${progress}%` }}
+        role="progressbar"
+        aria-valuenow={Math.round(progress)}
+        aria-valuemin={0}
+        aria-valuemax={100}
+        aria-label="Reading progress"
+      />
+
       <SEO
         title={`${post.title} | AlphaTrack Digital Blog`}
         description={post.excerpt}
         canonicalUrl={`/blog/${post.slug}`}
         ogType="article"
         ogImage={post.image}
+        schema={articleSchema}
       />
       <section className="relative overflow-hidden py-24 md:py-28" style={{ background: "linear-gradient(180deg, rgba(62,207,142,0.03) 0%, transparent 100%)" }}>
         <div className="container relative mx-auto px-4 lg:px-8">
@@ -154,6 +252,17 @@ const BlogPost = () => {
               <span className="flex items-center gap-1 text-xs text-muted-foreground"><Calendar className="h-3 w-3" /> {new Date(post.date).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })}</span>
             </div>
             <h1 className="text-3xl font-bold leading-tight md:text-4xl lg:text-5xl">{post.title}</h1>
+
+            {/* Author line */}
+            <div className="mt-5 flex items-center gap-3">
+              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10 text-xs font-bold text-primary">
+                AT
+              </div>
+              <span className="text-sm text-muted-foreground">
+                By <span className="font-medium text-foreground">AlphaTrack Digital Team</span>
+              </span>
+            </div>
+
             <div className="mt-8 overflow-hidden rounded-xl">
               <img
                 src={post.image}
@@ -166,6 +275,8 @@ const BlogPost = () => {
             <div className="mt-10 space-y-5 text-[16px] leading-relaxed text-muted-foreground [&_h2]:mt-10 [&_h2]:mb-4 [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:text-foreground [&_h3]:mt-6 [&_h3]:mb-2 [&_h3]:text-lg [&_h3]:font-semibold [&_h3]:text-foreground [&_p]:mb-4">
               {articleContent[slug]}
             </div>
+
+            <ShareBar title={post.title} slug={slug} />
           </div>
         </div>
       </article>

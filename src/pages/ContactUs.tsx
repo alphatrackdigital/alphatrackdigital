@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Mail, Phone, MapPin, Loader2 } from "lucide-react";
+import { Mail, Phone, MapPin, Loader2, MessageSquare, Search, CalendarCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -117,6 +117,48 @@ const ContactUs = () => {
               <p className="mt-2 text-muted-foreground">
                 We're here to help and answer any questions you might have.
               </p>
+            </div>
+
+            {/* What happens next */}
+            <div>
+              <h3 className="mb-4 text-sm font-semibold uppercase tracking-widest text-primary">
+                What Happens Next
+              </h3>
+              <ol className="space-y-4">
+                {[
+                  {
+                    icon: MessageSquare,
+                    step: "01",
+                    title: "We receive your message",
+                    desc: "Your enquiry lands directly with our team — no bots, no automated queue.",
+                  },
+                  {
+                    icon: Search,
+                    step: "02",
+                    title: "We review & prepare",
+                    desc: "Within 1 business day we review your goals and prepare relevant questions.",
+                  },
+                  {
+                    icon: CalendarCheck,
+                    step: "03",
+                    title: "We schedule a strategy call",
+                    desc: "We book a focused 20-minute call to understand your needs and recommend a plan.",
+                  },
+                ].map(({ icon: Icon, step, title, desc }) => (
+                  <li key={step} className="flex items-start gap-4">
+                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary/10">
+                      <Icon className="h-4 w-4 text-primary" />
+                    </div>
+                    <div>
+                      <p className="text-[11px] font-bold uppercase tracking-widest text-primary/50">
+                        {step}
+                      </p>
+                      <p className="font-semibold">{title}</p>
+                      <p className="mt-0.5 text-sm text-muted-foreground">{desc}</p>
+                    </div>
+                  </li>
+                ))}
+              </ol>
             </div>
 
             <div className="space-y-6">

@@ -1,8 +1,6 @@
 import { Outlet } from "react-router-dom";
 import Header from "./Header";
 import Footer from "./Footer";
-import WhatsAppWidget from "@/components/shared/WhatsAppWidget";
-import BackToTop from "@/components/shared/BackToTop";
 
 const Layout = () => {
   return (
@@ -18,8 +16,8 @@ const Layout = () => {
         <Outlet />
       </main>
       <Footer />
-      <WhatsAppWidget />
-      <BackToTop />
+      {/* Brevo Conversations widget is loaded via index.html <head> script
+          so it persists across all route changes without React lifecycle dependency */}
     </div>
   );
 };

@@ -226,59 +226,156 @@ const Index = () => {
         </div>
 
         <div className="container relative mx-auto px-4 py-20 lg:px-8">
-          <motion.div
-            initial={shouldReduceMotion ? false : { opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: shouldReduceMotion ? 0 : 0.6 }}
-            className="mx-auto max-w-4xl text-center"
-          >
-            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5">
-              <TrendingUp className="h-4 w-4 text-primary" />
-              <span className="text-sm font-medium text-primary">
-                Performance Marketing That Proves Its Value
-              </span>
-            </div>
-            <h1 className="text-4xl font-bold leading-tight md:text-6xl lg:text-7xl">
-              Track Every Conversion. Automate Every Lead.{" "}
-              <span className="text-gradient">Scale What Works.</span>
-            </h1>
-            <p className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground">
-              We build the measurement, automation, and paid media systems that turn your marketing
-              budget into provable revenue. Based in Accra & Lagos.
-            </p>
-            <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-              <Button
-                asChild
-                size="lg"
-                className="gap-1.5 rounded-lg bg-primary px-8 text-primary-foreground hover:bg-primary/90"
+          <div className="grid items-center gap-12 lg:grid-cols-2">
+            {/* Left: text content */}
+            <motion.div
+              initial={shouldReduceMotion ? false : { opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: shouldReduceMotion ? 0 : 0.6 }}
+            >
+              <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5">
+                <TrendingUp className="h-4 w-4 text-primary" />
+                <span className="text-sm font-medium text-primary">
+                  Performance Marketing That Proves Its Value
+                </span>
+              </div>
+              <h1 className="text-4xl font-bold leading-tight md:text-5xl lg:text-6xl">
+                Track Every Conversion. Automate Every Lead.{" "}
+                <span className="text-gradient">Scale What Works.</span>
+              </h1>
+              <p className="mt-6 max-w-lg text-lg text-muted-foreground">
+                We build the measurement, automation, and paid media systems that turn your marketing
+                budget into provable revenue. Based in Accra & Lagos.
+              </p>
+              <div className="mt-10 flex flex-col gap-4 sm:flex-row">
+                <Button
+                  asChild
+                  size="lg"
+                  className="gap-1.5 rounded-lg bg-primary px-8 text-primary-foreground hover:bg-primary/90"
+                >
+                  <Link to="/book-a-call">
+                    Book a Call <ArrowUpRight className="h-4 w-4" />
+                  </Link>
+                </Button>
+                <Button
+                  asChild
+                  variant="outline"
+                  size="lg"
+                  className="gap-1.5 rounded-lg border-white/20 hover:bg-white/5"
+                >
+                  <Link to="/service">
+                    Explore Services <ArrowUpRight className="h-4 w-4" />
+                  </Link>
+                </Button>
+              </div>
+              <div className="mt-6 flex flex-wrap gap-3 text-xs text-muted-foreground">
+                <span className="rounded-full border border-primary/20 bg-primary/10 px-3 py-1">
+                  No-pressure discovery call
+                </span>
+                <span className="rounded-full border border-primary/20 bg-primary/10 px-3 py-1">
+                  Transparent reporting
+                </span>
+                <span className="rounded-full border border-primary/20 bg-primary/10 px-3 py-1">
+                  Response within 1 business day
+                </span>
+              </div>
+            </motion.div>
+
+            {/* Right: floating metric cards — desktop only */}
+            <motion.div
+              initial={shouldReduceMotion ? false : { opacity: 0, x: 30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: shouldReduceMotion ? 0 : 0.7, delay: 0.2 }}
+              className="relative hidden h-[440px] lg:block"
+              aria-hidden="true"
+            >
+              {/* ROAS card */}
+              <motion.div
+                animate={shouldReduceMotion ? {} : { y: [0, -10, 0] }}
+                transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
+                className="glass-card absolute left-0 top-8 w-52 p-5"
               >
-                <Link to="/book-a-call">
-                  Book a Call <ArrowUpRight className="h-4 w-4" />
-                </Link>
-              </Button>
-              <Button
-                asChild
-                variant="outline"
-                size="lg"
-                className="gap-1.5 rounded-lg border-white/20 hover:bg-white/5"
+                <div className="mb-2 flex items-center gap-2">
+                  <div className="flex h-7 w-7 items-center justify-center rounded-md bg-primary/10">
+                    <TrendingUp className="h-4 w-4 text-primary" />
+                  </div>
+                  <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                    ROAS
+                  </span>
+                </div>
+                <p className="text-2xl font-bold text-gradient">4.2×</p>
+                <p className="mt-1 text-xs text-muted-foreground">Return on ad spend</p>
+                <div className="mt-3 flex items-center gap-1 text-xs text-primary">
+                  <TrendingUp className="h-3 w-3" /> +31% vs prev. period
+                </div>
+              </motion.div>
+
+              {/* Lead volume card */}
+              <motion.div
+                animate={shouldReduceMotion ? {} : { y: [0, -14, 0] }}
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 0.8 }}
+                className="glass-card absolute right-0 top-0 w-56 p-5"
               >
-                <Link to="/service">
-                  Explore Services <ArrowUpRight className="h-4 w-4" />
-                </Link>
-              </Button>
-            </div>
-            <div className="mt-6 flex flex-wrap items-center justify-center gap-3 text-xs text-muted-foreground">
-              <span className="rounded-full border border-primary/20 bg-primary/10 px-3 py-1">
-                No-pressure discovery call
-              </span>
-              <span className="rounded-full border border-primary/20 bg-primary/10 px-3 py-1">
-                Transparent reporting
-              </span>
-              <span className="rounded-full border border-primary/20 bg-primary/10 px-3 py-1">
-                Response within 1 business day
-              </span>
-            </div>
-          </motion.div>
+                <div className="mb-2 flex items-center gap-2">
+                  <div className="flex h-7 w-7 items-center justify-center rounded-md bg-primary/10">
+                    <BarChart3 className="h-4 w-4 text-primary" />
+                  </div>
+                  <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                    Lead Volume
+                  </span>
+                </div>
+                <p className="text-2xl font-bold text-gradient">+68%</p>
+                <p className="mt-1 text-xs text-muted-foreground">Month-over-month growth</p>
+                <div className="mt-3 h-1.5 w-full rounded-full bg-white/5">
+                  <div className="h-1.5 w-[68%] rounded-full bg-gradient-to-r from-primary to-secondary" />
+                </div>
+              </motion.div>
+
+              {/* Tracking accuracy card */}
+              <motion.div
+                animate={shouldReduceMotion ? {} : { y: [0, -8, 0] }}
+                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 1.5 }}
+                className="glass-card absolute bottom-14 left-8 w-52 p-5"
+              >
+                <div className="mb-2 flex items-center gap-2">
+                  <div className="flex h-7 w-7 items-center justify-center rounded-md bg-primary/10">
+                    <ClipboardCheck className="h-4 w-4 text-primary" />
+                  </div>
+                  <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                    Accuracy
+                  </span>
+                </div>
+                <p className="text-2xl font-bold text-gradient">99.4%</p>
+                <p className="mt-1 text-xs text-muted-foreground">Conversion tracking accuracy</p>
+                <div className="mt-3 flex gap-0.5">
+                  {Array.from({ length: 10 }).map((_, i) => (
+                    <div
+                      key={i}
+                      className={`h-1 flex-1 rounded-full ${i < 9 ? "bg-primary" : "bg-primary/20"}`}
+                    />
+                  ))}
+                </div>
+              </motion.div>
+
+              {/* Wasted spend card */}
+              <motion.div
+                animate={shouldReduceMotion ? {} : { y: [0, -12, 0] }}
+                transition={{ duration: 3.8, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+                className="glass-card absolute bottom-0 right-4 w-48 p-5"
+              >
+                <div className="mb-2 flex items-center gap-2">
+                  <div className="flex h-7 w-7 items-center justify-center rounded-md bg-primary/10">
+                    <Rocket className="h-4 w-4 text-primary" />
+                  </div>
+                  <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                    Wasted Spend
+                  </span>
+                </div>
+                <p className="text-2xl font-bold text-gradient">-25%</p>
+                <p className="mt-1 text-xs text-muted-foreground">Reduction in wasted budget</p>
+              </motion.div>
+            </motion.div>
+          </div>
         </div>
       </section>
 

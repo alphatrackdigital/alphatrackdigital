@@ -149,49 +149,52 @@ const ConversionTracking = () => {
           ]
         })}</script>
       </Helmet>
-      {/* Page Banner */}
-      <section className="relative overflow-hidden py-24 md:py-32" style={{ background: "linear-gradient(180deg, rgba(62,207,142,0.03) 0%, transparent 100%)" }}>
+      {/* Hero — breadcrumbs + two-column layout */}
+      <section className="relative overflow-hidden pt-10 pb-20 md:pt-14 md:pb-24" style={{ background: "linear-gradient(180deg, rgba(62,207,142,0.03) 0%, transparent 100%)" }}>
+        <div className="absolute -top-[300px] -right-[200px] h-[700px] w-[700px] rounded-full bg-primary/[0.07] blur-[200px] pointer-events-none" />
         <div className="container relative mx-auto px-4 lg:px-8">
           <Breadcrumbs items={[
             { label: "Home", path: "/" },
             { label: "Services", path: "/service" },
             { label: "Conversion Tracking" },
           ]} />
-          <h1 className="mt-4 text-3xl font-bold">Conversion Tracking & Measurement</h1>
-        </div>
-      </section>
+          <div className="mt-8 grid gap-12 lg:grid-cols-2 lg:items-center">
+            {/* Left: headline + CTAs */}
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
+              <div className="mb-6 inline-flex items-center gap-2 rounded-md border border-primary/15 bg-primary/[0.07] px-4 py-2 text-xs font-bold uppercase tracking-widest text-primary">
+                <Target className="h-4 w-4" /> Conversion Tracking & Measurement
+              </div>
+              <h1 className="text-4xl font-extrabold leading-tight md:text-5xl lg:text-6xl">
+                Stop Guessing.<br />Start <span className="text-gradient">Measuring.</span>
+              </h1>
+              <p className="mt-6 max-w-xl text-lg text-muted-foreground leading-relaxed">
+                We set up the tracking that tells you exactly which channels, campaigns, and clicks are actually driving your leads and sales — so you can spend smarter, not harder.
+              </p>
+              <div className="mt-10 flex flex-wrap items-center gap-5">
+                <Button asChild size="lg" className="gap-2 rounded-xl bg-primary px-9 text-primary-foreground font-extrabold hover:bg-primary/90">
+                  <Link to="/book-a-call">Book a Call</Link>
+                </Button>
+                <Link to="/contact-us" className="text-base font-medium text-primary hover:text-primary/80 transition-colors">
+                  Or tell us about your project
+                </Link>
+              </div>
+            </motion.div>
 
-      {/* Hero */}
-      <section className="relative overflow-hidden py-20">
-        <div className="absolute -top-[300px] -right-[200px] h-[700px] w-[700px] rounded-full bg-primary/[0.07] blur-[200px] pointer-events-none" />
-        <div className="container relative mx-auto px-4 lg:px-8">
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="max-w-3xl">
-            <div className="mb-6 inline-flex items-center gap-2 rounded-md border border-primary/15 bg-primary/[0.07] px-4 py-2 text-xs font-bold uppercase tracking-widest text-primary">
-              <Target className="h-4 w-4" /> Conversion Tracking & Measurement
-            </div>
-            <h2 className="text-4xl font-extrabold leading-tight md:text-5xl lg:text-6xl">
-              Stop Guessing.<br />Start <span className="text-gradient">Measuring.</span>
-            </h2>
-            <p className="mt-6 max-w-xl text-lg text-muted-foreground leading-relaxed">
-              We set up the tracking that tells you exactly which channels, campaigns, and clicks are actually driving your leads and sales — so you can spend smarter, not harder.
-            </p>
-            <div className="mt-10 flex flex-wrap items-center gap-5">
-              <Button asChild size="lg" className="gap-2 rounded-xl bg-primary px-9 text-primary-foreground font-extrabold hover:bg-primary/90">
-                <Link to="/book-a-call">Book a Call</Link>
-              </Button>
-              <Link to="/contact-us" className="text-base font-medium text-primary hover:text-primary/80 transition-colors">
-                Or tell us about your project
-              </Link>
-            </div>
-            <div className="mt-8 grid gap-3 rounded-xl border border-white/10 bg-card/40 p-5 md:grid-cols-3">
+            {/* Right: snapshot metrics card */}
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5, delay: 0.15 }}
+              className="glass-card divide-y divide-white/10 overflow-hidden"
+            >
               {heroSnapshot.map((item) => (
-                <div key={item.label}>
-                  <p className="text-xs font-semibold uppercase tracking-widest text-primary">{item.label}</p>
-                  <p className="mt-2 text-sm text-muted-foreground">{item.value}</p>
+                <div key={item.label} className="p-6">
+                  <p className="text-xs font-bold uppercase tracking-widest text-primary">{item.label}</p>
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{item.value}</p>
                 </div>
               ))}
-            </div>
-          </motion.div>
+            </motion.div>
+          </div>
         </div>
       </section>
 

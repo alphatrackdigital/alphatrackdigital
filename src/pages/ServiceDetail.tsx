@@ -197,7 +197,7 @@ const ServiceDetail = () => {
   return (
     <>
       <SEO title={service.seoTitle} description={service.seoDesc} canonicalUrl={`/service/${slug}`} />
-      <section className="relative overflow-hidden py-24 md:py-32">
+      <section className="relative overflow-hidden pt-10 pb-20 md:pt-14 md:pb-24">
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute -right-[15%] -top-[30%] h-[70%] w-[50%] rounded-full bg-primary/[0.06] blur-[140px]" />
         </div>
@@ -209,33 +209,45 @@ const ServiceDetail = () => {
               { label: service.title },
             ]}
           />
-          <div className="mt-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10">
-            <service.icon className="h-7 w-7 text-primary" />
-          </div>
-          <h1 className="mt-6 max-w-3xl text-4xl font-bold md:text-5xl lg:text-6xl">
-            {service.headline} <span className="text-gradient">{service.gradientWord}</span>
-          </h1>
-          <p className="mt-6 max-w-2xl text-lg text-muted-foreground">{service.description}</p>
-          <div className="mt-8">
-            <Button asChild size="lg" className="gap-1.5 rounded-lg">
-              <Link to="/book-a-call">
-                Book a Call <ArrowUpRight className="h-4 w-4" />
-              </Link>
-            </Button>
-          </div>
-          <div className="mt-8 grid gap-3 rounded-xl border border-white/10 bg-card/40 p-5 md:grid-cols-3">
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-widest text-primary">Outcome</p>
-              <p className="mt-2 text-sm text-muted-foreground">{service.outcomes[0]}</p>
-            </div>
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-widest text-primary">Timeline</p>
-              <p className="mt-2 text-sm text-muted-foreground">{service.timeline}</p>
-            </div>
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-widest text-primary">Best Fit</p>
-              <p className="mt-2 text-sm text-muted-foreground">{service.fit}</p>
-            </div>
+          <div className="mt-8 grid gap-12 lg:grid-cols-2 lg:items-center">
+            {/* Left: headline + CTA */}
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
+              <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10">
+                <service.icon className="h-7 w-7 text-primary" />
+              </div>
+              <h1 className="mt-6 text-4xl font-bold md:text-5xl lg:text-6xl">
+                {service.headline} <span className="text-gradient">{service.gradientWord}</span>
+              </h1>
+              <p className="mt-6 text-lg text-muted-foreground">{service.description}</p>
+              <div className="mt-8">
+                <Button asChild size="lg" className="gap-1.5 rounded-lg">
+                  <Link to="/book-a-call">
+                    Book a Call <ArrowUpRight className="h-4 w-4" />
+                  </Link>
+                </Button>
+              </div>
+            </motion.div>
+
+            {/* Right: snapshot metrics card */}
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5, delay: 0.15 }}
+              className="glass-card divide-y divide-white/10 overflow-hidden"
+            >
+              <div className="p-6">
+                <p className="text-xs font-semibold uppercase tracking-widest text-primary">Outcome</p>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{service.outcomes[0]}</p>
+              </div>
+              <div className="p-6">
+                <p className="text-xs font-semibold uppercase tracking-widest text-primary">Timeline</p>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{service.timeline}</p>
+              </div>
+              <div className="p-6">
+                <p className="text-xs font-semibold uppercase tracking-widest text-primary">Best Fit</p>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{service.fit}</p>
+              </div>
+            </motion.div>
           </div>
         </div>
       </section>
