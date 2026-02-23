@@ -116,23 +116,19 @@ const stats = [
   { numericValue: 3, suffix: "×", label: "Better attribution clarity" },
 ];
 
-const toolRows = [
-  [
-    { name: "Google Analytics 4", initials: "GA4", color: "#F37C20" },
-    { name: "Meta Ads",           initials: "M",   color: "#0082FB" },
-    { name: "Google Ads",         initials: "GA",  color: "#4285F4" },
-    { name: "LinkedIn Ads",       initials: "in",  color: "#0A66C2" },
-    { name: "HubSpot",            initials: "HS",  color: "#FF7A59" },
-    { name: "Klaviyo",            initials: "K",   color: "#1D4CD5" },
-  ],
-  [
-    { name: "Google Tag Manager", initials: "GTM", color: "#4285F4" },
-    { name: "Brevo",              initials: "B",   color: "#0B996E" },
-    { name: "Looker Studio",      initials: "LS",  color: "#FBBC04" },
-    { name: "Shopify",            initials: "S",   color: "#96BF48" },
-    { name: "WordPress",          initials: "WP",  color: "#21759B" },
-    { name: "Zapier",             initials: "Z",   color: "#FF4A00" },
-  ],
+const tools = [
+  { name: "Google Analytics 4", initials: "GA4", color: "#F37C20" },
+  { name: "Meta Ads",           initials: "M",   color: "#0082FB" },
+  { name: "Google Ads",         initials: "GA",  color: "#4285F4" },
+  { name: "LinkedIn Ads",       initials: "in",  color: "#0A66C2" },
+  { name: "HubSpot",            initials: "HS",  color: "#FF7A59" },
+  { name: "Klaviyo",            initials: "K",   color: "#1D4CD5" },
+  { name: "Google Tag Manager", initials: "GTM", color: "#4285F4" },
+  { name: "Brevo",              initials: "B",   color: "#0B996E" },
+  { name: "Looker Studio",      initials: "LS",  color: "#FBBC04" },
+  { name: "Shopify",            initials: "S",   color: "#96BF48" },
+  { name: "WordPress",          initials: "WP",  color: "#21759B" },
+  { name: "Zapier",             initials: "Z",   color: "#FF4A00" },
 ];
 
 const processSteps = [
@@ -196,6 +192,7 @@ const Index = () => {
   const shouldReduceMotion = useReducedMotion();
   const featuredBlogPosts = getFeaturedBlogPosts(3);
   const latestPost = blogPosts[blogPosts.length - 1];
+  const marqueeTools = shouldReduceMotion ? tools : [...tools, ...tools];
 
   return (
     <>
@@ -497,46 +494,47 @@ const Index = () => {
       </section>
 
       {/* Platforms & Tools Marquee */}
-      <section
-        className="overflow-hidden border-b border-white/10 py-10"
-        style={{ background: "linear-gradient(180deg, rgba(255,255,255,0.015) 0%, transparent 100%)" }}
-      >
-        <p className="mb-6 text-center text-xs font-semibold uppercase tracking-widest text-muted-foreground/50">
+      <section className="overflow-hidden border-b border-white/10 py-10">
+        <p className="mb-5 text-center text-xs font-semibold uppercase tracking-widest text-muted-foreground/50">
           Platforms &amp; Tools We Work With
         </p>
-        {/* Edge-fade mask + two-row dual-direction marquee */}
         <div
-          className="flex flex-col gap-3"
-          style={{
-            WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%)",
-            maskImage: "linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%)",
-          }}
+          className={cn("relative", !shouldReduceMotion && "overflow-hidden")}
+          style={
+            shouldReduceMotion
+              ? undefined
+              : {
+                  WebkitMaskImage:
+                    "linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%)",
+                  maskImage:
+                    "linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%)",
+                }
+          }
         >
-          {toolRows.map((row, rowIdx) => (
-            <div key={rowIdx} className="overflow-hidden">
-              <div
-                className={cn(
-                  "flex gap-3 whitespace-nowrap",
-                  !shouldReduceMotion && (rowIdx === 0 ? "animate-marquee" : "animate-marquee-reverse")
-                )}
+          <div
+            className={cn(
+              "flex gap-3.5",
+              shouldReduceMotion
+                ? "flex-wrap items-center justify-center"
+                : "w-max whitespace-nowrap animate-marquee will-change-transform hover:[animation-play-state:paused]"
+            )}
+          >
+            {marqueeTools.map((tool, i) => (
+              <span
+                key={`${tool.name}-${i}`}
+                aria-hidden={!shouldReduceMotion && i >= tools.length}
+                className="inline-flex shrink-0 items-center gap-2 rounded-full border border-white/[0.10] bg-white/[0.04] px-3.5 py-1.5 text-sm text-muted-foreground/95"
               >
-                {[...row, ...row].map((tool, i) => (
-                  <span
-                    key={i}
-                    className="inline-flex shrink-0 items-center gap-2.5 rounded-full border border-white/[0.12] bg-white/[0.06] px-4 py-2 text-sm font-medium text-foreground/75"
-                  >
-                    <span
-                      className="flex h-[18px] w-auto min-w-[18px] shrink-0 items-center justify-center rounded px-1 text-[9px] font-bold tracking-wide text-white"
-                      style={{ backgroundColor: tool.color }}
-                    >
-                      {tool.initials}
-                    </span>
-                    {tool.name}
-                  </span>
-                ))}
-              </div>
-            </div>
-          ))}
+                <span
+                  className="flex h-4 min-w-4 shrink-0 items-center justify-center rounded px-1 text-[8px] font-bold tracking-wide text-white"
+                  style={{ backgroundColor: tool.color }}
+                >
+                  {tool.initials}
+                </span>
+                {tool.name}
+              </span>
+            ))}
+          </div>
         </div>
       </section>
 
