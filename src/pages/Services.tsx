@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ArrowUpRight, ArrowRight } from "lucide-react";
+import { ArrowUpRight, ArrowRight, CheckCircle2 } from "lucide-react";
 import CTASection from "@/components/shared/CTASection";
 import SEO from "@/components/shared/SEO";
 import { Button } from "@/components/ui/button";
@@ -98,6 +98,101 @@ const Services = () => {
                 </motion.div>
               ))}
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* How We Engage */}
+      <section className="border-t border-white/10 py-20">
+        <div className="container mx-auto px-4 lg:px-8">
+          <div className="mb-12 text-center">
+            <span className="mb-3 inline-block text-xs font-semibold uppercase tracking-widest text-primary">
+              How We Engage
+            </span>
+            <h2 className="text-3xl font-bold md:text-4xl">Pick the Right Engagement Model</h2>
+            <p className="mx-auto mt-3 max-w-xl text-muted-foreground">
+              Whether you need a one-time audit or a long-term growth partner, we have a model that fits.
+            </p>
+          </div>
+          <div className="grid gap-6 md:grid-cols-3">
+            {[
+              {
+                name: "Audit & Strategy",
+                badge: "One-time",
+                description: "A deep-dive into your current tracking, campaigns, or automation. Ideal if you want clarity before committing to ongoing work.",
+                includes: [
+                  "Full tracking or campaign audit",
+                  "Written findings & recommendations",
+                  "30-min walkthrough call",
+                  "Priority action plan",
+                ],
+                cta: "Get an Audit",
+                featured: false,
+              },
+              {
+                name: "Growth Retainer",
+                badge: "Most Popular",
+                description: "Ongoing execution and optimisation across your chosen service. We act as an embedded extension of your team.",
+                includes: [
+                  "Dedicated account manager",
+                  "Monthly strategy sessions",
+                  "Continuous optimisation",
+                  "Real-time Looker Studio dashboard",
+                ],
+                cta: "Book a Call",
+                featured: true,
+              },
+              {
+                name: "Project Delivery",
+                badge: "Fixed scope",
+                description: "A defined deliverable with a clear timeline — website build, automation setup, tracking implementation, or campaign launch.",
+                includes: [
+                  "Fixed-scope proposal",
+                  "Milestone-based delivery",
+                  "Full handover & documentation",
+                  "30-day post-launch support",
+                ],
+                cta: "Discuss a Project",
+                featured: false,
+              },
+            ].map((tier) => (
+              <div
+                key={tier.name}
+                className={`flex flex-col rounded-xl border p-8 ${
+                  tier.featured
+                    ? "border-primary bg-gradient-to-b from-primary/[0.08] to-transparent shadow-[0_0_40px_rgba(62,207,142,0.08)]"
+                    : "border-white/10 bg-card"
+                }`}
+              >
+                <span
+                  className={`mb-4 inline-block w-fit rounded px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wide ${
+                    tier.featured ? "bg-primary text-primary-foreground" : "bg-primary/10 text-primary"
+                  }`}
+                >
+                  {tier.badge}
+                </span>
+                <h3 className="text-xl font-bold">{tier.name}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{tier.description}</p>
+                <ul className="mt-6 flex-1 space-y-2">
+                  {tier.includes.map((item) => (
+                    <li key={item} className="flex items-start gap-2 text-sm text-muted-foreground">
+                      <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+                <Link
+                  to="/book-a-call"
+                  className={`mt-8 inline-flex items-center justify-center gap-1.5 rounded-lg px-5 py-2.5 text-sm font-semibold transition-opacity hover:opacity-90 ${
+                    tier.featured
+                      ? "bg-primary text-primary-foreground"
+                      : "border border-white/20 text-foreground hover:bg-white/5"
+                  }`}
+                >
+                  {tier.cta} <ArrowUpRight className="h-4 w-4" />
+                </Link>
+              </div>
+            ))}
           </div>
         </div>
       </section>

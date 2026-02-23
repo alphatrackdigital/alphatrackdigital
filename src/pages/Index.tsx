@@ -94,6 +94,20 @@ const testimonials = [
     title: "CEO & Founder, Pearl House Ghana",
     rating: 5,
   },
+  {
+    quote:
+      "AlphaTrack completely transformed how we understand our campaigns. Before them, we had no idea which channels were driving actual revenue. Now we have a clean GA4 setup, proper attribution, and our cost per lead has dropped by over 35%. The clarity alone is worth every penny.",
+    name: "Emeka Okafor",
+    title: "Head of Growth, Lagos Fintech Startup",
+    rating: 5,
+  },
+  {
+    quote:
+      "They set up our entire email automation on Brevo and within six weeks we had recovered revenue from abandoned carts we didn't even know we were losing. Fast, professional, and genuinely invested in results — not just deliverables.",
+    name: "Adjoa Mensah",
+    title: "E-commerce Director, Accra Retail Brand",
+    rating: 5,
+  },
 ];
 
 const stats = [
@@ -633,7 +647,7 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Testimonials — with star ratings */}
+      {/* Testimonials — 3-column grid */}
       <section className="border-t border-white/10 py-20">
         <div className="container mx-auto px-4 lg:px-8">
           <motion.div
@@ -641,42 +655,44 @@ const Index = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="mx-auto max-w-3xl text-center"
+            className="mb-10 text-center"
           >
             <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-primary">
               Testimonials
             </p>
-            <h2 className="mb-10 text-3xl font-bold md:text-4xl">What Our Clients Say</h2>
+            <h2 className="text-3xl font-bold md:text-4xl">What Our Clients Say</h2>
+          </motion.div>
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {testimonials.map((t, i) => (
-              <div
+              <motion.div
                 key={i}
-                className="glass-card relative overflow-hidden border-l-2 border-primary p-8 text-left md:p-10"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: i * 0.1 }}
+                className="glass-card relative flex flex-col overflow-hidden border-t-2 border-primary p-7"
               >
-                <Quote className="absolute right-6 top-6 h-12 w-12 text-primary/10" />
-                {/* Star rating */}
+                <Quote className="absolute right-5 top-5 h-10 w-10 text-primary/10" />
                 <div className="mb-4 flex gap-1">
                   {Array.from({ length: t.rating }).map((_, s) => (
-                    <Star key={s} className="h-4 w-4 fill-primary text-primary" />
+                    <Star key={s} className="h-3.5 w-3.5 fill-primary text-primary" />
                   ))}
                 </div>
-                <p className="relative z-10 text-lg leading-relaxed text-muted-foreground">
-                  {t.quote}
+                <p className="relative z-10 flex-1 text-sm leading-relaxed text-muted-foreground">
+                  "{t.quote}"
                 </p>
-                <div className="mt-6 flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 text-sm font-bold text-primary">
-                    {t.name
-                      .split(" ")
-                      .map((n) => n[0])
-                      .join("")}
+                <div className="mt-6 flex items-center gap-3 border-t border-white/10 pt-5">
+                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-bold text-primary">
+                    {t.name.split(" ").map((n) => n[0]).join("")}
                   </div>
                   <div>
-                    <p className="font-semibold text-foreground">{t.name}</p>
-                    <p className="text-sm text-muted-foreground">{t.title}</p>
+                    <p className="text-sm font-semibold text-foreground">{t.name}</p>
+                    <p className="text-xs text-muted-foreground">{t.title}</p>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             ))}
-          </motion.div>
+          </div>
         </div>
       </section>
 

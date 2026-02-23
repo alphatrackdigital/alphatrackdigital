@@ -85,6 +85,28 @@ const AboutUs = () => {
         </div>
       </section>
 
+      {/* Mission quote band */}
+      <section
+        className="border-y border-white/10 py-20"
+        style={{ background: "linear-gradient(135deg, rgba(62,207,142,0.05) 0%, rgba(0,177,255,0.03) 50%, rgba(62,207,142,0.04) 100%)" }}
+      >
+        <div className="container mx-auto px-4 text-center lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <p className="mb-6 text-xs font-semibold uppercase tracking-widest text-primary">Our Mission</p>
+            <blockquote className="mx-auto max-w-3xl text-2xl font-semibold leading-relaxed md:text-3xl">
+              "Every business deserves clarity about what's actually driving their growth — not guesswork, not vanity metrics, but{" "}
+              <span className="text-gradient">real, provable results.</span>"
+            </blockquote>
+            <p className="mt-6 text-sm text-muted-foreground">— AlphaTrack Digital</p>
+          </motion.div>
+        </div>
+      </section>
+
       {/* Values */}
       <section className="py-20">
         <div className="container mx-auto px-4 lg:px-8">

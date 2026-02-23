@@ -4,11 +4,14 @@ import SEO from "@/components/shared/SEO";
 import CTASection from "@/components/shared/CTASection";
 import Breadcrumbs from "@/components/shared/Breadcrumbs";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight, Clock } from "lucide-react";
+import { ArrowRight, Clock, Mail } from "lucide-react";
 import { blogPosts } from "@/data/blogPosts";
 import { cn } from "@/lib/utils";
 
-const categories = ["All", ...Array.from(new Set(blogPosts.map((p) => p.category)))];
+const allCategories = Array.from(new Set(blogPosts.map((p) => p.category)));
+const categories = ["All", ...allCategories];
+const countByCategory = (cat: string) =>
+  cat === "All" ? blogPosts.length : blogPosts.filter((p) => p.category === cat).length;
 
 const Blog = () => {
   const [activeCategory, setActiveCategory] = useState("All");
@@ -50,13 +53,19 @@ const Blog = () => {
                 role="listitem"
                 onClick={() => setActiveCategory(cat)}
                 className={cn(
-                  "rounded-full border px-4 py-1.5 text-sm font-medium transition-all duration-200",
+                  "inline-flex items-center gap-1.5 rounded-full border px-4 py-1.5 text-sm font-medium transition-all duration-200",
                   activeCategory === cat
                     ? "border-primary bg-primary text-primary-foreground"
                     : "border-white/10 bg-card text-muted-foreground hover:border-primary/30 hover:text-foreground"
                 )}
               >
                 {cat}
+                <span className={cn(
+                  "rounded-full px-1.5 py-0.5 text-[10px] font-bold",
+                  activeCategory === cat ? "bg-primary-foreground/20 text-primary-foreground" : "bg-white/10 text-muted-foreground"
+                )}>
+                  {countByCategory(cat)}
+                </span>
               </button>
             ))}
           </div>
@@ -107,6 +116,35 @@ const Blog = () => {
               </motion.div>
             ) : null}
           </AnimatePresence>
+        </div>
+      </section>
+
+      {/* Newsletter CTA */}
+      <section className="pb-4">
+        <div className="container mx-auto px-4 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4 }}
+            className="flex flex-col items-center gap-4 rounded-2xl border border-primary/20 bg-primary/[0.06] px-8 py-6 sm:flex-row sm:justify-between"
+          >
+            <div className="flex items-center gap-3">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10">
+                <Mail className="h-5 w-5 text-primary" />
+              </div>
+              <div>
+                <p className="font-semibold">Get insights straight to your inbox</p>
+                <p className="text-sm text-muted-foreground">No fluff. Actionable strategies every fortnight.</p>
+              </div>
+            </div>
+            <Link
+              to="/contact-us"
+              className="inline-flex shrink-0 items-center gap-1.5 rounded-lg bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90"
+            >
+              Subscribe <ArrowRight className="h-4 w-4" />
+            </Link>
+          </motion.div>
         </div>
       </section>
 
