@@ -1,11 +1,10 @@
-import { useParams, Navigate, Link } from "react-router-dom";
-import { ArrowUpRight, Mail, Globe, Search, PenTool, CheckCircle2 } from "lucide-react";
+import { useParams, Navigate } from "react-router-dom";
+import { Mail, Globe, Search, PenTool, CheckCircle2 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
 import CTASection from "@/components/shared/CTASection";
 import SEO from "@/components/shared/SEO";
-import Breadcrumbs from "@/components/shared/Breadcrumbs";
+import ServiceHero from "@/components/shared/ServiceHero";
 
 interface ServiceData {
   icon: LucideIcon;
@@ -197,61 +196,26 @@ const ServiceDetail = () => {
   return (
     <>
       <SEO title={service.seoTitle} description={service.seoDesc} canonicalUrl={`/service/${slug}`} />
-      <section className="relative overflow-hidden pt-10 pb-20 md:pt-14 md:pb-24">
-        <div className="pointer-events-none absolute inset-0">
-          <div className="absolute -right-[15%] -top-[30%] h-[70%] w-[50%] rounded-full bg-primary/[0.06] blur-[140px]" />
-        </div>
-        <div className="container relative mx-auto px-4 lg:px-8">
-          <Breadcrumbs
-            items={[
-              { label: "Home", path: "/" },
-              { label: "Services", path: "/service" },
-              { label: service.title },
-            ]}
-          />
-          <div className="mt-8 grid gap-12 lg:grid-cols-2 lg:items-center">
-            {/* Left: headline + CTA */}
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
-              <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10">
-                <service.icon className="h-7 w-7 text-primary" />
-              </div>
-              <h1 className="mt-6 text-4xl font-bold md:text-5xl lg:text-6xl">
-                {service.headline} <span className="text-gradient">{service.gradientWord}</span>
-              </h1>
-              <p className="mt-6 text-lg text-muted-foreground">{service.description}</p>
-              <div className="mt-8">
-                <Button asChild size="lg" className="gap-1.5 rounded-lg">
-                  <Link to="/book-a-call">
-                    Book a Call <ArrowUpRight className="h-4 w-4" />
-                  </Link>
-                </Button>
-              </div>
-            </motion.div>
-
-            {/* Right: snapshot metrics card */}
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.15 }}
-              className="glass-card divide-y divide-white/10 overflow-hidden"
-            >
-              <div className="p-6">
-                <p className="text-xs font-semibold uppercase tracking-widest text-primary">Outcome</p>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{service.outcomes[0]}</p>
-              </div>
-              <div className="p-6">
-                <p className="text-xs font-semibold uppercase tracking-widest text-primary">Timeline</p>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{service.timeline}</p>
-              </div>
-              <div className="p-6">
-                <p className="text-xs font-semibold uppercase tracking-widest text-primary">Best Fit</p>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{service.fit}</p>
-              </div>
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
+      <ServiceHero
+        breadcrumbs={[
+          { label: "Home", path: "/" },
+          { label: "Services", path: "/service" },
+          { label: service.title },
+        ]}
+        badgeLabel={service.title}
+        badgeIcon={service.icon}
+        title={
+          <>
+            {service.headline} <span className="text-gradient">{service.gradientWord}</span>
+          </>
+        }
+        description={service.description}
+        snapshot={[
+          { label: "Outcome", value: service.outcomes[0] },
+          { label: "Timeline", value: service.timeline },
+          { label: "Best Fit", value: service.fit },
+        ]}
+      />
       <section className="border-t border-white/10 py-20">
         <div className="container mx-auto px-4 lg:px-8">
           <span className="mb-3 inline-block text-xs font-semibold uppercase tracking-widest text-primary">
@@ -313,3 +277,4 @@ const ServiceDetail = () => {
 };
 
 export default ServiceDetail;
+

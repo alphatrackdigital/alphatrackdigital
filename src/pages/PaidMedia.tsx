@@ -15,7 +15,7 @@ import { Button } from "@/components/ui/button";
 import CTASection from "@/components/shared/CTASection";
 import FAQAccordion from "@/components/shared/FAQAccordion";
 import SEO from "@/components/shared/SEO";
-import Breadcrumbs from "@/components/shared/Breadcrumbs";
+import ServiceHero from "@/components/shared/ServiceHero";
 import { motion } from "framer-motion";
 import type { LucideIcon } from "lucide-react";
 
@@ -118,57 +118,23 @@ const PaidMedia = () => {
         canonicalUrl="/service/paid-media"
       />
 
-      <section className="relative overflow-hidden py-24 md:py-32">
-        <div className="pointer-events-none absolute inset-0">
-          <div className="absolute -right-[15%] -top-[30%] h-[70%] w-[50%] rounded-full bg-primary/[0.06] blur-[140px]" />
-          <div className="absolute -bottom-[20%] -left-[10%] h-[50%] w-[40%] rounded-full bg-secondary/[0.04] blur-[120px]" />
-        </div>
-        <div className="container relative mx-auto px-4 lg:px-8">
-          <Breadcrumbs
-            items={[
-              { label: "Home", path: "/" },
-              { label: "Services", path: "/service" },
-              { label: "Paid Media Management" },
-            ]}
-          />
-          <div className="mt-4 flex items-center gap-3">
-            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10">
-              <Megaphone className="h-7 w-7 text-primary" />
-            </div>
-            <span className="rounded bg-primary/10 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wide text-primary">
-              Core Service
-            </span>
-          </div>
-          <h1 className="mt-6 max-w-3xl text-4xl font-bold md:text-5xl lg:text-6xl">
+      <ServiceHero
+        breadcrumbs={[
+          { label: "Home", path: "/" },
+          { label: "Services", path: "/service" },
+          { label: "Paid Media Management" },
+        ]}
+        badgeLabel="Core Service"
+        badgeIcon={Megaphone}
+        title={
+          <>
             Paid Media That <span className="text-gradient">Proves Its Value</span>
-          </h1>
-          <p className="mt-6 max-w-2xl text-lg text-muted-foreground">
-            Strategic paid social and search campaigns that drive qualified traffic. We combine Meta
-            Ads, Google Ads, and LinkedIn to reach your audience where they are and prove each spend.
-          </p>
-          <div className="mt-8 flex flex-wrap gap-4">
-            <Button asChild size="lg" className="gap-1.5 rounded-lg">
-              <Link to="/book-a-call">
-                Book a Call <ArrowUpRight className="h-4 w-4" />
-              </Link>
-            </Button>
-            <Button asChild variant="outline" size="lg" className="gap-1.5 rounded-lg border-white/20">
-              <Link to="/service">
-                View All Services <ArrowUpRight className="h-4 w-4" />
-              </Link>
-            </Button>
-          </div>
-          <div className="mt-8 grid gap-3 rounded-xl border border-white/10 bg-card/40 p-5 md:grid-cols-3">
-            {heroSnapshot.map((item) => (
-              <div key={item.label}>
-                <p className="text-xs font-semibold uppercase tracking-widest text-primary">{item.label}</p>
-                <p className="mt-2 text-sm text-muted-foreground">{item.value}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
+          </>
+        }
+        description="Strategic paid social and search campaigns that drive qualified traffic. We combine Meta Ads, Google Ads, and LinkedIn to reach your audience where they are and prove each spend."
+        snapshot={heroSnapshot}
+        secondaryCta={{ label: "View All Services", to: "/service", style: "outline" }}
+      />
       <section className="border-t border-white/10 py-20">
         <div className="container mx-auto px-4 lg:px-8">
           <span className="mb-3 inline-block text-xs font-semibold uppercase tracking-widest text-primary">
@@ -268,3 +234,4 @@ const PaidMedia = () => {
 };
 
 export default PaidMedia;
+

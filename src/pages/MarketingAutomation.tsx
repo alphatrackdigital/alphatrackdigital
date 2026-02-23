@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-import Breadcrumbs from "@/components/shared/Breadcrumbs";
 import FAQAccordion from "@/components/shared/FAQAccordion";
 import ServiceTierCard from "@/components/shared/ServiceTierCard";
 import SEO from "@/components/shared/SEO";
+import ServiceHero from "@/components/shared/ServiceHero";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Clock, UserX, RotateCcw, Settings, Link2, Building, TrendingUp } from "lucide-react";
@@ -190,54 +190,25 @@ const MarketingAutomation = () => {
         </script>
       </Helmet>
 
-      <section className="relative overflow-hidden py-24 md:py-32" style={{ background: "linear-gradient(180deg, rgba(62,207,142,0.03) 0%, transparent 100%)" }}>
-        <div className="container relative mx-auto px-4 lg:px-8">
-          <Breadcrumbs
-            items={[
-              { label: "Home", path: "/" },
-              { label: "Services", path: "/service" },
-              { label: "Marketing Automation" },
-            ]}
-          />
-          <h1 className="mt-4 text-3xl font-bold">Marketing Automation & CRM</h1>
-        </div>
-      </section>
-
-      <section className="relative overflow-hidden py-20">
-        <div className="pointer-events-none absolute -right-[200px] -top-[200px] h-[600px] w-[600px] rounded-full bg-secondary/[0.06] blur-[200px]" />
-        <div className="container relative mx-auto px-4 lg:px-8">
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="max-w-3xl">
-            <div className="mb-5 inline-block rounded border border-primary/15 bg-primary/[0.08] px-3.5 py-1.5 text-xs font-semibold uppercase tracking-widest text-primary">
-              Marketing Automation & CRM
-            </div>
-            <h2 className="text-4xl font-extrabold leading-tight md:text-5xl lg:text-6xl">
-              Capture the Lead.
-              <br />
-              Nurture the <span className="text-gradient">Sale.</span>
-            </h2>
-            <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground">
-              We build the automated workflows, email sequences, and CRM systems that turn captured leads into paying clients without manual bottlenecks.
-            </p>
-            <div className="mt-10 flex flex-wrap items-center gap-5">
-              <Button asChild size="lg" className="gap-2 rounded-xl bg-primary px-9 text-primary-foreground font-bold hover:bg-primary/90">
-                <Link to="/book-a-call">Book a Call</Link>
-              </Button>
-              <Link to="/contact-us" className="text-base font-medium text-primary transition-colors hover:text-primary/80">
-                Or tell us about your project
-              </Link>
-            </div>
-            <div className="mt-8 grid gap-3 rounded-xl border border-white/10 bg-card/40 p-5 md:grid-cols-3">
-              {heroSnapshot.map((item) => (
-                <div key={item.label}>
-                  <p className="text-xs font-semibold uppercase tracking-widest text-primary">{item.label}</p>
-                  <p className="mt-2 text-sm text-muted-foreground">{item.value}</p>
-                </div>
-              ))}
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
+      <ServiceHero
+        breadcrumbs={[
+          { label: "Home", path: "/" },
+          { label: "Services", path: "/service" },
+          { label: "Marketing Automation" },
+        ]}
+        badgeLabel="Marketing Automation & CRM"
+        badgeIcon={Settings}
+        title={
+          <>
+            Capture the Lead.
+            <br />
+            Nurture the <span className="text-gradient">Sale.</span>
+          </>
+        }
+        description="We build the automated workflows, email sequences, and CRM systems that turn captured leads into paying clients without manual bottlenecks."
+        snapshot={heroSnapshot}
+        secondaryCta={{ label: "Or tell us about your project", to: "/contact-us", style: "text" }}
+      />
       <section className="bg-white/[0.015] py-24">
         <div className="container mx-auto px-4 lg:px-8">
           <span className="mb-4 inline-block text-xs font-bold uppercase tracking-widest text-primary">The Challenge</span>
@@ -387,3 +358,4 @@ const MarketingAutomation = () => {
 };
 
 export default MarketingAutomation;
+

@@ -8,6 +8,10 @@ interface SEOProps {
   schema?: Record<string, unknown>;
   canonicalUrl?: string;
   ogImage?: string;
+  ogImageAlt?: string;
+  ogImageWidth?: number;
+  ogImageHeight?: number;
+  ogImageType?: string;
   ogUrl?: string;
   ogType?: "website" | "article";
   twitterImage?: string;
@@ -20,6 +24,10 @@ const SEO = ({
   schema,
   canonicalUrl,
   ogImage,
+  ogImageAlt,
+  ogImageWidth,
+  ogImageHeight,
+  ogImageType,
   ogUrl,
   ogType = SEO_DEFAULTS.ogType,
   twitterImage,
@@ -27,8 +35,12 @@ const SEO = ({
   const currentPath = typeof window !== "undefined" ? window.location.pathname : "";
   const resolvedCanonical = buildCanonicalUrl(canonicalUrl || currentPath);
   const resolvedOgUrl = buildCanonicalUrl(ogUrl || canonicalUrl || currentPath);
-  const resolvedOgImage = ogImage || SEO_DEFAULTS.ogImage;
-  const resolvedTwitterImage = twitterImage || resolvedOgImage;
+  const resolvedOgImage = buildCanonicalUrl(ogImage || SEO_DEFAULTS.ogImage);
+  const resolvedTwitterImage = buildCanonicalUrl(twitterImage || resolvedOgImage);
+  const resolvedOgImageAlt = ogImageAlt || SEO_DEFAULTS.ogImageAlt;
+  const resolvedOgImageWidth = ogImageWidth || SEO_DEFAULTS.ogImageWidth;
+  const resolvedOgImageHeight = ogImageHeight || SEO_DEFAULTS.ogImageHeight;
+  const resolvedOgImageType = ogImageType || SEO_DEFAULTS.ogImageType;
   const twitterDomain = (() => {
     try {
       return new URL(SITE_URL).hostname;
@@ -49,11 +61,17 @@ const SEO = ({
       <meta property="og:title" content={title} />
       <meta property="og:description" content={description} />
       <meta property="og:image" content={resolvedOgImage} />
+      <meta property="og:image:secure_url" content={resolvedOgImage} />
+      <meta property="og:image:type" content={resolvedOgImageType} />
+      <meta property="og:image:width" content={String(resolvedOgImageWidth)} />
+      <meta property="og:image:height" content={String(resolvedOgImageHeight)} />
+      <meta property="og:image:alt" content={resolvedOgImageAlt} />
 
-      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:card" content={SEO_DEFAULTS.twitterCard} />
       <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={description} />
       <meta name="twitter:image" content={resolvedTwitterImage} />
+      <meta name="twitter:image:alt" content={resolvedOgImageAlt} />
       <meta name="twitter:domain" content={twitterDomain} />
 
       {noindex && <meta name="robots" content="noindex, nofollow" />}
