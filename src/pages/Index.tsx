@@ -781,63 +781,65 @@ const Index = () => {
         }}
       >
         <div className="container mx-auto px-4 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="mb-10 flex flex-col items-start gap-4 sm:flex-row sm:items-end sm:justify-between"
-          >
-            <div>
-              <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-primary">
-                Insights
-              </p>
-              <h2 className="text-3xl font-bold md:text-4xl">From Our Blog</h2>
-            </div>
-            <Link
-              to={`/blog/${latestPost.slug}`}
-              className="inline-flex shrink-0 items-center gap-2 rounded-lg border border-primary/20 bg-primary/[0.06] px-4 py-2 text-sm font-medium text-primary transition-colors hover:bg-primary/10"
+          <div className="mx-auto max-w-5xl">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+              className="mb-10 flex flex-col items-start gap-4 sm:flex-row sm:items-end sm:justify-between"
             >
-              <span className="relative flex h-1.5 w-1.5">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-60" />
-                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-primary" />
-              </span>
-              Latest: {latestPost.category}
-              <ArrowRight className="h-3.5 w-3.5" />
-            </Link>
-          </motion.div>
-          <div className="mx-auto grid max-w-5xl grid-cols-1 gap-6 md:grid-cols-3">
-            {featuredBlogPosts.map((post, i) => (
-              <motion.div
-                key={post.slug}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: i * 0.1 }}
+              <div>
+                <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-primary">
+                  Insights
+                </p>
+                <h2 className="text-3xl font-bold md:text-4xl">From Our Blog</h2>
+              </div>
+              <Link
+                to={`/blog/${latestPost.slug}`}
+                className="inline-flex shrink-0 items-center gap-2 rounded-lg border border-primary/20 bg-primary/[0.06] px-4 py-2 text-sm font-medium text-primary transition-colors hover:bg-primary/10"
               >
-                <Link
-                  to={`/blog/${post.slug}`}
-                  className="group flex h-full flex-col overflow-hidden rounded-xl border border-white/10 bg-card transition-all duration-300 hover:-translate-y-1 hover:border-white/20 hover:shadow-[0_8px_32px_rgba(62,207,142,0.06)]"
+                <span className="relative flex h-1.5 w-1.5">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-60" />
+                  <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-primary" />
+                </span>
+                Latest: {latestPost.category}
+                <ArrowRight className="h-3.5 w-3.5" />
+              </Link>
+            </motion.div>
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+              {featuredBlogPosts.map((post, i) => (
+                <motion.div
+                  key={post.slug}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: i * 0.1 }}
                 >
-                  <div className="h-48 w-full overflow-hidden bg-card">
-                    <BlogImage src={post.image} alt={post.title} />
-                  </div>
-                  <div className="p-6">
-                    <p className="mb-2 text-xs text-muted-foreground">{post.readTime}</p>
-                    <h3 className="text-base font-semibold leading-snug text-foreground">
-                      {post.title}
-                    </h3>
-                    <p className="mt-2 line-clamp-2 text-sm text-muted-foreground">
-                      {post.excerpt}
-                    </p>
-                    <span className="mt-3 inline-flex items-center gap-1 text-sm font-medium text-primary">
-                      Read more{" "}
-                      <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1" />
-                    </span>
-                  </div>
-                </Link>
-              </motion.div>
-            ))}
+                  <Link
+                    to={`/blog/${post.slug}`}
+                    className="group flex h-full flex-col overflow-hidden rounded-xl border border-white/10 bg-card transition-all duration-300 hover:-translate-y-1 hover:border-white/20 hover:shadow-[0_8px_32px_rgba(62,207,142,0.06)]"
+                  >
+                    <div className="h-48 w-full overflow-hidden bg-card">
+                      <BlogImage src={post.image} alt={post.title} />
+                    </div>
+                    <div className="p-6">
+                      <p className="mb-2 text-xs text-muted-foreground">{post.readTime}</p>
+                      <h3 className="text-base font-semibold leading-snug text-foreground">
+                        {post.title}
+                      </h3>
+                      <p className="mt-2 line-clamp-2 text-sm text-muted-foreground">
+                        {post.excerpt}
+                      </p>
+                      <span className="mt-3 inline-flex items-center gap-1 text-sm font-medium text-primary">
+                        Read more{" "}
+                        <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1" />
+                      </span>
+                    </div>
+                  </Link>
+                </motion.div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -846,7 +848,11 @@ const Index = () => {
       <FAQAccordion items={faqs} title="Frequently Asked Questions" />
 
       <CTASection
-        title="Ready to Know Exactly What's Driving Your Growth?"
+        title={
+          <>
+            Ready to Know Exactly What's Driving Your <span className="text-gradient">Growth</span>?
+          </>
+        }
         description="Book a call. We'll audit your current setup and show you exactly where the gaps are."
         primaryCta={{ label: "Book a Call", to: "/book-a-call" }}
       />

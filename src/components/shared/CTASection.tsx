@@ -1,17 +1,22 @@
 import { Link } from "react-router-dom";
 import { ArrowUpRight } from "lucide-react";
+import type { ReactNode } from "react";
 import { Button } from "@/components/ui/button";
 import type { CTAConfig } from "@/types/cta";
 
 interface CTASectionProps {
-  title?: string;
+  title?: ReactNode;
   description?: string;
   primaryCta?: CTAConfig;
   secondaryCta?: CTAConfig;
 }
 
 const CTASection = ({
-  title = "Ready to Accelerate Your Growth?",
+  title = (
+    <>
+      Ready to Accelerate Your <span className="text-gradient">Growth</span>?
+    </>
+  ),
   description = "Book a call and discover how data-driven marketing can transform your business.",
   primaryCta = { label: "Book a Call", to: "/book-a-call" },
   secondaryCta = { label: "Explore Services", to: "/service" },
