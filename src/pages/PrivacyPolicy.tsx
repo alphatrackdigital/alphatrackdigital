@@ -4,7 +4,11 @@ import Breadcrumbs from "@/components/shared/Breadcrumbs";
 const PrivacyPolicy = () => {
   return (
     <>
-      <SEO title="Privacy Policy | AlphaTrack Digital" description="How we collect, use, and protect your data." />
+      <SEO
+        title="Privacy Policy | AlphaTrack Digital"
+        description="How we collect, use, and protect your data."
+        canonicalUrl="/privacy-policy"
+      />
 
       <section className="relative overflow-hidden py-24 md:py-32" style={{ background: "linear-gradient(180deg, rgba(62,207,142,0.03) 0%, transparent 100%)" }}>
         <div className="container relative mx-auto px-4 lg:px-8">

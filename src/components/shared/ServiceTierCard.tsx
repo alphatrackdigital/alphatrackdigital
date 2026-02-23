@@ -27,7 +27,7 @@ const ServiceTierCard = ({
   highlighted = false,
   highlightLabel = "RECOMMENDED",
   enables,
-  ctaLabel = "Get Started",
+  ctaLabel = "Book a Call",
   ctaPath = "/book-a-call",
 }: ServiceTierCardProps) => {
   return (

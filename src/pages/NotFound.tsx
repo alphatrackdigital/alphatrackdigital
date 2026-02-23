@@ -12,7 +12,12 @@ const NotFound = () => {
 
   return (
     <>
-      <SEO title="Page Not Found | AlphaTrack Digital" description="The page you're looking for doesn't exist." noindex />
+      <SEO
+        title="Page Not Found | AlphaTrack Digital"
+        description="The page you're looking for doesn't exist."
+        canonicalUrl={location.pathname}
+        noindex
+      />
       <section className="relative flex min-h-[70vh] items-center justify-center py-24">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[500px] w-[500px] rounded-full bg-[radial-gradient(circle,rgba(62,207,142,0.08)_0%,transparent_70%)] pointer-events-none" />
         <div className="container relative mx-auto px-4 text-center lg:px-8">

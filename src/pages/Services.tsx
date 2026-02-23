@@ -2,13 +2,18 @@ import { Link } from "react-router-dom";
 import { ArrowUpRight, ArrowRight } from "lucide-react";
 import CTASection from "@/components/shared/CTASection";
 import SEO from "@/components/shared/SEO";
+import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { primaryServices, supportingServices } from "@/data/services";
 
 const Services = () => {
   return (
     <>
-      <SEO title="Our Services | AlphaTrack Digital" description="End-to-end digital growth solutions. Conversion tracking, paid media management, marketing automation, SEO, email marketing, and website development." />
+      <SEO
+        title="Our Services | AlphaTrack Digital"
+        description="End-to-end digital growth solutions. Conversion tracking, paid media management, marketing automation, SEO, email marketing, and website development."
+        canonicalUrl="/service"
+      />
       <section className="relative overflow-hidden py-24 md:py-32">
         <div className="absolute top-1/3 left-1/2 -translate-x-1/2 h-80 w-80 rounded-full bg-primary/6 blur-[120px]" />
         <div className="container relative mx-auto px-4 text-center lg:px-8">
@@ -20,6 +25,24 @@ const Services = () => {
             <p className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground">
               We help businesses track what matters, acquire customers profitably, and nurture leads into revenue.
             </p>
+            <div className="mt-6 flex flex-wrap items-center justify-center gap-3 text-xs text-muted-foreground">
+              <span className="rounded-full border border-primary/20 bg-primary/10 px-3 py-1">
+                Measurement-first execution
+              </span>
+              <span className="rounded-full border border-primary/20 bg-primary/10 px-3 py-1">
+                Transparent reporting
+              </span>
+              <span className="rounded-full border border-primary/20 bg-primary/10 px-3 py-1">
+                Built for lead growth
+              </span>
+            </div>
+            <div className="mt-8">
+              <Button asChild size="lg" className="gap-1.5 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90">
+                <Link to="/book-a-call">
+                  Book a Call <ArrowUpRight className="h-4 w-4" />
+                </Link>
+              </Button>
+            </div>
           </motion.div>
         </div>
       </section>
@@ -79,7 +102,7 @@ const Services = () => {
         </div>
       </section>
 
-      <CTASection />
+      <CTASection primaryCta={{ label: "Book a Call", to: "/book-a-call" }} />
     </>
   );
 };

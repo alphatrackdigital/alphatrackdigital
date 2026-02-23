@@ -62,7 +62,7 @@ const Footer = () => {
                 SEO
               </Link>
               <Link to="/service" className="text-sm font-medium text-primary transition-colors hover:text-primary/80">
-                All Services →
+                All Services
               </Link>
             </nav>
           </div>

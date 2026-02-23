@@ -30,6 +30,12 @@ const processSteps = [
   { num: 4, title: "Handover & Support", description: "We walk you through what we built and hand over full documentation." },
 ];
 
+const heroSnapshot = [
+  { label: "Outcome", value: "Reliable conversion data for decisions and ad optimization" },
+  { label: "Timeline", value: "Starter setups are typically completed in 5-7 working days" },
+  { label: "Best Fit", value: "Businesses running paid media that need trustworthy attribution" },
+];
+
 const tiers = [
   {
     tierLabel: "Tier 1",
@@ -121,6 +127,7 @@ const ConversionTracking = () => {
       <SEO
         title="Conversion Tracking Setup Services | AlphaTrack Digital"
         description="We set up GA4, Meta, and Google Ads conversion tracking that tells you exactly which channels drive your leads and sales. Accurate, auditable, proven."
+        canonicalUrl="/service/conversion-tracking"
         schema={{
           "@context": "https://schema.org",
           "@type": "Service",
@@ -170,11 +177,19 @@ const ConversionTracking = () => {
             </p>
             <div className="mt-10 flex flex-wrap items-center gap-5">
               <Button asChild size="lg" className="gap-2 rounded-xl bg-primary px-9 text-primary-foreground font-extrabold hover:bg-primary/90">
-                <Link to="/book-a-call">Book a Free Discovery Call →</Link>
+                <Link to="/book-a-call">Book a Call</Link>
               </Button>
               <Link to="/contact-us" className="text-base font-medium text-primary hover:text-primary/80 transition-colors">
-                Or tell us about your project →
+                Or tell us about your project
               </Link>
+            </div>
+            <div className="mt-8 grid gap-3 rounded-xl border border-white/10 bg-card/40 p-5 md:grid-cols-3">
+              {heroSnapshot.map((item) => (
+                <div key={item.label}>
+                  <p className="text-xs font-semibold uppercase tracking-widest text-primary">{item.label}</p>
+                  <p className="mt-2 text-sm text-muted-foreground">{item.value}</p>
+                </div>
+              ))}
             </div>
           </motion.div>
         </div>
@@ -205,6 +220,11 @@ const ConversionTracking = () => {
                 <p className="mt-3 text-[15px] text-muted-foreground leading-relaxed">{card.description}</p>
               </motion.div>
             ))}
+          </div>
+          <div className="mt-10 text-center">
+            <Button asChild size="lg" className="gap-2 rounded-xl bg-primary text-primary-foreground font-bold hover:bg-primary/90">
+              <Link to="/book-a-call">Book a Call</Link>
+            </Button>
           </div>
         </div>
       </section>
@@ -249,12 +269,12 @@ const ConversionTracking = () => {
           </p>
           <div className="mt-12 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
             {tiers.map((tier) => (
-              <ServiceTierCard key={tier.name} {...tier} ctaLabel="Get Started" />
+              <ServiceTierCard key={tier.name} {...tier} />
             ))}
           </div>
           <div className="mt-12 text-center">
             <Button asChild size="lg" className="gap-2 rounded-xl bg-primary text-primary-foreground font-bold hover:bg-primary/90">
-              <Link to="/book-a-call">Not sure which tier? Book a free call →</Link>
+              <Link to="/book-a-call">Not sure which tier? Book a Call</Link>
             </Button>
           </div>
         </div>
@@ -303,10 +323,10 @@ const ConversionTracking = () => {
             Book a free 15-minute discovery call. We'll look at your current setup and tell you exactly what needs fixing — even if you don't work with us.
           </p>
           <Button asChild size="lg" className="mt-10 gap-2 rounded-xl bg-primary px-10 text-primary-foreground font-extrabold text-lg hover:bg-primary/90">
-            <Link to="/book-a-call">Book a Discovery Call →</Link>
+            <Link to="/book-a-call">Book a Call</Link>
           </Button>
           <p className="mt-5 text-sm text-muted-foreground">
-            Prefer to write? <Link to="/contact-us" className="text-primary font-semibold">Contact us here →</Link>
+            Prefer to write? <Link to="/contact-us" className="text-primary font-semibold">Contact us here</Link>
           </p>
         </div>
       </section>

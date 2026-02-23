@@ -2,7 +2,7 @@ import { useParams, Link, Navigate } from "react-router-dom";
 import SEO from "@/components/shared/SEO";
 import CTASection from "@/components/shared/CTASection";
 import Breadcrumbs from "@/components/shared/Breadcrumbs";
-import { blogPosts } from "@/pages/Blog";
+import { getBlogPostBySlug, getRelatedBlogPosts } from "@/data/blogPosts";
 import { ArrowLeft, Clock, Calendar } from "lucide-react";
 
 const articleContent: Record<string, JSX.Element> = {
@@ -123,14 +123,20 @@ const articleContent: Record<string, JSX.Element> = {
 
 const BlogPost = () => {
   const { slug } = useParams<{ slug: string }>();
-  const post = blogPosts.find((p) => p.slug === slug);
+  const post = slug ? getBlogPostBySlug(slug) : undefined;
   if (!post || !slug || !articleContent[slug]) return <Navigate to="/blog" replace />;
 
-  const relatedPosts = blogPosts.filter((p) => p.slug !== slug).slice(0, 3);
+  const relatedPosts = getRelatedBlogPosts(slug, 3);
 
   return (
     <>
-      <SEO title={`${post.title} | AlphaTrack Digital Blog`} description={post.excerpt} />
+      <SEO
+        title={`${post.title} | AlphaTrack Digital Blog`}
+        description={post.excerpt}
+        canonicalUrl={`/blog/${post.slug}`}
+        ogType="article"
+        ogImage={post.image}
+      />
       <section className="relative overflow-hidden py-24 md:py-28" style={{ background: "linear-gradient(180deg, rgba(62,207,142,0.03) 0%, transparent 100%)" }}>
         <div className="container relative mx-auto px-4 lg:px-8">
           <Breadcrumbs items={[{ label: "Home", path: "/" }, { label: "Blog", path: "/blog" }, { label: post.title }]} />
@@ -149,7 +155,13 @@ const BlogPost = () => {
             </div>
             <h1 className="text-3xl font-bold leading-tight md:text-4xl lg:text-5xl">{post.title}</h1>
             <div className="mt-8 overflow-hidden rounded-xl">
-              <img src={post.image} alt={post.title} className="w-full h-auto object-cover" />
+              <img
+                src={post.image}
+                alt={post.title}
+                className="h-auto w-full object-cover"
+                loading="eager"
+                fetchPriority="high"
+              />
             </div>
             <div className="mt-10 space-y-5 text-[16px] leading-relaxed text-muted-foreground [&_h2]:mt-10 [&_h2]:mb-4 [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:text-foreground [&_h3]:mt-6 [&_h3]:mb-2 [&_h3]:text-lg [&_h3]:font-semibold [&_h3]:text-foreground [&_p]:mb-4">
               {articleContent[slug]}
@@ -176,7 +188,11 @@ const BlogPost = () => {
         </div>
       </section>
 
-      <CTASection title="Ready to Apply These Strategies?" description="Book a free strategy call and let's build a plan tailored to your business." />
+      <CTASection
+        title="Ready to Apply These Strategies?"
+        description="Book a call and let's build a plan tailored to your business."
+        primaryCta={{ label: "Book a Call", to: "/book-a-call" }}
+      />
     </>
   );
 };

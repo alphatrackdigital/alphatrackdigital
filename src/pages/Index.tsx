@@ -1,37 +1,37 @@
-import { useRef, useState, useEffect } from "react";
+﻿import { useRef, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
   ArrowUpRight,
   ArrowRight,
   TrendingUp,
-  Handshake,
   ClipboardCheck,
   PhoneCall,
   Rocket,
   BarChart3,
   Quote,
   Star,
-  Eye,
-  Target,
-  Workflow,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import CTASection from "@/components/shared/CTASection";
 import FAQAccordion from "@/components/shared/FAQAccordion";
 import SEO from "@/components/shared/SEO";
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, useReducedMotion } from "framer-motion";
 import { primaryServices, supportingServices } from "@/data/services";
-import { featuredBlogPosts } from "@/data/blogPosts";
+import { getFeaturedBlogPosts } from "@/data/blogPosts";
 import { cn } from "@/lib/utils";
 
 // --- Sub-components ---
 
-const CountUp = ({ value, suffix }: { value: number; suffix: string }) => {
+const CountUp = ({ value, suffix, disabled = false }: { value: number; suffix: string; disabled?: boolean }) => {
   const ref = useRef<HTMLSpanElement>(null);
   const isInView = useInView(ref, { once: true });
   const [count, setCount] = useState(0);
 
   useEffect(() => {
+    if (disabled) {
+      setCount(value);
+      return;
+    }
     if (!isInView) return;
     let startTime: number | null = null;
     const duration = 1500;
@@ -43,7 +43,7 @@ const CountUp = ({ value, suffix }: { value: number; suffix: string }) => {
       if (progress < 1) requestAnimationFrame(animate);
     };
     requestAnimationFrame(animate);
-  }, [isInView, value]);
+  }, [disabled, isInView, value]);
 
   return (
     <span ref={ref}>
@@ -116,24 +116,6 @@ const tools = [
   "Zapier",
 ];
 
-const aboutDifferentiators = [
-  {
-    icon: Target,
-    title: "Measurement-First",
-    desc: "Every strategy starts with tracking and data — so you always know exactly what's working.",
-  },
-  {
-    icon: Eye,
-    title: "Radical Transparency",
-    desc: "Real-time dashboards and honest reporting. No vanity metrics, just the truth about your growth.",
-  },
-  {
-    icon: Workflow,
-    title: "Full-Stack Growth",
-    desc: "From tracking to automation to paid media — we handle the entire digital growth stack.",
-  },
-];
-
 const processSteps = [
   {
     icon: PhoneCall,
@@ -192,11 +174,15 @@ const faqs = [
 // --- Page ---
 
 const Index = () => {
+  const shouldReduceMotion = useReducedMotion();
+  const featuredBlogPosts = getFeaturedBlogPosts(3);
+
   return (
     <>
       <SEO
         title="AlphaTrack Digital | Data-Driven Performance Marketing Agency"
         description="Conversion tracking, paid media management, and marketing automation for businesses ready to scale. Based in Accra & Lagos."
+        canonicalUrl="/"
         schema={{
           "@context": "https://schema.org",
           "@type": "Organization",
@@ -241,9 +227,9 @@ const Index = () => {
 
         <div className="container relative mx-auto px-4 py-20 lg:px-8">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={shouldReduceMotion ? false : { opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: shouldReduceMotion ? 0 : 0.6 }}
             className="mx-auto max-w-4xl text-center"
           >
             <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5">
@@ -267,7 +253,7 @@ const Index = () => {
                 className="gap-1.5 rounded-lg bg-primary px-8 text-primary-foreground hover:bg-primary/90"
               >
                 <Link to="/book-a-call">
-                  Book a Free Strategy Call <ArrowUpRight className="h-4 w-4" />
+                  Book a Call <ArrowUpRight className="h-4 w-4" />
                 </Link>
               </Button>
               <Button
@@ -281,6 +267,17 @@ const Index = () => {
                 </Link>
               </Button>
             </div>
+            <div className="mt-6 flex flex-wrap items-center justify-center gap-3 text-xs text-muted-foreground">
+              <span className="rounded-full border border-primary/20 bg-primary/10 px-3 py-1">
+                No-pressure discovery call
+              </span>
+              <span className="rounded-full border border-primary/20 bg-primary/10 px-3 py-1">
+                Transparent reporting
+              </span>
+              <span className="rounded-full border border-primary/20 bg-primary/10 px-3 py-1">
+                Response within 1 business day
+              </span>
+            </div>
           </motion.div>
         </div>
       </section>
@@ -291,7 +288,7 @@ const Index = () => {
           {stats.map((stat) => (
             <div key={stat.label} className="text-center">
               <p className="text-3xl font-bold text-gradient">
-                <CountUp value={stat.numericValue} suffix={stat.suffix} />
+                <CountUp value={stat.numericValue} suffix={stat.suffix} disabled={shouldReduceMotion} />
               </p>
               <p className="mt-1 text-sm text-muted-foreground">{stat.label}</p>
             </div>
@@ -305,7 +302,7 @@ const Index = () => {
           Platforms & Tools We Work With
         </p>
         <div className="relative overflow-hidden">
-          <div className="flex animate-marquee gap-6 whitespace-nowrap">
+          <div className={cn("flex gap-6 whitespace-nowrap", !shouldReduceMotion && "animate-marquee")}>
             {[...tools, ...tools].map((tool, i) => (
               <span
                 key={i}
@@ -314,49 +311,6 @@ const Index = () => {
                 {tool}
               </span>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* About — two-column enriched layout */}
-      <section className="py-20">
-        <div className="container mx-auto px-4 lg:px-8">
-          <div className="mx-auto grid max-w-5xl gap-12 md:grid-cols-2 md:items-center">
-            <div>
-              <span className="mb-4 inline-block text-xs font-semibold uppercase tracking-widest text-primary">
-                About Us
-              </span>
-              <h2 className="text-3xl font-bold md:text-4xl">
-                Measurement-First. Results-Driven.
-              </h2>
-              <p className="mt-4 text-muted-foreground">
-                Too many businesses spend on marketing without knowing what works. We built
-                AlphaTrack Digital to change that — starting with tracking, then automating what
-                converts, and scaling what's proven.
-              </p>
-              <Link
-                to="/about-us"
-                className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-primary transition-colors hover:text-primary/80"
-              >
-                Learn about our story <ArrowRight className="h-3.5 w-3.5" />
-              </Link>
-            </div>
-            <div className="flex flex-col gap-4">
-              {aboutDifferentiators.map(({ icon: Icon, title, desc }) => (
-                <div
-                  key={title}
-                  className="flex gap-4 rounded-xl border border-white/10 bg-card/50 p-5"
-                >
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10">
-                    <Icon className="h-5 w-5 text-primary" />
-                  </div>
-                  <div>
-                    <p className="font-semibold">{title}</p>
-                    <p className="mt-1 text-sm text-muted-foreground">{desc}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
           </div>
         </div>
       </section>
@@ -524,23 +478,6 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Trust Card */}
-      <section className="border-t border-white/10 py-20">
-        <div className="container mx-auto px-4 lg:px-8">
-          <div className="glass-card mx-auto max-w-4xl p-10 text-center md:p-14">
-            <Handshake className="mx-auto mb-5 h-10 w-10 text-primary" />
-            <h2 className="text-2xl font-bold md:text-3xl">
-              Your Growth Partner, Not Just Another Agency
-            </h2>
-            <p className="mx-auto mt-4 max-w-2xl text-muted-foreground">
-              We don't just run campaigns — we embed ourselves in your business, aligning every
-              strategy with measurable outcomes. From Accra to Lagos and beyond, we partner with
-              ambitious businesses ready to scale.
-            </p>
-          </div>
-        </div>
-      </section>
-
       {/* Testimonials — with star ratings */}
       <section className="border-t border-white/10 py-20">
         <div className="container mx-auto px-4 lg:px-8">
@@ -606,14 +543,14 @@ const Index = () => {
           <div className="mx-auto grid max-w-5xl grid-cols-1 gap-6 md:grid-cols-3">
             {featuredBlogPosts.map((post, i) => (
               <motion.div
-                key={i}
+                key={post.slug}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: i * 0.1 }}
               >
                 <Link
-                  to={post.url}
+                  to={`/blog/${post.slug}`}
                   className="group flex h-full flex-col overflow-hidden rounded-xl border border-white/10 bg-card transition-all duration-300 hover:-translate-y-1 hover:border-white/20 hover:shadow-[0_8px_32px_rgba(62,207,142,0.06)]"
                 >
                   <div className="h-48 w-full overflow-hidden bg-card">
@@ -644,10 +581,12 @@ const Index = () => {
 
       <CTASection
         title="Ready to Know Exactly What's Driving Your Growth?"
-        description="Book a free 15-minute strategy call. We'll audit your current setup and show you exactly where the gaps are."
+        description="Book a call. We'll audit your current setup and show you exactly where the gaps are."
+        primaryCta={{ label: "Book a Call", to: "/book-a-call" }}
       />
     </>
   );
 };
 
 export default Index;
+

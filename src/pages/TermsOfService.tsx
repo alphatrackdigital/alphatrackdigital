@@ -4,7 +4,11 @@ import Breadcrumbs from "@/components/shared/Breadcrumbs";
 const TermsOfService = () => {
   return (
     <>
-      <SEO title="Terms of Service | AlphaTrack Digital" description="Terms and conditions for using the AlphaTrack Digital website and services." />
+      <SEO
+        title="Terms of Service | AlphaTrack Digital"
+        description="Terms and conditions for using the AlphaTrack Digital website and services."
+        canonicalUrl="/terms-of-service"
+      />
 
       <section className="relative overflow-hidden py-24 md:py-32" style={{ background: "linear-gradient(180deg, rgba(62,207,142,0.03) 0%, transparent 100%)" }}>
         <div className="container relative mx-auto px-4 lg:px-8">
