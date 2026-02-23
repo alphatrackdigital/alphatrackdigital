@@ -512,7 +512,15 @@ const Index = () => {
       </section>
 
       {/* Services */}
-      <section className="border-t border-white/10 py-24">
+      <section
+        className="relative overflow-hidden border-t border-white/10 py-24"
+        style={{
+          background: [
+            "radial-gradient(ellipse 65% 55% at 15% 55%, rgba(62,207,142,0.06) 0%, transparent 65%)",
+            "radial-gradient(ellipse 45% 40% at 85% 30%, rgba(0,177,255,0.04) 0%, transparent 60%)",
+          ].join(", "),
+        }}
+      >
         <div className="container mx-auto px-4 lg:px-8">
           <span className="mb-3 inline-block text-xs font-semibold uppercase tracking-widest text-primary">
             What We Do
@@ -619,7 +627,15 @@ const Index = () => {
       </section>
 
       {/* How We Work — Process */}
-      <section className="border-t border-white/10 py-24">
+      <section
+        className="border-t border-white/10 py-24"
+        style={{
+          background: [
+            "linear-gradient(180deg, rgba(255,255,255,0.012) 0%, transparent 100%)",
+            "radial-gradient(ellipse 70% 60% at 50% 100%, rgba(0,177,255,0.04) 0%, transparent 65%)",
+          ].join(", "),
+        }}
+      >
         <div className="container mx-auto px-4 lg:px-8">
           <div className="text-center">
             <span className="mb-3 inline-block text-xs font-semibold uppercase tracking-widest text-primary">
@@ -675,7 +691,12 @@ const Index = () => {
       </section>
 
       {/* Testimonials — 3-column grid */}
-      <section className="border-t border-white/10 py-20">
+      <section
+        className="border-t border-white/10 py-20"
+        style={{
+          background: "linear-gradient(135deg, rgba(62,207,142,0.06) 0%, rgba(0,177,255,0.03) 50%, rgba(62,207,142,0.05) 100%)",
+        }}
+      >
         <div className="container mx-auto px-4 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -724,7 +745,12 @@ const Index = () => {
       </section>
 
       {/* Blog Preview — data from shared source, with image skeleton/fallback */}
-      <section className="border-t border-white/10 py-20">
+      <section
+        className="border-t border-white/10 py-20"
+        style={{
+          background: "radial-gradient(ellipse 80% 50% at 50% 0%, rgba(0,177,255,0.05) 0%, transparent 70%)",
+        }}
+      >
         <div className="container mx-auto px-4 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
