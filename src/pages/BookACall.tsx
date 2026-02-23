@@ -116,14 +116,14 @@ const BookACall = () => {
               </ul>
             </div>
 
-            <div className="min-h-[720px] overflow-hidden rounded-2xl border border-white/[0.06] bg-white/[0.03]">
+            <div className="min-h-[720px] overflow-hidden rounded-2xl bg-white shadow-[0_0_0_1px_rgba(255,255,255,0.06),0_24px_64px_rgba(0,0,0,0.35)]">
               <iframe
                 frameBorder="0"
                 width="100%"
                 height="720"
                 src={schedulerUrl}
                 title="Book a Discovery Call"
-                style={{ border: "none", minHeight: "720px" }}
+                style={{ border: "none", minHeight: "720px", display: "block" }}
                 onLoad={() => setIframeLoaded(true)}
               />
               {showFallback && !iframeLoaded && (

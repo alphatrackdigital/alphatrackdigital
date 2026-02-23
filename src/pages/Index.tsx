@@ -208,32 +208,58 @@ const Index = () => {
       <section className="relative flex min-h-[88vh] items-center overflow-hidden">
         {/* Background layer */}
         <div className="absolute inset-0 pointer-events-none">
-          {/* Primary spotlight — concentrated behind headline */}
-          <div className="absolute left-[5%] top-[10%] h-[70%] w-[55%] rounded-full bg-primary/[0.13] blur-[120px]" />
-          {/* Cyan accent — upper right */}
-          <div className="absolute -right-[10%] top-[5%] h-[50%] w-[40%] rounded-full bg-secondary/[0.08] blur-[100px]" />
-          {/* Deep green fill — lower left */}
-          <div className="absolute -bottom-[20%] -left-[5%] h-[50%] w-[40%] rounded-full bg-primary/[0.06] blur-[110px]" />
-          {/* Dot-matrix texture */}
-          <div
-            className="absolute inset-0 opacity-[0.045]"
-            style={{
-              backgroundImage: `radial-gradient(circle, rgba(255,255,255,0.8) 1px, transparent 1px)`,
-              backgroundSize: "28px 28px",
-            }}
-          />
-          {/* Top vignette */}
+          {/* Mesh gradient — multiple focal points for depth */}
           <div
             className="absolute inset-0"
             style={{
-              background: "radial-gradient(ellipse 100% 40% at 50% 0%, hsl(0 0% 3.1%) 0%, transparent 100%)",
+              background: [
+                "radial-gradient(ellipse 70% 60% at 15% 40%, rgba(62,207,142,0.18) 0%, transparent 65%)",
+                "radial-gradient(ellipse 55% 50% at 80% 10%, rgba(0,177,255,0.10) 0%, transparent 60%)",
+                "radial-gradient(ellipse 40% 40% at 60% 80%, rgba(62,207,142,0.07) 0%, transparent 55%)",
+                "radial-gradient(ellipse 30% 30% at 90% 70%, rgba(0,177,255,0.05) 0%, transparent 50%)",
+              ].join(", "),
             }}
           />
-          {/* Bottom fade — blends hero into stats section */}
+          {/* Animated primary orb */}
+          <div className="animate-pulse-slow absolute left-[8%] top-[15%] h-[65%] w-[50%] rounded-full bg-primary/[0.10] blur-[130px]" />
+          {/* Animated cyan orb */}
+          <div className="animate-pulse-slow-delay absolute -right-[5%] top-[5%] h-[45%] w-[38%] rounded-full bg-secondary/[0.07] blur-[100px]" />
+          {/* Slow lower anchor orb */}
+          <div className="animate-pulse-slow-delay-2 absolute -bottom-[15%] left-[20%] h-[40%] w-[35%] rounded-full bg-primary/[0.05] blur-[120px]" />
+          {/* Decorative rings — add geometric depth */}
           <div
-            className="absolute bottom-0 inset-x-0 h-32"
+            className="absolute right-[-8%] top-[5%] h-[90%] w-[55%] rounded-full"
+            style={{ border: "1px solid rgba(62,207,142,0.06)" }}
+          />
+          <div
+            className="absolute right-[2%] top-[15%] h-[65%] w-[40%] rounded-full"
+            style={{ border: "1px solid rgba(0,177,255,0.04)" }}
+          />
+          {/* Dot-matrix texture */}
+          <div
+            className="absolute inset-0 opacity-[0.05]"
             style={{
-              background: "linear-gradient(to top, hsl(0 0% 3.1%) 0%, transparent 100%)",
+              backgroundImage: `radial-gradient(circle, rgba(255,255,255,0.9) 1px, transparent 1px)`,
+              backgroundSize: "28px 28px",
+            }}
+          />
+          {/* Top edge vignette */}
+          <div
+            className="absolute inset-0"
+            style={{
+              background: "radial-gradient(ellipse 100% 35% at 50% 0%, hsl(0 0% 3.1%) 0%, transparent 100%)",
+            }}
+          />
+          {/* Bottom fade into stats */}
+          <div
+            className="absolute bottom-0 inset-x-0 h-40"
+            style={{ background: "linear-gradient(to top, hsl(0 0% 3.1%) 0%, transparent 100%)" }}
+          />
+          {/* Bottom gradient border accent — green → cyan */}
+          <div
+            className="absolute bottom-0 inset-x-0 h-px"
+            style={{
+              background: "linear-gradient(90deg, transparent 0%, rgba(62,207,142,0.5) 30%, rgba(0,177,255,0.35) 70%, transparent 100%)",
             }}
           />
         </div>

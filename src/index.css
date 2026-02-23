@@ -103,6 +103,23 @@
   }
 }
 
+@keyframes pulse-slow {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.7; transform: scale(1.12); }
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 7s ease-in-out infinite;
+}
+
+.animate-pulse-slow-delay {
+  animation: pulse-slow 9s ease-in-out infinite 2.5s;
+}
+
+.animate-pulse-slow-delay-2 {
+  animation: pulse-slow 11s ease-in-out infinite 5s;
+}
+
 @keyframes marquee {
   0% { transform: translateX(0); }
   100% { transform: translateX(-50%); }
