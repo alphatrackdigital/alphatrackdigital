@@ -49,11 +49,20 @@ const Footer = () => {
               <Link to="/service/conversion-tracking" className="text-sm text-muted-foreground transition-colors hover:text-primary">
                 Conversion Tracking
               </Link>
+              <Link to="/service/paid-media" className="text-sm text-muted-foreground transition-colors hover:text-primary">
+                Paid Media Management
+              </Link>
               <Link to="/service/marketing-automation" className="text-sm text-muted-foreground transition-colors hover:text-primary">
                 Marketing Automation
               </Link>
-              <Link to="/service" className="text-sm text-muted-foreground transition-colors hover:text-primary">
-                All Services
+              <Link to="/service/email-marketing" className="text-sm text-muted-foreground transition-colors hover:text-primary">
+                Email Marketing
+              </Link>
+              <Link to="/service/seo" className="text-sm text-muted-foreground transition-colors hover:text-primary">
+                SEO
+              </Link>
+              <Link to="/service" className="text-sm font-medium text-primary transition-colors hover:text-primary/80">
+                All Services →
               </Link>
             </nav>
           </div>

@@ -2,14 +2,23 @@ import { Link } from "react-router-dom";
 import { ArrowUpRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
+interface CtaButton {
+  label: string;
+  to: string;
+}
+
 interface CTASectionProps {
   title?: string;
   description?: string;
+  primaryCta?: CtaButton;
+  secondaryCta?: CtaButton;
 }
 
 const CTASection = ({
   title = "Ready to Accelerate Your Growth?",
   description = "Book a free strategy call and discover how data-driven marketing can transform your business.",
+  primaryCta = { label: "Speak To An Expert", to: "/book-a-call" },
+  secondaryCta = { label: "Explore Services", to: "/service" },
 }: CTASectionProps) => {
   return (
     <section className="relative overflow-hidden border-t border-white/10 py-24">
@@ -22,14 +31,23 @@ const CTASection = ({
         <h2 className="mx-auto max-w-2xl text-3xl font-bold md:text-4xl">{title}</h2>
         <p className="mx-auto mt-4 max-w-lg text-muted-foreground">{description}</p>
         <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
-          <Button asChild size="lg" className="gap-1.5 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90">
-            <Link to="/book-a-call">
-              Speak To An Expert <ArrowUpRight className="h-4 w-4" />
+          <Button
+            asChild
+            size="lg"
+            className="gap-1.5 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90"
+          >
+            <Link to={primaryCta.to}>
+              {primaryCta.label} <ArrowUpRight className="h-4 w-4" />
             </Link>
           </Button>
-          <Button asChild variant="outline" size="lg" className="gap-1.5 rounded-lg border-white/20 hover:bg-white/5">
-            <Link to="/service">
-              Explore Services <ArrowUpRight className="h-4 w-4" />
+          <Button
+            asChild
+            variant="outline"
+            size="lg"
+            className="gap-1.5 rounded-lg border-white/20 hover:bg-white/5"
+          >
+            <Link to={secondaryCta.to}>
+              {secondaryCta.label} <ArrowUpRight className="h-4 w-4" />
             </Link>
           </Button>
         </div>
