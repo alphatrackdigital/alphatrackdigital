@@ -116,18 +116,37 @@ const BookACall = () => {
               </ul>
             </div>
 
-            <div className="min-h-[720px] overflow-hidden rounded-2xl bg-white shadow-[0_0_0_1px_rgba(255,255,255,0.06),0_24px_64px_rgba(0,0,0,0.35)]">
-              <iframe
-                frameBorder="0"
-                width="100%"
-                height="720"
-                src={schedulerUrl}
-                title="Book a Discovery Call"
-                style={{ border: "none", minHeight: "720px", display: "block" }}
-                onLoad={() => setIframeLoaded(true)}
-              />
+            <div className="space-y-4">
+              <div className="overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-b from-white/[0.08] to-white/[0.03] p-3 shadow-[0_0_0_1px_rgba(255,255,255,0.04),0_24px_64px_rgba(0,0,0,0.35)]">
+                <div className="mb-3 flex flex-wrap items-center justify-between gap-3 rounded-xl border border-white/10 bg-black/25 px-4 py-2.5">
+                  <div>
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-primary">Live Scheduler</p>
+                    <p className="text-xs text-muted-foreground">Choose a date and time in your timezone</p>
+                  </div>
+                  <a
+                    href={schedulerUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 text-xs font-semibold text-primary transition-colors hover:text-primary/80"
+                  >
+                    Open in new tab <ArrowUpRight className="h-3.5 w-3.5" />
+                  </a>
+                </div>
+                <div className="overflow-hidden rounded-xl bg-white">
+                  <iframe
+                    frameBorder="0"
+                    width="100%"
+                    src={schedulerUrl}
+                    title="Book a Discovery Call"
+                    className="block h-[860px] w-full sm:h-[900px] lg:h-[940px] xl:h-[980px]"
+                    style={{ border: "none" }}
+                    scrolling="no"
+                    onLoad={() => setIframeLoaded(true)}
+                  />
+                </div>
+              </div>
               {showFallback && !iframeLoaded && (
-                <div className="space-y-3 border-t border-white/10 bg-background/80 p-5 text-sm">
+                <div className="space-y-3 rounded-xl border border-white/10 bg-background/70 p-5 text-sm">
                   <p className="text-muted-foreground">
                     Having trouble with the embedded scheduler? Use one of these options:
                   </p>

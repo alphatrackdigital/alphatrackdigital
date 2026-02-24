@@ -5,7 +5,6 @@ import {
   Target,
   BarChart3,
   Users,
-  Zap,
   ShieldCheck,
   TrendingUp,
   DollarSign,
@@ -18,11 +17,28 @@ import SEO from "@/components/shared/SEO";
 import ServiceHero from "@/components/shared/ServiceHero";
 import { motion } from "framer-motion";
 import type { LucideIcon } from "lucide-react";
+import metaAdsIcon from "@/assets/tools/meta-ads.svg";
+import googleAdsIcon from "@/assets/tools/google-ads.svg";
+import linkedinAdsIcon from "@/assets/tools/linkedin-ads.svg";
+import tiktokAdsIcon from "@/assets/tools/tiktok-ads.svg";
+import youtubeAdsIcon from "@/assets/tools/youtube-ads.svg";
+import programmaticIcon from "@/assets/tools/programmatic.svg";
+import snapchatAdsIcon from "@/assets/tools/snapchat-ads.svg";
+import digitalBillboardsIcon from "@/assets/tools/digital-billboards.png";
 
 interface IconCard {
   icon: LucideIcon;
   title: string;
   description: string;
+}
+
+interface ManagedPlatform {
+  name: string;
+  description: string;
+  icon: string;
+  focus: string;
+  bestFor: string;
+  highlights: string[];
 }
 
 const problems: IconCard[] = [
@@ -73,15 +89,71 @@ const whyUs: IconCard[] = [
   },
 ];
 
-const platforms = [
-  { name: "Meta Ads", desc: "Facebook and Instagram campaigns for awareness, leads, and sales." },
-  { name: "Google Ads", desc: "Search, Shopping, Display, and Performance Max campaigns." },
-  { name: "LinkedIn Ads", desc: "B2B lead generation and thought leadership campaigns." },
-  { name: "TikTok Ads", desc: "Short-form video campaigns for high-engagement audience segments." },
-  { name: "YouTube Ads", desc: "Video campaigns for reach, engagement, and conversion-focused storytelling." },
-  { name: "Programmatic", desc: "Automated media buying across premium websites and apps with real-time optimization." },
-  { name: "Snapchat Ads", desc: "High-attention campaigns designed for younger, mobile-first audiences." },
-  { name: "Digital Billboards", desc: "Digital out-of-home placements to extend campaign visibility in high-traffic locations." },
+const platforms: ManagedPlatform[] = [
+  {
+    name: "Meta Ads",
+    description: "Facebook and Instagram campaigns for awareness, leads, and sales.",
+    icon: metaAdsIcon,
+    focus: "Paid Social",
+    bestFor: "Fast testing, retargeting, and lead-gen funnels.",
+    highlights: ["Prospecting", "Retargeting"],
+  },
+  {
+    name: "Google Ads",
+    description: "Search, Shopping, Display, and Performance Max campaigns.",
+    icon: googleAdsIcon,
+    focus: "Intent Capture",
+    bestFor: "High-intent traffic and conversion-ready demand.",
+    highlights: ["Search", "Performance Max"],
+  },
+  {
+    name: "LinkedIn Ads",
+    description: "B2B lead generation and thought leadership campaigns.",
+    icon: linkedinAdsIcon,
+    focus: "B2B Growth",
+    bestFor: "Decision-maker targeting and qualified B2B pipeline.",
+    highlights: ["Lead Forms", "ABM"],
+  },
+  {
+    name: "TikTok Ads",
+    description: "Short-form video campaigns for high-engagement audience segments.",
+    icon: tiktokAdsIcon,
+    focus: "Attention",
+    bestFor: "Creative-led campaigns and upper-funnel demand.",
+    highlights: ["Video", "UGC Style"],
+  },
+  {
+    name: "YouTube Ads",
+    description: "Video campaigns for reach, engagement, and conversion-focused storytelling.",
+    icon: youtubeAdsIcon,
+    focus: "Video Reach",
+    bestFor: "Brand lift with measurable assisted conversions.",
+    highlights: ["Skippable", "In-Feed"],
+  },
+  {
+    name: "Programmatic",
+    description: "Automated buying across premium websites and apps with real-time optimization.",
+    icon: programmaticIcon,
+    focus: "Scaled Reach",
+    bestFor: "Audience extension beyond social and search.",
+    highlights: ["Display", "Real-Time Bidding"],
+  },
+  {
+    name: "Snapchat Ads",
+    description: "High-attention campaigns designed for younger, mobile-first audiences.",
+    icon: snapchatAdsIcon,
+    focus: "Gen Z",
+    bestFor: "Younger demographics and high-frequency creative.",
+    highlights: ["Story Ads", "AR Formats"],
+  },
+  {
+    name: "Digital Billboards",
+    description: "Digital out-of-home placements to extend visibility in high-traffic locations.",
+    icon: digitalBillboardsIcon,
+    focus: "DOOH",
+    bestFor: "City-level awareness and omnichannel reinforcement.",
+    highlights: ["Location-Based", "Brand Recall"],
+  },
 ];
 
 const heroSnapshot = [
@@ -179,22 +251,53 @@ const PaidMedia = () => {
             Platforms We Manage
           </span>
           <h2 className="max-w-2xl text-3xl font-bold md:text-4xl">Your Ads, Everywhere That Matters</h2>
+          <p className="mt-4 max-w-3xl text-sm text-muted-foreground">
+            We select channels by objective, buying journey stage, and conversion quality so each platform has a clear role in your growth system.
+          </p>
           <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {platforms.map((platform, i) => (
-              <motion.div
+              <motion.article
                 key={platform.name}
                 initial={{ opacity: 0, y: 16 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.06 }}
-                className="rounded-xl border border-white/10 bg-card p-6"
+                className="group relative overflow-hidden rounded-xl border border-white/10 bg-gradient-to-br from-white/[0.06] to-white/[0.02] p-6 transition-all duration-300 hover:-translate-y-1 hover:border-primary/25"
               >
-                <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
-                  <Zap className="h-5 w-5 text-primary" />
+                <div className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                  <div className="h-full w-full bg-[radial-gradient(circle_at_top_right,rgba(62,207,142,0.16),transparent_62%)]" />
                 </div>
-                <h4 className="font-semibold">{platform.name}</h4>
-                <p className="mt-1.5 text-[13px] leading-relaxed text-muted-foreground">{platform.desc}</p>
-              </motion.div>
+                <div className="relative z-10">
+                  <div className="mb-4 flex items-center justify-between gap-3">
+                    <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-white/10 bg-black/20">
+                      <img
+                        src={platform.icon}
+                        alt={`${platform.name} logo`}
+                        className="h-6 w-6 object-contain"
+                        loading="lazy"
+                      />
+                    </div>
+                    <span className="rounded-full border border-primary/20 bg-primary/10 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-primary">
+                      {platform.focus}
+                    </span>
+                  </div>
+                  <h4 className="text-[21px] font-bold leading-tight">{platform.name}</h4>
+                  <p className="mt-2 text-[13px] leading-relaxed text-muted-foreground">{platform.description}</p>
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    {platform.highlights.map((highlight) => (
+                      <span
+                        key={highlight}
+                        className="rounded-full border border-white/10 bg-white/[0.03] px-2.5 py-1 text-[11px] font-medium text-foreground/80"
+                      >
+                        {highlight}
+                      </span>
+                    ))}
+                  </div>
+                  <p className="mt-4 border-t border-white/10 pt-3 text-xs leading-relaxed text-muted-foreground">
+                    <span className="font-semibold text-primary">Best for:</span> {platform.bestFor}
+                  </p>
+                </div>
+              </motion.article>
             ))}
           </div>
         </div>

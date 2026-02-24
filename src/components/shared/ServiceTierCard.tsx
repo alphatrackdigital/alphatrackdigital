@@ -71,10 +71,10 @@ const ServiceTierCard = ({
       <Button
         asChild
         className={cn(
-          "mt-8 gap-1.5 rounded-lg",
+          "mt-8 gap-1.5 rounded-lg font-semibold",
           highlighted
             ? "bg-primary text-primary-foreground hover:bg-primary/90"
-            : "border border-white/20 bg-transparent hover:bg-white/5"
+            : "border border-white/20 bg-transparent text-foreground hover:bg-white/5 hover:text-foreground"
         )}
       >
         <Link to={ctaPath}>
