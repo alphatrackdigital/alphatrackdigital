@@ -20,6 +20,23 @@ import { motion, useInView, useReducedMotion } from "framer-motion";
 import { primaryServices, supportingServices } from "@/data/services";
 import { getFeaturedBlogPosts, blogPosts } from "@/data/blogPosts";
 import { cn } from "@/lib/utils";
+import makeIcon from "@/assets/tools/make.svg";
+import googleAnalyticsIcon from "@/assets/tools/google-analytics.svg";
+import metaAdsIcon from "@/assets/tools/meta-ads.svg";
+import googleAdsIcon from "@/assets/tools/google-ads.svg";
+import microsoftAdsIcon from "@/assets/tools/microsoft-ads.png";
+import linkedinAdsIcon from "@/assets/tools/linkedin-ads.svg";
+import tiktokAdsIcon from "@/assets/tools/tiktok-ads.svg";
+import snapchatAdsIcon from "@/assets/tools/snapchat-ads.svg";
+import eskimiIcon from "@/assets/tools/eskimi.png";
+import hubspotIcon from "@/assets/tools/hubspot.svg";
+import klaviyoIcon from "@/assets/tools/klaviyo.png";
+import googleTagManagerIcon from "@/assets/tools/google-tag-manager.svg";
+import brevoIcon from "@/assets/tools/brevo.svg";
+import lookerStudioIcon from "@/assets/tools/looker-studio.svg";
+import shopifyIcon from "@/assets/tools/shopify.svg";
+import wordpressIcon from "@/assets/tools/wordpress.svg";
+import zapierIcon from "@/assets/tools/zapier.svg";
 
 // --- Sub-components ---
 
@@ -117,23 +134,23 @@ const stats = [
 ];
 
 const tools = [
-  { name: "Make",               initials: "M",   color: "#6D28D9" },
-  { name: "Google Analytics 4", initials: "GA4", color: "#F37C20" },
-  { name: "Meta Ads",           initials: "M",   color: "#0082FB" },
-  { name: "Google Ads",         initials: "GA",  color: "#4285F4" },
-  { name: "Microsoft Ads",      initials: "MS",  color: "#5E5E5E" },
-  { name: "LinkedIn Ads",       initials: "in",  color: "#0A66C2" },
-  { name: "TikTok Ads",         initials: "TT",  color: "#000000" },
-  { name: "Snapchat Ads",       initials: "SC",  color: "#FFFC00" },
-  { name: "Eskimi",             initials: "E",   color: "#0B5FFF" },
-  { name: "HubSpot",            initials: "HS",  color: "#FF7A59" },
-  { name: "Klaviyo",            initials: "K",   color: "#1D4CD5" },
-  { name: "Google Tag Manager", initials: "GTM", color: "#4285F4" },
-  { name: "Brevo",              initials: "B",   color: "#0B996E" },
-  { name: "Looker Studio",      initials: "LS",  color: "#FBBC04" },
-  { name: "Shopify",            initials: "S",   color: "#96BF48" },
-  { name: "WordPress",          initials: "WP",  color: "#21759B" },
-  { name: "Zapier",             initials: "Z",   color: "#FF4A00" },
+  { name: "Make",               icon: makeIcon,              color: "#6D28D9" },
+  { name: "Google Analytics 4", icon: googleAnalyticsIcon,   color: "#F37C20" },
+  { name: "Meta Ads",           icon: metaAdsIcon,           color: "#0082FB" },
+  { name: "Google Ads",         icon: googleAdsIcon,         color: "#4285F4" },
+  { name: "Microsoft Ads",      icon: microsoftAdsIcon,      color: "#00A4EF", mode: "image" as const },
+  { name: "LinkedIn Ads",       icon: linkedinAdsIcon,       color: "#0A66C2" },
+  { name: "TikTok Ads",         icon: tiktokAdsIcon,         color: "#FFFFFF" },
+  { name: "Snapchat Ads",       icon: snapchatAdsIcon,       color: "#FFFC00" },
+  { name: "Eskimi",             icon: eskimiIcon,            color: "#0B5FFF", mode: "image" as const },
+  { name: "HubSpot",            icon: hubspotIcon,           color: "#FF7A59" },
+  { name: "Klaviyo",            icon: klaviyoIcon,           color: "#111111", mode: "image" as const },
+  { name: "Google Tag Manager", icon: googleTagManagerIcon,  color: "#4285F4" },
+  { name: "Brevo",              icon: brevoIcon,             color: "#0B996E" },
+  { name: "Looker Studio",      icon: lookerStudioIcon,      color: "#4285F4" },
+  { name: "Shopify",            icon: shopifyIcon,           color: "#96BF48" },
+  { name: "WordPress",          icon: wordpressIcon,         color: "#21759B" },
+  { name: "Zapier",             icon: zapierIcon,            color: "#FF4A00" },
 ];
 
 const processSteps = [
@@ -531,11 +548,25 @@ const Index = () => {
                   aria-hidden={!shouldReduceMotion && i >= tools.length}
                   className="inline-flex shrink-0 items-center gap-2 rounded-full border border-white/[0.10] bg-white/[0.04] px-3.5 py-1.5 text-sm text-muted-foreground/95"
                 >
-                  <span
-                    className="flex h-4 min-w-4 shrink-0 items-center justify-center rounded px-1 text-[8px] font-bold tracking-wide text-white"
-                    style={{ backgroundColor: tool.color }}
-                  >
-                    {tool.initials}
+                  <span className="flex h-4 min-w-4 shrink-0 items-center justify-center">
+                    {tool.mode === "image" ? (
+                      <img src={tool.icon} alt="" className="h-4 w-4 object-contain" loading="lazy" />
+                    ) : (
+                      <span
+                        className="h-4 w-4"
+                        style={{
+                          backgroundColor: tool.color,
+                          WebkitMaskImage: `url(${tool.icon})`,
+                          maskImage: `url(${tool.icon})`,
+                          WebkitMaskRepeat: "no-repeat",
+                          maskRepeat: "no-repeat",
+                          WebkitMaskPosition: "center",
+                          maskPosition: "center",
+                          WebkitMaskSize: "contain",
+                          maskSize: "contain",
+                        }}
+                      />
+                    )}
                   </span>
                   {tool.name}
                 </span>
