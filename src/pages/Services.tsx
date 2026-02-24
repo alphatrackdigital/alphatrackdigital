@@ -33,7 +33,7 @@ const Services = () => {
                 Transparent reporting
               </span>
               <span className="rounded-full border border-primary/20 bg-primary/10 px-3 py-1">
-                Built for lead growth
+                Built for growth
               </span>
             </div>
             <div className="mt-8">

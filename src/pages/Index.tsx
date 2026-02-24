@@ -117,10 +117,15 @@ const stats = [
 ];
 
 const tools = [
+  { name: "Make",               initials: "M",   color: "#6D28D9" },
   { name: "Google Analytics 4", initials: "GA4", color: "#F37C20" },
   { name: "Meta Ads",           initials: "M",   color: "#0082FB" },
   { name: "Google Ads",         initials: "GA",  color: "#4285F4" },
+  { name: "Microsoft Ads",      initials: "MS",  color: "#5E5E5E" },
   { name: "LinkedIn Ads",       initials: "in",  color: "#0A66C2" },
+  { name: "TikTok Ads",         initials: "TT",  color: "#000000" },
+  { name: "Snapchat Ads",       initials: "SC",  color: "#FFFC00" },
+  { name: "Eskimi",             initials: "E",   color: "#0B5FFF" },
   { name: "HubSpot",            initials: "HS",  color: "#FF7A59" },
   { name: "Klaviyo",            initials: "K",   color: "#1D4CD5" },
   { name: "Google Tag Manager", initials: "GTM", color: "#4285F4" },
@@ -182,7 +187,7 @@ const faqs = [
   {
     question: "How transparent are you about performance?",
     answer:
-      "Radical transparency is a core value. You get real-time dashboards, regular reports, and direct access to your data. No vanity metrics, no hidden numbers — just the truth about what's driving your growth.",
+      "Transparency is a core value. You get real-time dashboards, regular reports, and direct access to your data. No vanity metrics, no hidden numbers — just the truth about what's driving your growth.",
   },
 ];
 

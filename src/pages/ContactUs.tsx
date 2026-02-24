@@ -198,7 +198,13 @@ const ContactUs = () => {
                     href="tel:+233530985334"
                     className="mt-1 text-sm text-muted-foreground transition-colors hover:text-primary"
                   >
-                    +233 530 985 334
+                    +233 530 985 334 (Ghana)
+                  </a>
+                  <a
+                    href="tel:+2348061992748"
+                    className="mt-1 block text-sm text-muted-foreground transition-colors hover:text-primary"
+                  >
+                    +234 806 199 2748 (Nigeria)
                   </a>
                 </div>
               </div>

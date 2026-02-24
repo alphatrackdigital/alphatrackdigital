@@ -78,11 +78,15 @@ const platforms = [
   { name: "Google Ads", desc: "Search, Shopping, Display, and Performance Max campaigns." },
   { name: "LinkedIn Ads", desc: "B2B lead generation and thought leadership campaigns." },
   { name: "TikTok Ads", desc: "Short-form video campaigns for high-engagement audience segments." },
+  { name: "YouTube Ads", desc: "Video campaigns for reach, engagement, and conversion-focused storytelling." },
+  { name: "Programmatic", desc: "Automated media buying across premium websites and apps with real-time optimization." },
+  { name: "Snapchat Ads", desc: "High-attention campaigns designed for younger, mobile-first audiences." },
+  { name: "Digital Billboards", desc: "Digital out-of-home placements to extend campaign visibility in high-traffic locations." },
 ];
 
 const heroSnapshot = [
   { label: "Outcome", value: "More efficient ad spend with channel-level accountability" },
-  { label: "Timeline", value: "Initial optimization signals in 1-2 weeks, stronger gains in 30-60 days" },
+  { label: "Timeline", value: "Initial optimization in 2-4 weeks, stronger gains in 60-90 days" },
   { label: "Best Fit", value: "Businesses already running ads that need reliable performance growth" },
 ];
 
@@ -90,17 +94,17 @@ const faqs = [
   {
     question: "What is the minimum budget for paid media?",
     answer:
-      "We typically recommend at least $1,000-$2,000 monthly per platform to gather enough data for meaningful optimization. Management fees are separate.",
+      "Budget depends on your campaign objective, target audience, and growth goals. We'll review your needs on a call and recommend the right plan.",
   },
   {
     question: "How quickly will I see results?",
     answer:
-      "Initial signals usually appear in 1-2 weeks. Meaningful optimization improvements often show within 30-60 days.",
+      "Initial optimization usually takes 2-4 weeks. Stronger performance gains typically build between 60 and 90 days.",
   },
   {
     question: "Do you manage creative as well?",
     answer:
-      "Yes. We handle creative strategy and copy. For advanced creative production, we collaborate with your team or creative partners.",
+      "Yes. We support creative strategy and ad copy, and we can work with your internal team or external creative partners for full production.",
   },
   {
     question: "Can you work with our existing tracking setup?",
@@ -225,7 +229,7 @@ const PaidMedia = () => {
 
       <FAQAccordion items={faqs} />
       <CTASection
-        title="Ready to Make Your Ad Spend Provable?"
+        title="Ready to Improve Your Ad Performance?"
         description="Book a call. We'll audit your current paid media and show you exactly where the opportunities are."
         primaryCta={{ label: "Book a Call", to: "/book-a-call" }}
       />

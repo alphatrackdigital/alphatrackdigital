@@ -11,7 +11,7 @@ const values = [
   },
   {
     icon: BarChart3,
-    title: "Radical Transparency",
+    title: "Transparency",
     description: "You'll always know exactly what's working, what's not, and where your money is going.",
   },
   {

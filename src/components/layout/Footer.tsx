@@ -71,7 +71,8 @@ const Footer = () => {
           <div className="space-y-4">
             <h4 className="text-sm font-semibold text-foreground">Contact</h4>
             <div className="flex flex-col gap-2 text-sm text-muted-foreground">
-              <a href="tel:+233530985334" className="transition-colors hover:text-primary">+233 530 985 334</a>
+              <a href="tel:+233530985334" className="transition-colors hover:text-primary">+233 530 985 334 (Ghana)</a>
+              <a href="tel:+2348061992748" className="transition-colors hover:text-primary">+234 806 199 2748 (Nigeria)</a>
               <a href="mailto:info@alphatrack.digital" className="transition-colors hover:text-primary">info@alphatrack.digital</a>
               <p>Accra | Lagos</p>
             </div>
