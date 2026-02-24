@@ -36,9 +36,8 @@ interface ManagedPlatform {
   name: string;
   description: string;
   icon: string;
-  focus: string;
+  channel: string;
   bestFor: string;
-  highlights: string[];
 }
 
 const problems: IconCard[] = [
@@ -94,65 +93,57 @@ const platforms: ManagedPlatform[] = [
     name: "Meta Ads",
     description: "Facebook and Instagram campaigns for awareness, leads, and sales.",
     icon: metaAdsIcon,
-    focus: "Paid Social",
+    channel: "Paid Social",
     bestFor: "Fast testing, retargeting, and lead-gen funnels.",
-    highlights: ["Prospecting", "Retargeting"],
   },
   {
     name: "Google Ads",
     description: "Search, Shopping, Display, and Performance Max campaigns.",
     icon: googleAdsIcon,
-    focus: "Intent Capture",
+    channel: "Intent Capture",
     bestFor: "High-intent traffic and conversion-ready demand.",
-    highlights: ["Search", "Performance Max"],
   },
   {
     name: "LinkedIn Ads",
     description: "B2B lead generation and thought leadership campaigns.",
     icon: linkedinAdsIcon,
-    focus: "B2B Growth",
+    channel: "B2B Growth",
     bestFor: "Decision-maker targeting and qualified B2B pipeline.",
-    highlights: ["Lead Forms", "ABM"],
   },
   {
     name: "TikTok Ads",
     description: "Short-form video campaigns for high-engagement audience segments.",
     icon: tiktokAdsIcon,
-    focus: "Attention",
+    channel: "Attention",
     bestFor: "Creative-led campaigns and upper-funnel demand.",
-    highlights: ["Video", "UGC Style"],
   },
   {
     name: "YouTube Ads",
     description: "Video campaigns for reach, engagement, and conversion-focused storytelling.",
     icon: youtubeAdsIcon,
-    focus: "Video Reach",
+    channel: "Video Reach",
     bestFor: "Brand lift with measurable assisted conversions.",
-    highlights: ["Skippable", "In-Feed"],
   },
   {
     name: "Programmatic",
     description: "Automated buying across premium websites and apps with real-time optimization.",
     icon: programmaticIcon,
-    focus: "Scaled Reach",
+    channel: "Scaled Reach",
     bestFor: "Audience extension beyond social and search.",
-    highlights: ["Display", "Real-Time Bidding"],
   },
   {
     name: "Snapchat Ads",
     description: "High-attention campaigns designed for younger, mobile-first audiences.",
     icon: snapchatAdsIcon,
-    focus: "Gen Z",
+    channel: "Gen Z",
     bestFor: "Younger demographics and high-frequency creative.",
-    highlights: ["Story Ads", "AR Formats"],
   },
   {
     name: "Digital Billboards",
     description: "Digital out-of-home placements to extend visibility in high-traffic locations.",
     icon: digitalBillboardsIcon,
-    focus: "DOOH",
+    channel: "DOOH",
     bestFor: "City-level awareness and omnichannel reinforcement.",
-    highlights: ["Location-Based", "Brand Recall"],
   },
 ];
 
@@ -254,7 +245,7 @@ const PaidMedia = () => {
           <p className="mt-4 max-w-3xl text-sm text-muted-foreground">
             We select channels by objective, buying journey stage, and conversion quality so each platform has a clear role in your growth system.
           </p>
-          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-10 grid gap-4 sm:grid-cols-2">
             {platforms.map((platform, i) => (
               <motion.article
                 key={platform.name}
@@ -262,47 +253,36 @@ const PaidMedia = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.06 }}
-                className="group relative overflow-hidden rounded-xl border border-white/10 bg-gradient-to-br from-white/[0.06] to-white/[0.02] p-6 transition-all duration-300 hover:-translate-y-1 hover:border-primary/25"
+                className="group rounded-xl border border-white/10 bg-white/[0.03] p-5 transition-all duration-300 hover:border-primary/20 hover:bg-white/[0.05]"
               >
-                <div className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                  <div className="h-full w-full bg-[radial-gradient(circle_at_top_right,rgba(62,207,142,0.16),transparent_62%)]" />
-                </div>
-                <div className="relative z-10">
-                  <div className="mb-4 flex items-center justify-between gap-3">
-                    <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-white/10 bg-black/20">
-                      <img
-                        src={platform.icon}
-                        alt={`${platform.name} logo`}
-                        className="h-6 w-6 object-contain"
-                        loading="lazy"
-                      />
-                    </div>
-                    <span className="rounded-full border border-primary/20 bg-primary/10 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-primary">
-                      {platform.focus}
-                    </span>
+                <div className="flex gap-4">
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-white/20 bg-white p-2.5 shadow-[0_4px_16px_rgba(0,0,0,0.2)]">
+                    <img
+                      src={platform.icon}
+                      alt={`${platform.name} logo`}
+                      className="h-full w-full object-contain"
+                      loading="lazy"
+                    />
                   </div>
-                  <h4 className="text-[21px] font-bold leading-tight">{platform.name}</h4>
-                  <p className="mt-2 text-[13px] leading-relaxed text-muted-foreground">{platform.description}</p>
-                  <div className="mt-4 flex flex-wrap gap-2">
-                    {platform.highlights.map((highlight) => (
-                      <span
-                        key={highlight}
-                        className="rounded-full border border-white/10 bg-white/[0.03] px-2.5 py-1 text-[11px] font-medium text-foreground/80"
-                      >
-                        {highlight}
+                  <div className="min-w-0 flex-1">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <h4 className="text-xl font-bold leading-tight">{platform.name}</h4>
+                      <span className="rounded-full border border-primary/20 bg-primary/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-primary">
+                        {platform.channel}
                       </span>
-                    ))}
+                    </div>
+                    <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">{platform.description}</p>
+                    <p className="mt-3 border-t border-white/10 pt-3 text-xs leading-relaxed text-muted-foreground">
+                      <span className="font-semibold text-primary">Best for:</span> {platform.bestFor}
+                    </p>
                   </div>
-                  <p className="mt-4 border-t border-white/10 pt-3 text-xs leading-relaxed text-muted-foreground">
-                    <span className="font-semibold text-primary">Best for:</span> {platform.bestFor}
-                  </p>
                 </div>
               </motion.article>
             ))}
           </div>
         </div>
       </section>
-
+ 
       <section className="border-t border-white/10 py-20">
         <div className="container mx-auto px-4 lg:px-8">
           <span className="mb-3 inline-block text-xs font-semibold uppercase tracking-widest text-primary">

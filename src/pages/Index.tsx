@@ -523,16 +523,6 @@ const Index = () => {
           </p>
           <div
             className={cn("relative mx-auto max-w-5xl", !shouldReduceMotion && "overflow-hidden")}
-            style={
-              shouldReduceMotion
-                ? undefined
-                : {
-                    WebkitMaskImage:
-                      "linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%)",
-                    maskImage:
-                      "linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%)",
-                  }
-            }
           >
             <div
               className={cn(
@@ -548,25 +538,11 @@ const Index = () => {
                   aria-hidden={!shouldReduceMotion && i >= tools.length}
                   className="inline-flex shrink-0 items-center gap-2 rounded-full border border-white/[0.10] bg-white/[0.04] px-3.5 py-1.5 text-sm text-muted-foreground/95"
                 >
-                  <span className="flex h-4 min-w-4 shrink-0 items-center justify-center">
-                    {tool.mode === "image" ? (
-                      <img src={tool.icon} alt="" className="h-4 w-4 object-contain" loading="lazy" />
-                    ) : (
-                      <span
-                        className="h-4 w-4"
-                        style={{
-                          backgroundColor: tool.color,
-                          WebkitMaskImage: `url(${tool.icon})`,
-                          maskImage: `url(${tool.icon})`,
-                          WebkitMaskRepeat: "no-repeat",
-                          maskRepeat: "no-repeat",
-                          WebkitMaskPosition: "center",
-                          maskPosition: "center",
-                          WebkitMaskSize: "contain",
-                          maskSize: "contain",
-                        }}
-                      />
-                    )}
+                  <span
+                    className="flex h-5 w-5 shrink-0 items-center justify-center rounded-[5px] bg-white p-[2px] shadow-[0_1px_4px_rgba(0,0,0,0.35)]"
+                    style={{ boxShadow: `inset 0 0 0 1px ${tool.color}33, 0 1px 4px rgba(0,0,0,0.35)` }}
+                  >
+                    <img src={tool.icon} alt="" className="h-full w-full object-contain" loading="lazy" />
                   </span>
                   {tool.name}
                 </span>
