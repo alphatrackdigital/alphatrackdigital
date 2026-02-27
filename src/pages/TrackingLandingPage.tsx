@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import SEO from "@/components/shared/SEO";
-import WhatsAppWidget from "@/components/shared/WhatsAppWidget";
 import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -11,7 +10,6 @@ import { z } from "zod";
 import { toast } from "sonner";
 import { Loader2, CheckCircle, BarChart3, Ghost, Flame } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
-import logo from "@/assets/logo.png";
 import { submitLead } from "@/lib/leads";
 
 const auditSchema = z.object({
@@ -162,8 +160,16 @@ const TrackingLandingPage = () => {
         style={{ background: "rgba(8,8,8,0.95)", backdropFilter: "blur(20px)" }}
       >
         <div className="mx-auto flex max-w-[1100px] items-center justify-between px-6 py-3.5">
-          <Link to="/">
-            <img src={logo} alt="AlphaTrack Digital" className="h-8" />
+          <Link to="/" aria-label="AlphaTrack Digital Home" className="flex items-center gap-2.5">
+            <img
+              src="/favicon.png"
+              alt=""
+              aria-hidden="true"
+              className="h-8 w-8 rounded-md"
+              width={32}
+              height={32}
+            />
+            <span className="text-sm font-semibold tracking-wide">AlphaTrack Digital</span>
           </Link>
           <Button
             asChild
@@ -505,7 +511,6 @@ const TrackingLandingPage = () => {
           <p className="mt-2 text-xs text-muted-foreground">© AlphaTrack Digital 2026. All Rights Reserved.</p>
         </div>
       </footer>
-      <WhatsAppWidget />
     </div>
   );
 };

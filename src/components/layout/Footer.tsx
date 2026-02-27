@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import logo from "@/assets/logo.png";
 
 const Footer = () => {
   return (
@@ -8,8 +7,17 @@ const Footer = () => {
         <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
           {/* Brand */}
           <div className="space-y-4">
-            <Link to="/">
-              <img src={logo} alt="AlphaTrack Digital" className="h-9" />
+            <Link to="/" aria-label="AlphaTrack Digital Home" className="inline-flex items-center gap-2.5">
+              <img
+                src="/favicon.png"
+                alt=""
+                aria-hidden="true"
+                className="h-9 w-9 rounded-md"
+                width={36}
+                height={36}
+                loading="lazy"
+              />
+              <span className="text-base font-semibold text-foreground">AlphaTrack Digital</span>
             </Link>
             <p className="text-sm leading-relaxed text-muted-foreground">
               Measurement-first digital growth agency. We build the tracking, automation, and paid media systems that turn your marketing spend into provable revenue.

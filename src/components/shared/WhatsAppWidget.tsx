@@ -1,35 +1,50 @@
 import { useEffect, useRef } from "react";
 
-/**
- * Brevo Conversations chat widget
- * Replaces WhatsApp — provides live chat / automated responses via Brevo dashboard
- * Configure widget appearance at: app.brevo.com > Conversations > Settings > Chat Widget
- */
+declare global {
+  interface Window {
+    BrevoConversationsID?: string;
+    BrevoConversations?: {
+      (...args: unknown[]): void;
+      q?: unknown[][];
+    };
+    requestIdleCallback?: (
+      callback: IdleRequestCallback,
+      options?: IdleRequestOptions
+    ) => number;
+    cancelIdleCallback?: (handle: number) => void;
+  }
+}
+
+const BREVO_WIDGET_ID = "68bf7ba05e611d228d09f91c";
+const BREVO_SCRIPT_ID = "brevo-conversations-script";
+const BREVO_SCRIPT_SRC = "https://conversations-widget.brevo.com/brevo-conversations.js";
+
 const BrevoChat = () => {
-  const scriptRef = useRef<HTMLScriptElement | null>(null);
+  const hasLoadedRef = useRef(false);
 
   useEffect(() => {
-    let loaded = false;
     let timeoutId: number | null = null;
     let idleId: number | null = null;
 
     const loadWidget = () => {
-      if (loaded) return;
-      loaded = true;
+      if (hasLoadedRef.current) return;
+      hasLoadedRef.current = true;
 
-      (window as any).BrevoConversationsID = "67b3e8d09d03de35e0bc2f3e";
-      (window as any).BrevoConversations =
-        (window as any).BrevoConversations ||
-        function (...args: any[]) {
-          ((window as any).BrevoConversations.q =
-            (window as any).BrevoConversations.q || []).push(args);
+      window.BrevoConversationsID = BREVO_WIDGET_ID;
+      window.BrevoConversations =
+        window.BrevoConversations ||
+        function (...args: unknown[]) {
+          (window.BrevoConversations!.q = window.BrevoConversations!.q || []).push(args);
         };
 
+      const existingScript = document.getElementById(BREVO_SCRIPT_ID);
+      if (existingScript) return;
+
       const script = document.createElement("script");
+      script.id = BREVO_SCRIPT_ID;
       script.async = true;
-      script.src = "https://conversations-widget.brevo.com/brevo-conversations.js";
+      script.src = BREVO_SCRIPT_SRC;
       document.head.appendChild(script);
-      scriptRef.current = script;
     };
 
     const eagerLoadEvents: Array<keyof WindowEventMap> = ["pointerdown", "keydown", "scroll", "touchstart"];
@@ -41,24 +56,17 @@ const BrevoChat = () => {
     eagerLoadEvents.forEach((event) => window.addEventListener(event, loadOnIntent, { passive: true }));
 
     if ("requestIdleCallback" in window) {
-      idleId = (window as any).requestIdleCallback(loadWidget, { timeout: 4500 });
+      idleId = window.requestIdleCallback?.(loadWidget, { timeout: 6000 }) ?? null;
     } else {
-      timeoutId = window.setTimeout(loadWidget, 3500);
+      timeoutId = window.setTimeout(loadWidget, 4500);
     }
 
     return () => {
       if (timeoutId) window.clearTimeout(timeoutId);
       if (idleId && "cancelIdleCallback" in window) {
-        (window as any).cancelIdleCallback(idleId);
+        window.cancelIdleCallback?.(idleId);
       }
       eagerLoadEvents.forEach((event) => window.removeEventListener(event, loadOnIntent));
-      if (scriptRef.current) {
-        try {
-          document.head.removeChild(scriptRef.current);
-        } catch {
-          // no-op
-        }
-      }
     };
   }, []);
 
@@ -66,3 +74,4 @@ const BrevoChat = () => {
 };
 
 export default BrevoChat;
+

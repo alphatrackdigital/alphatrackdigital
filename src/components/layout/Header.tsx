@@ -3,7 +3,6 @@ import { Link, useLocation } from "react-router-dom";
 import { Menu, X, ArrowUpRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import logo from "@/assets/logo.png";
 import { motion, AnimatePresence } from "framer-motion";
 
 const navLinks = [
@@ -59,8 +58,16 @@ const Header = () => {
       )}
     >
       <div className="container mx-auto flex h-16 items-center justify-between px-4 lg:px-8">
-        <Link to="/">
-          <img src={logo} alt="AlphaTrack Digital" className="h-9" />
+        <Link to="/" aria-label="AlphaTrack Digital Home" className="flex items-center gap-2.5">
+          <img
+            src="/favicon.png"
+            alt=""
+            aria-hidden="true"
+            className="h-8 w-8 rounded-md"
+            width={32}
+            height={32}
+          />
+          <span className="hidden text-sm font-bold tracking-wide text-foreground sm:inline">AlphaTrack Digital</span>
         </Link>
 
         <nav className="hidden items-center gap-1 md:flex">

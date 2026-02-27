@@ -13,9 +13,25 @@
     <meta name="theme-color" content="#050b14" />
     <link rel="canonical" href="https://alphatrackdigital.lovable.app/" />
 
-    <!-- Preconnect for Google Fonts (improves font load performance) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+      media="print"
+      onload="this.media='all'"
+    />
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+      />
+    </noscript>
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
@@ -36,23 +52,6 @@
     <meta name="twitter:image:alt" content="AlphaTrack Digital - Data-Driven Performance Marketing Agency">
     <meta name="twitter:title" content="AlphaTrack Digital | Data-Driven Performance Marketing Agency">
     <meta name="twitter:description" content="We navigate the digital landscape for you, blending creativity and tech to unlock business growth.">
-
-    <!-- Brevo Conversations Widget
-         Best practice for React SPAs: load directly in <head> so the widget
-         is available immediately and persists across client-side route changes,
-         independent of React component lifecycle. -->
-    <script>
-      (function(d, w, c) {
-        w.BrevoConversationsID = '68bf7ba05e611d228d09f91c';
-        w[c] = w[c] || function() {
-          (w[c].q = w[c].q || []).push(arguments);
-        };
-        var s = d.createElement('script');
-        s.async = true;
-        s.src = 'https://conversations-widget.brevo.com/brevo-conversations.js';
-        if (d.head) d.head.appendChild(s);
-      })(document, window, 'BrevoConversations');
-    </script>
   </head>
 
   <body>

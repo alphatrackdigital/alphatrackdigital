@@ -16,8 +16,6 @@ const Layout = () => {
         <Outlet />
       </main>
       <Footer />
-      {/* Brevo Conversations widget is loaded via index.html <head> script
-          so it persists across all route changes without React lifecycle dependency */}
     </div>
   );
 };
