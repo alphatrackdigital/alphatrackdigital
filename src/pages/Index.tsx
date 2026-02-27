@@ -538,10 +538,7 @@ const Index = () => {
                   aria-hidden={!shouldReduceMotion && i >= tools.length}
                   className="inline-flex shrink-0 items-center gap-2 rounded-full border border-white/[0.10] bg-white/[0.04] px-3.5 py-1.5 text-sm text-muted-foreground/95"
                 >
-                  <span
-                    className="flex h-5 w-5 shrink-0 items-center justify-center rounded-[5px] bg-white p-[2px] shadow-[0_1px_4px_rgba(0,0,0,0.35)]"
-                    style={{ boxShadow: `inset 0 0 0 1px ${tool.color}33, 0 1px 4px rgba(0,0,0,0.35)` }}
-                  >
+                  <span className="flex h-5 w-5 shrink-0 items-center justify-center">
                     <img src={tool.icon} alt="" className="h-full w-full object-contain" loading="lazy" />
                   </span>
                   {tool.name}
