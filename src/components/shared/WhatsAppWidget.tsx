@@ -7,11 +7,6 @@ declare global {
       (...args: unknown[]): void;
       q?: unknown[][];
     };
-    requestIdleCallback?: (
-      callback: IdleRequestCallback,
-      options?: IdleRequestOptions
-    ) => number;
-    cancelIdleCallback?: (handle: number) => void;
   }
 }
 
@@ -23,8 +18,7 @@ const BrevoChat = () => {
   const hasLoadedRef = useRef(false);
 
   useEffect(() => {
-    let timeoutId: number | null = null;
-    let idleId: number | null = null;
+    let timeoutId: ReturnType<typeof setTimeout> | null = null;
 
     const loadWidget = () => {
       if (hasLoadedRef.current) return;
@@ -55,17 +49,11 @@ const BrevoChat = () => {
 
     eagerLoadEvents.forEach((event) => window.addEventListener(event, loadOnIntent, { passive: true }));
 
-    if ("requestIdleCallback" in window) {
-      idleId = window.requestIdleCallback?.(loadWidget, { timeout: 6000 }) ?? null;
-    } else {
-      timeoutId = window.setTimeout(loadWidget, 4500);
-    }
+    // Defer loading to reduce main-thread work and forced reflows
+    timeoutId = setTimeout(loadWidget, 6000);
 
     return () => {
-      if (timeoutId) window.clearTimeout(timeoutId);
-      if (idleId && "cancelIdleCallback" in window) {
-        window.cancelIdleCallback?.(idleId);
-      }
+      if (timeoutId) clearTimeout(timeoutId);
       eagerLoadEvents.forEach((event) => window.removeEventListener(event, loadOnIntent));
     };
   }, []);
