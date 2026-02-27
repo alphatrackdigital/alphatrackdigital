@@ -605,8 +605,9 @@ const Index = () => {
                   <Link
                     to={service.path}
                     className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-primary transition-colors hover:text-primary/80"
+                    aria-label={`Learn more about ${service.title}`}
                   >
-                    Learn more{" "}
+                    Learn more about {service.title}{" "}
                     <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
                   </Link>
                 </div>
@@ -652,9 +653,8 @@ const Index = () => {
                     <p className="mt-1.5 flex-1 text-[13px] leading-relaxed text-muted-foreground">
                       {s.description}
                     </p>
-                    {/* visible at 60% opacity by default, full on hover */}
                     <span className="mt-3 inline-flex items-center gap-1 text-xs font-medium text-primary opacity-60 transition-opacity duration-200 group-hover:opacity-100">
-                      Learn more <ArrowUpRight className="h-3 w-3" />
+                      Learn more about {s.title} <ArrowUpRight className="h-3 w-3" />
                     </span>
                   </Link>
                 </motion.div>

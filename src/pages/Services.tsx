@@ -67,7 +67,7 @@ const Services = () => {
                   <h3 className="text-xl font-semibold">{service.title}</h3>
                   <p className="mt-2 flex-1 text-sm text-muted-foreground leading-relaxed">{service.description}</p>
                   <span className="mt-5 inline-flex items-center gap-1 text-sm font-medium text-primary transition-colors">
-                    Learn more <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                    Learn more about {service.title} <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                   </span>
                 </Link>
               </motion.div>
@@ -92,7 +92,7 @@ const Services = () => {
                     <h4 className="text-[15px] font-semibold">{s.title}</h4>
                     <p className="mt-1.5 flex-1 text-[13px] text-muted-foreground leading-relaxed">{s.description}</p>
                     <span className="mt-3 inline-flex items-center gap-1 text-xs font-medium text-primary opacity-60 transition-opacity duration-200 group-hover:opacity-100">
-                      Learn more <ArrowUpRight className="h-3 w-3" />
+                      Learn more about {s.title} <ArrowUpRight className="h-3 w-3" />
                     </span>
                   </Link>
                 </motion.div>
