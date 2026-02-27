@@ -50,7 +50,7 @@ const BrevoChat = () => {
     eagerLoadEvents.forEach((event) => window.addEventListener(event, loadOnIntent, { passive: true }));
 
     // Defer loading to reduce main-thread work and forced reflows
-    timeoutId = setTimeout(loadWidget, 6000);
+    timeoutId = setTimeout(loadWidget, 12000);
 
     return () => {
       if (timeoutId) clearTimeout(timeoutId);
