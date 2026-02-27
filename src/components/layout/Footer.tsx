@@ -40,7 +40,7 @@ const Footer = () => {
 
           {/* Useful Links */}
           <div className="space-y-4">
-            <h4 className="text-sm font-semibold text-foreground">Useful Links</h4>
+            <h3 className="text-sm font-semibold text-foreground">Useful Links</h3>
             <nav className="flex flex-col gap-2.5">
               <Link to="/about-us" className="text-sm text-muted-foreground transition-colors hover:text-primary">About Us</Link>
               <Link to="/contact-us" className="text-sm text-muted-foreground transition-colors hover:text-primary">Contact Us</Link>
@@ -52,7 +52,7 @@ const Footer = () => {
 
           {/* Services */}
           <div className="space-y-4">
-            <h4 className="text-sm font-semibold text-foreground">Services</h4>
+            <h3 className="text-sm font-semibold text-foreground">Services</h3>
             <nav className="flex flex-col gap-2.5">
               <Link to="/service/conversion-tracking" className="text-sm text-muted-foreground transition-colors hover:text-primary">
                 Conversion Tracking
@@ -77,7 +77,7 @@ const Footer = () => {
 
           {/* Contact */}
           <div className="space-y-4">
-            <h4 className="text-sm font-semibold text-foreground">Contact</h4>
+            <h3 className="text-sm font-semibold text-foreground">Contact</h3>
             <div className="flex flex-col gap-2 text-sm text-muted-foreground">
               <a href="tel:+233530985334" className="transition-colors hover:text-primary">+233 530 985 334 (Ghana)</a>
               <a href="tel:+2348061992748" className="transition-colors hover:text-primary">+234 806 199 2748 (Nigeria)</a>
