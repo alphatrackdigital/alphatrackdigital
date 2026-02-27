@@ -20,7 +20,7 @@ import type { LucideIcon } from "lucide-react";
 import metaAdsIcon from "@/assets/tools/meta-ads.svg";
 import googleAdsIcon from "@/assets/tools/google-ads.svg";
 import linkedinAdsIcon from "@/assets/tools/linkedin-ads.svg";
-import tiktokAdsIcon from "@/assets/tools/tiktok-ads.svg";
+import tiktokAdsIcon from "@/assets/tools/tiktok-favicon.png";
 import youtubeAdsIcon from "@/assets/tools/youtube-ads.svg";
 import programmaticIcon from "@/assets/tools/programmatic.svg";
 import snapchatAdsIcon from "@/assets/tools/snapchat-ads.svg";

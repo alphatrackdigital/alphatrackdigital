@@ -26,7 +26,7 @@ import metaAdsIcon from "@/assets/tools/meta-ads.svg";
 import googleAdsIcon from "@/assets/tools/google-ads.svg";
 import microsoftAdsIcon from "@/assets/tools/microsoft-ads.png";
 import linkedinAdsIcon from "@/assets/tools/linkedin-ads.svg";
-import tiktokAdsIcon from "@/assets/tools/tiktok-ads.svg";
+import tiktokAdsIcon from "@/assets/tools/tiktok-favicon.png";
 import snapchatAdsIcon from "@/assets/tools/snapchat-ads.svg";
 import eskimiIcon from "@/assets/tools/eskimi.png";
 import hubspotIcon from "@/assets/tools/hubspot.svg";
@@ -35,7 +35,7 @@ import googleTagManagerIcon from "@/assets/tools/google-tag-manager.svg";
 import brevoIcon from "@/assets/tools/brevo.svg";
 import lookerStudioIcon from "@/assets/tools/looker-studio.svg";
 import shopifyIcon from "@/assets/tools/shopify.svg";
-import wordpressIcon from "@/assets/tools/wordpress.svg";
+import wordpressIcon from "@/assets/tools/wordpress-favicon-com.png";
 import zapierIcon from "@/assets/tools/zapier.svg";
 
 // --- Sub-components ---
