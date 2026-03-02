@@ -220,7 +220,7 @@ const Index = () => {
     <>
       <SEO
         title="AlphaTrack Digital | Data-Driven Performance Marketing Agency"
-        description="Conversion tracking, paid media management, and marketing automation for businesses ready to scale. Based in Accra & Lagos."
+        description="Conversion tracking, paid media management, and marketing automation for businesses ready to scale."
         canonicalUrl="/"
         schema={{
           "@context": "https://schema.org",
@@ -332,7 +332,7 @@ const Index = () => {
 
               <p className="mt-6 max-w-lg text-lg text-muted-foreground">
                 We build the measurement, automation, and paid media systems that turn your marketing
-                budget into provable revenue. Based in Accra & Lagos.
+                budget into provable revenue.
               </p>
 
               {/* CTAs */}

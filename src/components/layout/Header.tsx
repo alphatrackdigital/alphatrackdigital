@@ -58,16 +58,14 @@ const Header = () => {
       )}
     >
       <div className="container mx-auto flex h-16 items-center justify-between px-4 lg:px-8">
-        <Link to="/" aria-label="AlphaTrack Digital Home" className="flex items-center gap-2.5">
+        <Link to="/" aria-label="AlphaTrack Digital Home" className="flex items-center">
           <img
-            src="/favicon.png"
-            alt=""
-            aria-hidden="true"
-            className="h-8 w-8 rounded-md"
-            width={32}
-            height={32}
+            src="/logo-wordmark.png"
+            alt="AlphaTrack Digital"
+            className="h-8 w-auto sm:h-9"
+            width={800}
+            height={188}
           />
-          <span className="hidden text-sm font-bold tracking-wide text-foreground sm:inline">AlphaTrack Digital</span>
         </Link>
 
         <nav className="hidden items-center gap-1 md:flex">

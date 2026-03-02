@@ -7,17 +7,15 @@ const Footer = () => {
         <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
           {/* Brand */}
           <div className="space-y-4">
-            <Link to="/" aria-label="AlphaTrack Digital Home" className="inline-flex items-center gap-2.5">
+            <Link to="/" aria-label="AlphaTrack Digital Home" className="inline-flex items-center">
               <img
-                src="/favicon.png"
-                alt=""
-                aria-hidden="true"
-                className="h-9 w-9 rounded-md"
-                width={36}
-                height={36}
+                src="/logo-wordmark.png"
+                alt="AlphaTrack Digital"
+                className="h-10 w-auto"
+                width={800}
+                height={188}
                 loading="lazy"
               />
-              <span className="text-base font-semibold text-foreground">AlphaTrack Digital</span>
             </Link>
             <p className="text-sm leading-relaxed text-muted-foreground">
               Measurement-first digital growth agency. We build the tracking, automation, and paid media systems that turn your marketing spend into provable revenue.
@@ -82,7 +80,6 @@ const Footer = () => {
               <a href="tel:+233530985334" className="transition-colors hover:text-primary">+233 530 985 334 (Ghana)</a>
               <a href="tel:+2348061992748" className="transition-colors hover:text-primary">+234 806 199 2748 (Nigeria)</a>
               <a href="mailto:info@alphatrack.digital" className="transition-colors hover:text-primary">info@alphatrack.digital</a>
-              <p>Accra | Lagos</p>
             </div>
           </div>
         </div>

@@ -160,16 +160,14 @@ const TrackingLandingPage = () => {
         style={{ background: "rgba(8,8,8,0.95)", backdropFilter: "blur(20px)" }}
       >
         <div className="mx-auto flex max-w-[1100px] items-center justify-between px-6 py-3.5">
-          <Link to="/" aria-label="AlphaTrack Digital Home" className="flex items-center gap-2.5">
+          <Link to="/" aria-label="AlphaTrack Digital Home" className="flex items-center">
             <img
-              src="/favicon.png"
-              alt=""
-              aria-hidden="true"
-              className="h-8 w-8 rounded-md"
-              width={32}
-              height={32}
+              src="/logo-wordmark.png"
+              alt="AlphaTrack Digital"
+              className="h-8 w-auto sm:h-9"
+              width={800}
+              height={188}
             />
-            <span className="text-sm font-semibold tracking-wide">AlphaTrack Digital</span>
           </Link>
           <Button
             asChild
