@@ -4,7 +4,9 @@ import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import Breadcrumbs from "@/components/shared/Breadcrumbs";
+import SectionIntro from "@/components/shared/SectionIntro";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 interface BreadcrumbItem {
   label: string;
@@ -12,6 +14,11 @@ interface BreadcrumbItem {
 }
 
 interface HeroSnapshotItem {
+  label: string;
+  value: string;
+}
+
+interface SupportingProofItem {
   label: string;
   value: string;
 }
@@ -31,6 +38,9 @@ interface ServiceHeroProps {
   snapshot: HeroSnapshotItem[];
   primaryCta?: HeroCta;
   secondaryCta?: HeroCta;
+  tone?: "tracking" | "media" | "automation";
+  supportingProof?: SupportingProofItem[];
+  bodyWidth?: "default" | "wide";
 }
 
 const ServiceHero = ({
@@ -42,15 +52,52 @@ const ServiceHero = ({
   snapshot,
   primaryCta = { label: "Book a Call", to: "/book-a-call" },
   secondaryCta,
+  tone = "tracking",
+  supportingProof,
+  bodyWidth = "default",
 }: ServiceHeroProps) => {
+  const toneBackgrounds = {
+    tracking: {
+      section:
+        "linear-gradient(180deg, rgba(62,207,142,0.04) 0%, rgba(255,255,255,0.01) 100%)",
+      orbA: "bg-primary/[0.07]",
+      orbB: "bg-secondary/[0.04]",
+      snapshotBorder: "border-primary/20",
+    },
+    media: {
+      section:
+        "linear-gradient(180deg, rgba(0,177,255,0.05) 0%, rgba(255,255,255,0.01) 100%)",
+      orbA: "bg-secondary/[0.07]",
+      orbB: "bg-primary/[0.04]",
+      snapshotBorder: "border-secondary/20",
+    },
+    automation: {
+      section:
+        "linear-gradient(180deg, rgba(62,207,142,0.035) 0%, rgba(0,177,255,0.02) 100%)",
+      orbA: "bg-primary/[0.06]",
+      orbB: "bg-secondary/[0.03]",
+      snapshotBorder: "border-primary/15",
+    },
+  }[tone];
+
   return (
     <section
       className="relative overflow-hidden pt-10 pb-20 md:pt-14 md:pb-24"
-      style={{ background: "linear-gradient(180deg, rgba(62,207,142,0.03) 0%, transparent 100%)" }}
+      style={{ background: toneBackgrounds.section }}
     >
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute -right-[15%] -top-[30%] h-[70%] w-[50%] rounded-full bg-primary/[0.06] blur-[140px]" />
-        <div className="absolute -bottom-[20%] -left-[10%] h-[50%] w-[40%] rounded-full bg-secondary/[0.04] blur-[120px]" />
+        <div
+          className={cn(
+            "absolute -right-[15%] -top-[30%] h-[70%] w-[50%] rounded-full blur-[140px]",
+            toneBackgrounds.orbA,
+          )}
+        />
+        <div
+          className={cn(
+            "absolute -bottom-[20%] -left-[10%] h-[50%] w-[40%] rounded-full blur-[120px]",
+            toneBackgrounds.orbB,
+          )}
+        />
       </div>
 
       <div className="container relative mx-auto px-4 lg:px-8">
@@ -63,8 +110,16 @@ const ServiceHero = ({
               {badgeLabel}
             </div>
 
-            <h1 className="text-4xl font-extrabold leading-tight md:text-5xl lg:text-6xl">{title}</h1>
-            <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground">{description}</p>
+            <SectionIntro
+              title={title}
+              description={description}
+              width={bodyWidth === "wide" ? "wide" : "default"}
+              titleClassName="text-4xl font-extrabold leading-tight md:text-5xl lg:text-6xl"
+              descriptionClassName={cn(
+                "mt-6 text-lg leading-relaxed",
+                bodyWidth === "wide" ? "max-w-2xl" : "max-w-xl",
+              )}
+            />
 
             <div className="mt-10 flex flex-wrap items-center gap-4">
               <Button
@@ -96,17 +151,36 @@ const ServiceHero = ({
                 </Link>
               )}
             </div>
+
+            {supportingProof && supportingProof.length > 0 && (
+              <div className="mt-8 grid gap-3 sm:grid-cols-3">
+                {supportingProof.map((item) => (
+                  <div
+                    key={item.label}
+                    className="rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-4"
+                  >
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-primary/80">
+                      {item.label}
+                    </p>
+                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{item.value}</p>
+                  </div>
+                ))}
+              </div>
+            )}
           </motion.div>
 
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.15 }}
-            className="glass-card divide-y divide-white/10 overflow-hidden"
+            className={cn(
+              "overflow-hidden rounded-[28px] border bg-white/[0.03] shadow-[0_24px_80px_rgba(0,0,0,0.22)]",
+              toneBackgrounds.snapshotBorder,
+            )}
           >
             {snapshot.map((item) => (
-              <div key={item.label} className="p-6">
-                <p className="text-xs font-semibold uppercase tracking-widest text-primary">{item.label}</p>
+              <div key={item.label} className="border-b border-white/10 p-6 last:border-b-0">
+                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">{item.label}</p>
                 <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{item.value}</p>
               </div>
             ))}

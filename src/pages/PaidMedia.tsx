@@ -15,8 +15,10 @@ import CTASection from "@/components/shared/CTASection";
 import FAQAccordion from "@/components/shared/FAQAccordion";
 import SEO from "@/components/shared/SEO";
 import ServiceHero from "@/components/shared/ServiceHero";
+import SectionIntro from "@/components/shared/SectionIntro";
 import { motion } from "framer-motion";
 import type { LucideIcon } from "lucide-react";
+import type { PlatformGroup, PlatformItem } from "@/types/platform";
 import metaAdsIcon from "@/assets/tools/meta-ads.svg";
 import googleAdsIcon from "@/assets/tools/google-ads.svg";
 import linkedinAdsIcon from "@/assets/tools/linkedin-ads.svg";
@@ -30,14 +32,6 @@ interface IconCard {
   icon: LucideIcon;
   title: string;
   description: string;
-}
-
-interface ManagedPlatform {
-  name: string;
-  description: string;
-  icon: string;
-  channel: string;
-  bestFor: string;
 }
 
 const problems: IconCard[] = [
@@ -88,62 +82,89 @@ const whyUs: IconCard[] = [
   },
 ];
 
-const platforms: ManagedPlatform[] = [
+const platforms: PlatformItem[] = [
   {
     name: "Meta Ads",
     description: "Facebook and Instagram campaigns for awareness, leads, and sales.",
     icon: metaAdsIcon,
-    channel: "Paid Social",
+    role: "Paid Social",
     bestFor: "Fast testing, retargeting, and lead-gen funnels.",
   },
   {
     name: "Google Ads",
     description: "Search, Shopping, Display, and Performance Max campaigns.",
     icon: googleAdsIcon,
-    channel: "Intent Capture",
+    role: "Demand Capture",
     bestFor: "High-intent traffic and conversion-ready demand.",
   },
   {
     name: "LinkedIn Ads",
     description: "B2B lead generation and thought leadership campaigns.",
     icon: linkedinAdsIcon,
-    channel: "B2B Growth",
+    role: "Paid Social",
     bestFor: "Decision-maker targeting and qualified B2B pipeline.",
   },
   {
     name: "TikTok Ads",
     description: "Short-form video campaigns for high-engagement audience segments.",
     icon: tiktokAdsIcon,
-    channel: "Attention",
+    role: "Paid Social",
     bestFor: "Creative-led campaigns and upper-funnel demand.",
   },
   {
     name: "YouTube Ads",
     description: "Video campaigns for reach, engagement, and conversion-focused storytelling.",
     icon: youtubeAdsIcon,
-    channel: "Video Reach",
+    role: "Scaled Reach",
     bestFor: "Brand lift with measurable assisted conversions.",
   },
   {
     name: "Programmatic",
     description: "Automated buying across premium websites and apps with real-time optimization.",
     icon: programmaticIcon,
-    channel: "Scaled Reach",
+    role: "Scaled Reach",
     bestFor: "Audience extension beyond social and search.",
   },
   {
     name: "Snapchat Ads",
     description: "High-attention campaigns designed for younger, mobile-first audiences.",
     icon: snapchatAdsIcon,
-    channel: "Gen Z",
+    role: "Paid Social",
     bestFor: "Younger demographics and high-frequency creative.",
   },
   {
     name: "Digital Billboards",
     description: "Digital out-of-home placements to extend visibility in high-traffic locations.",
     icon: digitalBillboardsIcon,
-    channel: "DOOH",
+    role: "Out-of-Home",
     bestFor: "City-level awareness and omnichannel reinforcement.",
+  },
+];
+
+const platformGroups: PlatformGroup[] = [
+  {
+    title: "Demand Capture",
+    description: "Channels built to convert existing intent into measurable demand.",
+    role: "High-intent performance",
+    items: platforms.filter((platform) => platform.role === "Demand Capture"),
+  },
+  {
+    title: "Paid Social",
+    description: "Creative-led channels for awareness, retargeting, and pipeline generation.",
+    role: "Audience shaping",
+    items: platforms.filter((platform) => platform.role === "Paid Social"),
+  },
+  {
+    title: "Scaled Reach",
+    description: "Extensions that widen quality reach without diluting measurement.",
+    role: "Incremental reach",
+    items: platforms.filter((platform) => platform.role === "Scaled Reach"),
+  },
+  {
+    title: "Out-of-Home",
+    description: "Offline visibility integrated into a broader media mix where needed.",
+    role: "Market visibility",
+    items: platforms.filter((platform) => platform.role === "Out-of-Home"),
   },
 ];
 
@@ -200,6 +221,13 @@ const PaidMedia = () => {
         }
         description="Strategic paid social and search campaigns that drive qualified traffic. We combine Meta Ads, Google Ads, and LinkedIn to reach your audience where they are and prove each spend."
         snapshot={heroSnapshot}
+        tone="media"
+        bodyWidth="wide"
+        supportingProof={[
+          { label: "Planning", value: "Channel selection by intent, audience quality, and margin." },
+          { label: "Execution", value: "Weekly optimisation and creative feedback loops." },
+          { label: "Reporting", value: "Performance framed around outcomes, not vanity metrics." },
+        ]}
         secondaryCta={{ label: "View All Services", to: "/service", style: "outline" }}
       />
       <section className="border-t border-white/10 py-20">
@@ -238,46 +266,63 @@ const PaidMedia = () => {
 
       <section className="border-t border-white/10 py-20">
         <div className="container mx-auto px-4 lg:px-8">
-          <span className="mb-3 inline-block text-xs font-semibold uppercase tracking-widest text-primary">
-            Platforms We Manage
-          </span>
-          <h2 className="max-w-2xl text-3xl font-bold md:text-4xl">Your Ads, Everywhere That Matters</h2>
-          <p className="mt-4 max-w-3xl text-sm text-muted-foreground">
-            We select channels by objective, buying journey stage, and conversion quality so each platform has a clear role in your growth system.
-          </p>
-          <div className="mt-10 grid gap-4 sm:grid-cols-2">
-            {platforms.map((platform, i) => (
-              <motion.article
-                key={platform.name}
-                initial={{ opacity: 0, y: 16 }}
+          <SectionIntro
+            eyebrow="Platforms We Manage"
+            title="Channel Strategy by Role, Not by Hype"
+            description="We assign each platform a job in the funnel so the media mix feels strategic, not cluttered."
+            width="wide"
+            className="mb-10"
+          />
+          <div className="grid gap-5 lg:grid-cols-2">
+            {platformGroups.map((group, groupIndex) => (
+              <motion.section
+                key={group.title}
+                initial={{ opacity: 0, y: 18 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: i * 0.06 }}
-                className="group rounded-xl border border-white/10 bg-white/[0.03] p-5 transition-all duration-300 hover:border-primary/20 hover:bg-white/[0.05]"
+                transition={{ delay: groupIndex * 0.06 }}
+                className="rounded-[28px] border border-white/10 bg-white/[0.02] p-6"
               >
-                <div className="flex gap-4">
-                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-white/20 bg-white p-2.5 shadow-[0_4px_16px_rgba(0,0,0,0.2)]">
-                    <img
-                      src={platform.icon}
-                      alt={`${platform.name} logo`}
-                      className="h-full w-full object-contain"
-                      loading="lazy"
-                    />
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <div className="flex flex-wrap items-center gap-2">
-                      <h4 className="text-xl font-bold leading-tight">{platform.name}</h4>
-                      <span className="rounded-full border border-primary/20 bg-primary/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-primary">
-                        {platform.channel}
-                      </span>
-                    </div>
-                    <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">{platform.description}</p>
-                    <p className="mt-3 border-t border-white/10 pt-3 text-xs leading-relaxed text-muted-foreground">
-                      <span className="font-semibold text-primary">Best for:</span> {platform.bestFor}
+                <div className="mb-5 flex items-start justify-between gap-4 border-b border-white/10 pb-5">
+                  <div>
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-primary/85">
+                      {group.title}
+                    </p>
+                    <p className="mt-3 max-w-xl text-sm leading-6 text-muted-foreground">
+                      {group.description}
                     </p>
                   </div>
+                  <span className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-[10px] font-medium uppercase tracking-[0.18em] text-muted-foreground">
+                    {group.role}
+                  </span>
                 </div>
-              </motion.article>
+                <div className="space-y-3">
+                  {group.items.map((platform) => (
+                    <article
+                      key={platform.name}
+                      className="rounded-2xl border border-white/8 bg-background/65 p-4"
+                    >
+                      <div className="flex gap-4">
+                        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-white/20 bg-white p-2.5 shadow-[0_4px_16px_rgba(0,0,0,0.2)]">
+                          <img
+                            src={platform.icon}
+                            alt={`${platform.name} logo`}
+                            className="h-full w-full object-contain"
+                            loading="lazy"
+                          />
+                        </div>
+                        <div className="min-w-0 flex-1">
+                          <h4 className="text-lg font-semibold leading-tight">{platform.name}</h4>
+                          <p className="mt-1.5 text-sm leading-6 text-muted-foreground">{platform.description}</p>
+                          <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
+                            <span className="font-semibold text-primary">Best for:</span> {platform.bestFor}
+                          </p>
+                        </div>
+                      </div>
+                    </article>
+                  ))}
+                </div>
+              </motion.section>
             ))}
           </div>
         </div>
@@ -310,11 +355,15 @@ const PaidMedia = () => {
         </div>
       </section>
 
-      <FAQAccordion items={faqs} />
+      <FAQAccordion items={faqs} eyebrow="FAQ" variant="minimal" density="compact" />
       <CTASection
         title="Ready to Improve Your Ad Performance?"
         description="Book a call. We'll audit your current paid media and show you exactly where the opportunities are."
         primaryCta={{ label: "Book a Call", to: "/book-a-call" }}
+        secondaryCta={{ label: "View All Services", to: "/service" }}
+        variant="service-close"
+        layout="split"
+        proofChips={["2-4 week optimisation window", "Outcome-led reporting", "Creative + channel feedback"]}
       />
     </>
   );

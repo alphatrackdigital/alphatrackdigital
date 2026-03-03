@@ -61,29 +61,38 @@ const Header = () => {
     <header
       className={cn(
         "fixed left-0 right-0 top-0 z-50 transition-all duration-300",
-        scrolled ? "glass-nav" : "bg-transparent"
+        scrolled ? "pt-3" : "pt-4"
       )}
     >
-      <div className="container mx-auto flex h-16 items-center justify-between px-4 lg:px-8">
+      <div
+        className={cn(
+          "container mx-auto flex h-[72px] items-center justify-between rounded-2xl border px-4 shadow-[0_10px_40px_rgba(0,0,0,0.16)] transition-all duration-300 lg:px-6",
+          scrolled
+            ? "border-white/12 bg-background/88 backdrop-blur-xl"
+            : "border-white/10 bg-background/58 backdrop-blur-lg",
+        )}
+      >
         <Link to="/" aria-label="AlphaTrack Digital Home" className="flex items-center">
           <img
             src="/logo-wordmark.png"
             alt="AlphaTrack Digital"
-            className="h-8 w-auto sm:h-9"
+            className="h-9 w-auto sm:h-10"
             width={800}
             height={188}
           />
         </Link>
 
-        <nav className="hidden items-center gap-1 md:flex">
+        <nav className="hidden items-center gap-2 md:flex">
           {navLinks.map((link) => (
             <Link
               key={link.path}
               to={link.path}
               {...getPrefetchHandlers(link.path)}
               className={cn(
-                "rounded-lg px-4 py-2 text-sm font-medium transition-colors hover:text-primary",
-                isActive(link.path) ? "text-primary" : "text-muted-foreground"
+                "rounded-full px-4 py-2 text-sm font-medium transition-all duration-200 hover:text-foreground",
+                isActive(link.path)
+                  ? "border border-primary/25 bg-primary/[0.08] text-primary shadow-[0_0_0_1px_rgba(62,207,142,0.08)]"
+                  : "border border-transparent text-muted-foreground hover:border-white/10 hover:bg-white/[0.03]"
               )}
             >
               {link.label}
@@ -92,7 +101,7 @@ const Header = () => {
         </nav>
 
         <div className="hidden md:block">
-          <Button asChild className="gap-1.5 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90">
+          <Button asChild className="gap-1.5 rounded-full bg-primary px-5 text-primary-foreground shadow-[0_0_24px_rgba(62,207,142,0.18)] hover:bg-primary/90">
             <Link to="/book-a-call" {...getPrefetchHandlers("/book-a-call")}>
               Book a Call <ArrowUpRight className="h-4 w-4" />
             </Link>
@@ -129,16 +138,16 @@ const Header = () => {
                   onTouchStart={() => prefetchRoute(link.path)}
                   onFocus={() => prefetchRoute(link.path)}
                   className={cn(
-                    "rounded-lg px-4 py-3 text-sm font-medium transition-colors",
+                    "rounded-xl border px-4 py-3 text-sm font-medium transition-colors",
                     isActive(link.path)
-                      ? "bg-primary/10 text-primary"
-                      : "text-muted-foreground hover:text-foreground"
+                      ? "border-primary/20 bg-primary/10 text-primary"
+                      : "border-transparent text-muted-foreground hover:border-white/10 hover:text-foreground"
                   )}
                 >
                   {link.label}
                 </Link>
               ))}
-              <Button asChild className="mt-2 gap-1.5 rounded-lg bg-primary text-primary-foreground">
+              <Button asChild className="mt-2 gap-1.5 rounded-xl bg-primary text-primary-foreground">
                 <Link
                   to="/book-a-call"
                   onClick={() => setMobileOpen(false)}

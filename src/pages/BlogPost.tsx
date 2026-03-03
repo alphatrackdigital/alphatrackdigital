@@ -4,6 +4,7 @@ import SEO from "@/components/shared/SEO";
 import CTASection from "@/components/shared/CTASection";
 import Breadcrumbs from "@/components/shared/Breadcrumbs";
 import SafeImage from "@/components/shared/SafeImage";
+import SectionIntro from "@/components/shared/SectionIntro";
 import { getBlogPostBySlug, getRelatedBlogPosts } from "@/data/blogPosts";
 import { buildCanonicalUrl } from "@/config/seo";
 import { ArrowLeft, Clock, Calendar, Twitter, Linkedin, Link2 } from "lucide-react";
@@ -397,16 +398,22 @@ const BlogPost = () => {
       </section>
       <article className="py-12">
         <div className="container mx-auto px-4 lg:px-8">
-          <div className="mx-auto max-w-3xl">
+          <div className="mx-auto max-w-4xl">
             <Link to="/blog" className="mb-6 inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-primary">
               <ArrowLeft className="h-4 w-4" /> Back to blog
             </Link>
-            <div className="mb-6 flex flex-wrap items-center gap-4">
-              <span className="rounded-md bg-primary/10 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wide text-primary">{post.category}</span>
-              <span className="flex items-center gap-1 text-xs text-muted-foreground"><Clock className="h-3 w-3" /> {post.readTime}</span>
-              <span className="flex items-center gap-1 text-xs text-muted-foreground"><Calendar className="h-3 w-3" /> {new Date(post.date).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })}</span>
+            <div className="mb-5 flex flex-wrap items-center gap-4 text-[11px] uppercase tracking-[0.18em] text-muted-foreground/70">
+              <span className="rounded-full border border-primary/20 bg-primary/10 px-2.5 py-1 font-semibold text-primary">{post.category}</span>
+              <span className="flex items-center gap-1"><Clock className="h-3 w-3" /> {post.readTime}</span>
+              <span className="flex items-center gap-1"><Calendar className="h-3 w-3" /> {new Date(post.date).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })}</span>
             </div>
-            <h1 className="text-3xl font-bold leading-tight md:text-4xl lg:text-5xl">{post.title}</h1>
+            <SectionIntro
+              title={post.title}
+              description={post.excerpt}
+              width="wide"
+              titleClassName="text-3xl font-bold leading-tight md:text-4xl lg:text-5xl"
+              descriptionClassName="max-w-3xl text-lg leading-8"
+            />
 
             {/* Author line */}
             <div className="mt-5 flex items-center gap-3">
@@ -419,11 +426,15 @@ const BlogPost = () => {
             </div>
 
             <HeroImage src={post.image} alt={post.title} />
-            <div className="mt-10 space-y-5 text-[16px] leading-relaxed text-muted-foreground [&_h2]:mt-10 [&_h2]:mb-4 [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:text-foreground [&_h3]:mt-6 [&_h3]:mb-2 [&_h3]:text-lg [&_h3]:font-semibold [&_h3]:text-foreground [&_p]:mb-4">
-              {articleContent[slug]}
+            <div className="mt-10">
+              <div className="mx-auto max-w-3xl space-y-5 text-[16px] leading-8 text-muted-foreground [&_h2]:mt-12 [&_h2]:mb-4 [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:text-foreground [&_h3]:mt-7 [&_h3]:mb-2 [&_h3]:text-lg [&_h3]:font-semibold [&_h3]:text-foreground [&_p]:mb-4">
+                {articleContent[slug]}
+              </div>
             </div>
 
-            <ShareBar title={post.title} slug={slug} />
+            <div className="mx-auto max-w-3xl">
+              <ShareBar title={post.title} slug={slug} />
+            </div>
           </div>
         </div>
       </article>
@@ -457,6 +468,9 @@ const BlogPost = () => {
         title="Ready to Apply These Strategies?"
         description="Book a call and let's build a plan tailored to your business."
         primaryCta={{ label: "Book a Call", to: "/book-a-call" }}
+        secondaryCta={{ label: "Explore Services", to: "/service" }}
+        variant="inline-proof"
+        proofChips={["Measurement-first advice", "Strategy tailored to your stack", "No-pressure call"]}
       />
     </>
   );

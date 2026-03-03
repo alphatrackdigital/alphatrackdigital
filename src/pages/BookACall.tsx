@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import Breadcrumbs from "@/components/shared/Breadcrumbs";
 import SEO from "@/components/shared/SEO";
+import SectionIntro from "@/components/shared/SectionIntro";
 import { Check, Clock, Handshake, Lightbulb, ArrowUpRight } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { motion } from "framer-motion";
@@ -26,6 +27,11 @@ const expectations: { icon: LucideIcon; title: string; description: string }[] =
 ];
 
 const schedulerUrl = "https://meet.brevo.com/meet-atd/borderless?l=discovery";
+const nextSteps = [
+  { step: "1", title: "Pick a slot", description: "Choose the time that suits you best." },
+  { step: "2", title: "Share context", description: "Tell us a little about your current setup." },
+  { step: "3", title: "Get clear next steps", description: "We walk through gaps and practical opportunities." },
+];
 
 const BookACall = () => {
   const [iframeLoaded, setIframeLoaded] = useState(false);
@@ -78,20 +84,20 @@ const BookACall = () => {
 
       <section className="py-16 pb-24">
         <div className="container mx-auto px-4 lg:px-8">
-          <div className="grid items-start gap-16 lg:grid-cols-2">
+          <div className="grid items-start gap-12 lg:grid-cols-[0.9fr_1.1fr]">
             <div className="pt-5">
-              <div className="mb-5 inline-block rounded border border-primary/15 bg-primary/[0.08] px-3.5 py-1.5 text-xs font-semibold uppercase tracking-widest text-primary">
-                Book a Call
-              </div>
-              <h2 className="text-4xl font-extrabold leading-tight">
-                Let's Talk About
-                <br />
-                Your <span className="text-gradient">Growth</span>
-              </h2>
-              <p className="mt-4 text-base leading-relaxed text-muted-foreground">
-                Pick a time that works for you. This is a free, no-pressure 15-minute intro call
-                where we'll discuss your tracking and measurement needs.
-              </p>
+              <SectionIntro
+                eyebrow="Book a Call"
+                title={
+                  <>
+                    Let's Talk About Your <span className="text-gradient">Growth</span>
+                  </>
+                }
+                description="Pick a time that works for you. This is a free 15-minute intro call focused on your current setup, growth friction, and the clearest next steps."
+                width="wide"
+                titleClassName="text-4xl font-extrabold leading-tight"
+                descriptionClassName="max-w-xl text-base"
+              />
               <div className="mt-5 flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
                 <span className="rounded-full border border-primary/20 bg-primary/10 px-3 py-1">
                   No-pressure conversation
@@ -99,11 +105,14 @@ const BookACall = () => {
                 <span className="rounded-full border border-primary/20 bg-primary/10 px-3 py-1">
                   Actionable advice
                 </span>
+                <span className="rounded-full border border-primary/20 bg-primary/10 px-3 py-1">
+                  Clear next steps
+                </span>
               </div>
 
-              <ul className="mt-10 space-y-0 divide-y divide-white/[0.04]">
+              <ul className="mt-10 space-y-0 divide-y divide-white/[0.05] rounded-[24px] border border-white/8 bg-white/[0.02] px-1">
                 {expectations.map((item) => (
-                  <li key={item.title} className="flex gap-4 py-4">
+                  <li key={item.title} className="flex gap-4 px-4 py-4">
                     <div className="flex h-11 w-11 min-w-[44px] items-center justify-center rounded-xl bg-primary/10">
                       <item.icon className="h-5 w-5 text-primary" />
                     </div>
@@ -117,10 +126,10 @@ const BookACall = () => {
             </div>
 
             <div className="space-y-4">
-              <div className="overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-b from-white/[0.08] to-white/[0.03] p-3 shadow-[0_0_0_1px_rgba(255,255,255,0.04),0_24px_64px_rgba(0,0,0,0.35)]">
-                <div className="mb-3 flex flex-wrap items-center justify-between gap-3 rounded-xl border border-white/10 bg-black/25 px-4 py-2.5">
+              <div className="overflow-hidden rounded-[28px] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.05)_0%,rgba(255,255,255,0.02)_100%)] p-3 shadow-[0_0_0_1px_rgba(255,255,255,0.04),0_24px_64px_rgba(0,0,0,0.35)]">
+                <div className="mb-3 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-white/10 bg-black/20 px-4 py-3">
                   <div>
-                    <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-primary">Live Scheduler</p>
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-primary">Discovery Call Scheduler</p>
                     <p className="text-xs text-muted-foreground">Choose a date and time in your timezone</p>
                   </div>
                   <a
@@ -132,13 +141,13 @@ const BookACall = () => {
                     Open in new tab <ArrowUpRight className="h-3.5 w-3.5" />
                   </a>
                 </div>
-                <div className="overflow-hidden rounded-xl bg-white">
+                <div className="overflow-hidden rounded-2xl bg-white">
                   <iframe
                     frameBorder="0"
                     width="100%"
                     src={schedulerUrl}
                     title="Book a Discovery Call"
-                    className="block h-[860px] w-full sm:h-[900px] lg:h-[940px] xl:h-[980px]"
+                    className="block h-[860px] w-full sm:h-[900px] lg:h-[920px] xl:h-[960px]"
                     style={{ border: "none" }}
                     scrolling="no"
                     onLoad={() => setIframeLoaded(true)}
@@ -171,6 +180,22 @@ const BookACall = () => {
                   </div>
                 </div>
               )}
+              <div className="rounded-[24px] border border-white/8 bg-white/[0.02] p-5">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-primary/85">
+                  What Happens Next
+                </p>
+                <div className="mt-4 grid gap-4 sm:grid-cols-3">
+                  {nextSteps.map((item) => (
+                    <div key={item.step} className="rounded-2xl border border-white/8 bg-background/65 p-4">
+                      <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-primary/10 text-xs font-semibold text-primary">
+                        {item.step}
+                      </span>
+                      <p className="mt-3 text-sm font-semibold">{item.title}</p>
+                      <p className="mt-1 text-xs leading-6 text-muted-foreground">{item.description}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         </div>

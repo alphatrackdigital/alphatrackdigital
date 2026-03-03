@@ -16,6 +16,7 @@ import { Button } from "@/components/ui/button";
 import CTASection from "@/components/shared/CTASection";
 import FAQAccordion from "@/components/shared/FAQAccordion";
 import SEO from "@/components/shared/SEO";
+import SectionIntro from "@/components/shared/SectionIntro";
 import { buildCanonicalUrl } from "@/config/seo";
 import { motion, useInView, useReducedMotion } from "framer-motion";
 import { primaryServices, supportingServices } from "@/data/services";
@@ -141,6 +142,47 @@ const tools = [
   { name: "Zapier",             icon: zapierIcon,            color: "#FF4A00" },
 ];
 
+const findTool = (name: string) => tools.find((tool) => tool.name === name)!;
+
+const toolCollections = [
+  {
+    title: "Measurement Stack",
+    description: "The setup we use to validate attribution, event quality, and reporting confidence.",
+    items: [
+      findTool("Google Analytics 4"),
+      findTool("Google Tag Manager"),
+      findTool("Looker Studio"),
+      findTool("Meta Ads"),
+      findTool("Google Ads"),
+    ],
+  },
+  {
+    title: "Paid Growth Channels",
+    description: "A curated mix of channels selected by intent, audience quality, and scaling potential.",
+    items: [
+      findTool("Meta Ads"),
+      findTool("Google Ads"),
+      findTool("Microsoft Ads"),
+      findTool("LinkedIn Ads"),
+      findTool("TikTok Ads"),
+      findTool("Snapchat Ads"),
+    ],
+  },
+  {
+    title: "Automation & Commerce",
+    description: "Tools we connect to turn leads into visible pipeline and repeatable follow-up.",
+    items: [
+      findTool("Brevo"),
+      findTool("HubSpot"),
+      findTool("Klaviyo"),
+      findTool("Make"),
+      findTool("Shopify"),
+      findTool("WordPress"),
+      findTool("Zapier"),
+    ],
+  },
+];
+
 const processSteps = [
   {
     icon: PhoneCall,
@@ -202,7 +244,6 @@ const Index = () => {
   const shouldReduceMotion = useReducedMotion();
   const featuredBlogPosts = getFeaturedBlogPosts(3);
   const latestPost = blogPosts[blogPosts.length - 1];
-  const marqueeTools = shouldReduceMotion ? tools : [...tools, ...tools];
 
   return (
     <>
@@ -503,36 +544,49 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Platforms & Tools Marquee */}
-      <section className="overflow-hidden border-b border-white/10 py-10">
+      {/* Platforms & Tools */}
+      <section className="border-b border-white/10 bg-white/[0.01] py-16">
         <div className="container mx-auto px-4 lg:px-8">
-          <p className="mb-5 text-center text-xs font-semibold uppercase tracking-widest text-muted-foreground/50">
-            Platforms &amp; Tools We Work With
-          </p>
-          <div
-            className={cn("relative mx-auto max-w-5xl", !shouldReduceMotion && "overflow-hidden")}
-          >
-            <div
-              className={cn(
-                "flex gap-3.5",
-                shouldReduceMotion
-                  ? "flex-wrap items-center justify-center"
-                  : "w-max whitespace-nowrap animate-marquee will-change-transform hover:[animation-play-state:paused]"
-              )}
-            >
-              {marqueeTools.map((tool, i) => (
-                <span
-                  key={`${tool.name}-${i}`}
-                  aria-hidden={!shouldReduceMotion && i >= tools.length}
-                  className="inline-flex shrink-0 items-center gap-2 rounded-full border border-white/[0.10] bg-white/[0.04] px-3.5 py-1.5 text-sm text-muted-foreground/95"
-                >
-                  <span className="flex h-5 w-5 shrink-0 items-center justify-center">
-                    <img src={tool.icon} alt="" className="h-full w-full object-contain" loading="lazy" />
-                  </span>
-                  {tool.name}
-                </span>
-              ))}
-            </div>
+          <SectionIntro
+            eyebrow="Platforms & Tools"
+            title="A Curated Stack Built for Measurable Growth"
+            description="We do not bolt on random tools. We choose a lean stack for measurement, channel execution, and follow-up visibility."
+            align="center"
+            width="wide"
+            className="mb-12"
+          />
+          <div className="mx-auto grid max-w-6xl gap-5 lg:grid-cols-3">
+            {toolCollections.map((group, index) => (
+              <motion.div
+                key={group.title}
+                initial={shouldReduceMotion ? false : { opacity: 0, y: 18 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: shouldReduceMotion ? 0 : 0.35, delay: index * 0.06 }}
+                className="rounded-[26px] border border-white/10 bg-white/[0.02] p-6"
+              >
+                <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-primary/85">
+                  {group.title}
+                </p>
+                <p className="mt-3 text-sm leading-6 text-muted-foreground">{group.description}</p>
+                <div className="mt-5 flex flex-wrap gap-2.5">
+                  {group.items.map((tool) => (
+                    <span
+                      key={tool.name}
+                      className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-background/80 px-3 py-1.5 text-sm text-foreground/90"
+                    >
+                      <span className="flex h-4 w-4 shrink-0 items-center justify-center">
+                        <img src={tool.icon} alt="" className="h-full w-full object-contain" loading="lazy" />
+                      </span>
+                      {tool.name}
+                    </span>
+                  ))}
+                </div>
+              </motion.div>
+            ))}
+          </div>
+          <div className="mx-auto mt-6 max-w-3xl rounded-full border border-white/8 bg-white/[0.02] px-4 py-3 text-center text-xs uppercase tracking-[0.22em] text-muted-foreground/70">
+            Measurement first. Channel second. Automation tied to outcomes.
           </div>
         </div>
       </section>
@@ -542,22 +596,20 @@ const Index = () => {
         className="relative overflow-hidden border-t border-white/10 py-24"
         style={{
           background: [
-            "radial-gradient(ellipse 65% 55% at 15% 55%, rgba(62,207,142,0.06) 0%, transparent 65%)",
-            "radial-gradient(ellipse 45% 40% at 85% 30%, rgba(0,177,255,0.04) 0%, transparent 60%)",
+            "radial-gradient(ellipse 65% 55% at 15% 55%, rgba(62,207,142,0.04) 0%, transparent 65%)",
+            "linear-gradient(180deg, rgba(255,255,255,0.012) 0%, transparent 100%)",
           ].join(", "),
         }}
       >
         <div className="container mx-auto px-4 lg:px-8">
-          <span className="mb-3 inline-block text-xs font-semibold uppercase tracking-widest text-primary">
-            What We Do
-          </span>
-          <h2 className="text-3xl font-bold md:text-4xl">Our Services</h2>
-          <p className="mt-3 max-w-xl text-muted-foreground">
-            We help businesses track what matters, acquire customers profitably, and nurture leads
-            into revenue.
-          </p>
+          <SectionIntro
+            eyebrow="What We Do"
+            title="Services Designed as a Growth System"
+            description="We combine measurement, acquisition, and lead follow-up into one practical operating layer for your marketing."
+            width="wide"
+            className="mb-12"
+          />
 
-          {/* Primary 3 */}
           <div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
             {primaryServices.map((service, i) => (
               <motion.div
@@ -568,31 +620,36 @@ const Index = () => {
                 transition={{ delay: i * 0.08, duration: 0.4 }}
               >
                 <div
-                  className={`group flex h-full flex-col rounded-xl border p-8 transition-all duration-300 hover:-translate-y-1 ${
+                  className={cn(
+                    "group flex h-full flex-col rounded-[26px] border p-8 transition-all duration-300 hover:-translate-y-1",
                     service.flagship
-                      ? "border-2 border-primary bg-gradient-to-br from-card to-[hsl(152_30%_8%)] hover:shadow-[0_8px_32px_rgba(62,207,142,0.15)]"
-                      : "border-primary/60 bg-card hover:shadow-[0_8px_32px_rgba(62,207,142,0.08)]"
-                  }`}
+                      ? "border-primary/30 bg-[linear-gradient(180deg,rgba(62,207,142,0.10)_0%,rgba(255,255,255,0.02)_100%)] shadow-[0_18px_60px_rgba(62,207,142,0.08)]"
+                      : "border-white/10 bg-white/[0.02] hover:border-white/20",
+                  )}
                 >
-                  <span
-                    className={`mb-4 inline-block w-fit rounded px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wide ${
-                      service.flagship
-                        ? "bg-primary text-primary-foreground"
-                        : "bg-primary/10 text-primary"
-                    }`}
-                  >
-                    {service.badge}
-                  </span>
-                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 transition-colors duration-300 group-hover:bg-primary">
-                    <service.icon className="h-6 w-6 text-primary transition-colors duration-300 group-hover:text-primary-foreground" />
+                  <div className="mb-6 flex items-start justify-between gap-4">
+                    <span
+                      className={cn(
+                        "inline-flex rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em]",
+                        service.flagship
+                          ? "bg-primary text-primary-foreground"
+                          : "border border-white/10 bg-white/[0.04] text-muted-foreground",
+                      )}
+                    >
+                      {service.badge}
+                    </span>
+                    <span className="text-sm font-medium text-muted-foreground/60">0{i + 1}</span>
+                  </div>
+                  <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.04]">
+                    <service.icon className="h-6 w-6 text-primary" />
                   </div>
                   <h3 className="text-xl font-semibold">{service.title}</h3>
-                  <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">
+                  <p className="mt-3 flex-1 text-sm leading-7 text-muted-foreground">
                     {service.description}
                   </p>
                   <Link
                     to={service.path}
-                    className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-primary transition-colors hover:text-primary/80"
+                    className="mt-6 inline-flex items-center gap-1 text-sm font-medium text-primary transition-colors hover:text-primary/80"
                     aria-label={`Learn more about ${service.title}`}
                   >
                     Learn more about {service.title}{" "}
@@ -603,17 +660,16 @@ const Index = () => {
             ))}
           </div>
 
-          {/* Supporting 4 */}
-          <div className="mt-14 border-t border-border pt-10">
-            <div className="mb-6 flex items-center justify-between">
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-widest text-primary">
-                  We Also Deliver
-                </p>
-                <p className="mt-1 text-sm text-muted-foreground">
-                  Complementary services to round out your digital growth stack.
-                </p>
-              </div>
+          <div className="mt-16 border-t border-white/10 pt-10">
+            <div className="mb-6 flex items-center justify-between gap-4">
+              <SectionIntro
+                eyebrow="Also Available"
+                title="Supporting Services"
+                description="Complementary capabilities that complete the growth stack without competing for attention."
+                width="wide"
+                titleClassName="text-2xl md:text-3xl"
+                descriptionClassName="max-w-2xl text-sm"
+              />
               <Link
                 to="/service"
                 className="hidden items-center gap-1 text-sm font-medium text-primary transition-colors hover:text-primary/80 sm:inline-flex"
@@ -632,17 +688,17 @@ const Index = () => {
                 >
                   <Link
                     to={s.path}
-                    className="group flex h-full flex-col rounded-xl border border-border bg-card/50 p-6 transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-[0_4px_24px_rgba(62,207,142,0.08)]"
+                    className="group flex h-full flex-col rounded-2xl border border-white/8 bg-background/65 p-6 transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/20"
                   >
-                    <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 transition-colors duration-300 group-hover:bg-primary">
-                      <s.icon className="h-5 w-5 text-primary transition-colors duration-300 group-hover:text-primary-foreground" />
+                    <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-white/[0.04]">
+                      <s.icon className="h-5 w-5 text-primary" />
                     </div>
                     <h4 className="text-[15px] font-semibold">{s.title}</h4>
-                    <p className="mt-1.5 flex-1 text-[13px] leading-relaxed text-muted-foreground">
+                    <p className="mt-2 flex-1 text-[13px] leading-6 text-muted-foreground">
                       {s.description}
                     </p>
-                    <span className="mt-3 inline-flex items-center gap-1 text-xs font-medium text-primary opacity-60 transition-opacity duration-200 group-hover:opacity-100">
-                      Learn more about {s.title} <ArrowUpRight className="h-3 w-3" />
+                    <span className="mt-4 inline-flex items-center gap-1 text-xs font-medium text-primary/80 transition-colors group-hover:text-primary">
+                      Learn more <ArrowUpRight className="h-3 w-3" />
                     </span>
                   </Link>
                 </motion.div>
@@ -657,23 +713,19 @@ const Index = () => {
         className="border-t border-white/10 py-24"
         style={{
           background: [
-            "linear-gradient(180deg, rgba(255,255,255,0.012) 0%, transparent 100%)",
-            "radial-gradient(ellipse 70% 60% at 50% 100%, rgba(0,177,255,0.04) 0%, transparent 65%)",
+            "linear-gradient(180deg, rgba(255,255,255,0.01) 0%, transparent 100%)",
+            "radial-gradient(ellipse 70% 60% at 50% 100%, rgba(0,177,255,0.025) 0%, transparent 65%)",
           ].join(", "),
         }}
       >
         <div className="container mx-auto px-4 lg:px-8">
-          <div className="text-center">
-            <span className="mb-3 inline-block text-xs font-semibold uppercase tracking-widest text-primary">
-              How We Work
-            </span>
-            <h2 className="text-3xl font-bold md:text-4xl">
-              From Discovery to Results in 4 Steps
-            </h2>
-            <p className="mx-auto mt-3 max-w-xl text-muted-foreground">
-              A clear, repeatable process — so you always know what happens next.
-            </p>
-          </div>
+          <SectionIntro
+            eyebrow="How We Work"
+            title="From Discovery to Results in 4 Steps"
+            description="A clear, repeatable process so you always know what happens next."
+            align="center"
+            width="wide"
+          />
           <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {processSteps.map((step, i) => (
               <motion.div
@@ -684,14 +736,12 @@ const Index = () => {
                 transition={{ delay: i * 0.1, duration: 0.4 }}
                 className="relative flex flex-col"
               >
-                <div className="glass-card h-full p-7">
+                <div className="h-full rounded-[24px] border border-white/8 bg-white/[0.02] p-7">
                   <div className="mb-4 flex items-center gap-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
-                      <step.icon className="h-5 w-5 text-primary" />
+                    <div className="flex h-10 w-10 items-center justify-center rounded-full border border-primary/15 bg-primary/[0.08]">
+                      <span className="text-xs font-semibold text-primary">{step.step}</span>
                     </div>
-                    <span className="text-xs font-bold uppercase tracking-widest text-primary/50">
-                      {step.step}
-                    </span>
+                    <step.icon className="h-5 w-5 text-muted-foreground/70" />
                   </div>
                   <h3 className="text-lg font-semibold">{step.title}</h3>
                   <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
@@ -720,24 +770,18 @@ const Index = () => {
       <section
         className="border-t border-white/10 py-20"
         style={{
-          background: "linear-gradient(135deg, rgba(62,207,142,0.06) 0%, rgba(0,177,255,0.03) 50%, rgba(62,207,142,0.05) 100%)",
+          background: "linear-gradient(135deg, rgba(255,255,255,0.01) 0%, rgba(62,207,142,0.03) 100%)",
         }}
       >
         <div className="container mx-auto px-4 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="mb-10 text-center"
-          >
-            <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-primary">
-              {testimonials.length === 1 ? "Client Feedback" : "Testimonials"}
-            </p>
-            <h2 className="text-3xl font-bold md:text-4xl">
-              {testimonials.length === 1 ? "What a Client Said" : "What Our Clients Say"}
-            </h2>
-          </motion.div>
+          <SectionIntro
+            eyebrow={testimonials.length === 1 ? "Why Clients Trust Us" : "Testimonials"}
+            title={testimonials.length === 1 ? "A Client Perspective" : "What Our Clients Say"}
+            description="Proof should feel grounded in the experience of working together, not just praise in a box."
+            align="center"
+            width="wide"
+            className="mb-10"
+          />
           {testimonials.length === 1 ? (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -746,7 +790,7 @@ const Index = () => {
               transition={{ duration: 0.4 }}
               className="mx-auto max-w-3xl"
             >
-              <div className="glass-card relative overflow-hidden border border-primary/30 p-8 md:p-10">
+              <div className="relative overflow-hidden rounded-[30px] border border-primary/20 bg-[linear-gradient(180deg,rgba(255,255,255,0.035)_0%,rgba(62,207,142,0.03)_100%)] p-8 md:p-10">
                 <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/70 to-transparent" />
                 <Quote className="absolute right-6 top-6 h-12 w-12 text-primary/10" />
                 <div className="mb-5 flex justify-center gap-1">
@@ -818,7 +862,7 @@ const Index = () => {
       <section
         className="border-t border-white/10 py-20"
         style={{
-          background: "radial-gradient(ellipse 80% 50% at 50% 0%, rgba(0,177,255,0.05) 0%, transparent 70%)",
+          background: "radial-gradient(ellipse 80% 50% at 50% 0%, rgba(0,177,255,0.03) 0%, transparent 70%)",
         }}
       >
         <div className="container mx-auto px-4 lg:px-8">
@@ -830,21 +874,19 @@ const Index = () => {
               transition={{ duration: 0.5 }}
               className="mb-10 flex flex-col items-start gap-4 sm:flex-row sm:items-end sm:justify-between"
             >
-              <div>
-                <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-primary">
-                  Insights
-                </p>
-                <h2 className="text-3xl font-bold md:text-4xl">From Our Blog</h2>
-              </div>
+              <SectionIntro
+                eyebrow="Insights"
+                title="From Our Blog"
+                description="Thoughtful, practical guidance on attribution, paid growth, and automation systems."
+                width="wide"
+                titleClassName="text-3xl md:text-4xl"
+                descriptionClassName="max-w-2xl text-sm"
+              />
               <Link
                 to={`/blog/${latestPost.slug}`}
-                className="inline-flex shrink-0 items-center gap-2 rounded-lg border border-primary/20 bg-primary/[0.06] px-4 py-2 text-sm font-medium text-primary transition-colors hover:bg-primary/10"
+                className="inline-flex shrink-0 items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-4 py-2 text-sm font-medium text-foreground transition-colors hover:border-primary/20 hover:text-primary"
               >
-                <span className="relative flex h-1.5 w-1.5">
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-60" />
-                  <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-primary" />
-                </span>
-                Latest: {latestPost.category}
+                Latest insight
                 <ArrowRight className="h-3.5 w-3.5" />
               </Link>
             </motion.div>
@@ -859,13 +901,22 @@ const Index = () => {
                 >
                   <Link
                     to={`/blog/${post.slug}`}
-                    className="group flex h-full flex-col overflow-hidden rounded-xl border border-white/10 bg-card transition-all duration-300 hover:-translate-y-1 hover:border-white/20 hover:shadow-[0_8px_32px_rgba(62,207,142,0.06)]"
+                    className={cn(
+                      "group flex h-full flex-col overflow-hidden rounded-[24px] border bg-card transition-all duration-300 hover:-translate-y-1",
+                      i === 0
+                        ? "border-white/14 shadow-[0_18px_60px_rgba(0,0,0,0.18)]"
+                        : "border-white/10 hover:border-white/18",
+                    )}
                   >
-                    <div className="h-48 w-full overflow-hidden bg-card">
+                    <div className={cn("w-full overflow-hidden bg-card", i === 0 ? "h-56" : "h-48")}>
                       <BlogImage src={post.image} alt={post.title} />
                     </div>
                     <div className="p-6">
-                      <p className="mb-2 text-xs text-muted-foreground">{post.readTime}</p>
+                      <div className="mb-3 flex items-center gap-3 text-[11px] uppercase tracking-[0.18em] text-muted-foreground/70">
+                        <span>{post.category}</span>
+                        <span className="h-1 w-1 rounded-full bg-muted-foreground/40" />
+                        <span>{post.readTime}</span>
+                      </div>
                       <h3 className="text-base font-semibold leading-snug text-foreground">
                         {post.title}
                       </h3>
@@ -886,7 +937,13 @@ const Index = () => {
       </section>
 
       {/* FAQ */}
-      <FAQAccordion items={faqs} title="Frequently Asked Questions" />
+      <FAQAccordion
+        items={faqs}
+        title="Frequently Asked Questions"
+        eyebrow="FAQ"
+        variant="minimal"
+        density="compact"
+      />
 
       <CTASection
         title={
@@ -896,6 +953,9 @@ const Index = () => {
         }
         description="Book a call. We'll audit your current setup and show you exactly where the gaps are."
         primaryCta={{ label: "Book a Call", to: "/book-a-call" }}
+        secondaryCta={{ label: "Explore Services", to: "/service" }}
+        variant="hero-close"
+        proofChips={["Response within 1 business day", "No-pressure discovery call", "Measurement-first advice"]}
       />
     </>
   );

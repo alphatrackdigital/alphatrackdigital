@@ -4,6 +4,7 @@ import SEO from "@/components/shared/SEO";
 import CTASection from "@/components/shared/CTASection";
 import Breadcrumbs from "@/components/shared/Breadcrumbs";
 import SafeImage from "@/components/shared/SafeImage";
+import SectionIntro from "@/components/shared/SectionIntro";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, Clock, Mail } from "lucide-react";
 import { blogPosts } from "@/data/blogPosts";
@@ -37,15 +38,19 @@ const Blog = () => {
       >
         <div className="container relative mx-auto px-4 lg:px-8">
           <Breadcrumbs items={[{ label: "Home", path: "/" }, { label: "Blog" }]} />
-          <h1 className="mt-4 text-3xl font-bold md:text-5xl">Insights & Strategy</h1>
-          <p className="mt-4 max-w-xl text-muted-foreground">
-            Strategies, tools, and stories that fuel business growth.
-          </p>
+          <SectionIntro
+            eyebrow="Insights"
+            title="Insights & Strategy"
+            description="Strategies, tools, and practical perspectives on tracking, paid growth, and automation."
+            width="wide"
+            className="mt-4"
+            titleClassName="text-3xl md:text-5xl"
+          />
         </div>
       </section>
 
       {/* Category filter */}
-      <section className="border-b border-white/10 pb-6">
+      <section className="border-b border-white/10 bg-white/[0.01] pb-6">
         <div className="container mx-auto px-4 lg:px-8">
           <div className="flex flex-wrap gap-2" role="list" aria-label="Filter by category">
             {categories.map((cat) => (
@@ -86,9 +91,9 @@ const Blog = () => {
               >
                 <Link
                   to={`/blog/${featured.slug}`}
-                  className="group grid gap-8 overflow-hidden rounded-2xl border border-white/10 bg-card transition-all duration-300 hover:border-white/20 hover:shadow-[0_12px_48px_rgba(62,207,142,0.06)] md:grid-cols-2"
+                  className="group grid gap-8 overflow-hidden rounded-[28px] border border-white/12 bg-white/[0.02] transition-all duration-300 hover:border-white/20 hover:shadow-[0_18px_60px_rgba(0,0,0,0.18)] md:grid-cols-2"
                 >
-                  <div className="h-64 overflow-hidden md:h-auto">
+                  <div className="h-72 overflow-hidden md:h-auto">
                     <SafeImage
                       src={featured.image}
                       alt={featured.title}
@@ -99,16 +104,16 @@ const Blog = () => {
                     />
                   </div>
                   <div className="flex flex-col justify-center p-8 md:p-10">
-                    <div className="mb-3 flex items-center gap-3">
-                      <span className="rounded-md bg-primary/10 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wide text-primary">
+                    <div className="mb-4 flex items-center gap-3 text-[11px] uppercase tracking-[0.18em] text-muted-foreground/70">
+                      <span className="rounded-full border border-primary/20 bg-primary/10 px-2.5 py-1 font-semibold text-primary">
                         {featured.category}
                       </span>
-                      <span className="flex items-center gap-1 text-xs text-muted-foreground">
+                      <span className="flex items-center gap-1">
                         <Clock className="h-3 w-3" /> {featured.readTime}
                       </span>
                     </div>
                     <h2 className="text-2xl font-bold leading-snug md:text-3xl">{featured.title}</h2>
-                    <p className="mt-3 text-muted-foreground">{featured.excerpt}</p>
+                    <p className="mt-4 max-w-xl text-base leading-7 text-muted-foreground">{featured.excerpt}</p>
                     <span className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-primary">
                       Read article{" "}
                       <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
@@ -129,7 +134,7 @@ const Blog = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.4 }}
-            className="flex flex-col items-center gap-4 rounded-2xl border border-primary/20 bg-primary/[0.06] px-8 py-6 sm:flex-row sm:justify-between"
+            className="flex flex-col items-center gap-4 rounded-[24px] border border-primary/15 bg-primary/[0.05] px-8 py-6 sm:flex-row sm:justify-between"
           >
             <div className="flex items-center gap-3">
               <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10">
@@ -165,9 +170,9 @@ const Blog = () => {
                   >
                     <Link
                       to={`/blog/${post.slug}`}
-                      className="group flex h-full flex-col overflow-hidden rounded-xl border border-white/10 bg-card transition-all duration-300 hover:-translate-y-1 hover:border-white/20 hover:shadow-[0_8px_32px_rgba(62,207,142,0.06)]"
+                      className="group flex h-full flex-col overflow-hidden rounded-[24px] border border-white/10 bg-card transition-all duration-300 hover:-translate-y-1 hover:border-white/20"
                     >
-                      <div className="h-48 w-full overflow-hidden">
+                      <div className="aspect-[4/3] w-full overflow-hidden">
                         <SafeImage
                           src={post.image}
                           alt={post.title}
@@ -177,11 +182,11 @@ const Blog = () => {
                         />
                       </div>
                       <div className="flex flex-1 flex-col p-6">
-                        <div className="mb-3 flex items-center gap-3">
-                          <span className="rounded-md bg-primary/10 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wide text-primary">
+                        <div className="mb-3 flex items-center gap-3 text-[11px] uppercase tracking-[0.18em] text-muted-foreground/70">
+                          <span className="rounded-full border border-primary/20 bg-primary/10 px-2.5 py-1 font-semibold text-primary">
                             {post.category}
                           </span>
-                          <span className="flex items-center gap-1 text-xs text-muted-foreground">
+                          <span className="flex items-center gap-1">
                             <Clock className="h-3 w-3" /> {post.readTime}
                           </span>
                         </div>
@@ -208,6 +213,8 @@ const Blog = () => {
         description="Book a call and we'll show you exactly how to apply these insights to your business."
         primaryCta={{ label: "Book a Call", to: "/book-a-call" }}
         secondaryCta={{ label: "Explore Services", to: "/service" }}
+        variant="inline-proof"
+        proofChips={["Actionable advice", "Built around your current setup", "No-pressure discovery call"]}
       />
     </>
   );

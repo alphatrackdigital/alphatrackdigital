@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
+import CTASection from "@/components/shared/CTASection";
 import FAQAccordion from "@/components/shared/FAQAccordion";
 import ServiceTierCard from "@/components/shared/ServiceTierCard";
 import SEO from "@/components/shared/SEO";
@@ -207,6 +208,13 @@ const MarketingAutomation = () => {
         }
         description="We build the automated workflows, email sequences, and CRM systems that turn captured leads into paying clients without manual bottlenecks."
         snapshot={heroSnapshot}
+        tone="automation"
+        bodyWidth="wide"
+        supportingProof={[
+          { label: "CRM Flow", value: "Lead capture, qualification, and follow-up tied into one pipeline." },
+          { label: "Automation", value: "Workflows designed around your sales process, not a generic template." },
+          { label: "Handover", value: "Documentation and training so your team can run confidently." },
+        ]}
         secondaryCta={{ label: "Or tell us about your project", to: "/contact-us", style: "text" }}
       />
       <section className="bg-white/[0.015] py-24">
@@ -331,31 +339,24 @@ const MarketingAutomation = () => {
         </div>
       </section>
 
-      <FAQAccordion items={faqs} />
-
-      <section className="relative py-28 text-center">
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(62,207,142,0.06)_0%,transparent_70%)]" />
-        <div className="container relative mx-auto px-4 lg:px-8">
-          <h2 className="text-3xl font-extrabold md:text-4xl">
+      <FAQAccordion items={faqs} eyebrow="FAQ" variant="minimal" density="compact" />
+      <CTASection
+        title={
+          <>
             Ready to Automate Your <span className="text-gradient">Growth?</span>
-          </h2>
-          <p className="mx-auto mt-5 max-w-lg text-lg text-muted-foreground">
-            Book a call. We will map your lead flow and show exactly where automation will increase conversion.
-          </p>
-          <Button asChild size="lg" className="mt-10 gap-2 rounded-xl bg-primary px-10 text-lg font-bold text-primary-foreground hover:bg-primary/90">
-            <Link to="/book-a-call">Book a Call</Link>
-          </Button>
-          <p className="mt-5 text-sm text-muted-foreground">
-            Prefer to write?{" "}
-            <Link to="/contact-us" className="font-semibold text-primary">
-              Contact us here
-            </Link>
-          </p>
-        </div>
-      </section>
+          </>
+        }
+        description="Book a call. We will map your lead flow and show exactly where automation will increase conversion."
+        primaryCta={{ label: "Book a Call", to: "/book-a-call" }}
+        secondaryCta={{ label: "Contact Us", to: "/contact-us" }}
+        variant="service-close"
+        layout="split"
+        proofChips={["1-2 week starter launches", "Brevo-based CRM workflows", "Training included"]}
+      />
     </>
   );
 };
 
 export default MarketingAutomation;
+
 
