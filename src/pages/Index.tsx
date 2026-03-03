@@ -120,6 +120,7 @@ const stats = [
   { numericValue: 40, suffix: "%", label: "Avg. improvement in data accuracy" },
   { numericValue: 25, suffix: "%", label: "Reduction in wasted ad spend" },
   { numericValue: 3, suffix: "×", label: "Better attribution clarity" },
+  { numericValue: 30, suffix: "+", label: "Businesses served across 3 countries" },
 ];
 
 const tools = [
@@ -243,7 +244,7 @@ const faqs = [
 const Index = () => {
   const shouldReduceMotion = useReducedMotion();
   const featuredBlogPosts = getFeaturedBlogPosts(3);
-  const latestPost = blogPosts[blogPosts.length - 1];
+  const latestPost = featuredBlogPosts[0];
 
   return (
     <>
@@ -400,6 +401,9 @@ const Index = () => {
                   </div>
                 ))}
               </div>
+              <p className="mt-5 text-xs text-muted-foreground/60">
+                Trusted by <span className="text-muted-foreground">30+ businesses</span> across Ghana, Nigeria & Kenya
+              </p>
 
               {/* Mobile metric tiles — visible when floating cards are hidden on desktop */}
               <div className="mt-8 grid grid-cols-2 gap-3 lg:hidden">
@@ -514,7 +518,7 @@ const Index = () => {
                     Wasted Spend
                   </span>
                 </div>
-                <p className="text-2xl font-bold text-gradient">-25%</p>
+                <p className="text-2xl font-bold text-gradient">−25%</p>
                 <p className="mt-1 text-xs text-muted-foreground">Reduction in wasted budget</p>
               </motion.div>
             </motion.div>
@@ -575,7 +579,7 @@ const Index = () => {
                       key={tool.name}
                       className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-background/80 px-3 py-1.5 text-sm text-foreground/90"
                     >
-                      <span className="flex h-4 w-4 shrink-0 items-center justify-center">
+                      <span className="flex h-5 w-5 shrink-0 items-center justify-center">
                         <img src={tool.icon} alt="" className="h-full w-full object-contain" loading="lazy" />
                       </span>
                       {tool.name}
@@ -652,7 +656,7 @@ const Index = () => {
                     className="mt-6 inline-flex items-center gap-1 text-sm font-medium text-primary transition-colors hover:text-primary/80"
                     aria-label={`Learn more about ${service.title}`}
                   >
-                    Learn more about {service.title}{" "}
+                    Learn more{" "}
                     <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
                   </Link>
                 </div>
@@ -663,7 +667,7 @@ const Index = () => {
           <div className="mt-16 border-t border-white/10 pt-10">
             <div className="mb-6 flex items-center justify-between gap-4">
               <SectionIntro
-                eyebrow="Also Available"
+                eyebrow="Complete Scope"
                 title="Supporting Services"
                 description="Complementary capabilities that complete the growth stack without competing for attention."
                 width="wide"
@@ -721,7 +725,7 @@ const Index = () => {
         <div className="container mx-auto px-4 lg:px-8">
           <SectionIntro
             eyebrow="How We Work"
-            title="From Discovery to Results in 4 Steps"
+            title="How We Deliver"
             description="A clear, repeatable process so you always know what happens next."
             align="center"
             width="wide"
@@ -777,7 +781,7 @@ const Index = () => {
           <SectionIntro
             eyebrow={testimonials.length === 1 ? "Why Clients Trust Us" : "Testimonials"}
             title={testimonials.length === 1 ? "A Client Perspective" : "What Our Clients Say"}
-            description="Proof should feel grounded in the experience of working together, not just praise in a box."
+            description="Straight from the businesses we've helped grow."
             align="center"
             width="wide"
             className="mb-10"
@@ -884,9 +888,13 @@ const Index = () => {
               />
               <Link
                 to={`/blog/${latestPost.slug}`}
-                className="inline-flex shrink-0 items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-4 py-2 text-sm font-medium text-foreground transition-colors hover:border-primary/20 hover:text-primary"
+                className="inline-flex shrink-0 items-center gap-2 rounded-full border border-primary/20 bg-primary/[0.06] px-4 py-2 text-sm font-medium text-primary transition-colors hover:bg-primary/[0.10]"
               >
-                Latest insight
+                <span className="relative flex h-1.5 w-1.5">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-60" />
+                  <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-primary" />
+                </span>
+                Latest: {latestPost.category}
                 <ArrowRight className="h-3.5 w-3.5" />
               </Link>
             </motion.div>

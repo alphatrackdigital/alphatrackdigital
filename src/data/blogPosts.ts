@@ -131,9 +131,13 @@ export const blogPosts: BlogPost[] = [
   },
 ];
 
-export const getFeaturedBlogPosts = (count = 3) => blogPosts.slice(0, count);
+const byDateDesc = (a: BlogPost, b: BlogPost) =>
+  new Date(b.date).getTime() - new Date(a.date).getTime();
+
+export const getFeaturedBlogPosts = (count = 3) =>
+  [...blogPosts].sort(byDateDesc).slice(0, count);
 
 export const getBlogPostBySlug = (slug: string) => blogPosts.find((post) => post.slug === slug);
 
 export const getRelatedBlogPosts = (slug: string, count = 3) =>
-  blogPosts.filter((post) => post.slug !== slug).slice(0, count);
+  [...blogPosts].sort(byDateDesc).filter((post) => post.slug !== slug).slice(0, count);

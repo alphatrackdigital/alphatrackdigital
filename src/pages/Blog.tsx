@@ -10,16 +10,19 @@ import { ArrowRight, Clock, Mail } from "lucide-react";
 import { blogPosts } from "@/data/blogPosts";
 import { cn } from "@/lib/utils";
 
-const allCategories = Array.from(new Set(blogPosts.map((p) => p.category)));
+const sortedPosts = [...blogPosts].sort(
+  (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+);
+const allCategories = Array.from(new Set(sortedPosts.map((p) => p.category)));
 const categories = ["All", ...allCategories];
 const countByCategory = (cat: string) =>
-  cat === "All" ? blogPosts.length : blogPosts.filter((p) => p.category === cat).length;
+  cat === "All" ? sortedPosts.length : sortedPosts.filter((p) => p.category === cat).length;
 
 const Blog = () => {
   const [activeCategory, setActiveCategory] = useState("All");
 
   const filtered =
-    activeCategory === "All" ? blogPosts : blogPosts.filter((p) => p.category === activeCategory);
+    activeCategory === "All" ? sortedPosts : sortedPosts.filter((p) => p.category === activeCategory);
 
   const featured = filtered[0];
   const rest = filtered.slice(1);
