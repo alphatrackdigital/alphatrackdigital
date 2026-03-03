@@ -3,28 +3,23 @@ import { useEffect, useState } from "react";
 import SEO from "@/components/shared/SEO";
 import CTASection from "@/components/shared/CTASection";
 import Breadcrumbs from "@/components/shared/Breadcrumbs";
+import SafeImage from "@/components/shared/SafeImage";
 import { getBlogPostBySlug, getRelatedBlogPosts } from "@/data/blogPosts";
-import { ArrowLeft, Clock, Calendar, Twitter, Linkedin, Link2, BarChart3 } from "lucide-react";
+import { buildCanonicalUrl } from "@/config/seo";
+import { ArrowLeft, Clock, Calendar, Twitter, Linkedin, Link2 } from "lucide-react";
 
 // Image with fallback
 const HeroImage = ({ src, alt }: { src: string; alt: string }) => {
-  const [error, setError] = useState(false);
-  if (error) {
-    return (
-      <div className="flex h-72 w-full items-center justify-center rounded-xl bg-gradient-to-br from-primary/10 to-secondary/5 md:h-96">
-        <BarChart3 className="h-12 w-12 text-primary/30" />
-      </div>
-    );
-  }
   return (
-    <div className="mt-8 overflow-hidden rounded-xl">
-      <img
+    <div className="mt-8 rounded-xl">
+      <SafeImage
         src={src}
         alt={alt}
-        className="h-auto w-full object-cover"
+        className="h-full w-full object-cover"
+        wrapperClassName="h-72 w-full rounded-xl md:h-96"
+        fallbackClassName="rounded-xl"
         loading="eager"
         fetchPriority="high"
-        onError={() => setError(true)}
       />
     </div>
   );
@@ -98,8 +93,8 @@ const articleContent: Record<string, JSX.Element> = {
       <p>In today's fast-paced digital landscape, paid social campaigns are a powerful tool for businesses looking to amplify their reach and drive conversions. At AlphaTrack Digital, we've mastered the art of turning social media engagement into measurable results.</p>
       <h2>Why Paid Social is a Must for Your Business</h2>
       <div className="my-8 grid gap-4 md:grid-cols-2">
-        <img src="https://alphatrack.digital/wp-content/uploads/2025/09/growtika-183Yxo3vsGY-unsplash-scaled.jpg" alt="Data-driven marketing" className="rounded-xl object-cover w-full h-64" loading="lazy" />
-        <img src="https://alphatrack.digital/wp-content/uploads/2025/09/souvik-banerjee-OMhubJCrtu0-unsplash-scaled.jpg" alt="Social media platforms" className="rounded-xl object-cover w-full h-64" loading="lazy" />
+        <SafeImage src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&auto=format&fit=crop&q=80" alt="Data-driven marketing" className="h-full w-full object-cover" wrapperClassName="h-64 rounded-xl" />
+        <SafeImage src="https://images.unsplash.com/photo-1611162618071-b39a2ec055fb?w=1200&auto=format&fit=crop&q=80" alt="Social media platforms" className="h-full w-full object-cover" wrapperClassName="h-64 rounded-xl" />
       </div>
       <p>Social media platforms like Facebook, Instagram, LinkedIn, and TikTok have billions of active users, making them prime real estate for reaching your target audience. Paid social campaigns allow you to cut through the noise, ensuring your brand connects with the right people at the right time.</p>
       <h2>Strategies to Maximise Your Paid Social ROI</h2>
@@ -122,8 +117,8 @@ const articleContent: Record<string, JSX.Element> = {
       <p>For small businesses, a strong online presence is non-negotiable — but building a professional website can seem daunting, especially with limited budgets and technical expertise. Enter no-code web design: a game-changing solution that empowers small businesses to create stunning, high-performing websites without writing a single line of code.</p>
       <h2>What is No-Code Web Design?</h2>
       <div className="my-8 grid gap-4 md:grid-cols-2">
-        <img src="https://alphatrack.digital/wp-content/uploads/2025/09/fikret-tozak-rfNLa1HL7eY-unsplash-scaled.jpg" alt="No-code design" className="rounded-xl object-cover w-full h-64" loading="lazy" />
-        <img src="https://alphatrack.digital/wp-content/uploads/2025/09/annie-spratt-FSFfEQkd1sc-unsplash-scaled.jpg" alt="Small business website" className="rounded-xl object-cover w-full h-64" loading="lazy" />
+        <SafeImage src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=1200&auto=format&fit=crop&q=80" alt="No-code design" className="h-full w-full object-cover" wrapperClassName="h-64 rounded-xl" />
+        <SafeImage src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=1200&auto=format&fit=crop&q=80" alt="Small business website" className="h-full w-full object-cover" wrapperClassName="h-64 rounded-xl" />
       </div>
       <p>No-code web design uses intuitive platforms like Webflow, Wix, or Bubble to build websites through drag-and-drop interfaces and pre-built templates. These tools eliminate the need for coding expertise, making website creation accessible, fast, and cost-effective.</p>
       <h2>Benefits for Small Businesses</h2>
@@ -144,8 +139,8 @@ const articleContent: Record<string, JSX.Element> = {
       <p>In the crowded digital advertising space, reaching the right audience with the right message at the right time is a challenge. Programmatic advertising solves this by using data and automation to deliver precision-targeted ads with unmatched efficiency.</p>
       <h2>What is Programmatic Advertising?</h2>
       <div className="my-8 grid gap-4 md:grid-cols-2">
-        <img src="https://alphatrack.digital/wp-content/uploads/2025/09/markus-spiske-yPBgHCsKdWE-unsplash-768x1152.jpg" alt="Data advertising" className="rounded-xl object-cover w-full h-64" loading="lazy" />
-        <img src="https://alphatrack.digital/wp-content/uploads/2025/09/collabstr-6fsyon1MWRM-unsplash-scaled.jpg" alt="Programmatic ads" className="rounded-xl object-cover w-full h-64" loading="lazy" />
+        <SafeImage src="https://images.unsplash.com/photo-1556155092-490a1ba16284?w=1200&auto=format&fit=crop&q=80" alt="Data advertising" className="h-full w-full object-cover" wrapperClassName="h-64 rounded-xl" />
+        <SafeImage src="https://images.unsplash.com/photo-1516321497487-e288fb19713f?w=1200&auto=format&fit=crop&q=80" alt="Programmatic ads" className="h-full w-full object-cover" wrapperClassName="h-64 rounded-xl" />
       </div>
       <p>Programmatic advertising uses automated technology — like real-time bidding (RTB) and AI-driven algorithms — to buy and optimise ad placements across digital platforms. Programmatic ad spending is projected to reach $725 billion globally by 2026.</p>
       <h2>Key Benefits</h2>
@@ -369,7 +364,7 @@ const BlogPost = () => {
       name: "AlphaTrack Digital",
       logo: {
         "@type": "ImageObject",
-        url: "https://alphatrack.digital/wp-content/uploads/2025/08/Group-320.png",
+        url: buildCanonicalUrl("/apple-touch-icon.png?v=20260303a"),
       },
     },
   };
@@ -440,7 +435,14 @@ const BlogPost = () => {
           <div className="grid gap-6 md:grid-cols-3">
             {relatedPosts.map((rp) => (
               <Link key={rp.slug} to={`/blog/${rp.slug}`} className="group overflow-hidden rounded-xl border border-white/10 bg-card transition-all duration-300 hover:-translate-y-1 hover:border-white/20">
-                <div className="h-40 overflow-hidden"><img src={rp.image} alt={rp.title} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" /></div>
+                <div className="h-40 overflow-hidden">
+                  <SafeImage
+                    src={rp.image}
+                    alt={rp.title}
+                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    wrapperClassName="h-full w-full"
+                  />
+                </div>
                 <div className="p-5">
                   <span className="text-[11px] font-semibold uppercase tracking-wide text-primary">{rp.category}</span>
                   <h3 className="mt-2 text-sm font-semibold leading-snug">{rp.title}</h3>

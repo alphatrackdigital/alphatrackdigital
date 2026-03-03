@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import SEO from "@/components/shared/SEO";
 import CTASection from "@/components/shared/CTASection";
 import Breadcrumbs from "@/components/shared/Breadcrumbs";
+import SafeImage from "@/components/shared/SafeImage";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, Clock, Mail } from "lucide-react";
 import { blogPosts } from "@/data/blogPosts";
@@ -88,10 +89,11 @@ const Blog = () => {
                   className="group grid gap-8 overflow-hidden rounded-2xl border border-white/10 bg-card transition-all duration-300 hover:border-white/20 hover:shadow-[0_12px_48px_rgba(62,207,142,0.06)] md:grid-cols-2"
                 >
                   <div className="h-64 overflow-hidden md:h-auto">
-                    <img
+                    <SafeImage
                       src={featured.image}
                       alt={featured.title}
                       className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      wrapperClassName="h-full w-full"
                       loading="eager"
                       fetchPriority="high"
                     />
@@ -166,10 +168,11 @@ const Blog = () => {
                       className="group flex h-full flex-col overflow-hidden rounded-xl border border-white/10 bg-card transition-all duration-300 hover:-translate-y-1 hover:border-white/20 hover:shadow-[0_8px_32px_rgba(62,207,142,0.06)]"
                     >
                       <div className="h-48 w-full overflow-hidden">
-                        <img
+                        <SafeImage
                           src={post.image}
                           alt={post.title}
                           className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                          wrapperClassName="h-full w-full"
                           loading="lazy"
                         />
                       </div>

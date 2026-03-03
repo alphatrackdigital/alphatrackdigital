@@ -14,7 +14,7 @@ export const blogPosts: BlogPost[] = [
     title: "How to Skyrocket Your ROI with Paid Social Campaigns",
     excerpt:
       "Learn the data-driven strategies that separate profitable paid social campaigns from money pits. From precision targeting to real-time optimisation.",
-    image: "https://alphatrack.digital/wp-content/uploads/2025/09/dlxmedia-hu-ZMlcuVf2URA-unsplash-scaled.jpg",
+    image: "https://images.unsplash.com/photo-1611162618071-b39a2ec055fb?w=1200&auto=format&fit=crop&q=80",
     category: "Paid Social",
     readTime: "5 min read",
     date: "2025-09-17",
@@ -24,7 +24,7 @@ export const blogPosts: BlogPost[] = [
     title: "The Power of No-Code Web Design for Small Businesses",
     excerpt:
       "Why modern no-code platforms are levelling the playing field for small business websites — and how to use them to compete with bigger brands.",
-    image: "https://alphatrack.digital/wp-content/uploads/2025/09/tekimax-AfwnOr1taq0-unsplash-scaled.jpg",
+    image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=1200&auto=format&fit=crop&q=80",
     category: "Web Development",
     readTime: "4 min read",
     date: "2025-09-17",
@@ -34,7 +34,7 @@ export const blogPosts: BlogPost[] = [
     title: "Why Programmatic Advertising is a Game-Changer",
     excerpt:
       "Programmatic advertising is reshaping how brands reach audiences at scale — here's what you need to know about automated, data-driven ad buying.",
-    image: "https://alphatrack.digital/wp-content/uploads/2025/09/alan-w-AP7tG4LTeXA-unsplash-scaled.jpg",
+    image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=1200&auto=format&fit=crop&q=80",
     category: "Paid Media",
     readTime: "6 min read",
     date: "2025-09-17",
@@ -44,7 +44,7 @@ export const blogPosts: BlogPost[] = [
     title: "Conversion Tracking 101: What Most Businesses Get Wrong",
     excerpt:
       "Misconfigured tracking costs businesses thousands in wasted ad spend. Here are the most common mistakes and how to fix them before your next campaign.",
-    image: "https://alphatrack.digital/wp-content/uploads/2025/09/growtika-183Yxo3vsGY-unsplash-scaled.jpg",
+    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&auto=format&fit=crop&q=80",
     category: "Tracking",
     readTime: "7 min read",
     date: "2025-10-05",
@@ -54,7 +54,7 @@ export const blogPosts: BlogPost[] = [
     title: "Marketing Automation for Small Teams: Where to Start",
     excerpt:
       "You don't need a 50-person marketing department to automate your lead nurturing. Here's a practical framework for teams of 1-5.",
-    image: "https://alphatrack.digital/wp-content/uploads/2025/09/jotform-g7kFGOV7VI0-unsplash-scaled.jpg",
+    image: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=1200&auto=format&fit=crop&q=80",
     category: "Automation",
     readTime: "5 min read",
     date: "2025-10-12",
@@ -64,7 +64,7 @@ export const blogPosts: BlogPost[] = [
     title: "GA4 vs Meta Attribution: Which Numbers Should You Trust?",
     excerpt:
       "Your GA4 and Meta Ads Manager will almost never agree on conversions. Here's why that happens and how to build a reporting model you can trust.",
-    image: "https://alphatrack.digital/wp-content/uploads/2025/09/creatopy-ZWg3VeYz_Ac-unsplash-scaled.jpg",
+    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&auto=format&fit=crop&q=80",
     category: "Analytics",
     readTime: "6 min read",
     date: "2025-11-03",

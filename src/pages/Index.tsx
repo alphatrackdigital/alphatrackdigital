@@ -16,6 +16,7 @@ import { Button } from "@/components/ui/button";
 import CTASection from "@/components/shared/CTASection";
 import FAQAccordion from "@/components/shared/FAQAccordion";
 import SEO from "@/components/shared/SEO";
+import { buildCanonicalUrl } from "@/config/seo";
 import { motion, useInView, useReducedMotion } from "framer-motion";
 import { primaryServices, supportingServices } from "@/data/services";
 import { getFeaturedBlogPosts, blogPosts } from "@/data/blogPosts";
@@ -109,20 +110,6 @@ const testimonials = [
       "Working with Alpha Track Digital Limited was an excellent experience. They delivered a sleek, modern, and highly functional website right on schedule. Edits were handled quickly, communication was seamless, and the service was truly top notch. Would definitely recommend!",
     name: "Courtney Quist-Therson",
     title: "CEO & Founder, Pearl House Ghana",
-    rating: 5,
-  },
-  {
-    quote:
-      "AlphaTrack completely transformed how we understand our campaigns. Before them, we had no idea which channels were driving actual revenue. Now we have a clean GA4 setup, proper attribution, and our cost per lead has dropped by over 35%. The clarity alone is worth every penny.",
-    name: "Emeka Okafor",
-    title: "Head of Growth, Lagos Fintech Startup",
-    rating: 5,
-  },
-  {
-    quote:
-      "They set up our entire email automation on Brevo and within six weeks we had recovered revenue from abandoned carts we didn't even know we were losing. Fast, professional, and genuinely invested in results — not just deliverables.",
-    name: "Adjoa Mensah",
-    title: "E-commerce Director, Accra Retail Brand",
     rating: 5,
   },
 ];
@@ -227,7 +214,7 @@ const Index = () => {
           "@type": "Organization",
           name: "AlphaTrack Digital",
           url: "https://alphatrack.digital",
-          logo: "https://alphatrack.digital/wp-content/uploads/2025/08/Group-320.png",
+          logo: buildCanonicalUrl("/apple-touch-icon.png?v=20260303a"),
           description: "Data-driven performance marketing agency based in Accra and Lagos.",
           address: [
             { "@type": "PostalAddress", addressLocality: "Accra", addressCountry: "GH" },
