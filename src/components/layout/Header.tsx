@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { Menu, X, ArrowUpRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { prefetchRoute } from "@/lib/routePrefetch";
 import { motion, AnimatePresence } from "framer-motion";
 
 const navLinks = [
@@ -50,6 +51,12 @@ const Header = () => {
     return location.pathname.startsWith(path);
   };
 
+  const getPrefetchHandlers = (path: string) => ({
+    onMouseEnter: () => prefetchRoute(path),
+    onFocus: () => prefetchRoute(path),
+    onTouchStart: () => prefetchRoute(path),
+  });
+
   return (
     <header
       className={cn(
@@ -73,6 +80,7 @@ const Header = () => {
             <Link
               key={link.path}
               to={link.path}
+              {...getPrefetchHandlers(link.path)}
               className={cn(
                 "rounded-lg px-4 py-2 text-sm font-medium transition-colors hover:text-primary",
                 isActive(link.path) ? "text-primary" : "text-muted-foreground"
@@ -85,7 +93,7 @@ const Header = () => {
 
         <div className="hidden md:block">
           <Button asChild className="gap-1.5 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90">
-            <Link to="/book-a-call">
+            <Link to="/book-a-call" {...getPrefetchHandlers("/book-a-call")}>
               Book a Call <ArrowUpRight className="h-4 w-4" />
             </Link>
           </Button>
@@ -118,6 +126,8 @@ const Header = () => {
                   key={link.path}
                   to={link.path}
                   onClick={() => setMobileOpen(false)}
+                  onTouchStart={() => prefetchRoute(link.path)}
+                  onFocus={() => prefetchRoute(link.path)}
                   className={cn(
                     "rounded-lg px-4 py-3 text-sm font-medium transition-colors",
                     isActive(link.path)
@@ -129,7 +139,12 @@ const Header = () => {
                 </Link>
               ))}
               <Button asChild className="mt-2 gap-1.5 rounded-lg bg-primary text-primary-foreground">
-                <Link to="/book-a-call" onClick={() => setMobileOpen(false)}>
+                <Link
+                  to="/book-a-call"
+                  onClick={() => setMobileOpen(false)}
+                  onTouchStart={() => prefetchRoute("/book-a-call")}
+                  onFocus={() => prefetchRoute("/book-a-call")}
+                >
                   Book a Call <ArrowUpRight className="h-4 w-4" />
                 </Link>
               </Button>

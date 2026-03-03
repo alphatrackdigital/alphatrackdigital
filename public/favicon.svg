@@ -1,25 +1,26 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="AlphaTrack Digital">
   <defs>
-    <linearGradient id="atd-gradient" x1="12" y1="56" x2="52" y2="8" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#00B1FF" />
-      <stop offset="1" stop-color="#3ECF8E" />
+    <linearGradient id="atd-gradient" x1="32" y1="0" x2="32" y2="64" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#44D39A" />
+      <stop offset="0.55" stop-color="#1CB6F4" />
+      <stop offset="1" stop-color="#0A46C9" />
     </linearGradient>
   </defs>
-  <circle cx="32" cy="32" r="30" fill="url(#atd-gradient)" />
+  <rect width="64" height="64" fill="url(#atd-gradient)" />
   <path
-    d="M14 44L27 18L36 34L50 20"
+    d="M14 46L29 18L39 35L51 23"
     fill="none"
     stroke="#FFFFFF"
     stroke-linecap="round"
     stroke-linejoin="round"
-    stroke-width="5"
+    stroke-width="7"
   />
   <path
-    d="M44 20H50V26"
+    d="M44 23H51V30"
     fill="none"
     stroke="#FFFFFF"
     stroke-linecap="round"
     stroke-linejoin="round"
-    stroke-width="5"
+    stroke-width="7"
   />
 </svg>

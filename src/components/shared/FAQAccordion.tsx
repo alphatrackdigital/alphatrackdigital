@@ -26,7 +26,7 @@ const FAQAccordion = ({ items, title = "Frequently Asked Questions" }: FAQAccord
               <AccordionItem
                 key={i}
                 value={`faq-${i}`}
-                className="glass-card border border-white/10 px-6"
+                className="rounded-2xl border border-white/10 bg-white/[0.03] px-6 transition-colors duration-150 hover:border-primary/25"
               >
                 <AccordionTrigger className="text-left text-sm font-medium hover:text-primary">
                   {item.question}
