@@ -111,6 +111,7 @@ const testimonials = [
     name: "Courtney Quist-Therson",
     title: "CEO & Founder, Pearl House Ghana",
     rating: 5,
+    highlights: ["Delivered on schedule", "Fast revisions", "Seamless communication"],
   },
 ];
 
@@ -715,7 +716,7 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Testimonials — 3-column grid */}
+      {/* Testimonials */}
       <section
         className="border-t border-white/10 py-20"
         style={{
@@ -731,41 +732,85 @@ const Index = () => {
             className="mb-10 text-center"
           >
             <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-primary">
-              Testimonials
+              {testimonials.length === 1 ? "Client Feedback" : "Testimonials"}
             </p>
-            <h2 className="text-3xl font-bold md:text-4xl">What Our Clients Say</h2>
+            <h2 className="text-3xl font-bold md:text-4xl">
+              {testimonials.length === 1 ? "What a Client Said" : "What Our Clients Say"}
+            </h2>
           </motion.div>
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {testimonials.map((t, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: i * 0.1 }}
-                className="glass-card relative flex flex-col overflow-hidden border-t-2 border-primary p-7"
-              >
-                <Quote className="absolute right-5 top-5 h-10 w-10 text-primary/10" />
-                <div className="mb-4 flex gap-1">
-                  {Array.from({ length: t.rating }).map((_, s) => (
-                    <Star key={s} className="h-3.5 w-3.5 fill-primary text-primary" />
+          {testimonials.length === 1 ? (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4 }}
+              className="mx-auto max-w-3xl"
+            >
+              <div className="glass-card relative overflow-hidden border border-primary/30 p-8 md:p-10">
+                <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/70 to-transparent" />
+                <Quote className="absolute right-6 top-6 h-12 w-12 text-primary/10" />
+                <div className="mb-5 flex justify-center gap-1">
+                  {Array.from({ length: testimonials[0].rating }).map((_, s) => (
+                    <Star key={s} className="h-4 w-4 fill-primary text-primary" />
                   ))}
                 </div>
-                <p className="relative z-10 flex-1 text-sm leading-relaxed text-muted-foreground">
-                  "{t.quote}"
+                <p className="relative z-10 text-center text-lg leading-relaxed text-foreground/90 md:text-xl">
+                  "{testimonials[0].quote}"
                 </p>
-                <div className="mt-6 flex items-center gap-3 border-t border-white/10 pt-5">
-                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-bold text-primary">
-                    {t.name.split(" ").map((n) => n[0]).join("")}
+                <div className="mt-6 flex flex-wrap justify-center gap-2">
+                  {testimonials[0].highlights.map((highlight) => (
+                    <span
+                      key={highlight}
+                      className="rounded-full border border-primary/20 bg-primary/[0.08] px-3 py-1 text-xs font-medium text-primary"
+                    >
+                      {highlight}
+                    </span>
+                  ))}
+                </div>
+                <div className="mt-8 flex items-center justify-center gap-3 border-t border-white/10 pt-6 text-center">
+                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-primary/10 text-sm font-bold text-primary">
+                    {testimonials[0].name.split(" ").map((n) => n[0]).join("")}
                   </div>
                   <div>
-                    <p className="text-sm font-semibold text-foreground">{t.name}</p>
-                    <p className="text-xs text-muted-foreground">{t.title}</p>
+                    <p className="text-base font-semibold text-foreground">{testimonials[0].name}</p>
+                    <p className="text-sm text-muted-foreground">{testimonials[0].title}</p>
                   </div>
                 </div>
-              </motion.div>
-            ))}
-          </div>
+              </div>
+            </motion.div>
+          ) : (
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {testimonials.map((t, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: i * 0.1 }}
+                  className="glass-card relative flex flex-col overflow-hidden border-t-2 border-primary p-7"
+                >
+                  <Quote className="absolute right-5 top-5 h-10 w-10 text-primary/10" />
+                  <div className="mb-4 flex gap-1">
+                    {Array.from({ length: t.rating }).map((_, s) => (
+                      <Star key={s} className="h-3.5 w-3.5 fill-primary text-primary" />
+                    ))}
+                  </div>
+                  <p className="relative z-10 flex-1 text-sm leading-relaxed text-muted-foreground">
+                    "{t.quote}"
+                  </p>
+                  <div className="mt-6 flex items-center gap-3 border-t border-white/10 pt-5">
+                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-bold text-primary">
+                      {t.name.split(" ").map((n) => n[0]).join("")}
+                    </div>
+                    <div>
+                      <p className="text-sm font-semibold text-foreground">{t.name}</p>
+                      <p className="text-xs text-muted-foreground">{t.title}</p>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
