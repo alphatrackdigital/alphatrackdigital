@@ -289,11 +289,11 @@ const Index = () => {
             }}
           />
           {/* Animated primary orb */}
-          <div className="animate-pulse-slow absolute left-[8%] top-[15%] h-[65%] w-[50%] rounded-full bg-primary/[0.07] blur-[130px]" />
+          <div className="animate-pulse-slow absolute left-[8%] top-[15%] h-[65%] w-[50%] rounded-full bg-primary/[0.10] blur-[130px]" />
           {/* Animated cyan orb */}
-          <div className="animate-pulse-slow-delay absolute -right-[5%] top-[5%] h-[45%] w-[38%] rounded-full bg-secondary/[0.05] blur-[100px]" />
+          <div className="animate-pulse-slow-delay absolute -right-[5%] top-[5%] h-[45%] w-[38%] rounded-full bg-secondary/[0.07] blur-[100px]" />
           {/* Slow lower anchor orb */}
-          <div className="animate-pulse-slow-delay-2 absolute -bottom-[15%] left-[20%] h-[40%] w-[35%] rounded-full bg-primary/[0.035] blur-[120px]" />
+          <div className="animate-pulse-slow-delay-2 absolute -bottom-[15%] left-[20%] h-[40%] w-[35%] rounded-full bg-primary/[0.05] blur-[120px]" />
           {/* Decorative rings — add geometric depth */}
           <div
             className="absolute right-[-8%] top-[5%] h-[90%] w-[55%] rounded-full"
@@ -305,7 +305,7 @@ const Index = () => {
           />
           {/* Dot-matrix texture */}
           <div
-            className="absolute inset-0 opacity-[0.035]"
+            className="absolute inset-0 opacity-[0.05]"
             style={{
               backgroundImage: `radial-gradient(circle, rgba(255,255,255,0.9) 1px, transparent 1px)`,
               backgroundSize: "28px 28px",
@@ -333,7 +333,7 @@ const Index = () => {
         </div>
 
         <div className="container relative mx-auto px-4 py-20 lg:px-8">
-          <div className="grid items-center gap-12 lg:grid-cols-[1.08fr_0.92fr]">
+          <div className="grid items-center gap-12 lg:grid-cols-2">
             {/* Left: text content */}
             <motion.div
               initial={shouldReduceMotion ? false : { opacity: 0, y: 30 }}
@@ -344,7 +344,7 @@ const Index = () => {
                 Measurement. Automation. Paid Media.
               </p>
 
-              <h1 className="max-w-none text-4xl font-bold leading-[1.01] tracking-tight md:text-5xl lg:text-[4.3rem] xl:text-[4.55rem]">
+              <h1 className="max-w-none text-4xl font-bold leading-[1.01] tracking-tight md:text-5xl lg:text-[4rem] xl:text-[4.2rem]">
                 <span className="block lg:whitespace-nowrap">Track Every Conversion.</span>
                 <span className="mt-2 block text-foreground/92 md:mt-3 lg:whitespace-nowrap">
                   Automate Every Lead.
@@ -406,18 +406,18 @@ const Index = () => {
               initial={shouldReduceMotion ? false : { opacity: 0, x: 30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: shouldReduceMotion ? 0 : 0.7, delay: 0.2 }}
-              className="relative hidden h-[440px] max-w-[560px] justify-self-end lg:block"
+              className="relative hidden h-[440px] lg:block"
               aria-hidden="true"
             >
               {/* Collective card halo glow */}
-              <div className="absolute inset-0 rounded-3xl bg-primary/[0.04] blur-[42px]" />
-              <div className="absolute inset-0 rounded-3xl bg-secondary/[0.025] blur-[64px]" />
+              <div className="absolute inset-0 rounded-3xl bg-primary/[0.06] blur-[60px]" />
+              <div className="absolute inset-0 rounded-3xl bg-secondary/[0.04] blur-[80px]" />
 
               {/* ROAS card */}
               <motion.div
-                animate={shouldReduceMotion ? {} : { y: [0, -6, 0] }}
+                animate={shouldReduceMotion ? {} : { y: [0, -10, 0] }}
                 transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
-                className="glass-card absolute left-0 top-10 w-52 border-white/12 p-5 shadow-[0_8px_28px_rgba(0,0,0,0.24)]"
+                className="glass-card absolute left-0 top-8 w-52 border-white/15 p-5 shadow-[0_8px_32px_rgba(0,0,0,0.3)]"
               >
                 <div className="mb-2 flex items-center gap-2">
                   <div className="flex h-7 w-7 items-center justify-center rounded-md bg-primary/10">
@@ -436,9 +436,9 @@ const Index = () => {
 
               {/* Lead volume card */}
               <motion.div
-                animate={shouldReduceMotion ? {} : { y: [0, -7, 0] }}
+                animate={shouldReduceMotion ? {} : { y: [0, -14, 0] }}
                 transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 0.8 }}
-                className="glass-card absolute right-0 top-2 w-56 border-white/12 p-5 shadow-[0_8px_28px_rgba(0,0,0,0.24)]"
+                className="glass-card absolute right-0 top-0 w-56 border-white/15 p-5 shadow-[0_8px_32px_rgba(0,0,0,0.3)]"
               >
                 <div className="mb-2 flex items-center gap-2">
                   <div className="flex h-7 w-7 items-center justify-center rounded-md bg-primary/10">
@@ -457,9 +457,9 @@ const Index = () => {
 
               {/* Tracking accuracy card */}
               <motion.div
-                animate={shouldReduceMotion ? {} : { y: [0, -5, 0] }}
+                animate={shouldReduceMotion ? {} : { y: [0, -8, 0] }}
                 transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 1.5 }}
-                className="glass-card absolute bottom-14 left-8 w-52 border-white/12 p-5 shadow-[0_8px_28px_rgba(0,0,0,0.24)]"
+                className="glass-card absolute bottom-14 left-8 w-52 border-white/15 p-5 shadow-[0_8px_32px_rgba(0,0,0,0.3)]"
               >
                 <div className="mb-2 flex items-center gap-2">
                   <div className="flex h-7 w-7 items-center justify-center rounded-md bg-primary/10">
@@ -483,9 +483,9 @@ const Index = () => {
 
               {/* Wasted spend card */}
               <motion.div
-                animate={shouldReduceMotion ? {} : { y: [0, -6, 0] }}
+                animate={shouldReduceMotion ? {} : { y: [0, -12, 0] }}
                 transition={{ duration: 3.8, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-                className="glass-card absolute bottom-2 right-3 w-48 border-white/12 p-5 shadow-[0_8px_28px_rgba(0,0,0,0.24)]"
+                className="glass-card absolute bottom-0 right-4 w-48 border-white/15 p-5 shadow-[0_8px_32px_rgba(0,0,0,0.3)]"
               >
                 <div className="mb-2 flex items-center gap-2">
                   <div className="flex h-7 w-7 items-center justify-center rounded-md bg-primary/10">
