@@ -340,27 +340,19 @@ const Index = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: shouldReduceMotion ? 0 : 0.6 }}
             >
-              {/* Badge with live pulse dot */}
-              <div className="mb-6 inline-flex items-center gap-2.5 rounded-full border border-primary/25 bg-primary/8 px-4 py-1.5 shadow-[0_0_16px_rgba(62,207,142,0.08)]">
-                <span className="relative flex h-2 w-2">
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-60" />
-                  <span className="relative inline-flex h-2 w-2 rounded-full bg-primary" />
-                </span>
-                <span className="text-sm font-medium text-primary">
-                  Performance Marketing That Proves Its Value
-                </span>
-              </div>
+              <p className="mb-5 text-[11px] font-semibold uppercase tracking-[0.24em] text-primary/85">
+                Measurement. Automation. Paid Media.
+              </p>
 
-              {/* Headline — gradient on its own line */}
-              <h1 className="text-4xl font-bold leading-tight md:text-5xl lg:text-6xl">
-                Track Every Conversion.{" "}
-                <br className="hidden sm:block" />
-                Automate Every Lead.{" "}
-                <br />
-                <span className="text-gradient">Scale What Works.</span>
+              <h1 className="max-w-[13ch] text-4xl font-bold leading-[0.96] tracking-[-0.04em] md:text-6xl lg:text-[5.5rem]">
+                <span className="block">Track Every</span>
+                <span className="block">Conversion.</span>
+                <span className="mt-3 block text-foreground/92 md:mt-4">Automate Every</span>
+                <span className="block">Lead.</span>
+                <span className="mt-3 block text-gradient md:mt-4">Scale What Works.</span>
               </h1>
 
-              <p className="mt-6 max-w-lg text-lg text-muted-foreground">
+              <p className="mt-8 max-w-xl text-lg leading-8 text-muted-foreground">
                 We build the measurement, automation, and paid media systems that turn your marketing
                 budget into provable revenue.
               </p>
@@ -388,25 +380,8 @@ const Index = () => {
                 </Button>
               </div>
 
-              {/* Trust items — checkmark style */}
-              <div className="mt-7 flex flex-col gap-2">
-                {[
-                  "No-pressure discovery call",
-                  "Transparent reporting — real numbers, always",
-                  "Response within 1 business day",
-                ].map((item) => (
-                  <div key={item} className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <CheckCircle2 className="h-4 w-4 shrink-0 text-primary" />
-                    {item}
-                  </div>
-                ))}
-              </div>
-              <p className="mt-5 text-xs text-muted-foreground/60">
-                Trusted by <span className="text-muted-foreground">30+ businesses</span> across Ghana, Nigeria & Kenya
-              </p>
-
               {/* Mobile metric tiles — visible when floating cards are hidden on desktop */}
-              <div className="mt-8 grid grid-cols-2 gap-3 lg:hidden">
+              <div className="mt-10 grid grid-cols-2 gap-3 lg:hidden">
                 {[
                   { label: "ROAS", value: "4.2×", sub: "Return on ad spend" },
                   { label: "Lead Volume", value: "+68%", sub: "Month-over-month" },
