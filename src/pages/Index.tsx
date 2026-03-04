@@ -344,15 +344,13 @@ const Index = () => {
                 Measurement. Automation. Paid Media.
               </p>
 
-              <h1 className="max-w-[13ch] text-4xl font-bold leading-[0.96] tracking-[-0.04em] md:text-6xl lg:text-[5.5rem]">
-                <span className="block">Track Every</span>
-                <span className="block">Conversion.</span>
-                <span className="mt-3 block text-foreground/92 md:mt-4">Automate Every</span>
-                <span className="block">Lead.</span>
-                <span className="mt-3 block text-gradient md:mt-4">Scale What Works.</span>
+              <h1 className="max-w-[12ch] text-4xl font-bold leading-[0.98] tracking-tight md:text-5xl lg:text-6xl">
+                <span className="block">Track Every Conversion.</span>
+                <span className="mt-2 block text-foreground/92 md:mt-3">Automate Every Lead.</span>
+                <span className="mt-2 block text-gradient md:mt-3">Scale What Works.</span>
               </h1>
 
-              <p className="mt-8 max-w-xl text-lg leading-8 text-muted-foreground">
+              <p className="mt-7 max-w-lg text-lg leading-8 text-muted-foreground">
                 We build the measurement, automation, and paid media systems that turn your marketing
                 budget into provable revenue.
               </p>
