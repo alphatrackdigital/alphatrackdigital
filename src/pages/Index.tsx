@@ -85,32 +85,23 @@ const testimonials = [
   },
 ];
 
-type ProofHighlight = {
+type ResultHighlight = {
   value: string;
   label: string;
-  context: string;
 };
 
-const proofHighlights: ProofHighlight[] = [
-  {
-    value: "3",
-    label: "Documented case studies",
-    context: "Publicly captured client work only",
-  },
+const resultHighlights: ResultHighlight[] = [
   {
     value: "4.8M",
-    label: "Impressions in one campaign",
-    context: "Documented education-sector case study",
+    label: "Impressions delivered in one campaign",
   },
   {
     value: "55%",
-    label: "Conversion rate in one campaign",
-    context: "Documented hospitality case study",
+    label: "Conversion rate achieved in one campaign",
   },
   {
     value: "272K",
-    label: "Views in one campaign",
-    context: "Documented youth-audience case study",
+    label: "Views generated in one campaign",
   },
 ];
 
@@ -505,31 +496,20 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Selected proof from documented client work */}
+      {/* Results strip */}
       <section
-        className="border-b border-white/10 py-16"
-        style={{ background: "linear-gradient(180deg, rgba(62,207,142,0.035) 0%, transparent 100%)" }}
+        className="border-b border-white/10 py-14"
+        style={{ background: "linear-gradient(180deg, rgba(62,207,142,0.04) 0%, transparent 100%)" }}
       >
         <div className="container mx-auto px-4 lg:px-8">
-          <SectionIntro
-            eyebrow="Selected proof from documented client work"
-            title="Outcomes From 3 Documented Case Studies"
-            description="These are selected documented results from individual client engagements, not portfolio-wide averages."
-            align="center"
-            mode="proof"
-            maxWidth="lg"
-            className="mx-auto mb-10"
-            descriptionClassName="max-w-2xl text-muted-foreground/85"
-          />
-          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-            {proofHighlights.map((highlight) => (
-              <div
-                key={highlight.label}
-                className="rounded-2xl border border-white/10 bg-white/[0.02] px-5 py-6 text-center shadow-[0_10px_30px_rgba(0,0,0,0.12)]"
-              >
-                <p className="text-4xl font-bold tracking-tight text-gradient">{highlight.value}</p>
-                <p className="mt-3 text-sm font-medium text-foreground">{highlight.label}</p>
-                <p className="mt-1.5 text-sm leading-6 text-muted-foreground">{highlight.context}</p>
+          <p className="mb-8 text-center text-xs font-semibold uppercase tracking-widest text-muted-foreground/60">
+            Results we've driven for clients
+          </p>
+          <div className="flex flex-col items-center gap-8 sm:flex-row sm:gap-0 sm:divide-x sm:divide-white/10">
+            {resultHighlights.map((result) => (
+              <div key={result.label} className="flex flex-1 flex-col items-center px-6 text-center">
+                <p className="text-4xl font-bold text-gradient md:text-5xl">{result.value}</p>
+                <p className="mt-2 max-w-[18rem] text-sm leading-6 text-muted-foreground">{result.label}</p>
               </div>
             ))}
           </div>
