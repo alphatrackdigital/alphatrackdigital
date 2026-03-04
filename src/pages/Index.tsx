@@ -258,7 +258,7 @@ const Index = () => {
           name: "AlphaTrack Digital",
           url: "https://alphatrack.digital",
           logo: buildCanonicalUrl("/apple-touch-icon.png?v=20260303a"),
-          description: "Data-driven performance marketing agency based in Accra and Lagos.",
+          description: "Data-driven performance marketing agency focused on measurement, paid media, and automation.",
           address: [
             { "@type": "PostalAddress", addressLocality: "Accra", addressCountry: "GH" },
             { "@type": "PostalAddress", addressLocality: "Lagos", addressCountry: "NG" },

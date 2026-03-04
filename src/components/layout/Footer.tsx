@@ -86,7 +86,7 @@ const Footer = () => {
 
         <div className="mt-12 border-t border-white/10 pt-6 text-center">
           <p className="text-xs text-muted-foreground">
-            © AlphaTrack Digital {new Date().getFullYear()} All Rights Reserved.
+            Copyright AlphaTrack Digital {new Date().getFullYear()}. All rights reserved.
           </p>
         </div>
       </div>
@@ -95,3 +95,4 @@ const Footer = () => {
 };
 
 export default Footer;
+

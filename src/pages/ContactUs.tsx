@@ -1,16 +1,29 @@
 import { useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Mail, Phone, MapPin, Loader2, MessageSquare, Search, CalendarCheck } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import SEO from "@/components/shared/SEO";
+import { Link, useNavigate } from "react-router-dom";
+import {
+  ArrowUpRight,
+  CalendarCheck,
+  Clock3,
+  Loader2,
+  Mail,
+  MessageSquare,
+  Phone,
+  Search,
+} from "lucide-react";
 import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { toast } from "sonner";
+
+import PageSection from "@/components/shared/PageSection";
+import SectionIntro from "@/components/shared/SectionIntro";
+import SEO from "@/components/shared/SEO";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { submitLead } from "@/lib/leads";
+import type { ContactMethod, JourneyStep } from "@/types/page-content";
 
 const contactSchema = z.object({
   firstName: z.string().trim().min(1, "First name is required").max(100),
@@ -21,6 +34,52 @@ const contactSchema = z.object({
 });
 
 type ContactFormData = z.infer<typeof contactSchema>;
+
+const contactMethods: ContactMethod[] = [
+  {
+    icon: Mail,
+    title: "Email us",
+    description: "Best for project context, requirements, or follow-up documents.",
+    detail: "info@alphatrack.digital",
+    href: "mailto:info@alphatrack.digital",
+  },
+  {
+    icon: Phone,
+    title: "Call us",
+    description: "Use the number that is easiest for you to reach during business hours.",
+    detail: "+233 530 985 334",
+    href: "tel:+233530985334",
+    secondaryDetail: "+234 806 199 2748",
+    secondaryHref: "tel:+2348061992748",
+  },
+  {
+    icon: Clock3,
+    title: "Response window",
+    description: "Most new enquiries get a direct reply with next steps within one business day.",
+    detail: "Reply within 1 business day",
+  },
+];
+
+const journeySteps: JourneyStep[] = [
+  {
+    step: "01",
+    title: "We receive your brief",
+    description: "Your enquiry goes directly to the team handling strategy and implementation.",
+    icon: MessageSquare,
+  },
+  {
+    step: "02",
+    title: "We review the context",
+    description: "We look at the problem, the likely blockers, and the best route to help.",
+    icon: Search,
+  },
+  {
+    step: "03",
+    title: "We come back with a next step",
+    description: "That may be a focused reply, a booked call, or a recommendation on what to fix first.",
+    icon: CalendarCheck,
+  },
+];
 
 const MIN_FORM_FILL_TIME_MS = 1500;
 const SUBMISSION_THROTTLE_MS = 5000;
@@ -76,146 +135,145 @@ const ContactUs = () => {
     <>
       <SEO
         title="Contact Us | AlphaTrack Digital"
-        description="Have a question or ready to get started? Reach out to AlphaTrack Digital. Offices in Accra and Lagos."
+        description="Contact AlphaTrack Digital to discuss conversion tracking, paid media, automation, or the next step in your growth system."
         canonicalUrl="/contact-us"
       />
-      <section className="relative overflow-hidden py-24 md:py-32">
-        <div className="absolute right-0 top-1/3 h-80 w-80 rounded-full bg-secondary/5 blur-[120px]" />
-        <div className="container relative mx-auto px-4 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="text-center"
-          >
-            <span className="mb-4 inline-block text-sm font-semibold uppercase tracking-widest text-primary">
-              Contact Us
-            </span>
-            <h1 className="mx-auto max-w-3xl text-4xl font-bold md:text-5xl">
-              Let's Start a <span className="text-gradient">Conversation</span>
-            </h1>
-            <p className="mx-auto mt-6 max-w-xl text-lg text-muted-foreground">
-              Have a question, or ready to get started? Reach out. We'd love to hear from you.
-            </p>
-            <div className="mt-6 flex flex-wrap items-center justify-center gap-3 text-xs text-muted-foreground">
-              <span className="rounded-full border border-primary/20 bg-primary/10 px-3 py-1">
-                Reply within 1 business day
-              </span>
-              <span className="rounded-full border border-primary/20 bg-primary/10 px-3 py-1">
-                No-pressure consultation
-              </span>
-            </div>
-          </motion.div>
-        </div>
-      </section>
 
-      <section className="pb-24">
-        <div className="container mx-auto grid gap-12 px-4 md:grid-cols-2 lg:px-8">
-          <div className="space-y-8">
-            <div>
-              <h2 className="text-2xl font-bold">Get In Touch</h2>
-              <p className="mt-2 text-muted-foreground">
-                We're here to help and answer any questions you might have.
-              </p>
+      <PageSection mode="hero" surface="glow" spacing="spacious">
+        <div className="grid gap-12 lg:grid-cols-[0.95fr_1.05fr] lg:items-start">
+          <div className="space-y-10">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              <SectionIntro
+                as="h1"
+                eyebrow="Contact Us"
+                mode="hero"
+                maxWidth="lg"
+                title={
+                  <>
+                    Tell Us What You Need to Fix, Build, or <span className="text-gradient">Scale</span>
+                  </>
+                }
+                description="Share the context, the bottleneck, or the goal. We will come back with the clearest next step instead of a vague sales loop."
+              />
+
+              <div className="mt-6 flex flex-wrap gap-3 text-xs text-muted-foreground">
+                <span className="rounded-full border border-primary/20 bg-primary/10 px-3 py-1">
+                  Reply within 1 business day
+                </span>
+                <span className="rounded-full border border-primary/20 bg-primary/10 px-3 py-1">
+                  Direct with a strategist
+                </span>
+                <span className="rounded-full border border-primary/20 bg-primary/10 px-3 py-1">
+                  No-pressure next steps
+                </span>
+              </div>
+
+              <div className="mt-8">
+                <Button
+                  asChild
+                  variant="outline"
+                  className="gap-1.5 rounded-full border-white/20 bg-white/[0.03] hover:bg-white/5"
+                >
+                  <Link to="/book-a-call">
+                    Prefer a call? Book a time instead <ArrowUpRight className="h-4 w-4" />
+                  </Link>
+                </Button>
+              </div>
+            </motion.div>
+
+            <div className="grid gap-4 sm:grid-cols-3 lg:grid-cols-1">
+              {contactMethods.map((method, index) => (
+                <motion.div
+                  key={method.title}
+                  initial={{ opacity: 0, y: 16 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.08, duration: 0.35 }}
+                  className="rounded-[24px] border border-white/8 bg-white/[0.02] p-6"
+                >
+                  <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white/[0.04]">
+                    <method.icon className="h-5 w-5 text-primary" />
+                  </div>
+                  <h2 className="mt-4 text-base font-semibold">{method.title}</h2>
+                  <p className="mt-2 text-sm leading-6 text-muted-foreground">{method.description}</p>
+                  <div className="mt-4 space-y-2 text-sm">
+                    {method.href ? (
+                      <a href={method.href} className="block font-medium text-foreground transition-colors hover:text-primary">
+                        {method.detail}
+                      </a>
+                    ) : (
+                      <p className="font-medium text-foreground">{method.detail}</p>
+                    )}
+                    {method.secondaryDetail &&
+                      (method.secondaryHref ? (
+                        <a
+                          href={method.secondaryHref}
+                          className="block font-medium text-foreground transition-colors hover:text-primary"
+                        >
+                          {method.secondaryDetail}
+                        </a>
+                      ) : (
+                        <p className="font-medium text-foreground">{method.secondaryDetail}</p>
+                      ))}
+                  </div>
+                </motion.div>
+              ))}
             </div>
 
-            {/* What happens next */}
-            <div>
-              <h3 className="mb-4 text-sm font-semibold uppercase tracking-widest text-primary">
-                What Happens Next
-              </h3>
-              <ol className="space-y-4">
-                {[
-                  {
-                    icon: MessageSquare,
-                    step: "01",
-                    title: "We receive your message",
-                    desc: "Your enquiry lands directly with our team — no bots, no automated queue.",
-                  },
-                  {
-                    icon: Search,
-                    step: "02",
-                    title: "We review & prepare",
-                    desc: "Within 1 business day we review your goals and prepare relevant questions.",
-                  },
-                  {
-                    icon: CalendarCheck,
-                    step: "03",
-                    title: "We schedule a strategy call",
-                    desc: "We book a focused 20-minute call to understand your needs and recommend a plan.",
-                  },
-                ].map(({ icon: Icon, step, title, desc }) => (
-                  <li key={step} className="flex items-start gap-4">
-                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary/10">
-                      <Icon className="h-4 w-4 text-primary" />
+            <div className="rounded-[28px] border border-white/10 bg-background/75 p-7">
+              <SectionIntro
+                eyebrow="What Happens Next"
+                mode="proof"
+                title="A Short, Clear Contact Flow"
+                description="You should know what to expect before you hit submit."
+                maxWidth="md"
+                titleClassName="text-xl md:text-2xl"
+              />
+              <ol className="mt-6 space-y-5">
+                {journeySteps.map((step) => (
+                  <li key={step.step} className="flex items-start gap-4">
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-primary/10">
+                      {step.icon ? <step.icon className="h-4 w-4 text-primary" /> : <span className="text-xs font-semibold text-primary">{step.step}</span>}
                     </div>
                     <div>
-                      <p className="text-[11px] font-bold uppercase tracking-widest text-primary/50">
-                        {step}
-                      </p>
-                      <p className="font-semibold">{title}</p>
-                      <p className="mt-0.5 text-sm text-muted-foreground">{desc}</p>
+                      <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary/70">{step.step}</p>
+                      <p className="mt-1 text-sm font-semibold">{step.title}</p>
+                      <p className="mt-1 text-sm leading-6 text-muted-foreground">{step.description}</p>
                     </div>
                   </li>
                 ))}
               </ol>
             </div>
-
-            <div className="space-y-6">
-              <div className="glass-card flex items-start gap-4 p-6">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10">
-                  <MapPin className="h-5 w-5 text-primary" />
-                </div>
-                <div>
-                  <h3 className="font-semibold">Our Offices</h3>
-                  <p className="mt-1 text-sm text-muted-foreground">Accra, Ghana</p>
-                  <p className="text-sm text-muted-foreground">Lagos, Nigeria</p>
-                </div>
-              </div>
-
-              <div className="glass-card flex items-start gap-4 p-6">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10">
-                  <Mail className="h-5 w-5 text-primary" />
-                </div>
-                <div>
-                  <h3 className="font-semibold">Email</h3>
-                  <a
-                    href="mailto:info@alphatrack.digital"
-                    className="mt-1 text-sm text-muted-foreground transition-colors hover:text-primary"
-                  >
-                    info@alphatrack.digital
-                  </a>
-                </div>
-              </div>
-
-              <div className="glass-card flex items-start gap-4 p-6">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10">
-                  <Phone className="h-5 w-5 text-primary" />
-                </div>
-                <div>
-                  <h3 className="font-semibold">Phone</h3>
-                  <a
-                    href="tel:+233530985334"
-                    className="mt-1 text-sm text-muted-foreground transition-colors hover:text-primary"
-                  >
-                    +233 530 985 334 (Ghana)
-                  </a>
-                  <a
-                    href="tel:+2348061992748"
-                    className="mt-1 block text-sm text-muted-foreground transition-colors hover:text-primary"
-                  >
-                    +234 806 199 2748 (Nigeria)
-                  </a>
-                </div>
-              </div>
-            </div>
           </div>
 
-          <div className="glass-card p-8 md:p-10">
-            <h2 className="text-xl font-bold">Send Us a Message</h2>
-            <p className="mt-1 text-sm text-muted-foreground">
-              Fill out the form and we'll get back to you soon.
-            </p>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="rounded-[30px] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.04)_0%,rgba(255,255,255,0.02)_100%)] p-8 shadow-[0_24px_64px_rgba(0,0,0,0.25)] md:p-10"
+          >
+            <div className="flex flex-col gap-3 border-b border-white/10 pb-6 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-primary/85">
+                  Send a Message
+                </p>
+                <h2 className="mt-2 text-2xl font-semibold">Share the context</h2>
+                <p className="mt-2 max-w-lg text-sm leading-6 text-muted-foreground">
+                  A short brief is enough. Tell us what needs attention and we will respond with a useful next step.
+                </p>
+              </div>
+              <Link
+                to="/book-a-call"
+                className="inline-flex items-center gap-1 text-sm font-medium text-primary transition-colors hover:text-primary/80"
+              >
+                Prefer a call? Book now <ArrowUpRight className="h-4 w-4" />
+              </Link>
+            </div>
+
             <form className="mt-6 space-y-5" onSubmit={handleSubmit(onSubmit)} noValidate>
               <div className="hidden" aria-hidden="true">
                 <label htmlFor="contact-company-website">Website</label>
@@ -315,8 +373,8 @@ const ContactUs = () => {
                 </label>
                 <Textarea
                   id="message"
-                  placeholder="Tell us about your project..."
-                  rows={4}
+                  placeholder="Tell us about the problem, project, or goal."
+                  rows={5}
                   className="border-white/10 bg-white/5"
                   aria-invalid={!!errors.message}
                   aria-describedby={errors.message ? "message-error" : undefined}
@@ -331,7 +389,7 @@ const ContactUs = () => {
               <Button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full gap-1.5 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90"
+                className="w-full gap-1.5 rounded-xl bg-primary text-primary-foreground hover:bg-primary/90"
               >
                 {isSubmitting ? (
                   <>
@@ -342,12 +400,12 @@ const ContactUs = () => {
                 )}
               </Button>
               <p className="text-center text-xs text-muted-foreground">
-                We typically reply within 1 business day. We never sell your data.
+                We reply within 1 business day, keep your details private, and only use this information to respond to your enquiry.
               </p>
             </form>
-          </div>
+          </motion.div>
         </div>
-      </section>
+      </PageSection>
     </>
   );
 };
