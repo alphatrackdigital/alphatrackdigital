@@ -341,10 +341,10 @@ const Index = () => {
               transition={{ duration: shouldReduceMotion ? 0 : 0.6 }}
             >
               <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.24em] text-primary/80">
-                Track. Automate. Scale.
+                Measurement. Automation. Paid Media.
               </p>
 
-              <h1 className="max-w-none text-4xl font-bold leading-[1.02] tracking-tight md:text-5xl lg:text-[4rem] xl:text-[4.2rem]">
+              <h1 className="max-w-none text-4xl font-bold leading-[1.01] tracking-tight md:text-5xl lg:text-[4.3rem] xl:text-[4.55rem]">
                 <span className="block lg:whitespace-nowrap">Track Every Conversion.</span>
                 <span className="mt-2 block text-foreground/92 md:mt-3 lg:whitespace-nowrap">
                   Automate Every Lead.
