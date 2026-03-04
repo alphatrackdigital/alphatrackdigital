@@ -344,7 +344,7 @@ const Index = () => {
                 Measurement. Automation. Paid Media.
               </p>
 
-              <h1 className="max-w-none text-4xl font-bold leading-[1.01] tracking-tight md:text-5xl lg:text-[4rem] xl:text-[4.2rem]">
+              <h1 className="max-w-none text-4xl font-bold leading-[1.01] tracking-tight md:text-5xl lg:text-[3.7rem] xl:text-[3.9rem]">
                 <span className="block lg:whitespace-nowrap">Track Every Conversion.</span>
                 <span className="mt-2 block text-foreground/92 md:mt-3 lg:whitespace-nowrap">
                   Automate Every Lead.
