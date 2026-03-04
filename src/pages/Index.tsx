@@ -342,17 +342,17 @@ const Index = () => {
                 </span>
               </div>
 
-              <h1 className="max-w-none text-4xl font-bold leading-[1.08] tracking-tight md:text-5xl lg:text-[3.7rem] xl:text-[3.9rem]">
+              <h1 className="max-w-none text-[2rem] font-bold leading-[1.08] tracking-tight sm:text-[2.4rem] md:text-[2.8rem] lg:text-[3.2rem] xl:text-[3.5rem]">
                 <span className="block lg:whitespace-nowrap">Track Every Conversion.</span>
-                <span className="mt-2 block text-foreground/92 md:mt-3 lg:whitespace-nowrap">
+                <span className="mt-2 block text-foreground/92 md:mt-2.5 lg:whitespace-nowrap">
                   Automate Every Lead.
                 </span>
-                <span className="mt-2 block text-gradient md:mt-3 lg:whitespace-nowrap">
+                <span className="mt-2 block text-gradient md:mt-2.5 lg:whitespace-nowrap">
                   Scale What Works.
                 </span>
               </h1>
 
-              <p className="mt-6 max-w-lg text-lg text-muted-foreground">
+              <p className="mt-5 max-w-lg text-base text-muted-foreground md:text-[17px]">
                 We build the measurement, automation, and paid media systems that turn your marketing
                 budget into provable revenue.
               </p>
@@ -393,10 +393,6 @@ const Index = () => {
                   </div>
                 ))}
               </div>
-              <p className="mt-5 text-xs text-muted-foreground/60">
-                Trusted by <span className="text-muted-foreground">30+ businesses</span> across Ghana, Nigeria & Kenya
-              </p>
-
               {/* Mobile metric tiles — visible when floating cards are hidden on desktop */}
               <div className="mt-8 grid grid-cols-2 gap-3 lg:hidden">
                 {[
