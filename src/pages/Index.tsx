@@ -1,4 +1,4 @@
-﻿import { useRef, useState, useEffect } from "react";
+﻿import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
   ArrowUpRight,
@@ -18,7 +18,7 @@ import FAQAccordion from "@/components/shared/FAQAccordion";
 import SEO from "@/components/shared/SEO";
 import SectionIntro from "@/components/shared/SectionIntro";
 import { buildCanonicalUrl } from "@/config/seo";
-import { motion, useInView, useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { primaryServices, supportingServices } from "@/data/services";
 import { getFeaturedBlogPosts, blogPosts } from "@/data/blogPosts";
 import { cn } from "@/lib/utils";
@@ -41,37 +41,6 @@ import wordpressIcon from "@/assets/tools/wordpress-favicon-com.png";
 import zapierIcon from "@/assets/tools/zapier.svg";
 
 // --- Sub-components ---
-
-const CountUp = ({ value, suffix, disabled = false }: { value: number; suffix: string; disabled?: boolean }) => {
-  const ref = useRef<HTMLSpanElement>(null);
-  const isInView = useInView(ref, { once: true });
-  const [count, setCount] = useState(0);
-
-  useEffect(() => {
-    if (disabled) {
-      setCount(value);
-      return;
-    }
-    if (!isInView) return;
-    let startTime: number | null = null;
-    const duration = 1500;
-    const animate = (timestamp: number) => {
-      if (!startTime) startTime = timestamp;
-      const progress = Math.min((timestamp - startTime) / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3);
-      setCount(Math.round(eased * value));
-      if (progress < 1) requestAnimationFrame(animate);
-    };
-    requestAnimationFrame(animate);
-  }, [disabled, isInView, value]);
-
-  return (
-    <span ref={ref}>
-      {count}
-      {suffix}
-    </span>
-  );
-};
 
 const BlogImage = ({ src, alt }: { src: string; alt: string }) => {
   const [loaded, setLoaded] = useState(false);
@@ -116,11 +85,33 @@ const testimonials = [
   },
 ];
 
-const stats = [
-  { numericValue: 40, suffix: "%", label: "Avg. improvement in data accuracy" },
-  { numericValue: 25, suffix: "%", label: "Reduction in wasted ad spend" },
-  { numericValue: 3, suffix: "×", label: "Better attribution clarity" },
-  { numericValue: 30, suffix: "+", label: "Businesses served across 3 countries" },
+type ProofHighlight = {
+  value: string;
+  label: string;
+  context: string;
+};
+
+const proofHighlights: ProofHighlight[] = [
+  {
+    value: "3",
+    label: "Documented case studies",
+    context: "Publicly captured client work only",
+  },
+  {
+    value: "4.8M",
+    label: "Impressions in one campaign",
+    context: "Documented education-sector case study",
+  },
+  {
+    value: "55%",
+    label: "Conversion rate in one campaign",
+    context: "Documented hospitality case study",
+  },
+  {
+    value: "272K",
+    label: "Views in one campaign",
+    context: "Documented youth-audience case study",
+  },
 ];
 
 const tools = [
@@ -514,22 +505,31 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Stats — animated count-up on scroll */}
+      {/* Selected proof from documented client work */}
       <section
-        className="border-b border-white/10 py-14"
-        style={{ background: "linear-gradient(180deg, rgba(62,207,142,0.04) 0%, transparent 100%)" }}
+        className="border-b border-white/10 py-16"
+        style={{ background: "linear-gradient(180deg, rgba(62,207,142,0.035) 0%, transparent 100%)" }}
       >
         <div className="container mx-auto px-4 lg:px-8">
-          <p className="mb-8 text-center text-xs font-semibold uppercase tracking-widest text-muted-foreground/60">
-            Results we've driven for clients across 3 countries
-          </p>
-          <div className="flex flex-col items-center gap-8 sm:flex-row sm:gap-0 sm:divide-x sm:divide-white/10">
-            {stats.map((stat) => (
-              <div key={stat.label} className="flex flex-1 flex-col items-center text-center">
-                <p className="text-4xl font-bold text-gradient">
-                  <CountUp value={stat.numericValue} suffix={stat.suffix} disabled={shouldReduceMotion} />
-                </p>
-                <p className="mt-2 text-sm text-muted-foreground">{stat.label}</p>
+          <SectionIntro
+            eyebrow="Selected proof from documented client work"
+            title="Outcomes From 3 Documented Case Studies"
+            description="These are selected documented results from individual client engagements, not portfolio-wide averages."
+            align="center"
+            mode="proof"
+            maxWidth="lg"
+            className="mx-auto mb-10"
+            descriptionClassName="max-w-2xl text-muted-foreground/85"
+          />
+          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+            {proofHighlights.map((highlight) => (
+              <div
+                key={highlight.label}
+                className="rounded-2xl border border-white/10 bg-white/[0.02] px-5 py-6 text-center shadow-[0_10px_30px_rgba(0,0,0,0.12)]"
+              >
+                <p className="text-4xl font-bold tracking-tight text-gradient">{highlight.value}</p>
+                <p className="mt-3 text-sm font-medium text-foreground">{highlight.label}</p>
+                <p className="mt-1.5 text-sm leading-6 text-muted-foreground">{highlight.context}</p>
               </div>
             ))}
           </div>
