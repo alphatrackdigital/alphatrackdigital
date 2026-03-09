@@ -532,7 +532,7 @@ const Index = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: shouldReduceMotion ? 0 : 0.4 }}
-            className="mx-auto max-w-6xl overflow-hidden rounded-[28px] border border-white/12 bg-white/[0.02]"
+            className="mx-auto max-w-6xl overflow-hidden rounded-[28px] border border-white/[0.06] bg-white/[0.02]"
           >
             <div className="grid md:grid-cols-3">
               {toolCollections.map((group, index) => {
@@ -544,7 +544,7 @@ const Index = () => {
                     key={group.title}
                     className={cn(
                       "p-6 md:p-8",
-                      index < toolCollections.length - 1 && "border-b border-white/10 md:border-b-0 md:border-r md:border-white/10",
+                      index < toolCollections.length - 1 && "border-b border-white/[0.06] md:border-b-0 md:border-r md:border-white/[0.06]",
                     )}
                   >
                     <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-primary/90">
@@ -555,7 +555,7 @@ const Index = () => {
                       {featuredTools.map((tool) => (
                         <span
                           key={tool.name}
-                          className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-background/75 px-3 py-1.5 text-sm text-foreground/90"
+                          className="inline-flex items-center gap-2 rounded-full border border-white/[0.06] bg-background/75 px-3 py-1.5 text-sm text-foreground/90"
                         >
                           <span className="flex h-5 w-5 shrink-0 items-center justify-center">
                             <img src={tool.icon} alt="" className="h-full w-full object-contain" loading="lazy" />
@@ -564,7 +564,7 @@ const Index = () => {
                         </span>
                       ))}
                       {hiddenCount > 0 && (
-                        <span className="inline-flex items-center rounded-full border border-white/10 bg-white/[0.02] px-3 py-1.5 text-xs font-medium uppercase tracking-[0.14em] text-muted-foreground/80">
+                        <span className="inline-flex items-center rounded-full border border-white/[0.06] bg-white/[0.02] px-3 py-1.5 text-xs font-medium uppercase tracking-[0.14em] text-muted-foreground/80">
                           +{hiddenCount} more
                         </span>
                       )}
