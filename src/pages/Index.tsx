@@ -575,57 +575,44 @@ const Index = () => {
             </Accordion>
           </div>
 
-          {/* Desktop: unified premium panel */}
-          <motion.div
-            initial={shouldReduceMotion ? false : { opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: shouldReduceMotion ? 0 : 0.4 }}
-            className="group/tools-panel mx-auto hidden max-w-6xl overflow-hidden rounded-[28px] border border-white/[0.06] bg-white/[0.02] md:block"
-          >
-            <div className="grid md:grid-cols-3">
-              {toolCollections.map((group, index) => {
-                const featuredTools = group.items.slice(0, 4);
-                const hiddenCount = Math.max(0, group.items.length - featuredTools.length);
+          {/* Desktop: stable premium cards (no hover-dim animation) */}
+          <div className="mx-auto hidden max-w-6xl gap-4 md:grid md:grid-cols-3">
+            {toolCollections.map((group) => {
+              const featuredTools = group.items.slice(0, 4);
+              const hiddenCount = Math.max(0, group.items.length - featuredTools.length);
 
-                return (
-                  <div
-                    key={group.title}
-                    tabIndex={0}
-                    className={cn(
-                      "relative flex min-h-[290px] flex-col p-6 transition-all duration-300 focus:outline-none md:p-8",
-                      "group-hover/tools-panel:opacity-70 hover:opacity-100 hover:bg-white/[0.012] focus:opacity-100 focus:bg-white/[0.012]",
-                      index < toolCollections.length - 1 && "border-r border-white/[0.06]",
+              return (
+                <div
+                  key={group.title}
+                  className="relative flex min-h-[290px] flex-col rounded-[24px] border border-white/[0.05] bg-[linear-gradient(180deg,rgba(255,255,255,0.025)_0%,rgba(255,255,255,0.01)_100%)] p-7"
+                >
+                  <div className="absolute left-7 top-0 h-px w-16 bg-primary/35" />
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-primary/85">
+                    {group.title}
+                  </p>
+                  <p className="mt-3 min-h-[52px] text-sm leading-6 text-muted-foreground">{group.description}</p>
+                  <div className="mt-5 flex flex-wrap gap-2.5">
+                    {featuredTools.map((tool) => (
+                      <span
+                        key={tool.name}
+                        className="inline-flex h-10 items-center gap-2 rounded-full border border-white/[0.06] bg-background/75 px-3.5 text-sm text-foreground/90"
+                      >
+                        <span className="flex h-5 w-5 shrink-0 items-center justify-center">
+                          <img src={tool.icon} alt="" className="h-full w-full object-contain" loading="lazy" />
+                        </span>
+                        {tool.name}
+                      </span>
+                    ))}
+                    {hiddenCount > 0 && (
+                      <span className="inline-flex h-10 items-center rounded-full border border-white/[0.06] bg-white/[0.02] px-3.5 text-xs font-medium tracking-[0.08em] text-muted-foreground/80">
+                        +{hiddenCount} additional
+                      </span>
                     )}
-                  >
-                    <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-primary/50 via-primary/25 to-transparent" />
-                    <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-primary/85">
-                      {group.title}
-                    </p>
-                    <p className="mt-3 min-h-[52px] text-sm leading-6 text-muted-foreground">{group.description}</p>
-                    <div className="mt-5 flex flex-wrap gap-2.5">
-                      {featuredTools.map((tool) => (
-                        <span
-                          key={tool.name}
-                          className="inline-flex h-10 items-center gap-2 rounded-full border border-white/[0.06] bg-background/75 px-3.5 text-sm text-foreground/90"
-                        >
-                          <span className="flex h-5 w-5 shrink-0 items-center justify-center">
-                            <img src={tool.icon} alt="" className="h-full w-full object-contain" loading="lazy" />
-                          </span>
-                          {tool.name}
-                        </span>
-                      ))}
-                      {hiddenCount > 0 && (
-                        <span className="inline-flex h-10 items-center rounded-full border border-white/[0.06] bg-white/[0.02] px-3.5 text-xs font-medium tracking-[0.08em] text-muted-foreground/80">
-                          +{hiddenCount} additional
-                        </span>
-                      )}
-                    </div>
                   </div>
-                );
-              })}
-            </div>
-          </motion.div>
+                </div>
+              );
+            })}
+          </div>
 
           <div className="mx-auto mt-6 flex max-w-3xl items-center justify-center gap-2.5 text-center text-xs tracking-[0.14em] text-muted-foreground/68">
             <span className="rounded-full border border-white/[0.06] bg-white/[0.02] px-3 py-1 text-[10px] font-medium uppercase tracking-[0.18em] text-muted-foreground/80">
