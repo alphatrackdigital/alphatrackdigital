@@ -1,10 +1,14 @@
-import { screen } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
+import { MemoryRouter } from "react-router-dom";
 import ContactUs from "@/pages/ContactUs";
-import { renderWithPageProviders } from "@/test/renderWithPageProviders";
 
 describe("ContactUs accessibility", () => {
   it("associates visible labels with form controls", () => {
-    renderWithPageProviders(<ContactUs />);
+    render(
+      <MemoryRouter>
+        <ContactUs />
+      </MemoryRouter>,
+    );
 
     expect(screen.getByLabelText("First Name")).toBeInTheDocument();
     expect(screen.getByLabelText("Last Name")).toBeInTheDocument();
