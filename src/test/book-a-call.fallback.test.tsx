@@ -1,16 +1,12 @@
-import { act, render, screen } from "@testing-library/react";
-import { MemoryRouter } from "react-router-dom";
+import { act, screen } from "@testing-library/react";
 import BookACall from "@/pages/BookACall";
+import { renderWithPageProviders } from "@/test/renderWithPageProviders";
 
 describe("BookACall fallback", () => {
   it("shows fallback options when the scheduler iframe does not load", () => {
     vi.useFakeTimers();
 
-    render(
-      <MemoryRouter>
-        <BookACall />
-      </MemoryRouter>,
-    );
+    renderWithPageProviders(<BookACall />, { route: "/book-a-call" });
 
     expect(screen.queryByText(/Having trouble with the embedded scheduler/i)).not.toBeInTheDocument();
 

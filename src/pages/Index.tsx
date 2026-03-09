@@ -13,7 +13,6 @@ import {
   CheckCircle2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import CTASection from "@/components/shared/CTASection";
 import FAQAccordion from "@/components/shared/FAQAccordion";
 import SEO from "@/components/shared/SEO";
@@ -130,8 +129,8 @@ const findTool = (name: string) => tools.find((tool) => tool.name === name)!;
 
 const toolCollections = [
   {
-    title: "Measurement Stack",
-    description: "Attribution, event quality, and reporting confidence.",
+    title: "Measurement",
+    description: "Attribution clarity across analytics, tags, and reporting.",
     items: [
       findTool("Google Analytics 4"),
       findTool("Google Tag Manager"),
@@ -141,28 +140,25 @@ const toolCollections = [
     ],
   },
   {
-    title: "Paid Growth Channels",
-    description: "Channel mix based on intent, quality, and scale potential.",
+    title: "Paid Media",
+    description: "The core paid channels we manage based on intent, quality, and scale.",
     items: [
       findTool("Meta Ads"),
       findTool("Google Ads"),
       findTool("Microsoft Ads"),
       findTool("LinkedIn Ads"),
       findTool("TikTok Ads"),
-      findTool("Snapchat Ads"),
     ],
   },
   {
-    title: "Automation & Commerce",
-    description: "Follow-up and pipeline visibility across your stack.",
+    title: "Automation",
+    description: "Follow-up visibility and conversion handoff across your revenue stack.",
     items: [
       findTool("Brevo"),
       findTool("HubSpot"),
       findTool("Klaviyo"),
       findTool("Make"),
       findTool("Shopify"),
-      findTool("WordPress"),
-      findTool("Zapier"),
     ],
   },
 ];
@@ -517,112 +513,6 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Platforms & Tools */}
-      <section className="border-b border-white/10 bg-white/[0.01] py-16">
-        <div className="container mx-auto px-4 lg:px-8">
-          <SectionIntro
-            eyebrow="Platforms & Tools"
-            title="A Curated Stack Built for Measurable Growth"
-            description="We do not bolt on random tools. We choose a lean stack for measurement, channel execution, and follow-up visibility."
-            align="center"
-            width="wide"
-            className="mb-14"
-            titleClassName="max-w-4xl"
-            descriptionClassName="max-w-2xl"
-          />
-
-          {/* Mobile: accordion for cleaner stack navigation */}
-          <div className="mx-auto max-w-3xl md:hidden">
-            <Accordion
-              type="single"
-              collapsible
-              defaultValue={toolCollections[0].title}
-              className="rounded-[24px] border border-white/[0.05] bg-white/[0.02] px-4"
-            >
-              {toolCollections.map((group) => {
-                const featuredTools = group.items.slice(0, 4);
-                const hiddenCount = Math.max(0, group.items.length - featuredTools.length);
-
-                return (
-                  <AccordionItem key={group.title} value={group.title} className="border-white/[0.05]">
-                    <AccordionTrigger className="py-5 text-left text-[11px] font-semibold uppercase tracking-[0.2em] text-primary/85 hover:no-underline">
-                      {group.title}
-                    </AccordionTrigger>
-                    <AccordionContent>
-                      <p className="pb-2 text-sm leading-6 text-muted-foreground">{group.description}</p>
-                      <div className="mt-4 flex flex-wrap gap-2.5">
-                        {featuredTools.map((tool) => (
-                          <span
-                            key={tool.name}
-                            className="inline-flex h-10 items-center gap-2 rounded-full border border-white/[0.06] bg-background/75 px-3.5 text-sm text-foreground/90"
-                          >
-                            <span className="flex h-5 w-5 shrink-0 items-center justify-center">
-                              <img src={tool.icon} alt="" className="h-full w-full object-contain" loading="lazy" />
-                            </span>
-                            {tool.name}
-                          </span>
-                        ))}
-                        {hiddenCount > 0 && (
-                          <span className="inline-flex h-10 items-center rounded-full border border-white/[0.06] bg-white/[0.02] px-3.5 text-xs font-medium tracking-[0.08em] text-muted-foreground/80">
-                            +{hiddenCount} additional
-                          </span>
-                        )}
-                      </div>
-                    </AccordionContent>
-                  </AccordionItem>
-                );
-              })}
-            </Accordion>
-          </div>
-
-          {/* Desktop: stable premium cards (no hover-dim animation) */}
-          <div className="mx-auto hidden max-w-6xl gap-4 md:grid md:grid-cols-3">
-            {toolCollections.map((group) => {
-              const featuredTools = group.items.slice(0, 4);
-              const hiddenCount = Math.max(0, group.items.length - featuredTools.length);
-
-              return (
-                <div
-                  key={group.title}
-                  className="relative flex min-h-[290px] flex-col rounded-[24px] border border-white/[0.05] bg-[linear-gradient(180deg,rgba(255,255,255,0.025)_0%,rgba(255,255,255,0.01)_100%)] p-7"
-                >
-                  <div className="absolute left-7 top-0 h-px w-16 bg-primary/35" />
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-primary/85">
-                    {group.title}
-                  </p>
-                  <p className="mt-3 min-h-[52px] text-sm leading-6 text-muted-foreground">{group.description}</p>
-                  <div className="mt-5 flex flex-wrap gap-2.5">
-                    {featuredTools.map((tool) => (
-                      <span
-                        key={tool.name}
-                        className="inline-flex h-10 items-center gap-2 rounded-full border border-white/[0.06] bg-background/75 px-3.5 text-sm text-foreground/90"
-                      >
-                        <span className="flex h-5 w-5 shrink-0 items-center justify-center">
-                          <img src={tool.icon} alt="" className="h-full w-full object-contain" loading="lazy" />
-                        </span>
-                        {tool.name}
-                      </span>
-                    ))}
-                    {hiddenCount > 0 && (
-                      <span className="inline-flex h-10 items-center rounded-full border border-white/[0.06] bg-white/[0.02] px-3.5 text-xs font-medium tracking-[0.08em] text-muted-foreground/80">
-                        +{hiddenCount} additional
-                      </span>
-                    )}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-
-          <div className="mx-auto mt-6 flex max-w-3xl items-center justify-center gap-2.5 text-center text-xs tracking-[0.14em] text-muted-foreground/68">
-            <span className="rounded-full border border-white/[0.06] bg-white/[0.02] px-3 py-1 text-[10px] font-medium uppercase tracking-[0.18em] text-muted-foreground/80">
-              Operating Principle
-            </span>
-            <span className="uppercase">Measure first. Scale second. Automate what converts.</span>
-          </div>
-        </div>
-      </section>
-
       {/* Services */}
       <section
         className="relative overflow-hidden border-t border-white/10 py-24"
@@ -887,6 +777,60 @@ const Index = () => {
               ))}
             </div>
           )}
+        </div>
+      </section>
+
+      {/* Core Growth Stack */}
+      <section
+        aria-labelledby="growth-stack-heading"
+        data-testid="growth-stack-section"
+        className="border-t border-white/10 bg-white/[0.01] py-16"
+      >
+        <div className="container mx-auto px-4 lg:px-8">
+          <SectionIntro
+            eyebrow="Core Growth Stack"
+            title="Built Across the Core Growth Stack"
+            description="A lean stack for attribution clarity, channel execution, and follow-up visibility."
+            align="center"
+            width="wide"
+            className="mb-10"
+            titleClassName="max-w-3xl"
+            descriptionClassName="max-w-2xl"
+            titleId="growth-stack-heading"
+          />
+
+          <div className="mx-auto grid max-w-5xl gap-4 md:grid-cols-3">
+            {toolCollections.map((group) => (
+              <div
+                key={group.title}
+                data-testid="growth-stack-card"
+                className="relative rounded-[22px] border border-white/[0.05] bg-[linear-gradient(180deg,rgba(255,255,255,0.02)_0%,rgba(255,255,255,0.008)_100%)] p-6"
+              >
+                <div className="absolute left-6 top-0 h-px w-12 bg-primary/30" />
+                <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary/80">
+                  {group.title}
+                </p>
+                <p className="mt-3 text-sm leading-6 text-muted-foreground">{group.description}</p>
+                <div className="mt-5 flex flex-wrap gap-2.5">
+                  {group.items.map((tool) => (
+                    <span
+                      key={tool.name}
+                      className="inline-flex h-10 items-center gap-2 rounded-full border border-white/[0.06] bg-background/75 px-3.5 text-sm text-foreground/90"
+                    >
+                      <span className="flex h-5 w-5 shrink-0 items-center justify-center">
+                        <img src={tool.icon} alt="" className="h-full w-full object-contain" loading="lazy" />
+                      </span>
+                      {tool.name}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <p className="mt-6 text-center text-[11px] uppercase tracking-[0.18em] text-muted-foreground/60">
+            Measure first. Scale second. Automate what converts.
+          </p>
         </div>
       </section>
 

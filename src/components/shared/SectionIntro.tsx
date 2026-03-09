@@ -6,6 +6,7 @@ interface SectionIntroProps {
   as?: "h1" | "h2" | "h3";
   eyebrow?: string;
   title: ReactNode;
+  titleId?: string;
   description?: ReactNode;
   align?: "left" | "center";
   width?: "default" | "wide" | "narrow";
@@ -51,6 +52,7 @@ const SectionIntro = ({
   as = "h2",
   eyebrow,
   title,
+  titleId,
   description,
   align = "left",
   width = "default",
@@ -78,6 +80,7 @@ const SectionIntro = ({
         </p>
       )}
       <TitleTag
+        id={titleId}
         className={cn(
           titleClasses[mode],
           isCentered && "mx-auto",
