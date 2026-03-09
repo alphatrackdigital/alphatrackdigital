@@ -527,39 +527,56 @@ const Index = () => {
             width="wide"
             className="mb-12"
           />
-          <div className="mx-auto grid max-w-6xl gap-5 lg:grid-cols-3">
-            {toolCollections.map((group, index) => (
-              <motion.div
-                key={group.title}
-                initial={shouldReduceMotion ? false : { opacity: 0, y: 18 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: shouldReduceMotion ? 0 : 0.35, delay: index * 0.06 }}
-                className="rounded-[26px] border border-white/10 bg-white/[0.02] p-6"
-              >
-                <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-primary/85">
-                  {group.title}
-                </p>
-                <p className="mt-3 text-sm leading-6 text-muted-foreground">{group.description}</p>
-                <div className="mt-5 flex flex-wrap gap-2.5">
-                  {group.items.map((tool) => (
-                    <span
-                      key={tool.name}
-                      className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-background/80 px-3 py-1.5 text-sm text-foreground/90"
-                    >
-                      <span className="flex h-5 w-5 shrink-0 items-center justify-center">
-                        <img src={tool.icon} alt="" className="h-full w-full object-contain" loading="lazy" />
-                      </span>
-                      {tool.name}
-                    </span>
-                  ))}
-                </div>
-              </motion.div>
-            ))}
-          </div>
-          <div className="mx-auto mt-6 max-w-3xl rounded-full border border-white/8 bg-white/[0.02] px-4 py-3 text-center text-xs uppercase tracking-[0.22em] text-muted-foreground/70">
+          <motion.div
+            initial={shouldReduceMotion ? false : { opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: shouldReduceMotion ? 0 : 0.4 }}
+            className="mx-auto max-w-6xl overflow-hidden rounded-[28px] border border-white/12 bg-white/[0.02]"
+          >
+            <div className="grid md:grid-cols-3">
+              {toolCollections.map((group, index) => {
+                const featuredTools = group.items.slice(0, 5);
+                const hiddenCount = Math.max(0, group.items.length - featuredTools.length);
+
+                return (
+                  <div
+                    key={group.title}
+                    className={cn(
+                      "p-6 md:p-8",
+                      index < toolCollections.length - 1 && "border-b border-white/10 md:border-b-0 md:border-r md:border-white/10",
+                    )}
+                  >
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-primary/90">
+                      {group.title}
+                    </p>
+                    <p className="mt-3 text-sm leading-6 text-muted-foreground">{group.description}</p>
+                    <div className="mt-5 flex flex-wrap gap-2.5">
+                      {featuredTools.map((tool) => (
+                        <span
+                          key={tool.name}
+                          className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-background/75 px-3 py-1.5 text-sm text-foreground/90"
+                        >
+                          <span className="flex h-5 w-5 shrink-0 items-center justify-center">
+                            <img src={tool.icon} alt="" className="h-full w-full object-contain" loading="lazy" />
+                          </span>
+                          {tool.name}
+                        </span>
+                      ))}
+                      {hiddenCount > 0 && (
+                        <span className="inline-flex items-center rounded-full border border-white/10 bg-white/[0.02] px-3 py-1.5 text-xs font-medium uppercase tracking-[0.14em] text-muted-foreground/80">
+                          +{hiddenCount} more
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </motion.div>
+          <p className="mx-auto mt-6 max-w-3xl text-center text-xs uppercase tracking-[0.22em] text-muted-foreground/65">
             Measurement first. Channel second. Automation tied to outcomes.
-          </div>
+          </p>
         </div>
       </section>
 
