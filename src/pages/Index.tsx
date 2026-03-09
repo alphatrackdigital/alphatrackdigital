@@ -13,6 +13,7 @@ import {
   CheckCircle2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import CTASection from "@/components/shared/CTASection";
 import FAQAccordion from "@/components/shared/FAQAccordion";
 import SEO from "@/components/shared/SEO";
@@ -130,7 +131,7 @@ const findTool = (name: string) => tools.find((tool) => tool.name === name)!;
 const toolCollections = [
   {
     title: "Measurement Stack",
-    description: "The setup we use to validate attribution, event quality, and reporting confidence.",
+    description: "Attribution, event quality, and reporting confidence.",
     items: [
       findTool("Google Analytics 4"),
       findTool("Google Tag Manager"),
@@ -141,7 +142,7 @@ const toolCollections = [
   },
   {
     title: "Paid Growth Channels",
-    description: "A curated mix of channels selected by intent, audience quality, and scaling potential.",
+    description: "Channel mix based on intent, quality, and scale potential.",
     items: [
       findTool("Meta Ads"),
       findTool("Google Ads"),
@@ -153,7 +154,7 @@ const toolCollections = [
   },
   {
     title: "Automation & Commerce",
-    description: "Tools we connect to turn leads into visible pipeline and repeatable follow-up.",
+    description: "Follow-up and pipeline visibility across your stack.",
     items: [
       findTool("Brevo"),
       findTool("HubSpot"),
@@ -525,37 +526,88 @@ const Index = () => {
             description="We do not bolt on random tools. We choose a lean stack for measurement, channel execution, and follow-up visibility."
             align="center"
             width="wide"
-            className="mb-12"
+            className="mb-14"
+            titleClassName="max-w-4xl"
+            descriptionClassName="max-w-2xl"
           />
+
+          {/* Mobile: accordion for cleaner stack navigation */}
+          <div className="mx-auto max-w-3xl md:hidden">
+            <Accordion
+              type="single"
+              collapsible
+              defaultValue={toolCollections[0].title}
+              className="rounded-[24px] border border-white/[0.05] bg-white/[0.02] px-4"
+            >
+              {toolCollections.map((group) => {
+                const featuredTools = group.items.slice(0, 4);
+                const hiddenCount = Math.max(0, group.items.length - featuredTools.length);
+
+                return (
+                  <AccordionItem key={group.title} value={group.title} className="border-white/[0.05]">
+                    <AccordionTrigger className="py-5 text-left text-[11px] font-semibold uppercase tracking-[0.2em] text-primary/85 hover:no-underline">
+                      {group.title}
+                    </AccordionTrigger>
+                    <AccordionContent>
+                      <p className="pb-2 text-sm leading-6 text-muted-foreground">{group.description}</p>
+                      <div className="mt-4 flex flex-wrap gap-2.5">
+                        {featuredTools.map((tool) => (
+                          <span
+                            key={tool.name}
+                            className="inline-flex h-10 items-center gap-2 rounded-full border border-white/[0.06] bg-background/75 px-3.5 text-sm text-foreground/90"
+                          >
+                            <span className="flex h-5 w-5 shrink-0 items-center justify-center">
+                              <img src={tool.icon} alt="" className="h-full w-full object-contain" loading="lazy" />
+                            </span>
+                            {tool.name}
+                          </span>
+                        ))}
+                        {hiddenCount > 0 && (
+                          <span className="inline-flex h-10 items-center rounded-full border border-white/[0.06] bg-white/[0.02] px-3.5 text-xs font-medium tracking-[0.08em] text-muted-foreground/80">
+                            +{hiddenCount} additional
+                          </span>
+                        )}
+                      </div>
+                    </AccordionContent>
+                  </AccordionItem>
+                );
+              })}
+            </Accordion>
+          </div>
+
+          {/* Desktop: unified premium panel */}
           <motion.div
             initial={shouldReduceMotion ? false : { opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: shouldReduceMotion ? 0 : 0.4 }}
-            className="mx-auto max-w-6xl overflow-hidden rounded-[28px] border border-white/[0.06] bg-white/[0.02]"
+            className="group/tools-panel mx-auto hidden max-w-6xl overflow-hidden rounded-[28px] border border-white/[0.06] bg-white/[0.02] md:block"
           >
             <div className="grid md:grid-cols-3">
               {toolCollections.map((group, index) => {
-                const featuredTools = group.items.slice(0, 5);
+                const featuredTools = group.items.slice(0, 4);
                 const hiddenCount = Math.max(0, group.items.length - featuredTools.length);
 
                 return (
                   <div
                     key={group.title}
+                    tabIndex={0}
                     className={cn(
-                      "p-6 md:p-8",
-                      index < toolCollections.length - 1 && "border-b border-white/[0.06] md:border-b-0 md:border-r md:border-white/[0.06]",
+                      "relative flex min-h-[290px] flex-col p-6 transition-all duration-300 focus:outline-none md:p-8",
+                      "group-hover/tools-panel:opacity-70 hover:opacity-100 hover:bg-white/[0.012] focus:opacity-100 focus:bg-white/[0.012]",
+                      index < toolCollections.length - 1 && "border-r border-white/[0.06]",
                     )}
                   >
-                    <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-primary/90">
+                    <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-primary/50 via-primary/25 to-transparent" />
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-primary/85">
                       {group.title}
                     </p>
-                    <p className="mt-3 text-sm leading-6 text-muted-foreground">{group.description}</p>
+                    <p className="mt-3 min-h-[52px] text-sm leading-6 text-muted-foreground">{group.description}</p>
                     <div className="mt-5 flex flex-wrap gap-2.5">
                       {featuredTools.map((tool) => (
                         <span
                           key={tool.name}
-                          className="inline-flex items-center gap-2 rounded-full border border-white/[0.06] bg-background/75 px-3 py-1.5 text-sm text-foreground/90"
+                          className="inline-flex h-10 items-center gap-2 rounded-full border border-white/[0.06] bg-background/75 px-3.5 text-sm text-foreground/90"
                         >
                           <span className="flex h-5 w-5 shrink-0 items-center justify-center">
                             <img src={tool.icon} alt="" className="h-full w-full object-contain" loading="lazy" />
@@ -564,8 +616,8 @@ const Index = () => {
                         </span>
                       ))}
                       {hiddenCount > 0 && (
-                        <span className="inline-flex items-center rounded-full border border-white/[0.06] bg-white/[0.02] px-3 py-1.5 text-xs font-medium uppercase tracking-[0.14em] text-muted-foreground/80">
-                          +{hiddenCount} more
+                        <span className="inline-flex h-10 items-center rounded-full border border-white/[0.06] bg-white/[0.02] px-3.5 text-xs font-medium tracking-[0.08em] text-muted-foreground/80">
+                          +{hiddenCount} additional
                         </span>
                       )}
                     </div>
@@ -574,9 +626,13 @@ const Index = () => {
               })}
             </div>
           </motion.div>
-          <p className="mx-auto mt-6 max-w-3xl text-center text-xs uppercase tracking-[0.22em] text-muted-foreground/65">
-            Measurement first. Channel second. Automation tied to outcomes.
-          </p>
+
+          <div className="mx-auto mt-6 flex max-w-3xl items-center justify-center gap-2.5 text-center text-xs tracking-[0.14em] text-muted-foreground/68">
+            <span className="rounded-full border border-white/[0.06] bg-white/[0.02] px-3 py-1 text-[10px] font-medium uppercase tracking-[0.18em] text-muted-foreground/80">
+              Operating Principle
+            </span>
+            <span className="uppercase">Measure first. Scale second. Automate what converts.</span>
+          </div>
         </div>
       </section>
 
