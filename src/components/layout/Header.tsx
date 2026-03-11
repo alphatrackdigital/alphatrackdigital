@@ -90,12 +90,14 @@ const Header = () => {
     setMobileServicesOpen(false);
   };
 
+  const headerElevated = scrolled || desktopServicesOpen || mobileOpen;
+
   return (
     <header className="fixed left-0 right-0 top-0 z-50 transition-all duration-300">
       <div
         className={cn(
           "transition-all duration-300",
-          scrolled
+          headerElevated
             ? "bg-background/76 shadow-[0_10px_28px_rgba(0,0,0,0.16)] backdrop-blur-xl"
             : "bg-[linear-gradient(180deg,rgba(0,0,0,0.32)_0%,rgba(0,0,0,0.10)_48%,rgba(0,0,0,0)_100%)]",
         )}
@@ -104,7 +106,7 @@ const Header = () => {
           <div
             className={cn(
               "grid h-[70px] grid-cols-[1fr_auto] items-center md:grid-cols-[1fr_auto_1fr]",
-              scrolled && "border-b border-white/[0.08]",
+              headerElevated && "border-b border-white/[0.08]",
             )}
           >
             <Link to="/" aria-label="AlphaTrack Digital Home" className="flex items-center justify-self-start">
@@ -177,100 +179,103 @@ const Header = () => {
 
               <AnimatePresence>
                 {desktopServicesOpen && (
-                  <motion.div
-                    id="desktop-services-menu"
-                    data-testid="desktop-services-menu"
-                    initial={{ opacity: 0, y: 12, scale: 0.985 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: 12, scale: 0.985 }}
-                    transition={{ duration: 0.18, ease: "easeOut" }}
-                    className="absolute left-1/2 top-full z-50 mt-5 w-[min(920px,calc(100vw-3rem))] -translate-x-1/2 overflow-hidden rounded-[30px] border border-white/[0.08] bg-background/96 p-6 shadow-[0_26px_80px_rgba(0,0,0,0.36)] backdrop-blur-xl"
-                  >
-                    <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/35 to-transparent" />
-                    <div className="grid gap-6 lg:grid-cols-[1.1fr_1fr_0.92fr]">
-                      <div>
-                        <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary/80">
-                          Core Services
-                        </p>
-                        <div className="mt-4 space-y-2">
-                          {primaryServices.map((service) => (
-                            <Link
-                              key={service.path}
-                              to={service.path}
-                              {...getPrefetchHandlers(service.path)}
-                              className="group flex items-start gap-3 rounded-2xl border border-transparent px-3 py-3 transition-colors hover:border-white/[0.06] hover:bg-white/[0.03]"
-                            >
-                              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-white/[0.08] bg-white/[0.03]">
-                                <service.icon className="h-5 w-5 text-primary" />
-                              </div>
-                              <div className="min-w-0 flex-1">
-                                <p className="text-sm font-semibold text-foreground">{service.title}</p>
-                                <p className="mt-1 text-xs text-muted-foreground">
-                                  {service.flagship ? "Flagship growth system" : "Core delivery capability"}
-                                </p>
-                              </div>
-                              <ArrowUpRight className="mt-0.5 h-4 w-4 shrink-0 text-primary/55 transition-all duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-primary" />
-                            </Link>
-                          ))}
+                  <div className="absolute left-1/2 top-full z-50 mt-5 w-[min(920px,calc(100vw-3rem))] -translate-x-1/2">
+                    <motion.div
+                      id="desktop-services-menu"
+                      data-testid="desktop-services-menu"
+                      initial={{ opacity: 0, y: 12, scale: 0.985 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: 12, scale: 0.985 }}
+                      transition={{ duration: 0.18, ease: "easeOut" }}
+                      className="relative overflow-hidden rounded-[30px] border border-white/[0.08] bg-[radial-gradient(ellipse_at_top,rgba(62,207,142,0.08),transparent_45%),linear-gradient(180deg,rgba(5,9,11,0.99)_0%,rgba(4,7,9,0.985)_100%)] p-6 shadow-[0_26px_80px_rgba(0,0,0,0.42)] backdrop-blur-2xl"
+                    >
+                      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/35 to-transparent" />
+                      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_18%,rgba(0,177,255,0.08),transparent_28%),radial-gradient(circle_at_82%_22%,rgba(62,207,142,0.08),transparent_30%)] opacity-70" />
+                      <div className="relative grid gap-6 lg:grid-cols-[1.1fr_1fr_0.92fr]">
+                        <div>
+                          <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary/80">
+                            Core Services
+                          </p>
+                          <div className="mt-4 space-y-2">
+                            {primaryServices.map((service) => (
+                              <Link
+                                key={service.path}
+                                to={service.path}
+                                {...getPrefetchHandlers(service.path)}
+                                className="group flex items-start gap-3 rounded-2xl border border-transparent px-3 py-3 transition-colors hover:border-white/[0.06] hover:bg-white/[0.03]"
+                              >
+                                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-white/[0.08] bg-white/[0.03]">
+                                  <service.icon className="h-5 w-5 text-primary" />
+                                </div>
+                                <div className="min-w-0 flex-1">
+                                  <p className="text-sm font-semibold text-foreground">{service.title}</p>
+                                  <p className="mt-1 text-xs text-muted-foreground">
+                                    {service.flagship ? "Flagship growth system" : "Core delivery capability"}
+                                  </p>
+                                </div>
+                                <ArrowUpRight className="mt-0.5 h-4 w-4 shrink-0 text-primary/55 transition-all duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-primary" />
+                              </Link>
+                            ))}
+                          </div>
                         </div>
-                      </div>
 
-                      <div>
-                        <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary/80">
-                          Supporting Services
-                        </p>
-                        <div className="mt-4 space-y-2">
-                          {supportingServices.map((service) => (
-                            <Link
-                              key={service.path}
-                              to={service.path}
-                              {...getPrefetchHandlers(service.path)}
-                              className="group flex items-start gap-3 rounded-2xl border border-transparent px-3 py-3 transition-colors hover:border-white/[0.06] hover:bg-white/[0.03]"
-                            >
-                              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-white/[0.08] bg-white/[0.03]">
-                                <service.icon className="h-5 w-5 text-primary" />
-                              </div>
-                              <div className="min-w-0 flex-1">
-                                <p className="text-sm font-semibold text-foreground">{service.title}</p>
-                                <p className="mt-1 text-xs text-muted-foreground">{service.bestFor}</p>
-                              </div>
-                              <ArrowUpRight className="mt-0.5 h-4 w-4 shrink-0 text-primary/55 transition-all duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-primary" />
-                            </Link>
-                          ))}
+                        <div>
+                          <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary/80">
+                            Supporting Services
+                          </p>
+                          <div className="mt-4 space-y-2">
+                            {supportingServices.map((service) => (
+                              <Link
+                                key={service.path}
+                                to={service.path}
+                                {...getPrefetchHandlers(service.path)}
+                                className="group flex items-start gap-3 rounded-2xl border border-transparent px-3 py-3 transition-colors hover:border-white/[0.06] hover:bg-white/[0.03]"
+                              >
+                                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-white/[0.08] bg-white/[0.03]">
+                                  <service.icon className="h-5 w-5 text-primary" />
+                                </div>
+                                <div className="min-w-0 flex-1">
+                                  <p className="text-sm font-semibold text-foreground">{service.title}</p>
+                                  <p className="mt-1 text-xs text-muted-foreground">{service.bestFor}</p>
+                                </div>
+                                <ArrowUpRight className="mt-0.5 h-4 w-4 shrink-0 text-primary/55 transition-all duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-primary" />
+                              </Link>
+                            ))}
+                          </div>
                         </div>
-                      </div>
 
-                      <div className="rounded-[24px] border border-primary/15 bg-[linear-gradient(180deg,rgba(62,207,142,0.08)_0%,rgba(255,255,255,0.02)_100%)] p-5">
-                        <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary/80">
-                          Start Here
-                        </p>
-                        <h3 className="mt-3 text-lg font-semibold text-foreground">
-                          Need the full scope?
-                        </h3>
-                        <p className="mt-3 text-sm leading-6 text-muted-foreground">
-                          Explore the full service directory or book a call if you want help choosing the right entry point.
-                        </p>
-                        <div className="mt-5 space-y-2">
-                          <Link
-                            to="/service"
-                            {...getPrefetchHandlers("/service")}
-                            className="inline-flex items-center gap-1.5 text-sm font-medium text-primary transition-colors hover:text-primary/80"
-                          >
-                            View all services <ArrowUpRight className="h-4 w-4" />
-                          </Link>
-                          <div>
+                        <div className="rounded-[24px] border border-primary/15 bg-[linear-gradient(180deg,rgba(62,207,142,0.12)_0%,rgba(255,255,255,0.025)_100%)] p-5">
+                          <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary/80">
+                            Start Here
+                          </p>
+                          <h3 className="mt-3 text-lg font-semibold text-foreground">
+                            Need the full scope?
+                          </h3>
+                          <p className="mt-3 text-sm leading-6 text-muted-foreground">
+                            Explore the full service directory or book a call if you want help choosing the right entry point.
+                          </p>
+                          <div className="mt-5 space-y-2">
                             <Link
-                              to="/book-a-call"
-                              {...getPrefetchHandlers("/book-a-call")}
-                              className="inline-flex items-center gap-1.5 text-sm font-medium text-foreground transition-colors hover:text-primary"
+                              to="/service"
+                              {...getPrefetchHandlers("/service")}
+                              className="inline-flex items-center gap-1.5 text-sm font-medium text-primary transition-colors hover:text-primary/80"
                             >
-                              Book a call <ArrowUpRight className="h-4 w-4" />
+                              View all services <ArrowUpRight className="h-4 w-4" />
                             </Link>
+                            <div>
+                              <Link
+                                to="/book-a-call"
+                                {...getPrefetchHandlers("/book-a-call")}
+                                className="inline-flex items-center gap-1.5 text-sm font-medium text-foreground transition-colors hover:text-primary"
+                              >
+                                Book a call <ArrowUpRight className="h-4 w-4" />
+                              </Link>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  </motion.div>
+                    </motion.div>
+                  </div>
                 )}
               </AnimatePresence>
             </nav>
@@ -286,7 +291,7 @@ const Header = () => {
             <button
               className={cn(
                 "justify-self-end rounded-lg p-2 text-foreground transition-colors md:hidden",
-                scrolled ? "bg-white/[0.04] hover:bg-white/[0.07]" : "bg-black/20 hover:bg-black/35",
+                headerElevated ? "bg-white/[0.04] hover:bg-white/[0.07]" : "bg-black/20 hover:bg-black/35",
               )}
               onClick={() => setMobileOpen(!mobileOpen)}
               aria-label="Toggle menu"
