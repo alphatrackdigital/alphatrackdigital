@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import {
   ArrowUpRight,
   ArrowRight,
+  TrendingUp,
   ClipboardCheck,
   PhoneCall,
   Rocket,
@@ -128,34 +129,6 @@ const toolCollections = [
       findTool("Shopify"),
     ],
   },
-];
-
-const heroReviewItems = [
-  {
-    title: "Tracking Audit",
-    detail: "GA4 events, GTM triggers, and primary conversion goals reviewed before media decisions.",
-    status: "Event map checked",
-    icon: ClipboardCheck,
-  },
-  {
-    title: "Campaign Review",
-    detail: "Channel mix, landing paths, and creative-to-offer alignment benchmarked for the next optimisation pass.",
-    status: "Optimisation plan",
-    icon: BarChart3,
-  },
-  {
-    title: "Lead Follow-up",
-    detail: "Forms, CRM routing, and automation triggers validated so leads do not stall after the click.",
-    status: "Handoff verified",
-    icon: Rocket,
-  },
-];
-
-const heroCommonGaps = [
-  "Wrong primary conversion",
-  "Landing-page friction",
-  "Broken UTM capture",
-  "No lead routing",
 ];
 
 const processSteps = [
@@ -367,152 +340,122 @@ const Index = () => {
                   </div>
                 ))}
               </div>
-              {/* Mobile review panel */}
-              <div
-                data-testid="hero-review-panel"
-                className="mt-8 rounded-[26px] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.03)_0%,rgba(255,255,255,0.012)_100%)] p-5 shadow-[0_12px_40px_rgba(0,0,0,0.18)] lg:hidden"
-              >
-                <div className="flex items-center justify-between gap-3">
-                  <div>
-                    <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary/85">
-                      What We Review First
+              {/* Mobile metric tiles — visible when floating cards are hidden on desktop */}
+              <div className="mt-8 grid grid-cols-2 gap-3 lg:hidden">
+                {[
+                  { label: "ROAS", value: "4.2×", sub: "Return on ad spend" },
+                  { label: "Lead Volume", value: "+68%", sub: "Month-over-month" },
+                  { label: "Accuracy", value: "99.4%", sub: "Tracking accuracy" },
+                  { label: "Wasted Spend", value: "−25%", sub: "Budget saved" },
+                ].map((m) => (
+                  <div key={m.label} className="glass-card p-4 text-center">
+                    <p className="text-[10px] font-semibold uppercase tracking-wide text-muted-foreground">
+                      {m.label}
                     </p>
-                    <p className="mt-1 text-sm text-muted-foreground">A grounded first-pass audit before any scaling decisions.</p>
+                    <p className="mt-1 text-xl font-bold text-gradient">{m.value}</p>
+                    <p className="mt-0.5 text-[11px] text-muted-foreground">{m.sub}</p>
                   </div>
-                  <span className="rounded-full border border-primary/20 bg-primary/[0.08] px-3 py-1 text-[11px] font-medium uppercase tracking-[0.16em] text-primary">
-                    Measurement-first
-                  </span>
-                </div>
-
-                <div className="mt-5 space-y-3">
-                  {heroReviewItems.map((item) => (
-                    <div key={item.title} className="rounded-2xl border border-white/8 bg-background/65 p-4">
-                      <div className="flex items-start justify-between gap-3">
-                        <div className="flex items-center gap-3">
-                          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.04]">
-                            <item.icon className="h-4 w-4 text-primary" />
-                          </div>
-                          <div>
-                            <p className="text-sm font-semibold text-foreground">{item.title}</p>
-                            <p className="mt-1 text-xs uppercase tracking-[0.16em] text-primary/75">{item.status}</p>
-                          </div>
-                        </div>
-                      </div>
-                      <p className="mt-3 text-sm leading-6 text-muted-foreground">{item.detail}</p>
-                    </div>
-                  ))}
-                </div>
-
-                <div className="mt-5 border-t border-white/10 pt-5">
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground/75">
-                    Common Gaps We Uncover
-                  </p>
-                  <div className="mt-3 flex flex-wrap gap-2">
-                    {heroCommonGaps.map((gap) => (
-                      <span
-                        key={gap}
-                        className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-[11px] font-medium uppercase tracking-[0.14em] text-muted-foreground"
-                      >
-                        {gap}
-                      </span>
-                    ))}
-                  </div>
-                </div>
+                ))}
               </div>
             </motion.div>
 
-            {/* Right: audit workflow panel — desktop only */}
+            {/* Right: floating metric cards — desktop only */}
             <motion.div
               initial={shouldReduceMotion ? false : { opacity: 0, x: 30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: shouldReduceMotion ? 0 : 0.7, delay: 0.2 }}
-              className="relative hidden h-[470px] lg:block"
+              className="relative hidden h-[440px] lg:block"
               aria-hidden="true"
             >
-              <div className="absolute inset-0 rounded-[34px] bg-primary/[0.05] blur-[70px]" />
-              <div className="absolute inset-4 rounded-[32px] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.035)_0%,rgba(255,255,255,0.012)_100%)] p-8 shadow-[0_18px_70px_rgba(0,0,0,0.28)]">
-                <div className="flex items-start justify-between gap-4">
-                  <div>
-                    <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-primary/85">
-                      What We Review First
-                    </p>
-                    <h2 className="mt-3 text-2xl font-semibold tracking-tight text-foreground">
-                      Measurement before media scaling
-                    </h2>
-                    <p className="mt-3 max-w-md text-sm leading-7 text-muted-foreground">
-                      Our first pass is operational, not theatrical. We review tracking, campaign paths,
-                      and lead follow-up before deciding what to scale.
-                    </p>
+              {/* Collective card halo glow */}
+              <div className="absolute inset-0 rounded-3xl bg-primary/[0.06] blur-[60px]" />
+              <div className="absolute inset-0 rounded-3xl bg-secondary/[0.04] blur-[80px]" />
+
+              {/* ROAS card */}
+              <motion.div
+                animate={shouldReduceMotion ? {} : { y: [0, -10, 0] }}
+                transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
+                className="glass-card absolute left-0 top-8 w-52 border-white/[0.07] p-5 shadow-[0_8px_32px_rgba(0,0,0,0.3)]"
+              >
+                <div className="mb-2 flex items-center gap-2">
+                  <div className="flex h-7 w-7 items-center justify-center rounded-md bg-primary/10">
+                    <TrendingUp className="h-4 w-4 text-primary" />
                   </div>
-                  <span className="rounded-full border border-primary/20 bg-primary/[0.08] px-3 py-1 text-[11px] font-medium uppercase tracking-[0.16em] text-primary">
-                    Audit workflow
+                  <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                    ROAS
                   </span>
                 </div>
+                <p className="text-2xl font-bold text-gradient">4.2×</p>
+                <p className="mt-1 text-xs text-muted-foreground">Return on ad spend</p>
+                <div className="mt-3 flex items-center gap-1 text-xs text-primary">
+                  <TrendingUp className="h-3 w-3" /> +31% vs prev. period
+                </div>
+              </motion.div>
 
-                <div className="mt-8 space-y-4">
-                  {heroReviewItems.map((item, index) => (
+              {/* Lead volume card */}
+              <motion.div
+                animate={shouldReduceMotion ? {} : { y: [0, -14, 0] }}
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 0.8 }}
+                className="glass-card absolute right-0 top-0 w-56 border-white/[0.07] p-5 shadow-[0_8px_32px_rgba(0,0,0,0.3)]"
+              >
+                <div className="mb-2 flex items-center gap-2">
+                  <div className="flex h-7 w-7 items-center justify-center rounded-md bg-primary/10">
+                    <BarChart3 className="h-4 w-4 text-primary" />
+                  </div>
+                  <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                    Lead Volume
+                  </span>
+                </div>
+                <p className="text-2xl font-bold text-gradient">+68%</p>
+                <p className="mt-1 text-xs text-muted-foreground">Month-over-month growth</p>
+                <div className="mt-3 h-1.5 w-full rounded-full bg-white/5">
+                  <div className="h-1.5 w-[68%] rounded-full bg-gradient-to-r from-primary to-secondary" />
+                </div>
+              </motion.div>
+
+              {/* Tracking accuracy card */}
+              <motion.div
+                animate={shouldReduceMotion ? {} : { y: [0, -8, 0] }}
+                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 1.5 }}
+                className="glass-card absolute bottom-14 left-8 w-52 border-white/[0.07] p-5 shadow-[0_8px_32px_rgba(0,0,0,0.3)]"
+              >
+                <div className="mb-2 flex items-center gap-2">
+                  <div className="flex h-7 w-7 items-center justify-center rounded-md bg-primary/10">
+                    <ClipboardCheck className="h-4 w-4 text-primary" />
+                  </div>
+                  <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                    Accuracy
+                  </span>
+                </div>
+                <p className="text-2xl font-bold text-gradient">99.4%</p>
+                <p className="mt-1 text-xs text-muted-foreground">Conversion tracking accuracy</p>
+                <div className="mt-3 flex gap-0.5">
+                  {Array.from({ length: 10 }).map((_, i) => (
                     <div
-                      key={item.title}
-                      className="rounded-[22px] border border-white/8 bg-background/60 p-5"
-                    >
-                      <div className="flex items-start gap-4">
-                        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.04]">
-                          <item.icon className="h-5 w-5 text-primary" />
-                        </div>
-                        <div className="min-w-0 flex-1">
-                          <div className="flex items-center justify-between gap-3">
-                            <div>
-                              <p className="text-base font-semibold text-foreground">{item.title}</p>
-                              <p className="mt-1 text-[11px] uppercase tracking-[0.16em] text-primary/75">
-                                {item.status}
-                              </p>
-                            </div>
-                            <span className="text-sm font-medium text-muted-foreground/55">0{index + 1}</span>
-                          </div>
-                          <p className="mt-3 text-sm leading-7 text-muted-foreground">{item.detail}</p>
-                        </div>
-                      </div>
-                    </div>
+                      key={i}
+                      className={`h-1 flex-1 rounded-full ${i < 9 ? "bg-primary" : "bg-primary/20"}`}
+                    />
                   ))}
                 </div>
+              </motion.div>
 
-                <div className="mt-6 grid gap-4 border-t border-white/10 pt-6 md:grid-cols-[1.2fr_0.8fr]">
-                  <div>
-                    <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground/75">
-                      Common gaps we uncover
-                    </p>
-                    <div className="mt-3 flex flex-wrap gap-2">
-                      {heroCommonGaps.map((gap) => (
-                        <span
-                          key={gap}
-                          className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-[11px] font-medium uppercase tracking-[0.14em] text-muted-foreground"
-                        >
-                          {gap}
-                        </span>
-                      ))}
-                    </div>
+              {/* Wasted spend card */}
+              <motion.div
+                animate={shouldReduceMotion ? {} : { y: [0, -12, 0] }}
+                transition={{ duration: 3.8, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+                className="glass-card absolute bottom-0 right-4 w-48 border-white/[0.07] p-5 shadow-[0_8px_32px_rgba(0,0,0,0.3)]"
+              >
+                <div className="mb-2 flex items-center gap-2">
+                  <div className="flex h-7 w-7 items-center justify-center rounded-md bg-primary/10">
+                    <Rocket className="h-4 w-4 text-primary" />
                   </div>
-                  <div className="rounded-[22px] border border-white/8 bg-white/[0.02] p-5">
-                    <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground/75">
-                      What this unlocks
-                    </p>
-                    <div className="mt-3 space-y-2 text-sm text-muted-foreground">
-                      <div className="flex items-start gap-2">
-                        <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
-                        Clearer attribution before budget shifts
-                      </div>
-                      <div className="flex items-start gap-2">
-                        <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
-                        Faster optimisation decisions across channels
-                      </div>
-                      <div className="flex items-start gap-2">
-                        <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
-                        Stronger lead handoff after every click
-                      </div>
-                    </div>
-                  </div>
+                  <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                    Wasted Spend
+                  </span>
                 </div>
-              </div>
+                <p className="text-2xl font-bold text-gradient">−25%</p>
+                <p className="mt-1 text-xs text-muted-foreground">Reduction in wasted budget</p>
+              </motion.div>
             </motion.div>
           </div>
         </div>
@@ -521,7 +464,6 @@ const Index = () => {
       {/* Selected Outcomes */}
       <section
         aria-labelledby="selected-outcomes-heading"
-        data-testid="proof-section"
         className="border-b border-white/10 py-16"
         style={{
           background: [
@@ -559,7 +501,7 @@ const Index = () => {
                     {proof.clientLabel}
                   </span>
                   <span className="rounded-full border border-primary/20 bg-primary/[0.08] px-3 py-1 text-[11px] font-medium uppercase tracking-[0.16em] text-primary">
-                    {proof.campaignType}
+                    {proof.channelOrService}
                   </span>
                   {proof.timeframe && (
                     <span className="rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 text-[11px] font-medium uppercase tracking-[0.16em] text-muted-foreground/85">
@@ -574,9 +516,6 @@ const Index = () => {
               </motion.article>
             ))}
           </div>
-          <p className="mt-6 text-center text-xs text-muted-foreground/65">
-            {homepageProofSection.confidentialityNote}
-          </p>
         </div>
       </section>
 
