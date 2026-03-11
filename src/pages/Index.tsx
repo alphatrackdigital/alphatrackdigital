@@ -607,46 +607,48 @@ const Index = () => {
                 View all services <ArrowRight className="h-3.5 w-3.5" />
               </Link>
             </div>
-            <div className="mt-8 border-y border-white/10">
-              {supportingServices.map((s, i) => (
-                <motion.div
-                  key={s.title}
-                  initial={{ opacity: 0, y: 16 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.06, duration: 0.35 }}
-                >
-                  <Link
-                    to={s.path}
-                    data-testid="supporting-service-item"
+            <div className="relative mt-8 overflow-hidden rounded-[28px] border border-white/[0.08] bg-[radial-gradient(circle_at_top_left,rgba(62,207,142,0.05),transparent_34%),linear-gradient(180deg,rgba(255,255,255,0.018)_0%,rgba(255,255,255,0.01)_100%)]">
+              <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
+              <div className="grid xl:grid-cols-4 sm:grid-cols-2">
+                {supportingServices.map((s, i) => (
+                  <motion.div
+                    key={s.title}
+                    initial={{ opacity: 0, y: 16 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: i * 0.06, duration: 0.35 }}
                     className={cn(
-                      "group grid gap-4 py-5 transition-colors duration-300 hover:bg-white/[0.02] sm:px-2 lg:grid-cols-[72px_minmax(0,1.1fr)_minmax(0,0.9fr)_24px] lg:items-start lg:gap-6",
-                      i !== supportingServices.length - 1 && "border-b border-white/10",
+                      i > 0 && "border-t border-white/10",
+                      i >= 2 && "sm:border-t sm:border-white/10",
+                      i % 2 === 1 && "sm:border-l sm:border-white/10",
+                      i < 2 && "sm:border-t-0",
+                      i % 2 === 0 && "sm:border-l-0",
+                      i > 0 && "xl:border-l xl:border-white/10",
+                      "xl:border-t-0",
                     )}
                   >
-                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/8 bg-white/[0.04]">
-                      <s.icon className="h-5 w-5 text-primary" />
-                    </div>
-
-                    <div>
+                    <Link
+                      to={s.path}
+                      data-testid="supporting-service-item"
+                      className="group flex h-full flex-col px-5 py-6 transition-colors duration-300 hover:bg-white/[0.025] sm:px-6"
+                    >
+                      <div className="mb-5 flex items-start justify-between gap-3">
+                        <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/8 bg-white/[0.04]">
+                          <s.icon className="h-5 w-5 text-primary" />
+                        </div>
+                        <ArrowUpRight className="h-4 w-4 shrink-0 text-primary/55 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-primary" />
+                      </div>
                       <h4 className="text-lg font-semibold">{s.title}</h4>
-                      <p className="mt-2 text-sm leading-7 text-muted-foreground">
+                      <p className="mt-3 flex-1 text-sm leading-7 text-muted-foreground">
                         {s.description}
                       </p>
-                    </div>
-
-                    <div className="lg:pt-1">
-                      <p className="text-[11px] font-medium uppercase tracking-[0.16em] text-primary/72">
+                      <p className="mt-5 text-[11px] font-medium uppercase tracking-[0.16em] text-primary/72">
                         {s.bestFor}
                       </p>
-                    </div>
-
-                    <div className="hidden pt-1 lg:flex lg:justify-end">
-                      <ArrowUpRight className="h-4 w-4 shrink-0 text-primary/55 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-primary" />
-                    </div>
-                  </Link>
-                </motion.div>
-              ))}
+                    </Link>
+                  </motion.div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
