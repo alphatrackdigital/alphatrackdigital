@@ -662,8 +662,11 @@ const Index = () => {
             align="center"
             width="wide"
           />
-          <div className="relative mt-14 hidden lg:block">
-            <div className="absolute left-[12.5%] right-[12.5%] top-5 h-px bg-gradient-to-r from-transparent via-primary/25 to-transparent" />
+          <div className="relative mt-16 hidden lg:block">
+            <div className="pointer-events-none absolute inset-x-[10%] top-6">
+              <div className="h-px bg-gradient-to-r from-transparent via-white/12 to-transparent" />
+              <div className="absolute inset-x-[8%] top-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-secondary/35 blur-sm" />
+            </div>
             <div className="grid gap-6 lg:grid-cols-4">
               {processSteps.map((step, i) => (
                 <motion.div
@@ -673,16 +676,27 @@ const Index = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.1, duration: 0.4 }}
-                  className="relative"
+                  className="relative pt-14"
                 >
-                  <div className="mb-7 flex items-center gap-3">
-                    <div className="relative z-10 flex h-10 w-10 items-center justify-center rounded-full border border-primary/20 bg-background text-xs font-semibold text-primary">
+                  <div className="absolute left-1/2 top-0 flex -translate-x-1/2 flex-col items-center">
+                    <div className="absolute inset-0 rounded-full bg-primary/15 blur-xl" />
+                    <div className="relative z-10 flex h-12 w-12 items-center justify-center rounded-full border border-primary/25 bg-background/95 text-xs font-semibold text-primary shadow-[0_0_0_6px_rgba(6,10,12,0.72)]">
                       {step.step}
                     </div>
-                    <step.icon className="h-5 w-5 text-muted-foreground/70" />
+                    <div className="h-10 w-px bg-gradient-to-b from-primary/45 via-primary/18 to-transparent" />
                   </div>
-                  <div className="rounded-[24px] border border-white/8 bg-white/[0.02] p-6">
-                    <h3 className="text-xl font-semibold">{step.title}</h3>
+                  <div className="rounded-[28px] border border-white/[0.08] bg-[linear-gradient(180deg,rgba(255,255,255,0.028)_0%,rgba(255,255,255,0.012)_100%)] p-6 shadow-[0_18px_50px_rgba(0,0,0,0.16)]">
+                    <div className="mb-5 flex items-start justify-between gap-4">
+                      <div>
+                        <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary/75">
+                          Step {step.step}
+                        </p>
+                        <h3 className="mt-3 text-xl font-semibold">{step.title}</h3>
+                      </div>
+                      <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-white/[0.08] bg-white/[0.03]">
+                        <step.icon className="h-5 w-5 text-primary/85" />
+                      </div>
+                    </div>
                     <p className="mt-3 text-sm leading-7 text-muted-foreground">{step.description}</p>
                     <div className="mt-5 border-t border-white/10 pt-4">
                       <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary/80">
@@ -696,7 +710,10 @@ const Index = () => {
             </div>
           </div>
           <div className="relative mt-12 space-y-6 lg:hidden">
-            <div className="absolute bottom-0 left-5 top-3 w-px bg-gradient-to-b from-primary/30 via-primary/15 to-transparent" />
+            <div className="pointer-events-none absolute bottom-0 left-5 top-3">
+              <div className="h-full w-px bg-gradient-to-b from-primary/35 via-primary/14 to-transparent" />
+              <div className="absolute left-0 top-8 h-[calc(100%-2rem)] w-px bg-primary/20 blur-[1px]" />
+            </div>
             {processSteps.map((step, i) => (
               <motion.div
                 key={step.step}
@@ -707,13 +724,20 @@ const Index = () => {
                 transition={{ delay: i * 0.08, duration: 0.35 }}
                 className="relative pl-14"
               >
-                <div className="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-full border border-primary/20 bg-background text-xs font-semibold text-primary">
+                <div className="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-full border border-primary/25 bg-background/95 text-xs font-semibold text-primary shadow-[0_0_0_5px_rgba(6,10,12,0.75)]">
                   {step.step}
                 </div>
-                <div className="rounded-[22px] border border-white/8 bg-white/[0.02] p-5">
-                  <div className="flex items-center gap-3">
-                    <step.icon className="h-5 w-5 text-muted-foreground/70" />
-                    <h3 className="text-lg font-semibold">{step.title}</h3>
+                <div className="rounded-[24px] border border-white/[0.08] bg-[linear-gradient(180deg,rgba(255,255,255,0.028)_0%,rgba(255,255,255,0.012)_100%)] p-5 shadow-[0_14px_42px_rgba(0,0,0,0.14)]">
+                  <div className="flex items-start justify-between gap-4">
+                    <div>
+                      <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary/75">
+                        Step {step.step}
+                      </p>
+                      <h3 className="mt-3 text-lg font-semibold">{step.title}</h3>
+                    </div>
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl border border-white/[0.08] bg-white/[0.03]">
+                      <step.icon className="h-5 w-5 text-primary/85" />
+                    </div>
                   </div>
                   <p className="mt-3 text-sm leading-7 text-muted-foreground">{step.description}</p>
                   <div className="mt-4 border-t border-white/10 pt-4">
@@ -724,7 +748,7 @@ const Index = () => {
                   </div>
                 </div>
                 {i < processSteps.length - 1 && (
-                  <div className="absolute left-5 top-10 h-6 w-px -translate-x-1/2 bg-primary/20" />
+                  <div className="absolute left-5 top-10 h-6 w-px -translate-x-1/2 bg-gradient-to-b from-primary/30 to-transparent" />
                 )}
               </motion.div>
             ))}
