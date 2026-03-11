@@ -591,73 +591,62 @@ const Index = () => {
           </div>
 
           <div className="mt-16 border-t border-white/10 pt-10">
-            <div className="grid gap-8 lg:grid-cols-[0.78fr_1.22fr] lg:items-start">
-              <div className="max-w-md lg:pt-3">
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+              <div className="max-w-2xl">
                 <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-primary/85">
                   We Also Deliver
                 </p>
                 <p className="mt-3 text-base text-muted-foreground md:text-[17px]">
                   Complementary services to round out your digital growth stack.
                 </p>
-                <p className="mt-4 text-sm leading-7 text-muted-foreground">
-                  These modular capabilities plug into the core system when you need stronger landing paths, creative support, lifecycle follow-up, or organic demand capture.
-                </p>
-                <div className="mt-6 inline-flex rounded-full border border-white/10 bg-white/[0.02] px-4 py-2 text-[11px] font-medium uppercase tracking-[0.18em] text-primary/75">
-                  Built to support the core growth engine
-                </div>
-                <div className="mt-6">
+              </div>
+              <Link
+                to="/service"
+                className="inline-flex items-center gap-1 text-sm font-medium text-primary transition-colors hover:text-primary/80"
+              >
+                View all services <ArrowRight className="h-3.5 w-3.5" />
+              </Link>
+            </div>
+            <div className="mt-8 border-y border-white/10">
+              {supportingServices.map((s, i) => (
+                <motion.div
+                  key={s.title}
+                  initial={{ opacity: 0, y: 16 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.06, duration: 0.35 }}
+                >
                   <Link
-                    to="/service"
-                    className="inline-flex items-center gap-1 text-sm font-medium text-primary transition-colors hover:text-primary/80"
+                    to={s.path}
+                    data-testid="supporting-service-item"
+                    className={cn(
+                      "group grid gap-4 py-5 transition-colors duration-300 hover:bg-white/[0.02] sm:px-2 lg:grid-cols-[72px_minmax(0,1.1fr)_minmax(0,0.9fr)_24px] lg:items-start lg:gap-6",
+                      i !== supportingServices.length - 1 && "border-b border-white/10",
+                    )}
                   >
-                    View all services <ArrowRight className="h-3.5 w-3.5" />
+                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/8 bg-white/[0.04]">
+                      <s.icon className="h-5 w-5 text-primary" />
+                    </div>
+
+                    <div>
+                      <h4 className="text-lg font-semibold">{s.title}</h4>
+                      <p className="mt-2 text-sm leading-7 text-muted-foreground">
+                        {s.description}
+                      </p>
+                    </div>
+
+                    <div className="lg:pt-1">
+                      <p className="text-[11px] font-medium uppercase tracking-[0.16em] text-primary/72">
+                        {s.bestFor}
+                      </p>
+                    </div>
+
+                    <div className="hidden pt-1 lg:flex lg:justify-end">
+                      <ArrowUpRight className="h-4 w-4 shrink-0 text-primary/55 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-primary" />
+                    </div>
                   </Link>
-                </div>
-              </div>
-              <div className="relative overflow-hidden rounded-[30px] border border-white/[0.08] bg-[radial-gradient(circle_at_top_left,rgba(62,207,142,0.06),transparent_34%),linear-gradient(180deg,rgba(255,255,255,0.02)_0%,rgba(255,255,255,0.01)_100%)] p-5 sm:p-6">
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_78%_18%,rgba(0,177,255,0.07),transparent_26%),radial-gradient(circle_at_24%_78%,rgba(62,207,142,0.05),transparent_30%)] opacity-80" />
-                <div className="relative mb-5 flex items-center justify-between gap-3">
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary/78">
-                    Support Layer
-                  </p>
-                  <p className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground/55">
-                    04 capabilities
-                  </p>
-                </div>
-                <div className="relative grid gap-3 sm:grid-cols-2">
-                  {supportingServices.map((s, i) => (
-                    <motion.div
-                      key={s.title}
-                      initial={{ opacity: 0, y: 16 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: i * 0.06, duration: 0.35 }}
-                    >
-                      <Link
-                        to={s.path}
-                        data-testid="supporting-service-card"
-                        className="group flex h-full flex-col rounded-[22px] border border-white/[0.08] bg-black/10 p-5 transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/20 hover:bg-white/[0.03]"
-                      >
-                        <div className="mb-5 flex items-start justify-between gap-3">
-                          <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/8 bg-white/[0.04]">
-                            <s.icon className="h-5 w-5 text-primary" />
-                          </div>
-                          <ArrowUpRight className="h-4 w-4 shrink-0 text-primary/55 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-primary" />
-                        </div>
-                        <div className="flex flex-1 flex-col">
-                          <h4 className="text-lg font-semibold">{s.title}</h4>
-                          <p className="mt-3 flex-1 text-sm leading-7 text-muted-foreground">
-                            {s.description}
-                          </p>
-                          <p className="mt-5 text-[11px] font-medium uppercase tracking-[0.16em] text-primary/72">
-                            {s.bestFor}
-                          </p>
-                        </div>
-                      </Link>
-                    </motion.div>
-                  ))}
-                </div>
-              </div>
+                </motion.div>
+              ))}
             </div>
           </div>
         </div>
