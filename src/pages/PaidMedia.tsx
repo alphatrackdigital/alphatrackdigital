@@ -197,6 +197,29 @@ const faqs = [
   },
 ];
 
+const serviceFaqs = [
+  {
+    question: "Can you work with our current ad accounts and campaign history?",
+    answer:
+      "Yes. We usually begin by auditing the existing account, conversion tracking, campaign structure, and creative history before deciding what to keep, rebuild, or cut.",
+  },
+  {
+    question: "How quickly should we expect to see useful signal or early improvements?",
+    answer:
+      "Initial signal often starts showing within the first 2-4 weeks. Stronger efficiency gains usually come after enough data has been collected to improve targeting, creative, and budget allocation.",
+  },
+  {
+    question: "Do you handle creative strategy as well as campaign management?",
+    answer:
+      "Yes. We can shape messaging, ad copy, creative direction, and feedback loops with your team, or work alongside an internal or external creative partner if production already sits elsewhere.",
+  },
+  {
+    question: "How do reporting and attribution work?",
+    answer:
+      "We tie paid media reporting back to the tracking setup wherever possible, so decisions are based on qualified leads, revenue signals, and channel contribution rather than platform vanity metrics alone.",
+  },
+];
+
 const PaidMedia = () => {
   return (
     <>
@@ -355,7 +378,17 @@ const PaidMedia = () => {
         </div>
       </section>
 
-      <FAQAccordion items={faqs} eyebrow="FAQ" variant="minimal" density="compact" />
+      <FAQAccordion
+        items={serviceFaqs}
+        title="Frequently Asked Questions"
+        description="Common questions about budget, creative, account structure, and reporting."
+        eyebrow="FAQ"
+        variant="minimal"
+        density="compact"
+        defaultOpenItem={0}
+        contentClassName="max-w-[46rem]"
+        accordionClassName="space-y-3"
+      />
       <CTASection
         title="Ready to Improve Your Ad Performance?"
         description="Book a call. We'll audit your current paid media and show you exactly where the opportunities are."

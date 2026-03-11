@@ -35,7 +35,7 @@ import klaviyoIcon from "@/assets/tools/klaviyo.png";
 import googleTagManagerIcon from "@/assets/tools/google-tag-manager.svg";
 import brevoIcon from "@/assets/tools/brevo.svg";
 import lookerStudioIcon from "@/assets/tools/looker-studio.svg";
-import microsoftClarityIcon from "@/assets/tools/microsoft-clarity.svg";
+import microsoftClarityIcon from "@/assets/tools/microsoft-clarity.ico";
 import shopifyIcon from "@/assets/tools/shopify.svg";
 import wordpressIcon from "@/assets/tools/wordpress-favicon-com.png";
 import zapierIcon from "@/assets/tools/zapier.svg";
@@ -100,7 +100,7 @@ const findTool = (name: string) => tools.find((tool) => tool.name === name)!;
 const toolCollections = [
   {
     title: "Measurement",
-    description: "Analytics, tags, and reporting confidence.",
+    description: "Analytics, tagging, and reporting tools we work with.",
     items: [
       findTool("Google Analytics 4"),
       findTool("Google Tag Manager"),
@@ -110,7 +110,7 @@ const toolCollections = [
   },
   {
     title: "Paid Media",
-    description: "Core channels for qualified demand acquisition.",
+    description: "Channel platforms we use based on campaign fit and audience.",
     items: [
       findTool("Meta Ads"),
       findTool("Google Ads"),
@@ -120,7 +120,7 @@ const toolCollections = [
   },
   {
     title: "Automation",
-    description: "Follow-up and handoff across your revenue stack.",
+    description: "Follow-up and handoff tools we work with across the revenue stack.",
     items: [
       findTool("Brevo"),
       findTool("HubSpot"),
@@ -176,42 +176,37 @@ const processSteps = [
     step: "03",
     title: "Implementation",
     description: "We ship the agreed fixes, launches, and automation pieces without losing the commercial thread.",
-    output: "Live setup across media and workflows",
+    output: "Live setup and workflow launch",
   },
   {
     icon: BarChart3,
     step: "04",
-    title: "Measure & Optimise",
+    title: "Measure & Refine",
     description: "We report clearly, review performance, and refine what is already proving its value.",
-    output: "Reporting cadence and optimisation plan",
+    output: "Reporting rhythm and next steps",
   },
 ];
 
 const faqs = [
   {
-    question: "What sets AlphaTrack Digital apart from other agencies?",
+    question: "Can you work with our existing setup, or do we need to rebuild everything?",
     answer:
-      "We're measurement-first. Every strategy starts with tracking and data — so you always know what's working, what's not, and where to invest next. We don't guess; we prove.",
+      "Usually we start with what you already have. We audit your tracking, campaigns, and follow-up systems first, then recommend only the fixes or rebuilds that are actually necessary.",
   },
   {
-    question: "Can you help small businesses, or only larger companies?",
+    question: "Can you work alongside our in-house team or current agency?",
     answer:
-      "We work with businesses of all sizes. Our service tiers are designed to scale — from Starter packages for early-stage companies to Enterprise solutions for complex tracking architectures.",
+      "Yes. We can plug into an existing team, handle a specific layer like tracking or paid media, or take ownership of a broader scope if needed. The working model depends on where the gaps are.",
   },
   {
-    question: "How quickly can I expect to see results?",
+    question: "How quickly can we launch or start seeing fixes go live?",
     answer:
-      "Tracking and automation setups are typically live within 1–2 weeks. Campaign performance improvements usually show within the first 30 days, with compounding gains over time.",
+      "Smaller tracking and reporting fixes can often be implemented within days. Larger setup, campaign, or automation work depends on scope, but we aim to move quickly once priorities are clear.",
   },
   {
-    question: "What industries do you specialise in?",
+    question: "What does reporting look like, and do we keep access to the data?",
     answer:
-      "We work across B2B, B2C, FMCG, Fashion, Retail, Fintech, and Agritech. Our data-driven approach adapts to any industry — the fundamentals of measurement and optimisation are universal.",
-  },
-  {
-    question: "How transparent are you about performance?",
-    answer:
-      "Transparency is a core value. You get real-time dashboards, regular reports, and direct access to your data. No vanity metrics, no hidden numbers — just the truth about what's driving your growth.",
+      "You keep access to your ad accounts, analytics, dashboards, and automation tools. We focus on clear reporting, shared visibility, and clean handoff rather than locking anything away.",
   },
 ];
 
@@ -220,7 +215,6 @@ const faqs = [
 const Index = () => {
   const shouldReduceMotion = useReducedMotion();
   const featuredBlogPosts = getFeaturedBlogPosts(3);
-  const latestPost = featuredBlogPosts[0];
 
   return (
     <>
@@ -256,10 +250,10 @@ const Index = () => {
             className="absolute inset-0"
             style={{
               background: [
-                "radial-gradient(ellipse 70% 60% at 15% 40%, rgba(62,207,142,0.18) 0%, transparent 65%)",
-                "radial-gradient(ellipse 55% 50% at 80% 10%, rgba(0,177,255,0.10) 0%, transparent 60%)",
-                "radial-gradient(ellipse 40% 40% at 60% 80%, rgba(62,207,142,0.07) 0%, transparent 55%)",
-                "radial-gradient(ellipse 30% 30% at 90% 70%, rgba(0,177,255,0.05) 0%, transparent 50%)",
+                "radial-gradient(ellipse 70% 60% at 15% 40%, rgba(51,204,153,0.14) 0%, transparent 65%)",
+                "radial-gradient(ellipse 55% 50% at 80% 10%, rgba(0,175,239,0.10) 0%, transparent 60%)",
+                "radial-gradient(ellipse 42% 42% at 60% 80%, rgba(0,51,153,0.12) 0%, transparent 55%)",
+                "radial-gradient(ellipse 30% 30% at 90% 70%, rgba(0,175,239,0.04) 0%, transparent 50%)",
               ].join(", "),
             }}
           />
@@ -268,11 +262,11 @@ const Index = () => {
           <div className="animate-pulse-slow-delay-2 absolute -bottom-[15%] left-[20%] h-[40%] w-[35%] rounded-full bg-primary/[0.05] blur-[120px]" />
           <div
             className="absolute right-[-8%] top-[5%] h-[90%] w-[55%] rounded-full"
-            style={{ border: "1px solid rgba(62,207,142,0.06)" }}
+            style={{ border: "1px solid rgba(51,204,153,0.05)" }}
           />
           <div
             className="absolute right-[2%] top-[15%] h-[65%] w-[40%] rounded-full"
-            style={{ border: "1px solid rgba(0,177,255,0.04)" }}
+            style={{ border: "1px solid rgba(0,175,239,0.05)" }}
           />
           <div
             className="absolute inset-0 opacity-[0.05]"
@@ -284,17 +278,17 @@ const Index = () => {
           <div
             className="absolute inset-0"
             style={{
-              background: "radial-gradient(ellipse 100% 35% at 50% 0%, hsl(0 0% 3.1%) 0%, transparent 100%)",
+              background: "radial-gradient(ellipse 100% 35% at 50% 0%, hsl(var(--background)) 0%, transparent 100%)",
             }}
           />
           <div
             className="absolute bottom-0 inset-x-0 h-40"
-            style={{ background: "linear-gradient(to top, hsl(0 0% 3.1%) 0%, transparent 100%)" }}
+            style={{ background: "linear-gradient(to top, hsl(var(--background)) 0%, transparent 100%)" }}
           />
           <div
             className="absolute bottom-0 inset-x-0 h-px"
             style={{
-              background: "linear-gradient(90deg, transparent 0%, rgba(62,207,142,0.5) 30%, rgba(0,177,255,0.35) 70%, transparent 100%)",
+              background: "linear-gradient(90deg, transparent 0%, rgba(0,51,153,0.32) 12%, rgba(0,175,239,0.35) 52%, rgba(51,204,153,0.32) 86%, transparent 100%)",
             }}
           />
         </div>
@@ -308,7 +302,7 @@ const Index = () => {
               transition={{ duration: shouldReduceMotion ? 0 : 0.6 }}
             >
               {/* Pulsing badge */}
-              <div className="mb-6 inline-flex items-center gap-2.5 rounded-full border border-primary/25 bg-primary/[0.08] px-4 py-1.5 shadow-[0_0_16px_rgba(62,207,142,0.08)]">
+              <div className="mb-6 inline-flex items-center gap-2.5 rounded-full border border-primary/25 bg-primary/[0.08] px-4 py-1.5 shadow-[0_0_16px_rgba(51,204,153,0.08)]">
                 <span className="relative flex h-2 w-2">
                   <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-60" />
                   <span className="relative inline-flex h-2 w-2 rounded-full bg-primary" />
@@ -338,7 +332,7 @@ const Index = () => {
                 <Button
                   asChild
                   size="lg"
-                  className="gap-1.5 rounded-lg bg-primary px-8 text-primary-foreground shadow-[0_0_24px_rgba(62,207,142,0.3)] transition-shadow hover:bg-primary/90 hover:shadow-[0_0_36px_rgba(62,207,142,0.45)]"
+                  className="gap-1.5 rounded-lg bg-primary px-8 text-primary-foreground shadow-[0_0_24px_rgba(51,204,153,0.22)] transition-shadow hover:bg-primary/90 hover:shadow-[0_0_36px_rgba(0,175,239,0.18)]"
                 >
                   <Link to="/book-a-call">
                     Book a Call <ArrowUpRight className="h-4 w-4" />
@@ -495,7 +489,7 @@ const Index = () => {
       <section
         data-testid="proof-strip-section"
         className="border-b border-white/10 py-14"
-        style={{ background: "linear-gradient(180deg, rgba(62,207,142,0.04) 0%, transparent 100%)" }}
+        style={{ background: "linear-gradient(180deg, rgba(0,51,153,0.035) 0%, rgba(0,175,239,0.02) 52%, transparent 100%)" }}
       >
         <div className="container mx-auto px-4 lg:px-8">
           <p className="mb-8 text-center text-xs font-semibold uppercase tracking-widest text-muted-foreground/60">
@@ -522,21 +516,27 @@ const Index = () => {
 
       {/* Services */}
       <section
-        className="relative overflow-hidden border-t border-white/10 py-24"
+        className="relative overflow-hidden border-t border-white/10 py-20 md:py-24"
         style={{
           background: [
-            "radial-gradient(ellipse 65% 55% at 15% 55%, rgba(62,207,142,0.04) 0%, transparent 65%)",
-            "linear-gradient(180deg, rgba(255,255,255,0.012) 0%, transparent 100%)",
+            "radial-gradient(ellipse 65% 55% at 15% 55%, rgba(0,51,153,0.08) 0%, transparent 65%)",
+            "linear-gradient(180deg, rgba(255,255,255,0.012) 0%, rgba(0,175,239,0.01) 48%, transparent 100%)",
           ].join(", "),
         }}
       >
+        <div className="pointer-events-none absolute inset-0">
+          <div className="absolute -left-16 top-16 h-64 w-64 rounded-full bg-atd-blue/[0.09] blur-[95px]" />
+          <div className="absolute right-[-6%] top-[18%] h-56 w-56 rounded-full bg-secondary/[0.045] blur-[105px]" />
+          <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/24 to-transparent" />
+        </div>
         <div className="container mx-auto px-4 lg:px-8">
           <SectionIntro
             eyebrow="What We Do"
             title="Services Designed as a Growth System"
-            description="We combine measurement, acquisition, and lead follow-up into one practical operating layer for your marketing."
+            description="Measurement, acquisition, and follow-up built into one practical growth system."
             width="wide"
-            className="mb-12"
+            className="mb-10 md:mb-12"
+            descriptionClassName="max-w-4xl md:whitespace-nowrap"
           />
 
           <div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
@@ -552,7 +552,7 @@ const Index = () => {
                   className={cn(
                     "group flex h-full flex-col rounded-[26px] border p-8 transition-all duration-300 hover:-translate-y-1",
                     service.flagship
-                      ? "border-primary/30 bg-[linear-gradient(180deg,rgba(62,207,142,0.10)_0%,rgba(255,255,255,0.02)_100%)] shadow-[0_18px_60px_rgba(62,207,142,0.08)]"
+                      ? "border-primary/30 bg-[linear-gradient(180deg,rgba(0,51,153,0.16)_0%,rgba(0,175,239,0.04)_42%,rgba(51,204,153,0.04)_100%)] shadow-[0_18px_60px_rgba(0,51,153,0.12)]"
                       : "border-white/10 bg-white/[0.02] hover:border-white/20",
                   )}
                 >
@@ -606,7 +606,7 @@ const Index = () => {
                 View all services <ArrowRight className="h-3.5 w-3.5" />
               </Link>
             </div>
-            <div className="relative mt-8 overflow-hidden rounded-[28px] border border-white/[0.08] bg-[radial-gradient(circle_at_top_left,rgba(62,207,142,0.05),transparent_34%),linear-gradient(180deg,rgba(255,255,255,0.018)_0%,rgba(255,255,255,0.01)_100%)]">
+            <div className="relative mt-8 overflow-hidden rounded-[28px] border border-white/[0.08] bg-[radial-gradient(circle_at_top_left,rgba(0,51,153,0.10),transparent_34%),radial-gradient(circle_at_80%_12%,rgba(0,175,239,0.04),transparent_26%),linear-gradient(180deg,rgba(255,255,255,0.018)_0%,rgba(255,255,255,0.01)_100%)]">
               <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
               <div className="grid xl:grid-cols-4 sm:grid-cols-2">
                 {supportingServices.map((s, i) => (
@@ -655,14 +655,18 @@ const Index = () => {
 
       {/* How We Work — Process */}
       <section
-        className="border-t border-white/10 py-24"
+        className="relative overflow-hidden border-t border-white/10 py-20 md:py-24"
         style={{
           background: [
             "linear-gradient(180deg, rgba(255,255,255,0.01) 0%, transparent 100%)",
-            "radial-gradient(ellipse 70% 60% at 50% 100%, rgba(0,177,255,0.025) 0%, transparent 65%)",
+            "radial-gradient(ellipse 70% 60% at 50% 100%, rgba(0,51,153,0.04) 0%, transparent 65%)",
           ].join(", "),
         }}
       >
+        <div className="pointer-events-none absolute inset-0">
+          <div className="absolute left-1/2 top-12 h-64 w-[55%] -translate-x-1/2 rounded-full bg-atd-blue/[0.10] blur-[115px]" />
+          <div className="absolute inset-x-[14%] top-0 h-px bg-gradient-to-r from-transparent via-white/12 to-transparent" />
+        </div>
         <div className="container mx-auto px-4 lg:px-8">
           <SectionIntro
             eyebrow="How We Work"
@@ -671,7 +675,8 @@ const Index = () => {
             align="center"
             width="wide"
           />
-          <div className="relative mt-16 hidden lg:block">
+          <div className="relative mt-14 rounded-[32px] border border-white/[0.06] bg-[radial-gradient(circle_at_top_center,rgba(0,51,153,0.11),transparent_40%),radial-gradient(circle_at_30%_0%,rgba(0,175,239,0.05),transparent_28%),linear-gradient(180deg,rgba(255,255,255,0.02)_0%,rgba(255,255,255,0.008)_100%)] px-3 py-6 shadow-[0_18px_60px_rgba(0,8,22,0.14)] sm:px-5 lg:px-6 lg:py-8">
+          <div className="relative hidden lg:block">
             <div className="pointer-events-none absolute inset-x-[10%] top-6">
               <div className="h-px bg-gradient-to-r from-transparent via-white/12 to-transparent" />
               <div className="absolute inset-x-[8%] top-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-secondary/35 blur-sm" />
@@ -718,7 +723,7 @@ const Index = () => {
               ))}
             </div>
           </div>
-          <div className="relative mt-12 space-y-6 lg:hidden">
+          <div className="relative mt-2 space-y-6 lg:hidden">
             <div className="pointer-events-none absolute bottom-0 left-5 top-3">
               <div className="h-full w-px bg-gradient-to-b from-primary/35 via-primary/14 to-transparent" />
               <div className="absolute left-0 top-8 h-[calc(100%-2rem)] w-px bg-primary/20 blur-[1px]" />
@@ -762,6 +767,7 @@ const Index = () => {
               </motion.div>
             ))}
           </div>
+          </div>
         </div>
       </section>
 
@@ -773,18 +779,18 @@ const Index = () => {
       >
         <div className="container mx-auto px-4 lg:px-8">
           <SectionIntro
-            eyebrow="Platforms We Work In"
-            title="Built Across Your Core Revenue Stack"
-            description="Selected platforms we use most often across analytics, paid media, and automation."
+            eyebrow="Selected Platforms"
+            title="Built Across Your Revenue Stack"
+            description="Representative platforms we work with across analytics, paid media, and automation."
             align="center"
             width="wide"
             className="mb-8"
             titleClassName="max-w-3xl"
-            descriptionClassName="max-w-2xl"
+            descriptionClassName="max-w-4xl text-sm md:text-[15px] md:whitespace-nowrap"
             titleId="growth-stack-heading"
           />
 
-          <div className="mx-auto max-w-6xl overflow-hidden rounded-[28px] border border-white/[0.07] bg-[radial-gradient(circle_at_top_left,rgba(62,207,142,0.04),transparent_30%),radial-gradient(circle_at_82%_12%,rgba(0,177,255,0.045),transparent_24%),linear-gradient(180deg,rgba(255,255,255,0.018)_0%,rgba(255,255,255,0.008)_100%)] shadow-[0_24px_70px_rgba(0,0,0,0.18)]">
+          <div className="mx-auto max-w-6xl overflow-hidden rounded-[28px] border border-white/[0.07] bg-[radial-gradient(circle_at_top_left,rgba(0,51,153,0.12),transparent_34%),radial-gradient(circle_at_52%_0%,rgba(0,175,239,0.05),transparent_22%),radial-gradient(circle_at_82%_12%,rgba(51,204,153,0.05),transparent_24%),linear-gradient(180deg,rgba(255,255,255,0.018)_0%,rgba(255,255,255,0.008)_100%)] shadow-[0_24px_70px_rgba(0,8,22,0.20)]">
             <div className="grid md:grid-cols-[0.92fr_1.04fr_1.04fr]">
               {toolCollections.map((group, index) => (
                 <div
@@ -833,11 +839,15 @@ const Index = () => {
 
       {/* Blog Preview — data from shared source, with image skeleton/fallback */}
       <section
-        className="border-t border-white/10 py-20"
+        className="relative overflow-hidden border-t border-white/10 py-16 md:py-20"
         style={{
-          background: "radial-gradient(ellipse 80% 50% at 50% 0%, rgba(0,177,255,0.03) 0%, transparent 70%)",
+          background: "radial-gradient(ellipse 80% 50% at 50% 0%, rgba(0,51,153,0.06) 0%, rgba(0,175,239,0.02) 34%, transparent 70%)",
         }}
       >
+        <div className="pointer-events-none absolute inset-0">
+          <div className="absolute left-[8%] top-16 h-48 w-48 rounded-full bg-atd-blue/[0.08] blur-[100px]" />
+          <div className="absolute right-[6%] bottom-8 h-44 w-44 rounded-full bg-primary/[0.035] blur-[105px]" />
+        </div>
         <div className="container mx-auto px-4 lg:px-8">
           <div className="mx-auto max-w-5xl">
             <motion.div
@@ -845,69 +855,63 @@ const Index = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
-              className="mb-10 flex flex-col items-start gap-4 sm:flex-row sm:items-end sm:justify-between"
+              className="mb-8 flex flex-col items-start gap-4 sm:flex-row sm:items-end sm:justify-between"
             >
               <SectionIntro
                 eyebrow="Insights"
                 title="From Our Blog"
-                description="Thoughtful, practical guidance on attribution, paid growth, and automation systems."
+                description="Short, practical reads on tracking, paid media, and automation systems."
                 width="wide"
                 titleClassName="text-3xl md:text-4xl"
                 descriptionClassName="max-w-2xl text-sm"
               />
               <Link
-                to={`/blog/${latestPost.slug}`}
+                to="/blog"
                 className="inline-flex shrink-0 items-center gap-2 rounded-full border border-primary/20 bg-primary/[0.06] px-4 py-2 text-sm font-medium text-primary transition-colors hover:bg-primary/[0.10]"
               >
-                <span className="relative flex h-1.5 w-1.5">
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-60" />
-                  <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-primary" />
-                </span>
-                Latest: {latestPost.category}
+                View all insights
                 <ArrowRight className="h-3.5 w-3.5" />
               </Link>
             </motion.div>
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-              {featuredBlogPosts.map((post, i) => (
-                <motion.div
-                  key={post.slug}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: i * 0.1 }}
-                >
-                  <Link
-                    to={`/blog/${post.slug}`}
-                    className={cn(
-                      "group flex h-full flex-col overflow-hidden rounded-[24px] border bg-card transition-all duration-300 hover:-translate-y-1",
-                      i === 0
-                        ? "border-white/14 shadow-[0_18px_60px_rgba(0,0,0,0.18)]"
-                        : "border-white/10 hover:border-white/18",
-                    )}
+            <div className="overflow-hidden rounded-[24px] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.02)_0%,rgba(255,255,255,0.008)_100%)] shadow-[0_18px_60px_rgba(0,0,0,0.12)]">
+              <div className="grid grid-cols-1 divide-y divide-white/10 md:grid-cols-3 md:divide-x md:divide-y-0">
+                {featuredBlogPosts.map((post, i) => (
+                  <motion.div
+                    key={post.slug}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.35, delay: i * 0.08 }}
                   >
-                    <div className={cn("w-full overflow-hidden bg-card", i === 0 ? "h-56" : "h-48")}>
-                      <BlogImage src={post.image} alt={post.title} />
-                    </div>
-                    <div className="p-6">
-                      <div className="mb-3 flex items-center gap-3 text-[11px] uppercase tracking-[0.18em] text-muted-foreground/70">
+                    <Link
+                      to={`/blog/${post.slug}`}
+                      className="group flex h-full flex-col px-5 py-5 transition-colors duration-200 hover:bg-white/[0.02] lg:px-6"
+                    >
+                      <div className="relative mb-4 overflow-hidden rounded-[18px] border border-white/10 bg-black/20">
+                        <div className="pointer-events-none absolute inset-0 z-10 bg-gradient-to-t from-background/60 via-transparent to-transparent" />
+                        <div className="h-32">
+                          <BlogImage src={post.image} alt={post.title} />
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-3 text-[11px] uppercase tracking-[0.18em] text-muted-foreground/65">
                         <span>{post.category}</span>
-                        <span className="h-1 w-1 rounded-full bg-muted-foreground/40" />
+                        <span className="h-1 w-1 rounded-full bg-muted-foreground/35" />
                         <span>{post.readTime}</span>
                       </div>
-                      <h3 className="text-base font-semibold leading-snug text-foreground">
+                      <h3 className="mt-4 text-[1.18rem] font-semibold leading-snug text-foreground transition-colors group-hover:text-primary">
                         {post.title}
                       </h3>
-                      <p className="mt-2 line-clamp-2 text-sm text-muted-foreground">
+                      <p className="mt-3 line-clamp-3 text-sm leading-7 text-muted-foreground">
                         {post.excerpt}
                       </p>
-                      <span className="mt-3 inline-flex items-center gap-1 text-sm font-medium text-primary">
-                        Read more{" "}
+                      <span className="mt-auto inline-flex items-center gap-1 pt-5 text-sm font-medium text-primary/90">
+                        Read more
                         <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1" />
                       </span>
-                    </div>
-                  </Link>
-                </motion.div>
-              ))}
+                    </Link>
+                  </motion.div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
@@ -917,22 +921,25 @@ const Index = () => {
       <FAQAccordion
         items={faqs}
         title="Frequently Asked Questions"
+        description="A few practical answers before you book a call."
         eyebrow="FAQ"
         variant="minimal"
         density="compact"
+        defaultOpenItem={0}
+        contentClassName="max-w-[46rem]"
+        accordionClassName="space-y-3"
       />
 
       <CTASection
         title={
           <>
-            Ready to Know Exactly What's Driving Your <span className="text-gradient">Growth</span>?
+            Ready to See What's Driving <span className="text-gradient">Growth</span>?
           </>
         }
-        description="Book a call. We'll audit your current setup and show you exactly where the gaps are."
+        description="Book a call and we'll show you where tracking, media, or follow-up is leaking revenue."
         primaryCta={{ label: "Book a Call", to: "/book-a-call" }}
-        secondaryCta={{ label: "Explore Services", to: "/service" }}
+        secondaryCta={{ label: "View Services", to: "/service" }}
         variant="hero-close"
-        proofChips={["Registered company in Ghana", "Response within 1 business day", "No-pressure discovery call"]}
       />
     </>
   );

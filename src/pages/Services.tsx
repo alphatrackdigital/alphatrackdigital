@@ -17,7 +17,7 @@ const Services = () => {
         canonicalUrl="/service"
       />
       <section className="relative overflow-hidden py-24 md:py-32">
-        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 h-80 w-80 rounded-full bg-primary/6 blur-[120px]" />
+        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 h-80 w-80 rounded-full bg-atd-blue/8 blur-[120px]" />
         <div className="container relative mx-auto px-4 text-center lg:px-8">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
             <SectionIntro
@@ -63,7 +63,7 @@ const Services = () => {
               <motion.div key={service.title} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08, duration: 0.4 }}>
                 <Link to={service.path} className={cn("group flex h-full flex-col rounded-[26px] border p-8 transition-all duration-300 hover:-translate-y-1",
                     service.flagship
-                      ? "border-primary/25 bg-[linear-gradient(180deg,rgba(62,207,142,0.10)_0%,rgba(255,255,255,0.02)_100%)] shadow-[0_18px_60px_rgba(62,207,142,0.08)]"
+                      ? "border-primary/25 bg-[linear-gradient(180deg,rgba(0,51,153,0.16)_0%,rgba(0,175,239,0.04)_42%,rgba(51,204,153,0.04)_100%)] shadow-[0_18px_60px_rgba(0,51,153,0.12)]"
                       : "border-white/10 bg-white/[0.02] hover:border-white/20"
                   )}>
                   <div className="mb-6 flex items-start justify-between gap-4">
@@ -173,7 +173,7 @@ const Services = () => {
                 key={tier.name}
                 className={`flex flex-col rounded-[26px] border p-8 ${
                   tier.featured
-                    ? "border-primary/25 bg-[linear-gradient(180deg,rgba(62,207,142,0.10)_0%,rgba(255,255,255,0.02)_100%)] shadow-[0_18px_60px_rgba(62,207,142,0.06)]"
+                    ? "border-primary/25 bg-[linear-gradient(180deg,rgba(0,51,153,0.16)_0%,rgba(0,175,239,0.04)_42%,rgba(51,204,153,0.04)_100%)] shadow-[0_18px_60px_rgba(0,51,153,0.10)]"
                     : "border-white/10 bg-white/[0.02]"
                 }`}
               >

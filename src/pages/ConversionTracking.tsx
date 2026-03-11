@@ -120,6 +120,34 @@ const faqs = [
   { question: "Do I need to change my website?", answer: "Usually no. Most tracking setups are non-invasive and don't require changes to your site design or content. In some cases we may need a developer to add a small code snippet." },
 ];
 
+const serviceFaqs = [
+  {
+    question: "Can you fix our current setup, or do we need to rebuild tracking from scratch?",
+    answer:
+      "Usually we start by auditing what is already in place. If the existing setup can be corrected, we fix it. If it is too unreliable or messy to trust, we recommend a cleaner rebuild.",
+  },
+  {
+    question: "Will this work with our existing website and ad accounts?",
+    answer:
+      "Yes. We regularly work with WordPress, Shopify, WooCommerce, Webflow, and custom-built sites, and we can configure tracking against your existing Meta, Google Ads, LinkedIn, or TikTok accounts.",
+  },
+  {
+    question: "How long does the setup usually take?",
+    answer:
+      "Starter setups are typically completed in 5-7 working days. Larger multi-platform or ecommerce implementations take longer depending on scope, validation requirements, and access to the stack.",
+  },
+  {
+    question: "How do you validate that the tracking is actually working?",
+    answer:
+      "We test events before go-live using platform diagnostics such as GTM Preview and GA4 DebugView, then confirm the right actions are being attributed in your reporting stack before handover.",
+  },
+  {
+    question: "What happens after the setup is complete?",
+    answer:
+      "You get documentation, walkthroughs, and ownership of the setup. If you want continued support, QA, or optimisation help after launch, we can structure that separately.",
+  },
+];
+
 const ConversionTracking = () => {
   return (
     <>
@@ -227,7 +255,7 @@ const ConversionTracking = () => {
                 transition={{ delay: i * 0.1, duration: 0.4 }}
                 className="relative z-10 text-center"
               >
-                <div className="mx-auto mb-5 flex h-[60px] w-[60px] items-center justify-center rounded-full bg-gradient-to-br from-primary to-secondary text-xl font-extrabold text-primary-foreground shadow-[0_0_40px_rgba(62,207,142,0.2)]">
+                <div className="mx-auto mb-5 flex h-[60px] w-[60px] items-center justify-center rounded-full bg-gradient-to-br from-atd-blue via-secondary to-primary text-xl font-extrabold text-primary-foreground shadow-[0_0_40px_rgba(0,175,239,0.18)]">
                   {step.num}
                 </div>
                 <h4 className="text-lg font-bold">{step.title}</h4>
@@ -289,7 +317,17 @@ const ConversionTracking = () => {
       </section>
 
       {/* FAQ */}
-      <FAQAccordion items={faqs} eyebrow="FAQ" variant="minimal" density="compact" />
+      <FAQAccordion
+        items={serviceFaqs}
+        title="Frequently Asked Questions"
+        description="Common questions about setup scope, validation, and handover."
+        eyebrow="FAQ"
+        variant="minimal"
+        density="compact"
+        defaultOpenItem={0}
+        contentClassName="max-w-[46rem]"
+        accordionClassName="space-y-3"
+      />
       {/* Final CTA */}
       <CTASection
         title={

@@ -60,6 +60,7 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        "atd-blue": "hsl(var(--atd-blue))",
         "atd-green": "hsl(var(--atd-green))",
         "atd-cyan": "hsl(var(--atd-cyan))",
       },

@@ -391,7 +391,7 @@ const BlogPost = () => {
         ogImage={post.image}
         schema={articleSchema}
       />
-      <section className="relative overflow-hidden py-24 md:py-28" style={{ background: "linear-gradient(180deg, rgba(62,207,142,0.03) 0%, transparent 100%)" }}>
+      <section className="relative overflow-hidden py-24 md:py-28" style={{ background: "linear-gradient(180deg, rgba(0,51,153,0.03) 0%, rgba(0,175,239,0.015) 48%, transparent 100%)" }}>
         <div className="container relative mx-auto px-4 lg:px-8">
           <Breadcrumbs items={[{ label: "Home", path: "/" }, { label: "Blog", path: "/blog" }, { label: post.title }]} />
         </div>

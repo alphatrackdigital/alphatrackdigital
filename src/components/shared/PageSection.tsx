@@ -41,7 +41,7 @@ const spacingClasses = {
 const surfaceClasses = {
   default: "",
   quiet: "bg-white/[0.01]",
-  glow: "bg-[linear-gradient(180deg,rgba(255,255,255,0.012)_0%,transparent_100%)]",
+  glow: "bg-[linear-gradient(180deg,rgba(255,255,255,0.012)_0%,rgba(0,51,153,0.018)_44%,transparent_100%)]",
 } as const;
 
 const PageSection = ({
@@ -67,7 +67,7 @@ const PageSection = ({
     >
       {surface === "glow" && (
         <div className="pointer-events-none absolute inset-0">
-          <div className="absolute left-1/2 top-0 h-64 w-64 -translate-x-1/2 rounded-full bg-primary/[0.08] blur-[120px]" />
+          <div className="absolute left-1/2 top-0 h-64 w-64 -translate-x-1/2 rounded-full bg-atd-blue/[0.10] blur-[120px]" />
           <div className="absolute bottom-0 right-[10%] h-48 w-48 rounded-full bg-secondary/[0.05] blur-[120px]" />
         </div>
       )}

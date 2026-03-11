@@ -67,7 +67,7 @@ const BookACall = () => {
       <section
         className="py-24 md:py-32"
         style={{
-          background: "linear-gradient(180deg, rgba(62,207,142,0.04) 0%, transparent 100%)",
+          background: "linear-gradient(180deg, rgba(0,51,153,0.035) 0%, rgba(0,175,239,0.018) 50%, transparent 100%)",
           borderBottom: "1px solid rgba(255,255,255,0.04)",
         }}
       >

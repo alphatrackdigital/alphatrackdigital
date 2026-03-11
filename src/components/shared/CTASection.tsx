@@ -41,15 +41,15 @@ const CTASection = ({
       <div className="pointer-events-none absolute inset-0">
         {variant === "hero-close" && (
           <>
-            <div className="absolute inset-x-0 top-0 h-full bg-[radial-gradient(circle_at_center,rgba(62,207,142,0.12)_0%,transparent_60%)]" />
-            <div className="absolute inset-x-[20%] bottom-[-5rem] h-48 rounded-full bg-secondary/10 blur-[120px]" />
+            <div className="absolute inset-x-0 top-0 h-full bg-[radial-gradient(circle_at_center,rgba(0,175,239,0.10)_0%,transparent_54%),radial-gradient(circle_at_50%_68%,rgba(51,204,153,0.08)_0%,transparent_56%)]" />
+            <div className="absolute inset-x-[18%] bottom-[-5rem] h-48 rounded-full bg-atd-blue/10 blur-[120px]" />
           </>
         )}
         {variant === "service-close" && (
-          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.01)_0%,rgba(62,207,142,0.04)_100%)]" />
+          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.01)_0%,rgba(0,175,239,0.03)_45%,rgba(51,204,153,0.035)_100%)]" />
         )}
         {variant === "inline-proof" && (
-          <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(62,207,142,0.03)_0%,rgba(0,177,255,0.02)_100%)]" />
+          <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(0,51,153,0.03)_0%,rgba(0,175,239,0.025)_52%,rgba(51,204,153,0.03)_100%)]" />
         )}
       </div>
 
@@ -81,10 +81,12 @@ const CTASection = ({
                 variant === "inline-proof" && !containerIsSplit && "max-w-2xl",
               )}
               titleClassName={cn(
+                variant === "hero-close" && "mx-auto max-w-4xl text-4xl leading-[1.06] md:text-[3rem]",
                 variant === "inline-proof" && "text-2xl md:text-3xl",
                 variant === "service-close" && "text-3xl md:text-[2.1rem]",
               )}
               descriptionClassName={cn(
+                variant === "hero-close" && "mx-auto max-w-2xl text-base leading-7",
                 variant === "inline-proof" && "max-w-xl text-sm",
                 variant === "service-close" && "max-w-xl",
               )}
@@ -102,7 +104,7 @@ const CTASection = ({
                   size="lg"
                   className={cn(
                     "gap-1.5 rounded-xl bg-primary text-primary-foreground hover:bg-primary/90",
-                    variant === "hero-close" && "px-8 shadow-[0_0_30px_rgba(62,207,142,0.2)]",
+                    variant === "hero-close" && "px-8 shadow-[0_0_30px_rgba(51,204,153,0.16)]",
                   )}
                 >
                   <Link to={primaryCta.to}>
@@ -133,7 +135,10 @@ const CTASection = ({
                   {proofChips.map((chip) => (
                     <span
                       key={chip}
-                      className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-[11px] font-medium uppercase tracking-wide text-muted-foreground"
+                      className={cn(
+                        "rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-[11px] font-medium uppercase tracking-wide text-muted-foreground",
+                        variant === "hero-close" && "px-3.5 py-1.5 text-[10.5px] tracking-[0.12em]",
+                      )}
                     >
                       {chip}
                     </span>

@@ -7,7 +7,7 @@ describe("Homepage proof and stack sections", () => {
     renderWithPageProviders(<Index />);
 
     const proofEyebrow = screen.getByText("Results from recent paid media campaigns");
-    const stackHeading = screen.getByRole("heading", { name: "Built Across Your Core Revenue Stack" });
+    const stackHeading = screen.getByRole("heading", { name: "Built Across Your Revenue Stack" });
     const blogHeading = screen.getByRole("heading", { name: "From Our Blog" });
 
     expect(proofEyebrow.compareDocumentPosition(stackHeading)).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
@@ -44,7 +44,11 @@ describe("Homepage proof and stack sections", () => {
     expect(within(stackSection).getByText("Measurement")).toBeInTheDocument();
     expect(within(stackSection).getByText("Paid Media")).toBeInTheDocument();
     expect(within(stackSection).getByText("Automation")).toBeInTheDocument();
-    expect(screen.getByText("Selected platforms we use most often across analytics, paid media, and automation.")).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        "Representative platforms we work with across analytics, paid media, and automation."
+      )
+    ).toBeInTheDocument();
     expect(within(stackSection).getByText("Microsoft Clarity")).toBeInTheDocument();
     expect(screen.queryByText(/\+\d+\s+additional/i)).not.toBeInTheDocument();
     expect(screen.getByText("We Also Deliver")).toBeInTheDocument();
@@ -65,7 +69,20 @@ describe("Homepage proof and stack sections", () => {
     expect(screen.getAllByText("Output")).toHaveLength(8);
     expect(screen.getAllByText("Fit check and priority scope")).toHaveLength(2);
     expect(screen.getAllByText("Prioritised action plan")).toHaveLength(2);
-    expect(screen.getAllByText("Live setup across media and workflows")).toHaveLength(2);
-    expect(screen.getAllByText("Reporting cadence and optimisation plan")).toHaveLength(2);
+    expect(screen.getAllByText("Live setup and workflow launch")).toHaveLength(2);
+    expect(screen.getAllByText("Reporting rhythm and next steps")).toHaveLength(2);
+    expect(
+      screen.getByText("Can you work with our existing setup, or do we need to rebuild everything?")
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        "Usually we start with what you already have. We audit your tracking, campaigns, and follow-up systems first, then recommend only the fixes or rebuilds that are actually necessary."
+      )
+    ).toBeInTheDocument();
+    expect(screen.getByText("A few practical answers before you book a call.")).toBeInTheDocument();
+    expect(
+      screen.queryByText("What platforms do you support across tracking, paid media, and automation?")
+    ).not.toBeInTheDocument();
+    expect(screen.queryByText("What sets AlphaTrack Digital apart from other agencies?")).not.toBeInTheDocument();
   });
 });

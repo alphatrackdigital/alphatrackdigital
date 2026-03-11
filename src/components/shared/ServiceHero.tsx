@@ -59,23 +59,23 @@ const ServiceHero = ({
   const toneBackgrounds = {
     tracking: {
       section:
-        "linear-gradient(180deg, rgba(62,207,142,0.04) 0%, rgba(255,255,255,0.01) 100%)",
-      orbA: "bg-primary/[0.07]",
-      orbB: "bg-secondary/[0.04]",
+        "linear-gradient(180deg, rgba(0,175,239,0.035) 0%, rgba(51,204,153,0.03) 46%, rgba(255,255,255,0.01) 100%)",
+      orbA: "bg-atd-blue/[0.10]",
+      orbB: "bg-primary/[0.05]",
       snapshotBorder: "border-primary/20",
     },
     media: {
       section:
-        "linear-gradient(180deg, rgba(0,177,255,0.05) 0%, rgba(255,255,255,0.01) 100%)",
+        "linear-gradient(180deg, rgba(0,51,153,0.045) 0%, rgba(0,175,239,0.04) 46%, rgba(255,255,255,0.01) 100%)",
       orbA: "bg-secondary/[0.07]",
-      orbB: "bg-primary/[0.04]",
+      orbB: "bg-atd-blue/[0.05]",
       snapshotBorder: "border-secondary/20",
     },
     automation: {
       section:
-        "linear-gradient(180deg, rgba(62,207,142,0.035) 0%, rgba(0,177,255,0.02) 100%)",
+        "linear-gradient(180deg, rgba(0,51,153,0.03) 0%, rgba(51,204,153,0.03) 52%, rgba(0,175,239,0.02) 100%)",
       orbA: "bg-primary/[0.06]",
-      orbB: "bg-secondary/[0.03]",
+      orbB: "bg-atd-blue/[0.05]",
       snapshotBorder: "border-primary/15",
     },
   }[tone];

@@ -264,7 +264,7 @@ const TrackingLandingPage = () => {
               <Button
                 asChild
                 size="lg"
-                className="gap-1.5 rounded-xl bg-primary px-8 text-primary-foreground shadow-[0_0_24px_rgba(62,207,142,0.18)] hover:bg-primary/90"
+                className="gap-1.5 rounded-xl bg-primary px-8 text-primary-foreground shadow-[0_0_24px_rgba(51,204,153,0.14)] hover:bg-primary/90"
               >
                 <a href="#claim">
                   Claim Your Free Audit <ArrowUpRight className="h-4 w-4" />
@@ -337,7 +337,7 @@ const TrackingLandingPage = () => {
               transition={{ delay: index * 0.08, duration: 0.35 }}
               className={
                 card.highlight
-                  ? "rounded-[28px] border border-primary/20 bg-[linear-gradient(180deg,rgba(62,207,142,0.08)_0%,rgba(255,255,255,0.02)_100%)] p-8"
+                  ? "rounded-[28px] border border-primary/20 bg-[linear-gradient(180deg,rgba(0,51,153,0.14)_0%,rgba(0,175,239,0.035)_42%,rgba(51,204,153,0.03)_100%)] p-8"
                   : "rounded-[28px] border border-white/10 bg-white/[0.02] p-8"
               }
             >

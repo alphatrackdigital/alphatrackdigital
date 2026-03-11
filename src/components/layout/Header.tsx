@@ -98,8 +98,8 @@ const Header = () => {
         className={cn(
           "transition-all duration-300",
           headerElevated
-            ? "bg-background/76 shadow-[0_10px_28px_rgba(0,0,0,0.16)] backdrop-blur-xl"
-            : "bg-[linear-gradient(180deg,rgba(0,0,0,0.32)_0%,rgba(0,0,0,0.10)_48%,rgba(0,0,0,0)_100%)]",
+            ? "bg-background/78 shadow-[0_10px_28px_rgba(0,10,28,0.22)] backdrop-blur-xl"
+            : "bg-[linear-gradient(180deg,rgba(8,12,24,0.58)_0%,rgba(8,12,24,0.22)_48%,rgba(8,12,24,0)_100%)]",
         )}
       >
         <div className="container mx-auto px-4 lg:px-8">
@@ -187,10 +187,10 @@ const Header = () => {
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, y: 12, scale: 0.985 }}
                       transition={{ duration: 0.18, ease: "easeOut" }}
-                      className="relative overflow-hidden rounded-[30px] border border-white/[0.08] bg-[radial-gradient(ellipse_at_top,rgba(62,207,142,0.08),transparent_45%),linear-gradient(180deg,rgba(5,9,11,0.99)_0%,rgba(4,7,9,0.985)_100%)] p-6 shadow-[0_26px_80px_rgba(0,0,0,0.42)] backdrop-blur-2xl"
+                      className="relative overflow-hidden rounded-[30px] border border-white/[0.08] bg-[radial-gradient(ellipse_at_top,rgba(0,175,239,0.09),transparent_46%),linear-gradient(180deg,rgba(9,13,24,0.99)_0%,rgba(7,11,20,0.985)_100%)] p-6 shadow-[0_26px_80px_rgba(0,8,22,0.42)] backdrop-blur-2xl"
                     >
                       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/35 to-transparent" />
-                      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_18%,rgba(0,177,255,0.08),transparent_28%),radial-gradient(circle_at_82%_22%,rgba(62,207,142,0.08),transparent_30%)] opacity-70" />
+                      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_18%,rgba(0,51,153,0.14),transparent_30%),radial-gradient(circle_at_48%_12%,rgba(0,175,239,0.08),transparent_22%),radial-gradient(circle_at_82%_22%,rgba(51,204,153,0.07),transparent_30%)] opacity-75" />
                       <div className="relative grid gap-6 lg:grid-cols-[1.1fr_1fr_0.92fr]">
                         <div>
                           <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary/80">
@@ -244,7 +244,7 @@ const Header = () => {
                           </div>
                         </div>
 
-                        <div className="rounded-[24px] border border-primary/15 bg-[linear-gradient(180deg,rgba(62,207,142,0.12)_0%,rgba(255,255,255,0.025)_100%)] p-5">
+                        <div className="rounded-[24px] border border-primary/15 bg-[linear-gradient(180deg,rgba(0,51,153,0.18)_0%,rgba(0,175,239,0.05)_45%,rgba(51,204,153,0.05)_100%)] p-5">
                           <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary/80">
                             Start Here
                           </p>
@@ -281,7 +281,7 @@ const Header = () => {
             </nav>
 
             <div className="hidden justify-self-end md:block">
-              <Button asChild className="gap-1.5 rounded-lg bg-primary px-4 py-2 text-sm text-primary-foreground shadow-[0_0_18px_rgba(62,207,142,0.14)] hover:bg-primary/90">
+              <Button asChild className="gap-1.5 rounded-lg bg-primary px-4 py-2 text-sm text-primary-foreground shadow-[0_0_18px_rgba(51,204,153,0.12)] hover:bg-primary/90">
               <Link to="/book-a-call" {...getPrefetchHandlers("/book-a-call")}>
                 Book a Call <ArrowUpRight className="h-4 w-4" />
               </Link>

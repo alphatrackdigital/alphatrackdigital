@@ -19,7 +19,7 @@ const NotFound = () => {
         noindex
       />
       <section className="relative flex min-h-[70vh] items-center justify-center py-24">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[500px] w-[500px] rounded-full bg-[radial-gradient(circle,rgba(62,207,142,0.08)_0%,transparent_70%)] pointer-events-none" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[500px] w-[500px] rounded-full bg-[radial-gradient(circle,rgba(0,175,239,0.06)_0%,rgba(0,51,153,0.08)_34%,transparent_70%)] pointer-events-none" />
         <div className="container relative mx-auto px-4 text-center lg:px-8">
           <p className="text-8xl font-black text-gradient">404</p>
           <h1 className="mt-4 text-3xl font-bold md:text-4xl">Page Not Found</h1>

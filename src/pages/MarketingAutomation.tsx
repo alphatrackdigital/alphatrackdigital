@@ -160,6 +160,34 @@ const faqs = [
   },
 ];
 
+const serviceFaqs = [
+  {
+    question: "Do we need to already be using Brevo before we start?",
+    answer:
+      "No. We can help you set up the account structure, import contacts where appropriate, and decide which parts of the workflow should live inside Brevo from day one.",
+  },
+  {
+    question: "Can the automation connect to our current forms, site, and internal tools?",
+    answer:
+      "Usually yes. We can connect website forms, landing pages, spreadsheets, ecommerce tools, and other systems through native integrations or workflow tooling, depending on what your setup needs.",
+  },
+  {
+    question: "How long does a typical automation setup take?",
+    answer:
+      "Smaller starter setups are usually launched in 1-2 weeks. More complex CRM pipelines, scoring rules, and multi-step workflows take longer depending on the number of integrations and edge cases involved.",
+  },
+  {
+    question: "Do we need conversion tracking as well?",
+    answer:
+      "Not always, but the two work much better together. Tracking tells you which channels are bringing the right leads, and automation makes sure those leads are followed up consistently once they arrive.",
+  },
+  {
+    question: "What happens after launch, and do we own the workflows?",
+    answer:
+      "You own the account, workflows, and documentation. We hand everything over clearly, train your team where needed, and can stay involved for optimisation or support if you want ongoing help.",
+  },
+];
+
 const MarketingAutomation = () => {
   return (
     <>
@@ -268,7 +296,7 @@ const MarketingAutomation = () => {
                 transition={{ delay: i * 0.1, duration: 0.4 }}
                 className="relative z-10 text-center"
               >
-                <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-primary to-secondary text-xl font-extrabold text-primary-foreground shadow-[0_0_30px_rgba(62,207,142,0.2)]">
+                <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-atd-blue via-secondary to-primary text-xl font-extrabold text-primary-foreground shadow-[0_0_30px_rgba(0,175,239,0.16)]">
                   {step.num}
                 </div>
                 <h4 className="text-base font-bold">{step.title}</h4>
@@ -339,7 +367,17 @@ const MarketingAutomation = () => {
         </div>
       </section>
 
-      <FAQAccordion items={faqs} eyebrow="FAQ" variant="minimal" density="compact" />
+      <FAQAccordion
+        items={serviceFaqs}
+        title="Frequently Asked Questions"
+        description="Common questions about tools, integrations, launch timelines, and ownership."
+        eyebrow="FAQ"
+        variant="minimal"
+        density="compact"
+        defaultOpenItem={0}
+        contentClassName="max-w-[46rem]"
+        accordionClassName="space-y-3"
+      />
       <CTASection
         title={
           <>

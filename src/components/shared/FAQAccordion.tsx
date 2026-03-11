@@ -15,36 +15,55 @@ export interface FAQItem {
 interface FAQAccordionProps {
   items: FAQItem[];
   title?: string;
+  description?: string;
   variant?: "minimal" | "panel";
   density?: "comfortable" | "compact";
   eyebrow?: string;
+  defaultOpenItem?: number;
+  contentClassName?: string;
+  accordionClassName?: string;
 }
 
 const FAQAccordion = ({
   items,
   title = "Frequently Asked Questions",
+  description,
   variant = "panel",
   density = "comfortable",
   eyebrow,
+  defaultOpenItem,
+  contentClassName,
+  accordionClassName,
 }: FAQAccordionProps) => {
+  const defaultValue =
+    typeof defaultOpenItem === "number" && defaultOpenItem >= 0 && defaultOpenItem < items.length
+      ? `faq-${defaultOpenItem}`
+      : undefined;
+
   return (
     <section className={cn("py-20", variant === "minimal" && "bg-white/[0.01]")}>
       <div className="container mx-auto px-4 lg:px-8">
         <SectionIntro
           eyebrow={eyebrow}
           title={title}
+          description={description}
           align="center"
           width="narrow"
           className="mb-10"
         />
-        <div className="mx-auto max-w-3xl">
-          <Accordion type="single" collapsible className={cn(variant === "minimal" ? "space-y-2" : "space-y-3")}>
+        <div className={cn("mx-auto max-w-3xl", contentClassName)}>
+          <Accordion
+            type="single"
+            collapsible
+            defaultValue={defaultValue}
+            className={cn(variant === "minimal" ? "space-y-2" : "space-y-3", accordionClassName)}
+          >
             {items.map((item, i) => (
               <AccordionItem
                 key={i}
                 value={`faq-${i}`}
                 className={cn(
-                  "rounded-2xl px-6 transition-colors duration-150 hover:border-primary/25",
+                  "rounded-2xl px-6 transition-all duration-200 hover:border-primary/25 data-[state=open]:border-primary/20 data-[state=open]:bg-white/[0.035] data-[state=open]:shadow-[0_14px_34px_rgba(0,0,0,0.12)]",
                   variant === "panel"
                     ? "border border-white/10 bg-white/[0.03]"
                     : "border border-white/8 bg-transparent",
