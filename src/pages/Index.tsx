@@ -19,7 +19,7 @@ import { buildCanonicalUrl } from "@/config/seo";
 import { motion, useReducedMotion } from "framer-motion";
 import { primaryServices, supportingServices } from "@/data/services";
 import { getFeaturedBlogPosts } from "@/data/blogPosts";
-import { homepageProofCards, homepageProofSection } from "@/data/homepageProof";
+import { homepageProofMetrics, homepageProofSection } from "@/data/homepageProof";
 import { cn } from "@/lib/utils";
 import makeIcon from "@/assets/tools/make.svg";
 import googleAnalyticsIcon from "@/assets/tools/google-analytics.svg";
@@ -130,6 +130,32 @@ const toolCollections = [
     ],
   },
 ];
+
+const heroMetrics = [
+  {
+    label: "Reach",
+    value: "2.1M+",
+    sub: "Unique users reached",
+    note: "~4.9M impressions served",
+  },
+  {
+    label: "Viewer-to-Site Rate",
+    value: "55%",
+    sub: "Video viewers who visited the website",
+    barWidth: "55%",
+  },
+  {
+    label: "Completion Rate",
+    value: "25.14%",
+    sub: "Teaser video completion rate",
+    filledSegments: 3,
+  },
+  {
+    label: "Website Visits",
+    value: "3,151",
+    sub: "Generated in a 12-day hospitality campaign",
+  },
+] as const;
 
 const processSteps = [
   {
@@ -342,18 +368,16 @@ const Index = () => {
               </div>
               {/* Mobile metric tiles — visible when floating cards are hidden on desktop */}
               <div className="mt-8 grid grid-cols-2 gap-3 lg:hidden">
-                {[
-                  { label: "ROAS", value: "4.2×", sub: "Return on ad spend" },
-                  { label: "Lead Volume", value: "+68%", sub: "Month-over-month" },
-                  { label: "Accuracy", value: "99.4%", sub: "Tracking accuracy" },
-                  { label: "Wasted Spend", value: "−25%", sub: "Budget saved" },
-                ].map((m) => (
+                {heroMetrics.map((m) => (
                   <div key={m.label} className="glass-card p-4 text-center">
                     <p className="text-[10px] font-semibold uppercase tracking-wide text-muted-foreground">
                       {m.label}
                     </p>
                     <p className="mt-1 text-xl font-bold text-gradient">{m.value}</p>
                     <p className="mt-0.5 text-[11px] text-muted-foreground">{m.sub}</p>
+                    {"note" in m && m.note && (
+                      <p className="mt-2 text-[10px] font-medium text-primary">{m.note}</p>
+                    )}
                   </div>
                 ))}
               </div>
@@ -371,7 +395,7 @@ const Index = () => {
               <div className="absolute inset-0 rounded-3xl bg-primary/[0.06] blur-[60px]" />
               <div className="absolute inset-0 rounded-3xl bg-secondary/[0.04] blur-[80px]" />
 
-              {/* ROAS card */}
+              {/* Reach card */}
               <motion.div
                 animate={shouldReduceMotion ? {} : { y: [0, -10, 0] }}
                 transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
@@ -382,17 +406,17 @@ const Index = () => {
                     <TrendingUp className="h-4 w-4 text-primary" />
                   </div>
                   <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-                    ROAS
+                    {heroMetrics[0].label}
                   </span>
                 </div>
-                <p className="text-2xl font-bold text-gradient">4.2×</p>
-                <p className="mt-1 text-xs text-muted-foreground">Return on ad spend</p>
+                <p className="text-2xl font-bold text-gradient">{heroMetrics[0].value}</p>
+                <p className="mt-1 text-xs text-muted-foreground">{heroMetrics[0].sub}</p>
                 <div className="mt-3 flex items-center gap-1 text-xs text-primary">
-                  <TrendingUp className="h-3 w-3" /> +31% vs prev. period
+                  <TrendingUp className="h-3 w-3" /> {heroMetrics[0].note}
                 </div>
               </motion.div>
 
-              {/* Lead volume card */}
+              {/* Viewer-to-site rate card */}
               <motion.div
                 animate={shouldReduceMotion ? {} : { y: [0, -14, 0] }}
                 transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 0.8 }}
@@ -403,17 +427,20 @@ const Index = () => {
                     <BarChart3 className="h-4 w-4 text-primary" />
                   </div>
                   <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-                    Lead Volume
+                    {heroMetrics[1].label}
                   </span>
                 </div>
-                <p className="text-2xl font-bold text-gradient">+68%</p>
-                <p className="mt-1 text-xs text-muted-foreground">Month-over-month growth</p>
+                <p className="text-2xl font-bold text-gradient">{heroMetrics[1].value}</p>
+                <p className="mt-1 text-xs text-muted-foreground">{heroMetrics[1].sub}</p>
                 <div className="mt-3 h-1.5 w-full rounded-full bg-white/5">
-                  <div className="h-1.5 w-[68%] rounded-full bg-gradient-to-r from-primary to-secondary" />
+                  <div
+                    className="h-1.5 rounded-full bg-gradient-to-r from-primary to-secondary"
+                    style={{ width: heroMetrics[1].barWidth }}
+                  />
                 </div>
               </motion.div>
 
-              {/* Tracking accuracy card */}
+              {/* Completion rate card */}
               <motion.div
                 animate={shouldReduceMotion ? {} : { y: [0, -8, 0] }}
                 transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 1.5 }}
@@ -424,22 +451,22 @@ const Index = () => {
                     <ClipboardCheck className="h-4 w-4 text-primary" />
                   </div>
                   <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-                    Accuracy
+                    {heroMetrics[2].label}
                   </span>
                 </div>
-                <p className="text-2xl font-bold text-gradient">99.4%</p>
-                <p className="mt-1 text-xs text-muted-foreground">Conversion tracking accuracy</p>
+                <p className="text-2xl font-bold text-gradient">{heroMetrics[2].value}</p>
+                <p className="mt-1 text-xs text-muted-foreground">{heroMetrics[2].sub}</p>
                 <div className="mt-3 flex gap-0.5">
                   {Array.from({ length: 10 }).map((_, i) => (
                     <div
                       key={i}
-                      className={`h-1 flex-1 rounded-full ${i < 9 ? "bg-primary" : "bg-primary/20"}`}
+                      className={`h-1 flex-1 rounded-full ${i < heroMetrics[2].filledSegments ? "bg-primary" : "bg-primary/20"}`}
                     />
                   ))}
                 </div>
               </motion.div>
 
-              {/* Wasted spend card */}
+              {/* Website visits card */}
               <motion.div
                 animate={shouldReduceMotion ? {} : { y: [0, -12, 0] }}
                 transition={{ duration: 3.8, repeat: Infinity, ease: "easeInOut", delay: 2 }}
@@ -450,11 +477,11 @@ const Index = () => {
                     <Rocket className="h-4 w-4 text-primary" />
                   </div>
                   <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-                    Wasted Spend
+                    {heroMetrics[3].label}
                   </span>
                 </div>
-                <p className="text-2xl font-bold text-gradient">−25%</p>
-                <p className="mt-1 text-xs text-muted-foreground">Reduction in wasted budget</p>
+                <p className="text-2xl font-bold text-gradient">{heroMetrics[3].value}</p>
+                <p className="mt-1 text-xs text-muted-foreground">{heroMetrics[3].sub}</p>
               </motion.div>
             </motion.div>
           </div>
@@ -463,57 +490,28 @@ const Index = () => {
 
       {/* Selected Outcomes */}
       <section
-        aria-labelledby="selected-outcomes-heading"
-        className="border-b border-white/10 py-16"
-        style={{
-          background: [
-            "linear-gradient(180deg, rgba(62,207,142,0.05) 0%, transparent 100%)",
-            "radial-gradient(ellipse 70% 55% at 50% 0%, rgba(0,177,255,0.03) 0%, transparent 70%)",
-          ].join(", "),
-        }}
+        data-testid="proof-strip-section"
+        className="border-b border-white/10 py-14"
+        style={{ background: "linear-gradient(180deg, rgba(62,207,142,0.04) 0%, transparent 100%)" }}
       >
         <div className="container mx-auto px-4 lg:px-8">
-          <SectionIntro
-            eyebrow={homepageProofSection.eyebrow}
-            title={homepageProofSection.title}
-            description={homepageProofSection.description}
-            align="center"
-            width="wide"
-            className="mb-10"
-            titleClassName="max-w-3xl"
-            descriptionClassName="max-w-2xl"
-            titleId="selected-outcomes-heading"
-          />
-          <div className="grid gap-4 lg:grid-cols-3">
-            {homepageProofCards.map((proof, i) => (
-              <motion.article
-                key={proof.sourceRef}
-                data-testid="proof-card"
+          <p className="mb-8 text-center text-xs font-semibold uppercase tracking-widest text-muted-foreground/60">
+            {homepageProofSection.eyebrow}
+          </p>
+          <div className="flex flex-col items-center gap-8 sm:flex-row sm:gap-0 sm:divide-x sm:divide-white/10">
+            {homepageProofMetrics.map((metric, i) => (
+              <motion.div
+                key={metric.sourceRef}
+                data-testid="proof-metric"
                 initial={{ opacity: 0, y: 18 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: i * 0.08 }}
-                className="relative overflow-hidden rounded-[24px] border border-white/[0.08] bg-[linear-gradient(180deg,rgba(255,255,255,0.03)_0%,rgba(255,255,255,0.012)_100%)] p-6 md:p-7"
+                className="flex flex-1 flex-col items-center px-6 text-center"
               >
-                <div className="absolute left-0 top-0 h-px w-full bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
-                <div className="flex flex-wrap gap-2">
-                  <span className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-[11px] font-medium uppercase tracking-[0.16em] text-muted-foreground">
-                    {proof.clientLabel}
-                  </span>
-                  <span className="rounded-full border border-primary/20 bg-primary/[0.08] px-3 py-1 text-[11px] font-medium uppercase tracking-[0.16em] text-primary">
-                    {proof.channelOrService}
-                  </span>
-                  {proof.timeframe && (
-                    <span className="rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 text-[11px] font-medium uppercase tracking-[0.16em] text-muted-foreground/85">
-                      {proof.timeframe}
-                    </span>
-                  )}
-                </div>
-                <p className="mt-6 text-3xl font-bold tracking-tight text-gradient md:text-[2.2rem]">
-                  {proof.result}
-                </p>
-                <p className="mt-4 text-sm leading-7 text-muted-foreground">{proof.context}</p>
-              </motion.article>
+                <p className="text-4xl font-bold text-gradient md:text-5xl">{metric.value}</p>
+                <p className="mt-2 max-w-[18rem] text-sm leading-6 text-muted-foreground">{metric.label}</p>
+              </motion.div>
             ))}
           </div>
         </div>

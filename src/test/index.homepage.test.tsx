@@ -3,23 +3,40 @@ import Index from "@/pages/Index";
 import { renderWithPageProviders } from "@/test/renderWithPageProviders";
 
 describe("Homepage proof and stack sections", () => {
-  it("renders anonymous proof cards and keeps the stack before blog", () => {
+  it("renders the stat-strip proof section with real campaign metrics and keeps the stack before blog", () => {
     renderWithPageProviders(<Index />);
 
-    const proofHeading = screen.getByRole("heading", { name: "Recent Client Outcomes" });
+    const proofEyebrow = screen.getByText("Results from recent paid media campaigns");
     const stackHeading = screen.getByRole("heading", { name: "Built Across the Core Growth Stack" });
     const blogHeading = screen.getByRole("heading", { name: "From Our Blog" });
 
-    expect(proofHeading.compareDocumentPosition(stackHeading)).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
+    expect(proofEyebrow.compareDocumentPosition(stackHeading)).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
     expect(stackHeading.compareDocumentPosition(blogHeading)).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
 
-    expect(screen.getAllByTestId("proof-card")).toHaveLength(3);
-    expect(screen.getByText("Education Client")).toBeInTheDocument();
-    expect(screen.getByText("Luxury Hospitality Brand")).toBeInTheDocument();
-    expect(screen.getByText("Consumer Brand")).toBeInTheDocument();
+    const proofSection = screen.getByTestId("proof-strip-section");
+
+    expect(within(proofSection).getAllByTestId("proof-metric")).toHaveLength(3);
+    expect(within(proofSection).getByText("4.9M")).toBeInTheDocument();
+    expect(within(proofSection).getByText("3,151")).toBeInTheDocument();
+    expect(within(proofSection).getByText("129,862")).toBeInTheDocument();
+    expect(within(proofSection).getByText("Impressions delivered in an education campaign")).toBeInTheDocument();
+    expect(within(proofSection).getByText("Website visits generated in a 12-day hospitality campaign")).toBeInTheDocument();
+    expect(within(proofSection).getByText("Teaser views generated for a consumer brand rollout")).toBeInTheDocument();
+    expect(screen.getAllByText("2.1M+")).toHaveLength(2);
+    expect(screen.getAllByText("55%")).toHaveLength(2);
+    expect(screen.getAllByText("25.14%")).toHaveLength(2);
+    expect(screen.getAllByText("Reach")).toHaveLength(2);
+    expect(screen.getAllByText("Viewer-to-Site Rate")).toHaveLength(2);
+    expect(screen.getAllByText("Completion Rate")).toHaveLength(2);
+    expect(screen.getAllByText("Website Visits")).toHaveLength(2);
+    expect(screen.queryByText("4.2×")).not.toBeInTheDocument();
+    expect(screen.queryByText("+68%")).not.toBeInTheDocument();
+    expect(screen.queryByText("99.4%")).not.toBeInTheDocument();
+    expect(screen.queryByText("−25%")).not.toBeInTheDocument();
     expect(screen.queryByText("Pearl House Ghana")).not.toBeInTheDocument();
     expect(screen.queryByText("Courtney Quist-Therson")).not.toBeInTheDocument();
     expect(screen.queryByText("A Client Perspective")).not.toBeInTheDocument();
+    expect(screen.queryByText("Recent Client Outcomes")).not.toBeInTheDocument();
 
     const stackSection = screen.getByTestId("growth-stack-section");
 

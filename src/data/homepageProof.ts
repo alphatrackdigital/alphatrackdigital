@@ -1,44 +1,30 @@
-export type HomepageProofCard = {
-  clientLabel: string;
-  result: string;
-  context: string;
-  channelOrService: string;
-  timeframe?: string;
+export type HomepageProofMetric = {
+  value: string;
+  label: string;
   sourceRef: string;
   canNameClient: boolean;
 };
 
 export const homepageProofSection = {
-  eyebrow: "Selected Outcomes",
-  title: "Recent Client Outcomes",
-  description:
-    "Anonymous snapshots from approved case-study material. Client names stay private until permission is granted.",
+  eyebrow: "Results from recent paid media campaigns",
 };
 
-export const homepageProofCards: HomepageProofCard[] = [
+export const homepageProofMetrics: HomepageProofMetric[] = [
   {
-    clientLabel: "Education Client",
-    result: "Nearly 4.9M impressions",
-    context:
-      "~2.1M reach from Google Ads and Facebook campaigns built for postgraduate audience targeting.",
-    channelOrService: "Paid Media",
+    value: "4.9M",
+    label: "Impressions delivered in an education campaign",
     sourceRef: "Brand Assets/Case Study - NiBS.pdf",
     canNameClient: false,
   },
   {
-    clientLabel: "Luxury Hospitality Brand",
-    result: "3,151 website visits in 12 days",
-    context: "Video-led campaign across local and international tourism markets.",
-    channelOrService: "Paid Media",
-    timeframe: "12 days",
+    value: "3,151",
+    label: "Website visits generated in a 12-day hospitality campaign",
     sourceRef: "Brand Assets/Case Study - TAR.pdf",
     canNameClient: false,
   },
   {
-    clientLabel: "Consumer Brand",
-    result: "129,862 teaser views",
-    context: "25.14% completion rate from an episodic video campaign rollout.",
-    channelOrService: "Paid Media",
+    value: "129,862",
+    label: "Teaser views generated for a consumer brand rollout",
     sourceRef: "Brand Assets/Case Study - PimSuko.pdf",
     canNameClient: false,
   },
