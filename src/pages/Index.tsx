@@ -98,7 +98,7 @@ const findTool = (name: string) => tools.find((tool) => tool.name === name)!;
 const toolCollections = [
   {
     title: "Measurement",
-    description: "Attribution clarity across analytics, tags, and reporting.",
+    description: "Analytics, tags, and reporting confidence.",
     items: [
       findTool("Google Analytics 4"),
       findTool("Google Tag Manager"),
@@ -109,7 +109,7 @@ const toolCollections = [
   },
   {
     title: "Paid Media",
-    description: "The core paid channels we manage based on intent, quality, and scale.",
+    description: "Core channels for qualified demand acquisition.",
     items: [
       findTool("Meta Ads"),
       findTool("Google Ads"),
@@ -120,7 +120,7 @@ const toolCollections = [
   },
   {
     title: "Automation",
-    description: "Follow-up visibility and conversion handoff across your revenue stack.",
+    description: "Follow-up and handoff across your revenue stack.",
     items: [
       findTool("Brevo"),
       findTool("HubSpot"),
@@ -785,33 +785,40 @@ const Index = () => {
             titleId="growth-stack-heading"
           />
 
-          <div className="mx-auto grid max-w-5xl gap-4 md:grid-cols-3">
-            {toolCollections.map((group) => (
-              <div
-                key={group.title}
-                data-testid="growth-stack-card"
-                className="relative flex h-full flex-col rounded-[22px] border border-white/[0.05] bg-[linear-gradient(180deg,rgba(255,255,255,0.02)_0%,rgba(255,255,255,0.008)_100%)] p-6"
-              >
-                <div className="absolute left-6 top-0 h-px w-12 bg-primary/30" />
-                <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary/80">
-                  {group.title}
-                </p>
-                <p className="mt-3 text-sm leading-6 text-muted-foreground">{group.description}</p>
-                <div className="mt-5 space-y-2.5">
-                  {group.items.map((tool) => (
-                    <span
-                      key={tool.name}
-                      className="flex min-h-11 items-center gap-3 rounded-2xl border border-white/[0.06] bg-background/75 px-3.5 py-2.5 text-sm text-foreground/90"
-                    >
-                      <span className="flex h-5 w-5 shrink-0 items-center justify-center">
-                        <img src={tool.icon} alt="" className="h-full w-full object-contain" loading="lazy" />
+          <div className="mx-auto max-w-6xl overflow-hidden rounded-[28px] border border-white/[0.07] bg-[radial-gradient(circle_at_top_left,rgba(62,207,142,0.04),transparent_30%),radial-gradient(circle_at_82%_12%,rgba(0,177,255,0.045),transparent_24%),linear-gradient(180deg,rgba(255,255,255,0.018)_0%,rgba(255,255,255,0.008)_100%)] shadow-[0_24px_70px_rgba(0,0,0,0.18)]">
+            <div className="grid md:grid-cols-3">
+              {toolCollections.map((group, index) => (
+                <div
+                  key={group.title}
+                  data-testid="growth-stack-card"
+                  className={cn(
+                    "relative flex h-full flex-col px-5 py-6 sm:px-6",
+                    index > 0 && "border-t border-white/[0.08] md:border-l md:border-t-0",
+                  )}
+                >
+                  <div className="absolute left-6 top-0 h-px w-12 bg-primary/26" />
+                  <div className="min-h-[88px]">
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary/80">
+                      {group.title}
+                    </p>
+                    <p className="mt-3 text-sm leading-6 text-muted-foreground">{group.description}</p>
+                  </div>
+                  <div className="mt-5 space-y-2">
+                    {group.items.map((tool) => (
+                      <span
+                        key={tool.name}
+                        className="flex min-h-10 items-center gap-3 rounded-xl border border-white/[0.05] bg-black/10 px-3 py-2 text-[13px] text-foreground/88"
+                      >
+                        <span className="flex h-4.5 w-4.5 shrink-0 items-center justify-center">
+                          <img src={tool.icon} alt="" className="h-full w-full object-contain opacity-95" loading="lazy" />
+                        </span>
+                        <span className="leading-5">{tool.name}</span>
                       </span>
-                      <span className="leading-5">{tool.name}</span>
-                    </span>
-                  ))}
+                    ))}
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
 
           <p className="mt-6 text-center text-[11px] uppercase tracking-[0.18em] text-muted-foreground/60">
