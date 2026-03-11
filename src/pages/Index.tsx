@@ -1,4 +1,4 @@
-﻿import { useState, useEffect } from "react";
+﻿import { useState } from "react";
 import { Link } from "react-router-dom";
 import {
   ArrowUpRight,
@@ -8,8 +8,6 @@ import {
   PhoneCall,
   Rocket,
   BarChart3,
-  Quote,
-  Star,
   CheckCircle2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -20,7 +18,8 @@ import SectionIntro from "@/components/shared/SectionIntro";
 import { buildCanonicalUrl } from "@/config/seo";
 import { motion, useReducedMotion } from "framer-motion";
 import { primaryServices, supportingServices } from "@/data/services";
-import { getFeaturedBlogPosts, blogPosts } from "@/data/blogPosts";
+import { getFeaturedBlogPosts } from "@/data/blogPosts";
+import { homepageProofCards, homepageProofSection } from "@/data/homepageProof";
 import { cn } from "@/lib/utils";
 import makeIcon from "@/assets/tools/make.svg";
 import googleAnalyticsIcon from "@/assets/tools/google-analytics.svg";
@@ -73,37 +72,6 @@ const BlogImage = ({ src, alt }: { src: string; alt: string }) => {
 };
 
 // --- Data ---
-
-const testimonials = [
-  {
-    quote:
-      "Working with Alpha Track Digital Limited was an excellent experience. They delivered a sleek, modern, and highly functional website right on schedule. Edits were handled quickly, communication was seamless, and the service was truly top notch. Would definitely recommend!",
-    name: "Courtney Quist-Therson",
-    title: "CEO & Founder, Pearl House Ghana",
-    rating: 5,
-    highlights: ["Delivered on schedule", "Fast revisions", "Seamless communication"],
-  },
-];
-
-type ResultHighlight = {
-  value: string;
-  label: string;
-};
-
-const resultHighlights: ResultHighlight[] = [
-  {
-    value: "4.8M",
-    label: "Impressions delivered in one campaign",
-  },
-  {
-    value: "55%",
-    label: "Conversion rate achieved in one campaign",
-  },
-  {
-    value: "272K",
-    label: "Views generated in one campaign",
-  },
-];
 
 const tools = [
   { name: "Make",               icon: makeIcon,              color: "#6D28D9" },
@@ -493,21 +461,59 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Results strip */}
+      {/* Selected Outcomes */}
       <section
-        className="border-b border-white/10 py-14"
-        style={{ background: "linear-gradient(180deg, rgba(62,207,142,0.04) 0%, transparent 100%)" }}
+        aria-labelledby="selected-outcomes-heading"
+        className="border-b border-white/10 py-16"
+        style={{
+          background: [
+            "linear-gradient(180deg, rgba(62,207,142,0.05) 0%, transparent 100%)",
+            "radial-gradient(ellipse 70% 55% at 50% 0%, rgba(0,177,255,0.03) 0%, transparent 70%)",
+          ].join(", "),
+        }}
       >
         <div className="container mx-auto px-4 lg:px-8">
-          <p className="mb-8 text-center text-xs font-semibold uppercase tracking-widest text-muted-foreground/60">
-            Results we've driven for clients
-          </p>
-          <div className="flex flex-col items-center gap-8 sm:flex-row sm:gap-0 sm:divide-x sm:divide-white/10">
-            {resultHighlights.map((result) => (
-              <div key={result.label} className="flex flex-1 flex-col items-center px-6 text-center">
-                <p className="text-4xl font-bold text-gradient md:text-5xl">{result.value}</p>
-                <p className="mt-2 max-w-[18rem] text-sm leading-6 text-muted-foreground">{result.label}</p>
-              </div>
+          <SectionIntro
+            eyebrow={homepageProofSection.eyebrow}
+            title={homepageProofSection.title}
+            description={homepageProofSection.description}
+            align="center"
+            width="wide"
+            className="mb-10"
+            titleClassName="max-w-3xl"
+            descriptionClassName="max-w-2xl"
+            titleId="selected-outcomes-heading"
+          />
+          <div className="grid gap-4 lg:grid-cols-3">
+            {homepageProofCards.map((proof, i) => (
+              <motion.article
+                key={proof.sourceRef}
+                data-testid="proof-card"
+                initial={{ opacity: 0, y: 18 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: i * 0.08 }}
+                className="relative overflow-hidden rounded-[24px] border border-white/[0.08] bg-[linear-gradient(180deg,rgba(255,255,255,0.03)_0%,rgba(255,255,255,0.012)_100%)] p-6 md:p-7"
+              >
+                <div className="absolute left-0 top-0 h-px w-full bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
+                <div className="flex flex-wrap gap-2">
+                  <span className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-[11px] font-medium uppercase tracking-[0.16em] text-muted-foreground">
+                    {proof.clientLabel}
+                  </span>
+                  <span className="rounded-full border border-primary/20 bg-primary/[0.08] px-3 py-1 text-[11px] font-medium uppercase tracking-[0.16em] text-primary">
+                    {proof.channelOrService}
+                  </span>
+                  {proof.timeframe && (
+                    <span className="rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 text-[11px] font-medium uppercase tracking-[0.16em] text-muted-foreground/85">
+                      {proof.timeframe}
+                    </span>
+                  )}
+                </div>
+                <p className="mt-6 text-3xl font-bold tracking-tight text-gradient md:text-[2.2rem]">
+                  {proof.result}
+                </p>
+                <p className="mt-4 text-sm leading-7 text-muted-foreground">{proof.context}</p>
+              </motion.article>
             ))}
           </div>
         </div>
@@ -688,98 +694,6 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Testimonials */}
-      <section
-        className="border-t border-white/10 py-20"
-        style={{
-          background: "linear-gradient(135deg, rgba(255,255,255,0.01) 0%, rgba(62,207,142,0.03) 100%)",
-        }}
-      >
-        <div className="container mx-auto px-4 lg:px-8">
-          <SectionIntro
-            eyebrow={testimonials.length === 1 ? "Why Clients Trust Us" : "Testimonials"}
-            title={testimonials.length === 1 ? "A Client Perspective" : "What Our Clients Say"}
-            description="Straight from the businesses we've helped grow."
-            align="center"
-            width="wide"
-            className="mb-10"
-          />
-          {testimonials.length === 1 ? (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4 }}
-              className="mx-auto max-w-3xl"
-            >
-              <div className="relative overflow-hidden rounded-[30px] border border-primary/20 bg-[linear-gradient(180deg,rgba(255,255,255,0.035)_0%,rgba(62,207,142,0.03)_100%)] p-8 md:p-10">
-                <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/70 to-transparent" />
-                <Quote className="absolute right-6 top-6 h-12 w-12 text-primary/10" />
-                <div className="mb-5 flex justify-center gap-1">
-                  {Array.from({ length: testimonials[0].rating }).map((_, s) => (
-                    <Star key={s} className="h-4 w-4 fill-primary text-primary" />
-                  ))}
-                </div>
-                <p className="relative z-10 text-center text-lg leading-relaxed text-foreground/90 md:text-xl">
-                  "{testimonials[0].quote}"
-                </p>
-                <div className="mt-6 flex flex-wrap justify-center gap-2">
-                  {testimonials[0].highlights.map((highlight) => (
-                    <span
-                      key={highlight}
-                      className="rounded-full border border-primary/20 bg-primary/[0.08] px-3 py-1 text-xs font-medium text-primary"
-                    >
-                      {highlight}
-                    </span>
-                  ))}
-                </div>
-                <div className="mt-8 flex items-center justify-center gap-3 border-t border-white/10 pt-6 text-center">
-                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-primary/10 text-sm font-bold text-primary">
-                    {testimonials[0].name.split(" ").map((n) => n[0]).join("")}
-                  </div>
-                  <div>
-                    <p className="text-base font-semibold text-foreground">{testimonials[0].name}</p>
-                    <p className="text-sm text-muted-foreground">{testimonials[0].title}</p>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          ) : (
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {testimonials.map((t, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: i * 0.1 }}
-                  className="glass-card relative flex flex-col overflow-hidden border-t-2 border-primary p-7"
-                >
-                  <Quote className="absolute right-5 top-5 h-10 w-10 text-primary/10" />
-                  <div className="mb-4 flex gap-1">
-                    {Array.from({ length: t.rating }).map((_, s) => (
-                      <Star key={s} className="h-3.5 w-3.5 fill-primary text-primary" />
-                    ))}
-                  </div>
-                  <p className="relative z-10 flex-1 text-sm leading-relaxed text-muted-foreground">
-                    "{t.quote}"
-                  </p>
-                  <div className="mt-6 flex items-center gap-3 border-t border-white/10 pt-5">
-                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-bold text-primary">
-                      {t.name.split(" ").map((n) => n[0]).join("")}
-                    </div>
-                    <div>
-                      <p className="text-sm font-semibold text-foreground">{t.name}</p>
-                      <p className="text-xs text-muted-foreground">{t.title}</p>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          )}
-        </div>
-      </section>
-
       {/* Core Growth Stack */}
       <section
         aria-labelledby="growth-stack-heading"
@@ -935,7 +849,7 @@ const Index = () => {
         primaryCta={{ label: "Book a Call", to: "/book-a-call" }}
         secondaryCta={{ label: "Explore Services", to: "/service" }}
         variant="hero-close"
-        proofChips={["Response within 1 business day", "No-pressure discovery call", "Measurement-first advice"]}
+        proofChips={["Registered company in Ghana", "Response within 1 business day", "No-pressure discovery call"]}
       />
     </>
   );
