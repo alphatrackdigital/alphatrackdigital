@@ -809,8 +809,13 @@ const Index = () => {
                         key={tool.name}
                         className="flex min-h-10 items-center gap-3 rounded-xl border border-white/[0.05] bg-black/10 px-3 py-2 text-[13px] text-foreground/88"
                       >
-                        <span className="flex h-4.5 w-4.5 shrink-0 items-center justify-center">
-                          <img src={tool.icon} alt="" className="h-full w-full object-contain opacity-95" loading="lazy" />
+                        <span className="flex h-5 w-5 shrink-0 items-center justify-center overflow-hidden">
+                          <img
+                            src={tool.icon}
+                            alt=""
+                            className="block h-full w-full max-h-full max-w-full object-contain opacity-95"
+                            loading="lazy"
+                          />
                         </span>
                         <span className="leading-5">{tool.name}</span>
                       </span>
