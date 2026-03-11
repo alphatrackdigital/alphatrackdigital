@@ -103,8 +103,6 @@ const toolCollections = [
       findTool("Google Analytics 4"),
       findTool("Google Tag Manager"),
       findTool("Looker Studio"),
-      findTool("Meta Ads"),
-      findTool("Google Ads"),
     ],
   },
   {
@@ -115,7 +113,6 @@ const toolCollections = [
       findTool("Google Ads"),
       findTool("Microsoft Ads"),
       findTool("LinkedIn Ads"),
-      findTool("TikTok Ads"),
     ],
   },
   {
@@ -126,7 +123,6 @@ const toolCollections = [
       findTool("HubSpot"),
       findTool("Klaviyo"),
       findTool("Make"),
-      findTool("Shopify"),
     ],
   },
 ];
@@ -774,19 +770,19 @@ const Index = () => {
       >
         <div className="container mx-auto px-4 lg:px-8">
           <SectionIntro
-            eyebrow="Core Growth Stack"
-            title="Built Across the Core Growth Stack"
-            description="A lean stack for attribution clarity, channel execution, and follow-up visibility."
+            eyebrow="Platforms We Work In"
+            title="Built Across Your Core Revenue Stack"
+            description="Selected platforms we use most often across analytics, paid media, and automation."
             align="center"
             width="wide"
-            className="mb-10"
+            className="mb-8"
             titleClassName="max-w-3xl"
             descriptionClassName="max-w-2xl"
             titleId="growth-stack-heading"
           />
 
           <div className="mx-auto max-w-6xl overflow-hidden rounded-[28px] border border-white/[0.07] bg-[radial-gradient(circle_at_top_left,rgba(62,207,142,0.04),transparent_30%),radial-gradient(circle_at_82%_12%,rgba(0,177,255,0.045),transparent_24%),linear-gradient(180deg,rgba(255,255,255,0.018)_0%,rgba(255,255,255,0.008)_100%)] shadow-[0_24px_70px_rgba(0,0,0,0.18)]">
-            <div className="grid md:grid-cols-3">
+            <div className="grid md:grid-cols-[0.92fr_1.04fr_1.04fr]">
               {toolCollections.map((group, index) => (
                 <div
                   key={group.title}
@@ -797,7 +793,7 @@ const Index = () => {
                   )}
                 >
                   <div className="absolute left-6 top-0 h-px w-12 bg-primary/26" />
-                  <div className="min-h-[88px]">
+                  <div className="min-h-[76px]">
                     <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary/80">
                       {group.title}
                     </p>
@@ -807,7 +803,7 @@ const Index = () => {
                     {group.items.map((tool) => (
                       <span
                         key={tool.name}
-                        className="flex min-h-10 items-center gap-3 rounded-xl border border-white/[0.05] bg-black/10 px-3 py-2 text-[13px] text-foreground/88"
+                        className="flex min-h-[2.625rem] items-center gap-3 rounded-lg border border-white/[0.04] bg-black/10 px-3 py-2 text-[13px] text-foreground/88"
                       >
                         <span className="flex h-5 w-5 shrink-0 items-center justify-center overflow-hidden">
                           <img
