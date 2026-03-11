@@ -47,13 +47,6 @@ export const primaryServices: PrimaryService[] = [
 
 export const supportingServices: SupportingService[] = [
   {
-    icon: Mail,
-    title: "Email Marketing",
-    bestFor: "Lead nurture and re-engagement",
-    description: "Lifecycle email campaigns that turn attention into replies, bookings, and repeat action.",
-    path: "/service/email-marketing",
-  },
-  {
     icon: Globe,
     title: "Website Development",
     bestFor: "Launches and landing paths",
@@ -61,17 +54,24 @@ export const supportingServices: SupportingService[] = [
     path: "/service/website-development",
   },
   {
-    icon: Search,
-    title: "SEO",
-    bestFor: "Longer-term demand capture",
-    description: "Search foundations that improve discoverability and compound into lower-cost demand over time.",
-    path: "/service/seo",
-  },
-  {
     icon: PenTool,
     title: "Content & Media Strategy",
     bestFor: "Creative direction and planning",
     description: "Campaign messaging and media direction that keep execution aligned to business goals.",
     path: "/service/content-media-strategy",
+  },
+  {
+    icon: Mail,
+    title: "Email Marketing",
+    bestFor: "Lead nurture and re-engagement",
+    description: "Lifecycle email campaigns that turn attention into replies, bookings, and repeat action.",
+    path: "/service/email-marketing",
+  },
+  {
+    icon: Search,
+    title: "SEO",
+    bestFor: "Longer-term demand capture",
+    description: "Search foundations that improve discoverability and compound into lower-cost demand over time.",
+    path: "/service/seo",
   },
 ];

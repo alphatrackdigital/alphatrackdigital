@@ -47,7 +47,13 @@ describe("Homepage proof and stack sections", () => {
     expect(screen.queryByText(/\+\d+\s+additional/i)).not.toBeInTheDocument();
     expect(screen.getByText("We Also Deliver")).toBeInTheDocument();
     expect(screen.getByText("Complementary services to round out your digital growth stack.")).toBeInTheDocument();
-    expect(screen.getAllByTestId("supporting-service-card")).toHaveLength(4);
+    const supportingCards = screen.getAllByTestId("supporting-service-card");
+
+    expect(supportingCards).toHaveLength(4);
+    expect(within(supportingCards[0]).getByText("Website Development")).toBeInTheDocument();
+    expect(within(supportingCards[1]).getByText("Content & Media Strategy")).toBeInTheDocument();
+    expect(within(supportingCards[2]).getByText("Email Marketing")).toBeInTheDocument();
+    expect(within(supportingCards[3]).getByText("SEO")).toBeInTheDocument();
     expect(screen.getByText("Lead nurture and re-engagement")).toBeInTheDocument();
     expect(screen.getByText("Launches and landing paths")).toBeInTheDocument();
     expect(screen.getByText("Longer-term demand capture")).toBeInTheDocument();
