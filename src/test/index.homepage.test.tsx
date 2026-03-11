@@ -61,9 +61,9 @@ describe("Homepage proof and stack sections", () => {
     expect(screen.queryAllByText("Learn more")).toHaveLength(3);
     expect(screen.getAllByTestId("process-step")).toHaveLength(8);
     expect(screen.getAllByText("Output")).toHaveLength(8);
-    expect(screen.getAllByText("Fit check, scope, and priority goals")).toHaveLength(2);
+    expect(screen.getAllByText("Fit check and priority scope")).toHaveLength(2);
     expect(screen.getAllByText("Prioritised action plan")).toHaveLength(2);
-    expect(screen.getAllByText("Live setup across media, tracking, and workflows")).toHaveLength(2);
-    expect(screen.getAllByText("Reporting rhythm and next optimisation cycle")).toHaveLength(2);
+    expect(screen.getAllByText("Live setup across media and workflows")).toHaveLength(2);
+    expect(screen.getAllByText("Reporting cadence and optimisation plan")).toHaveLength(2);
   });
 });

@@ -163,7 +163,7 @@ const processSteps = [
     step: "01",
     title: "Discovery Call",
     description: "We align on goals, funnel friction, timeline, and the commercial outcome that matters most.",
-    output: "Fit check, scope, and priority goals",
+    output: "Fit check and priority scope",
   },
   {
     icon: ClipboardCheck,
@@ -177,14 +177,14 @@ const processSteps = [
     step: "03",
     title: "Implementation",
     description: "We ship the agreed fixes, launches, and automation pieces without losing the commercial thread.",
-    output: "Live setup across media, tracking, and workflows",
+    output: "Live setup across media and workflows",
   },
   {
     icon: BarChart3,
     step: "04",
     title: "Measure & Optimise",
     description: "We report clearly, review performance, and refine what is already proving its value.",
-    output: "Reporting rhythm and next optimisation cycle",
+    output: "Reporting cadence and optimisation plan",
   },
 ];
 
@@ -676,7 +676,7 @@ const Index = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.1, duration: 0.4 }}
-                  className="relative pt-14"
+                  className="relative flex pt-14"
                 >
                   <div className="absolute left-1/2 top-0 flex -translate-x-1/2 flex-col items-center">
                     <div className="absolute inset-0 rounded-full bg-primary/15 blur-xl" />
@@ -685,7 +685,7 @@ const Index = () => {
                     </div>
                     <div className="h-10 w-px bg-gradient-to-b from-primary/45 via-primary/18 to-transparent" />
                   </div>
-                  <div className="rounded-[28px] border border-white/[0.08] bg-[linear-gradient(180deg,rgba(255,255,255,0.028)_0%,rgba(255,255,255,0.012)_100%)] p-6 shadow-[0_18px_50px_rgba(0,0,0,0.16)]">
+                  <div className="flex h-full w-full flex-col rounded-[28px] border border-white/[0.08] bg-[linear-gradient(180deg,rgba(255,255,255,0.028)_0%,rgba(255,255,255,0.012)_100%)] p-6 shadow-[0_18px_50px_rgba(0,0,0,0.16)]">
                     <div className="mb-5 flex items-start justify-between gap-4">
                       <div>
                         <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary/75">
@@ -697,8 +697,8 @@ const Index = () => {
                         <step.icon className="h-5 w-5 text-primary/85" />
                       </div>
                     </div>
-                    <p className="mt-3 text-sm leading-7 text-muted-foreground">{step.description}</p>
-                    <div className="mt-5 border-t border-white/10 pt-4">
+                    <p className="mt-3 flex-1 text-sm leading-7 text-muted-foreground">{step.description}</p>
+                    <div className="mt-5 min-h-[4.5rem] border-t border-white/10 pt-4">
                       <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary/80">
                         Output
                       </p>
@@ -727,7 +727,7 @@ const Index = () => {
                 <div className="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-full border border-primary/25 bg-background/95 text-xs font-semibold text-primary shadow-[0_0_0_5px_rgba(6,10,12,0.75)]">
                   {step.step}
                 </div>
-                <div className="rounded-[24px] border border-white/[0.08] bg-[linear-gradient(180deg,rgba(255,255,255,0.028)_0%,rgba(255,255,255,0.012)_100%)] p-5 shadow-[0_14px_42px_rgba(0,0,0,0.14)]">
+                <div className="flex flex-col rounded-[24px] border border-white/[0.08] bg-[linear-gradient(180deg,rgba(255,255,255,0.028)_0%,rgba(255,255,255,0.012)_100%)] p-5 shadow-[0_14px_42px_rgba(0,0,0,0.14)]">
                   <div className="flex items-start justify-between gap-4">
                     <div>
                       <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary/75">
@@ -739,7 +739,7 @@ const Index = () => {
                       <step.icon className="h-5 w-5 text-primary/85" />
                     </div>
                   </div>
-                  <p className="mt-3 text-sm leading-7 text-muted-foreground">{step.description}</p>
+                  <p className="mt-3 flex-1 text-sm leading-7 text-muted-foreground">{step.description}</p>
                   <div className="mt-4 border-t border-white/10 pt-4">
                     <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary/80">
                       Output
