@@ -35,6 +35,7 @@ import klaviyoIcon from "@/assets/tools/klaviyo.png";
 import googleTagManagerIcon from "@/assets/tools/google-tag-manager.svg";
 import brevoIcon from "@/assets/tools/brevo.svg";
 import lookerStudioIcon from "@/assets/tools/looker-studio.svg";
+import microsoftClarityIcon from "@/assets/tools/microsoft-clarity.svg";
 import shopifyIcon from "@/assets/tools/shopify.svg";
 import wordpressIcon from "@/assets/tools/wordpress-favicon-com.png";
 import zapierIcon from "@/assets/tools/zapier.svg";
@@ -88,6 +89,7 @@ const tools = [
   { name: "Google Tag Manager", icon: googleTagManagerIcon,  color: "#4285F4" },
   { name: "Brevo",              icon: brevoIcon,             color: "#0B996E" },
   { name: "Looker Studio",      icon: lookerStudioIcon,      color: "#4285F4" },
+  { name: "Microsoft Clarity",  icon: microsoftClarityIcon,  color: "#2563EB" },
   { name: "Shopify",            icon: shopifyIcon,           color: "#96BF48" },
   { name: "WordPress",          icon: wordpressIcon,         color: "#21759B" },
   { name: "Zapier",             icon: zapierIcon,            color: "#FF4A00" },
@@ -103,6 +105,7 @@ const toolCollections = [
       findTool("Google Analytics 4"),
       findTool("Google Tag Manager"),
       findTool("Looker Studio"),
+      findTool("Microsoft Clarity"),
     ],
   },
   {
@@ -799,13 +802,13 @@ const Index = () => {
                     </p>
                     <p className="mt-3 text-sm leading-6 text-muted-foreground">{group.description}</p>
                   </div>
-                  <div className="mt-5 space-y-2">
+                  <div className="mt-5 grid grid-cols-2 gap-2">
                     {group.items.map((tool) => (
                       <span
                         key={tool.name}
-                        className="flex min-h-[2.625rem] items-center gap-3 rounded-lg border border-white/[0.04] bg-black/10 px-3 py-2 text-[13px] text-foreground/88"
+                        className="flex min-h-[2.85rem] items-center gap-2.5 rounded-lg border border-white/[0.04] bg-black/10 px-3 py-2 text-[12.5px] text-foreground/88"
                       >
-                        <span className="flex h-5 w-5 shrink-0 items-center justify-center overflow-hidden">
+                        <span className="flex h-4 w-4 shrink-0 items-center justify-center overflow-hidden">
                           <img
                             src={tool.icon}
                             alt=""
@@ -813,7 +816,7 @@ const Index = () => {
                             loading="lazy"
                           />
                         </span>
-                        <span className="leading-5">{tool.name}</span>
+                        <span className="min-w-0 leading-4">{tool.name}</span>
                       </span>
                     ))}
                   </div>

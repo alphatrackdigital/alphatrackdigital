@@ -45,6 +45,7 @@ describe("Homepage proof and stack sections", () => {
     expect(within(stackSection).getByText("Paid Media")).toBeInTheDocument();
     expect(within(stackSection).getByText("Automation")).toBeInTheDocument();
     expect(screen.getByText("Selected platforms we use most often across analytics, paid media, and automation.")).toBeInTheDocument();
+    expect(within(stackSection).getByText("Microsoft Clarity")).toBeInTheDocument();
     expect(screen.queryByText(/\+\d+\s+additional/i)).not.toBeInTheDocument();
     expect(screen.getByText("We Also Deliver")).toBeInTheDocument();
     expect(screen.getByText("Complementary services to round out your digital growth stack.")).toBeInTheDocument();
