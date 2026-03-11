@@ -45,5 +45,16 @@ describe("Homepage proof and stack sections", () => {
     expect(within(stackSection).getByText("Paid Media")).toBeInTheDocument();
     expect(within(stackSection).getByText("Automation")).toBeInTheDocument();
     expect(screen.queryByText(/\+\d+\s+additional/i)).not.toBeInTheDocument();
+    expect(screen.getAllByTestId("supporting-service-card")).toHaveLength(4);
+    expect(screen.getByText("Best for: Lead nurture and re-engagement")).toBeInTheDocument();
+    expect(screen.getByText("Best for: Launches and landing paths")).toBeInTheDocument();
+    expect(screen.getByText("Best for: Longer-term demand capture")).toBeInTheDocument();
+    expect(screen.getByText("Best for: Creative direction and planning")).toBeInTheDocument();
+    expect(screen.getAllByTestId("process-step")).toHaveLength(8);
+    expect(screen.getAllByText("Output")).toHaveLength(8);
+    expect(screen.getAllByText("Fit check, scope, and priority goals")).toHaveLength(2);
+    expect(screen.getAllByText("Prioritised action plan")).toHaveLength(2);
+    expect(screen.getAllByText("Live setup across media, tracking, and workflows")).toHaveLength(2);
+    expect(screen.getAllByText("Reporting rhythm and next optimisation cycle")).toHaveLength(2);
   });
 });

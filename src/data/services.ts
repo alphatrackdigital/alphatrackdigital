@@ -13,6 +13,7 @@ export interface PrimaryService {
 export interface SupportingService {
   icon: LucideIcon;
   title: string;
+  bestFor: string;
   description: string;
   path: string;
 }
@@ -45,8 +46,32 @@ export const primaryServices: PrimaryService[] = [
 ];
 
 export const supportingServices: SupportingService[] = [
-  { icon: Mail, title: "Email Marketing", description: "Targeted email campaigns that engage your audience and drive action.", path: "/service/email-marketing" },
-  { icon: Globe, title: "Website Development", description: "Fast, conversion-focused websites built on WordPress and modern platforms.", path: "/service/website-development" },
-  { icon: Search, title: "SEO", description: "Organic search visibility that compounds over time.", path: "/service/seo" },
-  { icon: PenTool, title: "Content & Media Strategy", description: "Strategic content and media planning aligned to your growth goals.", path: "/service/content-media-strategy" },
+  {
+    icon: Mail,
+    title: "Email Marketing",
+    bestFor: "Lead nurture and re-engagement",
+    description: "Lifecycle email campaigns that turn attention into replies, bookings, and repeat action.",
+    path: "/service/email-marketing",
+  },
+  {
+    icon: Globe,
+    title: "Website Development",
+    bestFor: "Launches and landing paths",
+    description: "Fast, conversion-focused websites built to support campaigns and capture qualified demand.",
+    path: "/service/website-development",
+  },
+  {
+    icon: Search,
+    title: "SEO",
+    bestFor: "Longer-term demand capture",
+    description: "Search foundations that improve discoverability and compound into lower-cost demand over time.",
+    path: "/service/seo",
+  },
+  {
+    icon: PenTool,
+    title: "Content & Media Strategy",
+    bestFor: "Creative direction and planning",
+    description: "Campaign messaging and media direction that keep execution aligned to business goals.",
+    path: "/service/content-media-strategy",
+  },
 ];

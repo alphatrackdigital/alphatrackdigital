@@ -162,25 +162,29 @@ const processSteps = [
     icon: PhoneCall,
     step: "01",
     title: "Discovery Call",
-    description: "We learn about your business, current setup, and goals. 15 minutes, no pressure.",
+    description: "We align on goals, funnel friction, timeline, and the commercial outcome that matters most.",
+    output: "Fit check, scope, and priority goals",
   },
   {
     icon: ClipboardCheck,
     step: "02",
     title: "Audit & Strategy",
-    description: "We audit your tracking, campaigns, or automation — then build a tailored plan.",
+    description: "We audit tracking, campaigns, and follow-up systems to find the clearest leverage points.",
+    output: "Prioritised action plan",
   },
   {
     icon: Rocket,
     step: "03",
     title: "Implementation",
-    description: "We execute the plan: tracking setup, campaign launch, or automation build.",
+    description: "We ship the agreed fixes, launches, and automation pieces without losing the commercial thread.",
+    output: "Live setup across media, tracking, and workflows",
   },
   {
     icon: BarChart3,
     step: "04",
     title: "Measure & Optimise",
-    description: "We monitor performance, report transparently, and continuously improve results.",
+    description: "We report clearly, review performance, and refine what is already proving its value.",
+    output: "Reporting rhythm and next optimisation cycle",
   },
 ];
 
@@ -587,18 +591,18 @@ const Index = () => {
           </div>
 
           <div className="mt-16 border-t border-white/10 pt-10">
-            <div className="mb-6 flex items-center justify-between gap-4">
+            <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
               <SectionIntro
                 eyebrow="Complete Scope"
                 title="Supporting Services"
-                description="Complementary capabilities that complete the growth stack without competing for attention."
+                description="Secondary capabilities we bring in when the growth system needs stronger content, site, search, or lifecycle support."
                 width="wide"
                 titleClassName="text-2xl md:text-3xl"
                 descriptionClassName="max-w-2xl text-sm"
               />
               <Link
                 to="/service"
-                className="hidden items-center gap-1 text-sm font-medium text-primary transition-colors hover:text-primary/80 sm:inline-flex"
+                className="inline-flex items-center gap-1 text-sm font-medium text-primary transition-colors hover:text-primary/80"
               >
                 View all services <ArrowRight className="h-3.5 w-3.5" />
               </Link>
@@ -614,18 +618,22 @@ const Index = () => {
                 >
                   <Link
                     to={s.path}
-                    className="group flex h-full flex-col rounded-2xl border border-white/8 bg-background/65 p-6 transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/20"
+                    data-testid="supporting-service-card"
+                    className="group flex h-full flex-col rounded-[22px] border border-white/7 bg-background/60 p-5 transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/20 hover:bg-white/[0.03]"
                   >
-                    <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-white/[0.04]">
-                      <s.icon className="h-5 w-5 text-primary" />
+                    <div className="mb-4 flex items-start justify-between gap-3">
+                      <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/8 bg-white/[0.04]">
+                        <s.icon className="h-5 w-5 text-primary" />
+                      </div>
+                      <ArrowUpRight className="h-4 w-4 text-primary/55 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-primary" />
                     </div>
                     <h4 className="text-[15px] font-semibold">{s.title}</h4>
-                    <p className="mt-2 flex-1 text-[13px] leading-6 text-muted-foreground">
+                    <p className="mt-2 text-[11px] font-medium uppercase tracking-[0.16em] text-primary/75">
+                      Best for: {s.bestFor}
+                    </p>
+                    <p className="mt-3 flex-1 text-[13px] leading-6 text-muted-foreground">
                       {s.description}
                     </p>
-                    <span className="mt-4 inline-flex items-center gap-1 text-xs font-medium text-primary/80 transition-colors group-hover:text-primary">
-                      Learn more <ArrowUpRight className="h-3 w-3" />
-                    </span>
                   </Link>
                 </motion.div>
               ))}
@@ -648,43 +656,73 @@ const Index = () => {
           <SectionIntro
             eyebrow="How We Work"
             title="How We Deliver"
-            description="A clear, repeatable process so you always know what happens next."
+            description="A connected delivery rhythm from first call to reporting loop, so you always know what happens next."
             align="center"
             width="wide"
           />
-          <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {processSteps.map((step, i) => (
-              <motion.div
-                key={step.step}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1, duration: 0.4 }}
-                className="relative flex flex-col"
-              >
-                <div className="h-full rounded-[24px] border border-white/8 bg-white/[0.02] p-7">
-                  <div className="mb-4 flex items-center gap-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-full border border-primary/15 bg-primary/[0.08]">
-                      <span className="text-xs font-semibold text-primary">{step.step}</span>
+          <div className="relative mt-14 hidden lg:block">
+            <div className="absolute left-[12.5%] right-[12.5%] top-5 h-px bg-gradient-to-r from-transparent via-primary/25 to-transparent" />
+            <div className="grid gap-6 lg:grid-cols-4">
+              {processSteps.map((step, i) => (
+                <motion.div
+                  key={step.step}
+                  data-testid="process-step"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1, duration: 0.4 }}
+                  className="relative"
+                >
+                  <div className="mb-7 flex items-center gap-3">
+                    <div className="relative z-10 flex h-10 w-10 items-center justify-center rounded-full border border-primary/20 bg-background text-xs font-semibold text-primary">
+                      {step.step}
                     </div>
                     <step.icon className="h-5 w-5 text-muted-foreground/70" />
                   </div>
-                  <h3 className="text-lg font-semibold">{step.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                    {step.description}
-                  </p>
+                  <div className="rounded-[24px] border border-white/8 bg-white/[0.02] p-6">
+                    <h3 className="text-xl font-semibold">{step.title}</h3>
+                    <p className="mt-3 text-sm leading-7 text-muted-foreground">{step.description}</p>
+                    <div className="mt-5 border-t border-white/10 pt-4">
+                      <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary/80">
+                        Output
+                      </p>
+                      <p className="mt-2 text-sm text-foreground/90">{step.output}</p>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+          <div className="relative mt-12 space-y-6 lg:hidden">
+            <div className="absolute bottom-0 left-5 top-3 w-px bg-gradient-to-b from-primary/30 via-primary/15 to-transparent" />
+            {processSteps.map((step, i) => (
+              <motion.div
+                key={step.step}
+                data-testid="process-step"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.08, duration: 0.35 }}
+                className="relative pl-14"
+              >
+                <div className="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-full border border-primary/20 bg-background text-xs font-semibold text-primary">
+                  {step.step}
+                </div>
+                <div className="rounded-[22px] border border-white/8 bg-white/[0.02] p-5">
+                  <div className="flex items-center gap-3">
+                    <step.icon className="h-5 w-5 text-muted-foreground/70" />
+                    <h3 className="text-lg font-semibold">{step.title}</h3>
+                  </div>
+                  <p className="mt-3 text-sm leading-7 text-muted-foreground">{step.description}</p>
+                  <div className="mt-4 border-t border-white/10 pt-4">
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary/80">
+                      Output
+                    </p>
+                    <p className="mt-2 text-sm text-foreground/90">{step.output}</p>
+                  </div>
                 </div>
                 {i < processSteps.length - 1 && (
-                  <>
-                    {/* Desktop: horizontal arrow between grid columns */}
-                    <div className="absolute right-0 top-1/2 z-10 hidden -translate-y-1/2 translate-x-3 lg:flex">
-                      <ArrowRight className="h-4 w-4 text-primary/30" />
-                    </div>
-                    {/* Mobile / tablet: vertical connector between stacked cards */}
-                    <div className="flex justify-center pt-4 lg:hidden">
-                      <div className="h-6 w-px rounded-full bg-primary/20" />
-                    </div>
-                  </>
+                  <div className="absolute left-5 top-10 h-6 w-px -translate-x-1/2 bg-primary/20" />
                 )}
               </motion.div>
             ))}
