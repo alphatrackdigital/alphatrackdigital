@@ -790,23 +790,23 @@ const Index = () => {
               <div
                 key={group.title}
                 data-testid="growth-stack-card"
-                className="relative rounded-[22px] border border-white/[0.05] bg-[linear-gradient(180deg,rgba(255,255,255,0.02)_0%,rgba(255,255,255,0.008)_100%)] p-6"
+                className="relative flex h-full flex-col rounded-[22px] border border-white/[0.05] bg-[linear-gradient(180deg,rgba(255,255,255,0.02)_0%,rgba(255,255,255,0.008)_100%)] p-6"
               >
                 <div className="absolute left-6 top-0 h-px w-12 bg-primary/30" />
                 <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary/80">
                   {group.title}
                 </p>
                 <p className="mt-3 text-sm leading-6 text-muted-foreground">{group.description}</p>
-                <div className="mt-5 flex flex-wrap gap-2.5">
+                <div className="mt-5 space-y-2.5">
                   {group.items.map((tool) => (
                     <span
                       key={tool.name}
-                      className="inline-flex h-10 items-center gap-2 rounded-full border border-white/[0.06] bg-background/75 px-3.5 text-sm text-foreground/90"
+                      className="flex min-h-11 items-center gap-3 rounded-2xl border border-white/[0.06] bg-background/75 px-3.5 py-2.5 text-sm text-foreground/90"
                     >
                       <span className="flex h-5 w-5 shrink-0 items-center justify-center">
                         <img src={tool.icon} alt="" className="h-full w-full object-contain" loading="lazy" />
                       </span>
-                      {tool.name}
+                      <span className="leading-5">{tool.name}</span>
                     </span>
                   ))}
                 </div>
