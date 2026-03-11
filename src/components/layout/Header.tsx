@@ -179,7 +179,7 @@ const Header = () => {
 
               <AnimatePresence>
                 {desktopServicesOpen && (
-                  <div className="absolute left-1/2 top-full z-50 mt-5 w-[min(920px,calc(100vw-3rem))] -translate-x-1/2">
+                  <div className="absolute left-1/2 top-full z-50 w-[min(920px,calc(100vw-3rem))] -translate-x-1/2 pt-5">
                     <motion.div
                       id="desktop-services-menu"
                       data-testid="desktop-services-menu"
