@@ -45,11 +45,14 @@ describe("Homepage proof and stack sections", () => {
     expect(within(stackSection).getByText("Paid Media")).toBeInTheDocument();
     expect(within(stackSection).getByText("Automation")).toBeInTheDocument();
     expect(screen.queryByText(/\+\d+\s+additional/i)).not.toBeInTheDocument();
+    expect(screen.getByText("We Also Deliver")).toBeInTheDocument();
+    expect(screen.getByText("Complementary services to round out your digital growth stack.")).toBeInTheDocument();
     expect(screen.getAllByTestId("supporting-service-card")).toHaveLength(4);
-    expect(screen.getByText("Best for: Lead nurture and re-engagement")).toBeInTheDocument();
-    expect(screen.getByText("Best for: Launches and landing paths")).toBeInTheDocument();
-    expect(screen.getByText("Best for: Longer-term demand capture")).toBeInTheDocument();
-    expect(screen.getByText("Best for: Creative direction and planning")).toBeInTheDocument();
+    expect(screen.getByText("Lead nurture and re-engagement")).toBeInTheDocument();
+    expect(screen.getByText("Launches and landing paths")).toBeInTheDocument();
+    expect(screen.getByText("Longer-term demand capture")).toBeInTheDocument();
+    expect(screen.getByText("Creative direction and planning")).toBeInTheDocument();
+    expect(screen.queryAllByText("Learn more")).toHaveLength(3);
     expect(screen.getAllByTestId("process-step")).toHaveLength(8);
     expect(screen.getAllByText("Output")).toHaveLength(8);
     expect(screen.getAllByText("Fit check, scope, and priority goals")).toHaveLength(2);
