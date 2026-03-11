@@ -595,7 +595,7 @@ const Index = () => {
               <SectionIntro
                 eyebrow="Complete Scope"
                 title="Supporting Services"
-                description="Secondary capabilities we bring in when the growth system needs stronger content, site, search, or lifecycle support."
+                description="Additional capabilities you can layer in when the core growth system needs stronger site, search, content, or lifecycle support."
                 width="wide"
                 titleClassName="text-2xl md:text-3xl"
                 descriptionClassName="max-w-2xl text-sm"
@@ -607,7 +607,7 @@ const Index = () => {
                 View all services <ArrowRight className="h-3.5 w-3.5" />
               </Link>
             </div>
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="grid gap-3 lg:grid-cols-2">
               {supportingServices.map((s, i) => (
                 <motion.div
                   key={s.title}
@@ -619,21 +619,23 @@ const Index = () => {
                   <Link
                     to={s.path}
                     data-testid="supporting-service-card"
-                    className="group flex h-full flex-col rounded-[22px] border border-white/7 bg-background/60 p-5 transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/20 hover:bg-white/[0.03]"
+                    className="group flex h-full items-start gap-4 rounded-[20px] border border-white/[0.06] bg-background/45 px-5 py-4 transition-all duration-300 hover:border-primary/20 hover:bg-white/[0.03]"
                   >
-                    <div className="mb-4 flex items-start justify-between gap-3">
-                      <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/8 bg-white/[0.04]">
-                        <s.icon className="h-5 w-5 text-primary" />
-                      </div>
-                      <ArrowUpRight className="h-4 w-4 text-primary/55 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-primary" />
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-white/8 bg-white/[0.04]">
+                      <s.icon className="h-5 w-5 text-primary" />
                     </div>
-                    <h4 className="text-[15px] font-semibold">{s.title}</h4>
-                    <p className="mt-2 text-[11px] font-medium uppercase tracking-[0.16em] text-primary/75">
-                      Best for: {s.bestFor}
-                    </p>
-                    <p className="mt-3 flex-1 text-[13px] leading-6 text-muted-foreground">
-                      {s.description}
-                    </p>
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-start justify-between gap-3">
+                        <h4 className="text-[15px] font-semibold">{s.title}</h4>
+                        <ArrowUpRight className="mt-0.5 h-4 w-4 shrink-0 text-primary/55 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-primary" />
+                      </div>
+                      <p className="mt-1 text-[11px] font-medium uppercase tracking-[0.16em] text-primary/75">
+                        Best for: {s.bestFor}
+                      </p>
+                      <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                        {s.description}
+                      </p>
+                    </div>
                   </Link>
                 </motion.div>
               ))}

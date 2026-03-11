@@ -14,6 +14,11 @@ Object.defineProperty(window, "matchMedia", {
   }),
 });
 
+Object.defineProperty(window, "scrollTo", {
+  writable: true,
+  value: () => {},
+});
+
 class MockIntersectionObserver implements IntersectionObserver {
   readonly root = null;
   readonly rootMargin = "";

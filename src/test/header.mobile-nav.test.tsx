@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import Header from "@/components/layout/Header";
 
@@ -22,5 +22,50 @@ describe("Header mobile nav", () => {
       expect(toggleButton).toHaveAttribute("aria-expanded", "false");
     });
     expect(document.body.style.overflow).toBe("");
+  });
+
+  it("opens a grouped services mega menu on desktop", async () => {
+    render(
+      <MemoryRouter>
+        <Header />
+      </MemoryRouter>,
+    );
+
+    const trigger = screen.getByTestId("desktop-services-trigger");
+    fireEvent.click(trigger);
+
+    expect(trigger).toHaveAttribute("aria-expanded", "true");
+
+    const menu = await screen.findByTestId("desktop-services-menu");
+
+    expect(within(menu).getByText("Core Services")).toBeInTheDocument();
+    expect(within(menu).getByText("Supporting Services")).toBeInTheDocument();
+    expect(within(menu).getByText("Conversion Tracking & Measurement")).toBeInTheDocument();
+    expect(within(menu).getByText("Email Marketing")).toBeInTheDocument();
+    expect(within(menu).getByRole("link", { name: /view all services/i })).toBeInTheDocument();
+  });
+
+  it("expands grouped service links inside the mobile menu", async () => {
+    render(
+      <MemoryRouter>
+        <Header />
+      </MemoryRouter>,
+    );
+
+    fireEvent.click(screen.getByRole("button", { name: /toggle menu/i }));
+
+    const servicesTrigger = screen.getByTestId("mobile-services-trigger");
+    fireEvent.click(servicesTrigger);
+
+    expect(servicesTrigger).toHaveAttribute("aria-expanded", "true");
+
+    await waitFor(() => {
+      expect(screen.getByText("Core Services")).toBeInTheDocument();
+    });
+
+    expect(screen.getByText("Supporting Services")).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /all services/i })).toBeInTheDocument();
+    expect(screen.getByText("Marketing Automation & CRM")).toBeInTheDocument();
+    expect(screen.getByText("Website Development")).toBeInTheDocument();
   });
 });
