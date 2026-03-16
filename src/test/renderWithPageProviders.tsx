@@ -13,6 +13,11 @@ export const renderWithPageProviders = (
 ) =>
   render(
     <HelmetProvider>
-      <MemoryRouter initialEntries={[route]}>{ui}</MemoryRouter>
+      <MemoryRouter
+        future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
+        initialEntries={[route]}
+      >
+        {ui}
+      </MemoryRouter>
     </HelmetProvider>,
   );

@@ -2,10 +2,15 @@ import { fireEvent, render, screen, waitFor, within } from "@testing-library/rea
 import { MemoryRouter } from "react-router-dom";
 import Header from "@/components/layout/Header";
 
+const routerFuture = {
+  v7_startTransition: true,
+  v7_relativeSplatPath: true,
+} as const;
+
 describe("Header mobile nav", () => {
   it("locks body scroll when open and closes on Escape", async () => {
     render(
-      <MemoryRouter>
+      <MemoryRouter future={routerFuture}>
         <Header />
       </MemoryRouter>,
     );
@@ -26,7 +31,7 @@ describe("Header mobile nav", () => {
 
   it("opens a grouped services mega menu on desktop", async () => {
     render(
-      <MemoryRouter>
+      <MemoryRouter future={routerFuture}>
         <Header />
       </MemoryRouter>,
     );
@@ -47,7 +52,7 @@ describe("Header mobile nav", () => {
 
   it("expands grouped service links inside the mobile menu", async () => {
     render(
-      <MemoryRouter>
+      <MemoryRouter future={routerFuture}>
         <Header />
       </MemoryRouter>,
     );

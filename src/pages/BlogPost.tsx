@@ -342,11 +342,11 @@ const articleContent: Record<string, JSX.Element> = {
 
 const BlogPost = () => {
   const { slug } = useParams<{ slug: string }>();
+  const progress = useReadingProgress();
   const post = slug ? getBlogPostBySlug(slug) : undefined;
   if (!post || !slug || !articleContent[slug]) return <Navigate to="/blog" replace />;
 
   const relatedPosts = getRelatedBlogPosts(slug, 3);
-  const progress = useReadingProgress();
 
   const articleSchema = {
     "@context": "https://schema.org",
