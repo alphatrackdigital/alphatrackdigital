@@ -24,7 +24,8 @@ export const primaryServices: PrimaryService[] = [
     badge: "Flagship",
     flagship: true,
     title: "Conversion Tracking & Measurement",
-    description: "We set up the tracking that tells you exactly which channels, campaigns, and clicks are driving your leads and sales. GA4, Meta, Google Ads \u2014 accurate, auditable, and proven before go-live.",
+    description:
+      "We help set up tracking across key touchpoints so you know exactly what drives revenue. GA4, GTM, Meta Pixel, and CRM reporting configured for signal, not guesswork.",
     path: "/service/conversion-tracking",
   },
   {
@@ -32,7 +33,8 @@ export const primaryServices: PrimaryService[] = [
     badge: "Core",
     flagship: false,
     title: "Paid Media Management",
-    description: "Strategic paid social and search campaigns that drive qualified traffic. We combine Meta Ads, Google Ads, and LinkedIn to reach your audience where they are \u2014 and prove every pound spent.",
+    description:
+      "Google Ads, Meta, YouTube, and channel mixes built for efficiency. We optimise for CAC and ROAS, not vanity metrics, so spend stays tied to qualified demand.",
     path: "/service/paid-media",
   },
   {
@@ -40,7 +42,8 @@ export const primaryServices: PrimaryService[] = [
     badge: "Core",
     flagship: false,
     title: "Marketing Automation & CRM",
-    description: "Once a lead converts, what happens next? We build the automated workflows, email sequences, and CRM systems that nurture prospects into paying clients \u2014 without manual effort.",
+    description:
+      "We build lifecycle journeys from lead capture to retention using automation, email, and CRM systems that nurture prospects into loyal customers.",
     path: "/service/marketing-automation",
   },
 ];
@@ -50,28 +53,32 @@ export const supportingServices: SupportingService[] = [
     icon: Globe,
     title: "Website Development",
     bestFor: "Launches and landing paths",
-    description: "Fast, conversion-focused websites built to support campaigns and capture qualified demand.",
+    description:
+      "Fast, conversion-focused websites and landing experiences built to support campaigns and capture qualified demand.",
     path: "/service/website-development",
   },
   {
     icon: PenTool,
     title: "Content & Media Strategy",
     bestFor: "Creative direction and planning",
-    description: "Campaign messaging and media direction that keep execution aligned to business goals.",
+    description:
+      "Creative strategy, campaign messaging, and media direction that keep execution aligned to business goals.",
     path: "/service/content-media-strategy",
   },
   {
     icon: Mail,
     title: "Email Marketing",
     bestFor: "Lead nurture and re-engagement",
-    description: "Lifecycle email campaigns that turn attention into replies, bookings, and repeat action.",
+    description:
+      "Lifecycle email campaigns that support lead nurture, retargeting, retention, and re-engagement.",
     path: "/service/email-marketing",
   },
   {
     icon: Search,
     title: "SEO",
     bestFor: "Longer-term demand capture",
-    description: "Search foundations that improve discoverability and compound into lower-cost demand over time.",
+    description:
+      "Search foundations that improve discoverability, strengthen content visibility, and compound into lower-cost demand over time.",
     path: "/service/seo",
   },
 ];

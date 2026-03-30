@@ -47,7 +47,7 @@ describe("Header mobile nav", () => {
     expect(within(menu).getByText("Supporting Services")).toBeInTheDocument();
     expect(within(menu).getByText("Conversion Tracking & Measurement")).toBeInTheDocument();
     expect(within(menu).getByText("Email Marketing")).toBeInTheDocument();
-    expect(within(menu).getByRole("link", { name: /view all services/i })).toBeInTheDocument();
+    expect(within(menu).getByRole("link", { name: /explore services/i })).toBeInTheDocument();
   });
 
   it("expands grouped service links inside the mobile menu", async () => {

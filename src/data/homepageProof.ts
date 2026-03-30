@@ -6,7 +6,7 @@ export type HomepageProofMetric = {
 };
 
 export const homepageProofSection = {
-  eyebrow: "Results from recent paid media campaigns",
+  eyebrow: "Selected results from recent engagements",
 };
 
 export const homepageProofMetrics: HomepageProofMetric[] = [

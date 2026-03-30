@@ -7,30 +7,48 @@ import { Check, Clock, Handshake, Lightbulb, ArrowUpRight } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import { companyProfile, nextSteps as profileNextSteps } from "@/data/companyProfile";
 
 const expectations: { icon: LucideIcon; title: string; description: string }[] = [
   {
     icon: Clock,
     title: "15 Minutes",
-    description: "Quick intro video call to understand your goals and current setup.",
+    description: "Quick strategy call to understand your goals, current setup, and growth friction.",
   },
   {
     icon: Handshake,
-    title: "No Pressure",
-    description: "We'll share what we see, you decide next steps. No hard sell.",
+    title: "Strategy-Led",
+    description: "We share what we see, what matters most, and the most sensible next step.",
   },
   {
     icon: Lightbulb,
     title: "Actionable",
-    description: "Walk away with at least one insight, even if we don't work together.",
+    description: "Walk away with at least one clear insight, even if we do not work together.",
   },
 ];
 
 const schedulerUrl = "https://meet.brevo.com/meet-atd/borderless?l=discovery";
 const nextSteps = [
-  { step: "1", title: "Pick a slot", description: "Choose the time that suits you best." },
-  { step: "2", title: "Share context", description: "Tell us a little about your current setup." },
-  { step: "3", title: "Get clear next steps", description: "We walk through gaps and practical opportunities." },
+  {
+    step: "1",
+    title: profileNextSteps[0],
+    description: "Choose the time that suits you best and tell us a little about your current setup.",
+  },
+  {
+    step: "2",
+    title: profileNextSteps[1],
+    description: "We come back with a tailored recommendation and the clearest route forward.",
+  },
+  {
+    step: "3",
+    title: profileNextSteps[2],
+    description: "We align on what to do first, how long it takes, and what success should look like.",
+  },
+  {
+    step: "4",
+    title: profileNextSteps[3],
+    description: "Once scope is agreed, we move into setup, launch, and reporting.",
+  },
 ];
 
 const BookACall = () => {
@@ -47,8 +65,8 @@ const BookACall = () => {
   return (
     <>
       <SEO
-        title="Book a Free Discovery Call | AlphaTrack Digital"
-        description="Book a free 15-minute intro call to discuss your tracking and measurement needs. No pressure, actionable advice."
+        title="Book a Free Strategy Call | AlphaTrack Digital"
+        description="Book a free strategy call to discuss your growth goals, marketing setup, and the clearest next step."
         canonicalUrl="/book-a-call"
       />
       <Helmet>
@@ -58,7 +76,7 @@ const BookACall = () => {
             "@type": "BreadcrumbList",
             itemListElement: [
               { "@type": "ListItem", position: 1, name: "Home", item: "https://alphatrack.digital/" },
-              { "@type": "ListItem", position: 2, name: "Book a Call", item: "https://alphatrack.digital/book-a-call" },
+              { "@type": "ListItem", position: 2, name: "Book a Free Strategy Call", item: "https://alphatrack.digital/book-a-call" },
             ],
           })}
         </script>
@@ -75,10 +93,10 @@ const BookACall = () => {
           <Breadcrumbs
             items={[
               { label: "Home", path: "/" },
-              { label: "Book a Call" },
+              { label: "Book a Free Strategy Call" },
             ]}
           />
-          <h1 className="mt-2 text-3xl font-bold">Book a Call</h1>
+          <h1 className="mt-2 text-3xl font-bold">Book a Free Strategy Call</h1>
         </div>
       </section>
 
@@ -87,23 +105,23 @@ const BookACall = () => {
           <div className="grid items-start gap-12 lg:grid-cols-[0.9fr_1.1fr]">
             <div className="pt-5">
               <SectionIntro
-                eyebrow="Book a Call"
+                eyebrow="Book a Free Strategy Call"
                 title={
                   <>
-                    Let's Talk About Your <span className="text-gradient">Growth</span>
+                    Book a Free <span className="text-gradient">Strategy Call</span>
                   </>
                 }
-                description="Pick a time that works for you. This is a free 15-minute intro call focused on your current setup, growth friction, and the clearest next steps."
+                description={`${companyProfile.founder.name} and the AlphaTrack team use this first call to understand your current setup, growth friction, and the clearest next steps.`}
                 width="wide"
                 titleClassName="text-4xl font-extrabold leading-tight"
                 descriptionClassName="max-w-xl text-base"
               />
               <div className="mt-5 flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
                 <span className="rounded-full border border-primary/20 bg-primary/10 px-3 py-1">
-                  No-pressure conversation
+                  Founder-led conversation
                 </span>
                 <span className="rounded-full border border-primary/20 bg-primary/10 px-3 py-1">
-                  Actionable advice
+                  Strategy-first advice
                 </span>
                 <span className="rounded-full border border-primary/20 bg-primary/10 px-3 py-1">
                   Clear next steps
@@ -129,7 +147,7 @@ const BookACall = () => {
               <div className="overflow-hidden rounded-[28px] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.05)_0%,rgba(255,255,255,0.02)_100%)] p-3 shadow-[0_0_0_1px_rgba(255,255,255,0.04),0_24px_64px_rgba(0,0,0,0.35)]">
                 <div className="mb-3 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-white/10 bg-black/20 px-4 py-3">
                   <div>
-                    <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-primary">Discovery Call Scheduler</p>
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-primary">Strategy Call Scheduler</p>
                     <p className="text-xs text-muted-foreground">Choose a date and time in your timezone</p>
                   </div>
                   <a
@@ -146,7 +164,7 @@ const BookACall = () => {
                     frameBorder="0"
                     width="100%"
                     src={schedulerUrl}
-                    title="Book a Discovery Call"
+                    title="Book a Strategy Call"
                     className="block h-[860px] w-full sm:h-[900px] lg:h-[920px] xl:h-[960px]"
                     style={{ border: "none" }}
                     scrolling="no"
@@ -173,7 +191,7 @@ const BookACall = () => {
                       variant="outline"
                       className="gap-1.5 rounded-lg border-white/20 hover:bg-white/5"
                     >
-                      <a href="mailto:info@alphatrack.digital?subject=Discovery%20Call%20Request">
+                      <a href={`mailto:${companyProfile.contact.email}?subject=Strategy%20Call%20Request`}>
                         Email us instead <ArrowUpRight className="h-4 w-4" />
                       </a>
                     </Button>
@@ -184,7 +202,7 @@ const BookACall = () => {
                 <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-primary/85">
                   What Happens Next
                 </p>
-                <div className="mt-4 grid gap-4 sm:grid-cols-3">
+                <div className="mt-4 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
                   {nextSteps.map((item) => (
                     <div key={item.step} className="rounded-2xl border border-white/8 bg-background/65 p-4">
                       <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-primary/10 text-xs font-semibold text-primary">

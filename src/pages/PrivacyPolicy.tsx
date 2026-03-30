@@ -60,8 +60,8 @@ const PrivacyPolicy = () => {
             <h2 className="text-xl font-bold mb-3">Contact Us</h2>
             <p className="text-muted-foreground leading-relaxed">
               If you have any questions about this privacy policy or your personal data, please contact us at{" "}
-              <a href="mailto:info@alphatrack.digital" className="text-primary hover:text-primary/80 transition-colors">
-                info@alphatrack.digital
+              <a href="mailto:chris@alphatrack.digital" className="text-primary hover:text-primary/80 transition-colors">
+                chris@alphatrack.digital
               </a>.
             </p>
           </div>

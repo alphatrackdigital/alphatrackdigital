@@ -67,8 +67,8 @@ const TermsOfService = () => {
             <h2 className="text-xl font-bold mb-3">Contact</h2>
             <p className="text-muted-foreground leading-relaxed">
               If you have any questions about these terms, please contact us at{" "}
-              <a href="mailto:info@alphatrack.digital" className="text-primary hover:text-primary/80 transition-colors">
-                info@alphatrack.digital
+              <a href="mailto:chris@alphatrack.digital" className="text-primary hover:text-primary/80 transition-colors">
+                chris@alphatrack.digital
               </a>.
             </p>
           </div>

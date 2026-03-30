@@ -185,7 +185,7 @@ const TrackingLandingPage = () => {
       });
       setIsSubmitted(true);
     } catch {
-      toast.error("Something went wrong. Please try again or email info@alphatrack.digital");
+      toast.error("Something went wrong. Please try again or email chris@alphatrack.digital");
     } finally {
       setIsSubmitting(false);
     }

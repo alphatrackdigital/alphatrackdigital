@@ -61,11 +61,8 @@
   body {
     @apply bg-background text-foreground antialiased;
     font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
-    background-image:
-      radial-gradient(ellipse 90% 70% at 50% -10%, hsl(var(--atd-blue) / 0.14) 0%, transparent 58%),
-      radial-gradient(ellipse 60% 45% at 16% 22%, hsl(var(--atd-cyan) / 0.06) 0%, transparent 55%),
-      linear-gradient(180deg, hsl(226 38% 7%) 0%, hsl(224 34% 6%) 100%);
-    background-attachment: fixed;
+    background-color: #070a10;
+    background-image: none;
   }
 
   h1, h2, h3, h4, h5, h6 {

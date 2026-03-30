@@ -22,6 +22,7 @@ import SEO from "@/components/shared/SEO";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { companyProfile } from "@/data/companyProfile";
 import { submitLead } from "@/lib/leads";
 import type { ContactMethod, JourneyStep } from "@/types/page-content";
 
@@ -38,25 +39,25 @@ type ContactFormData = z.infer<typeof contactSchema>;
 const contactMethods: ContactMethod[] = [
   {
     icon: Mail,
-    title: "Email us",
-    description: "Best for project context, requirements, or follow-up documents.",
-    detail: "info@alphatrack.digital",
-    href: "mailto:info@alphatrack.digital",
+    title: "Email the founder",
+    description: "Best for project context, requirements, or sharing existing strategy material.",
+    detail: companyProfile.contact.email,
+    href: `mailto:${companyProfile.contact.email}`,
   },
   {
     icon: Phone,
-    title: "Call us",
-    description: "Use the number that is easiest for you to reach during business hours.",
-    detail: "+233 530 985 334",
-    href: "tel:+233530985334",
-    secondaryDetail: "+234 806 199 2748",
-    secondaryHref: "tel:+2348061992748",
+    title: "Call Chris directly",
+    description: "Use the founder contact from the corporate profile if you want a faster first conversation.",
+    detail: companyProfile.contact.phoneDisplay,
+    href: companyProfile.contact.phoneHref,
+    secondaryDetail: companyProfile.contact.websiteDisplay,
+    secondaryHref: companyProfile.contact.websiteUrl,
   },
   {
     icon: Clock3,
     title: "Response window",
     description: "Most new enquiries get a direct reply with next steps within one business day.",
-    detail: "Reply within 1 business day",
+    detail: companyProfile.contact.responseWindow,
   },
 ];
 
@@ -69,14 +70,14 @@ const journeySteps: JourneyStep[] = [
   },
   {
     step: "02",
-    title: "We review the context",
-    description: "We look at the problem, the likely blockers, and the best route to help.",
+    title: "We review the growth context",
+    description: "We look at the business goals, current setup, and the clearest route to help.",
     icon: Search,
   },
   {
     step: "03",
     title: "We come back with a next step",
-    description: "That may be a focused reply, a booked call, or a recommendation on what to fix first.",
+    description: "That may be a founder reply, a strategy call, or a recommendation on what to fix first.",
     icon: CalendarCheck,
   },
 ];
@@ -125,7 +126,7 @@ const ContactUs = () => {
       });
       navigate("/contact-us/thank-you");
     } catch {
-      toast.error("Something went wrong. Please try again or email info@alphatrack.digital");
+      toast.error(`Something went wrong. Please try again or email ${companyProfile.contact.email}`);
     } finally {
       setIsSubmitting(false);
     }
@@ -135,7 +136,7 @@ const ContactUs = () => {
     <>
       <SEO
         title="Contact Us | AlphaTrack Digital"
-        description="Contact AlphaTrack Digital to discuss conversion tracking, paid media, automation, or the next step in your growth system."
+        description="Contact AlphaTrack Digital to discuss data-driven marketing, creative strategy, and the next step in your growth system."
         canonicalUrl="/contact-us"
       />
 
@@ -154,21 +155,21 @@ const ContactUs = () => {
                 maxWidth="lg"
                 title={
                   <>
-                    Tell Us What You Need to Fix, Build, or <span className="text-gradient">Scale</span>
+                    Let’s Talk About How We Can <span className="text-gradient">Grow Your Brand</span>
                   </>
                 }
-                description="Share the context, the bottleneck, or the goal. We will come back with the clearest next step instead of a vague sales loop."
+                description="Share the context, the bottleneck, or the goal. We combine data, creativity, and technology to help brands attract the right audience, improve performance, and scale with confidence."
               />
 
               <div className="mt-6 flex flex-wrap gap-3 text-xs text-muted-foreground">
                 <span className="rounded-full border border-primary/20 bg-primary/10 px-3 py-1">
-                  Reply within 1 business day
+                  {companyProfile.contact.responseWindow}
                 </span>
                 <span className="rounded-full border border-primary/20 bg-primary/10 px-3 py-1">
-                  Direct with a strategist
+                  Direct with the founder
                 </span>
                 <span className="rounded-full border border-primary/20 bg-primary/10 px-3 py-1">
-                  No-pressure next steps
+                  Strategy-led next steps
                 </span>
               </div>
 
@@ -263,7 +264,7 @@ const ContactUs = () => {
                 </p>
                 <h2 className="mt-2 text-2xl font-semibold">Share the context</h2>
                 <p className="mt-2 max-w-lg text-sm leading-6 text-muted-foreground">
-                  A short brief is enough. Tell us what needs attention and we will respond with a useful next step.
+                  A short brief is enough. Tell us what needs attention and we will respond with a useful next step anchored in strategy, measurement, and delivery.
                 </p>
               </div>
               <Link

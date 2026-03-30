@@ -22,8 +22,8 @@ const CTASection = ({
       Ready to Accelerate Your <span className="text-gradient">Growth</span>?
     </>
   ),
-  description = "Book a call and discover how data-driven marketing can transform your business.",
-  primaryCta = { label: "Book a Call", to: "/book-a-call" },
+  description = "Book a free strategy call and discover how data-driven marketing can transform your business.",
+  primaryCta = { label: "Book a Free Strategy Call", to: "/book-a-call" },
   secondaryCta = { label: "Explore Services", to: "/service" },
   variant = "hero-close",
   proofChips,
@@ -41,8 +41,8 @@ const CTASection = ({
       <div className="pointer-events-none absolute inset-0">
         {variant === "hero-close" && (
           <>
-            <div className="absolute inset-x-0 top-0 h-full bg-[radial-gradient(circle_at_center,rgba(0,175,239,0.10)_0%,transparent_54%),radial-gradient(circle_at_50%_68%,rgba(51,204,153,0.08)_0%,transparent_56%)]" />
-            <div className="absolute inset-x-[18%] bottom-[-5rem] h-48 rounded-full bg-atd-blue/10 blur-[120px]" />
+            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.015)_0%,rgba(255,255,255,0)_36%,rgba(255,255,255,0.012)_100%)]" />
+            <div className="absolute inset-x-[16%] top-0 h-px bg-gradient-to-r from-transparent via-white/14 to-transparent" />
           </>
         )}
         {variant === "service-close" && (
@@ -56,7 +56,7 @@ const CTASection = ({
       <div className="container relative mx-auto px-4 lg:px-8">
         <div
           className={cn(
-            "rounded-[28px] border border-white/10 bg-white/[0.025]",
+            "rounded-[28px] border border-white/10 bg-white/[0.02]",
             variant === "hero-close" && "px-6 py-14 md:px-10",
             variant === "service-close" && "px-6 py-10 md:px-8",
             variant === "inline-proof" && "px-6 py-8 md:px-8",
@@ -81,7 +81,7 @@ const CTASection = ({
                 variant === "inline-proof" && !containerIsSplit && "max-w-2xl",
               )}
               titleClassName={cn(
-                variant === "hero-close" && "mx-auto max-w-4xl text-4xl leading-[1.06] md:text-[3rem]",
+                variant === "hero-close" && "mx-auto max-w-4xl text-[2.6rem] leading-[1.06] md:text-[3rem]",
                 variant === "inline-proof" && "text-2xl md:text-3xl",
                 variant === "service-close" && "text-3xl md:text-[2.1rem]",
               )}
@@ -104,7 +104,7 @@ const CTASection = ({
                   size="lg"
                   className={cn(
                     "gap-1.5 rounded-xl bg-primary text-primary-foreground hover:bg-primary/90",
-                    variant === "hero-close" && "px-8 shadow-[0_0_30px_rgba(51,204,153,0.16)]",
+                    variant === "hero-close" && "px-8 shadow-[0_0_18px_rgba(51,204,153,0.10)]",
                   )}
                 >
                   <Link to={primaryCta.to}>

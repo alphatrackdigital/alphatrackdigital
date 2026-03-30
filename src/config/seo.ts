@@ -23,7 +23,7 @@ export const SEO_DEFAULTS = {
   ogImageWidth: 1200,
   ogImageHeight: 630,
   ogImageType: "image/png",
-  ogImageAlt: "AlphaTrack Digital - Data-Driven Performance Marketing Agency",
+  ogImageAlt: "AlphaTrack Digital - Data-Driven Marketing, Creative Strategy, and Growth Systems",
   ogType: "website" as const,
   twitterCard: "summary_large_image" as const,
 };

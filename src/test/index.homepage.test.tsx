@@ -6,7 +6,7 @@ describe("Homepage proof and stack sections", () => {
   it("renders the stat-strip proof section with real campaign metrics and keeps the stack before blog", () => {
     renderWithPageProviders(<Index />);
 
-    const proofEyebrow = screen.getByText("Results from recent paid media campaigns");
+    const proofEyebrow = screen.getByText("Selected results from recent engagements");
     const stackHeading = screen.getByRole("heading", { name: "Built Across Your Revenue Stack" });
     const blogHeading = screen.getByRole("heading", { name: "From Our Blog" });
 
@@ -22,21 +22,47 @@ describe("Homepage proof and stack sections", () => {
     expect(within(proofSection).getByText("Impressions delivered in an education campaign")).toBeInTheDocument();
     expect(within(proofSection).getByText("Website visits generated in a 12-day hospitality campaign")).toBeInTheDocument();
     expect(within(proofSection).getByText("Teaser views generated for a consumer brand rollout")).toBeInTheDocument();
-    expect(screen.getAllByText("2.1M+")).toHaveLength(2);
-    expect(screen.getAllByText("55%")).toHaveLength(2);
-    expect(screen.getAllByText("25.14%")).toHaveLength(2);
-    expect(screen.getAllByText("Reach")).toHaveLength(2);
-    expect(screen.getAllByText("Viewer-to-Site Rate")).toHaveLength(2);
-    expect(screen.getAllByText("Completion Rate")).toHaveLength(2);
-    expect(screen.getAllByText("Website Visits")).toHaveLength(2);
-    expect(screen.queryByText("4.2×")).not.toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: /Growth should never/i })).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        "AlphaTrack Digital helps brands turn strategy, measurement, paid media, and follow-up into one clear growth system, so performance is easier to see, trust, and scale."
+      )
+    ).toBeInTheDocument();
+    expect(screen.getAllByRole("link", { name: /Book a Free Strategy Call/i }).length).toBeGreaterThan(0);
+    expect(screen.getAllByRole("link", { name: /Explore Services/i }).length).toBeGreaterThan(0);
+    expect(screen.queryByText("Strategy-led execution")).not.toBeInTheDocument();
+    expect(screen.queryByText("Measurement-first delivery")).not.toBeInTheDocument();
+    expect(screen.queryByText("Clear reporting and next steps")).not.toBeInTheDocument();
+    expect(screen.queryByTestId("hero-system-board")).not.toBeInTheDocument();
+    expect(screen.queryByText("How the system connects")).not.toBeInTheDocument();
+    expect(screen.queryByText("Connected delivery map")).not.toBeInTheDocument();
+    expect(screen.queryByText("Qualified demand with clearer visibility")).not.toBeInTheDocument();
+    expect(screen.queryByText("2.1M+")).not.toBeInTheDocument();
+    expect(screen.queryByText("55%")).not.toBeInTheDocument();
+    expect(screen.queryByText("25.14%")).not.toBeInTheDocument();
+    expect(screen.queryByText("Reach")).not.toBeInTheDocument();
+    expect(screen.queryByText("Viewer-to-Site Rate")).not.toBeInTheDocument();
+    expect(screen.queryByText("Completion Rate")).not.toBeInTheDocument();
+    expect(screen.queryByText(/^Website Visits$/)).not.toBeInTheDocument();
+    expect(screen.queryByText("4.2Ã—")).not.toBeInTheDocument();
     expect(screen.queryByText("+68%")).not.toBeInTheDocument();
     expect(screen.queryByText("99.4%")).not.toBeInTheDocument();
-    expect(screen.queryByText("−25%")).not.toBeInTheDocument();
+    expect(screen.queryByText("âˆ’25%")).not.toBeInTheDocument();
     expect(screen.queryByText("Pearl House Ghana")).not.toBeInTheDocument();
     expect(screen.queryByText("Courtney Quist-Therson")).not.toBeInTheDocument();
     expect(screen.queryByText("A Client Perspective")).not.toBeInTheDocument();
     expect(screen.queryByText("Recent Client Outcomes")).not.toBeInTheDocument();
+
+    const industriesSection = screen.getByTestId("industries-section");
+
+    expect(within(industriesSection).getByRole("heading", { name: "Our Primary Sectors" })).toBeInTheDocument();
+    expect(within(industriesSection).getAllByTestId("industry-card")).toHaveLength(6);
+    expect(within(industriesSection).getByText("Ecommerce & Retail")).toBeInTheDocument();
+    expect(within(industriesSection).getByText("SaaS")).toBeInTheDocument();
+    expect(within(industriesSection).getByText("Entertainment & Hospitality")).toBeInTheDocument();
+    expect(within(industriesSection).getByText("Real Estate")).toBeInTheDocument();
+    expect(screen.queryByText("Retail + E-commerce")).not.toBeInTheDocument();
+    expect(screen.queryByText("Travel + Hospitality")).not.toBeInTheDocument();
 
     const stackSection = screen.getByTestId("growth-stack-section");
 
@@ -46,13 +72,18 @@ describe("Homepage proof and stack sections", () => {
     expect(within(stackSection).getByText("Automation")).toBeInTheDocument();
     expect(
       screen.getByText(
-        "Representative platforms we work with across analytics, paid media, and automation."
+        "Representative platforms we work with across tracking, paid media, reporting, and automation."
       )
     ).toBeInTheDocument();
     expect(within(stackSection).getByText("Microsoft Clarity")).toBeInTheDocument();
+    expect(screen.queryByText("Measure first. Acquire with intent. Nurture for retention.")).not.toBeInTheDocument();
     expect(screen.queryByText(/\+\d+\s+additional/i)).not.toBeInTheDocument();
-    expect(screen.getByText("We Also Deliver")).toBeInTheDocument();
-    expect(screen.getByText("Complementary services to round out your digital growth stack.")).toBeInTheDocument();
+    expect(screen.getByText("Supporting Services")).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        "Complementary services that support campaign execution, creative delivery, and longer-term demand capture."
+      )
+    ).toBeInTheDocument();
     const supportingItems = screen.getAllByTestId("supporting-service-item");
 
     expect(supportingItems).toHaveLength(4);
@@ -80,6 +111,7 @@ describe("Homepage proof and stack sections", () => {
       )
     ).toBeInTheDocument();
     expect(screen.getByText("A few practical answers before you book a call.")).toBeInTheDocument();
+    expect(screen.queryByRole("link", { name: /View Services/i })).not.toBeInTheDocument();
     expect(
       screen.queryByText("What platforms do you support across tracking, paid media, and automation?")
     ).not.toBeInTheDocument();
