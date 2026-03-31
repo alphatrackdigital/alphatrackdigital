@@ -22,6 +22,7 @@ Object.defineProperty(window, "scrollTo", {
 class MockIntersectionObserver implements IntersectionObserver {
   readonly root = null;
   readonly rootMargin = "";
+  readonly scrollMargin = "";
   readonly thresholds = [];
 
   disconnect() {}
