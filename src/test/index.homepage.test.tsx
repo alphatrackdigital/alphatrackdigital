@@ -6,29 +6,34 @@ describe("Homepage proof and stack sections", () => {
   it("renders the stat-strip proof section with real campaign metrics and keeps the stack before blog", () => {
     renderWithPageProviders(<Index />);
 
-    const proofEyebrow = screen.getByText("Selected results from recent engagements");
-    const stackHeading = screen.getByRole("heading", { name: "Built Across Your Revenue Stack" });
+    const proofSection = screen.getByTestId("proof-strip-section");
+    const stackHeading = screen.getByRole("heading", { name: "Tools We Use" });
+    const testimonialSection = screen.getByTestId("testimonial-section");
     const blogHeading = screen.getByRole("heading", { name: "From Our Blog" });
 
-    expect(proofEyebrow.compareDocumentPosition(stackHeading)).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
+    expect(proofSection.compareDocumentPosition(stackHeading)).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
+    expect(stackHeading.compareDocumentPosition(testimonialSection)).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
+    expect(testimonialSection.compareDocumentPosition(blogHeading)).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
     expect(stackHeading.compareDocumentPosition(blogHeading)).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
 
-    const proofSection = screen.getByTestId("proof-strip-section");
-
     expect(within(proofSection).getAllByTestId("proof-metric")).toHaveLength(3);
+    expect(within(proofSection).getByText("RESULTS FROM SELECTED CAMPAIGNS")).toBeInTheDocument();
     expect(within(proofSection).getByText("4.9M")).toBeInTheDocument();
     expect(within(proofSection).getByText("3,151")).toBeInTheDocument();
     expect(within(proofSection).getByText("129,862")).toBeInTheDocument();
-    expect(within(proofSection).getByText("Impressions delivered in an education campaign")).toBeInTheDocument();
-    expect(within(proofSection).getByText("Website visits generated in a 12-day hospitality campaign")).toBeInTheDocument();
-    expect(within(proofSection).getByText("Teaser views generated for a consumer brand rollout")).toBeInTheDocument();
+    expect(within(proofSection).getByText("Education campaign impressions")).toBeInTheDocument();
+    expect(within(proofSection).getByText("Hospitality campaign website visits")).toBeInTheDocument();
+    expect(within(proofSection).getByText("Consumer brand teaser views")).toBeInTheDocument();
+    expect(screen.queryByText("Proof")).not.toBeInTheDocument();
+    expect(screen.queryByRole("heading", { name: "Recent campaign signals" })).not.toBeInTheDocument();
     expect(screen.getByRole("heading", { name: /Growth should never/i })).toBeInTheDocument();
     expect(
-      screen.getByText(
-        "AlphaTrack Digital helps brands turn strategy, measurement, paid media, and follow-up into one clear growth system, so performance is easier to see, trust, and scale."
+      screen.getByText((_, element) =>
+        element?.textContent ===
+        "We build the measurement, automation, and paid media systems that turn your marketing budget into measurable revenue. So you can see what's working, fix what isn't, and scale with confidence."
       )
     ).toBeInTheDocument();
-    expect(screen.getAllByRole("link", { name: /Book a Free Strategy Call/i }).length).toBeGreaterThan(0);
+    expect(screen.getAllByRole("link", { name: /Book a Strategy Call/i }).length).toBeGreaterThan(0);
     expect(screen.getAllByRole("link", { name: /Explore Services/i }).length).toBeGreaterThan(0);
     expect(screen.queryByText("Strategy-led execution")).not.toBeInTheDocument();
     expect(screen.queryByText("Measurement-first delivery")).not.toBeInTheDocument();
@@ -48,14 +53,12 @@ describe("Homepage proof and stack sections", () => {
     expect(screen.queryByText("+68%")).not.toBeInTheDocument();
     expect(screen.queryByText("99.4%")).not.toBeInTheDocument();
     expect(screen.queryByText("âˆ’25%")).not.toBeInTheDocument();
-    expect(screen.queryByText("Pearl House Ghana")).not.toBeInTheDocument();
-    expect(screen.queryByText("Courtney Quist-Therson")).not.toBeInTheDocument();
     expect(screen.queryByText("A Client Perspective")).not.toBeInTheDocument();
     expect(screen.queryByText("Recent Client Outcomes")).not.toBeInTheDocument();
 
     const industriesSection = screen.getByTestId("industries-section");
 
-    expect(within(industriesSection).getByRole("heading", { name: "Our Primary Sectors" })).toBeInTheDocument();
+    expect(within(industriesSection).getByRole("heading", { name: "Who We Work With" })).toBeInTheDocument();
     expect(within(industriesSection).getAllByTestId("industry-card")).toHaveLength(6);
     expect(within(industriesSection).getByText("Ecommerce & Retail")).toBeInTheDocument();
     expect(within(industriesSection).getByText("SaaS")).toBeInTheDocument();
@@ -64,24 +67,32 @@ describe("Homepage proof and stack sections", () => {
     expect(screen.queryByText("Retail + E-commerce")).not.toBeInTheDocument();
     expect(screen.queryByText("Travel + Hospitality")).not.toBeInTheDocument();
 
+    expect(within(testimonialSection).getByRole("heading", { name: "What Our Clients Say" })).toBeInTheDocument();
+    expect(within(testimonialSection).getByText("Courtney Quist-Therson")).toBeInTheDocument();
+    expect(within(testimonialSection).getByText("CEO & Founder, Pearl House Ghana")).toBeInTheDocument();
+    expect(
+      within(testimonialSection).getByText(/Working with AlphaTrack Digital Limited was an excellent experience\./i)
+    ).toBeInTheDocument();
+
     const stackSection = screen.getByTestId("growth-stack-section");
 
     expect(within(stackSection).getAllByTestId("growth-stack-card")).toHaveLength(3);
-    expect(within(stackSection).getByText("Measurement")).toBeInTheDocument();
-    expect(within(stackSection).getByText("Paid Media")).toBeInTheDocument();
-    expect(within(stackSection).getByText("Automation")).toBeInTheDocument();
+    expect(within(stackSection).getAllByText("Measurement").length).toBeGreaterThan(0);
+    expect(within(stackSection).getAllByText("Paid Media").length).toBeGreaterThan(0);
+    expect(within(stackSection).getAllByText("Automation").length).toBeGreaterThan(0);
     expect(
       screen.getByText(
-        "Representative platforms we work with across tracking, paid media, reporting, and automation."
+        "A few tools we use for tracking, ads, and automation."
       )
     ).toBeInTheDocument();
-    expect(within(stackSection).getByText("Microsoft Clarity")).toBeInTheDocument();
+    expect(within(stackSection).getAllByText("Microsoft Clarity").length).toBeGreaterThan(0);
     expect(screen.queryByText("Measure first. Acquire with intent. Nurture for retention.")).not.toBeInTheDocument();
     expect(screen.queryByText(/\+\d+\s+additional/i)).not.toBeInTheDocument();
-    expect(screen.getByText("Supporting Services")).toBeInTheDocument();
+    expect(screen.getByText("More Services")).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Other Ways We Help" })).toBeInTheDocument();
     expect(
       screen.getByText(
-        "Complementary services that support campaign execution, creative delivery, and longer-term demand capture."
+        "Website, content, email, and search services that help your marketing work better."
       )
     ).toBeInTheDocument();
     const supportingItems = screen.getAllByTestId("supporting-service-item");
@@ -91,17 +102,32 @@ describe("Homepage proof and stack sections", () => {
     expect(within(supportingItems[1]).getByText("Content & Media Strategy")).toBeInTheDocument();
     expect(within(supportingItems[2]).getByText("Email Marketing")).toBeInTheDocument();
     expect(within(supportingItems[3]).getByText("SEO")).toBeInTheDocument();
-    expect(screen.getByText("Lead nurture and re-engagement")).toBeInTheDocument();
-    expect(screen.getByText("Launches and landing paths")).toBeInTheDocument();
-    expect(screen.getByText("Longer-term demand capture")).toBeInTheDocument();
-    expect(screen.getByText("Creative direction and planning")).toBeInTheDocument();
-    expect(screen.queryAllByText("Learn more")).toHaveLength(3);
+    expect(screen.queryByText("Lead nurture and re-engagement")).not.toBeInTheDocument();
+    expect(screen.queryByText("Launches and landing paths")).not.toBeInTheDocument();
+    expect(screen.queryByText("Longer-term demand capture")).not.toBeInTheDocument();
+    expect(screen.queryByText("Creative direction and planning")).not.toBeInTheDocument();
+    expect(
+      screen.getByText("Websites and landing pages built to help your campaigns convert more visitors.")
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText("Messaging and creative direction for clear, consistent campaigns.")
+    ).toBeInTheDocument();
+    expect(screen.getByText("Email flows that keep leads engaged and bring customers back.")).toBeInTheDocument();
+    expect(
+      screen.getByText("Search visibility that helps more of the right people find you over time.")
+    ).toBeInTheDocument();
+    expect(screen.queryAllByText("Learn more").length).toBeGreaterThanOrEqual(3);
     expect(screen.getAllByTestId("process-step")).toHaveLength(8);
-    expect(screen.getAllByText("Output")).toHaveLength(8);
-    expect(screen.getAllByText("Fit check and priority scope")).toHaveLength(2);
-    expect(screen.getAllByText("Prioritised action plan")).toHaveLength(2);
-    expect(screen.getAllByText("Live setup and workflow launch")).toHaveLength(2);
-    expect(screen.getAllByText("Reporting rhythm and next steps")).toHaveLength(2);
+    expect(screen.queryByText("Output")).not.toBeInTheDocument();
+    expect(screen.queryByText("Clear fit and next steps")).not.toBeInTheDocument();
+    expect(screen.queryByText("Simple action plan")).not.toBeInTheDocument();
+    expect(screen.queryByText("Live campaigns and systems")).not.toBeInTheDocument();
+    expect(screen.queryByText("Reports and next steps")).not.toBeInTheDocument();
+    expect(screen.getByText("We keep the work clear from the first call to reporting.")).toBeInTheDocument();
+    expect(screen.getAllByText("The first call covers your goals and current setup.")).toHaveLength(2);
+    expect(screen.getAllByText("An audit shows what is working and what needs to change.")).toHaveLength(2);
+    expect(screen.getAllByText("The agreed fixes, campaigns, and systems go live.")).toHaveLength(2);
+    expect(screen.getAllByText("Results are tracked, reviewed, and improved over time.")).toHaveLength(2);
     expect(
       screen.getByText("Can you work with our existing setup, or do we need to rebuild everything?")
     ).toBeInTheDocument();

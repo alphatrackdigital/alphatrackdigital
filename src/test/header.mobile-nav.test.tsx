@@ -44,10 +44,10 @@ describe("Header mobile nav", () => {
     const menu = await screen.findByTestId("desktop-services-menu");
 
     expect(within(menu).getByText("Core Services")).toBeInTheDocument();
-    expect(within(menu).getByText("Supporting Services")).toBeInTheDocument();
+    expect(within(menu).getByText("More Services")).toBeInTheDocument();
     expect(within(menu).getByText("Conversion Tracking & Measurement")).toBeInTheDocument();
     expect(within(menu).getByText("Email Marketing")).toBeInTheDocument();
-    expect(within(menu).getByRole("link", { name: /explore services/i })).toBeInTheDocument();
+    expect(within(menu).getByRole("link", { name: /view all services/i })).toBeInTheDocument();
   });
 
   it("expands grouped service links inside the mobile menu", async () => {
@@ -68,7 +68,7 @@ describe("Header mobile nav", () => {
       expect(screen.getByText("Core Services")).toBeInTheDocument();
     });
 
-    expect(screen.getByText("Supporting Services")).toBeInTheDocument();
+    expect(screen.getByText("More Services")).toBeInTheDocument();
     expect(screen.getByRole("link", { name: /all services/i })).toBeInTheDocument();
     expect(screen.getByText("Marketing Automation & CRM")).toBeInTheDocument();
     expect(screen.getByText("Website Development")).toBeInTheDocument();

@@ -25,7 +25,7 @@ export const primaryServices: PrimaryService[] = [
     flagship: true,
     title: "Conversion Tracking & Measurement",
     description:
-      "We help set up tracking across key touchpoints so you know exactly what drives revenue. GA4, GTM, Meta Pixel, and CRM reporting configured for signal, not guesswork.",
+      "Tracking that shows what is driving leads, sales, and revenue.",
     path: "/service/conversion-tracking",
   },
   {
@@ -34,7 +34,7 @@ export const primaryServices: PrimaryService[] = [
     flagship: false,
     title: "Paid Media Management",
     description:
-      "Google Ads, Meta, YouTube, and channel mixes built for efficiency. We optimise for CAC and ROAS, not vanity metrics, so spend stays tied to qualified demand.",
+      "Paid campaigns built to bring in better traffic, stronger leads, and more efficient results.",
     path: "/service/paid-media",
   },
   {
@@ -43,7 +43,7 @@ export const primaryServices: PrimaryService[] = [
     flagship: false,
     title: "Marketing Automation & CRM",
     description:
-      "We build lifecycle journeys from lead capture to retention using automation, email, and CRM systems that nurture prospects into loyal customers.",
+      "Follow-up systems that turn leads into customers and customers into repeat buyers.",
     path: "/service/marketing-automation",
   },
 ];
@@ -54,7 +54,7 @@ export const supportingServices: SupportingService[] = [
     title: "Website Development",
     bestFor: "Launches and landing paths",
     description:
-      "Fast, conversion-focused websites and landing experiences built to support campaigns and capture qualified demand.",
+      "Websites and landing pages built to help your campaigns convert more visitors.",
     path: "/service/website-development",
   },
   {
@@ -62,7 +62,7 @@ export const supportingServices: SupportingService[] = [
     title: "Content & Media Strategy",
     bestFor: "Creative direction and planning",
     description:
-      "Creative strategy, campaign messaging, and media direction that keep execution aligned to business goals.",
+      "Messaging and creative direction for clear, consistent campaigns.",
     path: "/service/content-media-strategy",
   },
   {
@@ -70,7 +70,7 @@ export const supportingServices: SupportingService[] = [
     title: "Email Marketing",
     bestFor: "Lead nurture and re-engagement",
     description:
-      "Lifecycle email campaigns that support lead nurture, retargeting, retention, and re-engagement.",
+      "Email flows that keep leads engaged and bring customers back.",
     path: "/service/email-marketing",
   },
   {
@@ -78,7 +78,7 @@ export const supportingServices: SupportingService[] = [
     title: "SEO",
     bestFor: "Longer-term demand capture",
     description:
-      "Search foundations that improve discoverability, strengthen content visibility, and compound into lower-cost demand over time.",
+      "Search visibility that helps more of the right people find you over time.",
     path: "/service/seo",
   },
 ];

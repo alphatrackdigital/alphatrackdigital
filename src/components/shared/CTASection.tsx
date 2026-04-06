@@ -23,7 +23,7 @@ const CTASection = ({
     </>
   ),
   description = "Book a free strategy call and discover how data-driven marketing can transform your business.",
-  primaryCta = { label: "Book a Free Strategy Call", to: "/book-a-call" },
+  primaryCta = { label: "Book a Strategy Call", to: "/book-a-call" },
   secondaryCta = { label: "Explore Services", to: "/service" },
   variant = "hero-close",
   proofChips,
@@ -35,7 +35,7 @@ const CTASection = ({
     <section
       className={cn(
         "relative overflow-hidden border-t border-white/10",
-        variant === "inline-proof" ? "py-16" : "py-24",
+        variant === "inline-proof" ? "py-16" : "py-16 md:py-[4.75rem]",
       )}
     >
       <div className="pointer-events-none absolute inset-0">
@@ -57,7 +57,7 @@ const CTASection = ({
         <div
           className={cn(
             "rounded-[28px] border border-white/10 bg-white/[0.02]",
-            variant === "hero-close" && "px-6 py-14 md:px-10",
+            variant === "hero-close" && "px-6 py-9 md:px-10 md:py-10",
             variant === "service-close" && "px-6 py-10 md:px-8",
             variant === "inline-proof" && "px-6 py-8 md:px-8",
           )}
@@ -79,14 +79,16 @@ const CTASection = ({
               className={cn(
                 containerIsSplit ? "max-w-2xl" : "w-full",
                 variant === "inline-proof" && !containerIsSplit && "max-w-2xl",
+                variant === "hero-close" && !containerIsSplit && "max-w-3xl",
               )}
               titleClassName={cn(
-                variant === "hero-close" && "mx-auto max-w-4xl text-[2.6rem] leading-[1.06] md:text-[3rem]",
+                variant === "hero-close" &&
+                  "mx-auto max-w-[31rem] text-[1.8rem] leading-[1.05] tracking-[-0.02em] md:max-w-[36rem] md:text-[2.15rem] lg:text-[2.45rem]",
                 variant === "inline-proof" && "text-2xl md:text-3xl",
                 variant === "service-close" && "text-3xl md:text-[2.1rem]",
               )}
               descriptionClassName={cn(
-                variant === "hero-close" && "mx-auto max-w-2xl text-base leading-7",
+                variant === "hero-close" && "mx-auto mt-8 max-w-[44rem] text-sm leading-7 md:mt-8 md:text-[15px]",
                 variant === "inline-proof" && "max-w-xl text-sm",
                 variant === "service-close" && "max-w-xl",
               )}
@@ -94,11 +96,11 @@ const CTASection = ({
 
             <div
               className={cn(
-                "flex w-full flex-col gap-5",
+                "flex w-full flex-col gap-6",
                 containerIsSplit ? "lg:max-w-md lg:items-end" : "items-center",
               )}
             >
-              <div className="flex flex-col items-center gap-4 sm:flex-row">
+              <div className="flex flex-col items-center gap-3.5 sm:flex-row">
                 <Button
                   asChild
                   size="lg"

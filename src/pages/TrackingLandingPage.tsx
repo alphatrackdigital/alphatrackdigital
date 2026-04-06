@@ -23,6 +23,7 @@ import {
 import type { LucideIcon } from "lucide-react";
 
 import { submitLead } from "@/lib/leads";
+import { companyProfile } from "@/data/companyProfile";
 import type { JourneyStep, OfferCard, ProofMetric } from "@/types/page-content";
 
 const auditSchema = z.object({
@@ -185,7 +186,9 @@ const TrackingLandingPage = () => {
       });
       setIsSubmitted(true);
     } catch {
-      toast.error("Something went wrong. Please try again or email chris@alphatrack.digital");
+      toast.error(
+        `Something went wrong. Please try again or email ${companyProfile.contact.email}`,
+      );
     } finally {
       setIsSubmitting(false);
     }

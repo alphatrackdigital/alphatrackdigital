@@ -136,9 +136,9 @@ const Services = () => {
 
           <div className="mt-14 border-t border-border pt-10">
             <SectionIntro
-              eyebrow="Supporting Services"
-              title="Capabilities That Extend the Core System"
-              description="Complementary services that support campaign execution, content delivery, and longer-term demand capture."
+              eyebrow="More Services"
+              title="Other Ways We Help"
+              description="Website, content, email, and search services that help your marketing work better."
               width="wide"
               titleClassName="text-2xl md:text-3xl"
               descriptionClassName="max-w-2xl text-sm"

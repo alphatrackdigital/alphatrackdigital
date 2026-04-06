@@ -179,7 +179,7 @@ const Header = () => {
 
               <AnimatePresence>
                 {desktopServicesOpen && (
-                  <div className="absolute left-1/2 top-full z-50 w-[min(860px,calc(100vw-3rem))] -translate-x-1/2 pt-5">
+                  <div className="absolute left-1/2 top-full z-50 w-[min(760px,calc(100vw-3rem))] -translate-x-1/2 pt-5">
                     <motion.div
                       id="desktop-services-menu"
                       data-testid="desktop-services-menu"
@@ -187,28 +187,28 @@ const Header = () => {
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, y: 12, scale: 0.985 }}
                       transition={{ duration: 0.18, ease: "easeOut" }}
-                      className="relative overflow-hidden rounded-[28px] border border-white/[0.08] bg-[linear-gradient(180deg,rgba(10,14,22,0.98)_0%,rgba(7,10,16,0.98)_100%)] p-5 shadow-[0_24px_60px_rgba(0,8,22,0.28)] backdrop-blur-2xl"
+                      className="relative overflow-hidden rounded-[28px] border border-white/[0.08] bg-[#070a10] px-3.5 py-3.5 shadow-[0_20px_48px_rgba(0,8,22,0.24)]"
                     >
                       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/14 to-transparent" />
-                      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.02)_0%,rgba(255,255,255,0)_24%)]" />
-                      <div className="relative grid gap-5 lg:grid-cols-2">
+                      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.015)_0%,rgba(255,255,255,0)_22%)]" />
+                      <div className="relative grid gap-3.5 lg:grid-cols-2">
                         <div>
                           <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary/80">
                             Core Services
                           </p>
-                          <div className="mt-3 space-y-1.5">
+                          <div className="mt-2 space-y-1">
                             {primaryServices.map((service) => (
                               <Link
                                 key={service.path}
                                 to={service.path}
                                 {...getPrefetchHandlers(service.path)}
-                                className="group flex items-center gap-3 rounded-2xl border border-transparent px-3 py-2.5 transition-colors hover:border-white/[0.06] hover:bg-white/[0.03]"
+                                className="group flex items-center gap-2.5 rounded-2xl border border-transparent px-3 py-2 transition-colors hover:border-white/[0.05] hover:bg-white/[0.025]"
                               >
-                                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-white/[0.08] bg-white/[0.03]">
-                                  <service.icon className="h-[18px] w-[18px] text-primary" />
+                                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border border-white/[0.08] bg-white/[0.03]">
+                                  <service.icon className="h-4 w-4 text-primary" />
                                 </div>
                                 <p className="min-w-0 flex-1 text-sm font-semibold leading-snug text-foreground">{service.title}</p>
-                                <ArrowUpRight className="mt-0.5 h-4 w-4 shrink-0 text-primary/55 transition-all duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-primary" />
+                                <ArrowUpRight className="h-3.5 w-3.5 shrink-0 text-white/28 transition-colors duration-200 group-hover:text-primary/70" />
                               </Link>
                             ))}
                           </div>
@@ -216,46 +216,34 @@ const Header = () => {
 
                         <div>
                           <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary/80">
-                            Supporting Services
+                            More Services
                           </p>
-                          <div className="mt-3 space-y-1.5">
+                          <div className="mt-2 space-y-1">
                             {supportingServices.map((service) => (
                               <Link
                                 key={service.path}
                                 to={service.path}
                                 {...getPrefetchHandlers(service.path)}
-                                className="group flex items-center gap-3 rounded-2xl border border-transparent px-3 py-2.5 transition-colors hover:border-white/[0.06] hover:bg-white/[0.03]"
+                                className="group flex items-center gap-2.5 rounded-2xl border border-transparent px-3 py-2 transition-colors hover:border-white/[0.05] hover:bg-white/[0.025]"
                               >
-                                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-white/[0.08] bg-white/[0.03]">
-                                  <service.icon className="h-[18px] w-[18px] text-primary" />
+                                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border border-white/[0.08] bg-white/[0.03]">
+                                  <service.icon className="h-4 w-4 text-primary" />
                                 </div>
                                 <p className="min-w-0 flex-1 text-sm font-semibold leading-snug text-foreground">{service.title}</p>
-                                <ArrowUpRight className="mt-0.5 h-4 w-4 shrink-0 text-primary/55 transition-all duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-primary" />
+                                <ArrowUpRight className="h-3.5 w-3.5 shrink-0 text-white/28 transition-colors duration-200 group-hover:text-primary/70" />
                               </Link>
                             ))}
                           </div>
                         </div>
                       </div>
-                      <div className="relative mt-5 flex flex-col gap-3 border-t border-white/[0.08] pt-4 sm:flex-row sm:items-center sm:justify-between">
-                        <p className="text-sm text-muted-foreground">
-                          Need help choosing the right fit?
-                        </p>
-                        <div className="flex flex-wrap items-center gap-4">
-                          <Link
-                            to="/service"
-                            {...getPrefetchHandlers("/service")}
-                            className="inline-flex items-center gap-1.5 text-sm font-medium text-primary transition-colors hover:text-primary/80"
-                          >
-                            Explore Services <ArrowUpRight className="h-4 w-4" />
-                          </Link>
-                          <Link
-                            to="/book-a-call"
-                            {...getPrefetchHandlers("/book-a-call")}
-                            className="inline-flex items-center gap-1.5 text-sm font-medium text-foreground transition-colors hover:text-primary"
-                          >
-                            Book a Free Strategy Call <ArrowUpRight className="h-4 w-4" />
-                          </Link>
-                        </div>
+                      <div className="relative mt-3 border-t border-white/[0.08] pt-3">
+                        <Link
+                          to="/service"
+                          {...getPrefetchHandlers("/service")}
+                          className="inline-flex items-center gap-1.5 text-sm font-medium text-primary transition-colors hover:text-primary/80"
+                        >
+                          View all services <ArrowUpRight className="h-4 w-4" />
+                        </Link>
                       </div>
                     </motion.div>
                   </div>
@@ -266,7 +254,7 @@ const Header = () => {
             <div className="hidden justify-self-end md:block">
               <Button asChild className="gap-1.5 rounded-lg bg-primary px-4 py-2 text-sm text-primary-foreground shadow-[0_0_18px_rgba(51,204,153,0.12)] hover:bg-primary/90">
               <Link to="/book-a-call" {...getPrefetchHandlers("/book-a-call")}>
-                Book a Free Strategy Call <ArrowUpRight className="h-4 w-4" />
+                Book a Strategy Call <ArrowUpRight className="h-4 w-4" />
               </Link>
             </Button>
             </div>
@@ -369,7 +357,7 @@ const Header = () => {
 
                             <div>
                               <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary/80">
-                                Supporting Services
+                                More Services
                               </p>
                               <div className="mt-2 space-y-1">
                                 {supportingServices.map((service) => (
@@ -416,7 +404,7 @@ const Header = () => {
                   onTouchStart={() => prefetchRoute("/book-a-call")}
                   onFocus={() => prefetchRoute("/book-a-call")}
                 >
-                  Book a Free Strategy Call <ArrowUpRight className="h-4 w-4" />
+                  Book a Strategy Call <ArrowUpRight className="h-4 w-4" />
                 </Link>
               </Button>
             </nav>

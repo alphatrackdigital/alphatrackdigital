@@ -1,5 +1,5 @@
 export const companyProfile = {
-  heroEyebrow: "Data-Driven Marketing, Creative Strategy & Growth Systems",
+  heroEyebrow: "Measurement-first digital growth agency",
   heroTitle: "Helping brands grow with data-driven marketing and growth systems.",
   shortDescription:
     "AlphaTrack Digital is a growth-focused marketing agency helping brands attract, convert, and scale through performance marketing, creative strategy, and marketing automation.",
@@ -28,9 +28,11 @@ export const companyProfile = {
     websiteUrl: "https://alphatrack.digital",
   },
   contact: {
-    email: "chris@alphatrack.digital",
-    phoneDisplay: "+233 24 556 2676",
-    phoneHref: "tel:+233245562676",
+    email: "info@alphatrack.digital",
+    phoneDisplay: "+233 530 985 334 (Ghana)",
+    phoneHref: "tel:+233530985334",
+    secondaryPhoneDisplay: "+234 806 199 2748 (Nigeria)",
+    secondaryPhoneHref: "tel:+2348061992748",
     websiteDisplay: "alphatrack.digital",
     websiteUrl: "https://alphatrack.digital",
     responseWindow: "Reply within 1 business day",
@@ -200,3 +202,10 @@ export const nextSteps = [
   "Agree on Scope and Timeline",
   "Project Kick-Off",
 ] as const;
+
+export const featuredTestimonial = {
+  quote:
+    "Working with AlphaTrack Digital Limited was an excellent experience. They delivered a sleek, modern, and highly functional website right on schedule. Edits were handled quickly, communication was seamless, and the service was truly top notch. Would definitely recommend!",
+  name: "Courtney Quist-Therson",
+  title: "CEO & Founder, Pearl House Ghana",
+} as const;

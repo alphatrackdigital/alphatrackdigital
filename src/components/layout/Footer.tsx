@@ -1,30 +1,32 @@
 import { Link } from "react-router-dom";
+import { companyProfile } from "@/data/companyProfile";
 
 const Footer = () => {
   return (
     <footer className="border-t border-white/10 bg-[#070a10]">
-      <div className="container mx-auto px-4 py-16 lg:px-8">
-        <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
-          <div className="space-y-4">
+      <div className="container mx-auto px-4 py-8 md:py-16 lg:px-8">
+        <div className="grid grid-cols-2 gap-x-6 gap-y-6 md:grid-cols-2 md:gap-12 lg:grid-cols-4">
+          <div className="col-span-2 space-y-2.5 md:col-span-2 lg:col-span-1 lg:space-y-4">
             <Link to="/" aria-label="AlphaTrack Digital Home" className="inline-flex items-center">
               <img
                 src="/logo-wordmark.png"
                 alt="AlphaTrack Digital"
-                className="h-10 w-auto"
+                className="h-8 w-auto md:h-10"
                 width={800}
                 height={188}
                 loading="lazy"
               />
             </Link>
-            <p className="max-w-[19rem] text-sm leading-relaxed text-muted-foreground">
-              Strategy-led marketing, clean measurement, and automation systems for brands that want clearer growth.
+            <p className="max-w-[21rem] text-[13px] leading-7 text-muted-foreground md:max-w-[19rem] md:text-sm">
+              Measurement-first digital growth agency. We build the tracking, automation, and paid
+              media systems that turn your marketing spend into measurable revenue.
             </p>
-            <div className="mt-4 flex gap-3">
+            <div className="mt-2.5 flex gap-2 md:mt-4 md:gap-3">
               <a
                 href="https://web.facebook.com/AlphaTrack.Digital"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex h-9 w-9 items-center justify-center rounded-lg bg-white/5 text-muted-foreground transition-colors hover:bg-primary/10 hover:text-primary"
+                className="flex h-8 w-8 items-center justify-center rounded-lg bg-white/5 text-muted-foreground transition-colors hover:bg-primary/10 hover:text-primary md:h-9 md:w-9"
                 aria-label="Facebook"
               >
                 <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
@@ -35,7 +37,7 @@ const Footer = () => {
                 href="https://x.com/AlphaT_digital"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex h-9 w-9 items-center justify-center rounded-lg bg-white/5 text-muted-foreground transition-colors hover:bg-primary/10 hover:text-primary"
+                className="flex h-8 w-8 items-center justify-center rounded-lg bg-white/5 text-muted-foreground transition-colors hover:bg-primary/10 hover:text-primary md:h-9 md:w-9"
                 aria-label="X"
               >
                 <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
@@ -46,7 +48,7 @@ const Footer = () => {
                 href="https://www.instagram.com/alphatrack.digital"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex h-9 w-9 items-center justify-center rounded-lg bg-white/5 text-muted-foreground transition-colors hover:bg-primary/10 hover:text-primary"
+                className="flex h-8 w-8 items-center justify-center rounded-lg bg-white/5 text-muted-foreground transition-colors hover:bg-primary/10 hover:text-primary md:h-9 md:w-9"
                 aria-label="Instagram"
               >
                 <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
@@ -57,7 +59,7 @@ const Footer = () => {
                 href="https://www.linkedin.com/company/alphatrackdigital"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex h-9 w-9 items-center justify-center rounded-lg bg-white/5 text-muted-foreground transition-colors hover:bg-primary/10 hover:text-primary"
+                className="flex h-8 w-8 items-center justify-center rounded-lg bg-white/5 text-muted-foreground transition-colors hover:bg-primary/10 hover:text-primary md:h-9 md:w-9"
                 aria-label="LinkedIn"
               >
                 <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
@@ -67,61 +69,67 @@ const Footer = () => {
             </div>
           </div>
 
-          <div className="space-y-4">
+          <div className="space-y-2.5 md:space-y-4">
             <h3 className="text-sm font-semibold text-foreground">Company</h3>
-            <nav className="flex flex-col gap-2.5">
-              <Link to="/about-us" className="text-sm text-muted-foreground transition-colors hover:text-primary">
+            <nav className="flex flex-col gap-1.5 text-[13px] md:gap-2.5 md:text-sm">
+              <Link to="/about-us" className="text-muted-foreground transition-colors hover:text-primary">
                 About Us
               </Link>
-              <Link to="/service" className="text-sm text-muted-foreground transition-colors hover:text-primary">
+              <Link to="/service" className="text-muted-foreground transition-colors hover:text-primary">
                 Services
               </Link>
-              <Link to="/blog" className="text-sm text-muted-foreground transition-colors hover:text-primary">
+              <Link to="/blog" className="text-muted-foreground transition-colors hover:text-primary">
                 Blog
               </Link>
-              <Link to="/contact-us" className="text-sm text-muted-foreground transition-colors hover:text-primary">
+              <Link to="/contact-us" className="text-muted-foreground transition-colors hover:text-primary">
                 Contact Us
               </Link>
             </nav>
           </div>
 
-          <div className="space-y-4">
+          <div className="space-y-2.5 md:space-y-4">
             <h3 className="text-sm font-semibold text-foreground">Services</h3>
-            <nav className="flex flex-col gap-2.5">
-              <Link to="/service/conversion-tracking" className="text-sm text-muted-foreground transition-colors hover:text-primary">
-                Conversion Tracking & Measurement
+            <nav className="flex flex-col gap-1.5 text-[13px] md:gap-2.5 md:text-sm">
+              <Link to="/service/conversion-tracking" className="text-muted-foreground transition-colors hover:text-primary">
+                <span className="md:hidden">Conversion Tracking</span>
+                <span className="hidden md:inline">Conversion Tracking & Measurement</span>
               </Link>
-              <Link to="/service/paid-media" className="text-sm text-muted-foreground transition-colors hover:text-primary">
-                Paid Media Management
+              <Link to="/service/paid-media" className="text-muted-foreground transition-colors hover:text-primary">
+                <span className="md:hidden">Paid Media</span>
+                <span className="hidden md:inline">Paid Media Management</span>
               </Link>
-              <Link to="/service/marketing-automation" className="text-sm text-muted-foreground transition-colors hover:text-primary">
-                Marketing Automation & CRM
+              <Link to="/service/marketing-automation" className="text-muted-foreground transition-colors hover:text-primary">
+                <span className="md:hidden">Automation & CRM</span>
+                <span className="hidden md:inline">Marketing Automation & CRM</span>
               </Link>
-              <Link to="/service" className="text-sm font-medium text-primary transition-colors hover:text-primary/80">
+              <Link
+                to="/service"
+                className="font-medium text-primary transition-colors hover:text-primary/80"
+              >
                 All Services
               </Link>
             </nav>
           </div>
 
-          <div className="space-y-4">
+          <div className="col-span-2 space-y-2.5 md:col-span-2 md:space-y-4 lg:col-span-1">
             <h3 className="text-sm font-semibold text-foreground">Contact</h3>
-            <div className="flex flex-col gap-2 text-sm text-muted-foreground">
-              <a href="tel:+233530985334" className="transition-colors hover:text-primary">
-                +233 530 985 334 (Ghana)
+            <div className="flex flex-col gap-1.5 text-[13px] text-muted-foreground md:gap-2 md:text-sm">
+              <a href={companyProfile.contact.phoneHref} className="transition-colors hover:text-primary">
+                {companyProfile.contact.phoneDisplay}
               </a>
-              <a href="tel:+2348061992748" className="transition-colors hover:text-primary">
-                +234 806 199 2748 (Nigeria)
+              <a href={companyProfile.contact.secondaryPhoneHref} className="transition-colors hover:text-primary">
+                {companyProfile.contact.secondaryPhoneDisplay}
               </a>
-              <a href="mailto:info@alphatrack.digital" className="transition-colors hover:text-primary">
-                info@alphatrack.digital
+              <a href={`mailto:${companyProfile.contact.email}`} className="transition-colors hover:text-primary">
+                {companyProfile.contact.email}
               </a>
             </div>
           </div>
         </div>
 
-        <div className="mt-12 flex flex-col gap-3 border-t border-white/10 pt-6 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-6 flex flex-col gap-2 border-t border-white/10 pt-4 text-[11px] text-muted-foreground sm:flex-row sm:items-center sm:justify-between sm:text-xs md:mt-12 md:gap-3 md:pt-6">
           <p>Copyright AlphaTrack Digital {new Date().getFullYear()}. All rights reserved.</p>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3 md:gap-4">
             <Link to="/privacy-policy" className="transition-colors hover:text-foreground">
               Privacy Policy
             </Link>

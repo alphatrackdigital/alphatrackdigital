@@ -39,19 +39,19 @@ type ContactFormData = z.infer<typeof contactSchema>;
 const contactMethods: ContactMethod[] = [
   {
     icon: Mail,
-    title: "Email the founder",
-    description: "Best for project context, requirements, or sharing existing strategy material.",
+    title: "Email us",
+    description: "Best for sharing your goals, project details, or questions before we speak.",
     detail: companyProfile.contact.email,
     href: `mailto:${companyProfile.contact.email}`,
   },
   {
     icon: Phone,
-    title: "Call Chris directly",
-    description: "Use the founder contact from the corporate profile if you want a faster first conversation.",
+    title: "Call our team",
+    description: "Use the Ghana or Nigeria line if you want to speak with us directly.",
     detail: companyProfile.contact.phoneDisplay,
     href: companyProfile.contact.phoneHref,
-    secondaryDetail: companyProfile.contact.websiteDisplay,
-    secondaryHref: companyProfile.contact.websiteUrl,
+    secondaryDetail: companyProfile.contact.secondaryPhoneDisplay,
+    secondaryHref: companyProfile.contact.secondaryPhoneHref,
   },
   {
     icon: Clock3,
@@ -166,7 +166,7 @@ const ContactUs = () => {
                   {companyProfile.contact.responseWindow}
                 </span>
                 <span className="rounded-full border border-primary/20 bg-primary/10 px-3 py-1">
-                  Direct with the founder
+                  Clear next steps
                 </span>
                 <span className="rounded-full border border-primary/20 bg-primary/10 px-3 py-1">
                   Strategy-led next steps

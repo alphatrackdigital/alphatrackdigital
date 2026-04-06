@@ -5,26 +5,24 @@ export type HomepageProofMetric = {
   canNameClient: boolean;
 };
 
-export const homepageProofSection = {
-  eyebrow: "Selected results from recent engagements",
-};
+export const homepageProofLine = "RESULTS FROM SELECTED CAMPAIGNS";
 
 export const homepageProofMetrics: HomepageProofMetric[] = [
   {
     value: "4.9M",
-    label: "Impressions delivered in an education campaign",
+    label: "Education campaign impressions",
     sourceRef: "Brand Assets/Case Study - NiBS.pdf",
     canNameClient: false,
   },
   {
     value: "3,151",
-    label: "Website visits generated in a 12-day hospitality campaign",
+    label: "Hospitality campaign website visits",
     sourceRef: "Brand Assets/Case Study - TAR.pdf",
     canNameClient: false,
   },
   {
     value: "129,862",
-    label: "Teaser views generated for a consumer brand rollout",
+    label: "Consumer brand teaser views",
     sourceRef: "Brand Assets/Case Study - PimSuko.pdf",
     canNameClient: false,
   },
