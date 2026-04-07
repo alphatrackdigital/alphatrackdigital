@@ -10,6 +10,9 @@ interface LeadPayload {
   websiteUrl?: string;
   monthlyAdSpend?: string;
   adPlatforms?: string;
+  serviceInterest?: string[];
+  monthlyBudget?: string;
+  preferredCallTime?: string;
 }
 
 interface Req {
@@ -36,8 +39,9 @@ const isValidLeadPayload = (payload: unknown): payload is LeadPayload => {
   if (typeof data.firstName !== "string" || !data.firstName.trim()) return false;
   if (typeof data.lastName !== "string" || !data.lastName.trim()) return false;
   if (typeof data.email !== "string" || !data.email.trim()) return false;
-  if (data.source === "contact_form" && (typeof data.message !== "string" || data.message.trim().length < 10)) {
-    return false;
+  if (data.source === "contact_form") {
+    if (!Array.isArray(data.serviceInterest) || data.serviceInterest.length === 0) return false;
+    if (typeof data.preferredCallTime !== "string" || !data.preferredCallTime.trim()) return false;
   }
   if (data.source === "tracking_audit_offer") {
     if (typeof data.websiteUrl !== "string" || !data.websiteUrl.trim()) return false;
@@ -79,6 +83,9 @@ const toBrevoPayload = (data: LeadPayload, listId: number) => ({
     AD_SPEND: data.monthlyAdSpend || "",
     AD_PLATFORMS: data.adPlatforms || "",
     SOURCE: data.source === "contact_form" ? "Contact Form" : "Tracking Audit Landing Page",
+    SERVICE_INTEREST: Array.isArray(data.serviceInterest) ? data.serviceInterest.join(", ") : "",
+    MONTHLY_BUDGET: data.monthlyBudget || "",
+    PREFERRED_CALTIME: data.preferredCallTime || "",
   },
   listIds: [listId],
   updateEnabled: true,

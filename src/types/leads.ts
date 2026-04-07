@@ -10,6 +10,9 @@ export interface LeadCapturePayload {
   websiteUrl?: string;
   monthlyAdSpend?: string;
   adPlatforms?: string;
+  serviceInterest?: string[];
+  monthlyBudget?: string;
+  preferredCallTime?: string;
 }
 
 export interface LeadSubmissionResult {
