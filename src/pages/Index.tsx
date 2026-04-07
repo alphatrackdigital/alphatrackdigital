@@ -368,8 +368,8 @@ const Index = () => {
                 size="lg"
                 className="h-11 w-full max-w-[16rem] gap-1.5 rounded-lg bg-primary px-6 text-[15px] text-primary-foreground shadow-[0_0_24px_rgba(51,204,153,0.22)] transition-shadow hover:bg-primary/90 hover:shadow-[0_0_36px_rgba(0,175,239,0.18)] sm:h-12 sm:w-auto sm:max-w-none sm:px-8 sm:text-base"
               >
-                <Link to="/book-a-call">
-                  Book a Strategy Call <ArrowUpRight className="h-4 w-4" />
+                <Link to="/offer/tracking-audit">
+                  Get a Free Growth Audit <ArrowUpRight className="h-4 w-4" />
                 </Link>
               </Button>
               <Button
@@ -616,8 +616,9 @@ const Index = () => {
       </section>
 
       <section
+        id="industries-section"
         data-testid="industries-section"
-        className="relative overflow-hidden border-t border-white/10 py-14 md:py-24"
+        className="relative scroll-mt-24 overflow-hidden border-t border-white/10 py-14 md:py-24"
       >
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute left-[-8%] top-8 h-72 w-72 rounded-full bg-secondary/[0.035] blur-[120px]" />
@@ -1060,7 +1061,7 @@ const Index = () => {
       <FAQAccordion
         items={faqs}
         title="Frequently Asked Questions"
-        description="A few practical answers before you book a call."
+        description="A few practical answers before you request an audit."
         eyebrow="FAQ"
         variant="minimal"
         density="compact"
@@ -1077,8 +1078,8 @@ const Index = () => {
             Exactly What&apos;s Driving Your <span className="text-gradient">Growth</span>?
           </>
         }
-        description="Book a call. We&apos;ll audit your current setup and show you exactly where the gaps are."
-        primaryCta={{ label: "Book a Strategy Call", to: "/book-a-call" }}
+        description="Request a free growth audit and we&apos;ll show you exactly where the gaps are."
+        primaryCta={{ label: "Get a Free Growth Audit", to: "/offer/tracking-audit" }}
         secondaryCta={{ label: "Explore Services", to: "/service" }}
         variant="hero-close"
       />

@@ -50,6 +50,25 @@ describe("Header mobile nav", () => {
     expect(within(menu).getByRole("link", { name: /view all services/i })).toBeInTheDocument();
   });
 
+  it("opens the expertise menu on desktop", async () => {
+    render(
+      <MemoryRouter future={routerFuture}>
+        <Header />
+      </MemoryRouter>,
+    );
+
+    const trigger = screen.getByTestId("desktop-expertise-trigger");
+    fireEvent.click(trigger);
+
+    expect(trigger).toHaveAttribute("aria-expanded", "true");
+
+    const menu = await screen.findByTestId("desktop-expertise-menu");
+
+    expect(within(menu).getByText("SaaS")).toBeInTheDocument();
+    expect(within(menu).getByText("Education")).toBeInTheDocument();
+    expect(within(menu).getByText("Ecommerce & Retail")).toBeInTheDocument();
+  });
+
   it("expands grouped service links inside the mobile menu", async () => {
     render(
       <MemoryRouter future={routerFuture}>
@@ -72,5 +91,27 @@ describe("Header mobile nav", () => {
     expect(screen.getByRole("link", { name: /all services/i })).toBeInTheDocument();
     expect(screen.getByText("Marketing Automation & CRM")).toBeInTheDocument();
     expect(screen.getByText("Website Development")).toBeInTheDocument();
+  });
+
+  it("expands expertise links inside the mobile menu", async () => {
+    render(
+      <MemoryRouter future={routerFuture}>
+        <Header />
+      </MemoryRouter>,
+    );
+
+    fireEvent.click(screen.getByRole("button", { name: /toggle menu/i }));
+
+    const expertiseTrigger = screen.getByTestId("mobile-expertise-trigger");
+    fireEvent.click(expertiseTrigger);
+
+    expect(expertiseTrigger).toHaveAttribute("aria-expanded", "true");
+
+    await waitFor(() => {
+      expect(screen.getByText("SaaS")).toBeInTheDocument();
+    });
+
+    expect(screen.getByText("Education")).toBeInTheDocument();
+    expect(screen.getByText("Real Estate")).toBeInTheDocument();
   });
 });

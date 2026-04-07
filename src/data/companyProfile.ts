@@ -140,17 +140,17 @@ export const whyChoosePoints = [
   {
     title: "Strategy-Led Execution",
     description:
-      "We lead with insight. Every campaign is grounded in a full understanding of your market, audience, and business goals before a single ad goes live.",
+      "We start with business goals, not random tactics. That keeps the work focused on what matters most.",
   },
   {
     title: "Measurement-First by Default",
     description:
-      "We instrument tracking before we spend. Every engagement begins with a conversion tracking audit, ensuring your data is clean and your decisions are accurate.",
+      "We fix tracking before we scale spend, so decisions are based on clean data instead of guesswork.",
   },
   {
     title: "Full-Funnel Thinking",
     description:
-      "We do not just acquire, we nurture. Our Track → Acquire → Nurture model ensures growth compounds over time, not just in bursts.",
+      "We connect tracking, paid media, and follow-up so growth can build over time instead of stopping at the first click.",
   },
 ] as const;
 
@@ -158,7 +158,7 @@ export const engagementModels = [
   {
     label: "Starter",
     title: "Audit & Strategy Sprint",
-    timeframe: "2–4 weeks",
+    timeframe: "2-4 weeks",
     idealFor: "New brands, re-launches, or any business unsure where to start.",
     includes: [
       "Full conversion tracking audit",
@@ -184,7 +184,7 @@ export const engagementModels = [
   {
     label: "Project",
     title: "Campaign Activation",
-    timeframe: "4–12 weeks",
+    timeframe: "4-12 weeks",
     idealFor: "Defined launches, growth pushes, or execution-heavy campaign windows.",
     includes: [
       "Campaign strategy and setup",

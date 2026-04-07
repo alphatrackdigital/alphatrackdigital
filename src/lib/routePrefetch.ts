@@ -1,7 +1,10 @@
+import { expertisePages } from "@/data/expertise";
+
 type RouteImporter = () => Promise<unknown>;
 
 const routeImporters = {
   aboutUs: () => import("../pages/AboutUs"),
+  expertiseDetail: () => import("../pages/ExpertiseDetail"),
   services: () => import("../pages/Services"),
   contactUs: () => import("../pages/ContactUs"),
   contactUsThankYou: () => import("../pages/ContactUsThankYou"),
@@ -30,9 +33,14 @@ const routePrefetchMap: Record<string, RouteImporter[]> = {
   "/blog": [routeImporters.blog],
   "/contact-us": [routeImporters.contactUs],
   "/book-a-call": [routeImporters.bookACall],
+  "/offer/tracking-audit": [routeImporters.trackingLandingPage],
   "/privacy-policy": [routeImporters.privacyPolicy],
   "/terms-of-service": [routeImporters.termsOfService],
 };
+
+expertisePages.forEach((item) => {
+  routePrefetchMap[`/expertise/${item.slug}`] = [routeImporters.expertiseDetail];
+});
 
 export { routeImporters };
 

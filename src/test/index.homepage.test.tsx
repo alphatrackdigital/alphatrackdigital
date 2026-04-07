@@ -33,7 +33,7 @@ describe("Homepage proof and stack sections", () => {
         "We build the measurement, automation, and paid media systems that turn your marketing budget into measurable revenue. So you can see what's working, fix what isn't, and scale with confidence."
       )
     ).toBeInTheDocument();
-    expect(screen.getAllByRole("link", { name: /Book a Strategy Call/i }).length).toBeGreaterThan(0);
+    expect(screen.getAllByRole("link", { name: /Get a Free Growth Audit/i }).length).toBeGreaterThan(0);
     expect(screen.getAllByRole("link", { name: /Explore Services/i }).length).toBeGreaterThan(0);
     expect(screen.queryByText("Strategy-led execution")).not.toBeInTheDocument();
     expect(screen.queryByText("Measurement-first delivery")).not.toBeInTheDocument();
@@ -136,7 +136,7 @@ describe("Homepage proof and stack sections", () => {
         "Usually we start with what you already have. We audit your tracking, campaigns, and follow-up systems first, then recommend only the fixes or rebuilds that are actually necessary."
       )
     ).toBeInTheDocument();
-    expect(screen.getByText("A few practical answers before you book a call.")).toBeInTheDocument();
+    expect(screen.getByText("A few practical answers before you request an audit.")).toBeInTheDocument();
     expect(screen.queryByRole("link", { name: /View Services/i })).not.toBeInTheDocument();
     expect(
       screen.queryByText("What platforms do you support across tracking, paid media, and automation?")

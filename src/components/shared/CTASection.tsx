@@ -22,8 +22,8 @@ const CTASection = ({
       Ready to Accelerate Your <span className="text-gradient">Growth</span>?
     </>
   ),
-  description = "Book a free strategy call and discover how data-driven marketing can transform your business.",
-  primaryCta = { label: "Book a Strategy Call", to: "/book-a-call" },
+  description = "Request a free growth audit and see where your tracking, media, or automation setup needs attention first.",
+  primaryCta = { label: "Get a Free Growth Audit", to: "/offer/tracking-audit" },
   secondaryCta = { label: "Explore Services", to: "/service" },
   variant = "hero-close",
   proofChips,

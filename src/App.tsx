@@ -9,6 +9,7 @@ import { routeImporters } from "@/lib/routePrefetch";
 import Index from "./pages/Index";
 
 const AboutUs = lazy(routeImporters.aboutUs);
+const ExpertiseDetail = lazy(routeImporters.expertiseDetail);
 const Services = lazy(routeImporters.services);
 const ContactUs = lazy(routeImporters.contactUs);
 const ContactUsThankYou = lazy(routeImporters.contactUsThankYou);
@@ -48,6 +49,7 @@ const App = () => (
           <Route element={<Layout />}>
             <Route path="/" element={<Index />} />
             <Route path="/about-us" element={withRouteSuspense(AboutUs)} />
+            <Route path="/expertise/:slug" element={withRouteSuspense(ExpertiseDetail)} />
             <Route path="/service" element={withRouteSuspense(Services)} />
             <Route path="/service/conversion-tracking" element={withRouteSuspense(ConversionTracking)} />
             <Route path="/service/marketing-automation" element={withRouteSuspense(MarketingAutomation)} />

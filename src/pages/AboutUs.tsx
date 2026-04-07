@@ -1,12 +1,6 @@
+import { Link } from "react-router-dom";
+import { ArrowUpRight, Quote } from "lucide-react";
 import { motion } from "framer-motion";
-import {
-  BarChart3,
-  CheckCircle2,
-  Compass,
-  Lightbulb,
-  Target,
-  Users,
-} from "lucide-react";
 
 import CTASection from "@/components/shared/CTASection";
 import PageSection from "@/components/shared/PageSection";
@@ -14,30 +8,29 @@ import SectionIntro from "@/components/shared/SectionIntro";
 import SEO from "@/components/shared/SEO";
 import {
   companyProfile,
-  ctmaFramework,
+  featuredTestimonial,
   primarySectors,
-  tractionMetrics,
   whyChoosePoints,
 } from "@/data/companyProfile";
-
-const whyChooseIcons = [Compass, BarChart3, Users] as const;
-const valueIcons = [Target, Lightbulb, CheckCircle2] as const;
+import { primaryServices } from "@/data/services";
+import { cn } from "@/lib/utils";
 
 const AboutUs = () => {
   return (
     <>
       <SEO
         title="About Us | AlphaTrack Digital"
-        description="AlphaTrack Digital is a growth-focused marketing agency helping brands attract, convert, and scale through data-driven marketing, creative strategy, and measurable performance systems."
+        description="AlphaTrack Digital is a measurement-first digital growth agency helping brands improve tracking, paid media, and automation."
         canonicalUrl="/about-us"
       />
 
-      <PageSection mode="hero" surface="glow" spacing="spacious">
-        <div className="grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-start">
+      <PageSection mode="hero" surface="glow" spacing="compact">
+        <div className="grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
+            className="max-w-4xl"
           >
             <SectionIntro
               as="h1"
@@ -46,128 +39,104 @@ const AboutUs = () => {
               maxWidth="xl"
               title={
                 <>
-                  Data, Creativity, and Systems Built for <span className="text-gradient">Growth</span>
+                  A measurement-first agency built to make{" "}
+                  <span className="text-gradient">growth easier to trust</span>.
                 </>
               }
-              description={`${companyProfile.established} ${companyProfile.shortDescription}`}
+              description="AlphaTrack Digital helps brands improve tracking, paid media, and automation so marketing works better and decisions are easier to make."
               titleClassName="max-w-4xl"
               descriptionClassName="max-w-3xl"
             />
 
-            <div className="mt-8 flex flex-wrap gap-3 text-xs text-muted-foreground">
-              <span className="rounded-full border border-primary/20 bg-primary/10 px-3 py-1">
-                Data-driven marketing
-              </span>
-              <span className="rounded-full border border-primary/20 bg-primary/10 px-3 py-1">
-                Creative strategy
-              </span>
-              <span className="rounded-full border border-primary/20 bg-primary/10 px-3 py-1">
-                Measurable performance systems
-              </span>
+            <div className="mt-6 max-w-3xl space-y-4 text-sm leading-7 text-muted-foreground md:text-base">
+              <p>
+                {companyProfile.established} We started AlphaTrack Digital
+                because too many brands were running campaigns without clear
+                tracking, reliable follow-up, or confidence in what was really
+                driving results.
+              </p>
+              <p>
+                Our work brings measurement, paid media, and automation into
+                one clearer system so teams can stop guessing and start making
+                better growth decisions.
+              </p>
+            </div>
+
+            <div className="mt-8 flex flex-col items-start gap-3 sm:flex-row">
+              <Link
+                to="/offer/tracking-audit"
+                className="inline-flex items-center gap-1.5 rounded-xl bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
+              >
+                Get a Free Growth Audit <ArrowUpRight className="h-4 w-4" />
+              </Link>
+              <Link
+                to="/service"
+                className="inline-flex items-center gap-1.5 rounded-xl border border-white/15 px-5 py-3 text-sm font-semibold text-foreground transition-colors hover:bg-white/5"
+              >
+                Explore Services <ArrowUpRight className="h-4 w-4" />
+              </Link>
             </div>
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 22 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.08 }}
-            className="rounded-[30px] border border-white/10 bg-[linear-gradient(180deg,rgba(0,51,153,0.18)_0%,rgba(0,175,239,0.05)_45%,rgba(255,255,255,0.02)_100%)] p-8 shadow-[0_20px_60px_rgba(0,0,0,0.18)]"
+            transition={{ duration: 0.55, delay: 0.08 }}
+            className="relative"
           >
-            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-primary/80">
-              A Note From Our Founder
-            </p>
-            <h2 className="mt-4 text-2xl font-semibold text-white">{companyProfile.founder.name}</h2>
-            <p className="mt-1 text-sm text-primary/85">{companyProfile.founder.title}</p>
-            <p className="mt-5 text-sm leading-7 text-muted-foreground">{companyProfile.founderNote}</p>
-            <p className="mt-4 text-sm leading-7 text-muted-foreground">{companyProfile.longDescription}</p>
-            <div className="mt-6 space-y-2 border-t border-white/10 pt-5 text-sm">
-              <a href={`mailto:${companyProfile.founder.email}`} className="block transition-colors hover:text-primary">
-                {companyProfile.founder.email}
-              </a>
-              <a href={companyProfile.founder.phoneHref} className="block transition-colors hover:text-primary">
-                {companyProfile.founder.phoneDisplay}
-              </a>
-              <a
-                href={companyProfile.founder.websiteUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block transition-colors hover:text-primary"
-              >
-                {companyProfile.founder.websiteDisplay}
-              </a>
+            <div className="absolute inset-0 rounded-[28px] bg-gradient-to-br from-atd-blue/12 via-transparent to-secondary/12 blur-2xl" />
+            <div className="relative overflow-hidden rounded-[28px] border border-white/10 bg-white/[0.02]">
+              <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
+              <img
+                src="/social-preview.png"
+                alt="AlphaTrack Digital brand visual"
+                className="h-full w-full object-cover"
+                loading="lazy"
+              />
             </div>
           </motion.div>
         </div>
       </PageSection>
 
-      <PageSection mode="proof" surface="quiet" border="top">
-        <SectionIntro
-          eyebrow="Our Traction"
-          mode="proof"
-          title="Performance Milestones Across Client Campaigns"
-          description="The corporate profile is built around measurable output, so the website should reflect the same operating standard."
-          maxWidth="lg"
-          className="mb-10"
-        />
-        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
-          {tractionMetrics.map((metric, index) => (
-            <motion.div
-              key={metric.label}
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.06, duration: 0.35 }}
-              className="rounded-[24px] border border-white/10 bg-white/[0.03] p-6"
-            >
-              <p className="text-3xl font-bold text-gradient">{metric.value}</p>
-              <p className="mt-3 text-sm font-semibold text-foreground">{metric.label}</p>
-              <p className="mt-2 text-sm leading-6 text-muted-foreground">{metric.note}</p>
-            </motion.div>
-          ))}
-        </div>
-      </PageSection>
-
       <PageSection mode="content" border="top">
-        <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
-          <div>
-            <SectionIntro
-              eyebrow="Inside AlphaTrack"
-              mode="content"
-              title="A Growth Agency Built Around Clarity"
-              description={companyProfile.shortDescription}
-              maxWidth="lg"
-            />
-            <div className="mt-6 max-w-3xl space-y-4 text-sm leading-7 text-muted-foreground md:text-base">
-              <p>{companyProfile.longDescription}</p>
-              <p>
-                Our goal is to build growth systems that turn ambition into results and brands into market leaders.
+        <div className="grid gap-12 lg:grid-cols-[0.92fr_1.08fr] lg:items-start">
+          <SectionIntro
+            eyebrow="Our Story"
+            mode="content"
+            title="Our story in a nutshell."
+            description="The agency exists to help brands replace disconnected marketing activity with clearer systems, better reporting, and stronger follow-up."
+            maxWidth="lg"
+          />
+
+          <div className="space-y-8 border-t border-white/10 pt-8 lg:border-l lg:border-t-0 lg:pl-10 lg:pt-0">
+            <div>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-primary/80">
+                Why we exist
+              </p>
+              <p className="mt-3 max-w-2xl text-base leading-8 text-foreground">
+                {companyProfile.founderNote}
               </p>
             </div>
-          </div>
 
-          <div className="grid gap-4 sm:grid-cols-2">
-            <div className="rounded-[24px] border border-white/10 bg-background/75 p-6">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary/80">Vision</p>
-              <p className="mt-3 text-lg font-semibold">{companyProfile.vision}</p>
+            <div className="border-t border-white/10 pt-8">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-primary/80">
+                What that means in practice
+              </p>
+              <p className="mt-3 max-w-2xl text-sm leading-7 text-muted-foreground md:text-base">
+                We focus on the parts of marketing that usually create the most
+                confusion: tracking, paid media, lead handoff, and the systems
+                that help teams understand what is working.
+              </p>
             </div>
-            <div className="rounded-[24px] border border-white/10 bg-background/75 p-6">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary/80">Mission</p>
-              <p className="mt-3 text-lg font-semibold">{companyProfile.mission}</p>
-            </div>
-            <div className="rounded-[24px] border border-white/10 bg-background/75 p-6 sm:col-span-2">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary/80">Core Values</p>
-              <div className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
-                {companyProfile.coreValues.map((value, index) => {
-                  const Icon = valueIcons[index % valueIcons.length];
 
-                  return (
-                    <div key={value} className="rounded-2xl border border-white/8 bg-white/[0.03] px-4 py-4">
-                      <Icon className="h-4 w-4 text-primary" />
-                      <p className="mt-3 text-sm font-medium text-foreground">{value}</p>
-                    </div>
-                  );
-                })}
-              </div>
+            <div className="border-t border-white/10 pt-8">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-primary/80">
+                What clients should expect
+              </p>
+              <p className="mt-3 max-w-2xl text-sm leading-7 text-muted-foreground md:text-base">
+                Clear communication, honest reporting, and work that is tied to
+                commercial outcomes rather than surface-level activity.
+              </p>
             </div>
           </div>
         </div>
@@ -175,97 +144,145 @@ const AboutUs = () => {
 
       <PageSection mode="content" surface="quiet" border="top">
         <SectionIntro
-          eyebrow="CTMA Method"
+          eyebrow="How We Work"
           mode="content"
-          title="Our Service Framework"
-          description="Every engagement is built on four integrated disciplines that work together to drive performance."
+          title="Three principles guide how we deliver."
+          description="These are the ideas that shape how AlphaTrack Digital works with every client."
           maxWidth="lg"
           className="mb-10"
         />
-        <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
-          {ctmaFramework.map((item, index) => (
+
+        <div className="border-t border-white/10">
+          {whyChoosePoints.map((item, index) => (
             <motion.div
               key={item.title}
               initial={{ opacity: 0, y: 18 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.08, duration: 0.35 }}
-              className="rounded-[24px] border border-white/10 bg-white/[0.02] p-6"
+              className={cn(
+                "grid gap-3 py-6 md:grid-cols-[80px_240px_1fr] md:gap-6 md:py-8",
+                index > 0 && "border-t border-white/10",
+              )}
             >
-              <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary/80">CTMA Pillar</p>
-              <h3 className="mt-3 text-lg font-semibold">{item.title}</h3>
-              <p className="mt-3 text-sm leading-7 text-muted-foreground">{item.description}</p>
-              <div className="mt-5 flex flex-wrap gap-2">
-                {item.details.map((detail) => (
-                  <span key={detail} className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-xs text-muted-foreground">
-                    {detail}
-                  </span>
-                ))}
+              <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-primary/80">
+                0{index + 1}
               </div>
+              <h3 className="text-lg font-semibold text-foreground">
+                {item.title}
+              </h3>
+              <p className="max-w-3xl text-sm leading-7 text-muted-foreground md:text-base">
+                {item.description}
+              </p>
             </motion.div>
           ))}
         </div>
+      </PageSection>
 
-        <div className="mt-12 rounded-[28px] border border-white/10 bg-[linear-gradient(180deg,rgba(0,51,153,0.14)_0%,rgba(255,255,255,0.015)_100%)] p-7">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-primary/80">Primary Sectors</p>
-          <p className="mt-3 max-w-3xl text-sm leading-7 text-muted-foreground">
-            We have supported brands across consumer, service, and education sectors, with repeat delivery across the categories below.
-          </p>
-          <div className="mt-6 flex flex-wrap gap-3">
-            {primarySectors.map((sector) => (
-              <span key={sector} className="rounded-full border border-primary/20 bg-primary/10 px-4 py-2 text-sm">
+      <PageSection mode="content" border="top">
+        <SectionIntro
+          eyebrow="What We Do"
+          mode="content"
+          title="What we do best."
+          description="Most of our work starts in one of these three areas."
+          maxWidth="lg"
+          className="mb-10"
+        />
+
+        <div className="border-t border-white/10">
+          {primaryServices.map((service, index) => (
+            <div
+              key={service.title}
+              className={cn(
+                "grid gap-3 py-6 md:grid-cols-[80px_280px_1fr_auto] md:gap-6 md:py-8",
+                index > 0 && "border-t border-white/10",
+              )}
+            >
+              <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-primary/80">
+                0{index + 1}
+              </div>
+              <h3 className="text-lg font-semibold text-foreground">
+                {service.title}
+              </h3>
+              <p className="max-w-3xl text-sm leading-7 text-muted-foreground md:text-base">
+                {service.description}
+              </p>
+              <div className="md:justify-self-end">
+                <Link
+                  to={service.path}
+                  className="inline-flex items-center gap-1.5 text-sm font-medium text-primary transition-colors hover:text-primary/80"
+                >
+                  Explore service <ArrowUpRight className="h-4 w-4" />
+                </Link>
+              </div>
+            </div>
+          ))}
+        </div>
+      </PageSection>
+
+      <PageSection mode="content" border="top">
+        <div className="grid gap-12 lg:grid-cols-[0.86fr_1.14fr] lg:items-start">
+          <SectionIntro
+            eyebrow="Industries"
+            mode="content"
+            title="Where we do our best work."
+            description="We work across consumer, service, and education categories, with the strongest repeat experience in the sectors below."
+            maxWidth="lg"
+          />
+
+          <div className="grid gap-3 border-t border-white/10 pt-8 sm:grid-cols-2 lg:border-t-0 lg:pt-0">
+            {primarySectors.map((sector, index) => (
+              <div
+                key={sector}
+                className={cn(
+                  "border-white/10 py-3 text-base font-medium text-foreground md:text-lg",
+                  index > 0 && "border-t sm:border-t-0",
+                )}
+              >
                 {sector}
-              </span>
+              </div>
             ))}
           </div>
         </div>
       </PageSection>
 
-      <PageSection mode="proof" border="top">
+      <PageSection mode="content" surface="quiet" border="top">
         <SectionIntro
-          eyebrow="Why Choose AlphaTrack"
-          mode="proof"
-          title="The Three Pillars Behind the Profile"
-          description="These are the positioning pillars that now need to stay consistent across the website, proposals, and marketing assets."
+          eyebrow="Client Feedback"
+          mode="content"
+          title="What one client said about working with us."
+          description="The work should feel clear, reliable, and easy to move forward with."
           maxWidth="lg"
-          className="mb-10"
+          className="mb-8"
         />
-        <div className="grid gap-5 md:grid-cols-3">
-          {whyChoosePoints.map((item, index) => {
-            const Icon = whyChooseIcons[index];
 
-            return (
-              <motion.div
-                key={item.title}
-                initial={{ opacity: 0, y: 18 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.08, duration: 0.35 }}
-                className="rounded-[24px] border border-white/10 bg-white/[0.02] p-7"
-              >
-                <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10">
-                  <Icon className="h-5 w-5 text-primary" />
-                </div>
-                <h3 className="text-lg font-semibold">{item.title}</h3>
-                <p className="mt-3 text-sm leading-7 text-muted-foreground">{item.description}</p>
-              </motion.div>
-            );
-          })}
+        <div className="relative border-t border-white/10 pt-8">
+          <Quote className="absolute right-0 top-8 hidden h-10 w-10 text-primary/30 md:block" />
+          <blockquote className="max-w-4xl text-xl leading-[1.8] text-foreground md:text-[1.7rem] md:leading-[1.7]">
+            "{featuredTestimonial.quote}"
+          </blockquote>
+          <div className="mt-8 border-t border-white/10 pt-6">
+            <p className="text-base font-semibold text-foreground">
+              {featuredTestimonial.name}
+            </p>
+            <p className="mt-1 text-sm text-muted-foreground">
+              {featuredTestimonial.title}
+            </p>
+          </div>
         </div>
       </PageSection>
 
       <CTASection
         title={
           <>
-            Need a Team That Can Turn Strategy Into <span className="text-gradient">Measurable Growth</span>?
+            Want to see what is holding back your{" "}
+            <span className="text-gradient">growth system</span>?
           </>
         }
-        description="Book a free strategy call and we will show you the clearest next move across measurement, paid media, creative strategy, or automation."
-        primaryCta={{ label: "Book a Call", to: "/book-a-call" }}
-        secondaryCta={{ label: "Contact Us", to: "/contact-us" }}
+        description="Get a free growth audit and we will show you the clearest next step across tracking, paid media, or automation."
+        primaryCta={{ label: "Get a Free Growth Audit", to: "/offer/tracking-audit" }}
+        secondaryCta={{ label: "Explore Services", to: "/service" }}
         variant="service-close"
-        layout="split"
-        proofChips={["Strategy-led execution", "Measurement-first by default", "Full-funnel thinking"]}
       />
     </>
   );

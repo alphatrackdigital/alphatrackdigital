@@ -1,24 +1,27 @@
 import { useState, useEffect, useRef } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, type To } from "react-router-dom";
 import { Menu, X, ArrowUpRight, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { prefetchRoute } from "@/lib/routePrefetch";
 import { motion, AnimatePresence } from "framer-motion";
 import { primaryServices, supportingServices } from "@/data/services";
+import { expertisePages } from "@/data/expertise";
 
 const navLinks = [
-  { label: "Home", path: "/" },
+  { label: "Services", path: "/service", menuType: "services" as const },
+  { label: "Expertise", path: "/expertise", menuType: "expertise" as const },
+  { label: "Results", disabled: true },
   { label: "About Us", path: "/about-us" },
-  { label: "Services", path: "/service", hasMenu: true },
   { label: "Blog", path: "/blog" },
-  { label: "Contact Us", path: "/contact-us" },
 ];
 
 const Header = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
+  const [mobileExpertiseOpen, setMobileExpertiseOpen] = useState(false);
   const [desktopServicesOpen, setDesktopServicesOpen] = useState(false);
+  const [desktopExpertiseOpen, setDesktopExpertiseOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
   const desktopNavRef = useRef<HTMLElement | null>(null);
@@ -26,8 +29,10 @@ const Header = () => {
   useEffect(() => {
     setMobileOpen(false);
     setMobileServicesOpen(false);
+    setMobileExpertiseOpen(false);
     setDesktopServicesOpen(false);
-  }, [location.pathname]);
+    setDesktopExpertiseOpen(false);
+  }, [location.pathname, location.hash]);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10);
@@ -53,16 +58,20 @@ const Header = () => {
   }, [mobileOpen]);
 
   useEffect(() => {
-    if (!desktopServicesOpen) return;
+    if (!desktopServicesOpen && !desktopExpertiseOpen) return;
 
     const onPointerDown = (event: MouseEvent) => {
       if (!desktopNavRef.current?.contains(event.target as Node)) {
         setDesktopServicesOpen(false);
+        setDesktopExpertiseOpen(false);
       }
     };
 
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setDesktopServicesOpen(false);
+      if (event.key === "Escape") {
+        setDesktopServicesOpen(false);
+        setDesktopExpertiseOpen(false);
+      }
     };
 
     window.addEventListener("mousedown", onPointerDown);
@@ -72,9 +81,10 @@ const Header = () => {
       window.removeEventListener("mousedown", onPointerDown);
       window.removeEventListener("keydown", onKeyDown);
     };
-  }, [desktopServicesOpen]);
+  }, [desktopServicesOpen, desktopExpertiseOpen]);
 
-  const isActive = (path: string) => {
+  const isActive = (path: string, hash?: string) => {
+    if (hash) return location.pathname === path && location.hash === hash;
     if (path === "/") return location.pathname === "/";
     return location.pathname.startsWith(path);
   };
@@ -88,9 +98,13 @@ const Header = () => {
   const closeMobileMenu = () => {
     setMobileOpen(false);
     setMobileServicesOpen(false);
+    setMobileExpertiseOpen(false);
   };
 
-  const headerElevated = scrolled || desktopServicesOpen || mobileOpen;
+  const getLinkTarget = (path: string, hash?: string): To =>
+    hash ? { pathname: path, hash } : path;
+
+  const headerElevated = scrolled || desktopServicesOpen || desktopExpertiseOpen || mobileOpen;
 
   return (
     <header className="fixed left-0 right-0 top-0 z-50 transition-all duration-300">
@@ -122,52 +136,82 @@ const Header = () => {
             <nav
               ref={desktopNavRef}
               className="relative hidden items-center justify-self-center md:flex md:gap-10"
-              onMouseLeave={() => setDesktopServicesOpen(false)}
+              onMouseLeave={() => {
+                setDesktopServicesOpen(false);
+                setDesktopExpertiseOpen(false);
+              }}
             >
               {navLinks.map((link) =>
-                link.hasMenu ? (
+                link.disabled ? (
+                  <span
+                    key={link.label}
+                    className="relative py-2 text-sm font-medium text-muted-foreground/90"
+                  >
+                    {link.label}
+                  </span>
+                ) : link.menuType ? (
                   <button
                     key={link.path}
                     type="button"
-                    data-testid="desktop-services-trigger"
-                    aria-expanded={desktopServicesOpen}
-                    aria-controls="desktop-services-menu"
+                    data-testid={`desktop-${link.menuType}-trigger`}
+                    aria-expanded={link.menuType === "services" ? desktopServicesOpen : desktopExpertiseOpen}
+                    aria-controls={`desktop-${link.menuType}-menu`}
                     aria-haspopup="true"
                     className={cn(
                       "relative flex items-center gap-1.5 py-2 text-sm font-medium transition-colors duration-200 hover:text-foreground",
-                      isActive(link.path) || desktopServicesOpen
+                      isActive(link.path, link.hash) ||
+                        (link.menuType === "services" ? desktopServicesOpen : desktopExpertiseOpen)
                         ? "text-primary after:absolute after:-bottom-0.5 after:left-0 after:right-0 after:h-px after:bg-primary"
                         : "text-muted-foreground/90",
                     )}
                     onMouseEnter={() => {
                       prefetchRoute(link.path);
-                      setDesktopServicesOpen(true);
+                      if (link.menuType === "services") {
+                        setDesktopServicesOpen(true);
+                        setDesktopExpertiseOpen(false);
+                      } else {
+                        setDesktopExpertiseOpen(true);
+                        setDesktopServicesOpen(false);
+                      }
                     }}
                     onClick={() => {
                       prefetchRoute(link.path);
-                      setDesktopServicesOpen((prev) => !prev);
+                      if (link.menuType === "services") {
+                        setDesktopServicesOpen((prev) => !prev);
+                        setDesktopExpertiseOpen(false);
+                      } else {
+                        setDesktopExpertiseOpen((prev) => !prev);
+                        setDesktopServicesOpen(false);
+                      }
                     }}
                     onFocus={() => {
                       prefetchRoute(link.path);
-                      setDesktopServicesOpen(true);
+                      if (link.menuType === "services") {
+                        setDesktopServicesOpen(true);
+                        setDesktopExpertiseOpen(false);
+                      } else {
+                        setDesktopExpertiseOpen(true);
+                        setDesktopServicesOpen(false);
+                      }
                     }}
                   >
                     {link.label}
                     <ChevronDown
                       className={cn(
                         "h-4 w-4 transition-transform duration-200",
-                        desktopServicesOpen && "rotate-180",
+                        (link.menuType === "services" ? desktopServicesOpen : desktopExpertiseOpen) &&
+                          "rotate-180",
                       )}
                     />
                   </button>
                 ) : (
                   <Link
                     key={link.path}
-                    to={link.path}
+                    to={getLinkTarget(link.path, link.hash)}
                     {...getPrefetchHandlers(link.path)}
                     className={cn(
                       "relative py-2 text-sm font-medium transition-colors duration-200 hover:text-foreground",
-                      isActive(link.path)
+                      isActive(link.path, link.hash)
                         ? "text-primary after:absolute after:-bottom-0.5 after:left-0 after:right-0 after:h-px after:bg-primary"
                         : "text-muted-foreground/90",
                     )}
@@ -249,14 +293,45 @@ const Header = () => {
                   </div>
                 )}
               </AnimatePresence>
+
+              <AnimatePresence>
+                {desktopExpertiseOpen && (
+                  <div className="absolute left-1/2 top-full z-50 w-[min(320px,calc(100vw-3rem))] -translate-x-1/2 pt-5">
+                    <motion.div
+                      id="desktop-expertise-menu"
+                      data-testid="desktop-expertise-menu"
+                      initial={{ opacity: 0, y: 12, scale: 0.985 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: 12, scale: 0.985 }}
+                      transition={{ duration: 0.18, ease: "easeOut" }}
+                      className="relative overflow-hidden rounded-[24px] border border-white/[0.08] bg-[#070a10] p-3 shadow-[0_20px_48px_rgba(0,8,22,0.24)]"
+                    >
+                      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/14 to-transparent" />
+                      <div className="space-y-1">
+                        {expertisePages.map((item) => (
+                          <Link
+                            key={item.slug}
+                            to={`/expertise/${item.slug}`}
+                            onMouseEnter={() => prefetchRoute(`/expertise/${item.slug}`)}
+                            onFocus={() => prefetchRoute(`/expertise/${item.slug}`)}
+                            className="block rounded-xl px-3.5 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-white/[0.04] hover:text-primary"
+                          >
+                            {item.name}
+                          </Link>
+                        ))}
+                      </div>
+                    </motion.div>
+                  </div>
+                )}
+              </AnimatePresence>
             </nav>
 
             <div className="hidden justify-self-end md:block">
               <Button asChild className="gap-1.5 rounded-lg bg-primary px-4 py-2 text-sm text-primary-foreground shadow-[0_0_18px_rgba(51,204,153,0.12)] hover:bg-primary/90">
-              <Link to="/book-a-call" {...getPrefetchHandlers("/book-a-call")}>
-                Book a Strategy Call <ArrowUpRight className="h-4 w-4" />
-              </Link>
-            </Button>
+                <Link to="/offer/tracking-audit" {...getPrefetchHandlers("/offer/tracking-audit")}>
+                  Get a Free Growth Audit <ArrowUpRight className="h-4 w-4" />
+                </Link>
+              </Button>
             </div>
 
             <button
@@ -287,20 +362,34 @@ const Header = () => {
           >
             <nav className="container mx-auto flex flex-col gap-1 px-4 py-3">
               {navLinks.map((link) =>
-                link.hasMenu ? (
+                link.disabled ? (
+                  <div
+                    key={link.label}
+                    className="rounded-lg px-4 py-3 text-sm font-medium text-muted-foreground"
+                  >
+                    {link.label}
+                  </div>
+                ) : link.menuType ? (
                   <div key={link.path} className="rounded-xl border border-white/[0.06] bg-white/[0.02]">
                     <button
                       type="button"
-                      data-testid="mobile-services-trigger"
-                      aria-expanded={mobileServicesOpen}
-                      aria-controls="mobile-services-links"
+                      data-testid={`mobile-${link.menuType}-trigger`}
+                      aria-expanded={link.menuType === "services" ? mobileServicesOpen : mobileExpertiseOpen}
+                      aria-controls={`mobile-${link.menuType}-links`}
                       onClick={() => {
                         prefetchRoute(link.path);
-                        setMobileServicesOpen((prev) => !prev);
+                        if (link.menuType === "services") {
+                          setMobileServicesOpen((prev) => !prev);
+                          setMobileExpertiseOpen(false);
+                        } else {
+                          setMobileExpertiseOpen((prev) => !prev);
+                          setMobileServicesOpen(false);
+                        }
                       }}
                       className={cn(
                         "flex w-full items-center justify-between px-4 py-3 text-left text-sm font-medium transition-colors",
-                        isActive(link.path) || mobileServicesOpen
+                        isActive(link.path, link.hash) ||
+                          (link.menuType === "services" ? mobileServicesOpen : mobileExpertiseOpen)
                           ? "text-primary"
                           : "text-muted-foreground hover:text-foreground",
                       )}
@@ -309,15 +398,16 @@ const Header = () => {
                       <ChevronDown
                         className={cn(
                           "h-4 w-4 transition-transform duration-200",
-                          mobileServicesOpen && "rotate-180",
+                          (link.menuType === "services" ? mobileServicesOpen : mobileExpertiseOpen) &&
+                            "rotate-180",
                         )}
                       />
                     </button>
 
                     <AnimatePresence initial={false}>
-                      {mobileServicesOpen && (
+                      {(link.menuType === "services" ? mobileServicesOpen : mobileExpertiseOpen) && (
                         <motion.div
-                          id="mobile-services-links"
+                          id={`mobile-${link.menuType}-links`}
                           initial={{ height: 0, opacity: 0 }}
                           animate={{ height: "auto", opacity: 1 }}
                           exit={{ height: 0, opacity: 0 }}
@@ -325,55 +415,74 @@ const Header = () => {
                           className="overflow-hidden border-t border-white/[0.06]"
                         >
                           <div className="space-y-4 px-4 py-4">
-                            <Link
-                              to="/service"
-                              onClick={closeMobileMenu}
-                              onTouchStart={() => prefetchRoute("/service")}
-                              onFocus={() => prefetchRoute("/service")}
-                              className="inline-flex items-center gap-1.5 text-sm font-medium text-primary"
-                            >
-                              All Services <ArrowUpRight className="h-4 w-4" />
-                            </Link>
+                            {link.menuType === "services" ? (
+                              <>
+                                <Link
+                                  to="/service"
+                                  onClick={closeMobileMenu}
+                                  onTouchStart={() => prefetchRoute("/service")}
+                                  onFocus={() => prefetchRoute("/service")}
+                                  className="inline-flex items-center gap-1.5 text-sm font-medium text-primary"
+                                >
+                                  All Services <ArrowUpRight className="h-4 w-4" />
+                                </Link>
 
-                            <div>
-                              <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary/80">
-                                Core Services
-                              </p>
-                              <div className="mt-2 space-y-1">
-                                {primaryServices.map((service) => (
+                                <div>
+                                  <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary/80">
+                                    Core Services
+                                  </p>
+                                  <div className="mt-2 space-y-1">
+                                    {primaryServices.map((service) => (
+                                      <Link
+                                        key={service.path}
+                                        to={service.path}
+                                        onClick={closeMobileMenu}
+                                        onTouchStart={() => prefetchRoute(service.path)}
+                                        onFocus={() => prefetchRoute(service.path)}
+                                        className="block rounded-lg px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-white/[0.04] hover:text-foreground"
+                                      >
+                                        {service.title}
+                                      </Link>
+                                    ))}
+                                  </div>
+                                </div>
+
+                                <div>
+                                  <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary/80">
+                                    More Services
+                                  </p>
+                                  <div className="mt-2 space-y-1">
+                                    {supportingServices.map((service) => (
+                                      <Link
+                                        key={service.path}
+                                        to={service.path}
+                                        onClick={closeMobileMenu}
+                                        onTouchStart={() => prefetchRoute(service.path)}
+                                        onFocus={() => prefetchRoute(service.path)}
+                                        className="block rounded-lg px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-white/[0.04] hover:text-foreground"
+                                      >
+                                        {service.title}
+                                      </Link>
+                                    ))}
+                                  </div>
+                                </div>
+                              </>
+                            ) : (
+                              <div className="space-y-1">
+                                {expertisePages.map((item) => (
                                   <Link
-                                    key={service.path}
-                                    to={service.path}
+                                    key={item.slug}
+                                    to={`/expertise/${item.slug}`}
                                     onClick={closeMobileMenu}
-                                    onTouchStart={() => prefetchRoute(service.path)}
-                                    onFocus={() => prefetchRoute(service.path)}
+                                    onTouchStart={() => prefetchRoute(`/expertise/${item.slug}`)}
+                                    onFocus={() => prefetchRoute(`/expertise/${item.slug}`)}
                                     className="block rounded-lg px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-white/[0.04] hover:text-foreground"
                                   >
-                                    {service.title}
+                                    {item.name}
                                   </Link>
                                 ))}
                               </div>
-                            </div>
-
-                            <div>
-                              <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary/80">
-                                More Services
-                              </p>
-                              <div className="mt-2 space-y-1">
-                                {supportingServices.map((service) => (
-                                  <Link
-                                    key={service.path}
-                                    to={service.path}
-                                    onClick={closeMobileMenu}
-                                    onTouchStart={() => prefetchRoute(service.path)}
-                                    onFocus={() => prefetchRoute(service.path)}
-                                    className="block rounded-lg px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-white/[0.04] hover:text-foreground"
-                                  >
-                                    {service.title}
-                                  </Link>
-                                ))}
-                              </div>
-                            </div>
+                            )}
                           </div>
                         </motion.div>
                       )}
@@ -382,13 +491,13 @@ const Header = () => {
                 ) : (
                   <Link
                     key={link.path}
-                    to={link.path}
+                    to={getLinkTarget(link.path, link.hash)}
                     onClick={() => setMobileOpen(false)}
                     onTouchStart={() => prefetchRoute(link.path)}
                     onFocus={() => prefetchRoute(link.path)}
                     className={cn(
                       "rounded-lg px-4 py-3 text-sm font-medium transition-colors",
-                      isActive(link.path)
+                      isActive(link.path, link.hash)
                         ? "bg-primary/[0.08] text-primary"
                         : "text-muted-foreground hover:bg-white/[0.04] hover:text-foreground",
                     )}
@@ -399,12 +508,12 @@ const Header = () => {
               )}
               <Button asChild className="mt-2 gap-1.5 rounded-lg bg-primary text-primary-foreground">
                 <Link
-                  to="/book-a-call"
+                  to="/offer/tracking-audit"
                   onClick={closeMobileMenu}
-                  onTouchStart={() => prefetchRoute("/book-a-call")}
-                  onFocus={() => prefetchRoute("/book-a-call")}
+                  onTouchStart={() => prefetchRoute("/offer/tracking-audit")}
+                  onFocus={() => prefetchRoute("/offer/tracking-audit")}
                 >
-                  Book a Strategy Call <ArrowUpRight className="h-4 w-4" />
+                  Get a Free Growth Audit <ArrowUpRight className="h-4 w-4" />
                 </Link>
               </Button>
             </nav>
