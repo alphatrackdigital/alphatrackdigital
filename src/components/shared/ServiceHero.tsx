@@ -114,7 +114,7 @@ const ServiceHero = ({
               title={title}
               description={description}
               width={bodyWidth === "wide" ? "wide" : "default"}
-              titleClassName="text-4xl font-extrabold leading-tight md:text-5xl lg:text-6xl"
+              titleClassName="text-4xl font-extrabold leading-[1.12] md:text-5xl lg:text-6xl"
               descriptionClassName={cn(
                 "mt-6 text-lg leading-relaxed",
                 bodyWidth === "wide" ? "max-w-2xl" : "max-w-xl",

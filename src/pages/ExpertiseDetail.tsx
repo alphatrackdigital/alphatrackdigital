@@ -177,8 +177,8 @@ const ExpertiseDetail = () => {
             <span className="text-gradient">{expertise.name}</span>?
           </>
         }
-        description="Request a free growth audit and we will show you the clearest next step across tracking, paid media, and automation."
-        primaryCta={{ label: "Get a Free Growth Audit", to: "/offer/tracking-audit" }}
+        description="Book a free strategy call and we will show you the clearest next step across tracking, paid media, and automation."
+        primaryCta={{ label: "Book a Free Strategy Call", to: "/book-a-call" }}
         secondaryCta={{ label: "Explore Services", to: "/service" }}
         variant="service-close"
       />

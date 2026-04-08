@@ -1,4 +1,5 @@
 import { expertisePages } from "@/data/expertise";
+import { supportingServices } from "@/data/services";
 
 type RouteImporter = () => Promise<unknown>;
 
@@ -40,6 +41,10 @@ const routePrefetchMap: Record<string, RouteImporter[]> = {
 
 expertisePages.forEach((item) => {
   routePrefetchMap[`/expertise/${item.slug}`] = [routeImporters.expertiseDetail];
+});
+
+supportingServices.forEach((service) => {
+  routePrefetchMap[service.path] = [routeImporters.serviceDetail];
 });
 
 export { routeImporters };

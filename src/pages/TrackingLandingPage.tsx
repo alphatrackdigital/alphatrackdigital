@@ -90,7 +90,7 @@ const offerCards: OfferCard[] = [
       "GA4 and ad platform implementation",
       "QA before go-live",
       "Documentation and handover",
-      "Discount applied to published setup tiers",
+      "Discount applied to the full tracking implementation",
     ],
   },
 ];

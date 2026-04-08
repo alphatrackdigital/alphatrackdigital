@@ -252,9 +252,9 @@ const Index = () => {
         }}
       />
 
-      <section className="relative flex min-h-[64vh] items-start overflow-hidden md:min-h-[80vh]">
+      <section className="relative z-0 flex min-h-[64vh] items-start overflow-visible md:min-h-[80vh] md:overflow-hidden">
         <div className="absolute inset-0 pointer-events-none bg-[#050812]" />
-        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none overflow-visible md:overflow-hidden">
           <div
             className="absolute inset-0 opacity-[0.028]"
             style={{
@@ -266,86 +266,120 @@ const Index = () => {
             }}
           />
           <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(5,8,18,0.08)_0%,rgba(5,8,18,0.22)_52%,rgba(5,8,18,0.82)_100%)]" />
-          <div className="absolute left-1/2 top-[16%] h-[20rem] w-[24rem] -translate-x-1/2 rounded-full bg-[#050812]/88 blur-[96px] md:top-[18%] md:h-[26rem] md:w-[42rem] md:blur-[128px]" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(8,17,39,0)_0%,rgba(5,8,18,0.05)_44%,rgba(4,7,16,0.36)_76%,rgba(2,4,10,0.78)_100%)]" />
+          <div className="absolute left-1/2 top-[17%] h-[17rem] w-[20rem] -translate-x-1/2 rounded-full bg-[radial-gradient(circle_at_center,rgba(28,182,244,0.22)_0%,rgba(68,211,154,0.12)_38%,rgba(10,70,201,0.09)_58%,transparent_76%)] blur-[82px] md:top-[18%] md:h-[22rem] md:w-[36rem] md:blur-[108px]" />
+          <div className="absolute left-1/2 top-[16%] h-[20rem] w-[24rem] -translate-x-1/2 rounded-full bg-[#050812]/82 blur-[100px] md:top-[18%] md:h-[26rem] md:w-[42rem] md:blur-[132px]" />
+          <div className="absolute left-1/2 top-[18%] h-[18rem] w-[22rem] -translate-x-1/2 rounded-full bg-[radial-gradient(circle_at_center,rgba(28,182,244,0.14)_0%,rgba(68,211,154,0.08)_42%,transparent_72%)] blur-[92px] md:top-[20%] md:h-[24rem] md:w-[40rem] md:blur-[124px]" />
           <div className="absolute -left-[16%] bottom-[-8%] h-[18rem] w-[18rem] rounded-full bg-[#1a67ff]/[0.18] blur-[96px] md:h-[24rem] md:w-[24rem] md:blur-[126px]" />
           <div className="absolute left-[6%] bottom-[18%] h-28 w-28 rounded-full bg-secondary/[0.15] blur-[72px] md:h-40 md:w-40 md:blur-[94px]" />
+          <div className="absolute -left-[6%] bottom-[12%] h-24 w-32 rounded-full bg-[radial-gradient(circle_at_center,rgba(10,70,201,0.16)_0%,rgba(28,182,244,0.08)_42%,transparent_74%)] blur-[52px] md:h-36 md:w-48 md:blur-[72px]" />
+          <div className="absolute right-[1%] top-[57%] h-24 w-24 rounded-full bg-[radial-gradient(circle_at_center,rgba(68,211,154,0.18)_0%,rgba(28,182,244,0.13)_34%,rgba(10,70,201,0.06)_58%,transparent_76%)] blur-[50px] md:right-[5%] md:top-[42%] md:h-32 md:w-32 md:blur-[70px]" />
           <div className="absolute right-[-6%] top-[18%] h-[14rem] w-[10rem] rotate-[18deg] bg-[radial-gradient(circle_at_center,rgba(17,125,255,0.32),transparent_62%)] blur-[72px] md:h-[21rem] md:w-[14rem] md:blur-[96px]" />
           <svg
             viewBox="0 0 1600 760"
             aria-hidden="true"
-            className="absolute inset-x-[-10%] bottom-[-22%] h-[74%] w-[120%] opacity-90 md:bottom-[-20%] md:h-[86%]"
+            className="absolute inset-x-[-4%] bottom-[-22%] h-[86%] w-[114%] origin-bottom rotate-[8deg] opacity-90 md:inset-x-[-13%] md:bottom-[-14%] md:h-[92%] md:w-[126%] md:rotate-[7deg]"
           >
             <defs>
               <linearGradient id="hero-arc-main" x1="0%" y1="100%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor="rgba(0,113,255,0)" />
-                <stop offset="18%" stopColor="rgba(34,112,255,0.92)" />
-                <stop offset="52%" stopColor="rgba(0,214,255,0.88)" />
-                <stop offset="100%" stopColor="rgba(0,214,255,0)" />
+                <stop offset="0%" stopColor="#0A46C9" stopOpacity="0" />
+                <stop offset="6%" stopColor="#0A46C9" stopOpacity="0.94" />
+                <stop offset="48%" stopColor="#1CB6F4" stopOpacity="0.92" />
+                <stop offset="84%" stopColor="#44D39A" stopOpacity="0.9" />
+                <stop offset="100%" stopColor="#44D39A" stopOpacity="0" />
               </linearGradient>
               <linearGradient id="hero-arc-soft" x1="8%" y1="100%" x2="100%" y2="12%">
-                <stop offset="0%" stopColor="rgba(0,113,255,0)" />
-                <stop offset="22%" stopColor="rgba(24,126,255,0.28)" />
-                <stop offset="72%" stopColor="rgba(51,204,153,0.18)" />
-                <stop offset="100%" stopColor="rgba(51,204,153,0)" />
+                <stop offset="0%" stopColor="#0A46C9" stopOpacity="0" />
+                <stop offset="9%" stopColor="#0A46C9" stopOpacity="0.34" />
+                <stop offset="50%" stopColor="#1CB6F4" stopOpacity="0.28" />
+                <stop offset="82%" stopColor="#44D39A" stopOpacity="0.22" />
+                <stop offset="100%" stopColor="#44D39A" stopOpacity="0" />
               </linearGradient>
               <linearGradient id="hero-arc-glow" x1="0%" y1="100%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor="rgba(0,113,255,0)" />
-                <stop offset="24%" stopColor="rgba(44,126,255,0.38)" />
-                <stop offset="58%" stopColor="rgba(0,214,255,0.26)" />
-                <stop offset="100%" stopColor="rgba(0,214,255,0)" />
+                <stop offset="0%" stopColor="#0A46C9" stopOpacity="0" />
+                <stop offset="9%" stopColor="#0A46C9" stopOpacity="0.42" />
+                <stop offset="52%" stopColor="#1CB6F4" stopOpacity="0.3" />
+                <stop offset="84%" stopColor="#44D39A" stopOpacity="0.26" />
+                <stop offset="100%" stopColor="#44D39A" stopOpacity="0" />
               </linearGradient>
             </defs>
             <path
-              d="M-170 720 C 120 370, 520 860, 880 650 S 1310 300, 1690 120"
+              d="M-220 724 C -136 708, -44 708, 46 728 C 126 746, 206 774, 294 784 C 366 792, 434 782, 500 746"
+              fill="none"
+              stroke="url(#hero-arc-soft)"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              opacity="0.18"
+            />
+            <path
+              d="M-210 706 C -34 688, 86 696, 214 722 C 346 748, 468 792, 610 776 C 738 762, 862 682, 1004 560 C 1168 418, 1322 308, 1490 210 C 1568 164, 1632 130, 1688 110"
               fill="none"
               stroke="url(#hero-arc-glow)"
               strokeWidth="28"
               strokeLinecap="round"
-              opacity="0.28"
+              opacity="0.24"
             />
             <path
-              d="M-170 720 C 120 370, 520 860, 880 650 S 1310 300, 1690 120"
+              d="M-210 706 C -34 688, 86 696, 214 722 C 346 748, 468 792, 610 776 C 738 762, 862 682, 1004 560 C 1168 418, 1322 308, 1490 210 C 1568 164, 1632 130, 1688 110"
               fill="none"
               stroke="url(#hero-arc-main)"
               strokeWidth="4.5"
               strokeLinecap="round"
             />
             <path
-              d="M-50 744 C 210 470, 575 864, 942 695 S 1350 420, 1660 220"
+              d="M-182 730 C -6 714, 112 724, 246 744 C 386 766, 518 798, 660 788 C 798 778, 930 710, 1072 608 C 1228 494, 1374 386, 1518 300 C 1606 248, 1678 208, 1730 176"
               fill="none"
               stroke="url(#hero-arc-soft)"
               strokeWidth="1.8"
               strokeLinecap="round"
-              opacity="0.82"
+              opacity="0.74"
             />
             <path
-              d="M-5 754 C 260 520, 610 876, 992 722 S 1380 500, 1598 350"
+              d="M-82 690 C 24 684, 118 694, 212 714 C 308 736, 396 758, 492 760 C 580 760, 664 736, 748 692"
               fill="none"
               stroke="url(#hero-arc-soft)"
               strokeWidth="1.1"
               strokeLinecap="round"
               strokeDasharray="2 10"
-              opacity="0.34"
+              opacity="0.42"
+            />
+            <path
+              d="M1606 244 L1688 110"
+              fill="none"
+              stroke="url(#hero-arc-glow)"
+              strokeWidth="16"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              opacity="0.12"
+            />
+            <path
+              d="M1606 244 L1688 110"
+              fill="none"
+              stroke="url(#hero-arc-main)"
+              strokeWidth="4.2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              opacity="0.88"
             />
           </svg>
-          <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-b from-transparent via-[#050812]/48 to-[#050812]" />
+          <div className="absolute inset-x-0 bottom-0 h-40 bg-[linear-gradient(180deg,rgba(5,8,18,0)_0%,rgba(5,8,18,0.16)_26%,rgba(5,8,18,0.68)_74%,rgba(5,8,18,0.96)_100%)] md:h-44" />
           <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
           <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-primary/16 to-transparent" />
         </div>
 
-        <div className="container relative mx-auto px-4 pb-4 pt-24 md:pb-10 md:pt-32 lg:px-8">
+        <div className="container relative mx-auto px-4 pb-4 pt-20 sm:pt-24 md:pb-10 md:pt-32 lg:px-8">
           <motion.div
             initial={shouldReduceMotion ? false : { opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: shouldReduceMotion ? 0 : 0.6 }}
             className="mx-auto max-w-[54rem] text-center"
           >
-            <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-primary/25 bg-primary/[0.08] px-3.5 py-1 shadow-[0_0_16px_rgba(51,204,153,0.08)] md:mb-6 md:gap-2.5 md:px-4 md:py-1.5">
-              <span className="relative flex h-2 w-2">
+            <div className="mb-6 inline-flex items-center gap-1.5 rounded-full border border-primary/25 bg-primary/[0.08] px-3 py-0.5 shadow-[0_0_16px_rgba(51,204,153,0.08)] sm:mb-6 sm:gap-2 sm:px-3.5 sm:py-1 md:mb-6 md:gap-2.5 md:px-4 md:py-1.5">
+              <span className="relative flex h-1.5 w-1.5 sm:h-2 sm:w-2">
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-60" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-primary" />
+                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-primary sm:h-2 sm:w-2" />
               </span>
-              <span className="text-[12.5px] font-medium text-primary md:text-sm">{companyProfile.heroEyebrow}</span>
+              <span className="text-[11px] font-medium text-primary sm:text-[12.5px] md:text-sm">{companyProfile.heroEyebrow}</span>
             </div>
 
             <h1 className="mx-auto max-w-4xl text-[2.12rem] font-bold leading-[0.98] tracking-tight sm:text-[2.95rem] md:text-[4.05rem] lg:text-[4.95rem] xl:text-[5.3rem]">
@@ -355,7 +389,7 @@ const Index = () => {
               </span>
             </h1>
 
-            <p className="mx-auto mt-5 max-w-[21.5rem] text-[14px] leading-[1.9] text-muted-foreground sm:max-w-[31rem] sm:text-[15px] sm:leading-7 md:mt-6 md:max-w-[41rem] md:text-[18px] md:leading-8">
+            <p className="mx-auto mt-5 max-w-[21.5rem] text-[13px] leading-[1.9] text-muted-foreground sm:max-w-[31rem] sm:text-[14px] sm:leading-7 md:mt-6 md:max-w-[41rem] md:text-[18px] md:leading-8">
               We build the measurement, automation, and paid media systems that turn your
               marketing budget into measurable revenue. So you can see what&apos;s working,{" "}
               <span className="whitespace-nowrap">fix what isn&apos;t</span>, and scale with
@@ -390,9 +424,11 @@ const Index = () => {
 
       <section
         data-testid="proof-strip-section"
-        className="relative overflow-hidden border-t border-white/[0.08] py-4 md:py-8"
+        className="relative z-10 overflow-hidden border-t border-white/[0.08] bg-[#050812]/92 py-4 backdrop-blur-[2px] md:py-8"
       >
         <div className="pointer-events-none absolute inset-0">
+          <div className="absolute inset-x-0 top-0 h-20 bg-[linear-gradient(180deg,rgba(5,8,18,0.98)_0%,rgba(5,8,18,0.88)_42%,rgba(5,8,18,0)_100%)]" />
+          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(5,8,18,0.92)_0%,rgba(5,8,18,0.84)_18%,rgba(5,8,18,0.9)_100%)]" />
           <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/28 to-transparent" />
           <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
           <div className="absolute left-[18%] top-1/2 h-36 w-36 -translate-y-1/2 rounded-full bg-primary/[0.02] blur-[90px]" />
@@ -1078,8 +1114,8 @@ const Index = () => {
             Exactly What&apos;s Driving Your <span className="text-gradient">Growth</span>?
           </>
         }
-        description="Request a free growth audit and we&apos;ll show you exactly where the gaps are."
-        primaryCta={{ label: "Get a Free Growth Audit", to: "/offer/tracking-audit" }}
+        description="Book a free 15-minute strategy call. We will review your setup, share what we see, and give you a clear next step."
+        primaryCta={{ label: "Book a Free Strategy Call", to: "/book-a-call" }}
         secondaryCta={{ label: "Explore Services", to: "/service" }}
         variant="hero-close"
       />

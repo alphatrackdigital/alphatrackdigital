@@ -5,6 +5,7 @@ export interface LeadCapturePayload {
   firstName: string;
   lastName: string;
   email: string;
+  optIn?: boolean;
   company?: string;
   message?: string;
   websiteUrl?: string;
@@ -12,7 +13,6 @@ export interface LeadCapturePayload {
   adPlatforms?: string;
   serviceInterest?: string[];
   monthlyBudget?: string;
-  preferredCallTime?: string;
 }
 
 export interface LeadSubmissionResult {

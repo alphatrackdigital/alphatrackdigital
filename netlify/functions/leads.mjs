@@ -1,64 +1,69 @@
-type LeadSource = "contact_form" | "tracking_audit_offer";
-
-interface LeadPayload {
-  source: LeadSource;
-  firstName: string;
-  lastName: string;
-  email: string;
-  optIn?: boolean;
-  company?: string;
-  message?: string;
-  websiteUrl?: string;
-  monthlyAdSpend?: string;
-  adPlatforms?: string;
-  serviceInterest?: string[];
-  monthlyBudget?: string;
-}
-
-interface Req {
-  method?: string;
-  body?: LeadPayload;
-  headers: Record<string, string | string[] | undefined>;
-  socket?: { remoteAddress?: string };
-}
-
-interface Res {
-  status: (code: number) => Res;
-  json: (payload: unknown) => void;
-  setHeader: (name: string, value: string) => void;
-}
-
 const RATE_LIMIT_WINDOW_MS = 60_000;
 const RATE_LIMIT_MAX_REQUESTS = 8;
-const requestBuckets = new Map<string, { count: number; windowStart: number }>();
 
-const isValidLeadPayload = (payload: unknown): payload is LeadPayload => {
+const requestBuckets = globalThis.__atdLeadRequestBuckets ?? new Map();
+globalThis.__atdLeadRequestBuckets = requestBuckets;
+
+const json = (payload, init = {}) =>
+  new Response(JSON.stringify(payload), {
+    status: init.status ?? 200,
+    headers: {
+      "content-type": "application/json",
+      "cache-control": "no-store",
+      ...(init.headers ?? {}),
+    },
+  });
+
+const getEnv = (name) => {
+  if (globalThis.Netlify?.env?.get) {
+    return globalThis.Netlify.env.get(name);
+  }
+
+  if (typeof process !== "undefined") {
+    return process.env[name];
+  }
+
+  return undefined;
+};
+
+const isValidLeadPayload = (payload) => {
   if (!payload || typeof payload !== "object") return false;
-  const data = payload as Record<string, unknown>;
+
+  const data = payload;
+
   if (data.source !== "contact_form" && data.source !== "tracking_audit_offer") return false;
   if (typeof data.firstName !== "string" || !data.firstName.trim()) return false;
   if (typeof data.lastName !== "string" || !data.lastName.trim()) return false;
   if (typeof data.email !== "string" || !data.email.trim()) return false;
+
   if (data.source === "contact_form") {
     if (!Array.isArray(data.serviceInterest) || data.serviceInterest.length === 0) return false;
     if (data.optIn !== true) return false;
   }
+
   if (data.source === "tracking_audit_offer") {
     if (typeof data.websiteUrl !== "string" || !data.websiteUrl.trim()) return false;
     if (typeof data.monthlyAdSpend !== "string" || !data.monthlyAdSpend.trim()) return false;
     if (typeof data.adPlatforms !== "string" || !data.adPlatforms.trim()) return false;
   }
+
   return true;
 };
 
-const getClientIp = (req: Req) => {
-  const forwarded = req.headers["x-forwarded-for"];
-  if (Array.isArray(forwarded)) return forwarded[0] || "unknown";
-  if (typeof forwarded === "string") return forwarded.split(",")[0].trim();
-  return req.socket?.remoteAddress || "unknown";
+const getClientIp = (request) => {
+  const directIp = request.headers.get("x-nf-client-connection-ip");
+  if (directIp) return directIp;
+
+  const forwarded = request.headers.get("x-forwarded-for");
+  if (forwarded) return forwarded.split(",")[0].trim();
+
+  const realIp = request.headers.get("client-ip");
+  if (realIp) return realIp;
+
+  return "unknown";
 };
 
-const isRateLimited = (key: string) => {
+const isRateLimited = (key) => {
   const now = Date.now();
   const existing = requestBuckets.get(key);
 
@@ -72,7 +77,7 @@ const isRateLimited = (key: string) => {
   return existing.count > RATE_LIMIT_MAX_REQUESTS;
 };
 
-const buildMessageAttribute = (data: LeadPayload) => {
+const buildMessageAttribute = (data) => {
   const baseMessage = data.message?.trim() || "";
 
   if (data.source !== "contact_form") {
@@ -83,16 +88,13 @@ const buildMessageAttribute = (data: LeadPayload) => {
   return baseMessage ? `${baseMessage}\n\n${consentNote}` : consentNote;
 };
 
-const withConsentAttributes = (
-  attributes: Record<string, string>,
-  data: LeadPayload,
-) => {
+const withConsentAttributes = (attributes, data) => {
   if (data.source !== "contact_form") {
     return attributes;
   }
 
-  const consentAttribute = process.env.BREVO_CONSENT_ATTRIBUTE?.trim();
-  const consentTimestampAttribute = process.env.BREVO_CONSENT_TIMESTAMP_ATTRIBUTE?.trim();
+  const consentAttribute = getEnv("BREVO_CONSENT_ATTRIBUTE")?.trim();
+  const consentTimestampAttribute = getEnv("BREVO_CONSENT_TIMESTAMP_ATTRIBUTE")?.trim();
 
   if (consentAttribute) {
     attributes[consentAttribute] = "Yes";
@@ -105,7 +107,7 @@ const withConsentAttributes = (
   return attributes;
 };
 
-const toBrevoPayload = (data: LeadPayload, listId: number) => ({
+const toBrevoPayload = (data, listId) => ({
   email: data.email,
   attributes: withConsentAttributes({
     FIRSTNAME: data.firstName,
@@ -123,30 +125,52 @@ const toBrevoPayload = (data: LeadPayload, listId: number) => ({
   updateEnabled: true,
 });
 
-const handler = async (req: Req, res: Res) => {
-  res.setHeader("Content-Type", "application/json");
-  res.setHeader("Cache-Control", "no-store");
-
-  if (req.method !== "POST") {
-    return res.status(405).json({ ok: false, message: "Method not allowed" });
+export default async (request) => {
+  if (request.method === "OPTIONS") {
+    return new Response(null, {
+      status: 204,
+      headers: {
+        allow: "POST, OPTIONS",
+        "cache-control": "no-store",
+      },
+    });
   }
 
-  const ip = getClientIp(req);
-  if (isRateLimited(ip)) {
-    return res.status(429).json({ ok: false, message: "Too many requests. Please try again shortly." });
+  if (request.method !== "POST") {
+    return json(
+      { ok: false, message: "Method not allowed" },
+      {
+        status: 405,
+        headers: { allow: "POST, OPTIONS" },
+      },
+    );
   }
 
-  const payload = req.body;
+  const clientIp = getClientIp(request);
+  if (isRateLimited(clientIp)) {
+    return json(
+      { ok: false, message: "Too many requests. Please try again shortly." },
+      { status: 429 },
+    );
+  }
+
+  let payload;
+  try {
+    payload = await request.json();
+  } catch {
+    return json({ ok: false, message: "Invalid JSON payload." }, { status: 400 });
+  }
+
   if (!isValidLeadPayload(payload)) {
-    return res.status(400).json({ ok: false, message: "Invalid submission payload." });
+    return json({ ok: false, message: "Invalid submission payload." }, { status: 400 });
   }
 
-  const brevoApiKey = process.env.BREVO_API_KEY;
-  const contactListId = Number(process.env.BREVO_CONTACT_LIST_ID || "2");
-  const auditListId = Number(process.env.BREVO_AUDIT_LIST_ID || "3");
+  const brevoApiKey = getEnv("BREVO_API_KEY");
+  const contactListId = Number(getEnv("BREVO_CONTACT_LIST_ID") || "2");
+  const auditListId = Number(getEnv("BREVO_AUDIT_LIST_ID") || "3");
 
   if (!brevoApiKey) {
-    return res.status(500).json({ ok: false, message: "Lead service is not configured." });
+    return json({ ok: false, message: "Lead service is not configured." }, { status: 500 });
   }
 
   const listId = payload.source === "contact_form" ? contactListId : auditListId;
@@ -155,7 +179,7 @@ const handler = async (req: Req, res: Res) => {
     const brevoResponse = await fetch("https://api.brevo.com/v3/contacts", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
+        "content-type": "application/json",
         "api-key": brevoApiKey,
       },
       body: JSON.stringify(toBrevoPayload(payload, listId)),
@@ -163,16 +187,17 @@ const handler = async (req: Req, res: Res) => {
 
     if (!brevoResponse.ok) {
       const errorText = await brevoResponse.text();
-      return res.status(502).json({
-        ok: false,
-        message: `Failed to submit lead to provider. ${errorText.slice(0, 180)}`,
-      });
+      return json(
+        {
+          ok: false,
+          message: `Failed to submit lead to provider. ${errorText.slice(0, 180)}`,
+        },
+        { status: 502 },
+      );
     }
 
-    return res.status(200).json({ ok: true });
+    return json({ ok: true });
   } catch {
-    return res.status(500).json({ ok: false, message: "Unable to submit lead right now." });
+    return json({ ok: false, message: "Unable to submit lead right now." }, { status: 500 });
   }
 };
-
-export default handler;

@@ -14,6 +14,8 @@ interface CTASectionProps {
   variant?: "hero-close" | "inline-proof" | "service-close";
   proofChips?: string[];
   layout?: "centered" | "split";
+  titleClassName?: string;
+  descriptionClassName?: string;
 }
 
 const CTASection = ({
@@ -22,14 +24,18 @@ const CTASection = ({
       Ready to Accelerate Your <span className="text-gradient">Growth</span>?
     </>
   ),
-  description = "Request a free growth audit and see where your tracking, media, or automation setup needs attention first.",
-  primaryCta = { label: "Get a Free Growth Audit", to: "/offer/tracking-audit" },
-  secondaryCta = { label: "Explore Services", to: "/service" },
+  description = "Book a free 15-minute strategy call and walk away with at least one clear insight, even if we never work together.",
+  primaryCta = { label: "Book a Free Strategy Call", to: "/book-a-call" },
+  secondaryCta,
   variant = "hero-close",
   proofChips,
   layout = "centered",
+  titleClassName,
+  descriptionClassName,
 }: CTASectionProps) => {
   const containerIsSplit = layout === "split";
+  const resolvedSecondaryCta =
+    secondaryCta ?? (variant === "hero-close" ? { label: "Explore Services", to: "/service" } : undefined);
 
   return (
     <section
@@ -57,8 +63,9 @@ const CTASection = ({
         <div
           className={cn(
             "rounded-[28px] border border-white/10 bg-white/[0.02]",
+            variant === "service-close" && "mx-auto max-w-[66rem]",
             variant === "hero-close" && "px-6 py-9 md:px-10 md:py-10",
-            variant === "service-close" && "px-6 py-10 md:px-8",
+            variant === "service-close" && "px-6 py-10 md:px-9",
             variant === "inline-proof" && "px-6 py-8 md:px-8",
           )}
         >
@@ -73,7 +80,7 @@ const CTASection = ({
             <SectionIntro
               eyebrow={variant === "service-close" ? "Next Step" : undefined}
               title={title}
-              description={description}
+              description={variant === "service-close" && !resolvedSecondaryCta ? undefined : description}
               align={containerIsSplit ? "left" : "center"}
               width={variant === "hero-close" ? "wide" : "default"}
               className={cn(
@@ -83,21 +90,27 @@ const CTASection = ({
               )}
               titleClassName={cn(
                 variant === "hero-close" &&
-                  "mx-auto max-w-[31rem] text-[1.8rem] leading-[1.05] tracking-[-0.02em] md:max-w-[36rem] md:text-[2.15rem] lg:text-[2.45rem]",
+                  "mx-auto max-w-[31rem] text-[1.8rem] leading-[1.1] tracking-[-0.02em] md:max-w-[36rem] md:text-[2.15rem] lg:text-[2.45rem]",
                 variant === "inline-proof" && "text-2xl md:text-3xl",
-                variant === "service-close" && "text-3xl md:text-[2.1rem]",
+                variant === "service-close" && "text-3xl leading-[1.12] md:text-[2.1rem]",
+                titleClassName,
               )}
               descriptionClassName={cn(
                 variant === "hero-close" && "mx-auto mt-8 max-w-[44rem] text-sm leading-7 md:mt-8 md:text-[15px]",
                 variant === "inline-proof" && "max-w-xl text-sm",
                 variant === "service-close" && "max-w-xl",
+                descriptionClassName,
               )}
             />
 
             <div
               className={cn(
                 "flex w-full flex-col gap-6",
-                containerIsSplit ? "lg:max-w-md lg:items-end" : "items-center",
+                containerIsSplit
+                  ? resolvedSecondaryCta
+                    ? "lg:max-w-md lg:items-end"
+                    : "lg:max-w-[17.5rem] lg:items-start"
+                  : "items-center",
               )}
             >
               <div className="flex flex-col items-center gap-3.5 sm:flex-row">
@@ -113,15 +126,15 @@ const CTASection = ({
                     {primaryCta.label} <ArrowUpRight className="h-4 w-4" />
                   </Link>
                 </Button>
-                {secondaryCta && (
+                {resolvedSecondaryCta && (
                   <Button
                     asChild
                     variant="outline"
                     size="lg"
                     className="gap-1.5 rounded-xl border-white/20 hover:bg-white/5"
                   >
-                    <Link to={secondaryCta.to}>
-                      {secondaryCta.label} <ArrowUpRight className="h-4 w-4" />
+                    <Link to={resolvedSecondaryCta.to}>
+                      {resolvedSecondaryCta.label} <ArrowUpRight className="h-4 w-4" />
                     </Link>
                   </Button>
                 )}

@@ -36,6 +36,17 @@ npm i
 npm run dev
 ```
 
+## UI Targeting With Playwright
+
+This repo includes a Playwright setup for visually picking UI targets and reusing those locators in Codex prompts.
+
+```sh
+npm run playwright:install
+npm run test:e2e
+```
+
+For the full workflow, see [docs/playwright-ui-targeting.md](./docs/playwright-ui-targeting.md).
+
 **Edit a file directly in GitHub**
 
 - Navigate to the desired file(s).

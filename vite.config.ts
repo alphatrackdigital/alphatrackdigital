@@ -11,11 +11,14 @@ interface LeadPayload {
   firstName: string;
   lastName: string;
   email: string;
+  optIn?: boolean;
   company?: string;
   message?: string;
   websiteUrl?: string;
   monthlyAdSpend?: string;
   adPlatforms?: string;
+  serviceInterest?: string[];
+  monthlyBudget?: string;
 }
 
 const readRequestBody = async (req: IncomingMessage) => {
@@ -33,7 +36,51 @@ const isLeadPayload = (payload: unknown): payload is LeadPayload => {
   if (typeof data.firstName !== "string" || !data.firstName.trim()) return false;
   if (typeof data.lastName !== "string" || !data.lastName.trim()) return false;
   if (typeof data.email !== "string" || !data.email.trim()) return false;
+  if (data.source === "contact_form" && (!Array.isArray(data.serviceInterest) || data.serviceInterest.length === 0)) {
+    return false;
+  }
+  if (data.source === "contact_form" && data.optIn !== true) {
+    return false;
+  }
   return true;
+};
+
+const buildMessageAttribute = (payload: LeadPayload) => {
+  const baseMessage = payload.message?.trim() || "";
+
+  if (payload.source !== "contact_form") {
+    return baseMessage;
+  }
+
+  const consentNote = `Contact consent confirmed on ${new Date().toISOString()}`;
+  return baseMessage ? `${baseMessage}\n\n${consentNote}` : consentNote;
+};
+
+const withConsentAttributes = (
+  attributes: Record<string, string>,
+  env: Record<string, string>,
+  payload: LeadPayload,
+) => {
+  if (payload.source !== "contact_form") {
+    return attributes;
+  }
+
+  const consentAttribute = (env.BREVO_CONSENT_ATTRIBUTE || process.env.BREVO_CONSENT_ATTRIBUTE || "").trim();
+  const consentTimestampAttribute = (
+    env.BREVO_CONSENT_TIMESTAMP_ATTRIBUTE ||
+    process.env.BREVO_CONSENT_TIMESTAMP_ATTRIBUTE ||
+    ""
+  ).trim();
+
+  if (consentAttribute) {
+    attributes[consentAttribute] = "Yes";
+  }
+
+  if (consentTimestampAttribute) {
+    attributes[consentTimestampAttribute] = new Date().toISOString();
+  }
+
+  return attributes;
 };
 
 const leadsProxyPlugin = (env: Record<string, string>) => ({
@@ -86,16 +133,20 @@ const leadsProxyPlugin = (env: Record<string, string>) => ({
           },
           body: JSON.stringify({
             email: payload.email,
-            attributes: {
+            attributes: withConsentAttributes({
               FIRSTNAME: payload.firstName,
               LASTNAME: payload.lastName,
               COMPANY: payload.company || "",
-              MESSAGE: payload.message || "",
+              MESSAGE: buildMessageAttribute(payload),
               WEBSITE: payload.websiteUrl || "",
               AD_SPEND: payload.monthlyAdSpend || "",
               AD_PLATFORMS: payload.adPlatforms || "",
               SOURCE: payload.source === "contact_form" ? "Contact Form" : "Tracking Audit Landing Page",
-            },
+              SERVICE_INTEREST: Array.isArray(payload.serviceInterest)
+                ? payload.serviceInterest.join(", ")
+                : "",
+              MONTHLY_BUDGET: payload.monthlyBudget || "",
+            }, env, payload),
             listIds: [listId],
             updateEnabled: true,
           }),

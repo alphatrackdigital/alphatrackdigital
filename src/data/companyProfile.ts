@@ -1,12 +1,12 @@
 export const companyProfile = {
-  heroEyebrow: "Measurement-first digital growth agency",
+  heroEyebrow: "Measurement-First Digital Growth Agency",
   heroTitle: "Helping brands grow with data-driven marketing and growth systems.",
   shortDescription:
     "AlphaTrack Digital is a growth-focused marketing agency helping brands attract, convert, and scale through performance marketing, creative strategy, and marketing automation.",
   longDescription:
     "We combine data, creativity, and technology to help businesses attract the right audience, improve performance, and scale with confidence.",
   founderNote:
-    "At AlphaTrack Digital, we believe growth should never be guesswork. Brands deserve marketing that is strategic, measurable, and built for long-term impact.",
+    "At AlphaTrack Digital, we believe marketing should always be accountable. Brands deserve systems that are strategic, measurable, and built for long-term impact.",
   established: "Established in 2022 and incorporated in 2023.",
   vision: "To shape future-ready brands through bold ideas.",
   mission:
@@ -20,7 +20,7 @@ export const companyProfile = {
   ],
   founder: {
     name: "Chris Chukwuma",
-    title: "Founder, AlphaTrack Digital",
+    title: "Founder & CEO, AlphaTrack Digital",
     email: "chris@alphatrack.digital",
     phoneDisplay: "+233 24 556 2676",
     phoneHref: "tel:+233245562676",
@@ -35,31 +35,35 @@ export const companyProfile = {
     secondaryPhoneHref: "tel:+2348061992748",
     websiteDisplay: "alphatrack.digital",
     websiteUrl: "https://alphatrack.digital",
-    responseWindow: "Reply within 1 business day",
+    responseWindow: "Reply within 3 business days",
   },
 } as const;
 
 export const ctmaFramework = [
   {
     title: "Conversion Tracking",
+    summary: "Clean attribution before bigger bets.",
     description:
       "We help set up tracking across key touchpoints so you know exactly what drives revenue. No guesswork, only signal.",
     details: ["GA4", "GTM", "Meta Pixel", "CRM"],
   },
   {
     title: "Traffic & Paid Media",
+    summary: "Channel execution built around efficiency, not vanity.",
     description:
       "Google Ads, Meta, YouTube, and programmatic campaigns built for efficiency. We optimise for CAC and ROAS, not vanity metrics.",
     details: ["Google Ads", "Meta", "YouTube", "Programmatic"],
   },
   {
     title: "Marketing Automation",
+    summary: "Lead follow-up and retention flows that keep momentum moving.",
     description:
       "We build lifecycle journeys from lead capture to retention using automation platforms that nurture prospects into loyal customers.",
     details: ["Lead nurture", "CRM automation", "Retention flows"],
   },
   {
     title: "Analytics & Insights",
+    summary: "Reporting leaders can read quickly and act on with confidence.",
     description:
       "Dashboards, attribution models, and performance reporting that translate data into decisions executives can act on.",
     details: ["Dashboards", "Attribution", "Performance reporting"],

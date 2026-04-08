@@ -82,6 +82,7 @@ const SectionIntro = ({
       <TitleTag
         id={titleId}
         className={cn(
+          "title-safe",
           titleClasses[mode],
           isCentered && "mx-auto",
           widthClasses[resolvedWidth],

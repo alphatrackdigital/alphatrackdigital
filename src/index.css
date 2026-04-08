@@ -104,6 +104,27 @@
     );
   }
 
+  .text-gradient-atd-hero {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(
+      118deg,
+      hsl(var(--atd-blue)) 0%,
+      hsl(var(--atd-blue)) 22%,
+      hsl(var(--atd-cyan)) 64%,
+      hsl(var(--atd-green)) 100%
+    );
+  }
+
+  .title-safe {
+    padding-bottom: 0.1em;
+    overflow: visible;
+  }
+
+  .title-safe-inline {
+    display: inline-block;
+    padding-bottom: 0.08em;
+  }
+
   .grain-overlay {
     position: relative;
   }

@@ -1,5 +1,6 @@
 import { screen, within } from "@testing-library/react";
 import Index from "@/pages/Index";
+import { supportingServices } from "@/data/services";
 import { renderWithPageProviders } from "@/test/renderWithPageProviders";
 
 describe("Homepage proof and stack sections", () => {
@@ -106,16 +107,9 @@ describe("Homepage proof and stack sections", () => {
     expect(screen.queryByText("Launches and landing paths")).not.toBeInTheDocument();
     expect(screen.queryByText("Longer-term demand capture")).not.toBeInTheDocument();
     expect(screen.queryByText("Creative direction and planning")).not.toBeInTheDocument();
-    expect(
-      screen.getByText("Websites and landing pages built to help your campaigns convert more visitors.")
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText("Messaging and creative direction for clear, consistent campaigns.")
-    ).toBeInTheDocument();
-    expect(screen.getByText("Email flows that keep leads engaged and bring customers back.")).toBeInTheDocument();
-    expect(
-      screen.getByText("Search visibility that helps more of the right people find you over time.")
-    ).toBeInTheDocument();
+    supportingServices.forEach((service) => {
+      expect(screen.getByText(service.description)).toBeInTheDocument();
+    });
     expect(screen.queryAllByText("Learn more").length).toBeGreaterThanOrEqual(3);
     expect(screen.getAllByTestId("process-step")).toHaveLength(8);
     expect(screen.queryByText("Output")).not.toBeInTheDocument();

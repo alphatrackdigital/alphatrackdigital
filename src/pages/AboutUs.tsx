@@ -1,6 +1,18 @@
-import { Link } from "react-router-dom";
-import { ArrowUpRight, Quote } from "lucide-react";
-import { motion } from "framer-motion";
+import { useState } from "react";
+import {
+  BriefcaseBusiness,
+  Building2,
+  Check,
+  GraduationCap,
+  Package2,
+  Plane,
+  ShoppingCart,
+  type LucideIcon,
+} from "lucide-react";
+import {
+  motion,
+  useReducedMotion,
+} from "framer-motion";
 
 import CTASection from "@/components/shared/CTASection";
 import PageSection from "@/components/shared/PageSection";
@@ -8,281 +20,870 @@ import SectionIntro from "@/components/shared/SectionIntro";
 import SEO from "@/components/shared/SEO";
 import {
   companyProfile,
-  featuredTestimonial,
+  ctmaFramework,
+  engagementModels,
   primarySectors,
   whyChoosePoints,
 } from "@/data/companyProfile";
-import { primaryServices } from "@/data/services";
 import { cn } from "@/lib/utils";
 
+// ─── Animation variants ────────────────────────────────────────────────────
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 22 },
+  visible: (i: number = 0) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.45, delay: i * 0.09, ease: [0.22, 1, 0.36, 1] },
+  }),
+};
+
+type SectorName = (typeof primarySectors)[number];
+
+const sectorVisuals: Record<
+  SectorName,
+  {
+    icon: LucideIcon;
+    accentClassName: string;
+  }
+> = {
+  "Ecommerce & Retail": {
+    icon: ShoppingCart,
+    accentClassName: "bg-secondary/14 text-secondary",
+  },
+  FMCG: {
+    icon: Package2,
+    accentClassName: "bg-primary/14 text-primary",
+  },
+  Education: {
+    icon: GraduationCap,
+    accentClassName: "bg-secondary/14 text-secondary",
+  },
+  SaaS: {
+    icon: BriefcaseBusiness,
+    accentClassName: "bg-primary/14 text-primary",
+  },
+  "Entertainment & Hospitality": {
+    icon: Plane,
+    accentClassName: "bg-secondary/14 text-secondary",
+  },
+  "Real Estate": {
+    icon: Building2,
+    accentClassName: "bg-primary/14 text-primary",
+  },
+};
+
+const sectorSummaries: Record<SectorName, string> = {
+  "Ecommerce & Retail":
+    "Clearer ROAS visibility across campaigns, landing pages, and retention.",
+  FMCG:
+    "Awareness, traffic, and sell-through reporting tied back to one decision view.",
+  Education:
+    "Lead generation built around intent, qualification, and faster follow-up.",
+  SaaS:
+    "Measurement, nurture, and paid acquisition aligned to pipeline quality.",
+  "Entertainment & Hospitality":
+    "Creative campaigns paired with practical reporting for launches and bookings.",
+  "Real Estate":
+    "Lead capture and remarketing systems that keep demand moving through the funnel.",
+};
+
+// ─── Gradient chapter separator ────────────────────────────────────────────
+
+function ChapterSeparator() {
+  return (
+    <div className="pointer-events-none relative py-3">
+      <div className="mx-auto h-px max-w-[54%] bg-gradient-to-r from-transparent via-primary/22 to-transparent" />
+      <div className="absolute left-1/2 top-1/2 h-2 w-2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-primary/30 bg-background shadow-[0_0_0_6px_rgba(7,10,16,0.9)]" />
+    </div>
+  );
+}
+
+// ─── Page ──────────────────────────────────────────────────────────────────
+
 const AboutUs = () => {
+  const shouldReduceMotion = useReducedMotion();
+  const [heroImgError, setHeroImgError] = useState(false);
+  const [imgError, setImgError] = useState(false);
+
   return (
     <>
       <SEO
         title="About Us | AlphaTrack Digital"
-        description="AlphaTrack Digital is a measurement-first digital growth agency helping brands improve tracking, paid media, and automation."
+        description="AlphaTrack Digital is a measurement-first digital growth agency that builds tracking, paid media, and automation systems so brands can scale on clean data."
         canonicalUrl="/about-us"
       />
 
-      <PageSection mode="hero" surface="glow" spacing="compact">
-        <div className="grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="max-w-4xl"
-          >
-            <SectionIntro
-              as="h1"
-              eyebrow="About Us"
-              mode="hero"
-              maxWidth="xl"
-              title={
-                <>
-                  A measurement-first agency built to make{" "}
-                  <span className="text-gradient">growth easier to trust</span>.
-                </>
-              }
-              description="AlphaTrack Digital helps brands improve tracking, paid media, and automation so marketing works better and decisions are easier to make."
-              titleClassName="max-w-4xl"
-              descriptionClassName="max-w-3xl"
-            />
+      {/* ─── Hero ──────────────────────────────────────────────────────── */}
+      <section
+        data-testid="about-hero-section"
+        className="relative overflow-hidden border-b border-white/10 bg-[#111214] py-12 md:py-20 lg:py-24"
+      >
+        <div
+          className="pointer-events-none absolute inset-0 opacity-[0.10]"
+          style={{
+            backgroundImage:
+              "linear-gradient(rgba(255,255,255,0.32) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.32) 1px, transparent 1px)",
+            backgroundSize: "76px 76px",
+            maskImage:
+              "linear-gradient(180deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.55) 58%, rgba(0,0,0,0.1) 100%)",
+          }}
+        />
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/12 to-transparent" />
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(51,204,153,0.08)_0%,transparent_32%),radial-gradient(circle_at_bottom_right,rgba(0,175,239,0.08)_0%,transparent_30%)]" />
 
-            <div className="mt-6 max-w-3xl space-y-4 text-sm leading-7 text-muted-foreground md:text-base">
-              <p>
-                {companyProfile.established} We started AlphaTrack Digital
-                because too many brands were running campaigns without clear
-                tracking, reliable follow-up, or confidence in what was really
-                driving results.
-              </p>
-              <p>
-                Our work brings measurement, paid media, and automation into
-                one clearer system so teams can stop guessing and start making
-                better growth decisions.
-              </p>
-            </div>
-
-            <div className="mt-8 flex flex-col items-start gap-3 sm:flex-row">
-              <Link
-                to="/offer/tracking-audit"
-                className="inline-flex items-center gap-1.5 rounded-xl bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
-              >
-                Get a Free Growth Audit <ArrowUpRight className="h-4 w-4" />
-              </Link>
-              <Link
-                to="/service"
-                className="inline-flex items-center gap-1.5 rounded-xl border border-white/15 px-5 py-3 text-sm font-semibold text-foreground transition-colors hover:bg-white/5"
-              >
-                Explore Services <ArrowUpRight className="h-4 w-4" />
-              </Link>
-            </div>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 22 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.55, delay: 0.08 }}
-            className="relative"
-          >
-            <div className="absolute inset-0 rounded-[28px] bg-gradient-to-br from-atd-blue/12 via-transparent to-secondary/12 blur-2xl" />
-            <div className="relative overflow-hidden rounded-[28px] border border-white/10 bg-white/[0.02]">
-              <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
-              <img
-                src="/social-preview.png"
-                alt="AlphaTrack Digital brand visual"
-                className="h-full w-full object-cover"
-                loading="lazy"
+        <div className="container relative mx-auto px-4 lg:px-8">
+          <div className="mx-auto grid max-w-6xl items-stretch gap-4 md:gap-6 lg:grid-cols-[minmax(0,1.02fr)_minmax(360px,0.88fr)]">
+            <motion.div
+              initial={shouldReduceMotion ? false : { opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: shouldReduceMotion ? 0 : 0.45 }}
+              className="relative flex h-full flex-col justify-between overflow-hidden rounded-[28px] border border-white/[0.08] bg-[#121315]/88 p-6 shadow-[0_24px_60px_rgba(0,0,0,0.16)] backdrop-blur-[2px] sm:p-7 md:rounded-[32px] md:p-10 lg:p-12"
+            >
+              <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(51,204,153,0.06)_0%,transparent_28%),radial-gradient(circle_at_78%_18%,rgba(255,255,255,0.08)_0%,transparent_26%),radial-gradient(circle_at_bottom_right,rgba(0,175,239,0.05)_0%,transparent_28%),linear-gradient(180deg,rgba(255,255,255,0.025)_0%,rgba(255,255,255,0.01)_100%)]" />
+              <div className="pointer-events-none absolute inset-y-0 right-[-12%] w-[48%] bg-[radial-gradient(circle,rgba(255,255,255,0.12)_0%,rgba(255,255,255,0.03)_24%,transparent_62%)] opacity-50 blur-3xl" />
+              <div
+                className="pointer-events-none absolute inset-0 opacity-[0.06]"
+                style={{
+                  backgroundImage:
+                    "linear-gradient(rgba(255,255,255,0.14) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.14) 1px, transparent 1px)",
+                  backgroundSize: "88px 88px",
+                }}
               />
-            </div>
-          </motion.div>
-        </div>
-      </PageSection>
+              <div className="relative">
+                <span className="inline-flex items-center rounded-full border border-white/[0.10] bg-white/[0.03] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-primary/90">
+                  About Us
+                </span>
+                <p className="mt-6 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/32 md:mt-8 md:text-[12px]">
+                  We are
+                </p>
+                <h1 className="mt-2 max-w-xl text-[2.65rem] font-bold tracking-[-0.04em] text-foreground sm:text-[3.3rem] lg:text-[4.35rem]">
+                  <span className="block leading-[0.94]">AlphaTrack</span>
+                  <span className="mt-1 block w-fit pb-[0.14em] leading-[0.9] text-gradient">
+                    Digital
+                  </span>
+                </h1>
+                <p className="mt-6 max-w-2xl text-[0.98rem] leading-7 text-muted-foreground md:mt-8 md:text-lg md:leading-[1.8]">
+                  We are a measurement-first growth agency helping brands fix the
+                  parts of marketing that create the most confusion: tracking,
+                  paid media, reporting, and follow-through. If the foundation
+                  is unclear, we make it clear before scale happens.
+                </p>
 
-      <PageSection mode="content" border="top">
-        <div className="grid gap-12 lg:grid-cols-[0.92fr_1.08fr] lg:items-start">
-          <SectionIntro
-            eyebrow="Our Story"
-            mode="content"
-            title="Our story in a nutshell."
-            description="The agency exists to help brands replace disconnected marketing activity with clearer systems, better reporting, and stronger follow-up."
-            maxWidth="lg"
+                <div className="relative mt-6 md:hidden">
+                  <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,175,239,0.08)_0%,transparent_68%)] blur-2xl" />
+                  <div className="relative overflow-hidden rounded-[24px] border border-white/[0.08] bg-[#0f1115] shadow-[0_18px_46px_rgba(0,0,0,0.18)]">
+                    {heroImgError ? (
+                      <div className="flex h-[188px] items-center justify-center bg-[radial-gradient(circle_at_top,rgba(0,175,239,0.16)_0%,rgba(17,17,20,0.92)_62%)]">
+                        <span className="text-center text-sm uppercase tracking-[0.22em] text-white/55">
+                          Team Visual
+                        </span>
+                      </div>
+                    ) : (
+                      <img
+                        src="/about-hero-team-2026.png"
+                        alt="AlphaTrack Digital team reviewing performance dashboards"
+                        className="h-[188px] w-full object-cover object-center"
+                        loading="eager"
+                        width={900}
+                        height={1122}
+                        onError={() => setHeroImgError(true)}
+                      />
+                    )}
+                    <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(12,14,18,0.02)_0%,rgba(12,14,18,0.06)_100%)]" />
+                  </div>
+                </div>
+              </div>
+
+              <div className="relative mt-6 border-t border-white/[0.08] pt-4 md:mt-10 md:pt-5">
+                <p className="text-[13px] leading-6 text-muted-foreground md:text-sm md:whitespace-nowrap">
+                  {companyProfile.established}
+                </p>
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={shouldReduceMotion ? false : { opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: shouldReduceMotion ? 0 : 0.5, delay: shouldReduceMotion ? 0 : 0.08 }}
+              className="relative hidden h-full min-h-[280px] overflow-hidden rounded-[28px] border border-white/[0.08] bg-[#0f1115] shadow-[0_24px_60px_rgba(0,0,0,0.18)] sm:min-h-[320px] md:block md:rounded-[32px] lg:min-h-[420px]"
+            >
+              {heroImgError ? (
+                <div className="flex h-full min-h-[280px] items-center justify-center bg-[radial-gradient(circle_at_top,rgba(0,175,239,0.16)_0%,rgba(17,17,20,0.92)_62%)] sm:min-h-[320px] lg:min-h-[420px]">
+                  <span className="text-center text-sm uppercase tracking-[0.22em] text-white/55">
+                    Team Visual
+                  </span>
+                </div>
+              ) : (
+                <img
+                  src="/about-hero-team-2026.png"
+                  alt="AlphaTrack Digital team reviewing performance dashboards"
+                  className="h-full w-full object-cover object-center"
+                  loading="eager"
+                  width={900}
+                  height={1122}
+                  onError={() => setHeroImgError(true)}
+                />
+              )}
+              <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(12,14,18,0.04)_0%,rgba(12,14,18,0.05)_36%,rgba(12,14,18,0.34)_100%)]" />
+              <div className="pointer-events-none absolute inset-0 ring-1 ring-inset ring-white/[0.04]" />
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* ─── Manifesto ─────────────────────────────────────────────────── */}
+      <PageSection mode="content" spacing="compact" border="top" surface="quiet">
+        <div className="relative overflow-hidden rounded-[34px] border border-white/[0.08] bg-[#101214]/88 p-6 shadow-[0_24px_64px_rgba(0,0,0,0.14)] md:p-8 lg:p-10">
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(51,204,153,0.05)_0%,transparent_26%),radial-gradient(circle_at_82%_20%,rgba(255,255,255,0.06)_0%,transparent_24%),radial-gradient(circle_at_bottom_right,rgba(0,175,239,0.05)_0%,transparent_26%),linear-gradient(180deg,rgba(255,255,255,0.028)_0%,rgba(255,255,255,0.01)_100%)]" />
+          <div
+            className="pointer-events-none absolute inset-0 opacity-[0.05]"
+            style={{
+              backgroundImage:
+                "linear-gradient(rgba(255,255,255,0.12) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.12) 1px, transparent 1px)",
+              backgroundSize: "96px 96px",
+            }}
           />
 
-          <div className="space-y-8 border-t border-white/10 pt-8 lg:border-l lg:border-t-0 lg:pl-10 lg:pt-0">
-            <div>
-              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-primary/80">
-                Why we exist
-              </p>
-              <p className="mt-3 max-w-2xl text-base leading-8 text-foreground">
-                {companyProfile.founderNote}
-              </p>
-            </div>
-
-            <div className="border-t border-white/10 pt-8">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-primary/80">
-                What that means in practice
-              </p>
-              <p className="mt-3 max-w-2xl text-sm leading-7 text-muted-foreground md:text-base">
-                We focus on the parts of marketing that usually create the most
-                confusion: tracking, paid media, lead handoff, and the systems
-                that help teams understand what is working.
-              </p>
-            </div>
-
-            <div className="border-t border-white/10 pt-8">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-primary/80">
-                What clients should expect
-              </p>
-              <p className="mt-3 max-w-2xl text-sm leading-7 text-muted-foreground md:text-base">
-                Clear communication, honest reporting, and work that is tied to
-                commercial outcomes rather than surface-level activity.
-              </p>
-            </div>
+          <div className="relative mx-auto max-w-4xl text-center">
+            <motion.p
+              initial={shouldReduceMotion ? false : { opacity: 0, y: 12 }}
+              whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ duration: shouldReduceMotion ? 0 : 0.45 }}
+              className="text-[11px] font-semibold uppercase tracking-[0.22em] text-primary/85"
+            >
+              Why We Exist
+            </motion.p>
+            <motion.h2
+              initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
+              whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ duration: shouldReduceMotion ? 0 : 0.55, delay: shouldReduceMotion ? 0 : 0.04 }}
+              className="mx-auto mt-5 max-w-4xl text-[1.58rem] leading-[1.22] tracking-[-0.03em] text-foreground sm:text-[1.78rem] md:text-[2.45rem] md:leading-[1.34]"
+            >
+              Too many brands run campaigns without reliable tracking, automate
+              without a clear view of the pipeline, and make budget calls on
+              incomplete data.
+            </motion.h2>
           </div>
         </div>
       </PageSection>
 
-      <PageSection mode="content" surface="quiet" border="top">
+      <PageSection
+        mode="content"
+        spacing="compact"
+        surface="quiet"
+        className="pt-0 md:pt-0"
+        containerClassName="px-4 lg:px-8"
+      >
+        <motion.div
+          initial={shouldReduceMotion ? false : { opacity: 0, y: 18 }}
+          whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: shouldReduceMotion ? 0 : 0.45 }}
+          className="relative overflow-hidden rounded-[34px] border border-white/[0.08] bg-[#0f1216]/92 p-6 shadow-[0_24px_64px_rgba(0,0,0,0.14)] md:p-7 lg:p-8"
+        >
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(51,204,153,0.05)_0%,transparent_24%),radial-gradient(circle_at_82%_22%,rgba(255,255,255,0.05)_0%,transparent_22%),linear-gradient(180deg,rgba(255,255,255,0.02)_0%,rgba(255,255,255,0.008)_100%)]" />
+          <div className="pointer-events-none absolute inset-x-12 top-0 h-px bg-gradient-to-r from-transparent via-white/16 to-transparent" />
+
+          <div className="relative grid gap-5 lg:grid-cols-[0.34fr_0.66fr] lg:items-center">
+            <div className="text-center lg:text-left">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-primary/82">
+                Built On
+              </p>
+              <p className="mx-auto mt-3 max-w-sm text-sm leading-6 text-foreground/88 lg:mx-0 lg:mt-4 lg:text-[1.05rem] lg:leading-8">
+                The standards we bring into every engagement, every recommendation, and every build.
+              </p>
+            </div>
+            <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 lg:flex lg:flex-wrap lg:gap-3">
+              {companyProfile.coreValues.map((value, index) => (
+                <span
+                  key={value}
+                  className={cn(
+                    "relative overflow-hidden rounded-[18px] border border-white/[0.08] bg-[radial-gradient(circle_at_top_left,rgba(51,204,153,0.08)_0%,transparent_34%),linear-gradient(180deg,rgba(255,255,255,0.04)_0%,rgba(255,255,255,0.012)_100%)] px-3.5 py-3 text-center text-[11px] font-semibold tracking-[0.1em] text-foreground/84 shadow-[inset_0_1px_0_rgba(255,255,255,0.03)]",
+                    index === companyProfile.coreValues.length - 1 && "col-span-2 sm:col-span-3 lg:col-span-1",
+                  )}
+                >
+                  <span className="pointer-events-none absolute inset-x-4 top-0 h-px bg-gradient-to-r from-transparent via-primary/45 to-transparent" />
+                  {value}
+                </span>
+              ))}
+            </div>
+          </div>
+        </motion.div>
+      </PageSection>
+
+      <ChapterSeparator />
+
+      {/* ─── How We Think ──────────────────────────────────────────────── */}
+      <PageSection mode="content" border="top" spacing="compact">
         <SectionIntro
-          eyebrow="How We Work"
+          eyebrow="How We Think"
           mode="content"
-          title="Three principles guide how we deliver."
-          description="These are the ideas that shape how AlphaTrack Digital works with every client."
+          title="Three principles we don't compromise on."
+          description="These ideas shape every brief, every build, and every client relationship."
           maxWidth="lg"
-          className="mb-10"
+          className="mb-12"
+          titleClassName="text-[2rem] leading-[1.08] md:text-4xl"
+          descriptionClassName="max-w-2xl text-sm leading-6 md:text-base md:leading-7"
         />
 
-        <div className="border-t border-white/10">
-          {whyChoosePoints.map((item, index) => (
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {whyChoosePoints.map((item, i) => (
             <motion.div
               key={item.title}
-              initial={{ opacity: 0, y: 18 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.08, duration: 0.35 }}
-              className={cn(
-                "grid gap-3 py-6 md:grid-cols-[80px_240px_1fr] md:gap-6 md:py-8",
-                index > 0 && "border-t border-white/10",
-              )}
+              custom={i}
+              initial={shouldReduceMotion ? false : "hidden"}
+              whileInView={shouldReduceMotion ? undefined : "visible"}
+              viewport={{ once: true, margin: "-40px" }}
+              variants={fadeUp}
+              className="glass-card flex flex-col p-6 lg:p-8"
             >
-              <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-primary/80">
-                0{index + 1}
+              <div className="mb-5 text-[11px] font-semibold uppercase tracking-[0.22em] text-primary/80">
+                0{i + 1}
               </div>
-              <h3 className="text-lg font-semibold text-foreground">
+              <h3 className="mb-3 text-lg font-semibold leading-snug text-foreground">
                 {item.title}
               </h3>
-              <p className="max-w-3xl text-sm leading-7 text-muted-foreground md:text-base">
-                {item.description}
-              </p>
+              <p className="text-sm leading-7 text-muted-foreground">{item.description}</p>
             </motion.div>
           ))}
         </div>
       </PageSection>
 
-      <PageSection mode="content" border="top">
+      {/* ─── Operating Model ───────────────────────────────────────────── */}
+      <PageSection mode="content" border="top" surface="quiet" spacing="compact">
         <SectionIntro
-          eyebrow="What We Do"
+          eyebrow="Operating System"
           mode="content"
-          title="What we do best."
-          description="Most of our work starts in one of these three areas."
+          title="One connected operating system."
+          description="Tracking, media, automation, and reporting work together as a single commercial system."
           maxWidth="lg"
-          className="mb-10"
+          className="mb-7 md:mb-10"
+          titleClassName="text-[2rem] leading-[1.08] md:text-4xl"
+          descriptionClassName="max-w-2xl text-sm leading-6 md:text-base md:leading-7"
         />
 
-        <div className="border-t border-white/10">
-          {primaryServices.map((service, index) => (
-            <div
-              key={service.title}
+        <div className="relative overflow-hidden rounded-[28px] border border-white/[0.08] bg-[radial-gradient(circle_at_top_left,rgba(51,204,153,0.05),transparent_24%),radial-gradient(circle_at_82%_14%,rgba(0,175,239,0.05),transparent_22%),linear-gradient(180deg,rgba(255,255,255,0.024)_0%,rgba(255,255,255,0.01)_100%)] p-4 shadow-[0_22px_54px_rgba(0,0,0,0.14)] md:rounded-[32px] md:p-6 lg:p-7">
+          <div
+            className="pointer-events-none absolute inset-0 opacity-[0.05]"
+            style={{
+              backgroundImage:
+                "linear-gradient(rgba(255,255,255,0.12) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.12) 1px, transparent 1px)",
+              backgroundSize: "84px 84px",
+            }}
+          />
+          <div className="pointer-events-none absolute inset-x-12 top-0 h-px bg-gradient-to-r from-transparent via-white/16 to-transparent" />
+
+          <div className="relative grid gap-5 lg:grid-cols-[0.66fr_1.34fr] lg:gap-8">
+            <motion.div
+              initial={shouldReduceMotion ? false : { opacity: 0, y: 16 }}
+              whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{ duration: shouldReduceMotion ? 0 : 0.45 }}
+              className="flex h-full flex-col"
+            >
+              <div>
+                <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-primary/82">
+                  System Logic
+                </p>
+                <h3 className="mt-3 max-w-sm text-[1.72rem] font-semibold tracking-tight text-foreground md:mt-4 md:text-[2rem] md:leading-[1.18]">
+                  Every layer hands cleaner signal to the next.
+                </h3>
+              </div>
+              <div className="relative mt-5 flex items-center justify-center lg:mt-6 lg:justify-start">
+                <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,175,239,0.08)_0%,transparent_55%)] blur-3xl" />
+                <div className="relative w-full max-w-[300px] overflow-hidden rounded-[22px] border border-white/[0.08] bg-[radial-gradient(circle_at_top_left,rgba(0,175,239,0.08),transparent_30%),linear-gradient(180deg,rgba(255,255,255,0.025)_0%,rgba(255,255,255,0.01)_100%)] p-2 shadow-[0_20px_44px_rgba(0,0,0,0.16)] sm:max-w-[340px] md:max-w-[360px] md:rounded-[24px] md:p-2.5">
+                  <div className="pointer-events-none absolute inset-0 rounded-[28px] bg-[radial-gradient(circle_at_80%_20%,rgba(51,204,153,0.08)_0%,transparent_36%)]" />
+                  <img
+                    src="/ctma-operating-system-optimized.jpg"
+                    alt="AlphaTrack Digital connected operating system flow"
+                    className="relative w-full rounded-[22px] object-contain"
+                    loading="lazy"
+                    width={1100}
+                    height={604}
+                  />
+                </div>
+              </div>
+            </motion.div>
+
+            <div className="grid grid-cols-2 gap-3 overflow-hidden rounded-[24px] border border-white/[0.08] bg-black/10 p-1.5 md:grid-cols-1 md:gap-0 md:rounded-[28px] md:p-0">
+              {ctmaFramework.map((item, i) => (
+                <motion.div
+                  key={item.title}
+                  custom={i}
+                  initial={shouldReduceMotion ? false : "hidden"}
+                  whileInView={shouldReduceMotion ? undefined : "visible"}
+                  viewport={{ once: true, margin: "-40px" }}
+                  variants={fadeUp}
+                  className={cn(
+                    "grid min-h-[122px] content-start gap-2 rounded-[18px] border border-white/[0.08] bg-white/[0.02] px-3 py-3.5 transition-colors duration-300 hover:bg-white/[0.03] md:min-h-0 md:rounded-none md:border-0 md:bg-transparent md:grid-cols-[74px_minmax(0,1fr)] md:items-start md:gap-4 md:px-5 md:py-[1.125rem]",
+                    i !== 0 && "md:border-t md:border-white/[0.08]",
+                  )}
+                >
+                  <div className="flex h-10 w-10 items-center justify-center rounded-[16px] border border-white/[0.08] bg-[radial-gradient(circle_at_top_left,rgba(51,204,153,0.14),transparent_34%),radial-gradient(circle_at_bottom_right,rgba(0,175,239,0.12),transparent_42%),linear-gradient(180deg,rgba(255,255,255,0.035)_0%,rgba(255,255,255,0.012)_100%)] shadow-[inset_0_1px_0_rgba(255,255,255,0.04),0_14px_26px_rgba(0,0,0,0.14)] md:h-11 md:w-11 md:rounded-[18px]">
+                    <span className="bg-[linear-gradient(135deg,#ffffff_0%,#33cc99_48%,#00afef_100%)] bg-clip-text text-[0.88rem] font-black tracking-[0.18em] text-transparent md:text-[0.98rem]">
+                      {item.title.charAt(0)}
+                    </span>
+                  </div>
+                  <div>
+                    <h3 className="text-[0.95rem] font-semibold tracking-tight text-foreground md:text-[1.06rem]">
+                      {item.title}
+                    </h3>
+                    <p className="mt-1.5 max-w-xl line-clamp-2 text-xs leading-5 text-muted-foreground md:line-clamp-none md:text-sm md:leading-6">
+                      {item.summary}
+                    </p>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </PageSection>
+
+      {/* ─── Engagement Models ─────────────────────────────────────────── */}
+      <PageSection mode="content" border="top">
+        <SectionIntro
+          eyebrow="How We Engage"
+          mode="content"
+          title="Three ways to work with us."
+          description="Choose the shape of engagement that fits the stage you are in now, not a bloated retainer by default."
+          maxWidth="lg"
+          className="mb-7 md:mb-10"
+          titleClassName="text-[2rem] leading-[1.08] md:text-4xl"
+          descriptionClassName="max-w-2xl text-sm leading-6 md:text-base md:leading-7"
+        />
+
+        <div className="md:hidden">
+          <div className="relative overflow-hidden rounded-[28px] border border-white/[0.08] bg-[radial-gradient(circle_at_top_left,rgba(0,175,239,0.05),transparent_24%),radial-gradient(circle_at_bottom_right,rgba(51,204,153,0.05),transparent_24%),linear-gradient(180deg,rgba(255,255,255,0.024)_0%,rgba(255,255,255,0.008)_100%)] shadow-[0_18px_46px_rgba(0,0,0,0.12)]">
+            <div className="pointer-events-none absolute inset-x-10 top-0 h-px bg-gradient-to-r from-transparent via-white/18 to-transparent" />
+            {engagementModels.map((model, i) => (
+              <motion.article
+                key={`${model.label}-mobile`}
+                custom={i}
+                initial={shouldReduceMotion ? false : "hidden"}
+                whileInView={shouldReduceMotion ? undefined : "visible"}
+                viewport={{ once: true, margin: "-40px" }}
+                variants={fadeUp}
+                className={cn(
+                  "relative px-4 py-4",
+                  i !== 0 && "border-t border-white/[0.08]",
+                  model.label === "Growth" &&
+                    "bg-[radial-gradient(circle_at_right,rgba(51,204,153,0.06)_0%,transparent_34%)]",
+                )}
+              >
+                <div className="flex items-start justify-between gap-3">
+                  <span
+                    className={cn(
+                      "rounded-full px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em]",
+                      model.label === "Growth"
+                        ? "bg-primary/16 text-primary"
+                        : "bg-white/[0.05] text-primary/90",
+                    )}
+                  >
+                    {model.label}
+                  </span>
+                  <span className="text-[11px] text-muted-foreground">{model.timeframe}</span>
+                </div>
+                <h3 className="mt-3 text-[1rem] font-semibold tracking-tight text-foreground">
+                  {model.title}
+                </h3>
+                <p className="mt-2 text-[13px] leading-6 text-muted-foreground">
+                  {model.idealFor}
+                </p>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {model.includes.slice(0, 2).map((item) => (
+                    <span
+                      key={item}
+                      className="rounded-full border border-white/[0.08] bg-white/[0.03] px-3 py-1.5 text-[11px] leading-none text-muted-foreground"
+                    >
+                      {item}
+                    </span>
+                  ))}
+                </div>
+              </motion.article>
+            ))}
+          </div>
+        </div>
+
+        <div className="hidden gap-4 md:grid md:gap-5 lg:grid-cols-[0.92fr_1.16fr_0.92fr] lg:items-stretch">
+          {engagementModels.map((model, i) => (
+            <motion.div
+              key={model.label}
+              custom={i}
+              initial={shouldReduceMotion ? false : "hidden"}
+              whileInView={shouldReduceMotion ? undefined : "visible"}
+              viewport={{ once: true, margin: "-40px" }}
+              variants={fadeUp}
               className={cn(
-                "grid gap-3 py-6 md:grid-cols-[80px_280px_1fr_auto] md:gap-6 md:py-8",
-                index > 0 && "border-t border-white/10",
+                "relative flex h-full flex-col overflow-hidden rounded-[24px] border p-5 shadow-[0_18px_46px_rgba(0,0,0,0.10)] md:rounded-[30px] md:p-6 lg:p-7",
+                model.label === "Growth"
+                  ? "order-first border-primary/18 bg-[radial-gradient(circle_at_top,rgba(0,175,239,0.09)_0%,transparent_28%),radial-gradient(circle_at_bottom_right,rgba(51,204,153,0.08)_0%,transparent_26%),linear-gradient(180deg,rgba(255,255,255,0.028)_0%,rgba(255,255,255,0.01)_100%)] lg:order-none lg:-translate-y-4"
+                  : "border-white/[0.08] bg-[linear-gradient(180deg,rgba(255,255,255,0.024)_0%,rgba(255,255,255,0.008)_100%)]",
               )}
             >
-              <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-primary/80">
-                0{index + 1}
+              <div className="pointer-events-none absolute inset-0 opacity-[0.05]">
+                <div className="absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
               </div>
-              <h3 className="text-lg font-semibold text-foreground">
-                {service.title}
-              </h3>
-              <p className="max-w-3xl text-sm leading-7 text-muted-foreground md:text-base">
-                {service.description}
-              </p>
-              <div className="md:justify-self-end">
-                <Link
-                  to={service.path}
-                  className="inline-flex items-center gap-1.5 text-sm font-medium text-primary transition-colors hover:text-primary/80"
-                >
-                  Explore service <ArrowUpRight className="h-4 w-4" />
-                </Link>
+
+              <div className="relative flex h-full flex-col">
+                <div className="mb-5 flex items-start justify-between gap-3 md:mb-6">
+                  <div className="flex flex-wrap items-center gap-2.5">
+                    <span
+                      className={cn(
+                        "rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em]",
+                        model.label === "Growth"
+                          ? "bg-primary/16 text-primary"
+                          : "bg-white/[0.05] text-primary/90",
+                      )}
+                    >
+                      {model.label}
+                    </span>
+                  </div>
+                  <span className="text-[11px] text-muted-foreground">{model.timeframe}</span>
+                </div>
+
+                <h3 className="text-[1.08rem] font-semibold tracking-tight text-foreground md:text-[1.2rem]">
+                  {model.title}
+                </h3>
+                <p className="mt-3 max-w-[32ch] text-sm leading-6 text-muted-foreground md:leading-7">
+                  {model.idealFor}
+                </p>
+
+                <ul className="mt-5 space-y-2 border-t border-white/[0.07] pt-4 md:mt-6 md:space-y-2.5 md:pt-5">
+                {model.includes.map((item, itemIndex) => (
+                  <li
+                    key={item}
+                    className={cn(
+                      "flex items-start gap-2.5",
+                      itemIndex >= 3 && "hidden md:flex",
+                    )}
+                  >
+                    <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-primary/70" />
+                    <span className="text-xs leading-5 text-muted-foreground">{item}</span>
+                  </li>
+                ))}
+                </ul>
+
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </PageSection>
 
-      <PageSection mode="content" border="top">
-        <div className="grid gap-12 lg:grid-cols-[0.86fr_1.14fr] lg:items-start">
+      {/* ─── Industries ────────────────────────────────────────────────── */}
+      <PageSection mode="content" border="top" spacing="compact">
+        <div data-testid="industries-section">
           <SectionIntro
             eyebrow="Industries"
             mode="content"
-            title="Where we do our best work."
-            description="We work across consumer, service, and education categories, with the strongest repeat experience in the sectors below."
+            title="Where we do our strongest work."
             maxWidth="lg"
+            className="mb-6 md:mb-8"
+            titleClassName="text-[2rem] leading-[1.08] md:text-4xl"
           />
 
-          <div className="grid gap-3 border-t border-white/10 pt-8 sm:grid-cols-2 lg:border-t-0 lg:pt-0">
-            {primarySectors.map((sector, index) => (
-              <div
-                key={sector}
-                className={cn(
-                  "border-white/10 py-3 text-base font-medium text-foreground md:text-lg",
-                  index > 0 && "border-t sm:border-t-0",
-                )}
-              >
-                {sector}
+          <div className="relative overflow-hidden rounded-[30px] border border-white/[0.08] bg-[radial-gradient(circle_at_top_left,rgba(0,175,239,0.05),transparent_22%),radial-gradient(circle_at_82%_16%,rgba(51,204,153,0.05),transparent_20%),linear-gradient(180deg,rgba(255,255,255,0.022)_0%,rgba(255,255,255,0.008)_100%)] shadow-[0_18px_50px_rgba(0,0,0,0.12)]">
+            <div
+              className="pointer-events-none absolute inset-0 opacity-[0.05]"
+              style={{
+                backgroundImage:
+                  "linear-gradient(rgba(255,255,255,0.14) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.14) 1px, transparent 1px)",
+                backgroundSize: "84px 84px",
+              }}
+            />
+            <div className="grid grid-cols-2 md:hidden">
+              {primarySectors.map((sector, index) => {
+                const visual = sectorVisuals[sector];
+                const Icon = visual.icon;
+
+                return (
+                  <motion.article
+                    key={`${sector}-mobile`}
+                    custom={index}
+                    initial={shouldReduceMotion ? false : "hidden"}
+                    whileInView={shouldReduceMotion ? undefined : "visible"}
+                    viewport={{ once: true, margin: "-40px" }}
+                    variants={fadeUp}
+                    className={cn(
+                      "group relative min-h-[94px] border-white/[0.08] p-3.5 transition-colors duration-300 hover:bg-white/[0.02]",
+                      index >= 2 && "border-t",
+                      index % 2 === 1 && "border-l",
+                    )}
+                  >
+                    <div className="flex h-full flex-col justify-between gap-5">
+                      <div
+                        className={cn(
+                          "flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-white/[0.08] shadow-[inset_0_1px_0_rgba(255,255,255,0.03)]",
+                          visual.accentClassName,
+                        )}
+                      >
+                        <Icon className="h-4 w-4" />
+                      </div>
+                      <h3 className="text-[0.94rem] font-semibold leading-[1.22] tracking-tight text-foreground">
+                        {sector}
+                      </h3>
+                    </div>
+                  </motion.article>
+                );
+              })}
+            </div>
+
+            <div className="hidden md:grid md:grid-cols-2 xl:grid-cols-3">
+              {primarySectors.map((sector, index) => {
+                const visual = sectorVisuals[sector];
+                const Icon = visual.icon;
+
+                return (
+                  <motion.article
+                    key={sector}
+                    data-testid="industry-card"
+                    custom={index}
+                    initial={shouldReduceMotion ? false : "hidden"}
+                    whileInView={shouldReduceMotion ? undefined : "visible"}
+                    viewport={{ once: true, margin: "-40px" }}
+                    variants={fadeUp}
+                    className={cn(
+                      "group relative min-h-[108px] border-white/[0.08] p-4 transition-colors duration-300 hover:bg-white/[0.02] md:min-h-[160px] md:p-7",
+                      index >= 1 && "border-t md:border-t-0",
+                      index % 2 === 1 && "md:border-l xl:border-l-0",
+                      index >= 3 && "xl:border-t",
+                      index % 3 !== 0 && "xl:border-l",
+                    )}
+                  >
+                    <div className="pointer-events-none absolute inset-x-6 top-0 h-px bg-gradient-to-r from-transparent via-white/14 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                    <div className="flex items-start gap-3 md:gap-4">
+                      <div
+                        className={cn(
+                          "flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-white/[0.08] shadow-[inset_0_1px_0_rgba(255,255,255,0.03)] md:h-12 md:w-12 md:rounded-2xl",
+                          visual.accentClassName,
+                        )}
+                      >
+                        <Icon className="h-4.5 w-4.5 md:h-5.5 md:w-5.5" />
+                      </div>
+                      <div className="min-w-0">
+                        <h3 className="text-[1rem] font-semibold leading-snug tracking-tight text-foreground md:text-[1.26rem]">
+                          {sector}
+                        </h3>
+                        <p className="mt-2.5 hidden max-w-[28rem] text-sm leading-6 text-muted-foreground md:block">
+                          {sectorSummaries[sector]}
+                        </p>
+                      </div>
+                    </div>
+                  </motion.article>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      </PageSection>
+
+      <ChapterSeparator />
+
+      {/* ─── Testimonial ───────────────────────────────────────────────── */}
+
+      {/* ─── Founder ───────────────────────────────────────────────────── */}
+      <PageSection mode="content" border="top" spacing="compact">
+        <motion.div
+          initial={shouldReduceMotion ? false : { opacity: 0, y: 18 }}
+          whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: shouldReduceMotion ? 0 : 0.55 }}
+          className="relative overflow-hidden rounded-[28px] border border-white/[0.08] bg-[radial-gradient(circle_at_top_left,rgba(0,175,239,0.05),transparent_22%),radial-gradient(circle_at_80%_18%,rgba(51,204,153,0.05),transparent_22%),linear-gradient(180deg,rgba(255,255,255,0.022)_0%,rgba(255,255,255,0.008)_100%)] p-4 shadow-[0_18px_48px_rgba(0,0,0,0.12)] md:hidden"
+        >
+          <div className="pointer-events-none absolute inset-x-10 top-0 h-px bg-gradient-to-r from-transparent via-white/16 to-transparent" />
+          <div className="relative aspect-[5/4] overflow-hidden rounded-[22px] border border-white/[0.09]">
+            {imgError ? (
+              <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-atd-blue/20 via-background to-primary/10">
+                <span className="text-5xl font-bold text-primary/40">
+                  {companyProfile.founder.name.split(" ").map((n) => n[0]).join("")}
+                </span>
               </div>
-            ))}
+            ) : (
+              <img
+                src="/founder-portrait-optimized.jpg"
+                alt={`${companyProfile.founder.name}, ${companyProfile.founder.title}`}
+                className="h-full w-full object-cover object-center brightness-90"
+                loading="lazy"
+                width={760}
+                height={1140}
+                onError={() => setImgError(true)}
+              />
+            )}
+            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_48%,hsl(226_38%_7%/0.58)_100%)]" />
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-background/82 via-background/20 to-transparent" />
+            <div className="absolute bottom-3 left-3 right-3 flex items-center gap-3 rounded-xl border border-white/[0.08] bg-background/82 px-4 py-3 backdrop-blur-md">
+              <div className="flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden rounded-full ring-1 ring-white/10">
+                <img
+                  src="/atd-circle-logo.png"
+                  alt="AlphaTrack Digital logo"
+                  className="h-full w-full object-cover"
+                  loading="lazy"
+                />
+              </div>
+              <div>
+                <p className="text-sm font-semibold leading-tight text-foreground">
+                  {companyProfile.founder.name}
+                </p>
+                <p className="mt-0.5 text-xs text-muted-foreground">
+                  {companyProfile.founder.title}
+                </p>
+              </div>
+            </div>
           </div>
+
+          <div className="relative mt-5">
+            <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.22em] text-primary/90">
+              The Founder
+            </p>
+            <h2 className="max-w-[11ch] text-[2rem] font-bold leading-[1.04] tracking-tight text-foreground">
+              Built from a <span className="text-gradient">clear</span> belief.
+            </h2>
+
+            <div className="mt-5 space-y-4">
+              <p className="text-[0.98rem] leading-7 text-foreground">
+                Most agencies start with channels. We start with measurement
+                because the most expensive mistake a brand can make is scaling a
+                system that does not actually work yet.
+              </p>
+              <p className="text-sm leading-6 text-muted-foreground">
+                That belief is what shaped AlphaTrack Digital. Every engagement
+                starts with understanding what the data really shows, not what
+                the dashboard makes it look like. From there we build the media
+                and automation that compounds over time.
+              </p>
+            </div>
+
+            <div className="mt-5 border-t border-white/[0.08] pt-4">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-primary/78">
+                Approach
+              </p>
+              <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                Start with clean signal, understand what the numbers really mean,
+                then build the media and automation layer on top of that truth.
+              </p>
+            </div>
+          </div>
+        </motion.div>
+
+        <div className="hidden gap-7 md:grid md:gap-10 lg:grid-cols-[360px_1fr] lg:items-center xl:grid-cols-[390px_1fr]">
+
+          {/* Portrait */}
+          <motion.div
+            initial={shouldReduceMotion ? false : { opacity: 0, x: -18 }}
+            whileInView={shouldReduceMotion ? undefined : { opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: shouldReduceMotion ? 0 : 0.6, ease: [0.22, 1, 0.36, 1] }}
+            className="order-1 relative w-full max-w-[300px] self-start md:max-w-[340px] lg:order-1 lg:max-w-[360px] lg:self-end"
+          >
+            {/* Glow halo */}
+            <div className="absolute -inset-6 rounded-[36px] bg-gradient-to-br from-atd-blue/20 via-secondary/10 to-primary/[0.06] blur-3xl" />
+
+            {/* Image frame */}
+            <div className="relative aspect-[4/5] overflow-hidden rounded-[22px] border border-white/[0.09]">
+              {imgError ? (
+                /* Fallback initials avatar */
+                <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-atd-blue/20 via-background to-primary/10">
+                  <span className="text-6xl font-bold text-primary/40">
+                    {companyProfile.founder.name.split(" ").map((n) => n[0]).join("")}
+                  </span>
+                </div>
+              ) : (
+                <img
+                  src="/founder-portrait-optimized.jpg"
+                  alt={`${companyProfile.founder.name}, ${companyProfile.founder.title}`}
+                  className="h-full w-full object-cover object-center brightness-90"
+                  loading="lazy"
+                  width={760}
+                  height={1140}
+                  onError={() => setImgError(true)}
+                />
+              )}
+              {/* Edge vignette to blend white photo bg into dark site */}
+              <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_50%,hsl(226_38%_7%/0.6)_100%)]" />
+              {/* Bottom fade */}
+              <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-background/75 to-transparent" />
+            </div>
+
+            {/* Attribution chip overlaid at bottom */}
+            <div className="absolute bottom-3 left-3 right-3 flex items-center gap-3 rounded-xl border border-white/[0.08] bg-background/80 px-4 py-3 backdrop-blur-md md:bottom-4 md:left-4 md:right-4">
+              <div className="flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden rounded-full ring-1 ring-white/10">
+                <img
+                  src="/atd-circle-logo.png"
+                  alt="AlphaTrack Digital logo"
+                  className="h-full w-full object-cover"
+                  loading="lazy"
+                />
+              </div>
+              <div>
+                <p className="text-sm font-semibold leading-tight text-foreground">
+                  {companyProfile.founder.name}
+                </p>
+                <p className="mt-0.5 text-xs text-muted-foreground">
+                  {companyProfile.founder.title}
+                </p>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Content */}
+          <motion.div
+            initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
+            whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: shouldReduceMotion ? 0 : 0.55, delay: shouldReduceMotion ? 0 : 0.12 }}
+            className="order-2 flex flex-col self-start lg:order-2"
+          >
+            <div>
+              <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.22em] text-primary/90">
+                The Founder
+              </p>
+              <h2 className="max-w-none text-[2.2rem] font-bold tracking-tight text-foreground md:whitespace-nowrap md:text-[3.05rem] md:leading-[1.02]">
+                Built from a <span className="text-gradient">clear</span> belief.
+              </h2>
+            </div>
+
+            <div className="mt-6 space-y-4 md:mt-8">
+              <p className="text-[1rem] leading-[1.72] text-foreground md:text-lg md:leading-[1.85]">
+                Most agencies start with channels. We start with measurement
+                because the most expensive mistake a brand can make is scaling a
+                system that does not actually work yet.
+              </p>
+              <p className="text-sm leading-6 text-muted-foreground md:text-base md:leading-7">
+                That belief is what shaped AlphaTrack Digital. Every engagement
+                starts with understanding what the data really shows, not what
+                the dashboard makes it look like. From there we build the media
+                and automation that compounds over time.
+              </p>
+            </div>
+
+            <div className="mt-7 border-t border-white/[0.08] pt-5 md:mt-10">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-primary/78">
+                Approach
+              </p>
+              <p className="mt-3 max-w-3xl text-sm leading-6 text-muted-foreground md:leading-7">
+                Start with clean signal, understand what the numbers really mean,
+                then build the media and automation layer on top of that truth.
+              </p>
+            </div>
+
+          </motion.div>
         </div>
       </PageSection>
 
-      <PageSection mode="content" surface="quiet" border="top">
-        <SectionIntro
-          eyebrow="Client Feedback"
-          mode="content"
-          title="What one client said about working with us."
-          description="The work should feel clear, reliable, and easy to move forward with."
-          maxWidth="lg"
-          className="mb-8"
-        />
-
-        <div className="relative border-t border-white/10 pt-8">
-          <Quote className="absolute right-0 top-8 hidden h-10 w-10 text-primary/30 md:block" />
-          <blockquote className="max-w-4xl text-xl leading-[1.8] text-foreground md:text-[1.7rem] md:leading-[1.7]">
-            "{featuredTestimonial.quote}"
-          </blockquote>
-          <div className="mt-8 border-t border-white/10 pt-6">
-            <p className="text-base font-semibold text-foreground">
-              {featuredTestimonial.name}
-            </p>
-            <p className="mt-1 text-sm text-muted-foreground">
-              {featuredTestimonial.title}
-            </p>
-          </div>
-        </div>
-      </PageSection>
-
+      {/* ─── CTA ───────────────────────────────────────────────────────── */}
       <CTASection
         title={
           <>
-            Want to see what is holding back your{" "}
-            <span className="text-gradient">growth system</span>?
+            Have a growth challenge worth
+            <br />
+            <span className="text-gradient">talking through?</span>
           </>
         }
-        description="Get a free growth audit and we will show you the clearest next step across tracking, paid media, or automation."
-        primaryCta={{ label: "Get a Free Growth Audit", to: "/offer/tracking-audit" }}
-        secondaryCta={{ label: "Explore Services", to: "/service" }}
+        primaryCta={{ label: "Get in Touch", to: "/contact-us" }}
         variant="service-close"
+        titleClassName="text-[2rem] leading-[1.08] md:text-[2.1rem]"
       />
     </>
   );
