@@ -10,11 +10,11 @@ import { primaryServices, supportingServices } from "@/data/services";
 import { expertisePages } from "@/data/expertise";
 
 const navLinks = [
-  { label: "Services", path: "/service", menuType: "services" as const },
-  { label: "Expertise", path: "/expertise", menuType: "expertise" as const },
-  { label: "Results", disabled: true },
-  { label: "About Us", path: "/about-us" },
-  { label: "Blog", path: "/blog" },
+  { label: "Services", path: "/service", menuType: "services" as const, hash: undefined as string | undefined },
+  { label: "Expertise", path: "/expertise", menuType: "expertise" as const, hash: undefined as string | undefined },
+  { label: "Results", disabled: true, path: undefined as string | undefined, menuType: undefined as string | undefined, hash: undefined as string | undefined },
+  { label: "About Us", path: "/about-us", menuType: undefined as string | undefined, hash: undefined as string | undefined },
+  { label: "Blog", path: "/blog", menuType: undefined as string | undefined, hash: undefined as string | undefined },
 ];
 
 const Header = () => {
