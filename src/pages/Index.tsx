@@ -371,9 +371,9 @@ const Index = () => {
 
         <div className="container relative mx-auto px-4 pb-4 pt-20 sm:pt-24 md:pb-10 md:pt-32 lg:px-8">
           <motion.div
-            initial={shouldReduceMotion ? false : { opacity: 0, y: 30 }}
+            initial={shouldReduceMotion ? false : { opacity: 1, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: shouldReduceMotion ? 0 : 0.6 }}
+            transition={{ duration: shouldReduceMotion ? 0 : 0.45 }}
             className="mx-auto max-w-[54rem] text-center"
           >
             <div className="mb-6 inline-flex items-center gap-1.5 rounded-full border border-primary/25 bg-primary/[0.08] px-3 py-0.5 shadow-[0_0_16px_rgba(51,204,153,0.08)] sm:mb-6 sm:gap-2 sm:px-3.5 sm:py-1 md:mb-6 md:gap-2.5 md:px-4 md:py-1.5">
