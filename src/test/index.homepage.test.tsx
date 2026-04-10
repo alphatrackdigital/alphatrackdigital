@@ -1,4 +1,5 @@
 import { screen, within } from "@testing-library/react";
+import { BOOK_A_FREE_STRATEGY_CALL_CTA } from "@/config/cta";
 import Index from "@/pages/Index";
 import { supportingServices } from "@/data/services";
 import { renderWithPageProviders } from "@/test/renderWithPageProviders";
@@ -34,7 +35,7 @@ describe("Homepage proof and stack sections", () => {
         "We build the measurement, automation, and paid media systems that turn your marketing budget into measurable revenue. So you can see what's working, fix what isn't, and scale with confidence."
       )
     ).toBeInTheDocument();
-    expect(screen.getAllByRole("link", { name: /Get a Free Growth Audit/i }).length).toBeGreaterThan(0);
+    expect(screen.getAllByRole("link", { name: BOOK_A_FREE_STRATEGY_CALL_CTA.label }).length).toBeGreaterThan(0);
     expect(screen.getAllByRole("link", { name: /Explore Services/i }).length).toBeGreaterThan(0);
     expect(screen.queryByText("Strategy-led execution")).not.toBeInTheDocument();
     expect(screen.queryByText("Measurement-first delivery")).not.toBeInTheDocument();

@@ -1,4 +1,5 @@
 import { expect, test } from "@playwright/test";
+import { BOOK_A_FREE_STRATEGY_CALL_CTA } from "../src/config/cta";
 
 test("homepage hero is visible", async ({ page }) => {
   await page.goto("/");
@@ -11,7 +12,7 @@ test("homepage hero is visible", async ({ page }) => {
 
   await expect(
     page.getByRole("link", {
-      name: /Get a Free Growth Audit/i,
+      name: new RegExp(BOOK_A_FREE_STRATEGY_CALL_CTA.label, "i"),
     }).first(),
   ).toBeVisible();
 });

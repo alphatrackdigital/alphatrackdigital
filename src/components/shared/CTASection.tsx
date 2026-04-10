@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { ArrowUpRight } from "lucide-react";
 import type { ReactNode } from "react";
 import { Button } from "@/components/ui/button";
+import { BOOK_A_FREE_STRATEGY_CALL_CTA, EXPLORE_SERVICES_CTA } from "@/config/cta";
 import type { CTAConfig } from "@/types/cta";
 import { cn } from "@/lib/utils";
 import SectionIntro from "@/components/shared/SectionIntro";
@@ -25,7 +26,7 @@ const CTASection = ({
     </>
   ),
   description = "Book a free 15-minute strategy call and walk away with at least one clear insight, even if we never work together.",
-  primaryCta = { label: "Book a Free Strategy Call", to: "/book-a-call" },
+  primaryCta = BOOK_A_FREE_STRATEGY_CALL_CTA,
   secondaryCta,
   variant = "hero-close",
   proofChips,
@@ -34,8 +35,7 @@ const CTASection = ({
   descriptionClassName,
 }: CTASectionProps) => {
   const containerIsSplit = layout === "split";
-  const resolvedSecondaryCta =
-    secondaryCta ?? (variant === "hero-close" ? { label: "Explore Services", to: "/service" } : undefined);
+  const resolvedSecondaryCta = secondaryCta ?? (variant === "hero-close" ? EXPLORE_SERVICES_CTA : undefined);
 
   return (
     <section

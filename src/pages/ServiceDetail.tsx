@@ -19,6 +19,7 @@ import CTASection from "@/components/shared/CTASection";
 import FeaturedTestimonialSection from "@/components/shared/FeaturedTestimonialSection";
 import FAQAccordion from "@/components/shared/FAQAccordion";
 import SEO from "@/components/shared/SEO";
+import { BOOK_A_FREE_STRATEGY_CALL_CTA } from "@/config/cta";
 import { getServiceBySlug } from "@/data/services";
 import { prefetchRoute } from "@/lib/routePrefetch";
 
@@ -169,7 +170,7 @@ const serviceData: Record<string, ServiceData> = {
       },
     ],
     cta: {
-      primaryLabel: "Plan Email Flows",
+      primaryLabel: BOOK_A_FREE_STRATEGY_CALL_CTA.label,
       primaryTo: "/book-a-call",
       secondaryLabel: "See Marketing Automation",
       secondaryTo: "/service/marketing-automation",
@@ -288,7 +289,7 @@ const serviceData: Record<string, ServiceData> = {
       },
     ],
     cta: {
-      primaryLabel: "Plan a Website Build",
+      primaryLabel: BOOK_A_FREE_STRATEGY_CALL_CTA.label,
       primaryTo: "/book-a-call",
       secondaryLabel: "See Conversion Tracking",
       secondaryTo: "/service/conversion-tracking",
@@ -407,7 +408,7 @@ const serviceData: Record<string, ServiceData> = {
       },
     ],
     cta: {
-      primaryLabel: "Plan My SEO Roadmap",
+      primaryLabel: BOOK_A_FREE_STRATEGY_CALL_CTA.label,
       primaryTo: "/book-a-call",
       secondaryLabel: "See Website Development",
       secondaryTo: "/service/website-development",
@@ -526,7 +527,7 @@ const serviceData: Record<string, ServiceData> = {
       },
     ],
     cta: {
-      primaryLabel: "Build My Content Plan",
+      primaryLabel: BOOK_A_FREE_STRATEGY_CALL_CTA.label,
       primaryTo: "/book-a-call",
       secondaryLabel: "See SEO",
       secondaryTo: "/service/seo",

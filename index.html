@@ -3,6 +3,21 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      (function () {
+        const allowedHosts = new Set(["alphatrack.digital", "www.alphatrack.digital"]);
+        const params = new URLSearchParams(window.location.search);
+
+        if (!allowedHosts.has(window.location.hostname) && params.get("consently-preview") !== "1") {
+          return;
+        }
+
+        const script = document.createElement("script");
+        script.src = "https://app.consently.net/consently.js";
+        script.setAttribute("data-bannerid", "69d839dd9a39ae7fe289dbf5");
+        document.head.appendChild(script);
+      })();
+    </script>
     <title>AlphaTrack Digital | Data-Driven Performance Marketing Agency</title>
     <meta name="description" content="We navigate the digital landscape for you, blending creativity and tech to unlock business growth.">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png?v=20260303a" />

@@ -63,9 +63,9 @@ const App = () => (
             <Route path="/book-a-call/thank-you" element={withRouteSuspense(ThankYou)} />
             <Route path="/privacy-policy" element={withRouteSuspense(PrivacyPolicy)} />
             <Route path="/terms-of-service" element={withRouteSuspense(TermsOfService)} />
+            <Route path="/offer/tracking-audit" element={withRouteSuspense(TrackingLandingPage)} />
             <Route path="*" element={withRouteSuspense(NotFound)} />
           </Route>
-          <Route path="/offer/tracking-audit" element={withRouteSuspense(TrackingLandingPage)} />
         </Routes>
       </ErrorBoundary>
     </BrowserRouter>

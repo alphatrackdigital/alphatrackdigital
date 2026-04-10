@@ -5,9 +5,11 @@ import CTASection from "@/components/shared/CTASection";
 import Breadcrumbs from "@/components/shared/Breadcrumbs";
 import SafeImage from "@/components/shared/SafeImage";
 import SectionIntro from "@/components/shared/SectionIntro";
+import { BOOK_A_FREE_STRATEGY_CALL_CTA, EXPLORE_SERVICES_CTA } from "@/config/cta";
 import { getBlogPostBySlug, getRelatedBlogPosts } from "@/data/blogPosts";
 import { buildCanonicalUrl } from "@/config/seo";
 import { ArrowLeft, Clock, Calendar, Twitter, Linkedin, Link2 } from "lucide-react";
+import NewsletterSection from "@/components/shared/NewsletterSection";
 
 // Image with fallback
 const HeroImage = ({ src, alt }: { src: string; alt: string }) => {
@@ -464,11 +466,13 @@ const BlogPost = () => {
         </div>
       </section>
 
+      <NewsletterSection className="py-8 border-t border-white/10" />
+
       <CTASection
         title="Ready to Apply These Strategies?"
-        description="Book a call and let's build a plan tailored to your business."
-        primaryCta={{ label: "Book a Call", to: "/book-a-call" }}
-        secondaryCta={{ label: "Explore Services", to: "/service" }}
+        description="Book a free strategy call and let's build a plan tailored to your business."
+        primaryCta={BOOK_A_FREE_STRATEGY_CALL_CTA}
+        secondaryCta={EXPLORE_SERVICES_CTA}
         variant="inline-proof"
         proofChips={["Measurement-first advice", "Strategy tailored to your stack", "No-pressure call"]}
       />

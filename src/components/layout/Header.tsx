@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { Link, useLocation, type To } from "react-router-dom";
 import { Menu, X, ArrowUpRight, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { BOOK_A_FREE_STRATEGY_CALL_CTA } from "@/config/cta";
 import { cn } from "@/lib/utils";
 import { prefetchRoute } from "@/lib/routePrefetch";
 import { motion, AnimatePresence } from "framer-motion";
@@ -328,8 +329,8 @@ const Header = () => {
 
             <div className="hidden justify-self-end md:block">
               <Button asChild className="gap-1.5 rounded-lg bg-primary px-4 py-2 text-sm text-primary-foreground shadow-[0_0_18px_rgba(51,204,153,0.12)] hover:bg-primary/90">
-                <Link to="/offer/tracking-audit" {...getPrefetchHandlers("/offer/tracking-audit")}>
-                  Get a Free Growth Audit <ArrowUpRight className="h-4 w-4" />
+                <Link to={BOOK_A_FREE_STRATEGY_CALL_CTA.to} {...getPrefetchHandlers(BOOK_A_FREE_STRATEGY_CALL_CTA.to)}>
+                  {BOOK_A_FREE_STRATEGY_CALL_CTA.label} <ArrowUpRight className="h-4 w-4" />
                 </Link>
               </Button>
             </div>
@@ -508,12 +509,12 @@ const Header = () => {
               )}
               <Button asChild className="mt-2 gap-1.5 rounded-lg bg-primary text-primary-foreground">
                 <Link
-                  to="/offer/tracking-audit"
+                  to={BOOK_A_FREE_STRATEGY_CALL_CTA.to}
                   onClick={closeMobileMenu}
-                  onTouchStart={() => prefetchRoute("/offer/tracking-audit")}
-                  onFocus={() => prefetchRoute("/offer/tracking-audit")}
+                  onTouchStart={() => prefetchRoute(BOOK_A_FREE_STRATEGY_CALL_CTA.to)}
+                  onFocus={() => prefetchRoute(BOOK_A_FREE_STRATEGY_CALL_CTA.to)}
                 >
-                  Get a Free Growth Audit <ArrowUpRight className="h-4 w-4" />
+                  {BOOK_A_FREE_STRATEGY_CALL_CTA.label} <ArrowUpRight className="h-4 w-4" />
                 </Link>
               </Button>
             </nav>

@@ -1,4 +1,4 @@
-const FALLBACK_SITE_URL = "https://alphatrackdigital.lovable.app";
+const FALLBACK_SITE_URL = "https://alphatrack.digital";
 
 const normalizeSiteUrl = (url: string) => url.replace(/\/+$/, "");
 

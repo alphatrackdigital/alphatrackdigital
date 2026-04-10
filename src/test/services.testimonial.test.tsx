@@ -1,6 +1,7 @@
 import { screen, within } from "@testing-library/react";
 import { Route, Routes } from "react-router-dom";
 
+import { REQUEST_A_FREE_TRACKING_AUDIT_CTA } from "@/config/cta";
 import ConversionTracking from "@/pages/ConversionTracking";
 import ServiceDetail from "@/pages/ServiceDetail";
 import Services from "@/pages/Services";
@@ -20,6 +21,7 @@ describe("Service page testimonial placement", () => {
     expect(within(testimonialSection).getByText("Courtney Quist-Therson")).toBeInTheDocument();
     expect(within(testimonialSection).getByText("CEO & Founder, Pearl House Ghana")).toBeInTheDocument();
     expect(within(testimonialSection).getByAltText("Pearl House Ghana")).toBeInTheDocument();
+    expect(screen.getAllByRole("link", { name: REQUEST_A_FREE_TRACKING_AUDIT_CTA.label }).length).toBeGreaterThan(0);
   });
 
   it("renders the shared testimonial on a flagship service page", () => {
@@ -28,6 +30,7 @@ describe("Service page testimonial placement", () => {
     expect(screen.getByTestId("featured-testimonial-section")).toBeInTheDocument();
     expect(screen.getByText("What clients say when execution matters.")).toBeInTheDocument();
     expect(screen.getByText("Courtney Quist-Therson")).toBeInTheDocument();
+    expect(screen.getAllByRole("link", { name: REQUEST_A_FREE_TRACKING_AUDIT_CTA.label }).length).toBeGreaterThan(0);
   });
 
   it("renders the shared testimonial on a routed generic service page", () => {

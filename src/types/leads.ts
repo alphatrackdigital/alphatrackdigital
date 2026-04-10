@@ -1,4 +1,4 @@
-export type LeadSource = "contact_form" | "tracking_audit_offer";
+export type LeadSource = "contact_form" | "tracking_audit_offer" | "newsletter";
 
 export interface LeadCapturePayload {
   source: LeadSource;

@@ -5,8 +5,10 @@ import CTASection from "@/components/shared/CTASection";
 import Breadcrumbs from "@/components/shared/Breadcrumbs";
 import SafeImage from "@/components/shared/SafeImage";
 import SectionIntro from "@/components/shared/SectionIntro";
+import NewsletterSection from "@/components/shared/NewsletterSection";
+import { BOOK_A_FREE_STRATEGY_CALL_CTA, EXPLORE_SERVICES_CTA } from "@/config/cta";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight, Clock, Mail } from "lucide-react";
+import { ArrowRight, Clock } from "lucide-react";
 import { blogPosts } from "@/data/blogPosts";
 import { cn } from "@/lib/utils";
 
@@ -129,34 +131,7 @@ const Blog = () => {
         </div>
       </section>
 
-      {/* Newsletter CTA */}
-      <section className="pb-4">
-        <div className="container mx-auto px-4 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.4 }}
-            className="flex flex-col items-center gap-4 rounded-[24px] border border-primary/15 bg-primary/[0.05] px-8 py-6 sm:flex-row sm:justify-between"
-          >
-            <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10">
-                <Mail className="h-5 w-5 text-primary" />
-              </div>
-              <div>
-                <p className="font-semibold">Get insights straight to your inbox</p>
-                <p className="text-sm text-muted-foreground">No fluff. Actionable strategies every fortnight.</p>
-              </div>
-            </div>
-            <Link
-              to="/contact-us"
-              className="inline-flex shrink-0 items-center gap-1.5 rounded-lg bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90"
-            >
-              Subscribe <ArrowRight className="h-4 w-4" />
-            </Link>
-          </motion.div>
-        </div>
-      </section>
+      <NewsletterSection className="pb-4" />
 
       {rest.length > 0 && (
         <section className="pb-20">
@@ -213,9 +188,9 @@ const Blog = () => {
 
       <CTASection
         title="Want Us to Put These Strategies to Work for You?"
-        description="Book a call and we'll show you exactly how to apply these insights to your business."
-        primaryCta={{ label: "Book a Call", to: "/book-a-call" }}
-        secondaryCta={{ label: "Explore Services", to: "/service" }}
+        description="Book a free strategy call and we'll show you exactly how to apply these insights to your business."
+        primaryCta={BOOK_A_FREE_STRATEGY_CALL_CTA}
+        secondaryCta={EXPLORE_SERVICES_CTA}
         variant="inline-proof"
         proofChips={["Actionable advice", "Built around your current setup", "No-pressure discovery call"]}
       />

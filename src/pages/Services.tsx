@@ -6,6 +6,7 @@ import CTASection from "@/components/shared/CTASection";
 import FeaturedTestimonialSection from "@/components/shared/FeaturedTestimonialSection";
 import SEO from "@/components/shared/SEO";
 import SectionIntro from "@/components/shared/SectionIntro";
+import { BOOK_A_FREE_STRATEGY_CALL_CTA, REQUEST_A_FREE_TRACKING_AUDIT_CTA } from "@/config/cta";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { prefetchRoute } from "@/lib/routePrefetch";
@@ -47,8 +48,8 @@ const Services = () => {
                 size="lg"
                 className="gap-1.5 rounded-xl bg-primary px-8 text-primary-foreground hover:bg-primary/90"
               >
-                <Link to="/book-a-call">
-                  Book a Call <ArrowUpRight className="h-4 w-4" />
+                <Link to={BOOK_A_FREE_STRATEGY_CALL_CTA.to}>
+                  {BOOK_A_FREE_STRATEGY_CALL_CTA.label} <ArrowUpRight className="h-4 w-4" />
                 </Link>
               </Button>
               <Button
@@ -57,8 +58,8 @@ const Services = () => {
                 size="lg"
                 className="gap-1.5 rounded-xl border-white/20 hover:bg-white/5"
               >
-                <Link to="/offer/tracking-audit">
-                  Request a Tracking Audit <ArrowUpRight className="h-4 w-4" />
+                <Link to={REQUEST_A_FREE_TRACKING_AUDIT_CTA.to}>
+                  {REQUEST_A_FREE_TRACKING_AUDIT_CTA.label} <ArrowUpRight className="h-4 w-4" />
                 </Link>
               </Button>
             </div>
@@ -285,8 +286,8 @@ const Services = () => {
           </>
         }
         description="Tell us where growth is getting stuck and we'll point you to the service that should come first."
-        primaryCta={{ label: "Book a Call", to: "/book-a-call" }}
-        secondaryCta={{ label: "Request a Tracking Audit", to: "/offer/tracking-audit" }}
+        primaryCta={BOOK_A_FREE_STRATEGY_CALL_CTA}
+        secondaryCta={REQUEST_A_FREE_TRACKING_AUDIT_CTA}
         variant="service-close"
         layout="split"
       />

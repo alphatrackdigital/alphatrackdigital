@@ -11,6 +11,8 @@ describe("TrackingLandingPage accessibility", () => {
     expect(screen.getByLabelText("Work Email")).toBeInTheDocument();
     expect(screen.getByLabelText("Website URL")).toBeInTheDocument();
     expect(screen.getByLabelText("Monthly Ad Spend Level")).toBeInTheDocument();
-    expect(screen.getByLabelText("Which ad platforms are active right now?")).toBeInTheDocument();
+    expect(
+      screen.getByRole("group", { name: "Which ad platforms are active right now?" }),
+    ).toBeInTheDocument();
   });
 });

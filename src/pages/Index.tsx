@@ -18,6 +18,8 @@ import {
 import { Button } from "@/components/ui/button";
 import CTASection from "@/components/shared/CTASection";
 import FAQAccordion from "@/components/shared/FAQAccordion";
+import NewsletterSection from "@/components/shared/NewsletterSection";
+import { BOOK_A_FREE_STRATEGY_CALL_CTA } from "@/config/cta";
 import SEO from "@/components/shared/SEO";
 import SectionIntro from "@/components/shared/SectionIntro";
 import { buildCanonicalUrl } from "@/config/seo";
@@ -402,8 +404,8 @@ const Index = () => {
                 size="lg"
                 className="h-11 w-full max-w-[16rem] gap-1.5 rounded-lg bg-primary px-6 text-[15px] text-primary-foreground shadow-[0_0_24px_rgba(51,204,153,0.22)] transition-shadow hover:bg-primary/90 hover:shadow-[0_0_36px_rgba(0,175,239,0.18)] sm:h-12 sm:w-auto sm:max-w-none sm:px-8 sm:text-base"
               >
-                <Link to="/offer/tracking-audit">
-                  Get a Free Growth Audit <ArrowUpRight className="h-4 w-4" />
+                <Link to={BOOK_A_FREE_STRATEGY_CALL_CTA.to}>
+                  {BOOK_A_FREE_STRATEGY_CALL_CTA.label} <ArrowUpRight className="h-4 w-4" />
                 </Link>
               </Button>
               <Button
@@ -1106,6 +1108,8 @@ const Index = () => {
         accordionClassName="space-y-3"
       />
 
+      <NewsletterSection className="py-10 border-t border-white/10" />
+
       <CTASection
         title={
           <>
@@ -1115,7 +1119,6 @@ const Index = () => {
           </>
         }
         description="Book a free 15-minute strategy call. We will review your setup, share what we see, and give you a clear next step."
-        primaryCta={{ label: "Book a Free Strategy Call", to: "/book-a-call" }}
         secondaryCta={{ label: "Explore Services", to: "/service" }}
         variant="hero-close"
       />

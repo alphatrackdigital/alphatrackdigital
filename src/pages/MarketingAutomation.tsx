@@ -14,6 +14,7 @@ import CTASection from "@/components/shared/CTASection";
 import FeaturedTestimonialSection from "@/components/shared/FeaturedTestimonialSection";
 import FAQAccordion from "@/components/shared/FAQAccordion";
 import SEO from "@/components/shared/SEO";
+import { BOOK_A_FREE_STRATEGY_CALL_CTA } from "@/config/cta";
 import type { LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -243,7 +244,7 @@ const MarketingAutomation = () => {
               </p>
               <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
                 <Button asChild size="lg" className="gap-2 rounded-xl bg-primary px-9 text-primary-foreground hover:bg-primary/90">
-                  <Link to="/book-a-call">Book a CRM Workflow Review <ArrowUpRight className="h-4 w-4" /></Link>
+                  <Link to={BOOK_A_FREE_STRATEGY_CALL_CTA.to}>{BOOK_A_FREE_STRATEGY_CALL_CTA.label} <ArrowUpRight className="h-4 w-4" /></Link>
                 </Button>
               </div>
               {/* Quick stats */}
@@ -357,7 +358,7 @@ const MarketingAutomation = () => {
                 </ul>
                 <div className="mt-7">
                   <Button asChild size="lg" className="gap-2 rounded-xl bg-primary text-primary-foreground hover:bg-primary/90">
-                    <Link to="/book-a-call">Map Your Lead Flow <ArrowUpRight className="h-4 w-4" /></Link>
+                    <Link to={BOOK_A_FREE_STRATEGY_CALL_CTA.to}>{BOOK_A_FREE_STRATEGY_CALL_CTA.label} <ArrowUpRight className="h-4 w-4" /></Link>
                   </Button>
                 </div>
               </div>
@@ -543,7 +544,7 @@ const MarketingAutomation = () => {
           </span>
         }
         description=""
-        primaryCta={{ label: "Book a CRM Workflow Review", to: "/book-a-call" }}
+        primaryCta={BOOK_A_FREE_STRATEGY_CALL_CTA}
         variant="service-close"
         layout="split"
         titleClassName="max-w-[15ch] pb-4 text-[2.38rem] leading-[1.12] tracking-[-0.04em] md:text-[2.82rem] lg:text-[3rem]"

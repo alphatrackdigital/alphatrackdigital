@@ -15,6 +15,7 @@ import CTASection from "@/components/shared/CTASection";
 import FeaturedTestimonialSection from "@/components/shared/FeaturedTestimonialSection";
 import FAQAccordion from "@/components/shared/FAQAccordion";
 import SEO from "@/components/shared/SEO";
+import { BOOK_A_FREE_STRATEGY_CALL_CTA, REQUEST_A_FREE_TRACKING_AUDIT_CTA } from "@/config/cta";
 import type { LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -245,7 +246,9 @@ const ConversionTracking = () => {
               </p>
               <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
                 <Button asChild size="lg" className="gap-2 rounded-xl bg-primary px-9 text-primary-foreground hover:bg-primary/90">
-                  <Link to="/offer/tracking-audit">Request a Tracking Audit <ArrowUpRight className="h-4 w-4" /></Link>
+                  <Link to={REQUEST_A_FREE_TRACKING_AUDIT_CTA.to}>
+                    {REQUEST_A_FREE_TRACKING_AUDIT_CTA.label} <ArrowUpRight className="h-4 w-4" />
+                  </Link>
                 </Button>
               </div>
             </motion.div>
@@ -346,7 +349,9 @@ const ConversionTracking = () => {
                 </ul>
                 <div className="mt-7">
                   <Button asChild size="lg" className="gap-2 rounded-xl bg-primary text-primary-foreground hover:bg-primary/90">
-                    <Link to="/offer/tracking-audit">Request a Tracking Audit <ArrowUpRight className="h-4 w-4" /></Link>
+                    <Link to={REQUEST_A_FREE_TRACKING_AUDIT_CTA.to}>
+                      {REQUEST_A_FREE_TRACKING_AUDIT_CTA.label} <ArrowUpRight className="h-4 w-4" />
+                    </Link>
                   </Button>
                 </div>
               </div>
@@ -502,7 +507,7 @@ const ConversionTracking = () => {
             </div>
             <div className="mt-8 text-center">
               <Button asChild size="lg" className="gap-2 rounded-xl bg-primary text-primary-foreground hover:bg-primary/90">
-                <Link to="/book-a-call">Talk Through Your Setup <ArrowUpRight className="h-4 w-4" /></Link>
+                <Link to={BOOK_A_FREE_STRATEGY_CALL_CTA.to}>{BOOK_A_FREE_STRATEGY_CALL_CTA.label} <ArrowUpRight className="h-4 w-4" /></Link>
               </Button>
             </div>
           </div>
@@ -571,7 +576,7 @@ const ConversionTracking = () => {
           </span>
         }
         description=""
-        primaryCta={{ label: "Request a Tracking Audit", to: "/offer/tracking-audit" }}
+        primaryCta={REQUEST_A_FREE_TRACKING_AUDIT_CTA}
         variant="service-close"
         layout="split"
         titleClassName="max-w-[15ch] pb-4 text-[2.38rem] leading-[1.12] tracking-[-0.04em] md:text-[2.82rem] lg:text-[3rem]"

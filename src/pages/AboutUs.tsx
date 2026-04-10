@@ -15,6 +15,7 @@ import {
 } from "framer-motion";
 
 import CTASection from "@/components/shared/CTASection";
+import NewsletterSection from "@/components/shared/NewsletterSection";
 import PageSection from "@/components/shared/PageSection";
 import SectionIntro from "@/components/shared/SectionIntro";
 import SEO from "@/components/shared/SEO";
@@ -86,6 +87,28 @@ const sectorSummaries: Record<SectorName, string> = {
     "Creative campaigns paired with practical reporting for launches and bookings.",
   "Real Estate":
     "Lead capture and remarketing systems that keep demand moving through the funnel.",
+};
+
+const mobileCtmaSummaries: Record<string, string> = {
+  "Conversion Tracking": "Attribution before bigger bets.",
+  "Traffic & Paid Media": "Efficient channel execution.",
+  "Marketing Automation": "Follow-up that keeps pace.",
+  "Analytics & Insights": "Reporting leaders can act on.",
+};
+
+const mobileEngagementSummaries: Record<string, string> = {
+  Starter: "Clarity first, before a bigger commitment.",
+  Growth: "Steady, compounding execution for active growth.",
+  Project: "Focused execution for launches and short pushes.",
+};
+
+const founderStory = {
+  lead:
+    "Most agencies start with channels. We start with measurement, because scaling weak data only multiplies waste.",
+  support:
+    "That belief shaped AlphaTrack Digital. We clean the signal first, then build the media and automation that compound.",
+  approach:
+    "Start with clean signal, read the numbers honestly, then build growth on top of that truth.",
 };
 
 // ─── Gradient chapter separator ────────────────────────────────────────────
@@ -183,7 +206,7 @@ const AboutUs = () => {
                       <img
                         src="/about-hero-team-2026.png"
                         alt="AlphaTrack Digital team reviewing performance dashboards"
-                        className="h-[188px] w-full object-cover object-center"
+                        className="h-[188px] w-full object-contain object-center"
                         loading="eager"
                         width={900}
                         height={1122}
@@ -218,7 +241,7 @@ const AboutUs = () => {
                 <img
                   src="/about-hero-team-2026.png"
                   alt="AlphaTrack Digital team reviewing performance dashboards"
-                  className="h-full w-full object-cover object-center"
+                  className="h-full w-full object-cover object-[center_12%]"
                   loading="eager"
                   width={900}
                   height={1122}
@@ -408,7 +431,7 @@ const AboutUs = () => {
               </div>
             </motion.div>
 
-            <div className="grid grid-cols-2 gap-3 overflow-hidden rounded-[24px] border border-white/[0.08] bg-black/10 p-1.5 md:grid-cols-1 md:gap-0 md:rounded-[28px] md:p-0">
+            <div className="grid grid-cols-1 gap-2.5 overflow-hidden rounded-[24px] border border-white/[0.08] bg-black/10 p-1.5 md:gap-0 md:rounded-[28px] md:p-0">
               {ctmaFramework.map((item, i) => (
                 <motion.div
                   key={item.title}
@@ -418,7 +441,7 @@ const AboutUs = () => {
                   viewport={{ once: true, margin: "-40px" }}
                   variants={fadeUp}
                   className={cn(
-                    "grid min-h-[122px] content-start gap-2 rounded-[18px] border border-white/[0.08] bg-white/[0.02] px-3 py-3.5 transition-colors duration-300 hover:bg-white/[0.03] md:min-h-0 md:rounded-none md:border-0 md:bg-transparent md:grid-cols-[74px_minmax(0,1fr)] md:items-start md:gap-4 md:px-5 md:py-[1.125rem]",
+                    "grid grid-cols-[42px_minmax(0,1fr)] items-center gap-3 rounded-[18px] border border-white/[0.08] bg-white/[0.02] px-3.5 py-3 transition-colors duration-300 hover:bg-white/[0.03] md:min-h-0 md:rounded-none md:border-0 md:bg-transparent md:grid-cols-[74px_minmax(0,1fr)] md:items-start md:gap-4 md:px-5 md:py-[1.125rem]",
                     i !== 0 && "md:border-t md:border-white/[0.08]",
                   )}
                 >
@@ -431,8 +454,11 @@ const AboutUs = () => {
                     <h3 className="text-[0.95rem] font-semibold tracking-tight text-foreground md:text-[1.06rem]">
                       {item.title}
                     </h3>
-                    <p className="mt-1.5 max-w-xl line-clamp-2 text-xs leading-5 text-muted-foreground md:line-clamp-none md:text-sm md:leading-6">
-                      {item.summary}
+                    <p className="mt-1 max-w-xl text-[11px] leading-5 text-muted-foreground whitespace-nowrap md:mt-1.5 md:text-sm md:leading-6 md:whitespace-normal">
+                      <span className="md:hidden">
+                        {mobileCtmaSummaries[item.title] ?? item.summary}
+                      </span>
+                      <span className="hidden md:inline">{item.summary}</span>
                     </p>
                   </div>
                 </motion.div>
@@ -490,18 +516,8 @@ const AboutUs = () => {
                   {model.title}
                 </h3>
                 <p className="mt-2 text-[13px] leading-6 text-muted-foreground">
-                  {model.idealFor}
+                  {mobileEngagementSummaries[model.label] ?? model.idealFor}
                 </p>
-                <div className="mt-3 flex flex-wrap gap-2">
-                  {model.includes.slice(0, 2).map((item) => (
-                    <span
-                      key={item}
-                      className="rounded-full border border-white/[0.08] bg-white/[0.03] px-3 py-1.5 text-[11px] leading-none text-muted-foreground"
-                    >
-                      {item}
-                    </span>
-                  ))}
-                </div>
               </motion.article>
             ))}
           </div>
@@ -605,23 +621,23 @@ const AboutUs = () => {
                     initial={shouldReduceMotion ? false : "hidden"}
                     whileInView={shouldReduceMotion ? undefined : "visible"}
                     viewport={{ once: true, margin: "-40px" }}
-                    variants={fadeUp}
-                    className={cn(
-                      "group relative min-h-[94px] border-white/[0.08] p-3.5 transition-colors duration-300 hover:bg-white/[0.02]",
+                  variants={fadeUp}
+                  className={cn(
+                      "group relative min-h-[78px] border-white/[0.08] p-3 transition-colors duration-300 hover:bg-white/[0.02]",
                       index >= 2 && "border-t",
                       index % 2 === 1 && "border-l",
                     )}
                   >
-                    <div className="flex h-full flex-col justify-between gap-5">
+                    <div className="flex h-full items-start gap-3">
                       <div
                         className={cn(
-                          "flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-white/[0.08] shadow-[inset_0_1px_0_rgba(255,255,255,0.03)]",
+                          "flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-white/[0.08] shadow-[inset_0_1px_0_rgba(255,255,255,0.03)]",
                           visual.accentClassName,
                         )}
                       >
-                        <Icon className="h-4 w-4" />
+                        <Icon className="h-3.5 w-3.5" />
                       </div>
-                      <h3 className="text-[0.94rem] font-semibold leading-[1.22] tracking-tight text-foreground">
+                      <h3 className="pt-0.5 text-[0.92rem] font-semibold leading-[1.18] tracking-tight text-foreground">
                         {sector}
                       </h3>
                     </div>
@@ -693,7 +709,7 @@ const AboutUs = () => {
           className="relative overflow-hidden rounded-[28px] border border-white/[0.08] bg-[radial-gradient(circle_at_top_left,rgba(0,175,239,0.05),transparent_22%),radial-gradient(circle_at_80%_18%,rgba(51,204,153,0.05),transparent_22%),linear-gradient(180deg,rgba(255,255,255,0.022)_0%,rgba(255,255,255,0.008)_100%)] p-4 shadow-[0_18px_48px_rgba(0,0,0,0.12)] md:hidden"
         >
           <div className="pointer-events-none absolute inset-x-10 top-0 h-px bg-gradient-to-r from-transparent via-white/16 to-transparent" />
-          <div className="relative aspect-[5/4] overflow-hidden rounded-[22px] border border-white/[0.09]">
+          <div className="relative aspect-[5/4] overflow-hidden rounded-[22px] border border-white/[0.09] bg-[#0a0d12]">
             {imgError ? (
               <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-atd-blue/20 via-background to-primary/10">
                 <span className="text-5xl font-bold text-primary/40">
@@ -704,7 +720,7 @@ const AboutUs = () => {
               <img
                 src="/founder-portrait-optimized.jpg"
                 alt={`${companyProfile.founder.name}, ${companyProfile.founder.title}`}
-                className="h-full w-full object-cover object-center brightness-90"
+                className="h-full w-full object-contain object-center brightness-90"
                 loading="lazy"
                 width={760}
                 height={1140}
@@ -741,27 +757,21 @@ const AboutUs = () => {
               Built from a <span className="text-gradient">clear</span> belief.
             </h2>
 
-            <div className="mt-5 space-y-4">
+            <div className="mt-4 space-y-3.5">
               <p className="text-[0.98rem] leading-7 text-foreground">
-                Most agencies start with channels. We start with measurement
-                because the most expensive mistake a brand can make is scaling a
-                system that does not actually work yet.
+                {founderStory.lead}
               </p>
               <p className="text-sm leading-6 text-muted-foreground">
-                That belief is what shaped AlphaTrack Digital. Every engagement
-                starts with understanding what the data really shows, not what
-                the dashboard makes it look like. From there we build the media
-                and automation that compounds over time.
+                {founderStory.support}
               </p>
             </div>
 
-            <div className="mt-5 border-t border-white/[0.08] pt-4">
+            <div className="mt-4 border-t border-white/[0.08] pt-3.5">
               <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-primary/78">
                 Approach
               </p>
               <p className="mt-2 text-sm leading-6 text-muted-foreground">
-                Start with clean signal, understand what the numbers really mean,
-                then build the media and automation layer on top of that truth.
+                {founderStory.approach}
               </p>
             </div>
           </div>
@@ -781,7 +791,7 @@ const AboutUs = () => {
             <div className="absolute -inset-6 rounded-[36px] bg-gradient-to-br from-atd-blue/20 via-secondary/10 to-primary/[0.06] blur-3xl" />
 
             {/* Image frame */}
-            <div className="relative aspect-[4/5] overflow-hidden rounded-[22px] border border-white/[0.09]">
+            <div className="relative aspect-[4/5] overflow-hidden rounded-[22px] border border-white/[0.09] bg-[#0a0d12]">
               {imgError ? (
                 /* Fallback initials avatar */
                 <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-atd-blue/20 via-background to-primary/10">
@@ -793,7 +803,7 @@ const AboutUs = () => {
                 <img
                   src="/founder-portrait-optimized.jpg"
                   alt={`${companyProfile.founder.name}, ${companyProfile.founder.title}`}
-                  className="h-full w-full object-cover object-center brightness-90"
+                  className="h-full w-full object-cover object-[center_10%] brightness-90"
                   loading="lazy"
                   width={760}
                   height={1140}
@@ -846,15 +856,10 @@ const AboutUs = () => {
 
             <div className="mt-6 space-y-4 md:mt-8">
               <p className="text-[1rem] leading-[1.72] text-foreground md:text-lg md:leading-[1.85]">
-                Most agencies start with channels. We start with measurement
-                because the most expensive mistake a brand can make is scaling a
-                system that does not actually work yet.
+                {founderStory.lead}
               </p>
               <p className="text-sm leading-6 text-muted-foreground md:text-base md:leading-7">
-                That belief is what shaped AlphaTrack Digital. Every engagement
-                starts with understanding what the data really shows, not what
-                the dashboard makes it look like. From there we build the media
-                and automation that compounds over time.
+                {founderStory.support}
               </p>
             </div>
 
@@ -863,8 +868,7 @@ const AboutUs = () => {
                 Approach
               </p>
               <p className="mt-3 max-w-3xl text-sm leading-6 text-muted-foreground md:leading-7">
-                Start with clean signal, understand what the numbers really mean,
-                then build the media and automation layer on top of that truth.
+                {founderStory.approach}
               </p>
             </div>
 
@@ -873,17 +877,17 @@ const AboutUs = () => {
       </PageSection>
 
       {/* ─── CTA ───────────────────────────────────────────────────────── */}
+      <NewsletterSection className="py-10 border-t border-white/10" />
+
       <CTASection
         title={
           <>
-            Have a growth challenge worth
-            <br />
-            <span className="text-gradient">talking through?</span>
+            Need a clearer path to <span className="text-gradient">growth?</span>
           </>
         }
         primaryCta={{ label: "Get in Touch", to: "/contact-us" }}
         variant="service-close"
-        titleClassName="text-[2rem] leading-[1.08] md:text-[2.1rem]"
+        titleClassName="text-[1.74rem] leading-[1.08] md:text-[1.95rem]"
       />
     </>
   );

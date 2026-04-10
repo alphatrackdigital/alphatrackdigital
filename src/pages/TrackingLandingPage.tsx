@@ -1,177 +1,286 @@
+import type { ReactNode } from "react";
 import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import PageSection from "@/components/shared/PageSection";
-import SectionIntro from "@/components/shared/SectionIntro";
-import SEO from "@/components/shared/SEO";
-import { motion } from "framer-motion";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { motion } from "framer-motion";
 import { z } from "zod";
 import { toast } from "sonner";
 import {
-  ArrowUpRight,
+  ArrowRight,
   BarChart3,
   CheckCircle2,
-  CheckSquare,
   Flame,
   Ghost,
   Loader2,
   ShieldCheck,
 } from "lucide-react";
-import type { LucideIcon } from "lucide-react";
 
-import { submitLead } from "@/lib/leads";
+import SEO from "@/components/shared/SEO";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { BOOK_A_FREE_STRATEGY_CALL_CTA, REQUEST_A_FREE_TRACKING_AUDIT_CTA } from "@/config/cta";
 import { companyProfile } from "@/data/companyProfile";
-import type { JourneyStep, OfferCard, ProofMetric } from "@/types/page-content";
+import { submitLead } from "@/lib/leads";
 
 const auditSchema = z.object({
-  firstName: z.string().trim().min(1, "First name is required").max(100),
-  lastName: z.string().trim().min(1, "Last name is required").max(100),
-  email: z.string().trim().email("Please enter a valid email").max(255),
-  websiteUrl: z.string().trim().url("Please enter a valid URL").max(500),
-  monthlyAdSpend: z.string().min(1, "Please select your ad spend"),
-  adPlatforms: z.string().trim().min(1, "Please tell us which platforms you use").max(500),
+  firstName: z.string().trim().min(1, "Required").max(100),
+  lastName: z.string().trim().min(1, "Required").max(100),
+  email: z.string().trim().email("Enter a valid email").max(255),
+  websiteUrl: z.string().trim().url("Enter a valid URL").max(500),
+  monthlyAdSpend: z.string().min(1, "Select your spend level"),
+  adPlatforms: z.array(z.string()).min(1, "Select at least one platform"),
 });
 
 type AuditFormData = z.infer<typeof auditSchema>;
 
-interface DiagnosticItem {
-  icon: LucideIcon;
-  title: string;
-  description: string;
-}
-
-const diagnosticItems: DiagnosticItem[] = [
+const PAIN_POINTS = [
   {
     icon: BarChart3,
     title: "Platform numbers do not agree",
-    description:
-      "GA4, ad platforms, and forms are telling different stories, so nobody trusts the numbers enough to act on them.",
+    body: "GA4, ad platforms, and forms tell different stories, so nobody trusts the data enough to act on it.",
   },
   {
     icon: Ghost,
-    title: "Conversions are missing or duplicated",
-    description:
-      "Leads, calls, or purchases are not being counted properly, which breaks both reporting and optimization.",
+    title: "Conversions are missing or doubled",
+    body: "Leads, calls, or purchases are not counted accurately, which breaks both reporting and automated bidding.",
   },
   {
     icon: Flame,
-    title: "Campaigns are optimizing on weak signals",
-    description:
-      "If the tracking is unreliable, budget decisions and automated bidding are both learning from noise.",
+    title: "Budget is learning from noise",
+    body: "When tracking is unreliable, every bid and budget decision is being trained on the wrong signal.",
   },
-];
+] as const;
 
-const offerCards: OfferCard[] = [
-  {
-    highlight: true,
-    badge: "Included",
-    title: "Free Conversion Tracking Audit",
-    description:
-      "We review your setup and send back a clear audit covering what is working, what is broken, and what needs attention first.",
-    features: [
-      "GA4 configuration review",
-      "Meta and Google Ads tracking check",
-      "Conversion event validation",
-      "Tag Manager review",
-      "Written fix priorities",
-    ],
-  },
-  {
-    highlight: false,
-    badge: "Founders Offer",
-    title: "20% Off Implementation",
-    description:
-      "If you want us to fix what we find, the same offer includes 20% off a full tracking setup and validation project.",
-    features: [
-      "Measurement plan tailored to your business",
-      "GA4 and ad platform implementation",
-      "QA before go-live",
-      "Documentation and handover",
-      "Discount applied to the full tracking implementation",
-    ],
-  },
-];
+const AUDIT_COVERS = [
+  "Which conversion events are firing correctly and which are not",
+  "Why your GA4 numbers do not line up with ad platform reporting",
+  "Where Tag Manager may be misconfigured or creating duplicates",
+  "Which Google Ads and Meta signals look reliable enough to optimize on",
+  "A practical order of fixes so the team knows what to tackle first",
+] as const;
 
-const proofMetrics: ProofMetric[] = [
+const REVIEW_VALUES = [
   {
-    value: "97%",
-    label: "Of tracking setups we review have at least one critical issue",
-  },
-  {
-    value: "5-7",
-    label: "Working days for a validated setup once implementation begins",
-  },
-  {
-    value: "48h",
-    label: "Response window for the audit request",
-  },
-];
-
-const auditSteps: JourneyStep[] = [
-  {
-    step: "01",
-    title: "Share the setup",
-    description: "Tell us the site, the platforms you run, and the budget level you are working with.",
-    icon: CheckSquare,
-  },
-  {
-    step: "02",
-    title: "We review the signal quality",
-    description: "We check tracking logic, event setup, and the gaps that are distorting decisions.",
     icon: ShieldCheck,
+    title: "Manual review",
+    body: "Every request is reviewed by a person on our team. We do not send a generic score or auto-generated report.",
   },
   {
-    step: "03",
-    title: "You get a practical audit",
-    description: "We come back with findings, fix priorities, and the next sensible step.",
-    icon: CheckCircle2,
+    icon: BarChart3,
+    title: "Clear limits",
+    body: "If something cannot be confirmed from your form and current setup, we say that plainly instead of guessing.",
   },
-];
+  {
+    icon: CheckCircle2,
+    title: "Useful next step",
+    body: "The audit is meant to help you act. We focus on what matters first, not on creating a longer checklist.",
+  },
+] as const;
 
-const adSpendOptions = [
-  { value: "", label: "Select level" },
+const FIT_POINTS = [
+  "You are already running ads and the numbers do not line up",
+  "You are not sure which conversions are trustworthy enough to optimize on",
+  "You want a practical fix order before investing more budget",
+  "You would rather get a straight answer than a dramatic pitch",
+] as const;
+
+const MOBILE_FIT_POINTS = [
+  "Tracking mismatch",
+  "Missing conversions",
+  "Noisy ad signals",
+  "Clear fix order",
+] as const;
+
+const REVIEW_STEPS = [
+  {
+    title: "You send the basics",
+    body: "Website, spend band, and active platforms give us enough context to start a first-pass review.",
+  },
+  {
+    title: "We review it manually",
+    body: "We check the setup with a human eye and note what looks broken, missing, or unclear.",
+  },
+  {
+    title: "We reply plainly",
+    body: "We aim to respond within 48 hours with findings or one clarifying question if we need more context.",
+  },
+] as const;
+
+const PLATFORM_OPTIONS = [
+  "Google Ads",
+  "Meta Ads",
+  "TikTok Ads",
+  "LinkedIn Ads",
+  "Microsoft Ads",
+  "Other",
+] as const;
+
+const SPEND_OPTIONS = [
   { value: "Not spending consistently yet", label: "Not spending consistently yet" },
-  { value: "Under 1k per month", label: "Under 1k per month" },
-  { value: "1k to 5k per month", label: "1k to 5k per month" },
-  { value: "5k to 20k per month", label: "5k to 20k per month" },
-  { value: "20k+ per month", label: "20k+ per month" },
-];
+  { value: "Under 1k per month", label: "Under $1k / mo" },
+  { value: "1k to 5k per month", label: "$1k - $5k / mo" },
+  { value: "5k to 20k per month", label: "$5k - $20k / mo" },
+  { value: "20k+ per month", label: "$20k+ / mo" },
+] as const;
 
-const MIN_FORM_FILL_TIME_MS = 1500;
-const SUBMISSION_THROTTLE_MS = 5000;
+const HERO_CHIPS = ["Free manual review", "Reply target: 48 hours", "No obligation"] as const;
+
+const MIN_FILL_MS = 1500;
+const THROTTLE_MS = 5000;
+
+const fieldClassName =
+  "border-white/10 bg-white/5 aria-[invalid=true]:border-red-500/40";
+
+const Field = ({
+  label,
+  htmlFor,
+  error,
+  children,
+}: {
+  label: string;
+  htmlFor: string;
+  error?: string;
+  children: ReactNode;
+}) => (
+  <div>
+    <label htmlFor={htmlFor} className="mb-1.5 block text-sm font-medium">
+      {label}
+    </label>
+    {children}
+    {error && (
+      <p id={`${htmlFor}-err`} role="alert" className="mt-1 text-xs text-red-400">
+        {error}
+      </p>
+    )}
+  </div>
+);
+
+const AuditFitCard = ({ variant = "desktop" }: { variant?: "desktop" | "mobile" }) => {
+  const isMobile = variant === "mobile";
+
+  return (
+    <div
+      className={
+        isMobile
+          ? "border-t border-white/10 pt-5"
+          : "relative overflow-hidden rounded-[24px] border border-white/12 bg-[radial-gradient(circle_at_top_right,rgba(51,204,153,0.09),transparent_32%),linear-gradient(180deg,rgba(255,255,255,0.035)_0%,rgba(255,255,255,0.018)_100%)] p-5 shadow-[0_16px_42px_rgba(0,0,0,0.18)] backdrop-blur-[2px] sm:p-6 md:p-7 lg:rounded-[26px]"
+      }
+    >
+      {!isMobile && (
+        <>
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute right-0 top-0 h-20 w-20 rounded-full bg-primary/12 blur-[56px]"
+          />
+          <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/45 to-transparent" />
+        </>
+      )}
+      <p
+        className={
+          isMobile
+            ? "text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground/72"
+            : "text-[1.08rem] font-semibold text-foreground sm:text-[1.15rem] md:text-[1.2rem]"
+        }
+      >
+        {isMobile ? "Best fit for" : "Best fit if you need:"}
+      </p>
+      {isMobile ? (
+        <div className="mt-3 flex flex-wrap gap-2">
+          {MOBILE_FIT_POINTS.map((item) => (
+            <span
+              key={item}
+              className="inline-flex rounded-full border border-white/8 bg-white/[0.025] px-3 py-1.5 text-[12px] font-medium leading-5 text-foreground/82"
+            >
+              {item}
+            </span>
+          ))}
+        </div>
+      ) : (
+        <ul className="mt-4 space-y-3 text-[0.96rem] leading-7 text-muted-foreground sm:mt-5 sm:space-y-3.5 sm:text-[0.98rem] md:text-[1.02rem]">
+          {FIT_POINTS.map((item) => (
+            <li key={item} className="flex gap-3.5">
+              <span className="mt-2.5 h-2 w-2 shrink-0 rounded-full bg-primary shadow-[0_0_12px_rgba(51,204,153,0.45)]" />
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+};
+
+const ProcessCard = () => (
+  <div className="rounded-[20px] border border-white/8 bg-[linear-gradient(180deg,rgba(255,255,255,0.03)_0%,rgba(255,255,255,0.012)_100%)] px-5 py-4 shadow-[0_14px_36px_rgba(0,0,0,0.12)]">
+    <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary/80">
+      Startup note
+    </p>
+    <p className="mt-3 text-sm leading-6 text-foreground/88">
+      We are keeping the promise simple: careful review, clear limits, and no pressure to buy more
+      work.
+    </p>
+    <div className="mt-4 space-y-3">
+      {REVIEW_STEPS.map((step, index) => (
+        <div key={step.title} className="grid grid-cols-[2rem_minmax(0,1fr)] gap-3">
+          <span className="flex h-8 w-8 items-center justify-center rounded-full border border-primary/20 bg-primary/[0.08] text-xs font-semibold text-primary">
+            0{index + 1}
+          </span>
+          <div>
+            <p className="text-sm font-semibold text-foreground">{step.title}</p>
+            <p className="mt-1 text-xs leading-5 text-muted-foreground">{step.body}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+);
 
 const TrackingLandingPage = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [honeypotValue, setHoneypotValue] = useState("");
-  const formStartTime = useRef(Date.now());
-  const lastSubmissionTime = useRef(0);
+  const [submittedEmail, setSubmittedEmail] = useState("");
+  const [honeypot, setHoneypot] = useState("");
+  const formStart = useRef(0);
+  const hasInteracted = useRef(false);
+  const lastSubmit = useRef(0);
 
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors },
   } = useForm<AuditFormData>({
     resolver: zodResolver(auditSchema),
-    defaultValues: { monthlyAdSpend: "" },
+    defaultValues: { monthlyAdSpend: "", adPlatforms: [] },
   });
 
+  const handleFirstInteraction = () => {
+    if (!hasInteracted.current) {
+      formStart.current = Date.now();
+      hasInteracted.current = true;
+    }
+  };
+
   const onSubmit = async (data: AuditFormData) => {
-    if (honeypotValue.trim()) return;
+    if (honeypot.trim()) return;
 
     const now = Date.now();
-    if (now - formStartTime.current < MIN_FORM_FILL_TIME_MS) {
-      toast.error("Please take a moment to complete the form.");
+    if (now - formStart.current < MIN_FILL_MS) {
+      toast.error("Please take a moment to fill in the form.");
       return;
     }
-    if (now - lastSubmissionTime.current < SUBMISSION_THROTTLE_MS) {
-      toast.error("Please wait a few seconds before submitting again.");
+    if (now - lastSubmit.current < THROTTLE_MS) {
+      toast.error("Please wait a moment before submitting again.");
       return;
     }
-    lastSubmissionTime.current = now;
+    lastSubmit.current = now;
 
     setIsSubmitting(true);
     try {
@@ -182,455 +291,431 @@ const TrackingLandingPage = () => {
         email: data.email,
         websiteUrl: data.websiteUrl,
         monthlyAdSpend: data.monthlyAdSpend,
-        adPlatforms: data.adPlatforms,
+        adPlatforms: data.adPlatforms.join(", "),
       });
+      setSubmittedEmail(data.email);
       setIsSubmitted(true);
     } catch {
-      toast.error(
-        `Something went wrong. Please try again or email ${companyProfile.contact.email}`,
-      );
+      toast.error(`Something went wrong. Email us at ${companyProfile.contact.email}`);
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <>
       <SEO
         title="Free Conversion Tracking Audit | AlphaTrack Digital"
-        description="Request a free conversion tracking audit to find what is broken, what is missing, and what to fix first before you scale spend."
+        description="Request a free conversion tracking audit. We review your setup, show you what we can verify, and highlight what to fix first."
         canonicalUrl="/offer/tracking-audit"
       />
 
-      <header className="fixed left-0 right-0 top-0 z-50 border-b border-white/10 bg-background/90 backdrop-blur-xl">
-        <div className="mx-auto flex h-[72px] max-w-[1180px] items-center justify-between px-4 lg:px-8">
-          <Link to="/" aria-label="AlphaTrack Digital Home" className="flex items-center">
-            <img
-              src="/logo-wordmark.png"
-              alt="AlphaTrack Digital"
-              className="h-8 w-auto sm:h-9"
-              width={800}
-              height={188}
-            />
-          </Link>
-          <Button asChild size="sm" className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90">
-            <a href="#claim">Claim Your Audit</a>
-          </Button>
+      <section className="relative overflow-hidden pb-20 pt-10 md:pb-24 md:pt-16">
+        <div className="pointer-events-none absolute inset-0">
+          <div className="absolute left-1/2 top-0 h-80 w-80 -translate-x-1/2 rounded-full bg-primary/[0.07] blur-[140px]" />
         </div>
-      </header>
-
-      <div className="fixed left-0 right-0 top-[72px] z-40 border-b border-white/10 bg-white/[0.03] px-4 py-2.5 text-center text-xs text-muted-foreground backdrop-blur-md">
-        <span className="font-semibold text-foreground">Founders offer:</span> Free audit plus 20% off implementation for the first 10 qualified teams.
-      </div>
-
-      <PageSection
-        mode="hero"
-        surface="glow"
-        spacing="compact"
-        className="pt-[150px] pb-20 md:pt-[168px] md:pb-24"
-      >
-        <div className="mx-auto max-w-5xl text-center">
+        <div className="container relative mx-auto max-w-3xl px-4 text-center lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: 0.45 }}
           >
-            <SectionIntro
-              as="h1"
-              eyebrow="Conversion Tracking Audit"
-              mode="hero"
-              maxWidth="xl"
-              align="center"
-              title={
-                <>
-                  Get a Clear Audit of What Your <span className="text-gradient">Tracking</span> Is Missing
-                </>
-              }
-              description="We review your current setup, validate the core conversion paths, and show you what is broken, what is missing, and what to fix first."
-              titleClassName="mx-auto"
-              descriptionClassName="mx-auto max-w-3xl"
-            />
-
-            <div className="mt-6 flex flex-wrap items-center justify-center gap-3 text-xs text-muted-foreground">
-              <span className="rounded-full border border-primary/20 bg-primary/10 px-3 py-1">
-                Free audit
-              </span>
-              <span className="rounded-full border border-primary/20 bg-primary/10 px-3 py-1">
-                Response within 48 hours
-              </span>
-              <span className="rounded-full border border-primary/20 bg-primary/10 px-3 py-1">
-                No obligation to continue
-              </span>
-            </div>
-
-            <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
+            <p className="mb-4 text-xs font-semibold uppercase tracking-[0.22em] text-primary/80">
+              Free tracking audit
+            </p>
+            <h1 className="text-4xl font-bold leading-tight tracking-tight md:text-5xl">
+              Stop making decisions on{" "}
+              <span className="text-gradient title-safe-inline">tracking you cannot trust</span>
+            </h1>
+            <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-muted-foreground md:text-lg">
+              We review the setup you already have and send a clear audit: what looks broken, what
+              looks missing, and what to fix first. If something cannot be confirmed from the
+              current setup, we will say that plainly.
+            </p>
+            <div className="mt-8">
               <Button
                 asChild
                 size="lg"
-                className="gap-1.5 rounded-xl bg-primary px-8 text-primary-foreground shadow-[0_0_24px_rgba(51,204,153,0.14)] hover:bg-primary/90"
+                className="rounded-xl bg-primary px-8 text-primary-foreground shadow-[0_0_36px_rgba(51,204,153,0.18)] hover:bg-primary/90"
               >
                 <a href="#claim">
-                  Claim Your Free Audit <ArrowUpRight className="h-4 w-4" />
+                  {REQUEST_A_FREE_TRACKING_AUDIT_CTA.label}
+                  <ArrowRight className="ml-2 h-4 w-4" />
                 </a>
               </Button>
-              <Button
-                asChild
-                variant="outline"
-                size="lg"
-                className="gap-1.5 rounded-xl border-white/20 bg-white/[0.02] hover:bg-white/5"
-              >
-                <Link to="/book-a-call">
-                  Book a Call Instead <ArrowUpRight className="h-4 w-4" />
-                </Link>
-              </Button>
             </div>
-
-            <p className="mt-4 text-sm text-muted-foreground">
-              Clear findings, written priorities, and a calmer path to fixing attribution.
-            </p>
+            <div className="mt-6 flex flex-wrap items-center justify-center gap-2">
+              {HERO_CHIPS.map((chip) => (
+                <span
+                  key={chip}
+                  className="rounded-full border border-white/[0.08] bg-white/[0.03] px-3 py-1 text-xs text-muted-foreground"
+                >
+                  {chip}
+                </span>
+              ))}
+            </div>
           </motion.div>
         </div>
-      </PageSection>
+      </section>
 
-      <PageSection mode="content" surface="quiet" border="top">
-        <SectionIntro
-          eyebrow="Diagnostic Signals"
-          mode="content"
-          title="If Any of These Sound Familiar, the Tracking Layer Needs Attention"
-          description="Most audit requests start here: spending is happening, but the data is too weak to support confident decisions."
-          maxWidth="xl"
-          className="mb-10"
-        />
-        <div className="grid gap-5 md:grid-cols-3">
-          {diagnosticItems.map((item, index) => (
-            <motion.div
-              key={item.title}
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.08, duration: 0.35 }}
-              className="rounded-[24px] border border-white/8 bg-background/70 p-7"
-            >
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/[0.04]">
-                <item.icon className="h-5 w-5 text-primary" />
-              </div>
-              <h2 className="mt-5 text-lg font-semibold">{item.title}</h2>
-              <p className="mt-3 text-sm leading-7 text-muted-foreground">{item.description}</p>
-            </motion.div>
-          ))}
-        </div>
-      </PageSection>
-
-      <PageSection mode="content" border="top">
-        <SectionIntro
-          eyebrow="What You Get"
-          mode="content"
-          title="A Founders Offer Built to Remove Friction"
-          description="The audit gives you clarity first. If you want implementation after that, the offer carries forward."
-          maxWidth="lg"
-          className="mb-10"
-        />
-        <div className="grid gap-5 lg:grid-cols-2">
-          {offerCards.map((card, index) => (
-            <motion.div
-              key={card.title}
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.08, duration: 0.35 }}
-              className={
-                card.highlight
-                  ? "rounded-[28px] border border-primary/20 bg-[linear-gradient(180deg,rgba(0,51,153,0.14)_0%,rgba(0,175,239,0.035)_42%,rgba(51,204,153,0.03)_100%)] p-8"
-                  : "rounded-[28px] border border-white/10 bg-white/[0.02] p-8"
-              }
-            >
-              <span
-                className={
-                  card.highlight
-                    ? "inline-flex rounded-full bg-primary px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-primary-foreground"
-                    : "inline-flex rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground"
-                }
+      <section className="border-t border-white/[0.06] bg-white/[0.01] py-16 md:py-20">
+        <div className="container mx-auto px-4 lg:px-8">
+          <h2 className="mb-10 text-center text-sm font-semibold text-muted-foreground">
+            If any of these sound familiar, the tracking needs attention
+          </h2>
+          <div className="grid gap-4 md:grid-cols-3">
+            {PAIN_POINTS.map((item, index) => (
+              <motion.div
+                key={item.title}
+                initial={{ opacity: 0, y: 14 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.07, duration: 0.35 }}
+                className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-6"
               >
-                {card.badge}
-              </span>
-              <h2 className="mt-5 text-2xl font-semibold">{card.title}</h2>
-              <p className="mt-3 text-sm leading-7 text-muted-foreground">{card.description}</p>
-              <ul className="mt-6 space-y-3">
-                {card.features.map((feature) => (
-                  <li key={feature} className="flex items-start gap-3 text-sm text-muted-foreground">
-                    <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
-                    <span>{feature}</span>
-                  </li>
-                ))}
-              </ul>
-            </motion.div>
-          ))}
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/[0.08]">
+                  <item.icon className="h-5 w-5 text-primary" />
+                </div>
+                <h3 className="mt-4 text-base font-semibold">{item.title}</h3>
+                <p className="mt-2 text-sm leading-6 text-muted-foreground">{item.body}</p>
+              </motion.div>
+            ))}
+          </div>
+          <p className="mt-10 text-center text-sm text-muted-foreground">
+            Sound familiar?{" "}
+            <a href="#claim" className="font-medium text-primary underline-offset-2 hover:underline">
+              Claim the free audit
+            </a>
+          </p>
         </div>
-      </PageSection>
+      </section>
 
-      <PageSection mode="proof" surface="quiet" border="top">
-        <div className="grid gap-4 md:grid-cols-3">
-          {proofMetrics.map((metric, index) => (
+      <section className="border-t border-white/[0.06] py-16 md:py-20">
+        <div className="container mx-auto max-w-2xl px-4 text-center lg:px-8">
+          <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-primary/80">
+            What is included
+          </p>
+          <h2 className="text-2xl font-bold md:text-3xl">
+            A clear audit of your tracking setup
+          </h2>
+          <p className="mx-auto mt-3 text-sm leading-7 text-muted-foreground">
+            We review the main signals behind your reporting and come back with the clearest fix
+            order we can justify.
+          </p>
+          <ul className="mt-8 grid gap-2.5 text-left sm:grid-cols-2">
+            {AUDIT_COVERS.map((item) => (
+              <li
+                key={item}
+                className="flex items-start gap-3 rounded-xl border border-white/[0.06] bg-white/[0.02] px-4 py-3 text-sm leading-6"
+              >
+                <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+                {item}
+              </li>
+            ))}
+          </ul>
+          <p className="mt-5 text-xs text-muted-foreground">
+            If you want help fixing what we find, we can scope that separately after the audit.
+          </p>
+        </div>
+      </section>
+
+      <section className="border-t border-white/[0.06] bg-white/[0.01] py-12 md:py-16">
+        <div className="container mx-auto px-4 lg:px-8">
+          <div className="mx-auto max-w-3xl text-center">
+            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+              How we keep it useful
+            </p>
+            <h2 className="text-2xl font-bold md:text-3xl">Practical, not theatrical</h2>
+            <p className="mx-auto mt-3 max-w-2xl text-sm leading-7 text-muted-foreground">
+              We are still an early-stage team, so we would rather make a precise promise than a
+              dramatic one: careful review, clear limits, and a sensible next step.
+            </p>
+          </div>
+          <div className="mt-10 grid gap-4 md:grid-cols-3 md:gap-6">
+            {REVIEW_VALUES.map((item, index) => (
+              <motion.div
+                key={item.title}
+                initial={{ opacity: 0, y: 12 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.07, duration: 0.35 }}
+                className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-6"
+              >
+                <div className="flex h-11 w-11 items-center justify-center rounded-2xl border border-primary/15 bg-primary/[0.08]">
+                  <item.icon className="h-5 w-5 text-primary" />
+                </div>
+                <h3 className="mt-5 text-lg font-semibold">{item.title}</h3>
+                <p className="mt-2 text-sm leading-6 text-muted-foreground">{item.body}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="claim" className="border-t border-white/[0.06] py-16 md:py-20">
+        <div className="container mx-auto px-4 lg:px-8">
+          <div className="grid gap-6 md:gap-10 lg:grid-cols-[minmax(0,1.16fr)_minmax(420px,500px)] lg:items-start lg:gap-6 xl:gap-10">
             <motion.div
-              key={metric.label}
-              initial={{ opacity: 0, y: 16 }}
+              initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: index * 0.06, duration: 0.35 }}
-              className="rounded-[24px] border border-white/8 bg-background/70 p-6 text-center"
+              transition={{ duration: 0.45 }}
+              className="relative order-1 mx-auto flex w-full max-w-[34rem] flex-col text-center lg:mx-0 lg:max-w-none lg:pt-6 lg:pr-4 lg:text-left"
             >
-              <p className="text-3xl font-bold text-gradient">{metric.value}</p>
-              <p className="mt-3 text-sm leading-6 text-muted-foreground">{metric.label}</p>
-            </motion.div>
-          ))}
-        </div>
-      </PageSection>
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute left-1/2 top-10 h-40 w-40 -translate-x-1/2 rounded-full bg-primary/10 blur-[90px] lg:left-auto lg:translate-x-0"
+              />
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute right-6 top-28 h-24 w-24 rounded-full bg-atd-blue/10 blur-[72px] lg:left-24 lg:right-auto lg:top-40 lg:h-28 lg:w-28"
+              />
 
-      <PageSection id="claim" mode="content" border="top">
-        <div className="grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
-          <div>
-            <SectionIntro
-              eyebrow="Claim the Audit"
-              mode="content"
-              title="Tell Us About the Current Setup"
-              description="A few details are enough for us to judge whether the audit is a good fit and what we should review first."
-              maxWidth="md"
-            />
+              <div className="space-y-6 sm:space-y-7 md:space-y-8">
+                <span className="inline-flex w-fit items-center self-center rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.22em] text-primary/90 lg:self-start">
+                  Request your audit
+                </span>
 
-            <div className="mt-8 rounded-[28px] border border-white/10 bg-white/[0.02] p-7">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-primary/85">
-                What Happens After You Submit
-              </p>
-              <ol className="mt-6 space-y-5">
-                {auditSteps.map((step) => (
-                  <li key={step.step} className="flex items-start gap-4">
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-primary/10">
-                      {step.icon ? <step.icon className="h-4 w-4 text-primary" /> : <span className="text-xs font-semibold text-primary">{step.step}</span>}
-                    </div>
-                    <div>
-                      <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary/70">{step.step}</p>
-                      <p className="mt-1 text-sm font-semibold">{step.title}</p>
-                      <p className="mt-1 text-sm leading-6 text-muted-foreground">{step.description}</p>
-                    </div>
-                  </li>
-                ))}
-              </ol>
-            </div>
-          </div>
+                <h2 className="mx-auto max-w-[20rem] text-[2.35rem] font-bold leading-[0.96] tracking-tight sm:max-w-[26rem] sm:text-[3rem] md:max-w-[31rem] md:text-[3.55rem] lg:mx-0 lg:max-w-[34rem] lg:text-[2.65rem] xl:text-[2.95rem]">
+                  <span className="block text-foreground">Share the setup.</span>
+                  <span className="mt-1 block text-gradient-atd-hero lg:mt-0">
+                    We will review it honestly.
+                  </span>
+                </h2>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.4 }}
-            className="rounded-[30px] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.04)_0%,rgba(255,255,255,0.02)_100%)] p-8 shadow-[0_24px_64px_rgba(0,0,0,0.24)] md:p-10"
-          >
-            {isSubmitted ? (
-              <div className="py-6 text-center">
-                <CheckCircle2 className="mx-auto h-14 w-14 text-primary" />
-                <h2 className="mt-5 text-2xl font-semibold">Audit Requested</h2>
-                <p className="mx-auto mt-3 max-w-md text-sm leading-7 text-muted-foreground">
-                  We will review the context and come back within 48 hours with the next step.
+                <p className="mx-auto max-w-[22rem] text-[14.5px] leading-[1.95] text-muted-foreground sm:max-w-[31rem] sm:text-[15px] sm:leading-8 md:max-w-[35rem] md:text-base md:leading-8 lg:mx-0 lg:max-w-[38rem] lg:pt-2 lg:text-[1.05rem] lg:leading-[2rem]">
+                  Tell us where the numbers feel unreliable and share the basics. We will review
+                  what we can verify, flag anything unclear, and reply with the clearest next step
+                  we see.
                 </p>
-                <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-                  <Button asChild className="gap-1.5 rounded-xl bg-primary text-primary-foreground hover:bg-primary/90">
-                    <Link to="/book-a-call">
-                      Book a Call While You Wait <ArrowUpRight className="h-4 w-4" />
-                    </Link>
-                  </Button>
-                  <Button asChild variant="outline" className="gap-1.5 rounded-xl border-white/20 hover:bg-white/5">
-                    <Link to="/">
-                      Back to site <ArrowUpRight className="h-4 w-4" />
-                    </Link>
-                  </Button>
-                </div>
               </div>
-            ) : (
-              <>
-                <div className="border-b border-white/10 pb-6">
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-primary/85">
-                    Audit Request Form
-                  </p>
-                  <h2 className="mt-2 text-2xl font-semibold">Share the essentials</h2>
-                  <p className="mt-2 text-sm leading-6 text-muted-foreground">
-                    Keep it concise. We only need enough context to understand the setup and the current risk.
-                  </p>
-                </div>
 
-                <form onSubmit={handleSubmit(onSubmit)} className="mt-6 space-y-5" noValidate>
+              <div className="hidden max-w-[33.5rem] space-y-4 lg:mt-12 lg:block">
+                <AuditFitCard />
+                <ProcessCard />
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.45, delay: 0.08 }}
+              className="order-2 mt-4 w-full rounded-[24px] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.04)_0%,rgba(255,255,255,0.02)_100%)] p-6 shadow-[0_24px_64px_rgba(0,0,0,0.25)] sm:mt-5 sm:p-8 md:p-10 lg:mt-0 lg:max-w-[31.25rem] lg:justify-self-end lg:self-start lg:rounded-[28px]"
+            >
+              <div className="hidden lg:block">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-primary/85">
+                  Free Tracking Audit
+                </p>
+              </div>
+
+              {isSubmitted ? (
+                <div className="py-6 text-center lg:py-10">
+                  <CheckCircle2 className="mx-auto h-12 w-12 text-primary" />
+                  <h2 className="mt-4 text-xl font-semibold">Request received</h2>
+                  <p className="mx-auto mt-2 max-w-sm text-sm leading-6 text-muted-foreground">
+                    We will review the setup and aim to reply within 48 hours. Check{" "}
+                    <span className="font-medium text-foreground/80">{submittedEmail}</span>. If
+                    we need a little more context first, we will ask.
+                  </p>
+                  <div className="mt-7 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+                    <Button
+                      asChild
+                      className="rounded-xl bg-primary text-primary-foreground hover:bg-primary/90"
+                    >
+                      <Link to={BOOK_A_FREE_STRATEGY_CALL_CTA.to}>{BOOK_A_FREE_STRATEGY_CALL_CTA.label}</Link>
+                    </Button>
+                    <Button
+                      asChild
+                      variant="ghost"
+                      className="rounded-xl text-muted-foreground hover:text-foreground"
+                    >
+                      <Link to="/">Back to site</Link>
+                    </Button>
+                  </div>
+                </div>
+              ) : (
+                <>
+                  <div className="border-b border-white/[0.06] pb-5 lg:mt-8">
+                    <h2 className="text-xl font-semibold">Request your free audit</h2>
+                    <p className="mt-1 text-sm text-muted-foreground">
+                      A few practical details and we can start the review.
+                    </p>
+                  </div>
+
                   <div className="hidden" aria-hidden="true">
-                    <label htmlFor="tracking-audit-company-website">Website</label>
                     <input
-                      id="tracking-audit-company-website"
                       name="tracking-audit-company-website"
                       type="text"
                       tabIndex={-1}
                       autoComplete="off"
-                      value={honeypotValue}
-                      onChange={(event) => setHoneypotValue(event.target.value)}
+                      value={honeypot}
+                      onChange={(event) => setHoneypot(event.target.value)}
                     />
                   </div>
 
-                  <div className="grid gap-4 sm:grid-cols-2">
-                    <div>
-                      <label htmlFor="audit-first-name" className="mb-1.5 block text-sm font-medium">
-                        First Name
-                      </label>
-                      <Input
-                        id="audit-first-name"
-                        placeholder="John"
-                        autoComplete="given-name"
-                        className="border-white/10 bg-white/5"
-                        aria-invalid={!!errors.firstName}
-                        aria-describedby={errors.firstName ? "audit-first-name-error" : undefined}
-                        {...register("firstName")}
-                      />
-                      {errors.firstName && (
-                        <p id="audit-first-name-error" className="mt-1 text-xs text-red-500">
-                          {errors.firstName.message}
-                        </p>
-                      )}
-                    </div>
-                    <div>
-                      <label htmlFor="audit-last-name" className="mb-1.5 block text-sm font-medium">
-                        Last Name
-                      </label>
-                      <Input
-                        id="audit-last-name"
-                        placeholder="Doe"
-                        autoComplete="family-name"
-                        className="border-white/10 bg-white/5"
-                        aria-invalid={!!errors.lastName}
-                        aria-describedby={errors.lastName ? "audit-last-name-error" : undefined}
-                        {...register("lastName")}
-                      />
-                      {errors.lastName && (
-                        <p id="audit-last-name-error" className="mt-1 text-xs text-red-500">
-                          {errors.lastName.message}
-                        </p>
-                      )}
-                    </div>
-                  </div>
-                  <div>
-                    <label htmlFor="audit-email" className="mb-1.5 block text-sm font-medium">
-                      Work Email
-                    </label>
-                    <Input
-                      id="audit-email"
-                      type="email"
-                      placeholder="john@company.com"
-                      autoComplete="email"
-                      className="border-white/10 bg-white/5"
-                      aria-invalid={!!errors.email}
-                      aria-describedby={errors.email ? "audit-email-error" : undefined}
-                      {...register("email")}
-                    />
-                    {errors.email && (
-                      <p id="audit-email-error" className="mt-1 text-xs text-red-500">
-                        {errors.email.message}
-                      </p>
-                    )}
-                  </div>
-                  <div>
-                    <label htmlFor="audit-website-url" className="mb-1.5 block text-sm font-medium">
-                      Website URL
-                    </label>
-                    <Input
-                      id="audit-website-url"
-                      type="url"
-                      placeholder="https://yourwebsite.com"
-                      className="border-white/10 bg-white/5"
-                      aria-invalid={!!errors.websiteUrl}
-                      aria-describedby={errors.websiteUrl ? "audit-website-url-error" : undefined}
-                      {...register("websiteUrl")}
-                    />
-                    {errors.websiteUrl && (
-                      <p id="audit-website-url-error" className="mt-1 text-xs text-red-500">
-                        {errors.websiteUrl.message}
-                      </p>
-                    )}
-                  </div>
-                  <div>
-                    <label htmlFor="audit-monthly-spend" className="mb-1.5 block text-sm font-medium">
-                      Monthly Ad Spend Level
-                    </label>
-                    <select
-                      id="audit-monthly-spend"
-                      className="w-full rounded-md border border-white/10 bg-white/5 px-3 py-2.5 text-sm text-foreground"
-                      aria-invalid={!!errors.monthlyAdSpend}
-                      aria-describedby={errors.monthlyAdSpend ? "audit-monthly-spend-error" : undefined}
-                      {...register("monthlyAdSpend")}
-                    >
-                      {adSpendOptions.map((option) => (
-                        <option key={option.value} value={option.value}>
-                          {option.label}
-                        </option>
-                      ))}
-                    </select>
-                    {errors.monthlyAdSpend && (
-                      <p id="audit-monthly-spend-error" className="mt-1 text-xs text-red-500">
-                        {errors.monthlyAdSpend.message}
-                      </p>
-                    )}
-                  </div>
-                  <div>
-                    <label htmlFor="audit-platforms" className="mb-1.5 block text-sm font-medium">
-                      Which ad platforms are active right now?
-                    </label>
-                    <Input
-                      id="audit-platforms"
-                      placeholder="Meta, Google Ads, LinkedIn, TikTok, or similar"
-                      className="border-white/10 bg-white/5"
-                      aria-invalid={!!errors.adPlatforms}
-                      aria-describedby={errors.adPlatforms ? "audit-platforms-error" : undefined}
-                      {...register("adPlatforms")}
-                    />
-                    {errors.adPlatforms && (
-                      <p id="audit-platforms-error" className="mt-1 text-xs text-red-500">
-                        {errors.adPlatforms.message}
-                      </p>
-                    )}
-                  </div>
-                  <Button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="w-full rounded-xl bg-primary text-primary-foreground hover:bg-primary/90"
+                  <form
+                    id="tracking-audit-form"
+                    onSubmit={handleSubmit(onSubmit)}
+                    className="space-y-5 pt-6 sm:space-y-6"
+                    noValidate
+                    onFocus={handleFirstInteraction}
                   >
-                    {isSubmitting ? (
-                      <>
-                        <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Submitting...
-                      </>
-                    ) : (
-                      "Submit Audit Request"
-                    )}
-                  </Button>
-                  <p className="text-center text-xs text-muted-foreground">
-                    No spam, no hard sell, and no hidden catch. We use this information only to review the audit request and respond.
-                  </p>
-                </form>
-              </>
-            )}
-          </motion.div>
-        </div>
-      </PageSection>
+                    <div className="grid gap-4 sm:grid-cols-2">
+                      <Field label="First Name" htmlFor="f-first" error={errors.firstName?.message}>
+                        <Input
+                          id="f-first"
+                          placeholder="Jane"
+                          autoComplete="given-name"
+                          className={fieldClassName}
+                          aria-invalid={!!errors.firstName}
+                          aria-describedby={errors.firstName ? "f-first-err" : undefined}
+                          {...register("firstName")}
+                        />
+                      </Field>
 
-      <footer className="border-t border-white/10 py-6 text-center">
-        <div className="container mx-auto px-4 lg:px-8">
-          <p className="text-xs text-muted-foreground">
-            <Link to="/" className="transition-colors hover:text-primary">
-              AlphaTrack Digital
-            </Link>
-            {" | "}
-            <Link to="/contact-us" className="transition-colors hover:text-primary">
-              Contact
-            </Link>
-          </p>
-          <p className="mt-2 text-xs text-muted-foreground">
-            Copyright AlphaTrack Digital 2026. All rights reserved.
-          </p>
+                      <Field label="Last Name" htmlFor="f-last" error={errors.lastName?.message}>
+                        <Input
+                          id="f-last"
+                          placeholder="Smith"
+                          autoComplete="family-name"
+                          className={fieldClassName}
+                          aria-invalid={!!errors.lastName}
+                          aria-describedby={errors.lastName ? "f-last-err" : undefined}
+                          {...register("lastName")}
+                        />
+                      </Field>
+                    </div>
+
+                    <Field label="Work Email" htmlFor="f-email" error={errors.email?.message}>
+                      <Input
+                        id="f-email"
+                        type="email"
+                        placeholder="jane@company.com"
+                        autoComplete="email"
+                        className={fieldClassName}
+                        aria-invalid={!!errors.email}
+                        aria-describedby={errors.email ? "f-email-err" : undefined}
+                        {...register("email")}
+                      />
+                    </Field>
+
+                    <Field label="Website URL" htmlFor="f-url" error={errors.websiteUrl?.message}>
+                      <Input
+                        id="f-url"
+                        type="url"
+                        placeholder="https://yoursite.com"
+                        className={fieldClassName}
+                        aria-invalid={!!errors.websiteUrl}
+                        aria-describedby={errors.websiteUrl ? "f-url-err" : undefined}
+                        {...register("websiteUrl")}
+                      />
+                    </Field>
+
+                    <Field
+                      label="Monthly Ad Spend Level"
+                      htmlFor="f-spend"
+                      error={errors.monthlyAdSpend?.message}
+                    >
+                      <Controller
+                        control={control}
+                        name="monthlyAdSpend"
+                        render={({ field }) => (
+                          <Select onValueChange={field.onChange} value={field.value}>
+                            <SelectTrigger
+                              id="f-spend"
+                              className={fieldClassName}
+                              aria-invalid={!!errors.monthlyAdSpend}
+                              aria-describedby={errors.monthlyAdSpend ? "f-spend-err" : undefined}
+                            >
+                              <SelectValue placeholder="Select spend level" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {SPEND_OPTIONS.map((option) => (
+                                <SelectItem key={option.value} value={option.value}>
+                                  {option.label}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        )}
+                      />
+                    </Field>
+
+                    <fieldset
+                      aria-invalid={!!errors.adPlatforms}
+                      aria-describedby={errors.adPlatforms ? "f-platforms-err" : undefined}
+                      className="space-y-2.5"
+                    >
+                      <legend className="text-sm font-medium">
+                        Which ad platforms are active right now?
+                      </legend>
+                      <div className="flex flex-wrap gap-2">
+                        {PLATFORM_OPTIONS.map((platform) => (
+                          <label
+                            key={platform}
+                            className="flex cursor-pointer items-center gap-1.5 rounded-lg border border-white/[0.08] bg-white/[0.03] px-3 py-1.5 text-xs font-medium transition-colors focus-within:ring-1 focus-within:ring-primary/50 has-[:checked]:border-primary/30 has-[:checked]:bg-primary/[0.08] has-[:checked]:text-primary"
+                          >
+                            <input
+                              type="checkbox"
+                              value={platform}
+                              className="sr-only"
+                              {...register("adPlatforms")}
+                            />
+                            {platform}
+                          </label>
+                        ))}
+                      </div>
+                      {errors.adPlatforms && (
+                        <p id="f-platforms-err" role="alert" className="text-xs text-red-400">
+                          {errors.adPlatforms.root?.message ?? errors.adPlatforms.message}
+                        </p>
+                      )}
+                    </fieldset>
+
+                    <div className="rounded-[18px] border border-white/10 bg-white/[0.03] px-4 py-3 text-[13px] leading-6 text-muted-foreground">
+                      We use these details only to review your request and reply. If we need deeper
+                      access before we can verify something, we will say so before making
+                      assumptions.
+                    </div>
+
+                    <Button
+                      type="submit"
+                      size="lg"
+                      disabled={isSubmitting}
+                      className="w-full gap-1.5 rounded-xl bg-primary text-primary-foreground shadow-[0_0_18px_rgba(51,204,153,0.12)] hover:bg-primary/90 hover:shadow-[0_0_24px_rgba(51,204,153,0.18)]"
+                    >
+                      {isSubmitting ? (
+                        <>
+                          <Loader2 className="h-4 w-4 animate-spin" /> Sending...
+                        </>
+                      ) : (
+                        REQUEST_A_FREE_TRACKING_AUDIT_CTA.label
+                      )}
+                    </Button>
+
+                    <p className="text-center text-xs text-muted-foreground">
+                      No spam. No hard sell. This free audit is a manual review from our team.
+                    </p>
+                  </form>
+                </>
+              )}
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.45, delay: 0.14 }}
+              className="order-3 mx-auto w-full max-w-[30rem] space-y-4 lg:hidden"
+            >
+              <AuditFitCard variant="mobile" />
+              <ProcessCard />
+            </motion.div>
+          </div>
         </div>
-      </footer>
-    </div>
+      </section>
+    </>
   );
 };
 

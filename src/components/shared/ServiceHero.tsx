@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
+import { BOOK_A_FREE_STRATEGY_CALL_CTA } from "@/config/cta";
 import Breadcrumbs from "@/components/shared/Breadcrumbs";
 import SectionIntro from "@/components/shared/SectionIntro";
 import { Button } from "@/components/ui/button";
@@ -50,7 +51,7 @@ const ServiceHero = ({
   title,
   description,
   snapshot,
-  primaryCta = { label: "Book a Call", to: "/book-a-call" },
+  primaryCta = BOOK_A_FREE_STRATEGY_CALL_CTA,
   secondaryCta,
   tone = "tracking",
   supportingProof,
