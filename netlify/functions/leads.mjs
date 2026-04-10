@@ -31,10 +31,14 @@ const isValidLeadPayload = (payload) => {
 
   const data = payload;
 
-  if (data.source !== "contact_form" && data.source !== "tracking_audit_offer") return false;
-  if (typeof data.firstName !== "string" || !data.firstName.trim()) return false;
-  if (typeof data.lastName !== "string" || !data.lastName.trim()) return false;
+  const validSources = ["contact_form", "tracking_audit_offer", "newsletter"];
+  if (!validSources.includes(data.source)) return false;
   if (typeof data.email !== "string" || !data.email.trim()) return false;
+
+  if (data.source !== "newsletter") {
+    if (typeof data.firstName !== "string" || !data.firstName.trim()) return false;
+    if (typeof data.lastName !== "string" || !data.lastName.trim()) return false;
+  }
 
   if (data.source === "contact_form") {
     if (!Array.isArray(data.serviceInterest) || data.serviceInterest.length === 0) return false;
@@ -117,7 +121,11 @@ const toBrevoPayload = (data, listId) => ({
     WEBSITE: data.websiteUrl || "",
     AD_SPEND: data.monthlyAdSpend || "",
     AD_PLATFORMS: data.adPlatforms || "",
-    SOURCE: data.source === "contact_form" ? "Contact Form" : "Tracking Audit Landing Page",
+    SOURCE: data.source === "contact_form"
+      ? "Contact Form"
+      : data.source === "newsletter"
+        ? "Newsletter"
+        : "Tracking Audit Landing Page",
     SERVICE_INTEREST: Array.isArray(data.serviceInterest) ? data.serviceInterest.join(", ") : "",
     MONTHLY_BUDGET: data.monthlyBudget || "",
   }, data),
@@ -168,12 +176,18 @@ export default async (request) => {
   const brevoApiKey = getEnv("BREVO_API_KEY");
   const contactListId = Number(getEnv("BREVO_CONTACT_LIST_ID") || "2");
   const auditListId = Number(getEnv("BREVO_AUDIT_LIST_ID") || "3");
+  const newsletterListId = Number(getEnv("BREVO_NEWSLETTER_LIST_ID") || "4");
 
   if (!brevoApiKey) {
     return json({ ok: false, message: "Lead service is not configured." }, { status: 500 });
   }
 
-  const listId = payload.source === "contact_form" ? contactListId : auditListId;
+  const listId =
+    payload.source === "contact_form"
+      ? contactListId
+      : payload.source === "newsletter"
+        ? newsletterListId
+        : auditListId;
 
   try {
     const brevoResponse = await fetch("https://api.brevo.com/v3/contacts", {
