@@ -526,7 +526,7 @@ const Index = () => {
                     className="mt-4 inline-flex items-center gap-1 text-[13px] font-medium text-primary transition-colors hover:text-primary/80"
                     aria-label={`Learn more about ${service.title}`}
                   >
-                    Learn more{" "}
+                    Learn more<span className="sr-only"> about {service.title}</span>{" "}
                     <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
                   </Link>
                 </div>
@@ -585,7 +585,7 @@ const Index = () => {
                     className="mt-5 inline-flex items-center gap-1 text-sm font-medium text-primary transition-colors hover:text-primary/80 md:mt-6"
                     aria-label={`Learn more about ${service.title}`}
                   >
-                    Learn more{" "}
+                    Learn more<span className="sr-only"> about {service.title}</span>{" "}
                     <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
                   </Link>
                 </div>
