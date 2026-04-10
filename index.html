@@ -30,7 +30,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preconnect" href="https://cdn.gpteng.co" crossorigin />
-    <link rel="preload" as="image" href="/favicon.png?v=20260303a" />
+    <link rel="preload" as="font" type="font/woff2" href="https://cdn.gpteng.co/mcp-widgets/v1/fonts/CameraPlainVariable.woff2" crossorigin />
     <link
       rel="preload"
       as="style"
@@ -71,7 +71,13 @@
   </head>
 
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <style>
+        .ssr-shell{min-height:100vh;background:#050b14;display:flex;align-items:center;justify-content:center;font-family:'Plus Jakarta Sans',system-ui,sans-serif}
+        .ssr-shell p{color:rgba(255,255,255,.6);font-size:14px;letter-spacing:.05em}
+      </style>
+      <div class="ssr-shell" aria-hidden="true"><p>Loading…</p></div>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
