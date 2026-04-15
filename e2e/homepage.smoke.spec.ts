@@ -16,3 +16,24 @@ test("homepage hero is visible", async ({ page }) => {
     }).first(),
   ).toBeVisible();
 });
+
+test("homepage stays within the mobile viewport and keeps the menu toggle visible", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/");
+
+  const viewportMetrics = await page.evaluate(() => ({
+    viewportWidth: window.innerWidth,
+    scrollWidth: Math.max(document.body.scrollWidth, document.documentElement.scrollWidth),
+  }));
+
+  expect(viewportMetrics.scrollWidth).toBeLessThanOrEqual(viewportMetrics.viewportWidth + 1);
+
+  const menuToggle = page.getByRole("button", { name: /toggle menu/i });
+  await expect(menuToggle).toBeVisible();
+
+  const toggleBox = await menuToggle.boundingBox();
+
+  expect(toggleBox).not.toBeNull();
+  expect(toggleBox!.x).toBeGreaterThanOrEqual(0);
+  expect(toggleBox!.x + toggleBox!.width).toBeLessThanOrEqual(viewportMetrics.viewportWidth);
+});

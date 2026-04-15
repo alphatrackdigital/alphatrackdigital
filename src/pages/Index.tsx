@@ -254,9 +254,9 @@ const Index = () => {
         }}
       />
 
-      <section className="relative z-0 flex min-h-[64vh] items-start overflow-visible md:min-h-[80vh] md:overflow-hidden">
+      <section className="relative z-0 flex min-h-[64vh] items-start overflow-hidden md:min-h-[80vh]">
         <div className="absolute inset-0 pointer-events-none bg-[#050812]" />
-        <div className="absolute inset-0 pointer-events-none overflow-visible md:overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
           <div
             className="absolute inset-0 opacity-[0.028]"
             style={{
