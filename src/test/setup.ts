@@ -1,43 +1,45 @@
 import "@testing-library/jest-dom";
 
-Object.defineProperty(window, "matchMedia", {
-  writable: true,
-  value: (query: string) => ({
-    matches: false,
-    media: query,
-    onchange: null,
-    addListener: () => {},
-    removeListener: () => {},
-    addEventListener: () => {},
-    removeEventListener: () => {},
-    dispatchEvent: () => {},
-  }),
-});
+if (typeof window !== "undefined") {
+  Object.defineProperty(window, "matchMedia", {
+    writable: true,
+    value: (query: string) => ({
+      matches: false,
+      media: query,
+      onchange: null,
+      addListener: () => {},
+      removeListener: () => {},
+      addEventListener: () => {},
+      removeEventListener: () => {},
+      dispatchEvent: () => {},
+    }),
+  });
 
-Object.defineProperty(window, "scrollTo", {
-  writable: true,
-  value: () => {},
-});
+  Object.defineProperty(window, "scrollTo", {
+    writable: true,
+    value: () => {},
+  });
 
-class MockIntersectionObserver implements IntersectionObserver {
-  readonly root = null;
-  readonly rootMargin = "";
-  readonly scrollMargin = "";
-  readonly thresholds = [];
+  class MockIntersectionObserver implements IntersectionObserver {
+    readonly root = null;
+    readonly rootMargin = "";
+    readonly scrollMargin = "";
+    readonly thresholds = [];
 
-  disconnect() {}
+    disconnect() {}
 
-  observe() {}
+    observe() {}
 
-  takeRecords(): IntersectionObserverEntry[] {
-    return [];
+    takeRecords(): IntersectionObserverEntry[] {
+      return [];
+    }
+
+    unobserve() {}
   }
 
-  unobserve() {}
+  Object.defineProperty(window, "IntersectionObserver", {
+    writable: true,
+    configurable: true,
+    value: MockIntersectionObserver,
+  });
 }
-
-Object.defineProperty(window, "IntersectionObserver", {
-  writable: true,
-  configurable: true,
-  value: MockIntersectionObserver,
-});

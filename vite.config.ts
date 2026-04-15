@@ -184,6 +184,9 @@ export default defineConfig(({ mode }) => {
         overlay: false,
       },
     },
+    ssr: {
+      noExternal: ["react-helmet-async"],
+    },
     plugins: [react(), leadsProxyPlugin(env), mode === "development" && componentTagger()].filter(Boolean),
     resolve: {
       alias: {

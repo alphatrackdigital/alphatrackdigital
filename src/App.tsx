@@ -1,5 +1,5 @@
 import { Toaster as Sonner } from "@/components/ui/sonner";
-import { Suspense, lazy, type ComponentType, type LazyExoticComponent } from "react";
+import { Suspense, lazy, type ComponentType, type LazyExoticComponent, type ReactNode } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "@/components/layout/Layout";
 import ScrollToTop from "@/components/shared/ScrollToTop";
@@ -38,38 +38,48 @@ const withRouteSuspense = (Component: LazyExoticComponent<ComponentType>) => (
   </Suspense>
 );
 
-const App = () => (
+export const AppShell = ({ children }: { children: ReactNode }) => (
   <>
     <Sonner />
     <WhatsAppWidget />
-    <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
-      <ErrorBoundary>
-        <ScrollToTop />
-        <Routes>
-          <Route element={<Layout />}>
-            <Route path="/" element={<Index />} />
-            <Route path="/about-us" element={withRouteSuspense(AboutUs)} />
-            <Route path="/expertise/:slug" element={withRouteSuspense(ExpertiseDetail)} />
-            <Route path="/service" element={withRouteSuspense(Services)} />
-            <Route path="/service/conversion-tracking" element={withRouteSuspense(ConversionTracking)} />
-            <Route path="/service/marketing-automation" element={withRouteSuspense(MarketingAutomation)} />
-            <Route path="/service/paid-media" element={withRouteSuspense(PaidMedia)} />
-            <Route path="/service/:slug" element={withRouteSuspense(ServiceDetail)} />
-            <Route path="/blog" element={withRouteSuspense(Blog)} />
-            <Route path="/blog/:slug" element={withRouteSuspense(BlogPost)} />
-            <Route path="/contact-us" element={withRouteSuspense(ContactUs)} />
-            <Route path="/contact-us/thank-you" element={withRouteSuspense(ContactUsThankYou)} />
-            <Route path="/book-a-call" element={withRouteSuspense(BookACall)} />
-            <Route path="/book-a-call/thank-you" element={withRouteSuspense(ThankYou)} />
-            <Route path="/privacy-policy" element={withRouteSuspense(PrivacyPolicy)} />
-            <Route path="/terms-of-service" element={withRouteSuspense(TermsOfService)} />
-            <Route path="/offer/tracking-audit" element={withRouteSuspense(TrackingLandingPage)} />
-            <Route path="*" element={withRouteSuspense(NotFound)} />
-          </Route>
-        </Routes>
-      </ErrorBoundary>
-    </BrowserRouter>
+    {children}
   </>
+);
+
+export const AppRouter = () => (
+  <ErrorBoundary>
+    <ScrollToTop />
+    <Routes>
+      <Route element={<Layout />}>
+        <Route path="/" element={<Index />} />
+        <Route path="/about-us" element={withRouteSuspense(AboutUs)} />
+        <Route path="/expertise/:slug" element={withRouteSuspense(ExpertiseDetail)} />
+        <Route path="/service" element={withRouteSuspense(Services)} />
+        <Route path="/service/conversion-tracking" element={withRouteSuspense(ConversionTracking)} />
+        <Route path="/service/marketing-automation" element={withRouteSuspense(MarketingAutomation)} />
+        <Route path="/service/paid-media" element={withRouteSuspense(PaidMedia)} />
+        <Route path="/service/:slug" element={withRouteSuspense(ServiceDetail)} />
+        <Route path="/blog" element={withRouteSuspense(Blog)} />
+        <Route path="/blog/:slug" element={withRouteSuspense(BlogPost)} />
+        <Route path="/contact-us" element={withRouteSuspense(ContactUs)} />
+        <Route path="/contact-us/thank-you" element={withRouteSuspense(ContactUsThankYou)} />
+        <Route path="/book-a-call" element={withRouteSuspense(BookACall)} />
+        <Route path="/book-a-call/thank-you" element={withRouteSuspense(ThankYou)} />
+        <Route path="/privacy-policy" element={withRouteSuspense(PrivacyPolicy)} />
+        <Route path="/terms-of-service" element={withRouteSuspense(TermsOfService)} />
+        <Route path="/offer/tracking-audit" element={withRouteSuspense(TrackingLandingPage)} />
+        <Route path="*" element={withRouteSuspense(NotFound)} />
+      </Route>
+    </Routes>
+  </ErrorBoundary>
+);
+
+const App = () => (
+  <AppShell>
+    <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+      <AppRouter />
+    </BrowserRouter>
+  </AppShell>
 );
 
 export default App;
