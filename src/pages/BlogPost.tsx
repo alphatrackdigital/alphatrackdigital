@@ -367,7 +367,7 @@ const BlogPost = () => {
       name: "AlphaTrack Digital",
       logo: {
         "@type": "ImageObject",
-        url: buildCanonicalUrl("/apple-touch-icon.png?v=20260303a"),
+        url: buildCanonicalUrl("/apple-touch-icon.png?v=20260415a"),
       },
     },
   };

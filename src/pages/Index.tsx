@@ -238,7 +238,7 @@ const Index = () => {
           "@type": "Organization",
           name: "AlphaTrack Digital",
           url: "https://alphatrack.digital",
-          logo: buildCanonicalUrl("/apple-touch-icon.png?v=20260303a"),
+          logo: buildCanonicalUrl("/apple-touch-icon.png?v=20260415a"),
           description:
             "Growth-focused marketing agency helping brands attract, convert, and scale through data-driven marketing, creative strategy, and measurable performance systems.",
           address: [
