@@ -7,6 +7,13 @@ import ErrorBoundary from "@/components/shared/ErrorBoundary";
 import WhatsAppWidget from "@/components/shared/WhatsAppWidget";
 import { routeImporters } from "@/lib/routePrefetch";
 import Index from "./pages/Index";
+import { AdminAuthProvider } from "@/context/AdminAuthContext";
+import AdminLayout from "@/components/admin/AdminLayout";
+import ProtectedRoute from "@/components/admin/ProtectedRoute";
+import AdminLogin from "@/pages/admin/AdminLogin";
+import AdminContacts from "@/pages/admin/AdminContacts";
+import AdminBlog from "@/pages/admin/AdminBlog";
+import AdminBlogEdit from "@/pages/admin/AdminBlogEdit";
 
 const AboutUs = lazy(routeImporters.aboutUs);
 const ExpertiseDetail = lazy(routeImporters.expertiseDetail);
@@ -70,16 +77,33 @@ export const AppRouter = () => (
         <Route path="/offer/tracking-audit" element={withRouteSuspense(TrackingLandingPage)} />
         <Route path="*" element={withRouteSuspense(NotFound)} />
       </Route>
+
+      {/* Admin — outside main Layout, no header/footer */}
+      <Route path="/admin" element={<AdminLogin />} />
+      <Route
+        element={
+          <ProtectedRoute>
+            <AdminLayout />
+          </ProtectedRoute>
+        }
+      >
+        <Route path="/admin/contacts" element={<AdminContacts />} />
+        <Route path="/admin/blog" element={<AdminBlog />} />
+        <Route path="/admin/blog/new" element={<AdminBlogEdit />} />
+        <Route path="/admin/blog/edit/:slug" element={<AdminBlogEdit />} />
+      </Route>
     </Routes>
   </ErrorBoundary>
 );
 
 const App = () => (
-  <AppShell>
-    <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
-      <AppRouter />
-    </BrowserRouter>
-  </AppShell>
+  <AdminAuthProvider>
+    <AppShell>
+      <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+        <AppRouter />
+      </BrowserRouter>
+    </AppShell>
+  </AdminAuthProvider>
 );
 
 export default App;

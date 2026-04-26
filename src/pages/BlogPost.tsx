@@ -6,9 +6,10 @@ import Breadcrumbs from "@/components/shared/Breadcrumbs";
 import SafeImage from "@/components/shared/SafeImage";
 import SectionIntro from "@/components/shared/SectionIntro";
 import { BOOK_A_FREE_STRATEGY_CALL_CTA, EXPLORE_SERVICES_CTA } from "@/config/cta";
-import { getBlogPostBySlug, getRelatedBlogPosts } from "@/data/blogPosts";
+import { getBlogPostBySlug, getRelatedBlogPosts, blogPosts as staticPosts } from "@/data/blogPosts";
+import { fetchBlogPost, type ApiBlogPost } from "@/lib/blogApi";
 import { buildCanonicalUrl } from "@/config/seo";
-import { ArrowLeft, Clock, Calendar, Twitter, Linkedin, Link2 } from "lucide-react";
+import { ArrowLeft, Clock, Calendar, Twitter, Linkedin, Link2, Loader2 } from "lucide-react";
 import NewsletterSection from "@/components/shared/NewsletterSection";
 
 // Image with fallback
@@ -345,36 +346,63 @@ const articleContent: Record<string, JSX.Element> = {
 const BlogPost = () => {
   const { slug } = useParams<{ slug: string }>();
   const progress = useReadingProgress();
-  const post = slug ? getBlogPostBySlug(slug) : undefined;
-  if (!post || !slug || !articleContent[slug]) return <Navigate to="/blog" replace />;
+  const [apiPost, setApiPost] = useState<ApiBlogPost | null>(null);
+  const [fetching, setFetching] = useState(true);
+  const [notFound, setNotFound] = useState(false);
 
-  const relatedPosts = getRelatedBlogPosts(slug, 3);
+  useEffect(() => {
+    if (!slug) return;
+    setFetching(true);
+    fetchBlogPost(slug)
+      .then((p) => setApiPost(p))
+      .catch(() => setApiPost(null))
+      .finally(() => setFetching(false));
+  }, [slug]);
+
+  if (fetching) {
+    return (
+      <div className="flex min-h-[50vh] items-center justify-center gap-2 text-muted-foreground">
+        <Loader2 className="h-5 w-5 animate-spin" />
+      </div>
+    );
+  }
+
+  // Use API post if available, otherwise fall back to static data
+  const staticPost = slug ? getBlogPostBySlug(slug) : undefined;
+  const hasStaticContent = slug ? !!articleContent[slug] : false;
+
+  if (!apiPost && !staticPost) return <Navigate to="/blog" replace />;
+  if (notFound) return <Navigate to="/blog" replace />;
+
+  const title = apiPost?.title ?? staticPost!.title;
+  const excerpt = apiPost?.excerpt ?? staticPost!.excerpt;
+  const image = apiPost?.image ?? staticPost!.image;
+  const category = apiPost?.category ?? staticPost!.category;
+  const readTime = apiPost?.readTime ?? staticPost!.readTime;
+  const date = apiPost?.publishedAt ?? apiPost?.createdAt ?? staticPost!.date;
+  const author = apiPost?.author ?? "AlphaTrack Digital Team";
+
+  const relatedPosts = getRelatedBlogPosts(slug!, 3).map((rp) => ({
+    slug: rp.slug, title: rp.title, image: rp.image, category: rp.category,
+  }));
 
   const articleSchema = {
     "@context": "https://schema.org",
     "@type": "Article",
-    headline: post.title,
-    description: post.excerpt,
-    image: post.image,
-    datePublished: post.date,
-    author: {
-      "@type": "Organization",
-      name: "AlphaTrack Digital",
-      url: "https://alphatrack.digital",
-    },
+    headline: title,
+    description: excerpt,
+    image,
+    datePublished: date,
+    author: { "@type": "Organization", name: "AlphaTrack Digital", url: "https://alphatrack.digital" },
     publisher: {
       "@type": "Organization",
       name: "AlphaTrack Digital",
-      logo: {
-        "@type": "ImageObject",
-        url: buildCanonicalUrl("/apple-touch-icon.png?v=20260415a"),
-      },
+      logo: { "@type": "ImageObject", url: buildCanonicalUrl("/apple-touch-icon.png?v=20260415a") },
     },
   };
 
   return (
     <>
-      {/* Reading progress bar */}
       <div
         className="fixed top-0 left-0 z-[9999] h-0.5 bg-gradient-to-r from-primary to-secondary transition-all duration-100"
         style={{ width: `${progress}%` }}
@@ -386,18 +414,19 @@ const BlogPost = () => {
       />
 
       <SEO
-        title={`${post.title} | AlphaTrack Digital Blog`}
-        description={post.excerpt}
-        canonicalUrl={`/blog/${post.slug}`}
+        title={`${title} | AlphaTrack Digital Blog`}
+        description={excerpt}
+        canonicalUrl={`/blog/${slug}`}
         ogType="article"
-        ogImage={post.image}
+        ogImage={image}
         schema={articleSchema}
       />
       <section className="relative overflow-hidden py-24 md:py-28" style={{ background: "linear-gradient(180deg, rgba(0,51,153,0.03) 0%, rgba(0,175,239,0.015) 48%, transparent 100%)" }}>
         <div className="container relative mx-auto px-4 lg:px-8">
-          <Breadcrumbs items={[{ label: "Home", path: "/" }, { label: "Blog", path: "/blog" }, { label: post.title }]} />
+          <Breadcrumbs items={[{ label: "Home", path: "/" }, { label: "Blog", path: "/blog" }, { label: title }]} />
         </div>
       </section>
+
       <article className="py-12">
         <div className="container mx-auto px-4 lg:px-8">
           <div className="mx-auto max-w-4xl">
@@ -405,43 +434,43 @@ const BlogPost = () => {
               <ArrowLeft className="h-4 w-4" /> Back to blog
             </Link>
             <div className="mb-5 flex flex-wrap items-center gap-4 text-[11px] uppercase tracking-[0.18em] text-muted-foreground/70">
-              <span className="rounded-full border border-primary/20 bg-primary/10 px-2.5 py-1 font-semibold text-primary">{post.category}</span>
-              <span className="flex items-center gap-1"><Clock className="h-3 w-3" /> {post.readTime}</span>
-              <span className="flex items-center gap-1"><Calendar className="h-3 w-3" /> {new Date(post.date).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })}</span>
+              <span className="rounded-full border border-primary/20 bg-primary/10 px-2.5 py-1 font-semibold text-primary">{category}</span>
+              <span className="flex items-center gap-1"><Clock className="h-3 w-3" /> {readTime}</span>
+              <span className="flex items-center gap-1"><Calendar className="h-3 w-3" /> {new Date(date).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })}</span>
             </div>
             <SectionIntro
-              title={post.title}
-              description={post.excerpt}
+              title={title}
+              description={excerpt}
               width="wide"
               titleClassName="text-3xl font-bold leading-tight md:text-4xl lg:text-5xl"
               descriptionClassName="max-w-3xl text-lg leading-8"
             />
-
-            {/* Author line */}
             <div className="mt-5 flex items-center gap-3">
-              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10 text-xs font-bold text-primary">
-                AT
-              </div>
+              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10 text-xs font-bold text-primary">AT</div>
               <span className="text-sm text-muted-foreground">
-                By <span className="font-medium text-foreground">AlphaTrack Digital Team</span>
+                By <span className="font-medium text-foreground">{author}</span>
               </span>
             </div>
 
-            <HeroImage src={post.image} alt={post.title} />
+            <HeroImage src={image} alt={title} />
+
             <div className="mt-10">
-              <div className="mx-auto max-w-3xl space-y-5 text-[16px] leading-8 text-muted-foreground [&_h2]:mt-12 [&_h2]:mb-4 [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:text-foreground [&_h3]:mt-7 [&_h3]:mb-2 [&_h3]:text-lg [&_h3]:font-semibold [&_h3]:text-foreground [&_p]:mb-4">
-                {articleContent[slug]}
+              <div className="mx-auto max-w-3xl space-y-5 text-[16px] leading-8 text-muted-foreground [&_h2]:mt-12 [&_h2]:mb-4 [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:text-foreground [&_h3]:mt-7 [&_h3]:mb-2 [&_h3]:text-lg [&_h3]:font-semibold [&_h3]:text-foreground [&_p]:mb-4 [&_ul]:mb-4 [&_ul]:list-disc [&_ul]:pl-6 [&_ol]:mb-4 [&_ol]:list-decimal [&_ol]:pl-6 [&_li]:mb-1">
+                {apiPost ? (
+                  <div dangerouslySetInnerHTML={{ __html: apiPost.content }} />
+                ) : hasStaticContent ? (
+                  articleContent[slug!]
+                ) : null}
               </div>
             </div>
 
             <div className="mx-auto max-w-3xl">
-              <ShareBar title={post.title} slug={slug} />
+              <ShareBar title={title} slug={slug!} />
             </div>
           </div>
         </div>
       </article>
 
-      {/* Related Posts */}
       <section className="border-t border-white/10 py-16">
         <div className="container mx-auto px-4 lg:px-8">
           <h2 className="mb-8 text-2xl font-bold">More Articles</h2>
@@ -449,12 +478,7 @@ const BlogPost = () => {
             {relatedPosts.map((rp) => (
               <Link key={rp.slug} to={`/blog/${rp.slug}`} className="group overflow-hidden rounded-xl border border-white/10 bg-card transition-all duration-300 hover:-translate-y-1 hover:border-white/20">
                 <div className="h-40 overflow-hidden">
-                  <SafeImage
-                    src={rp.image}
-                    alt={rp.title}
-                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    wrapperClassName="h-full w-full"
-                  />
+                  <SafeImage src={rp.image} alt={rp.title} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" wrapperClassName="h-full w-full" />
                 </div>
                 <div className="p-5">
                   <span className="text-[11px] font-semibold uppercase tracking-wide text-primary">{rp.category}</span>

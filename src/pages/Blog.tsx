@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import SEO from "@/components/shared/SEO";
 import CTASection from "@/components/shared/CTASection";
@@ -9,22 +9,42 @@ import NewsletterSection from "@/components/shared/NewsletterSection";
 import { BOOK_A_FREE_STRATEGY_CALL_CTA, EXPLORE_SERVICES_CTA } from "@/config/cta";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, Clock } from "lucide-react";
-import { blogPosts } from "@/data/blogPosts";
+import { blogPosts as staticPosts } from "@/data/blogPosts";
+import { fetchBlogPosts, type ApiBlogPost } from "@/lib/blogApi";
 import { cn } from "@/lib/utils";
 
-const sortedPosts = [...blogPosts].sort(
-  (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-);
-const allCategories = Array.from(new Set(sortedPosts.map((p) => p.category)));
-const categories = ["All", ...allCategories];
-const countByCategory = (cat: string) =>
-  cat === "All" ? sortedPosts.length : sortedPosts.filter((p) => p.category === cat).length;
+type DisplayPost = { slug: string; title: string; excerpt: string; image: string; category: string; readTime: string; date: string };
+
+function toDisplay(p: ApiBlogPost): DisplayPost {
+  return { slug: p.slug, title: p.title, excerpt: p.excerpt, image: p.image, category: p.category, readTime: p.readTime, date: p.publishedAt || p.createdAt };
+}
 
 const Blog = () => {
   const [activeCategory, setActiveCategory] = useState("All");
+  const [posts, setPosts] = useState<DisplayPost[]>([]);
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    fetchBlogPosts(1, 50)
+      .then((data) => {
+        if (data.posts.length > 0) {
+          setPosts(data.posts.map(toDisplay));
+        } else {
+          setPosts(staticPosts.map((p) => ({ ...p })));
+        }
+      })
+      .catch(() => setPosts(staticPosts.map((p) => ({ ...p }))))
+      .finally(() => setLoaded(true));
+  }, []);
+
+  const sorted = [...posts].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  const allCategories = Array.from(new Set(sorted.map((p) => p.category)));
+  const categories = ["All", ...allCategories];
+  const countByCategory = (cat: string) =>
+    cat === "All" ? sorted.length : sorted.filter((p) => p.category === cat).length;
 
   const filtered =
-    activeCategory === "All" ? sortedPosts : sortedPosts.filter((p) => p.category === activeCategory);
+    activeCategory === "All" ? sorted : sorted.filter((p) => p.category === activeCategory);
 
   const featured = filtered[0];
   const rest = filtered.slice(1);

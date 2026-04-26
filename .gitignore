@@ -33,3 +33,6 @@ test-results/
 tmp-*.png
 *-review.png
 playwright-cli-check.png
+
+# Local Netlify folder
+.netlify

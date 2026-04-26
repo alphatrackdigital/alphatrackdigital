@@ -2,23 +2,72 @@
   command = "npm run build"
   publish = "dist"
 
+[dev]
+  command = "npm run dev"
+  targetPort = 8080
+  port = 8888
+  framework = "#custom"
+
 [functions]
   directory = "netlify/functions"
   node_bundler = "esbuild"
+  external_node_modules = ["mongoose"]
 
-# API requests → Netlify functions
+# --- API routes → Netlify functions ---
+
 [[redirects]]
-  from = "/api/*"
-  to = "/.netlify/functions/:splat"
+  from = "/api/auth/login"
+  to = "/.netlify/functions/auth"
   status = 200
 
-# SPA fallback — required for React Router client-side routing
+[[redirects]]
+  from = "/api/blog/admin"
+  to = "/.netlify/functions/blog-admin"
+  status = 200
+
+[[redirects]]
+  from = "/api/blog/admin/:path"
+  to = "/.netlify/functions/blog-admin"
+  status = 200
+
+[[redirects]]
+  from = "/api/blog/:slug"
+  to = "/.netlify/functions/blog"
+  status = 200
+
+[[redirects]]
+  from = "/api/blog"
+  to = "/.netlify/functions/blog"
+  status = 200
+
+[[redirects]]
+  from = "/api/leads"
+  to = "/.netlify/functions/leads"
+  status = 200
+
+[[redirects]]
+  from = "/api/contacts/admin/read/:id"
+  to = "/.netlify/functions/contacts-admin"
+  status = 200
+
+[[redirects]]
+  from = "/api/contacts/admin/:id"
+  to = "/.netlify/functions/contacts-admin"
+  status = 200
+
+[[redirects]]
+  from = "/api/contacts/admin"
+  to = "/.netlify/functions/contacts-admin"
+  status = 200
+
+# SPA fallback — must be last so it doesn't swallow API calls
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
 
-# Security headers applied to every response
+# --- Security headers ---
+
 [[headers]]
   for = "/*"
   [headers.values]
@@ -27,6 +76,21 @@
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "camera=(), microphone=(), geolocation=()"
     X-XSS-Protection = "1; mode=block"
+
+# CORS for API and function routes
+[[headers]]
+  for = "/api/*"
+  [headers.values]
+    Access-Control-Allow-Origin = "*"
+    Access-Control-Allow-Headers = "Content-Type, Authorization"
+    Access-Control-Allow-Methods = "GET, POST, PUT, DELETE, OPTIONS"
+
+[[headers]]
+  for = "/.netlify/functions/*"
+  [headers.values]
+    Access-Control-Allow-Origin = "*"
+    Access-Control-Allow-Headers = "Content-Type, Authorization"
+    Access-Control-Allow-Methods = "GET, POST, PUT, DELETE, OPTIONS"
 
 # Long-lived cache for hashed static assets
 [[headers]]
