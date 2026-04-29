@@ -33,3 +33,7 @@ test-results/
 tmp-*.png
 *-review.png
 playwright-cli-check.png
+
+devserver-*.out
+devserver-*.err
+.tmp-backend-deploy/
