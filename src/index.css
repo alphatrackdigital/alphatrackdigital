@@ -102,6 +102,8 @@
       hsl(var(--atd-cyan)) 52%,
       hsl(var(--atd-green)) 100%
     );
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
   }
 
   .text-gradient-atd-hero {
@@ -113,16 +115,21 @@
       hsl(var(--atd-cyan)) 64%,
       hsl(var(--atd-green)) 100%
     );
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
   }
 
   .title-safe {
     padding-bottom: 0.1em;
     overflow: visible;
+    overflow-wrap: break-word;
   }
 
   .title-safe-inline {
-    display: inline-block;
+    display: inline;
     padding-bottom: 0.08em;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
   }
 
   .grain-overlay {
@@ -181,6 +188,26 @@
 
   .border-white\/\[0\.06\] {
     border-color: rgb(255 255 255 / 0.04) !important;
+  }
+}
+
+@media (max-width: 640px) {
+  #contact-form :is(input, select, textarea, button),
+  #tracking-audit-form :is(input, textarea, button, [role="combobox"]) {
+    scroll-margin-bottom: 7rem;
+  }
+
+  .brevo-conversations:not(.brevo-conversations--expanded) {
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 14px) !important;
+    right: 14px !important;
+    height: 52px !important;
+    width: 52px !important;
+  }
+
+  .chat-widget-form-focus .brevo-conversations:not(.brevo-conversations--expanded) {
+    opacity: 0 !important;
+    pointer-events: none !important;
+    transform: translateY(calc(100% + 1rem)) !important;
   }
 }
 

@@ -507,7 +507,7 @@ const Header = () => {
                   </Link>
                 ),
               )}
-              <Button asChild className="mt-2 gap-1.5 rounded-lg bg-primary text-primary-foreground">
+              <Button asChild className="mt-2 w-full max-w-full gap-1.5 rounded-lg bg-primary px-3 text-center text-primary-foreground">
                 <Link
                   to={BOOK_A_FREE_STRATEGY_CALL_CTA.to}
                   onClick={closeMobileMenu}

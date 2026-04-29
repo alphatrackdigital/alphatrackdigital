@@ -113,13 +113,13 @@ const CTASection = ({
                   : "items-center",
               )}
             >
-              <div className="flex flex-col items-center gap-3.5 sm:flex-row">
+              <div className="flex w-full max-w-full flex-col items-stretch gap-3.5 sm:w-auto sm:flex-row sm:items-center">
                 <Button
                   asChild
                   size="lg"
                   className={cn(
-                    "gap-1.5 rounded-xl bg-primary text-primary-foreground hover:bg-primary/90",
-                    variant === "hero-close" && "px-8 shadow-[0_0_18px_rgba(51,204,153,0.10)]",
+                    "max-w-full gap-1.5 rounded-xl bg-primary px-5 text-center text-primary-foreground hover:bg-primary/90 sm:px-8",
+                    variant === "hero-close" && "shadow-[0_0_18px_rgba(51,204,153,0.10)]",
                   )}
                 >
                   <Link to={primaryCta.to}>
@@ -131,7 +131,7 @@ const CTASection = ({
                     asChild
                     variant="outline"
                     size="lg"
-                    className="gap-1.5 rounded-xl border-white/20 hover:bg-white/5"
+                    className="max-w-full gap-1.5 rounded-xl border-white/20 px-5 text-center hover:bg-white/5 sm:px-8"
                   >
                     <Link to={resolvedSecondaryCta.to}>
                       {resolvedSecondaryCta.label} <ArrowUpRight className="h-4 w-4" />
