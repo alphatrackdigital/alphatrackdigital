@@ -119,7 +119,7 @@ dist
 Primary CTA:
 
 ```text
-Get a free growth audit
+Book A Free Strategy Call
 ```
 
 The site should feel modern, premium, clean, conversion-focused, and measurement-first.
