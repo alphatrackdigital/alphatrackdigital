@@ -163,7 +163,11 @@ export const handler: Handler = async (event: HandlerEvent) => {
     if (!brevoRes.ok) {
       const errText = await brevoRes.text();
       console.error("[leads] Brevo error:", errText);
-      return jsonResponse({ ok: false, message: "Failed to submit lead." }, 502, headers);
+      return jsonResponse(
+        { ok: false, message: `Failed to submit lead. ${errText.slice(0, 180)}` },
+        502,
+        headers,
+      );
     }
 
     return jsonResponse({ ok: true }, 200, headers);
