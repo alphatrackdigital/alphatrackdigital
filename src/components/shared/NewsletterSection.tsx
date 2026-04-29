@@ -44,7 +44,7 @@ const NewsletterSection = ({ className }: NewsletterSectionProps) => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.4 }}
-          className="relative overflow-hidden rounded-[24px] border border-primary/15 bg-[radial-gradient(circle_at_top_left,rgba(51,204,153,0.07),transparent_34%),linear-gradient(180deg,rgba(255,255,255,0.025)_0%,rgba(255,255,255,0.01)_100%)] px-6 py-8 shadow-[0_14px_40px_rgba(0,0,0,0.12)] md:px-10 md:py-10"
+          className="relative overflow-hidden rounded-[24px] border border-primary/15 bg-[radial-gradient(circle_at_top_left,rgba(51,204,153,0.07),transparent_34%),linear-gradient(180deg,rgba(255,255,255,0.025)_0%,rgba(255,255,255,0.01)_100%)] px-5 py-8 shadow-[0_14px_40px_rgba(0,0,0,0.12)] sm:px-6 md:px-10 md:py-10"
         >
           <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
 
@@ -57,12 +57,12 @@ const NewsletterSection = ({ className }: NewsletterSectionProps) => {
               </p>
             </div>
           ) : (
-            <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
-              <div className="flex items-start gap-4">
+            <div className="flex min-w-0 flex-col gap-6 md:flex-row md:items-center md:justify-between">
+              <div className="flex min-w-0 items-start gap-4">
                 <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary/10">
                   <Mail className="h-5 w-5 text-primary" />
                 </div>
-                <div>
+                <div className="min-w-0">
                   <p className="text-base font-semibold leading-snug">
                     Get insights straight to your inbox
                   </p>
@@ -75,9 +75,9 @@ const NewsletterSection = ({ className }: NewsletterSectionProps) => {
               <form
                 onSubmit={handleSubmit}
                 noValidate
-                className="flex w-full flex-col gap-2 md:max-w-sm"
+                className="flex w-full min-w-0 flex-col gap-2 md:max-w-sm"
               >
-                <div className="flex gap-2">
+                <div className="flex min-w-0 flex-col gap-2 sm:flex-row">
                   <input
                     type="email"
                     value={email}
@@ -88,12 +88,12 @@ const NewsletterSection = ({ className }: NewsletterSectionProps) => {
                     placeholder="your@email.com"
                     required
                     aria-label="Email address"
-                    className="h-10 flex-1 rounded-lg border border-white/10 bg-white/[0.05] px-3 text-sm text-foreground placeholder:text-muted-foreground/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
+                    className="h-10 min-w-0 flex-1 rounded-lg border border-white/10 bg-white/[0.05] px-3 text-sm text-foreground placeholder:text-muted-foreground/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
                   />
                   <button
                     type="submit"
                     disabled={status === "loading"}
-                    className="inline-flex h-10 shrink-0 items-center gap-1.5 rounded-lg bg-primary px-4 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90 disabled:opacity-60"
+                    className="inline-flex h-10 w-full shrink-0 items-center justify-center gap-1.5 rounded-lg bg-primary px-4 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90 disabled:opacity-60 sm:w-auto"
                   >
                     {status === "loading" ? (
                       <Loader2 className="h-4 w-4 animate-spin" />
