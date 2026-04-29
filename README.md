@@ -1,84 +1,143 @@
-# Welcome to your Lovable project
+# AlphaTrack Digital Website
 
-## Project info
+Official frontend website for AlphaTrack Digital — a measurement-first digital growth agency focused on conversion tracking, analytics, paid media, automation, and measurable marketing performance.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+## Project Role
 
-## How can I edit this code?
+`main` is the production frontend website branch.
 
-There are several ways of editing your application.
+Use this branch for:
 
-**Use Lovable**
+- Public website pages
+- Blog frontend
+- Landing pages
+- Header, footer, navigation, and shared frontend components
+- SEO, copy, styling, and responsive design
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+Backend/API work belongs on the `backend` branch.
 
-Changes made via Lovable will be committed automatically to this repo.
+## Tech Stack
 
-**Use your preferred IDE**
+- Vite
+- React
+- TypeScript
+- React Router
+- Tailwind CSS
+- shadcn-ui / Radix UI
+- Framer Motion
+- Netlify
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+## Branches
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+| Branch | Purpose |
+| --- | --- |
+| `main` | Production frontend website |
+| `backend` | Backend/API functions for blog, auth, leads, and admin tools |
+| `deploy` | Full-stack safe-keeping and integration reference |
 
-Follow these steps:
+Short-lived branches should use:
+
+```text
+feature/*
+fix/*
+content/*
+backend/*
+hotfix/*
+chore/*
+experiment/*
+```
+
+## Local Development
 
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+git clone https://github.com/alphatrackdigital/alphatrackdigital.git
+cd alphatrackdigital
+npm install
 npm run dev
 ```
 
-## UI Targeting With Playwright
+Local URL:
 
-This repo includes a Playwright setup for visually picking UI targets and reusing those locators in Codex prompts.
-
-```sh
-npm run playwright:install
-npm run test:e2e
+```text
+http://127.0.0.1:8080
 ```
 
-For the full workflow, see [docs/playwright-ui-targeting.md](./docs/playwright-ui-targeting.md).
+## Commands
 
-**Edit a file directly in GitHub**
+```sh
+npm run dev          # Start local dev server
+npm run build        # Production build
+npm run lint         # Run ESLint
+npm run test         # Run unit tests
+npm run test:e2e     # Run Playwright tests
+npm run preview      # Preview production build
+```
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## Development Workflow
 
-**Use GitHub Codespaces**
+Do not edit `main` directly.
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+```sh
+git checkout main
+git pull origin main
+git checkout -b feature/task-name
+```
 
-## What technologies are used for this project?
+Before pushing changes:
 
-This project is built with:
+```sh
+npm run lint
+npm run build
+git status
+git diff
+```
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+Then commit and open a pull request into `main`. Review the Netlify deploy preview before merging.
 
-## How can I deploy this project?
+## Netlify
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+Production frontend project:
 
-## Can I connect a custom domain to my Lovable project?
+```text
+alphatrackdigital
+```
 
-Yes, you can!
+Build command:
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+```sh
+npm run build
+```
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+Publish directory:
+
+```text
+dist
+```
+
+## Current Product Direction
+
+Primary CTA:
+
+```text
+Get a free growth audit
+```
+
+The site should feel modern, premium, clean, conversion-focused, and measurement-first.
+
+## High-Risk Files
+
+Edit these only when necessary:
+
+```text
+vite.config.ts
+netlify.toml
+src/App.tsx
+src/main.tsx
+src/entry-server.tsx
+scripts/prerender-homepage.mjs
+netlify/functions/*
+```
+
+## Additional Documentation
+
+- `docs/playwright-ui-targeting.md` — Playwright locator workflow for Codex and UI QA.
