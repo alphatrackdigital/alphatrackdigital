@@ -6,7 +6,9 @@ import { submitLead } from "@/lib/leads";
 
 const FooterNewsletter = () => {
   const [email, setEmail] = useState("");
+  const [optIn, setOptIn] = useState(false);
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [pendingConfirmation, setPendingConfirmation] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -16,10 +18,15 @@ const FooterNewsletter = () => {
       setErrorMsg("Please enter a valid email address.");
       return;
     }
+    if (!optIn) {
+      setErrorMsg("Please confirm you want to receive newsletter emails.");
+      return;
+    }
     setErrorMsg("");
     setStatus("loading");
     try {
-      await submitLead({ source: "newsletter", firstName: "", lastName: "", email: trimmed, optIn: true });
+      const result = await submitLead({ source: "newsletter", firstName: "", lastName: "", email: trimmed, optIn });
+      setPendingConfirmation(result.pendingConfirmation === true);
       setStatus("success");
     } catch {
       setStatus("error");
@@ -32,7 +39,11 @@ const FooterNewsletter = () => {
       {status === "success" ? (
         <div className="flex items-center gap-2.5 text-sm text-muted-foreground">
           <CheckCircle2 className="h-4 w-4 shrink-0 text-primary" />
-          <span>You're subscribed — expect actionable insights every fortnight.</span>
+                    <span>
+            {pendingConfirmation
+              ? "Check your email to confirm your subscription."
+              : "You're subscribed - expect actionable insights every fortnight."}
+          </span>
         </div>
       ) : (
         <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between sm:gap-8">
@@ -68,6 +79,18 @@ const FooterNewsletter = () => {
             {(errorMsg || status === "error") && (
               <p className="text-[11px] text-destructive">{errorMsg || "Something went wrong. Please try again."}</p>
             )}
+            <label className="flex items-start gap-2 text-[11px] text-muted-foreground/70">
+              <input
+                type="checkbox"
+                checked={optIn}
+                onChange={(e) => {
+                  setOptIn(e.target.checked);
+                  if (errorMsg) setErrorMsg("");
+                }}
+                className="mt-0.5 h-4 w-4 shrink-0 rounded border border-white/[0.12] bg-white/[0.04] accent-primary"
+              />
+              <span>I want to receive newsletter emails and product updates from AlphaTrack Digital.</span>
+            </label>
           </form>
         </div>
       )}
@@ -219,3 +242,4 @@ const Footer = () => {
 };
 
 export default Footer;
+
