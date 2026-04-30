@@ -197,7 +197,7 @@ const ExitIntentPopup = () => {
       aria-modal="true"
       aria-labelledby="exit-popup-title"
     >
-      <div className="relative w-full max-w-[34rem] overflow-hidden rounded-2xl border border-white/[0.09] bg-[#070a10] shadow-[0_28px_90px_rgba(0,0,0,0.5)]">
+      <div className="relative w-full max-w-[29rem] overflow-hidden rounded-2xl border border-white/[0.09] bg-[#070a10] shadow-[0_24px_72px_rgba(0,0,0,0.48)]">
         <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/70 to-transparent" />
         <div className="pointer-events-none absolute right-[-6rem] top-[-8rem] h-56 w-56 rounded-full bg-primary/12 blur-3xl" />
 
@@ -210,37 +210,37 @@ const ExitIntentPopup = () => {
           <X className="h-4 w-4" />
         </button>
 
-        <div className="relative px-5 py-6 sm:px-8 sm:py-8">
+        <div className="relative px-5 py-5 sm:px-7 sm:py-7">
           {status === "success" ? (
-            <div className="flex min-h-[20rem] flex-col items-center justify-center text-center">
-              <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-full bg-primary/12 text-primary">
-                <CheckCircle2 className="h-8 w-8" />
+            <div className="flex min-h-[17rem] flex-col items-center justify-center text-center">
+              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary/12 text-primary">
+                <CheckCircle2 className="h-7 w-7" />
               </div>
-              <h2 className="text-2xl font-semibold tracking-normal text-foreground">
+              <h2 className="text-xl font-semibold tracking-normal text-foreground sm:text-2xl">
                 Your audit request is in.
               </h2>
-              <p className="mt-3 max-w-sm text-sm leading-6 text-muted-foreground">
+              <p className="mt-3 max-w-xs text-sm leading-6 text-muted-foreground">
                 We will review your website and follow up with practical growth insights.
               </p>
             </div>
           ) : (
             <>
-              <div className="max-w-[27rem] pr-9">
+              <div className="mx-auto max-w-[23rem] text-center">
                 <p className="mb-3 inline-flex rounded-full border border-primary/20 bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
                   Free growth audit
                 </p>
                 <h2
                   id="exit-popup-title"
-                  className="text-2xl font-semibold leading-tight tracking-normal text-foreground sm:text-3xl"
+                  className="text-[1.55rem] font-semibold leading-tight tracking-normal text-foreground sm:text-[1.85rem]"
                 >
-                  Before you go — get a free growth audit.
+                  Before you go, get a free growth audit.
                 </h2>
-                <p className="mt-3 text-sm leading-6 text-muted-foreground sm:text-base">
+                <p className="mt-3 text-sm leading-6 text-muted-foreground">
                   Find the tracking, funnel, and conversion gaps stopping your website from turning traffic into qualified leads.
                 </p>
               </div>
 
-              <form onSubmit={handleSubmit} noValidate className="mt-6 space-y-4">
+              <form onSubmit={handleSubmit} noValidate className="mt-5 space-y-3.5">
                 <div>
                   <label htmlFor="exit-popup-first-name" className="text-sm font-medium text-foreground">
                     First name
@@ -254,7 +254,7 @@ const ExitIntentPopup = () => {
                       setFirstName(event.target.value);
                       if (errors.firstName) setErrors((current) => ({ ...current, firstName: "" }));
                     }}
-                    className="mt-2 h-12 w-full rounded-xl border border-white/[0.1] bg-white/[0.04] px-4 text-sm text-foreground placeholder:text-muted-foreground/60 focus:border-primary/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+                    className="mt-1.5 h-11 w-full rounded-xl border border-white/[0.1] bg-white/[0.04] px-4 text-sm text-foreground placeholder:text-muted-foreground/60 focus:border-primary/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
                   />
                   {errors.firstName && <p className="mt-1.5 text-xs text-destructive">{errors.firstName}</p>}
                 </div>
@@ -272,7 +272,7 @@ const ExitIntentPopup = () => {
                       setEmail(event.target.value);
                       if (errors.email) setErrors((current) => ({ ...current, email: "" }));
                     }}
-                    className="mt-2 h-12 w-full rounded-xl border border-white/[0.1] bg-white/[0.04] px-4 text-sm text-foreground placeholder:text-muted-foreground/60 focus:border-primary/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+                    className="mt-1.5 h-11 w-full rounded-xl border border-white/[0.1] bg-white/[0.04] px-4 text-sm text-foreground placeholder:text-muted-foreground/60 focus:border-primary/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
                   />
                   {errors.email && <p className="mt-1.5 text-xs text-destructive">{errors.email}</p>}
                 </div>
@@ -291,7 +291,7 @@ const ExitIntentPopup = () => {
                       if (errors.website) setErrors((current) => ({ ...current, website: "" }));
                     }}
                     placeholder="https://example.com"
-                    className="mt-2 h-12 w-full rounded-xl border border-white/[0.1] bg-white/[0.04] px-4 text-sm text-foreground placeholder:text-muted-foreground/60 focus:border-primary/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+                    className="mt-1.5 h-11 w-full rounded-xl border border-white/[0.1] bg-white/[0.04] px-4 text-sm text-foreground placeholder:text-muted-foreground/60 focus:border-primary/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
                   />
                   {errors.website && <p className="mt-1.5 text-xs text-destructive">{errors.website}</p>}
                 </div>
@@ -299,7 +299,7 @@ const ExitIntentPopup = () => {
                 <button
                   type="submit"
                   disabled={status === "loading"}
-                  className="inline-flex h-12 w-full items-center justify-center rounded-xl bg-primary px-5 text-sm font-bold text-primary-foreground shadow-[0_0_18px_rgba(51,204,153,0.12)] transition hover:bg-primary/90 hover:shadow-[0_0_24px_rgba(51,204,153,0.18)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 disabled:cursor-not-allowed disabled:opacity-70"
+                  className="inline-flex h-11 w-full items-center justify-center rounded-xl bg-primary px-5 text-sm font-bold text-primary-foreground shadow-[0_0_18px_rgba(51,204,153,0.12)] transition hover:bg-primary/90 hover:shadow-[0_0_24px_rgba(51,204,153,0.18)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 disabled:cursor-not-allowed disabled:opacity-70"
                 >
                   {status === "loading" ? <Loader2 className="h-4 w-4 animate-spin" /> : "Get My Free Growth Audit"}
                 </button>
