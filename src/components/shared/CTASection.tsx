@@ -72,13 +72,18 @@ const CTASection = ({
       <div className="container relative mx-auto px-4 lg:px-8">
         <div
           className={cn(
-            "rounded-[22px] border border-white/10 bg-white/[0.02] md:rounded-[28px]",
+            "relative overflow-hidden rounded-[22px] border border-white/10 bg-white/[0.02] md:rounded-[28px]",
+            variant === "hero-close" &&
+              "border-primary/15 bg-[radial-gradient(circle_at_top_left,rgba(51,204,153,0.07),transparent_34%),linear-gradient(180deg,rgba(255,255,255,0.025)_0%,rgba(255,255,255,0.01)_100%)] shadow-[0_14px_40px_rgba(0,0,0,0.12)] md:rounded-[24px]",
             variant === "service-close" && "mx-auto max-w-[66rem]",
             variant === "hero-close" && "px-5 py-7 md:px-10 md:py-10",
             variant === "service-close" && "px-6 py-10 md:px-9",
             variant === "inline-proof" && "px-6 py-8 md:px-8",
           )}
         >
+          {variant === "hero-close" && (
+            <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
+          )}
           <div
             className={cn(
               "flex gap-6 md:gap-8",

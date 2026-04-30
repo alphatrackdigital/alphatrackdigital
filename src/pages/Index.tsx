@@ -734,21 +734,21 @@ const Index = () => {
       <section
         id="industries-section"
         data-testid="industries-section"
-        className="relative scroll-mt-24 overflow-hidden border-t border-white/10 bg-[#050812] py-14 md:py-24"
+        className="relative scroll-mt-24 overflow-hidden border-t border-white/10 py-14 md:py-24"
       >
         <div className="pointer-events-none absolute inset-0">
-          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,175,239,0.035)_0%,rgba(5,8,18,0.26)_38%,rgba(51,204,153,0.025)_100%)]" />
+          <div className="absolute left-[-8%] top-8 h-72 w-72 rounded-full bg-secondary/[0.035] blur-[120px]" />
+          <div className="absolute right-[10%] bottom-6 h-56 w-56 rounded-full bg-primary/[0.03] blur-[110px]" />
           <div
-            className="absolute inset-0 opacity-[0.09]"
+            className="absolute inset-0 opacity-[0.025]"
             style={{
-              backgroundImage:
-                "linear-gradient(90deg, rgba(0,175,239,0.18) 0 1px, transparent 1px), linear-gradient(180deg, rgba(51,204,153,0.14) 0 1px, transparent 1px)",
-              backgroundSize: "112px 112px",
-              maskImage: "linear-gradient(180deg, transparent 0%, black 20%, black 82%, transparent 100%)",
+              backgroundImage: [
+                "linear-gradient(rgba(255,255,255,0.9) 1px, transparent 1px)",
+                "linear-gradient(90deg, rgba(255,255,255,0.9) 1px, transparent 1px)",
+              ].join(", "),
+              backgroundSize: "88px 88px",
             }}
           />
-          <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/35 to-transparent" />
-          <div className="absolute inset-x-[8%] top-[7.25rem] h-px bg-gradient-to-r from-transparent via-white/12 to-transparent md:top-[9.5rem]" />
         </div>
         <div className="container relative mx-auto px-4 lg:px-8">
           <SectionIntro
