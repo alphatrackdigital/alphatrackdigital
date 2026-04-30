@@ -1,8 +1,9 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, useLocation, type To } from "react-router-dom";
-import { Menu, X, ArrowUpRight, ChevronDown } from "lucide-react";
+import { Menu, X, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { BOOK_A_FREE_STRATEGY_CALL_CTA } from "@/config/cta";
+import { withCampaignSearch } from "@/lib/campaignAttribution";
 import { cn } from "@/lib/utils";
 import { prefetchRoute } from "@/lib/routePrefetch";
 import { motion, AnimatePresence } from "framer-motion";
@@ -106,6 +107,7 @@ const Header = () => {
     hash ? { pathname: path, hash } : path;
 
   const headerElevated = scrolled || desktopServicesOpen || desktopExpertiseOpen || mobileOpen;
+  const strategyCallTo = withCampaignSearch(BOOK_A_FREE_STRATEGY_CALL_CTA.to, location.search);
 
   return (
     <header className="fixed left-0 right-0 top-0 z-50 transition-all duration-300">
@@ -253,7 +255,6 @@ const Header = () => {
                                   <service.icon className="h-4 w-4 text-primary" />
                                 </div>
                                 <p className="min-w-0 flex-1 text-sm font-semibold leading-snug text-foreground">{service.title}</p>
-                                <ArrowUpRight className="h-3.5 w-3.5 shrink-0 text-white/28 transition-colors duration-200 group-hover:text-primary/70" />
                               </Link>
                             ))}
                           </div>
@@ -275,7 +276,6 @@ const Header = () => {
                                   <service.icon className="h-4 w-4 text-primary" />
                                 </div>
                                 <p className="min-w-0 flex-1 text-sm font-semibold leading-snug text-foreground">{service.title}</p>
-                                <ArrowUpRight className="h-3.5 w-3.5 shrink-0 text-white/28 transition-colors duration-200 group-hover:text-primary/70" />
                               </Link>
                             ))}
                           </div>
@@ -285,9 +285,9 @@ const Header = () => {
                         <Link
                           to="/service"
                           {...getPrefetchHandlers("/service")}
-                          className="inline-flex items-center gap-1.5 text-sm font-medium text-primary transition-colors hover:text-primary/80"
+                          className="inline-flex text-sm font-medium text-primary transition-colors hover:text-primary/80"
                         >
-                          View all services <ArrowUpRight className="h-4 w-4" />
+                          View all services
                         </Link>
                       </div>
                     </motion.div>
@@ -328,9 +328,9 @@ const Header = () => {
             </nav>
 
             <div className="hidden justify-self-end md:block">
-              <Button asChild className="gap-1.5 rounded-lg bg-primary px-4 py-2 text-sm text-primary-foreground shadow-[0_0_18px_rgba(51,204,153,0.12)] hover:bg-primary/90">
-                <Link to={BOOK_A_FREE_STRATEGY_CALL_CTA.to} {...getPrefetchHandlers(BOOK_A_FREE_STRATEGY_CALL_CTA.to)}>
-                  {BOOK_A_FREE_STRATEGY_CALL_CTA.label} <ArrowUpRight className="h-4 w-4" />
+              <Button asChild className="rounded-lg bg-primary px-4 py-2 text-sm text-primary-foreground shadow-[0_0_18px_rgba(51,204,153,0.12)] hover:bg-primary/90">
+                <Link to={strategyCallTo} {...getPrefetchHandlers(BOOK_A_FREE_STRATEGY_CALL_CTA.to)}>
+                  {BOOK_A_FREE_STRATEGY_CALL_CTA.label}
                 </Link>
               </Button>
             </div>
@@ -423,9 +423,9 @@ const Header = () => {
                                   onClick={closeMobileMenu}
                                   onTouchStart={() => prefetchRoute("/service")}
                                   onFocus={() => prefetchRoute("/service")}
-                                  className="inline-flex items-center gap-1.5 text-sm font-medium text-primary"
+                                  className="inline-flex text-sm font-medium text-primary"
                                 >
-                                  All Services <ArrowUpRight className="h-4 w-4" />
+                                  All Services
                                 </Link>
 
                                 <div>
@@ -507,14 +507,14 @@ const Header = () => {
                   </Link>
                 ),
               )}
-              <Button asChild className="mt-2 w-full max-w-full gap-1.5 rounded-lg bg-primary px-3 text-center text-primary-foreground">
+              <Button asChild className="mt-2 w-full max-w-full rounded-lg bg-primary px-3 text-center text-primary-foreground">
                 <Link
-                  to={BOOK_A_FREE_STRATEGY_CALL_CTA.to}
+                  to={strategyCallTo}
                   onClick={closeMobileMenu}
                   onTouchStart={() => prefetchRoute(BOOK_A_FREE_STRATEGY_CALL_CTA.to)}
                   onFocus={() => prefetchRoute(BOOK_A_FREE_STRATEGY_CALL_CTA.to)}
                 >
-                  {BOOK_A_FREE_STRATEGY_CALL_CTA.label} <ArrowUpRight className="h-4 w-4" />
+                  {BOOK_A_FREE_STRATEGY_CALL_CTA.label}
                 </Link>
               </Button>
             </nav>

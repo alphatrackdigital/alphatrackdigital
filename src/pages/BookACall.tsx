@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import {
-  ArrowUpRight,
   Clock,
   Handshake,
   Lightbulb,
@@ -201,21 +200,17 @@ const BookACall = () => {
                     <div className="flex flex-wrap gap-3">
                       <Button
                         asChild
-                        className="gap-1.5 rounded-xl bg-primary text-primary-foreground hover:bg-primary/90"
+                        className="rounded-xl bg-primary text-primary-foreground hover:bg-primary/90"
                       >
-                        <a href={schedulerUrl} target="_blank" rel="noopener noreferrer">
-                          Open scheduler
-                          <ArrowUpRight className="h-4 w-4" />
-                        </a>
+                        <a href={schedulerUrl} target="_blank" rel="noopener noreferrer">Open scheduler</a>
                       </Button>
                       <Button
                         asChild
                         variant="outline"
-                        className="gap-1.5 rounded-xl border-white/20 hover:bg-white/5"
+                        className="rounded-xl border-white/20 hover:bg-white/5"
                       >
                         <a href={`mailto:${companyProfile.contact.email}?subject=Strategy%20Call%20Request`}>
                           Email us instead
-                          <ArrowUpRight className="h-4 w-4" />
                         </a>
                       </Button>
                     </div>

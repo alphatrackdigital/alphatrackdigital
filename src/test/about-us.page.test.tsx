@@ -46,9 +46,11 @@ describe("About Us page", () => {
 
     const industriesSection = screen.getByTestId("industries-section");
 
-    expect(within(industriesSection).getAllByTestId("industry-card")).toHaveLength(6);
+    expect(within(industriesSection).getAllByTestId("industry-card")).toHaveLength(8);
     expect(within(industriesSection).getAllByText("Ecommerce & Retail").length).toBeGreaterThan(0);
     expect(within(industriesSection).getAllByText("SaaS").length).toBeGreaterThan(0);
     expect(within(industriesSection).getAllByText("Real Estate").length).toBeGreaterThan(0);
+    expect(within(industriesSection).getAllByText("Fashion").length).toBeGreaterThan(0);
+    expect(within(industriesSection).getAllByText("Gaming").length).toBeGreaterThan(0);
   });
 });

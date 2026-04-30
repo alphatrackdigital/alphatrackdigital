@@ -1,10 +1,85 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import { CheckCircle2, Loader2 } from "lucide-react";
 import { companyProfile } from "@/data/companyProfile";
+import { submitLead } from "@/lib/leads";
+
+const FooterNewsletter = () => {
+  const [email, setEmail] = useState("");
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [errorMsg, setErrorMsg] = useState("");
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const trimmed = email.trim();
+    if (!trimmed || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed)) {
+      setErrorMsg("Please enter a valid email address.");
+      return;
+    }
+    setErrorMsg("");
+    setStatus("loading");
+    try {
+      await submitLead({ source: "newsletter", firstName: "", lastName: "", email: trimmed, optIn: true });
+      setStatus("success");
+    } catch {
+      setStatus("error");
+      setErrorMsg("Something went wrong. Please try again.");
+    }
+  };
+
+  return (
+    <div className="mb-10 border-b border-white/10 pb-10 md:mb-12 md:pb-12">
+      {status === "success" ? (
+        <div className="flex items-center gap-2.5 text-sm text-muted-foreground">
+          <CheckCircle2 className="h-4 w-4 shrink-0 text-primary" />
+          <span>You're subscribed — expect actionable insights every fortnight.</span>
+        </div>
+      ) : (
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between sm:gap-8">
+          <div className="shrink-0">
+            <p className="text-sm font-semibold text-foreground">Stay in the loop</p>
+            <p className="mt-1 text-[13px] text-muted-foreground">
+              Marketing insights on tracking, paid media, and automation. Fortnightly. No fluff.
+            </p>
+          </div>
+          <form onSubmit={handleSubmit} noValidate className="flex w-full flex-col gap-2 sm:max-w-sm">
+            <div className="flex gap-2">
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => { setEmail(e.target.value); if (errorMsg) setErrorMsg(""); }}
+                placeholder="your@email.com"
+                required
+                aria-label="Email address"
+                className="h-10 w-full min-w-0 rounded-lg border border-white/[0.12] bg-white/[0.04] px-3.5 text-[13px] text-foreground placeholder:text-muted-foreground/50 focus:border-primary/40 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary/30"
+              />
+              <button
+                type="submit"
+                disabled={status === "loading"}
+                className="inline-flex h-10 shrink-0 items-center rounded-lg bg-primary px-4 text-[13px] font-semibold text-primary-foreground transition-opacity hover:opacity-90 disabled:opacity-60"
+              >
+                {status === "loading" ? (
+                  <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                ) : (
+                  "Subscribe"
+                )}
+              </button>
+            </div>
+            {(errorMsg || status === "error") && (
+              <p className="text-[11px] text-destructive">{errorMsg || "Something went wrong. Please try again."}</p>
+            )}
+          </form>
+        </div>
+      )}
+    </div>
+  );
+};
 
 const Footer = () => {
   return (
     <footer className="border-t border-white/10 bg-[#070a10]">
       <div className="container mx-auto px-4 py-8 md:py-16 lg:px-8">
+        <FooterNewsletter />
         <div className="grid grid-cols-2 gap-x-6 gap-y-6 md:grid-cols-2 md:gap-12 lg:grid-cols-4">
           <div className="col-span-2 space-y-2.5 md:col-span-2 lg:col-span-1 lg:space-y-4">
             <Link to="/" aria-label="AlphaTrack Digital Home" className="inline-flex items-center">

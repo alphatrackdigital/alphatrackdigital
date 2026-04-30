@@ -8,7 +8,7 @@ import SectionIntro from "@/components/shared/SectionIntro";
 import NewsletterSection from "@/components/shared/NewsletterSection";
 import { BOOK_A_FREE_STRATEGY_CALL_CTA, EXPLORE_SERVICES_CTA } from "@/config/cta";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight, Clock } from "lucide-react";
+import { Clock } from "lucide-react";
 import { blogPosts } from "@/data/blogPosts";
 import { cn } from "@/lib/utils";
 
@@ -119,10 +119,7 @@ const Blog = () => {
                     </div>
                     <h2 className="text-2xl font-bold leading-snug md:text-3xl">{featured.title}</h2>
                     <p className="mt-4 max-w-xl text-base leading-7 text-muted-foreground">{featured.excerpt}</p>
-                    <span className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-primary">
-                      Read article{" "}
-                      <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
-                    </span>
+                    <span className="mt-6 inline-flex text-sm font-medium text-primary">Read article</span>
                   </div>
                 </Link>
               </motion.div>
@@ -172,10 +169,7 @@ const Blog = () => {
                         <p className="mt-2 flex-1 line-clamp-3 text-sm text-muted-foreground">
                           {post.excerpt}
                         </p>
-                        <span className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-primary">
-                          Read article{" "}
-                          <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1" />
-                        </span>
+                        <span className="mt-4 inline-flex text-sm font-medium text-primary">Read article</span>
                       </div>
                     </Link>
                   </motion.div>

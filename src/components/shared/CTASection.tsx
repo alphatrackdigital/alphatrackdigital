@@ -1,9 +1,9 @@
-import { Link } from "react-router-dom";
-import { ArrowUpRight } from "lucide-react";
+import { Link, useLocation } from "react-router-dom";
 import type { ReactNode } from "react";
 import { Button } from "@/components/ui/button";
 import { BOOK_A_FREE_STRATEGY_CALL_CTA, EXPLORE_SERVICES_CTA } from "@/config/cta";
 import type { CTAConfig } from "@/types/cta";
+import { withCampaignSearch } from "@/lib/campaignAttribution";
 import { cn } from "@/lib/utils";
 import SectionIntro from "@/components/shared/SectionIntro";
 
@@ -11,7 +11,7 @@ interface CTASectionProps {
   title?: ReactNode;
   description?: string;
   primaryCta?: CTAConfig;
-  secondaryCta?: CTAConfig;
+  secondaryCta?: CTAConfig | null;
   variant?: "hero-close" | "inline-proof" | "service-close";
   proofChips?: string[];
   layout?: "centered" | "split";
@@ -34,14 +34,24 @@ const CTASection = ({
   titleClassName,
   descriptionClassName,
 }: CTASectionProps) => {
+  const location = useLocation();
   const containerIsSplit = layout === "split";
-  const resolvedSecondaryCta = secondaryCta ?? (variant === "hero-close" ? EXPLORE_SERVICES_CTA : undefined);
+  const resolvedSecondaryCta =
+    secondaryCta === undefined
+      ? variant === "hero-close"
+        ? EXPLORE_SERVICES_CTA
+        : undefined
+      : secondaryCta;
+  const primaryTo = withCampaignSearch(primaryCta.to, location.search);
+  const secondaryTo = resolvedSecondaryCta
+    ? withCampaignSearch(resolvedSecondaryCta.to, location.search)
+    : undefined;
 
   return (
     <section
       className={cn(
         "relative overflow-hidden border-t border-white/10",
-        variant === "inline-proof" ? "py-16" : "py-16 md:py-[4.75rem]",
+        variant === "inline-proof" ? "py-12 md:py-16" : "py-10 md:py-[4.75rem]",
       )}
     >
       <div className="pointer-events-none absolute inset-0">
@@ -62,16 +72,16 @@ const CTASection = ({
       <div className="container relative mx-auto px-4 lg:px-8">
         <div
           className={cn(
-            "rounded-[28px] border border-white/10 bg-white/[0.02]",
+            "rounded-[22px] border border-white/10 bg-white/[0.02] md:rounded-[28px]",
             variant === "service-close" && "mx-auto max-w-[66rem]",
-            variant === "hero-close" && "px-6 py-9 md:px-10 md:py-10",
+            variant === "hero-close" && "px-5 py-7 md:px-10 md:py-10",
             variant === "service-close" && "px-6 py-10 md:px-9",
             variant === "inline-proof" && "px-6 py-8 md:px-8",
           )}
         >
           <div
             className={cn(
-              "flex gap-8",
+              "flex gap-6 md:gap-8",
               containerIsSplit
                 ? "flex-col items-start justify-between lg:flex-row lg:items-center"
                 : "flex-col items-center text-center",
@@ -90,13 +100,13 @@ const CTASection = ({
               )}
               titleClassName={cn(
                 variant === "hero-close" &&
-                  "mx-auto max-w-[31rem] text-[1.8rem] leading-[1.1] tracking-[-0.02em] md:max-w-[36rem] md:text-[2.15rem] lg:text-[2.45rem]",
+                  "mx-auto max-w-[22rem] text-[1.55rem] leading-[1.12] tracking-[-0.02em] md:max-w-[36rem] md:text-[2.15rem] lg:text-[2.45rem]",
                 variant === "inline-proof" && "text-2xl md:text-3xl",
                 variant === "service-close" && "text-3xl leading-[1.12] md:text-[2.1rem]",
                 titleClassName,
               )}
               descriptionClassName={cn(
-                variant === "hero-close" && "mx-auto mt-8 max-w-[44rem] text-sm leading-7 md:mt-8 md:text-[15px]",
+                variant === "hero-close" && "mx-auto mt-5 max-w-[32rem] text-sm leading-6 md:mt-8 md:max-w-[44rem] md:text-[15px] md:leading-7",
                 variant === "inline-proof" && "max-w-xl text-sm",
                 variant === "service-close" && "max-w-xl",
                 descriptionClassName,
@@ -105,7 +115,7 @@ const CTASection = ({
 
             <div
               className={cn(
-                "flex w-full flex-col gap-6",
+                "flex w-full flex-col gap-5 md:gap-6",
                 containerIsSplit
                   ? resolvedSecondaryCta
                     ? "lg:max-w-md lg:items-end"
@@ -118,24 +128,20 @@ const CTASection = ({
                   asChild
                   size="lg"
                   className={cn(
-                    "max-w-full gap-1.5 rounded-xl bg-primary px-5 text-center text-primary-foreground hover:bg-primary/90 sm:px-8",
+                    "h-11 max-w-full rounded-xl bg-primary px-5 text-center text-primary-foreground hover:bg-primary/90 sm:px-8 md:h-11",
                     variant === "hero-close" && "shadow-[0_0_18px_rgba(51,204,153,0.10)]",
                   )}
                 >
-                  <Link to={primaryCta.to}>
-                    {primaryCta.label} <ArrowUpRight className="h-4 w-4" />
-                  </Link>
+                  <Link to={primaryTo}>{primaryCta.label}</Link>
                 </Button>
                 {resolvedSecondaryCta && (
                   <Button
                     asChild
                     variant="outline"
                     size="lg"
-                    className="max-w-full gap-1.5 rounded-xl border-white/20 px-5 text-center hover:bg-white/5 sm:px-8"
+                    className="h-11 max-w-full rounded-xl border-white/20 px-5 text-center hover:bg-white/5 sm:px-8 md:h-11"
                   >
-                    <Link to={resolvedSecondaryCta.to}>
-                      {resolvedSecondaryCta.label} <ArrowUpRight className="h-4 w-4" />
-                    </Link>
+                    <Link to={secondaryTo ?? resolvedSecondaryCta.to}>{resolvedSecondaryCta.label}</Link>
                   </Button>
                 )}
               </div>
