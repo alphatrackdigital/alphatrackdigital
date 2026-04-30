@@ -82,6 +82,37 @@ describe("ExitIntentPopup", () => {
     expect(window.dataLayer).toContainEqual({ event: "exit_popup_close" });
   });
 
+  it("closes on Escape key press", async () => {
+    renderWithPageProviders(<ExitIntentPopup />);
+    openPopup();
+
+    expect(await screen.findByRole("dialog")).toBeInTheDocument();
+    fireEvent.keyDown(document, { key: "Escape" });
+
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+    expect(window.dataLayer).toContainEqual({ event: "exit_popup_close" });
+  });
+
+  it("closes when clicking the backdrop", async () => {
+    renderWithPageProviders(<ExitIntentPopup />);
+    openPopup();
+
+    const dialog = await screen.findByRole("dialog");
+    fireEvent.click(dialog);
+
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+    expect(window.dataLayer).toContainEqual({ event: "exit_popup_close" });
+  });
+
+  it("does not close when clicking inside the modal panel", async () => {
+    renderWithPageProviders(<ExitIntentPopup />);
+    openPopup();
+
+    fireEvent.click(await screen.findByText("Before you go, get a free growth audit."));
+
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
+  });
+
   it("does not render on excluded pages", () => {
     renderWithPageProviders(<ExitIntentPopup />, { route: "/contact-us" });
 

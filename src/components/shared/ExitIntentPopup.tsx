@@ -90,6 +90,15 @@ const ExitIntentPopup = () => {
   }, []);
 
   useEffect(() => {
+    if (!isOpen) return;
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") closePopup();
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [isOpen, closePopup]);
+
+  useEffect(() => {
     if (excluded || typeof window === "undefined") {
       setIsOpen(false);
       return undefined;
@@ -196,8 +205,12 @@ const ExitIntentPopup = () => {
       role="dialog"
       aria-modal="true"
       aria-labelledby="exit-popup-title"
+      onClick={closePopup}
     >
-      <div className="relative w-full max-w-[29rem] overflow-hidden rounded-2xl border border-white/[0.09] bg-[#070a10] shadow-[0_24px_72px_rgba(0,0,0,0.48)]">
+      <div
+        className="relative w-full max-w-[29rem] overflow-hidden rounded-2xl border border-white/[0.09] bg-[#070a10] shadow-[0_24px_72px_rgba(0,0,0,0.48)]"
+        onClick={(e) => e.stopPropagation()}
+      >
         <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/70 to-transparent" />
         <div className="pointer-events-none absolute right-[-6rem] top-[-8rem] h-56 w-56 rounded-full bg-primary/12 blur-3xl" />
 
