@@ -59,6 +59,23 @@ function withConsentAttributes(
   return attributes;
 }
 
+function toBrevoDoiPayload(
+  payload: LeadPayload,
+  listId: number,
+  templateId: number,
+  redirectUrl: string,
+) {
+  return {
+    email: payload.email,
+    includeListIds: [listId],
+    templateId,
+    redirectionUrl: redirectUrl,
+    attributes: withConsentAttributes({
+      SOURCE: "Newsletter",
+    }, payload),
+  };
+}
+
 function isValidLeadPayload(payload: unknown): payload is LeadPayload {
   if (!payload || typeof payload !== "object") return false;
   const d = payload as Record<string, unknown>;
@@ -121,6 +138,8 @@ export const handler: Handler = async (event: HandlerEvent) => {
   const contactListId = Number(process.env.BREVO_CONTACT_LIST_ID ?? 2);
   const auditListId = Number(process.env.BREVO_AUDIT_LIST_ID ?? 3);
   const newsletterListId = Number(process.env.BREVO_NEWSLETTER_LIST_ID ?? 4);
+  const newsletterDoiTemplateId = Number(process.env.BREVO_DOI_TEMPLATE_ID ?? 0);
+  const newsletterDoiRedirectUrl = process.env.BREVO_DOI_REDIRECT_URL?.trim() || "";
 
   const listId =
     payload.source === "contact_form"
@@ -155,35 +174,50 @@ export const handler: Handler = async (event: HandlerEvent) => {
       console.error("[leads] DB save error (non-fatal):", dbErr);
     }
 
-    const brevoRes = await fetch("https://api.brevo.com/v3/contacts", {
+    const isNewsletterDoiEnabled =
+      payload.source === "newsletter" &&
+      Number.isInteger(newsletterDoiTemplateId) &&
+      newsletterDoiTemplateId > 0 &&
+      newsletterDoiRedirectUrl.length > 0;
+
+    const brevoRes = await fetch(
+      isNewsletterDoiEnabled
+        ? "https://api.brevo.com/v3/contacts/doubleOptinConfirmation"
+        : "https://api.brevo.com/v3/contacts",
+      {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         "api-key": brevoApiKey,
       },
-      body: JSON.stringify({
-        email: payload.email,
-        attributes: withConsentAttributes({
-          FIRSTNAME: payload.firstName || "",
-          LASTNAME: payload.lastName || "",
-          COMPANY: payload.company || "",
-          MESSAGE: payload.message || "",
-          WEBSITE: payload.websiteUrl || "",
-          AD_SPEND: payload.monthlyAdSpend || "",
-          AD_PLATFORMS: payload.adPlatforms || "",
-          SERVICE_INTEREST: serviceInterestStr,
-          MONTHLY_BUDGET: payload.monthlyBudget || "",
-          SOURCE:
-            payload.source === "contact_form"
-              ? "Contact Form"
-              : payload.source === "tracking_audit_offer"
-              ? "Tracking Audit Landing Page"
-              : "Newsletter",
-        }, payload),
-        listIds: [listId],
-        updateEnabled: true,
-      }),
-    });
+        body: JSON.stringify(
+          isNewsletterDoiEnabled
+            ? toBrevoDoiPayload(payload, listId, newsletterDoiTemplateId, newsletterDoiRedirectUrl)
+            : {
+                email: payload.email,
+                attributes: withConsentAttributes({
+                  FIRSTNAME: payload.firstName || "",
+                  LASTNAME: payload.lastName || "",
+                  COMPANY: payload.company || "",
+                  MESSAGE: payload.message || "",
+                  WEBSITE: payload.websiteUrl || "",
+                  AD_SPEND: payload.monthlyAdSpend || "",
+                  AD_PLATFORMS: payload.adPlatforms || "",
+                  SERVICE_INTEREST: serviceInterestStr,
+                  MONTHLY_BUDGET: payload.monthlyBudget || "",
+                  SOURCE:
+                    payload.source === "contact_form"
+                      ? "Contact Form"
+                      : payload.source === "tracking_audit_offer"
+                      ? "Tracking Audit Landing Page"
+                      : "Newsletter",
+                }, payload),
+                listIds: [listId],
+                updateEnabled: true,
+              },
+        ),
+      },
+    );
 
     if (!brevoRes.ok) {
       const errText = await brevoRes.text();
@@ -195,7 +229,7 @@ export const handler: Handler = async (event: HandlerEvent) => {
       );
     }
 
-    return jsonResponse({ ok: true }, 200, headers);
+    return jsonResponse({ ok: true, pendingConfirmation: isNewsletterDoiEnabled }, 200, headers);
   } catch (err) {
     console.error("[leads] Network error:", err);
     return jsonResponse({ ok: false, message: "Lead submission failed." }, 500, headers);
