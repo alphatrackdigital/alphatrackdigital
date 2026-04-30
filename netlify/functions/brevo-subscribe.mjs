@@ -78,6 +78,7 @@ const validatePayload = (payload) => {
   const firstName = typeof payload.firstName === "string" ? payload.firstName.trim() : "";
   const email = typeof payload.email === "string" ? payload.email.trim().toLowerCase() : "";
   const website = typeof payload.website === "string" ? payload.website.trim() : "";
+  const optIn = payload.optIn === true;
 
   if (!firstName || !isValidEmail(email) || !isValidOptionalWebsite(website)) {
     return null;
@@ -87,7 +88,29 @@ const validatePayload = (payload) => {
     firstName,
     email,
     website: normalizeWebsite(website),
+    optIn,
   };
+};
+
+const withConsentAttributes = (attributes, lead) => {
+  if (lead.optIn !== true) {
+    return attributes;
+  }
+
+  attributes.OPT_IN = true;
+
+  const consentAttribute = getEnv("BREVO_CONSENT_ATTRIBUTE")?.trim();
+  const consentTimestampAttribute = getEnv("BREVO_CONSENT_TIMESTAMP_ATTRIBUTE")?.trim();
+
+  if (consentAttribute) {
+    attributes[consentAttribute] = "Yes";
+  }
+
+  if (consentTimestampAttribute) {
+    attributes[consentTimestampAttribute] = new Date().toISOString();
+  }
+
+  return attributes;
 };
 
 export default async (request) => {
@@ -147,11 +170,11 @@ export default async (request) => {
       },
       body: JSON.stringify({
         email: lead.email,
-        attributes: {
+        attributes: withConsentAttributes({
           FIRSTNAME: lead.firstName,
           WEBSITE: lead.website,
           SOURCE,
-        },
+        }, lead),
         listIds: [brevoListId],
         updateEnabled: true,
       }),

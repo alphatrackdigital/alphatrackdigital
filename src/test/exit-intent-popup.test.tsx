@@ -60,6 +60,7 @@ describe("ExitIntentPopup", () => {
       firstName: "Ada",
       email: "ada@example.com",
       website: "alphatrack.digital",
+      optIn: false,
     });
     expect(await screen.findByText("Your audit request is in.")).toBeInTheDocument();
     expect(window.localStorage.getItem("atd_exit_popup_submitted")).toBe("true");

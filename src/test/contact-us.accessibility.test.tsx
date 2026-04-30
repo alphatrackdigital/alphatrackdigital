@@ -14,7 +14,7 @@ describe("ContactUs accessibility", () => {
     expect(screen.getByLabelText("Your Message")).toBeInTheDocument();
     expect(
       screen.getByLabelText(
-        "I agree to be contacted about my enquiry.",
+        "Yes, you can also send me occasional insights and service updates by email.",
       ),
     ).toBeInTheDocument();
   });

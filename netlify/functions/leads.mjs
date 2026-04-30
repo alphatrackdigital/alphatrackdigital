@@ -42,6 +42,9 @@ const isValidLeadPayload = (payload) => {
 
   if (data.source === "contact_form") {
     if (!Array.isArray(data.serviceInterest) || data.serviceInterest.length === 0) return false;
+  }
+
+  if (data.source === "newsletter") {
     if (data.optIn !== true) return false;
   }
 
@@ -82,20 +85,15 @@ const isRateLimited = (key) => {
 };
 
 const buildMessageAttribute = (data) => {
-  const baseMessage = data.message?.trim() || "";
-
-  if (data.source !== "contact_form") {
-    return baseMessage;
-  }
-
-  const consentNote = `Contact consent confirmed on ${new Date().toISOString()}`;
-  return baseMessage ? `${baseMessage}\n\n${consentNote}` : consentNote;
+  return data.message?.trim() || "";
 };
 
 const withConsentAttributes = (attributes, data) => {
-  if (data.source !== "contact_form") {
+  if (data.optIn !== true) {
     return attributes;
   }
+
+  attributes.OPT_IN = true;
 
   const consentAttribute = getEnv("BREVO_CONSENT_ATTRIBUTE")?.trim();
   const consentTimestampAttribute = getEnv("BREVO_CONSENT_TIMESTAMP_ATTRIBUTE")?.trim();

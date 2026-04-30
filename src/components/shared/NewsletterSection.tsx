@@ -9,6 +9,7 @@ interface NewsletterSectionProps {
 
 const NewsletterSection = ({ className }: NewsletterSectionProps) => {
   const [email, setEmail] = useState("");
+  const [optIn, setOptIn] = useState(false);
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
 
@@ -19,6 +20,10 @@ const NewsletterSection = ({ className }: NewsletterSectionProps) => {
       setErrorMsg("Please enter a valid email address.");
       return;
     }
+    if (!optIn) {
+      setErrorMsg("Please confirm you want to receive newsletter emails.");
+      return;
+    }
     setErrorMsg("");
     setStatus("loading");
     try {
@@ -27,7 +32,7 @@ const NewsletterSection = ({ className }: NewsletterSectionProps) => {
         firstName: "",
         lastName: "",
         email: trimmed,
-        optIn: true,
+        optIn,
       });
       setStatus("success");
     } catch {
@@ -107,6 +112,18 @@ const NewsletterSection = ({ className }: NewsletterSectionProps) => {
                     {errorMsg || "Something went wrong. Please try again."}
                   </p>
                 )}
+                <label className="flex items-start gap-2 text-[11px] text-muted-foreground/70 lg:text-xs">
+                  <input
+                    type="checkbox"
+                    checked={optIn}
+                    onChange={(e) => {
+                      setOptIn(e.target.checked);
+                      if (errorMsg) setErrorMsg("");
+                    }}
+                    className="mt-0.5 h-4 w-4 shrink-0 rounded border border-white/20 bg-background/70 accent-primary"
+                  />
+                  <span>I want to receive newsletter emails and product updates from AlphaTrack Digital.</span>
+                </label>
                 <p className="text-center text-[11px] text-muted-foreground/60 lg:text-left">
                   No spam. Unsubscribe any time.
                 </p>
