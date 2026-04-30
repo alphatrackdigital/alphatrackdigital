@@ -1,8 +1,6 @@
 ﻿import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import {
-  ArrowUpRight,
-  ArrowRight,
   ClipboardCheck,
   PhoneCall,
   Rocket,
@@ -14,11 +12,12 @@ import {
   BriefcaseBusiness,
   Plane,
   Building2,
+  Shirt,
+  Gamepad2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import CTASection from "@/components/shared/CTASection";
 import FAQAccordion from "@/components/shared/FAQAccordion";
-import NewsletterSection from "@/components/shared/NewsletterSection";
 import { BOOK_A_FREE_STRATEGY_CALL_CTA } from "@/config/cta";
 import SEO from "@/components/shared/SEO";
 import SectionIntro from "@/components/shared/SectionIntro";
@@ -26,8 +25,10 @@ import { buildCanonicalUrl } from "@/config/seo";
 import { motion, useReducedMotion } from "framer-motion";
 import { primaryServices, supportingServices } from "@/data/services";
 import { getFeaturedBlogPosts } from "@/data/blogPosts";
-import { companyProfile, featuredTestimonial, primarySectors } from "@/data/companyProfile";
+import { companyProfile, featuredTestimonial, primarySectors, sectorSummaries } from "@/data/companyProfile";
+import type { PrimarySector } from "@/data/companyProfile";
 import { homepageProofLine, homepageProofMetrics } from "@/data/homepageProof";
+import { withCampaignSearch } from "@/lib/campaignAttribution";
 import { cn } from "@/lib/utils";
 import makeIcon from "@/assets/tools/make.svg";
 import googleAnalyticsIcon from "@/assets/tools/google-analytics.svg";
@@ -35,18 +36,16 @@ import metaAdsIcon from "@/assets/tools/meta-ads.svg";
 import googleAdsIcon from "@/assets/tools/google-ads.svg";
 import microsoftAdsIcon from "@/assets/tools/microsoft-ads.png";
 import linkedinAdsIcon from "@/assets/tools/linkedin-ads.svg";
-import tiktokAdsIcon from "@/assets/tools/tiktok-favicon.png";
-import snapchatAdsIcon from "@/assets/tools/snapchat-ads.svg";
-import eskimiIcon from "@/assets/tools/eskimi.png";
 import hubspotIcon from "@/assets/tools/hubspot.svg";
 import klaviyoIcon from "@/assets/tools/klaviyo.png";
 import googleTagManagerIcon from "@/assets/tools/google-tag-manager.svg";
 import brevoIcon from "@/assets/tools/brevo.svg";
 import lookerStudioIcon from "@/assets/tools/looker-studio.svg";
 import microsoftClarityIcon from "@/assets/tools/microsoft-clarity.ico";
-import shopifyIcon from "@/assets/tools/shopify.svg";
-import wordpressIcon from "@/assets/tools/wordpress-favicon-com.png";
-import zapierIcon from "@/assets/tools/zapier.svg";
+
+const HOMEPAGE_SEO_TITLE = "AlphaTrack Digital | Data-Driven Performance Marketing Agency";
+const HOMEPAGE_SEO_DESCRIPTION =
+  "Data-driven marketing, creative strategy, and growth systems for brands ready to attract, convert, and scale.";
 
 // --- Sub-components ---
 
@@ -75,6 +74,10 @@ const BlogImage = ({ src, alt }: { src: string; alt: string }) => {
           loaded ? "opacity-100" : "opacity-0"
         )}
         loading="lazy"
+        decoding="async"
+        width={600}
+        height={338}
+        sizes="(min-width: 768px) 33vw, 85vw"
       />
     </div>
   );
@@ -83,24 +86,18 @@ const BlogImage = ({ src, alt }: { src: string; alt: string }) => {
 // --- Data ---
 
 const tools = [
-  { name: "Make",               icon: makeIcon,              color: "#6D28D9" },
-  { name: "Google Analytics 4", icon: googleAnalyticsIcon,   color: "#F37C20" },
-  { name: "Meta Ads",           icon: metaAdsIcon,           color: "#0082FB" },
-  { name: "Google Ads",         icon: googleAdsIcon,         color: "#4285F4" },
-  { name: "Microsoft Ads",      icon: microsoftAdsIcon,      color: "#00A4EF", mode: "image" as const },
-  { name: "LinkedIn Ads",       icon: linkedinAdsIcon,       color: "#0A66C2" },
-  { name: "TikTok Ads",         icon: tiktokAdsIcon,         color: "#FFFFFF" },
-  { name: "Snapchat Ads",       icon: snapchatAdsIcon,       color: "#FFFC00" },
-  { name: "Eskimi",             icon: eskimiIcon,            color: "#0B5FFF", mode: "image" as const },
-  { name: "HubSpot",            icon: hubspotIcon,           color: "#FF7A59" },
-  { name: "Klaviyo",            icon: klaviyoIcon,           color: "#111111", mode: "image" as const },
-  { name: "Google Tag Manager", icon: googleTagManagerIcon,  color: "#4285F4" },
-  { name: "Brevo",              icon: brevoIcon,             color: "#0B996E" },
-  { name: "Looker Studio",      icon: lookerStudioIcon,      color: "#4285F4" },
-  { name: "Microsoft Clarity",  icon: microsoftClarityIcon,  color: "#2563EB" },
-  { name: "Shopify",            icon: shopifyIcon,           color: "#96BF48" },
-  { name: "WordPress",          icon: wordpressIcon,         color: "#21759B" },
-  { name: "Zapier",             icon: zapierIcon,            color: "#FF4A00" },
+  { name: "Make", icon: makeIcon },
+  { name: "Google Analytics 4", icon: googleAnalyticsIcon },
+  { name: "Meta Ads", icon: metaAdsIcon },
+  { name: "Google Ads", icon: googleAdsIcon },
+  { name: "Microsoft Ads", icon: microsoftAdsIcon },
+  { name: "LinkedIn Ads", icon: linkedinAdsIcon },
+  { name: "HubSpot", icon: hubspotIcon },
+  { name: "Klaviyo", icon: klaviyoIcon },
+  { name: "Google Tag Manager", icon: googleTagManagerIcon },
+  { name: "Brevo", icon: brevoIcon },
+  { name: "Looker Studio", icon: lookerStudioIcon },
+  { name: "Microsoft Clarity", icon: microsoftClarityIcon },
 ];
 
 const findTool = (name: string) => tools.find((tool) => tool.name === name)!;
@@ -169,28 +166,55 @@ const sectorVisuals = {
   "Ecommerce & Retail": {
     icon: ShoppingCart,
     accentClassName: "bg-secondary/14 text-secondary",
+    glowColor: "rgba(0, 210, 255, 0.10)",
   },
   FMCG: {
     icon: Package2,
-    accentClassName: "bg-primary/14 text-primary",
+    accentClassName: "bg-amber-500/14 text-amber-400",
+    glowColor: "rgba(251, 191, 36, 0.09)",
   },
   Education: {
     icon: GraduationCap,
-    accentClassName: "bg-secondary/14 text-secondary",
+    accentClassName: "bg-violet-500/14 text-violet-400",
+    glowColor: "rgba(139, 92, 246, 0.10)",
   },
   SaaS: {
     icon: BriefcaseBusiness,
     accentClassName: "bg-primary/14 text-primary",
+    glowColor: "rgba(52, 211, 153, 0.10)",
   },
   "Entertainment & Hospitality": {
     icon: Plane,
-    accentClassName: "bg-secondary/14 text-secondary",
+    accentClassName: "bg-rose-500/14 text-rose-400",
+    glowColor: "rgba(251, 113, 133, 0.10)",
   },
   "Real Estate": {
     icon: Building2,
-    accentClassName: "bg-primary/14 text-primary",
+    accentClassName: "bg-blue-400/14 text-blue-400",
+    glowColor: "rgba(96, 165, 250, 0.10)",
+  },
+  Fashion: {
+    icon: Shirt,
+    accentClassName: "bg-pink-500/14 text-pink-400",
+    glowColor: "rgba(244, 114, 182, 0.10)",
+  },
+  Gaming: {
+    icon: Gamepad2,
+    accentClassName: "bg-lime-400/14 text-lime-300",
+    glowColor: "rgba(190, 242, 100, 0.09)",
   },
 } as const;
+
+const sectorExpertisePaths: Record<PrimarySector, string> = {
+  "Ecommerce & Retail": "/expertise/ecommerce-retail",
+  FMCG: "/expertise/fmcg",
+  Education: "/expertise/education",
+  SaaS: "/expertise/saas",
+  "Entertainment & Hospitality": "/expertise/entertainment-hospitality",
+  "Real Estate": "/expertise/real-estate",
+  Fashion: "/expertise/fashion",
+  Gaming: "/expertise/gaming",
+};
 
 const faqs = [
   {
@@ -215,11 +239,84 @@ const faqs = [
   },
 ];
 
+const homepageSchema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": buildCanonicalUrl("/#organization"),
+      name: "AlphaTrack Digital",
+      url: buildCanonicalUrl("/"),
+      logo: buildCanonicalUrl("/apple-touch-icon.png?v=20260415a"),
+      description:
+        "Growth-focused marketing agency helping brands attract, convert, and scale through data-driven marketing, creative strategy, and measurable performance systems.",
+      address: [
+        { "@type": "PostalAddress", addressLocality: "Accra", addressCountry: "GH" },
+        { "@type": "PostalAddress", addressLocality: "Lagos", addressCountry: "NG" },
+      ],
+      contactPoint: {
+        "@type": "ContactPoint",
+        telephone: companyProfile.contact.phoneHref.replace("tel:", ""),
+        email: companyProfile.contact.email,
+        contactType: "sales",
+      },
+    },
+    {
+      "@type": "WebSite",
+      "@id": buildCanonicalUrl("/#website"),
+      name: "AlphaTrack Digital",
+      url: buildCanonicalUrl("/"),
+      publisher: { "@id": buildCanonicalUrl("/#organization") },
+    },
+    {
+      "@type": "WebPage",
+      "@id": buildCanonicalUrl("/#webpage"),
+      url: buildCanonicalUrl("/"),
+      name: HOMEPAGE_SEO_TITLE,
+      description: HOMEPAGE_SEO_DESCRIPTION,
+      isPartOf: { "@id": buildCanonicalUrl("/#website") },
+      about: { "@id": buildCanonicalUrl("/#organization") },
+      primaryImageOfPage: buildCanonicalUrl("/social-preview.png"),
+      potentialAction: {
+        "@type": "ScheduleAction",
+        name: BOOK_A_FREE_STRATEGY_CALL_CTA.label,
+        target: buildCanonicalUrl(BOOK_A_FREE_STRATEGY_CALL_CTA.to),
+      },
+    },
+    {
+      "@type": "Service",
+      "@id": buildCanonicalUrl("/#performance-marketing-service"),
+      name: "Performance marketing, conversion tracking, and marketing automation",
+      provider: { "@id": buildCanonicalUrl("/#organization") },
+      areaServed: [
+        { "@type": "Country", name: "Ghana" },
+        { "@type": "Country", name: "Nigeria" },
+      ],
+      serviceType: primaryServices.map((service) => service.title),
+      url: buildCanonicalUrl("/service"),
+    },
+    {
+      "@type": "FAQPage",
+      "@id": buildCanonicalUrl("/#homepage-faq"),
+      mainEntity: faqs.map((faq) => ({
+        "@type": "Question",
+        name: faq.question,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: faq.answer,
+        },
+      })),
+    },
+  ],
+};
+
 // --- Page ---
 
 const Index = () => {
   const shouldReduceMotion = useReducedMotion();
+  const location = useLocation();
   const featuredBlogPosts = getFeaturedBlogPosts(3);
+  const strategyCallTo = withCampaignSearch(BOOK_A_FREE_STRATEGY_CALL_CTA.to, location.search);
   const testimonialInitials = featuredTestimonial.name
     .split(" ")
     .slice(0, 2)
@@ -230,35 +327,18 @@ const Index = () => {
   return (
     <>
       <SEO
-        title="AlphaTrack Digital | Data-Driven Performance Marketing Agency"
-        description="Data-driven marketing, creative strategy, and growth systems for brands ready to attract, convert, and scale."
+        title={HOMEPAGE_SEO_TITLE}
+        description={HOMEPAGE_SEO_DESCRIPTION}
         canonicalUrl="/"
-        schema={{
-          "@context": "https://schema.org",
-          "@type": "Organization",
-          name: "AlphaTrack Digital",
-          url: "https://alphatrack.digital",
-          logo: buildCanonicalUrl("/apple-touch-icon.png?v=20260415a"),
-          description:
-            "Growth-focused marketing agency helping brands attract, convert, and scale through data-driven marketing, creative strategy, and measurable performance systems.",
-          address: [
-            { "@type": "PostalAddress", addressLocality: "Accra", addressCountry: "GH" },
-            { "@type": "PostalAddress", addressLocality: "Lagos", addressCountry: "NG" },
-          ],
-          contactPoint: {
-            "@type": "ContactPoint",
-            telephone: companyProfile.contact.phoneHref.replace("tel:", ""),
-            email: companyProfile.contact.email,
-            contactType: "sales",
-          },
-        }}
+        ogImageAlt="AlphaTrack Digital - Data-Driven Performance Marketing Agency"
+        schema={homepageSchema}
       />
 
-      <section className="relative z-0 flex min-h-[64vh] items-start overflow-hidden md:min-h-[80vh]">
+      <section className="relative z-0 flex min-h-[64svh] items-start overflow-hidden md:min-h-[80vh]">
         <div className="absolute inset-0 pointer-events-none bg-[#050812]" />
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
           <div
-            className="absolute inset-0 opacity-[0.028]"
+            className="absolute inset-0 hidden opacity-[0.028] sm:block"
             style={{
               backgroundImage: [
                 "linear-gradient(rgba(255,255,255,0.9) 1px, transparent 1px)",
@@ -269,18 +349,18 @@ const Index = () => {
           />
           <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(5,8,18,0.08)_0%,rgba(5,8,18,0.22)_52%,rgba(5,8,18,0.82)_100%)]" />
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(8,17,39,0)_0%,rgba(5,8,18,0.05)_44%,rgba(4,7,16,0.36)_76%,rgba(2,4,10,0.78)_100%)]" />
-          <div className="absolute left-1/2 top-[17%] h-[17rem] w-[20rem] -translate-x-1/2 rounded-full bg-[radial-gradient(circle_at_center,rgba(28,182,244,0.22)_0%,rgba(68,211,154,0.12)_38%,rgba(10,70,201,0.09)_58%,transparent_76%)] blur-[82px] md:top-[18%] md:h-[22rem] md:w-[36rem] md:blur-[108px]" />
-          <div className="absolute left-1/2 top-[16%] h-[20rem] w-[24rem] -translate-x-1/2 rounded-full bg-[#050812]/82 blur-[100px] md:top-[18%] md:h-[26rem] md:w-[42rem] md:blur-[132px]" />
-          <div className="absolute left-1/2 top-[18%] h-[18rem] w-[22rem] -translate-x-1/2 rounded-full bg-[radial-gradient(circle_at_center,rgba(28,182,244,0.14)_0%,rgba(68,211,154,0.08)_42%,transparent_72%)] blur-[92px] md:top-[20%] md:h-[24rem] md:w-[40rem] md:blur-[124px]" />
-          <div className="absolute -left-[16%] bottom-[-8%] h-[18rem] w-[18rem] rounded-full bg-[#1a67ff]/[0.18] blur-[96px] md:h-[24rem] md:w-[24rem] md:blur-[126px]" />
-          <div className="absolute left-[6%] bottom-[18%] h-28 w-28 rounded-full bg-secondary/[0.15] blur-[72px] md:h-40 md:w-40 md:blur-[94px]" />
-          <div className="absolute -left-[6%] bottom-[12%] h-24 w-32 rounded-full bg-[radial-gradient(circle_at_center,rgba(10,70,201,0.16)_0%,rgba(28,182,244,0.08)_42%,transparent_74%)] blur-[52px] md:h-36 md:w-48 md:blur-[72px]" />
-          <div className="absolute right-[1%] top-[57%] h-24 w-24 rounded-full bg-[radial-gradient(circle_at_center,rgba(68,211,154,0.18)_0%,rgba(28,182,244,0.13)_34%,rgba(10,70,201,0.06)_58%,transparent_76%)] blur-[50px] md:right-[5%] md:top-[42%] md:h-32 md:w-32 md:blur-[70px]" />
-          <div className="absolute right-[-6%] top-[18%] h-[14rem] w-[10rem] rotate-[18deg] bg-[radial-gradient(circle_at_center,rgba(17,125,255,0.32),transparent_62%)] blur-[72px] md:h-[21rem] md:w-[14rem] md:blur-[96px]" />
+          <div className="absolute left-1/2 top-[17%] h-[15rem] w-[18rem] -translate-x-1/2 rounded-full bg-[radial-gradient(circle_at_center,rgba(28,182,244,0.16)_0%,rgba(68,211,154,0.09)_40%,transparent_74%)] blur-[58px] md:top-[18%] md:h-[22rem] md:w-[36rem] md:blur-[108px]" />
+          <div className="absolute left-1/2 top-[16%] h-[18rem] w-[21rem] -translate-x-1/2 rounded-full bg-[#050812]/80 blur-[70px] md:top-[18%] md:h-[26rem] md:w-[42rem] md:blur-[132px]" />
+          <div className="absolute left-1/2 top-[18%] hidden h-[18rem] w-[22rem] -translate-x-1/2 rounded-full bg-[radial-gradient(circle_at_center,rgba(28,182,244,0.14)_0%,rgba(68,211,154,0.08)_42%,transparent_72%)] blur-[92px] sm:block md:top-[20%] md:h-[24rem] md:w-[40rem] md:blur-[124px]" />
+          <div className="absolute -left-[16%] bottom-[-8%] hidden h-[18rem] w-[18rem] rounded-full bg-[#1a67ff]/[0.18] blur-[96px] sm:block md:h-[24rem] md:w-[24rem] md:blur-[126px]" />
+          <div className="absolute left-[6%] bottom-[18%] hidden h-28 w-28 rounded-full bg-secondary/[0.15] blur-[72px] sm:block md:h-40 md:w-40 md:blur-[94px]" />
+          <div className="absolute -left-[6%] bottom-[12%] h-20 w-28 rounded-full bg-[radial-gradient(circle_at_center,rgba(10,70,201,0.12)_0%,rgba(28,182,244,0.06)_42%,transparent_74%)] blur-[42px] md:h-36 md:w-48 md:blur-[72px]" />
+          <div className="absolute right-[1%] top-[57%] hidden h-24 w-24 rounded-full bg-[radial-gradient(circle_at_center,rgba(68,211,154,0.18)_0%,rgba(28,182,244,0.13)_34%,rgba(10,70,201,0.06)_58%,transparent_76%)] blur-[50px] sm:block md:right-[5%] md:top-[42%] md:h-32 md:w-32 md:blur-[70px]" />
+          <div className="absolute right-[-6%] top-[18%] hidden h-[14rem] w-[10rem] rotate-[18deg] bg-[radial-gradient(circle_at_center,rgba(17,125,255,0.32),transparent_62%)] blur-[72px] sm:block md:h-[21rem] md:w-[14rem] md:blur-[96px]" />
           <svg
             viewBox="0 0 1600 760"
             aria-hidden="true"
-            className="absolute inset-x-[-4%] bottom-[-22%] h-[86%] w-[114%] origin-bottom rotate-[8deg] opacity-90 md:inset-x-[-13%] md:bottom-[-14%] md:h-[92%] md:w-[126%] md:rotate-[7deg]"
+            className="absolute inset-x-[-9%] bottom-[-18%] h-[78%] w-[122%] origin-bottom rotate-[8deg] opacity-75 md:inset-x-[-13%] md:bottom-[-14%] md:h-[92%] md:w-[126%] md:rotate-[7deg] md:opacity-90"
           >
             <defs>
               <linearGradient id="hero-arc-main" x1="0%" y1="100%" x2="100%" y2="0%">
@@ -378,7 +458,7 @@ const Index = () => {
           >
             <div className="mb-6 inline-flex items-center gap-1.5 rounded-full border border-primary/25 bg-primary/[0.08] px-3 py-0.5 shadow-[0_0_16px_rgba(51,204,153,0.08)] sm:mb-6 sm:gap-2 sm:px-3.5 sm:py-1 md:mb-6 md:gap-2.5 md:px-4 md:py-1.5">
               <span className="relative flex h-1.5 w-1.5 sm:h-2 sm:w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-60" />
+                <span className="absolute hidden h-full w-full rounded-full bg-primary opacity-60 motion-safe:animate-ping sm:inline-flex" />
                 <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-primary sm:h-2 sm:w-2" />
               </span>
               <span className="text-[11px] font-medium text-primary sm:text-[12.5px] md:text-sm">{companyProfile.heroEyebrow}</span>
@@ -404,9 +484,7 @@ const Index = () => {
                 size="lg"
                 className="h-11 w-full max-w-[16rem] gap-1.5 rounded-lg bg-primary px-6 text-[15px] text-primary-foreground shadow-[0_0_24px_rgba(51,204,153,0.22)] transition-shadow hover:bg-primary/90 hover:shadow-[0_0_36px_rgba(0,175,239,0.18)] sm:h-12 sm:w-auto sm:max-w-none sm:px-8 sm:text-base"
               >
-                <Link to={BOOK_A_FREE_STRATEGY_CALL_CTA.to}>
-                  {BOOK_A_FREE_STRATEGY_CALL_CTA.label} <ArrowUpRight className="h-4 w-4" />
-                </Link>
+                <Link to={strategyCallTo}>{BOOK_A_FREE_STRATEGY_CALL_CTA.label}</Link>
               </Button>
               <Button
                 asChild
@@ -414,9 +492,7 @@ const Index = () => {
                 size="lg"
                 className="h-11 w-full max-w-[16rem] gap-1.5 rounded-lg border-white/20 px-6 text-[15px] hover:bg-white/5 sm:h-12 sm:w-auto sm:max-w-none sm:px-8 sm:text-base"
               >
-                <Link to="/service">
-                  Explore Services <ArrowUpRight className="h-4 w-4" />
-                </Link>
+                <Link to="/service">Explore Services</Link>
               </Button>
             </div>
 
@@ -450,15 +526,16 @@ const Index = () => {
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: i * 0.08 }}
                 className={cn(
-                  "flex min-h-[4.4rem] flex-col items-center justify-start px-2 text-center sm:min-h-[5.1rem] sm:px-6",
+                  "flex flex-col items-center justify-start px-2 text-center sm:min-h-[5.1rem] sm:px-6",
                   i > 0 && "border-l border-white/[0.08]",
                 )}
               >
                 <p className="text-[1.22rem] font-bold leading-none text-gradient sm:text-[1.6rem] md:text-[1.95rem]">
                   {metric.value}
                 </p>
-                <p className="mt-1.5 flex min-h-[2rem] max-w-[5.9rem] items-start justify-center text-[10.5px] leading-4 text-muted-foreground sm:mt-2 sm:max-w-[9.4rem] sm:text-[12.5px] sm:leading-5 md:max-w-[10rem]">
-                  {metric.label}
+                <p className="mt-1.5 flex min-h-[1rem] max-w-none items-start justify-center whitespace-nowrap text-[9px] leading-4 text-muted-foreground sm:mt-2 sm:min-h-[2rem] sm:max-w-[9.4rem] sm:whitespace-normal sm:text-[12.5px] sm:leading-5 md:max-w-[10rem]">
+                  <span className="sm:hidden">{metric.compactLabel}</span>
+                  <span className="hidden sm:inline">{metric.label}</span>
                 </p>
               </motion.div>
             ))}
@@ -510,7 +587,6 @@ const Index = () => {
                     >
                       {service.badge}
                     </span>
-                    <span className="text-[12px] font-medium text-muted-foreground/60">0{i + 1}</span>
                   </div>
                   <div className="mb-3 flex h-9 w-9 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.04]">
                     <service.icon className="h-4.5 w-4.5 text-primary" />
@@ -526,8 +602,7 @@ const Index = () => {
                     className="mt-4 inline-flex items-center gap-1 text-[13px] font-medium text-primary transition-colors hover:text-primary/80"
                     aria-label={`Learn more about ${service.title}`}
                   >
-                    Learn more<span className="sr-only"> about {service.title}</span>{" "}
-                    <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                    Learn more<span className="sr-only"> about {service.title}</span>
                   </Link>
                 </div>
               </motion.div>
@@ -562,7 +637,6 @@ const Index = () => {
                     >
                       {service.badge}
                     </span>
-                    <span className="text-sm font-medium text-muted-foreground/60">0{i + 1}</span>
                   </div>
                   <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.04] md:mb-4 md:h-11 md:w-11">
                     <service.icon className="h-5 w-5 text-primary md:h-6 md:w-6" />
@@ -585,8 +659,7 @@ const Index = () => {
                     className="mt-5 inline-flex items-center gap-1 text-sm font-medium text-primary transition-colors hover:text-primary/80 md:mt-6"
                     aria-label={`Learn more about ${service.title}`}
                   >
-                    Learn more<span className="sr-only"> about {service.title}</span>{" "}
-                    <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                    Learn more<span className="sr-only"> about {service.title}</span>
                   </Link>
                 </div>
               </motion.div>
@@ -608,12 +681,12 @@ const Index = () => {
                 to="/service"
                 className="inline-flex items-center gap-1 text-sm font-medium text-primary transition-colors hover:text-primary/80"
               >
-                View all services <ArrowRight className="h-3.5 w-3.5" />
+                View all services
               </Link>
             </div>
-            <div className="relative mt-5 overflow-hidden rounded-[26px] border border-white/[0.08] bg-[radial-gradient(circle_at_top_left,rgba(0,51,153,0.10),transparent_34%),radial-gradient(circle_at_80%_12%,rgba(0,175,239,0.04),transparent_26%),linear-gradient(180deg,rgba(255,255,255,0.018)_0%,rgba(255,255,255,0.01)_100%)] shadow-[0_16px_50px_rgba(0,8,22,0.12)] md:mt-6">
+            <div className="relative mt-5 overflow-hidden rounded-[22px] border border-white/[0.08] bg-[radial-gradient(circle_at_top_left,rgba(0,51,153,0.10),transparent_34%),radial-gradient(circle_at_80%_12%,rgba(0,175,239,0.04),transparent_26%),linear-gradient(180deg,rgba(255,255,255,0.018)_0%,rgba(255,255,255,0.01)_100%)] shadow-[0_16px_50px_rgba(0,8,22,0.12)] md:mt-6 md:rounded-[26px]">
               <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
-              <div className="grid grid-cols-2 xl:grid-cols-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4">
                 {supportingServices.map((s, i) => (
                   <motion.div
                     key={s.title}
@@ -622,8 +695,10 @@ const Index = () => {
                     viewport={{ once: true }}
                     transition={{ delay: i * 0.06, duration: 0.35 }}
                     className={cn(
-                      i >= 2 && "border-t border-white/10",
-                      i % 2 === 1 && "border-l border-white/10",
+                      i > 0 && "border-t border-white/10",
+                      i < 2 && "md:border-t-0",
+                      i >= 2 && "md:border-t md:border-white/10",
+                      i % 2 === 1 && "md:border-l md:border-white/10",
                       i < 3 && "xl:border-t-0",
                       i >= 3 && "xl:border-t xl:border-white/10",
                       i > 0 && "xl:border-l xl:border-white/10",
@@ -632,18 +707,21 @@ const Index = () => {
                     <Link
                       to={s.path}
                       data-testid="supporting-service-item"
-                       className="group flex h-full flex-col px-4 py-4 transition-colors duration-300 hover:bg-white/[0.025] sm:px-6 sm:py-5"
+                       className="group flex h-full items-center gap-3 px-4 py-3.5 transition-colors duration-300 hover:bg-white/[0.025] md:flex-col md:items-stretch md:gap-0 md:px-6 md:py-5"
                       >
-                       <div className="mb-3 flex items-start justify-between gap-3 sm:mb-4">
-                         <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-white/8 bg-white/[0.04] sm:h-10 sm:w-10">
-                           <s.icon className="h-4.5 w-4.5 text-primary sm:h-5 sm:w-5" />
+                       <div className="flex shrink-0 items-center justify-between gap-3 md:mb-4">
+                         <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-white/8 bg-white/[0.04] md:h-10 md:w-10">
+                           <s.icon className="h-4.5 w-4.5 text-primary md:h-5 md:w-5" />
+                          </div>
+                        </div>
+                       <div className="min-w-0 flex-1 md:flex md:flex-col">
+                         <div className="flex items-start justify-between gap-3">
+                           <h4 className="text-[0.94rem] font-semibold leading-snug md:text-[1.02rem]">{s.title}</h4>
                          </div>
-                         <ArrowUpRight className="h-4 w-4 shrink-0 text-primary/55 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-primary" />
+                         <p className="mt-1 flex-1 text-[12.5px] leading-5 text-muted-foreground md:mt-3 md:text-sm md:leading-7">
+                           {s.description}
+                         </p>
                        </div>
-                       <h4 className="text-[0.92rem] font-semibold leading-snug sm:text-[1.02rem]">{s.title}</h4>
-                       <p className="mt-2 line-clamp-3 flex-1 text-[12.5px] leading-5 text-muted-foreground sm:mt-3 sm:line-clamp-none sm:text-sm sm:leading-7">
-                         {s.description}
-                       </p>
                     </Link>
                   </motion.div>
                 ))}
@@ -656,70 +734,76 @@ const Index = () => {
       <section
         id="industries-section"
         data-testid="industries-section"
-        className="relative scroll-mt-24 overflow-hidden border-t border-white/10 py-14 md:py-24"
+        className="relative scroll-mt-24 overflow-hidden border-t border-white/10 bg-[#050812] py-14 md:py-24"
       >
         <div className="pointer-events-none absolute inset-0">
-          <div className="absolute left-[-8%] top-8 h-72 w-72 rounded-full bg-secondary/[0.035] blur-[120px]" />
-          <div className="absolute right-[10%] bottom-6 h-56 w-56 rounded-full bg-primary/[0.03] blur-[110px]" />
+          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,175,239,0.035)_0%,rgba(5,8,18,0.26)_38%,rgba(51,204,153,0.025)_100%)]" />
           <div
-            className="absolute inset-0 opacity-[0.025]"
+            className="absolute inset-0 opacity-[0.09]"
             style={{
-              backgroundImage: [
-                "linear-gradient(rgba(255,255,255,0.9) 1px, transparent 1px)",
-                "linear-gradient(90deg, rgba(255,255,255,0.9) 1px, transparent 1px)",
-              ].join(", "),
-              backgroundSize: "88px 88px",
+              backgroundImage:
+                "linear-gradient(90deg, rgba(0,175,239,0.18) 0 1px, transparent 1px), linear-gradient(180deg, rgba(51,204,153,0.14) 0 1px, transparent 1px)",
+              backgroundSize: "112px 112px",
+              maskImage: "linear-gradient(180deg, transparent 0%, black 20%, black 82%, transparent 100%)",
             }}
           />
+          <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/35 to-transparent" />
+          <div className="absolute inset-x-[8%] top-[7.25rem] h-px bg-gradient-to-r from-transparent via-white/12 to-transparent md:top-[9.5rem]" />
         </div>
         <div className="container relative mx-auto px-4 lg:px-8">
           <SectionIntro
-            eyebrow="Industries"
+            eyebrow="Expertise"
             title="Who We Work With"
-            description="We work with brands in ecommerce, FMCG, education, SaaS, hospitality, and real estate."
+            description="We work with brands in ecommerce, FMCG, education, SaaS, hospitality, real estate, fashion, and gaming."
             width="wide"
             className="mb-6 md:mb-10"
             descriptionClassName="max-w-3xl"
           />
 
-          <div className="overflow-hidden rounded-[28px] border border-white/[0.08] bg-[linear-gradient(180deg,rgba(255,255,255,0.02)_0%,rgba(255,255,255,0.008)_100%)] shadow-[0_16px_48px_rgba(0,0,0,0.11)]">
-            <div className="grid grid-cols-2 md:grid-cols-2 xl:grid-cols-3">
+          <div className="grid grid-cols-2 gap-2.5 md:grid-cols-4 md:gap-4">
               {primarySectors.map((sector, index) => {
                 const visual = sectorVisuals[sector];
 
                 return (
                 <motion.div
                   key={sector}
-                  data-testid="industry-card"
                   initial={{ opacity: 0, y: 18 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.06, duration: 0.35 }}
-                  className={cn(
-                    "grid min-h-[5.2rem] grid-cols-[3.2rem_1fr] border-white/[0.08] md:min-h-[7.75rem] md:grid-cols-[5rem_1fr]",
-                    index >= 2 && "border-t",
-                    index % 2 === 1 && "border-l",
-                    index < 3 && "xl:border-t-0",
-                    index >= 3 && "xl:border-t",
-                    index % 3 !== 0 && "xl:border-l",
-                  )}
                 >
-                  <div
-                    className={cn(
-                      "flex items-center justify-center border-r border-white/[0.08]",
-                      visual.accentClassName,
-                    )}
+                  <Link
+                    to={sectorExpertisePaths[sector]}
+                    data-testid="industry-card"
+                    aria-label={`View ${sector} expertise`}
+                    className="group relative flex h-full min-h-[4.5rem] items-center gap-2.5 overflow-hidden rounded-[16px] border border-white/[0.075] bg-[linear-gradient(180deg,rgba(255,255,255,0.028)_0%,rgba(255,255,255,0.012)_100%)] p-3 shadow-[0_10px_26px_rgba(0,0,0,0.09)] transition-[border-color,background-color,transform] duration-300 hover:-translate-y-0.5 hover:border-white/[0.13] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 md:block md:min-h-0 md:rounded-[20px] md:p-5 md:shadow-[0_12px_34px_rgba(0,0,0,0.10)]"
                   >
-                    <visual.icon className="h-5.5 w-5.5 md:h-8 md:w-8" />
-                  </div>
-                  <div className="flex items-center px-4 py-4 md:px-6 md:py-6">
-                    <h3 className="text-[0.96rem] font-semibold leading-tight tracking-tight text-foreground/92 md:text-[1.48rem]">
+                    <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                    <div className={cn("flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border border-white/[0.07] bg-white/[0.035] transition-[border-color] duration-300 group-hover:border-white/[0.16] md:mb-4 md:h-12 md:w-12 md:rounded-2xl", visual.accentClassName)}>
+                      <visual.icon className="h-4 w-4 md:h-6 md:w-6" />
+                    </div>
+                    <h3 className="text-[0.86rem] font-semibold leading-snug tracking-tight text-foreground/92 md:mb-1.5 md:text-[1.05rem]">
                       {sector}
                     </h3>
-                  </div>
+                    <p className="hidden text-[0.85rem] leading-relaxed text-muted-foreground/70 md:block">
+                      {sectorSummaries[sector]}
+                    </p>
+                  </Link>
                 </motion.div>
               )})}
-            </div>
+          </div>
+
+          <div className="mt-7 flex justify-center md:mt-9">
+            <p className="max-w-[22rem] text-center text-sm leading-6 text-muted-foreground/60 sm:max-w-none">
+              Don't see your industry?{" "}
+              <Link
+                to="/contact-us"
+                className="font-medium text-foreground/80 underline-offset-4 transition-colors hover:text-primary hover:underline"
+              >
+                Let's talk
+              </Link>{" "}
+              — we've likely worked in it.
+            </p>
           </div>
         </div>
       </section>
@@ -794,16 +878,13 @@ const Index = () => {
                 className="relative"
               >
                 <div className="flex h-full flex-col rounded-[20px] border border-white/[0.08] bg-[linear-gradient(180deg,rgba(255,255,255,0.028)_0%,rgba(255,255,255,0.012)_100%)] p-3.5 shadow-[0_12px_34px_rgba(0,0,0,0.12)]">
-                  <div className="flex items-start justify-between gap-4">
-                    <div>
-                      <span className="inline-flex rounded-full border border-primary/25 bg-primary/[0.08] px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-primary/80">
-                        {step.step}
-                      </span>
-                      <h3 className="mt-2 text-[0.96rem] font-semibold leading-snug">{step.title}</h3>
-                    </div>
-                    <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-2xl border border-white/[0.08] bg-white/[0.03]">
-                      <step.icon className="h-4 w-4 text-primary/85" />
-                    </div>
+                  <div>
+                    <span className="inline-flex rounded-full border border-primary/25 bg-primary/[0.08] px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-primary/80">
+                      {step.step}
+                    </span>
+                    <h3 className="mt-2 whitespace-nowrap text-[clamp(0.78rem,3.7vw,0.96rem)] font-semibold leading-snug">
+                      {step.title}
+                    </h3>
                   </div>
                   <p className="mt-2 line-clamp-3 flex-1 text-[12.5px] leading-5 text-muted-foreground">{step.description}</p>
                 </div>
@@ -857,6 +938,9 @@ const Index = () => {
                           alt=""
                           className="block h-full w-full max-h-full max-w-full object-contain opacity-95"
                           loading="lazy"
+                          decoding="async"
+                          width={20}
+                          height={20}
                         />
                       </span>
                       <span className="min-w-0 leading-4">{tool.name}</span>
@@ -896,6 +980,9 @@ const Index = () => {
                             alt=""
                             className="block h-full w-full max-h-full max-w-full object-contain opacity-95"
                             loading="lazy"
+                            decoding="async"
+                            width={20}
+                            height={20}
                           />
                         </span>
                         <span className="min-w-0 leading-4">{tool.name}</span>
@@ -983,7 +1070,6 @@ const Index = () => {
                 className="inline-flex shrink-0 items-center gap-2 rounded-full border border-primary/20 bg-primary/[0.06] px-4 py-2 text-sm font-medium text-primary transition-colors hover:bg-primary/[0.10]"
               >
                 View all insights
-                <ArrowRight className="h-3.5 w-3.5" />
               </Link>
             </motion.div>
             <div className="space-y-3 md:hidden">
@@ -1085,7 +1171,6 @@ const Index = () => {
                       </p>
                       <span className="mt-auto inline-flex items-center gap-1 pt-5 text-sm font-medium text-primary/90">
                         Read more
-                        <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1" />
                       </span>
                     </Link>
                   </motion.div>
@@ -1105,10 +1190,7 @@ const Index = () => {
         density="compact"
         defaultOpenItem={0}
         contentClassName="max-w-[46rem]"
-        accordionClassName="space-y-3"
       />
-
-      <NewsletterSection className="py-10 border-t border-white/10" />
 
       <CTASection
         title={
@@ -1119,7 +1201,7 @@ const Index = () => {
           </>
         }
         description="Book a free 15-minute strategy call. We will review your setup, share what we see, and give you a clear next step."
-        secondaryCta={{ label: "Explore Services", to: "/service" }}
+        secondaryCta={null}
         variant="hero-close"
       />
     </>

@@ -1,5 +1,5 @@
 import { Link, useParams } from "react-router-dom";
-import { ArrowUpRight, CheckCircle2 } from "lucide-react";
+import { CheckCircle2 } from "lucide-react";
 import { motion } from "framer-motion";
 
 import CTASection from "@/components/shared/CTASection";
@@ -82,13 +82,13 @@ const ExpertiseDetail = () => {
               to="/"
               className="inline-flex items-center gap-1.5 rounded-xl bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground"
             >
-              Back to Home <ArrowUpRight className="h-4 w-4" />
+              Back to Home
             </Link>
             <Link
               to="/service"
               className="inline-flex items-center gap-1.5 rounded-xl border border-white/15 px-5 py-3 text-sm font-semibold text-foreground"
             >
-              Explore Services <ArrowUpRight className="h-4 w-4" />
+              Explore Services
             </Link>
           </div>
         </PageSection>
@@ -237,7 +237,7 @@ const ExpertiseDetail = () => {
                       to={item.path}
                       className="inline-flex items-center gap-1.5 rounded-lg border border-white/10 bg-white/[0.04] px-4 py-2.5 text-[13px] font-medium text-foreground/75 transition-all duration-200 hover:border-primary/25 hover:bg-primary/[0.07] hover:text-primary"
                     >
-                      Explore service <ArrowUpRight className="h-3.5 w-3.5" />
+                      Explore service
                     </Link>
                   </div>
                 </div>

@@ -1,7 +1,6 @@
 import type { ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowUpRight } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { BOOK_A_FREE_STRATEGY_CALL_CTA } from "@/config/cta";
 import Breadcrumbs from "@/components/shared/Breadcrumbs";
@@ -126,11 +125,9 @@ const ServiceHero = ({
               <Button
                 asChild
                 size="lg"
-                className="gap-2 rounded-xl bg-primary px-9 font-semibold text-primary-foreground hover:bg-primary/90"
+                className="rounded-xl bg-primary px-9 font-semibold text-primary-foreground hover:bg-primary/90"
               >
-                <Link to={primaryCta.to}>
-                  {primaryCta.label} <ArrowUpRight className="h-4 w-4" />
-                </Link>
+                <Link to={primaryCta.to}>{primaryCta.label}</Link>
               </Button>
 
               {secondaryCta?.style === "outline" && (
@@ -138,11 +135,9 @@ const ServiceHero = ({
                   asChild
                   variant="outline"
                   size="lg"
-                  className="gap-2 rounded-xl border-white/20 hover:bg-white/5"
+                  className="rounded-xl border-white/20 hover:bg-white/5"
                 >
-                  <Link to={secondaryCta.to}>
-                    {secondaryCta.label} <ArrowUpRight className="h-4 w-4" />
-                  </Link>
+                  <Link to={secondaryCta.to}>{secondaryCta.label}</Link>
                 </Button>
               )}
 

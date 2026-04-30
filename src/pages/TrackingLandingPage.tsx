@@ -7,7 +7,6 @@ import { motion } from "framer-motion";
 import { z } from "zod";
 import { toast } from "sonner";
 import {
-  ArrowRight,
   BarChart3,
   CheckCircle2,
   Flame,
@@ -340,7 +339,6 @@ const TrackingLandingPage = () => {
               >
                 <a href="#claim">
                   {REQUEST_A_FREE_TRACKING_AUDIT_CTA.label}
-                  <ArrowRight className="ml-2 h-4 w-4" />
                 </a>
               </Button>
             </div>

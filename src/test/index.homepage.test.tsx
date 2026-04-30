@@ -1,4 +1,4 @@
-import { screen, within } from "@testing-library/react";
+import { fireEvent, screen, waitFor, within } from "@testing-library/react";
 import { BOOK_A_FREE_STRATEGY_CALL_CTA } from "@/config/cta";
 import Index from "@/pages/Index";
 import { supportingServices } from "@/data/services";
@@ -23,6 +23,9 @@ describe("Homepage proof and stack sections", () => {
     expect(within(proofSection).getByText("4.9M")).toBeInTheDocument();
     expect(within(proofSection).getByText("3,151")).toBeInTheDocument();
     expect(within(proofSection).getByText("129,862")).toBeInTheDocument();
+    expect(within(proofSection).getByText("Education impressions")).toBeInTheDocument();
+    expect(within(proofSection).getByText("Hospitality visits")).toBeInTheDocument();
+    expect(within(proofSection).getByText("Consumer teaser views")).toBeInTheDocument();
     expect(within(proofSection).getByText("Education campaign impressions")).toBeInTheDocument();
     expect(within(proofSection).getByText("Hospitality campaign website visits")).toBeInTheDocument();
     expect(within(proofSection).getByText("Consumer brand teaser views")).toBeInTheDocument();
@@ -60,12 +63,32 @@ describe("Homepage proof and stack sections", () => {
 
     const industriesSection = screen.getByTestId("industries-section");
 
+    expect(within(industriesSection).getByText("Expertise")).toBeInTheDocument();
     expect(within(industriesSection).getByRole("heading", { name: "Who We Work With" })).toBeInTheDocument();
-    expect(within(industriesSection).getAllByTestId("industry-card")).toHaveLength(6);
-    expect(within(industriesSection).getByText("Ecommerce & Retail")).toBeInTheDocument();
-    expect(within(industriesSection).getByText("SaaS")).toBeInTheDocument();
-    expect(within(industriesSection).getByText("Entertainment & Hospitality")).toBeInTheDocument();
-    expect(within(industriesSection).getByText("Real Estate")).toBeInTheDocument();
+    expect(within(industriesSection).getAllByTestId("industry-card")).toHaveLength(8);
+    expect(within(industriesSection).getByRole("link", { name: /Ecommerce & Retail expertise/i })).toHaveAttribute(
+      "href",
+      "/expertise/ecommerce-retail"
+    );
+    expect(within(industriesSection).getByRole("link", { name: /SaaS expertise/i })).toHaveAttribute(
+      "href",
+      "/expertise/saas"
+    );
+    expect(
+      within(industriesSection).getByRole("link", { name: /Entertainment & Hospitality expertise/i })
+    ).toHaveAttribute("href", "/expertise/entertainment-hospitality");
+    expect(within(industriesSection).getByRole("link", { name: /Real Estate expertise/i })).toHaveAttribute(
+      "href",
+      "/expertise/real-estate"
+    );
+    expect(within(industriesSection).getByRole("link", { name: /Fashion expertise/i })).toHaveAttribute(
+      "href",
+      "/expertise/fashion"
+    );
+    expect(within(industriesSection).getByRole("link", { name: /Gaming expertise/i })).toHaveAttribute(
+      "href",
+      "/expertise/gaming"
+    );
     expect(screen.queryByText("Retail + E-commerce")).not.toBeInTheDocument();
     expect(screen.queryByText("Travel + Hospitality")).not.toBeInTheDocument();
 
@@ -126,16 +149,47 @@ describe("Homepage proof and stack sections", () => {
     expect(
       screen.getByText("Can you work with our existing setup, or do we need to rebuild everything?")
     ).toBeInTheDocument();
+    const firstFaqTrigger = screen.getByRole("button", {
+      name: "Can you work with our existing setup, or do we need to rebuild everything?",
+    });
+
+    expect(firstFaqTrigger).toHaveAttribute("aria-expanded", "true");
     expect(
       screen.getByText(
         "Usually we start with what you already have. We audit your tracking, campaigns, and follow-up systems first, then recommend only the fixes or rebuilds that are actually necessary."
       )
     ).toBeInTheDocument();
+    fireEvent.click(firstFaqTrigger);
+    expect(firstFaqTrigger).toHaveAttribute("aria-expanded", "false");
     expect(screen.getByText("A few practical answers before you request an audit.")).toBeInTheDocument();
     expect(screen.queryByRole("link", { name: /View Services/i })).not.toBeInTheDocument();
     expect(
       screen.queryByText("What platforms do you support across tracking, paid media, and automation?")
     ).not.toBeInTheDocument();
     expect(screen.queryByText("What sets AlphaTrack Digital apart from other agencies?")).not.toBeInTheDocument();
+  });
+
+  it("keeps campaign attribution on primary booking CTAs and publishes homepage schema", async () => {
+    renderWithPageProviders(<Index />, {
+      route: "/?utm_source=google&utm_campaign=spring-search&gclid=test-click-id&preview=1",
+    });
+
+    const primaryCta = screen.getAllByRole("link", {
+      name: BOOK_A_FREE_STRATEGY_CALL_CTA.label,
+    })[0];
+
+    expect(primaryCta).toHaveAttribute(
+      "href",
+      "/book-a-call?utm_source=google&utm_campaign=spring-search&gclid=test-click-id",
+    );
+
+    await waitFor(() => {
+      const schema = document.head.querySelector("script[type='application/ld+json']");
+
+      expect(schema?.textContent).toContain('"@type":"WebPage"');
+      expect(schema?.textContent).toContain('"@type":"FAQPage"');
+      expect(schema?.textContent).toContain('"name":"Book A Free Strategy Call"');
+      expect(schema?.textContent).not.toContain("preview=1");
+    });
   });
 });

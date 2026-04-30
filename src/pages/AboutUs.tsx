@@ -4,8 +4,10 @@ import {
   Building2,
   Check,
   GraduationCap,
+  Gamepad2,
   Package2,
   Plane,
+  Shirt,
   ShoppingCart,
   type LucideIcon,
 } from "lucide-react";
@@ -24,6 +26,7 @@ import {
   ctmaFramework,
   engagementModels,
   primarySectors,
+  sectorSummaries,
   whyChoosePoints,
 } from "@/data/companyProfile";
 import { cn } from "@/lib/utils";
@@ -54,11 +57,11 @@ const sectorVisuals: Record<
   },
   FMCG: {
     icon: Package2,
-    accentClassName: "bg-primary/14 text-primary",
+    accentClassName: "bg-amber-500/14 text-amber-400",
   },
   Education: {
     icon: GraduationCap,
-    accentClassName: "bg-secondary/14 text-secondary",
+    accentClassName: "bg-violet-500/14 text-violet-400",
   },
   SaaS: {
     icon: BriefcaseBusiness,
@@ -66,27 +69,20 @@ const sectorVisuals: Record<
   },
   "Entertainment & Hospitality": {
     icon: Plane,
-    accentClassName: "bg-secondary/14 text-secondary",
+    accentClassName: "bg-rose-500/14 text-rose-400",
   },
   "Real Estate": {
     icon: Building2,
-    accentClassName: "bg-primary/14 text-primary",
+    accentClassName: "bg-blue-400/14 text-blue-400",
   },
-};
-
-const sectorSummaries: Record<SectorName, string> = {
-  "Ecommerce & Retail":
-    "Clearer ROAS visibility across campaigns, landing pages, and retention.",
-  FMCG:
-    "Awareness, traffic, and sell-through reporting tied back to one decision view.",
-  Education:
-    "Lead generation built around intent, qualification, and faster follow-up.",
-  SaaS:
-    "Measurement, nurture, and paid acquisition aligned to pipeline quality.",
-  "Entertainment & Hospitality":
-    "Creative campaigns paired with practical reporting for launches and bookings.",
-  "Real Estate":
-    "Lead capture and remarketing systems that keep demand moving through the funnel.",
+  Fashion: {
+    icon: Shirt,
+    accentClassName: "bg-pink-500/14 text-pink-400",
+  },
+  Gaming: {
+    icon: Gamepad2,
+    accentClassName: "bg-lime-400/14 text-lime-300",
+  },
 };
 
 const mobileCtmaSummaries: Record<string, string> = {
@@ -646,7 +642,7 @@ const AboutUs = () => {
               })}
             </div>
 
-            <div className="hidden md:grid md:grid-cols-2 xl:grid-cols-3">
+            <div className="hidden md:grid md:grid-cols-2 xl:grid-cols-4">
               {primarySectors.map((sector, index) => {
                 const visual = sectorVisuals[sector];
                 const Icon = visual.icon;
@@ -664,8 +660,8 @@ const AboutUs = () => {
                       "group relative min-h-[108px] border-white/[0.08] p-4 transition-colors duration-300 hover:bg-white/[0.02] md:min-h-[160px] md:p-7",
                       index >= 1 && "border-t md:border-t-0",
                       index % 2 === 1 && "md:border-l xl:border-l-0",
-                      index >= 3 && "xl:border-t",
-                      index % 3 !== 0 && "xl:border-l",
+                      index >= 4 && "xl:border-t",
+                      index % 4 !== 0 && "xl:border-l",
                     )}
                   >
                     <div className="pointer-events-none absolute inset-x-6 top-0 h-px bg-gradient-to-r from-transparent via-white/14 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />

@@ -6,7 +6,6 @@ import {
   Search,
   PenTool,
   CheckCircle2,
-  ArrowUpRight,
   CircleOff,
   Compass,
   Link2,
@@ -648,7 +647,7 @@ const ServiceDetail = () => {
               </p>
               <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
                 <Button asChild size="lg" className="gap-2 rounded-xl bg-primary px-9 text-primary-foreground hover:bg-primary/90">
-                  <Link to={service.cta.primaryTo}>{service.cta.primaryLabel} <ArrowUpRight className="h-4 w-4" /></Link>
+                  <Link to={service.cta.primaryTo}>{service.cta.primaryLabel}</Link>
                 </Button>
               </div>
               <div className="hidden mx-auto mt-12 grid max-w-2xl grid-cols-3 gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10">
@@ -867,7 +866,6 @@ const ServiceDetail = () => {
                   </p>
                   <span className="mt-5 inline-flex items-center gap-1 text-sm font-medium text-primary">
                     {related.ctaLabel}
-                    <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
                   </span>
                 </Link>
               </motion.div>

@@ -146,20 +146,34 @@
   }
 
   .accordion-content {
-    overflow: hidden;
-    max-height: 0;
+    display: grid;
+    grid-template-rows: 0fr;
     opacity: 0;
+    overflow: hidden;
+    visibility: hidden;
     transition:
-      max-height 0.16s cubic-bezier(0.16, 1, 0.3, 1),
-      opacity 0.1s ease-out;
+      grid-template-rows 0.42s cubic-bezier(0.16, 1, 0.3, 1),
+      opacity 0.24s ease-out,
+      visibility 0s linear 0.42s;
   }
 
   .accordion-content[data-state="open"] {
-    max-height: 24rem;
+    grid-template-rows: 1fr;
     opacity: 1;
+    visibility: visible;
+    transition:
+      grid-template-rows 0.42s cubic-bezier(0.16, 1, 0.3, 1),
+      opacity 0.22s ease-out;
+  }
+
+  .accordion-content[data-state="closed"] {
+    grid-template-rows: 0fr;
+    opacity: 0;
+    visibility: hidden;
   }
 
   .accordion-content-inner {
+    min-height: 0;
     overflow: hidden;
   }
 }

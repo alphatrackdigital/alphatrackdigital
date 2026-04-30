@@ -138,7 +138,30 @@ export const primarySectors = [
   "SaaS",
   "Entertainment & Hospitality",
   "Real Estate",
+  "Fashion",
+  "Gaming",
 ] as const;
+
+export type PrimarySector = (typeof primarySectors)[number];
+
+export const sectorSummaries: Record<PrimarySector, string> = {
+  "Ecommerce & Retail":
+    "Clearer ROAS visibility across campaigns, landing pages, and retention.",
+  FMCG:
+    "Awareness, traffic, and sell-through reporting tied back to one decision view.",
+  Education:
+    "Lead generation built around intent, qualification, and faster follow-up.",
+  SaaS:
+    "Measurement, nurture, and paid acquisition aligned to pipeline quality.",
+  "Entertainment & Hospitality":
+    "Creative campaigns paired with practical reporting for launches and bookings.",
+  "Real Estate":
+    "Lead capture and remarketing systems that keep demand moving through the funnel.",
+  Fashion:
+    "Campaign tracking, launch support, and retention journeys for style-led brands.",
+  Gaming:
+    "Audience growth, launch campaigns, and community funnels tied to clearer reporting.",
+};
 
 export const whyChoosePoints = [
   {

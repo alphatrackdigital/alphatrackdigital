@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ArrowUpRight, Link2 } from "lucide-react";
+import { Link2 } from "lucide-react";
 import { motion } from "framer-motion";
 
 import CTASection from "@/components/shared/CTASection";
@@ -49,7 +49,7 @@ const Services = () => {
                 className="gap-1.5 rounded-xl bg-primary px-8 text-primary-foreground hover:bg-primary/90"
               >
                 <Link to={BOOK_A_FREE_STRATEGY_CALL_CTA.to}>
-                  {BOOK_A_FREE_STRATEGY_CALL_CTA.label} <ArrowUpRight className="h-4 w-4" />
+                  {BOOK_A_FREE_STRATEGY_CALL_CTA.label}
                 </Link>
               </Button>
               <Button
@@ -59,7 +59,7 @@ const Services = () => {
                 className="gap-1.5 rounded-xl border-white/20 hover:bg-white/5"
               >
                 <Link to={REQUEST_A_FREE_TRACKING_AUDIT_CTA.to}>
-                  {REQUEST_A_FREE_TRACKING_AUDIT_CTA.label} <ArrowUpRight className="h-4 w-4" />
+                  {REQUEST_A_FREE_TRACKING_AUDIT_CTA.label}
                 </Link>
               </Button>
             </div>
@@ -177,7 +177,6 @@ const Services = () => {
                   </div>
                   <span className="mt-5 inline-flex items-center gap-1 text-sm font-medium text-primary transition-colors">
                     {service.ctaLabel}
-                    <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
                   </span>
                 </Link>
               </motion.div>
@@ -242,7 +241,7 @@ const Services = () => {
                       {service.description}
                     </p>
                     <span className="mt-4 inline-flex items-center gap-1 text-xs font-medium text-primary/80 transition-colors group-hover:text-primary">
-                      {service.ctaLabel} <ArrowUpRight className="h-3 w-3" />
+                      {service.ctaLabel}
                     </span>
                   </Link>
                 </motion.div>

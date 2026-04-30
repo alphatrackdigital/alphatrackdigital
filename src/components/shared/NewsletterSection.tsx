@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Mail, ArrowRight, CheckCircle2, Loader2 } from "lucide-react";
+import { Mail, CheckCircle2, Loader2 } from "lucide-react";
 import { motion } from "framer-motion";
 import { submitLead } from "@/lib/leads";
 
@@ -44,7 +44,7 @@ const NewsletterSection = ({ className }: NewsletterSectionProps) => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.4 }}
-          className="relative overflow-hidden rounded-[24px] border border-primary/15 bg-[radial-gradient(circle_at_top_left,rgba(51,204,153,0.07),transparent_34%),linear-gradient(180deg,rgba(255,255,255,0.025)_0%,rgba(255,255,255,0.01)_100%)] px-5 py-8 shadow-[0_14px_40px_rgba(0,0,0,0.12)] sm:px-6 md:px-10 md:py-10"
+          className="relative overflow-hidden rounded-[22px] border border-primary/15 bg-[radial-gradient(circle_at_top_left,rgba(51,204,153,0.07),transparent_34%),linear-gradient(180deg,rgba(255,255,255,0.025)_0%,rgba(255,255,255,0.01)_100%)] px-5 py-7 shadow-[0_14px_40px_rgba(0,0,0,0.12)] sm:px-6 md:rounded-[24px] md:px-10 md:py-10"
         >
           <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
 
@@ -57,7 +57,7 @@ const NewsletterSection = ({ className }: NewsletterSectionProps) => {
               </p>
             </div>
           ) : (
-            <div className="flex min-w-0 flex-col gap-6 md:flex-row md:items-center md:justify-between">
+            <div className="flex min-w-0 flex-col gap-5 md:flex-row md:items-center md:justify-between md:gap-6">
               <div className="flex min-w-0 items-start gap-4">
                 <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary/10">
                   <Mail className="h-5 w-5 text-primary" />
@@ -75,9 +75,9 @@ const NewsletterSection = ({ className }: NewsletterSectionProps) => {
               <form
                 onSubmit={handleSubmit}
                 noValidate
-                className="flex w-full min-w-0 flex-col gap-2 md:max-w-sm"
+                className="flex w-full min-w-0 flex-col gap-2.5 md:max-w-[26rem]"
               >
-                <div className="flex min-w-0 flex-col gap-2 sm:flex-row">
+                <div className="flex min-w-0 flex-col gap-2.5 lg:flex-row">
                   <input
                     type="email"
                     value={email}
@@ -88,19 +88,17 @@ const NewsletterSection = ({ className }: NewsletterSectionProps) => {
                     placeholder="your@email.com"
                     required
                     aria-label="Email address"
-                    className="h-10 min-w-0 flex-1 rounded-lg border border-white/10 bg-white/[0.05] px-3 text-sm text-foreground placeholder:text-muted-foreground/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
+                    className="block h-12 w-full min-w-0 flex-none appearance-none rounded-xl border border-white/[0.12] bg-background/70 px-4 py-3 text-[15px] leading-6 text-foreground shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] placeholder:text-muted-foreground/60 focus:border-primary/45 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/35 lg:flex-1"
                   />
                   <button
                     type="submit"
                     disabled={status === "loading"}
-                    className="inline-flex h-10 w-full shrink-0 items-center justify-center gap-1.5 rounded-lg bg-primary px-4 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90 disabled:opacity-60 sm:w-auto"
+                    className="inline-flex h-12 w-full shrink-0 items-center justify-center rounded-xl bg-primary px-5 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90 disabled:opacity-60 lg:w-auto"
                   >
                     {status === "loading" ? (
                       <Loader2 className="h-4 w-4 animate-spin" />
                     ) : (
-                      <>
-                        Subscribe <ArrowRight className="h-3.5 w-3.5" />
-                      </>
+                      "Subscribe"
                     )}
                   </button>
                 </div>
@@ -109,7 +107,7 @@ const NewsletterSection = ({ className }: NewsletterSectionProps) => {
                     {errorMsg || "Something went wrong. Please try again."}
                   </p>
                 )}
-                <p className="text-[11px] text-muted-foreground/60">
+                <p className="text-center text-[11px] text-muted-foreground/60 lg:text-left">
                   No spam. Unsubscribe any time.
                 </p>
               </form>

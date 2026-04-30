@@ -529,6 +529,154 @@ export const expertisePages: ExpertisePage[] = [
       },
     ],
   },
+  {
+    slug: "fashion",
+    name: "Fashion",
+    heroTitle: "Fashion marketing that connects launch demand to measurable growth.",
+    heroDescription:
+      "We help fashion and apparel brands improve campaign tracking, paid media performance, and retention journeys so launches and always-on growth are easier to measure.",
+    heroSnapshot: [
+      {
+        label: "Launch Visibility",
+        value: "Track which channels, creators, ads, and landing pages drive product interest, sales, and repeat demand.",
+      },
+      {
+        label: "Paid Demand",
+        value: "Campaigns across search, social, and retargeting built around seasonal drops, collections, and best sellers.",
+      },
+      {
+        label: "Retention Journeys",
+        value: "Email and automation flows that bring shoppers back after first purchase, cart abandon, or product interest.",
+      },
+    ],
+    challenges: [
+      "Launches create attention, but it is unclear which activity drives sales.",
+      "Paid media can scale quickly but wasted spend is hard to spot without clean tracking.",
+      "Customer retention often depends on manual campaigns instead of structured journeys.",
+    ],
+    serviceFocus: [
+      {
+        title: "Tracking that connects launches to sales",
+        description:
+          "Measurement across campaigns, product pages, carts, and purchase events so teams can see what is driving demand.",
+        path: "/service/conversion-tracking",
+      },
+      {
+        title: "Paid campaigns for seasonal and always-on growth",
+        description:
+          "Search, social, and retargeting campaigns built around collections, launches, and high-intent shopping behavior.",
+        path: "/service/paid-media",
+      },
+      {
+        title: "Retention flows that increase repeat purchase",
+        description:
+          "Email and automation journeys for cart recovery, product interest, post-purchase, and win-back campaigns.",
+        path: "/service/marketing-automation",
+      },
+    ],
+    outcomes: [
+      "Clearer launch and collection reporting",
+      "Better visibility into paid media performance",
+      "Stronger repeat purchase and retention journeys",
+    ],
+    idealFor: [
+      "You are launching collections but cannot clearly see which channels drive sales",
+      "You want to scale paid media without losing track of profitability",
+      "Your email and retention flows need to work harder after first purchase",
+      "You need cleaner reporting across ecommerce, ads, and CRM activity",
+    ],
+    faqs: [
+      {
+        question: "Do you work with ecommerce fashion brands?",
+        answer:
+          "Yes. We support fashion brands selling through ecommerce stores, marketplaces, or hybrid retail models. The work usually starts with clearer tracking across product views, carts, purchases, and campaign sources.",
+      },
+      {
+        question: "Can you support product launches and seasonal drops?",
+        answer:
+          "Yes. We plan campaign tracking, paid media, retargeting, and email journeys around the launch window so the team can see what created demand and what converted.",
+      },
+      {
+        question: "Do you help with retention and repeat purchases?",
+        answer:
+          "Yes. We build email and automation flows for cart abandonment, post-purchase education, replenishment, cross-sell, and win-back campaigns.",
+      },
+    ],
+  },
+  {
+    slug: "gaming",
+    name: "Gaming",
+    heroTitle: "Gaming marketing that turns attention into trackable community growth.",
+    heroDescription:
+      "We help gaming, esports, and interactive entertainment teams improve campaign tracking, paid acquisition, and community funnels around launches, events, and ongoing growth.",
+    heroSnapshot: [
+      {
+        label: "Launch Tracking",
+        value: "Connect ads, creators, landing pages, wishlists, signups, and community actions to the campaigns that generated them.",
+      },
+      {
+        label: "Audience Growth",
+        value: "Paid and organic campaign systems built to grow players, viewers, signups, and engaged communities.",
+      },
+      {
+        label: "Community Funnels",
+        value: "Follow-up journeys that move interested audiences from first touch into Discord, email, waitlists, or event participation.",
+      },
+    ],
+    challenges: [
+      "Campaign buzz is visible, but it is hard to connect attention to signups or player actions.",
+      "Launches and events need fast measurement across many channels.",
+      "Community growth often lacks structured follow-up after the first interaction.",
+    ],
+    serviceFocus: [
+      {
+        title: "Tracking for launches, signups, and community actions",
+        description:
+          "Measurement across campaign clicks, landing pages, waitlists, Discord joins, email signups, and event actions.",
+        path: "/service/conversion-tracking",
+      },
+      {
+        title: "Paid acquisition for high-intent audiences",
+        description:
+          "Paid campaigns structured around audience segments, launch moments, retargeting, and measurable player or community growth.",
+        path: "/service/paid-media",
+      },
+      {
+        title: "Automation that keeps audiences engaged",
+        description:
+          "Email and CRM journeys that support launch updates, event reminders, community onboarding, and re-engagement.",
+        path: "/service/marketing-automation",
+      },
+    ],
+    outcomes: [
+      "Clearer launch and campaign attribution",
+      "Better audience growth reporting",
+      "Stronger follow-up into community and retention channels",
+    ],
+    idealFor: [
+      "You are promoting a launch, event, title, or community and need clearer reporting",
+      "You want to connect paid media to signups, wishlists, or community actions",
+      "Your audience growth depends on multiple platforms and needs a cleaner funnel",
+      "You need practical tracking before scaling campaign spend",
+    ],
+    faqs: [
+      {
+        question: "Do you work with gaming and esports teams?",
+        answer:
+          "Yes. We support teams that need clearer tracking and campaign systems around game launches, esports events, communities, and interactive entertainment campaigns.",
+      },
+      {
+        question: "Can you track community growth actions?",
+        answer:
+          "Yes. Depending on the platform, we can track landing page actions, waitlists, email signups, Discord entry points, event registrations, and retargeting audiences.",
+      },
+      {
+        question: "What channels work for gaming campaigns?",
+        answer:
+          "The right mix depends on the audience and objective, but campaigns often combine paid social, search, creator landing pages, retargeting, email, and community channels.",
+      },
+    ],
+  },
 ];
 
 export const getExpertiseBySlug = (slug: string) =>

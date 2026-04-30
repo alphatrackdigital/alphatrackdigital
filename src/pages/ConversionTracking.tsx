@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
 import {
-  ArrowUpRight,
   Target,
   ClipboardCheck,
   Building,
@@ -247,7 +246,7 @@ const ConversionTracking = () => {
               <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
                 <Button asChild size="lg" className="gap-2 rounded-xl bg-primary px-9 text-primary-foreground hover:bg-primary/90">
                   <Link to={REQUEST_A_FREE_TRACKING_AUDIT_CTA.to}>
-                    {REQUEST_A_FREE_TRACKING_AUDIT_CTA.label} <ArrowUpRight className="h-4 w-4" />
+                    {REQUEST_A_FREE_TRACKING_AUDIT_CTA.label}
                   </Link>
                 </Button>
               </div>
@@ -304,7 +303,6 @@ const ConversionTracking = () => {
                       <div className="mt-6 flex justify-end border-t border-white/10 pt-4">
                         <span className="inline-flex items-center gap-1 text-sm font-medium text-primary">
                           {item.ctaLabel}
-                          <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
                         </span>
                       </div>
                     </div>
@@ -350,7 +348,7 @@ const ConversionTracking = () => {
                 <div className="mt-7">
                   <Button asChild size="lg" className="gap-2 rounded-xl bg-primary text-primary-foreground hover:bg-primary/90">
                     <Link to={REQUEST_A_FREE_TRACKING_AUDIT_CTA.to}>
-                      {REQUEST_A_FREE_TRACKING_AUDIT_CTA.label} <ArrowUpRight className="h-4 w-4" />
+                      {REQUEST_A_FREE_TRACKING_AUDIT_CTA.label}
                     </Link>
                   </Button>
                 </div>
@@ -507,7 +505,7 @@ const ConversionTracking = () => {
             </div>
             <div className="mt-8 text-center">
               <Button asChild size="lg" className="gap-2 rounded-xl bg-primary text-primary-foreground hover:bg-primary/90">
-                <Link to={BOOK_A_FREE_STRATEGY_CALL_CTA.to}>{BOOK_A_FREE_STRATEGY_CALL_CTA.label} <ArrowUpRight className="h-4 w-4" /></Link>
+                <Link to={BOOK_A_FREE_STRATEGY_CALL_CTA.to}>{BOOK_A_FREE_STRATEGY_CALL_CTA.label}</Link>
               </Button>
             </div>
           </div>
