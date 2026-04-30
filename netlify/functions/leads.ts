@@ -35,6 +35,30 @@ function isRateLimited(ip: string): boolean {
   return existing.count > RATE_LIMIT_MAX;
 }
 
+function withConsentAttributes(
+  attributes: Record<string, string | boolean>,
+  payload: LeadPayload,
+) {
+  if (payload.optIn !== true) {
+    return attributes;
+  }
+
+  attributes.OPT_IN = true;
+
+  const consentAttribute = process.env.BREVO_CONSENT_ATTRIBUTE?.trim();
+  const consentTimestampAttribute = process.env.BREVO_CONSENT_TIMESTAMP_ATTRIBUTE?.trim();
+
+  if (consentAttribute) {
+    attributes[consentAttribute] = "Yes";
+  }
+
+  if (consentTimestampAttribute) {
+    attributes[consentTimestampAttribute] = new Date().toISOString();
+  }
+
+  return attributes;
+}
+
 function isValidLeadPayload(payload: unknown): payload is LeadPayload {
   if (!payload || typeof payload !== "object") return false;
   const d = payload as Record<string, unknown>;
@@ -42,8 +66,9 @@ function isValidLeadPayload(payload: unknown): payload is LeadPayload {
   if (!validSources.includes(d.source as LeadSource)) return false;
   if (typeof d.email !== "string" || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(d.email)) return false;
 
-  // newsletter only needs a valid email
-  if (d.source === "newsletter") return true;
+  if (d.source === "newsletter") {
+    return d.optIn === true;
+  }
 
   if (typeof d.firstName !== "string" || !d.firstName.trim()) return false;
   if (typeof d.lastName !== "string" || !d.lastName.trim()) return false;
@@ -138,7 +163,7 @@ export const handler: Handler = async (event: HandlerEvent) => {
       },
       body: JSON.stringify({
         email: payload.email,
-        attributes: {
+        attributes: withConsentAttributes({
           FIRSTNAME: payload.firstName || "",
           LASTNAME: payload.lastName || "",
           COMPANY: payload.company || "",
@@ -154,7 +179,7 @@ export const handler: Handler = async (event: HandlerEvent) => {
               : payload.source === "tracking_audit_offer"
               ? "Tracking Audit Landing Page"
               : "Newsletter",
-        },
+        }, payload),
         listIds: [listId],
         updateEnabled: true,
       }),
