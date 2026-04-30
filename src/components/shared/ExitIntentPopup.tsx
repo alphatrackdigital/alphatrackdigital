@@ -299,7 +299,7 @@ const ExitIntentPopup = () => {
                 <button
                   type="submit"
                   disabled={status === "loading"}
-                  className="inline-flex h-12 w-full items-center justify-center rounded-xl bg-gradient-to-r from-[#ff8a1f] via-[#ffb13d] to-primary px-5 text-sm font-bold text-[#070a10] shadow-[0_14px_34px_rgba(255,138,31,0.22)] transition hover:brightness-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 disabled:cursor-not-allowed disabled:opacity-70"
+                  className="inline-flex h-12 w-full items-center justify-center rounded-xl bg-primary px-5 text-sm font-bold text-primary-foreground shadow-[0_0_18px_rgba(51,204,153,0.12)] transition hover:bg-primary/90 hover:shadow-[0_0_24px_rgba(51,204,153,0.18)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 disabled:cursor-not-allowed disabled:opacity-70"
                 >
                   {status === "loading" ? <Loader2 className="h-4 w-4 animate-spin" /> : "Get My Free Growth Audit"}
                 </button>
