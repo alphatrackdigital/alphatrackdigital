@@ -37,3 +37,5 @@ playwright-cli-check.png
 devserver-*.out
 devserver-*.err
 .tmp-backend-deploy/
+
+.playwright-mcp/
