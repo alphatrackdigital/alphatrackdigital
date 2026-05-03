@@ -122,7 +122,7 @@ describe("ExitIntentPopup", () => {
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
   });
 
-  it("opens on mobile after 40 seconds", async () => {
+  it("opens on mobile after 60 seconds", async () => {
     vi.useFakeTimers();
     Object.defineProperty(window, "matchMedia", {
       writable: true,
@@ -140,7 +140,7 @@ describe("ExitIntentPopup", () => {
 
     renderWithPageProviders(<ExitIntentPopup />);
     act(() => {
-      vi.advanceTimersByTime(40_000);
+      vi.advanceTimersByTime(60_000);
     });
 
     expect(screen.getByRole("dialog")).toBeInTheDocument();
