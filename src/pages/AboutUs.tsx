@@ -5,7 +5,6 @@ import CTASection from "@/components/shared/CTASection";
 import PageSection from "@/components/shared/PageSection";
 import SEO from "@/components/shared/SEO";
 import { companyProfile } from "@/data/companyProfile";
-import { cn } from "@/lib/utils";
 
 const founderStory = {
   lead:
@@ -55,19 +54,9 @@ const AboutUs = () => {
               initial={shouldReduceMotion ? false : { opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: shouldReduceMotion ? 0 : 0.45 }}
-              className="relative flex h-full flex-col justify-between overflow-hidden rounded-[28px] border border-white/[0.08] bg-[#121315]/88 p-6 shadow-[0_24px_60px_rgba(0,0,0,0.16)] backdrop-blur-[2px] sm:p-7 md:rounded-[32px] md:p-10 lg:p-12"
+              className="flex h-full flex-col justify-between"
             >
-              <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(51,204,153,0.06)_0%,transparent_28%),radial-gradient(circle_at_78%_18%,rgba(255,255,255,0.08)_0%,transparent_26%),radial-gradient(circle_at_bottom_right,rgba(0,175,239,0.05)_0%,transparent_28%),linear-gradient(180deg,rgba(255,255,255,0.025)_0%,rgba(255,255,255,0.01)_100%)]" />
-              <div className="pointer-events-none absolute inset-y-0 right-[-12%] w-[48%] bg-[radial-gradient(circle,rgba(255,255,255,0.12)_0%,rgba(255,255,255,0.03)_24%,transparent_62%)] opacity-50 blur-3xl" />
-              <div
-                className="pointer-events-none absolute inset-0 opacity-[0.06]"
-                style={{
-                  backgroundImage:
-                    "linear-gradient(rgba(255,255,255,0.14) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.14) 1px, transparent 1px)",
-                  backgroundSize: "88px 88px",
-                }}
-              />
-              <div className="relative">
+              <div>
                 <span className="inline-flex items-center rounded-full border border-white/[0.10] bg-white/[0.03] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-primary/90">
                   About Us
                 </span>
@@ -88,7 +77,6 @@ const AboutUs = () => {
                 </p>
 
                 <div className="relative mt-6 md:hidden">
-                  <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,175,239,0.08)_0%,transparent_68%)] blur-2xl" />
                   <div className="relative overflow-hidden rounded-[24px] border border-white/[0.08] bg-[#0f1115] shadow-[0_18px_46px_rgba(0,0,0,0.18)]">
                     {heroImgError ? (
                       <div className="flex h-[188px] items-center justify-center bg-[radial-gradient(circle_at_top,rgba(0,175,239,0.16)_0%,rgba(17,17,20,0.92)_62%)]">
@@ -112,8 +100,8 @@ const AboutUs = () => {
                 </div>
               </div>
 
-              <div className="relative mt-6 border-t border-white/[0.08] pt-4 md:mt-10 md:pt-5">
-                <p className="text-[13px] leading-6 text-muted-foreground md:text-sm md:whitespace-nowrap">
+              <div className="mt-8 border-t border-white/[0.08] pt-4 md:mt-12 md:pt-5">
+                <p className="text-[13px] leading-6 text-muted-foreground md:text-sm">
                   {companyProfile.established}
                 </p>
               </div>
@@ -318,64 +306,51 @@ const AboutUs = () => {
       </PageSection>
 
       {/* ─── Manifesto + Core Values ───────────────────────────────────── */}
-      <PageSection mode="content" spacing="compact" border="top" surface="quiet">
-        <div className="relative overflow-hidden rounded-[34px] border border-white/[0.08] bg-[#101214]/88 p-6 shadow-[0_24px_64px_rgba(0,0,0,0.14)] md:p-8 lg:p-10">
-          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(51,204,153,0.05)_0%,transparent_26%),radial-gradient(circle_at_82%_20%,rgba(255,255,255,0.06)_0%,transparent_24%),radial-gradient(circle_at_bottom_right,rgba(0,175,239,0.05)_0%,transparent_26%),linear-gradient(180deg,rgba(255,255,255,0.028)_0%,rgba(255,255,255,0.01)_100%)]" />
-          <div className="pointer-events-none absolute inset-0 opacity-[0.05]" style={{ backgroundImage: "linear-gradient(rgba(255,255,255,0.12) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.12) 1px, transparent 1px)", backgroundSize: "96px 96px" }} />
-          <div className="relative mx-auto max-w-4xl text-center">
-            <motion.p
-              initial={shouldReduceMotion ? false : { opacity: 0, y: 12 }}
-              whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: shouldReduceMotion ? 0 : 0.45 }}
-              className="text-[11px] font-semibold uppercase tracking-[0.22em] text-primary/85"
-            >
-              Why We Exist
-            </motion.p>
-            <motion.h2
-              initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
-              whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: shouldReduceMotion ? 0 : 0.55, delay: shouldReduceMotion ? 0 : 0.04 }}
-              className="mx-auto mt-5 max-w-4xl text-[1.58rem] leading-[1.22] tracking-[-0.03em] text-foreground sm:text-[1.78rem] md:text-[2.45rem] md:leading-[1.34]"
-            >
-              Too many brands run campaigns without reliable tracking, automate
-              without a clear view of the pipeline, and make budget calls on
-              incomplete data.
-            </motion.h2>
-          </div>
-          <motion.div
-            initial={shouldReduceMotion ? false : { opacity: 0, y: 18 }}
+      <PageSection mode="content" spacing="default" border="top" surface="quiet">
+        <div className="mx-auto max-w-4xl text-center">
+          <motion.p
+            initial={shouldReduceMotion ? false : { opacity: 0, y: 12 }}
             whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-50px" }}
-            transition={{ duration: shouldReduceMotion ? 0 : 0.45, delay: shouldReduceMotion ? 0 : 0.1 }}
-            className="relative mt-8 overflow-hidden rounded-[24px] border border-white/[0.08] bg-[#0f1216]/92 p-5 md:p-6"
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: shouldReduceMotion ? 0 : 0.45 }}
+            className="text-[11px] font-semibold uppercase tracking-[0.22em] text-primary/85"
           >
-            <div className="pointer-events-none absolute inset-x-12 top-0 h-px bg-gradient-to-r from-transparent via-white/16 to-transparent" />
-            <div className="grid gap-5 lg:grid-cols-[0.34fr_0.66fr] lg:items-center">
-              <div className="text-center lg:text-left">
-                <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-primary/82">Built On</p>
-                <p className="mx-auto mt-3 max-w-sm text-sm leading-6 text-foreground/88 lg:mx-0 lg:mt-4 lg:text-[1.05rem] lg:leading-8">
-                  The standards we bring into every engagement, every recommendation, and every build.
-                </p>
-              </div>
-              <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 lg:flex lg:flex-wrap lg:gap-3">
-                {companyProfile.coreValues.map((value, index) => (
-                  <span
-                    key={value}
-                    className={cn(
-                      "relative overflow-hidden rounded-[18px] border border-white/[0.08] bg-[radial-gradient(circle_at_top_left,rgba(51,204,153,0.08)_0%,transparent_34%),linear-gradient(180deg,rgba(255,255,255,0.04)_0%,rgba(255,255,255,0.012)_100%)] px-3.5 py-3 text-center text-[11px] font-semibold tracking-[0.1em] text-foreground/84 shadow-[inset_0_1px_0_rgba(255,255,255,0.03)]",
-                      index === companyProfile.coreValues.length - 1 && "col-span-2 sm:col-span-3 lg:col-span-1",
-                    )}
-                  >
-                    <span className="pointer-events-none absolute inset-x-4 top-0 h-px bg-gradient-to-r from-transparent via-primary/45 to-transparent" />
-                    {value}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </motion.div>
+            Why We Exist
+          </motion.p>
+          <motion.h2
+            initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
+            whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: shouldReduceMotion ? 0 : 0.55, delay: shouldReduceMotion ? 0 : 0.04 }}
+            className="mx-auto mt-5 max-w-4xl text-[1.58rem] leading-[1.22] tracking-[-0.03em] text-foreground sm:text-[1.78rem] md:text-[2.45rem] md:leading-[1.34]"
+          >
+            Too many brands run campaigns without reliable tracking, automate
+            without a clear view of the pipeline, and make budget calls on
+            incomplete data.
+          </motion.h2>
         </div>
+
+        <motion.div
+          initial={shouldReduceMotion ? false : { opacity: 0, y: 16 }}
+          whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: shouldReduceMotion ? 0 : 0.45, delay: shouldReduceMotion ? 0 : 0.1 }}
+          className="mt-12 border-t border-white/[0.08] pt-10"
+        >
+          <p className="text-center text-[10px] font-semibold uppercase tracking-[0.2em] text-primary/82 md:text-left">
+            Built On
+          </p>
+          <div className="mt-5 flex flex-wrap justify-center gap-2.5 md:justify-start">
+            {companyProfile.coreValues.map((value) => (
+              <span
+                key={value}
+                className="rounded-full border border-white/[0.10] bg-white/[0.03] px-4 py-2 text-[11px] font-semibold tracking-[0.1em] text-foreground/80"
+              >
+                {value}
+              </span>
+            ))}
+          </div>
+        </motion.div>
       </PageSection>
 
       {/* ─── CTA ───────────────────────────────────────────────────────── */}
