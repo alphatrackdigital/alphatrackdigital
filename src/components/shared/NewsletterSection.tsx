@@ -9,7 +9,9 @@ interface NewsletterSectionProps {
 
 const NewsletterSection = ({ className }: NewsletterSectionProps) => {
   const [email, setEmail] = useState("");
+  const [optIn, setOptIn] = useState(false);
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [pendingConfirmation, setPendingConfirmation] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -19,16 +21,21 @@ const NewsletterSection = ({ className }: NewsletterSectionProps) => {
       setErrorMsg("Please enter a valid email address.");
       return;
     }
+    if (!optIn) {
+      setErrorMsg("Please confirm you want to receive newsletter emails.");
+      return;
+    }
     setErrorMsg("");
     setStatus("loading");
     try {
-      await submitLead({
+      const result = await submitLead({
         source: "newsletter",
         firstName: "",
         lastName: "",
         email: trimmed,
-        optIn: true,
+        optIn,
       });
+      setPendingConfirmation(result.pendingConfirmation === true);
       setStatus("success");
     } catch {
       setStatus("error");
@@ -51,9 +58,13 @@ const NewsletterSection = ({ className }: NewsletterSectionProps) => {
           {status === "success" ? (
             <div className="flex flex-col items-center gap-3 py-2 text-center">
               <CheckCircle2 className="h-8 w-8 text-primary" />
-              <p className="text-lg font-semibold">You're subscribed!</p>
+              <p className="text-lg font-semibold">
+                {pendingConfirmation ? "Check your email to confirm." : "You're subscribed!"}
+              </p>
               <p className="text-sm text-muted-foreground">
-                Expect actionable insights in your inbox every fortnight. No fluff.
+                {pendingConfirmation
+                  ? "Open the confirmation email we just sent, then confirm your subscription."
+                  : "Expect actionable insights in your inbox every fortnight. No fluff."}
               </p>
             </div>
           ) : (
@@ -107,6 +118,18 @@ const NewsletterSection = ({ className }: NewsletterSectionProps) => {
                     {errorMsg || "Something went wrong. Please try again."}
                   </p>
                 )}
+                <label className="flex items-start gap-2 text-[11px] text-muted-foreground/70 lg:text-xs">
+                  <input
+                    type="checkbox"
+                    checked={optIn}
+                    onChange={(e) => {
+                      setOptIn(e.target.checked);
+                      if (errorMsg) setErrorMsg("");
+                    }}
+                    className="mt-0.5 h-4 w-4 shrink-0 rounded border border-white/20 bg-background/70 accent-primary"
+                  />
+                  <span>I want to receive newsletter emails and product updates from AlphaTrack Digital.</span>
+                </label>
                 <p className="text-center text-[11px] text-muted-foreground/60 lg:text-left">
                   No spam. Unsubscribe any time.
                 </p>
