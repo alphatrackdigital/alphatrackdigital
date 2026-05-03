@@ -10,6 +10,7 @@ const FooterNewsletter = () => {
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [pendingConfirmation, setPendingConfirmation] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
+  const emailErrorId = "footer-newsletter-email-error";
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -19,7 +20,7 @@ const FooterNewsletter = () => {
       return;
     }
     if (!optIn) {
-      setErrorMsg("Please confirm you want to receive newsletter emails.");
+      setErrorMsg("Please confirm you'd like to receive emails before subscribing.");
       return;
     }
     setErrorMsg("");
@@ -35,39 +36,86 @@ const FooterNewsletter = () => {
   };
 
   return (
-    <div className="mb-10 border-b border-white/10 pb-10 md:mb-12 md:pb-12">
-      {status === "success" ? (
-        <div className="flex items-center gap-2.5 text-sm text-muted-foreground">
-          <CheckCircle2 className="h-4 w-4 shrink-0 text-primary" />
-                    <span>
-            {pendingConfirmation
-              ? "Check your email to confirm your subscription."
-              : "You're subscribed - expect actionable insights every fortnight."}
-          </span>
-        </div>
-      ) : (
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between sm:gap-8">
-          <div className="shrink-0">
-            <p className="text-sm font-semibold text-foreground">Stay in the loop</p>
-            <p className="mt-1 text-[13px] text-muted-foreground">
-              Marketing insights on tracking, paid media, and automation. Fortnightly. No fluff.
-            </p>
+    <div className="relative mb-10 md:mb-12">
+      {/* Top glow line */}
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
+      {/* Bottom divider */}
+      <div className="absolute inset-x-0 bottom-0 h-px bg-white/10" />
+
+      <div className="py-8 md:py-10">
+        {status === "success" ? (
+          <div
+            className="flex items-center gap-3 py-1"
+            role="status"
+            aria-live="polite"
+          >
+            <CheckCircle2 className="h-5 w-5 shrink-0 text-primary" />
+            <div>
+              <p className="text-sm font-semibold text-foreground">
+                {pendingConfirmation ? "Check your inbox to confirm." : "You're subscribed!"}
+              </p>
+              <p className="text-[13px] text-muted-foreground">
+                {pendingConfirmation
+                  ? "Click the link we sent you to complete your subscription."
+                  : "Actionable insights every fortnight. No noise, no fluff."}
+              </p>
+            </div>
           </div>
-          <form onSubmit={handleSubmit} noValidate className="flex w-full flex-col gap-2 sm:max-w-sm">
-            <div className="flex gap-2">
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => { setEmail(e.target.value); if (errorMsg) setErrorMsg(""); }}
-                placeholder="your@email.com"
-                required
-                aria-label="Email address"
-                className="h-10 w-full min-w-0 rounded-lg border border-white/[0.12] bg-white/[0.04] px-3.5 text-[13px] text-foreground placeholder:text-muted-foreground/50 focus:border-primary/40 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary/30"
-              />
+        ) : (
+          <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between lg:gap-16">
+
+            {/* Heading block */}
+            <div className="shrink-0 lg:max-w-xs">
+              <p className="text-xl font-bold leading-tight tracking-tight text-foreground">
+                The newsletter marketers actually read.
+              </p>
+              <p className="mt-2 text-[13px] leading-relaxed text-muted-foreground">
+                Fortnightly. Free. No fluff.
+              </p>
+            </div>
+
+            {/* Form block */}
+            <form
+              onSubmit={handleSubmit}
+              noValidate
+              className="flex w-full flex-col gap-2.5 lg:max-w-md"
+            >
+              {/* Unified pill — always visible */}
+              <div
+                className={`flex items-center rounded-full border bg-white/[0.05] p-1 transition-shadow duration-200 focus-within:shadow-[0_0_0_3px_rgba(51,204,153,0.10)] ${
+                  errorMsg ? "border-destructive/50" : "border-white/12 focus-within:border-primary/35"
+                }`}
+              >
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => { setEmail(e.target.value); if (errorMsg) setErrorMsg(""); }}
+                  placeholder="your@email.com"
+                  required
+                  aria-label="Email address"
+                  aria-invalid={Boolean(errorMsg)}
+                  aria-describedby={errorMsg ? emailErrorId : undefined}
+                  className="h-10 min-w-0 flex-1 bg-transparent px-4 text-[13px] text-foreground placeholder:text-muted-foreground/50 focus-visible:outline-none"
+                />
+                {/* Desktop inline button */}
+                <button
+                  type="submit"
+                  disabled={status === "loading"}
+                  className="hidden h-10 shrink-0 items-center justify-center rounded-full bg-primary px-5 text-[13px] font-semibold text-primary-foreground transition-opacity hover:opacity-90 disabled:opacity-60 sm:inline-flex"
+                >
+                  {status === "loading" ? (
+                    <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                  ) : (
+                    "Subscribe"
+                  )}
+                </button>
+              </div>
+
+              {/* Mobile full-width button */}
               <button
                 type="submit"
                 disabled={status === "loading"}
-                className="inline-flex h-10 shrink-0 items-center rounded-lg bg-primary px-4 text-[13px] font-semibold text-primary-foreground transition-opacity hover:opacity-90 disabled:opacity-60"
+                className="inline-flex h-11 w-full items-center justify-center rounded-full bg-primary text-[13px] font-semibold text-primary-foreground transition-opacity hover:opacity-90 disabled:opacity-60 sm:hidden"
               >
                 {status === "loading" ? (
                   <Loader2 className="h-3.5 w-3.5 animate-spin" />
@@ -75,25 +123,34 @@ const FooterNewsletter = () => {
                   "Subscribe"
                 )}
               </button>
-            </div>
-            {(errorMsg || status === "error") && (
-              <p className="text-[11px] text-destructive">{errorMsg || "Something went wrong. Please try again."}</p>
-            )}
-            <label className="flex items-start gap-2 text-[11px] text-muted-foreground/70">
-              <input
-                type="checkbox"
-                checked={optIn}
-                onChange={(e) => {
-                  setOptIn(e.target.checked);
-                  if (errorMsg) setErrorMsg("");
-                }}
-                className="mt-0.5 h-4 w-4 shrink-0 rounded border border-white/[0.12] bg-white/[0.04] accent-primary"
-              />
-              <span>I want to receive newsletter emails and product updates from AlphaTrack Digital.</span>
-            </label>
-          </form>
-        </div>
-      )}
+
+              {(errorMsg || status === "error") && (
+                <p id={emailErrorId} className="px-1 text-[11px] text-destructive" role="alert">
+                  {errorMsg || "Something went wrong. Please try again."}
+                </p>
+              )}
+
+              {/* Consent footnote */}
+              <label className="flex cursor-pointer items-start gap-2 px-1">
+                <input
+                  type="checkbox"
+                  checked={optIn}
+                  onChange={(e) => { setOptIn(e.target.checked); if (errorMsg) setErrorMsg(""); }}
+                  aria-required="true"
+                  className="mt-0.5 h-3.5 w-3.5 shrink-0 rounded-sm border border-white/20 bg-white/[0.06] accent-primary"
+                />
+                <span className="text-[11px] leading-relaxed text-muted-foreground/60">
+                  I agree to receive emails from AlphaTrack Digital.{" "}
+                  <Link to="/privacy-policy" className="underline underline-offset-2 transition-colors hover:text-muted-foreground">
+                    Privacy Policy
+                  </Link>
+                  .
+                </span>
+              </label>
+            </form>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
@@ -101,7 +158,7 @@ const FooterNewsletter = () => {
 const Footer = () => {
   return (
     <footer className="border-t border-white/10 bg-[#070a10]">
-      <div className="container mx-auto px-4 py-8 md:py-16 lg:px-8">
+      <div className="container mx-auto px-4 pt-0 pb-8 md:pb-16 lg:px-8">
         <FooterNewsletter />
         <div className="grid grid-cols-2 gap-x-6 gap-y-6 md:grid-cols-2 md:gap-12 lg:grid-cols-4">
           <div className="col-span-2 space-y-2.5 md:col-span-2 lg:col-span-1 lg:space-y-4">
