@@ -126,6 +126,16 @@ const toBrevoPayload = (data: LeadPayload, listId: number) => ({
   updateEnabled: true,
 });
 
+const toBrevoDoiPayload = (data: LeadPayload, listId: number, templateId: number, redirectUrl: string) => ({
+  email: data.email,
+  includeListIds: [listId],
+  templateId,
+  redirectionUrl: redirectUrl,
+  attributes: withConsentAttributes({
+    SOURCE: "Newsletter",
+  }, data),
+});
+
 const handler = async (req: Req, res: Res) => {
   res.setHeader("Content-Type", "application/json");
   res.setHeader("Cache-Control", "no-store");
@@ -148,6 +158,8 @@ const handler = async (req: Req, res: Res) => {
   const contactListId = Number(process.env.BREVO_CONTACT_LIST_ID || "2");
   const auditListId = Number(process.env.BREVO_AUDIT_LIST_ID || "3");
   const newsletterListId = Number(process.env.BREVO_NEWSLETTER_LIST_ID || "4");
+  const newsletterDoiTemplateId = Number(process.env.BREVO_DOI_TEMPLATE_ID || "0");
+  const newsletterDoiRedirectUrl = process.env.BREVO_DOI_REDIRECT_URL?.trim() || "";
 
   if (!brevoApiKey) {
     return res.status(500).json({ ok: false, message: "Lead service is not configured." });
@@ -161,14 +173,29 @@ const handler = async (req: Req, res: Res) => {
         : auditListId;
 
   try {
-    const brevoResponse = await fetch("https://api.brevo.com/v3/contacts", {
+    const isNewsletterDoiEnabled =
+      payload.source === "newsletter" &&
+      Number.isInteger(newsletterDoiTemplateId) &&
+      newsletterDoiTemplateId > 0 &&
+      newsletterDoiRedirectUrl.length > 0;
+
+    const brevoResponse = await fetch(
+      isNewsletterDoiEnabled
+        ? "https://api.brevo.com/v3/contacts/doubleOptinConfirmation"
+        : "https://api.brevo.com/v3/contacts",
+      {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         "api-key": brevoApiKey,
       },
-      body: JSON.stringify(toBrevoPayload(payload, listId)),
-    });
+        body: JSON.stringify(
+          isNewsletterDoiEnabled
+            ? toBrevoDoiPayload(payload, listId, newsletterDoiTemplateId, newsletterDoiRedirectUrl)
+            : toBrevoPayload(payload, listId),
+        ),
+      },
+    );
 
     if (!brevoResponse.ok) {
       const errorText = await brevoResponse.text();
@@ -178,7 +205,7 @@ const handler = async (req: Req, res: Res) => {
       });
     }
 
-    return res.status(200).json({ ok: true });
+    return res.status(200).json({ ok: true, pendingConfirmation: isNewsletterDoiEnabled });
   } catch {
     return res.status(500).json({ ok: false, message: "Unable to submit lead right now." });
   }

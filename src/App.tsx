@@ -13,6 +13,7 @@ const ExpertiseDetail = lazy(routeImporters.expertiseDetail);
 const Services = lazy(routeImporters.services);
 const ContactUs = lazy(routeImporters.contactUs);
 const ContactUsThankYou = lazy(routeImporters.contactUsThankYou);
+const NewsletterConfirmed = lazy(routeImporters.newsletterConfirmed);
 const ConversionTracking = lazy(routeImporters.conversionTracking);
 const MarketingAutomation = lazy(routeImporters.marketingAutomation);
 const PaidMedia = lazy(routeImporters.paidMedia);
@@ -63,6 +64,7 @@ export const AppRouter = () => (
         <Route path="/blog/:slug" element={withRouteSuspense(BlogPost)} />
         <Route path="/contact-us" element={withRouteSuspense(ContactUs)} />
         <Route path="/contact-us/thank-you" element={withRouteSuspense(ContactUsThankYou)} />
+        <Route path="/newsletter/confirmed" element={withRouteSuspense(NewsletterConfirmed)} />
         <Route path="/book-a-call" element={withRouteSuspense(BookACall)} />
         <Route path="/book-a-call/thank-you" element={withRouteSuspense(ThankYou)} />
         <Route path="/privacy-policy" element={withRouteSuspense(PrivacyPolicy)} />

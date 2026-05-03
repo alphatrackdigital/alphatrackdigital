@@ -415,7 +415,6 @@ const ContactUs = () => {
                 directly about it. Marketing updates remain optional.
               </div>
 
-              {/* Marketing consent */}
               <div>
                 <div className="flex items-start gap-3">
                   <input

@@ -11,6 +11,7 @@ const NewsletterSection = ({ className }: NewsletterSectionProps) => {
   const [email, setEmail] = useState("");
   const [optIn, setOptIn] = useState(false);
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [pendingConfirmation, setPendingConfirmation] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -27,13 +28,14 @@ const NewsletterSection = ({ className }: NewsletterSectionProps) => {
     setErrorMsg("");
     setStatus("loading");
     try {
-      await submitLead({
+      const result = await submitLead({
         source: "newsletter",
         firstName: "",
         lastName: "",
         email: trimmed,
         optIn,
       });
+      setPendingConfirmation(result.pendingConfirmation === true);
       setStatus("success");
     } catch {
       setStatus("error");
@@ -56,9 +58,13 @@ const NewsletterSection = ({ className }: NewsletterSectionProps) => {
           {status === "success" ? (
             <div className="flex flex-col items-center gap-3 py-2 text-center">
               <CheckCircle2 className="h-8 w-8 text-primary" />
-              <p className="text-lg font-semibold">You're subscribed!</p>
+              <p className="text-lg font-semibold">
+                {pendingConfirmation ? "Check your email to confirm." : "You're subscribed!"}
+              </p>
               <p className="text-sm text-muted-foreground">
-                Expect actionable insights in your inbox every fortnight. No fluff.
+                {pendingConfirmation
+                  ? "Open the confirmation email we just sent, then confirm your subscription."
+                  : "Expect actionable insights in your inbox every fortnight. No fluff."}
               </p>
             </div>
           ) : (
