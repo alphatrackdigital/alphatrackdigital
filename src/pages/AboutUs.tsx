@@ -724,60 +724,62 @@ const AboutUs = () => {
           className="relative overflow-hidden rounded-[28px] border border-white/[0.08] bg-[radial-gradient(circle_at_top_left,rgba(0,175,239,0.05),transparent_22%),radial-gradient(circle_at_80%_18%,rgba(51,204,153,0.05),transparent_22%),linear-gradient(180deg,rgba(255,255,255,0.022)_0%,rgba(255,255,255,0.008)_100%)] p-4 shadow-[0_18px_48px_rgba(0,0,0,0.12)] md:hidden"
         >
           <div className="pointer-events-none absolute inset-x-10 top-0 h-px bg-gradient-to-r from-transparent via-white/16 to-transparent" />
-          <div className="relative aspect-[4/5] overflow-hidden rounded-[22px] border border-white/[0.09] bg-black">
-            {imgError ? (
-              <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-atd-blue/20 via-background to-primary/10">
-                <span className="text-5xl font-bold text-primary/40">
-                  {companyProfile.founder.name.split(" ").map((n) => n[0]).join("")}
-                </span>
-              </div>
-            ) : (
-              <img
-                src="/founder-portrait-2026.jpg"
-                alt={`${companyProfile.founder.name}, ${companyProfile.founder.title}`}
-                className="h-full w-full object-contain brightness-90"
-                loading="lazy"
-                width={760}
-                height={1140}
-                onError={() => setImgError(true)}
-              />
-            )}
-            <div className="absolute bottom-3 left-3 right-3 flex items-center gap-3 rounded-xl border border-white/[0.08] bg-black/70 px-4 py-3 backdrop-blur-md">
-              <div className="flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden rounded-full ring-1 ring-white/10">
+          <div className="flex min-h-[220px] items-stretch gap-3">
+
+            {/* Photo column */}
+            <div className="relative w-[42%] shrink-0 overflow-hidden rounded-[18px] border border-white/[0.09] bg-black">
+              {imgError ? (
+                <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-atd-blue/20 via-background to-primary/10">
+                  <span className="text-3xl font-bold text-primary/40">
+                    {companyProfile.founder.name.split(" ").map((n) => n[0]).join("")}
+                  </span>
+                </div>
+              ) : (
                 <img
-                  src="/atd-circle-logo.png"
-                  alt="AlphaTrack Digital logo"
-                  className="h-full w-full object-cover"
+                  src="/founder-portrait-2026.jpg"
+                  alt={`${companyProfile.founder.name}, ${companyProfile.founder.title}`}
+                  className="h-full w-full object-cover object-top brightness-90"
                   loading="lazy"
+                  width={760}
+                  height={1140}
+                  onError={() => setImgError(true)}
                 />
-              </div>
+              )}
+            </div>
+
+            {/* Text column */}
+            <div className="flex flex-1 flex-col justify-between py-1">
               <div>
-                <p className="text-sm font-semibold leading-tight text-foreground">
-                  {companyProfile.founder.name}
+                <p className="mb-2 text-[10px] font-semibold uppercase tracking-[0.22em] text-primary/90">
+                  The Founder
                 </p>
-                <p className="mt-0.5 text-xs text-muted-foreground">
-                  {companyProfile.founder.title}
+                <h2 className="text-xl font-bold leading-[1.15] tracking-tight text-foreground">
+                  Built from a <span className="text-gradient">clear</span> belief.
+                </h2>
+                <p className="mt-3 text-[0.8rem] leading-5 text-muted-foreground">
+                  {founderStory.lead}
                 </p>
               </div>
+              <div className="mt-4 flex items-center gap-2">
+                <div className="flex h-7 w-7 shrink-0 items-center justify-center overflow-hidden rounded-full ring-1 ring-white/10">
+                  <img
+                    src="/atd-circle-logo.png"
+                    alt="AlphaTrack Digital logo"
+                    className="h-full w-full object-cover"
+                    loading="lazy"
+                  />
+                </div>
+                <div>
+                  <p className="text-[0.75rem] font-semibold leading-tight text-foreground">
+                    {companyProfile.founder.name}
+                  </p>
+                  <p className="text-[0.7rem] text-muted-foreground">
+                    {companyProfile.founder.title}
+                  </p>
+                </div>
+              </div>
             </div>
-          </div>
 
-          <div className="relative mt-4">
-            <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.22em] text-primary/90">
-              The Founder
-            </p>
-            <h2 className="text-3xl font-bold leading-[1.1] tracking-tight text-foreground">
-              Built from a <span className="text-gradient">clear</span> belief.
-            </h2>
-
-            <div className="mt-4 space-y-3">
-              <p className="text-[0.95rem] leading-7 text-foreground">
-                {founderStory.lead}
-              </p>
-              <p className="text-sm leading-6 text-muted-foreground">
-                {founderStory.support}
-              </p>
-            </div>
           </div>
         </motion.div>
 
