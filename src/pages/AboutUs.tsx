@@ -16,6 +16,8 @@ import {
   useReducedMotion,
 } from "framer-motion";
 
+import { Link } from "react-router-dom";
+
 import CTASection from "@/components/shared/CTASection";
 import PageSection from "@/components/shared/PageSection";
 import SectionIntro from "@/components/shared/SectionIntro";
@@ -82,6 +84,17 @@ const sectorVisuals: Record<
     icon: Gamepad2,
     accentClassName: "bg-lime-400/14 text-lime-300",
   },
+};
+
+const sectorSlugs: Record<SectorName, string> = {
+  "Ecommerce & Retail": "ecommerce-retail",
+  FMCG: "fmcg",
+  Education: "education",
+  SaaS: "saas",
+  "Entertainment & Hospitality": "entertainment-hospitality",
+  "Real Estate": "real-estate",
+  Fashion: "fashion",
+  Gaming: "gaming",
 };
 
 const mobileCtmaSummaries: Record<string, string> = {
@@ -620,6 +633,11 @@ const AboutUs = () => {
                       index % 2 === 1 && "border-l",
                     )}
                   >
+                    <Link
+                      to={`/expertise/${sectorSlugs[sector]}`}
+                      className="absolute inset-0 z-10"
+                      aria-label={sector}
+                    />
                     <div className="flex flex-col items-center gap-3">
                       <div
                         className={cn(
@@ -660,6 +678,11 @@ const AboutUs = () => {
                       index % 4 !== 0 && "xl:border-l",
                     )}
                   >
+                    <Link
+                      to={`/expertise/${sectorSlugs[sector]}`}
+                      className="absolute inset-0 z-10"
+                      aria-label={sector}
+                    />
                     <div className="pointer-events-none absolute inset-x-6 top-0 h-px bg-gradient-to-r from-transparent via-white/14 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
                     <div className="flex items-start gap-3 md:gap-4">
                       <div
