@@ -1,22 +1,9 @@
 import { useState } from "react";
-import {
-  BriefcaseBusiness,
-  Building2,
-  Check,
-  GraduationCap,
-  Gamepad2,
-  Package2,
-  Plane,
-  Shirt,
-  ShoppingCart,
-  type LucideIcon,
-} from "lucide-react";
+import { Check } from "lucide-react";
 import {
   motion,
   useReducedMotion,
 } from "framer-motion";
-
-import { Link } from "react-router-dom";
 
 import CTASection from "@/components/shared/CTASection";
 import PageSection from "@/components/shared/PageSection";
@@ -26,8 +13,6 @@ import {
   companyProfile,
   ctmaFramework,
   engagementModels,
-  primarySectors,
-  sectorSummaries,
   whyChoosePoints,
 } from "@/data/companyProfile";
 import { cn } from "@/lib/utils";
@@ -41,60 +26,6 @@ const fadeUp = {
     y: 0,
     transition: { duration: 0.45, delay: i * 0.09, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] },
   }),
-};
-
-type SectorName = (typeof primarySectors)[number];
-
-const sectorVisuals: Record<
-  SectorName,
-  {
-    icon: LucideIcon;
-    accentClassName: string;
-  }
-> = {
-  "Ecommerce & Retail": {
-    icon: ShoppingCart,
-    accentClassName: "bg-secondary/14 text-secondary",
-  },
-  FMCG: {
-    icon: Package2,
-    accentClassName: "bg-amber-500/14 text-amber-400",
-  },
-  Education: {
-    icon: GraduationCap,
-    accentClassName: "bg-violet-500/14 text-violet-400",
-  },
-  SaaS: {
-    icon: BriefcaseBusiness,
-    accentClassName: "bg-primary/14 text-primary",
-  },
-  "Entertainment & Hospitality": {
-    icon: Plane,
-    accentClassName: "bg-rose-500/14 text-rose-400",
-  },
-  "Real Estate": {
-    icon: Building2,
-    accentClassName: "bg-blue-400/14 text-blue-400",
-  },
-  Fashion: {
-    icon: Shirt,
-    accentClassName: "bg-pink-500/14 text-pink-400",
-  },
-  Gaming: {
-    icon: Gamepad2,
-    accentClassName: "bg-lime-400/14 text-lime-300",
-  },
-};
-
-const sectorSlugs: Record<SectorName, string> = {
-  "Ecommerce & Retail": "ecommerce-retail",
-  FMCG: "fmcg",
-  Education: "education",
-  SaaS: "saas",
-  "Entertainment & Hospitality": "entertainment-hospitality",
-  "Real Estate": "real-estate",
-  Fashion: "fashion",
-  Gaming: "gaming",
 };
 
 const mobileCtmaSummaries: Record<string, string> = {
@@ -348,7 +279,7 @@ const AboutUs = () => {
       <ChapterSeparator />
 
       {/* ─── How We Think ──────────────────────────────────────────────── */}
-      <PageSection mode="content" border="top" spacing="compact">
+      <PageSection mode="content" border="top" spacing="default">
         <SectionIntro
           eyebrow="How We Think"
           mode="content"
@@ -477,7 +408,7 @@ const AboutUs = () => {
       </PageSection>
 
       {/* ─── Engagement Models ─────────────────────────────────────────── */}
-      <PageSection mode="content" border="top">
+      <PageSection mode="content" border="top" spacing="spacious">
         <SectionIntro
           eyebrow="How We Engage"
           mode="content"
@@ -593,129 +524,12 @@ const AboutUs = () => {
         </div>
       </PageSection>
 
-      {/* ─── Industries ────────────────────────────────────────────────── */}
-      <PageSection mode="content" border="top" spacing="compact">
-        <div data-testid="industries-section">
-          <SectionIntro
-            eyebrow="Industries"
-            mode="content"
-            title="Where we do our strongest work."
-            maxWidth="lg"
-            className="mb-6 md:mb-8"
-            titleClassName="leading-[1.1] md:text-4xl"
-          />
-
-          <div className="relative overflow-hidden rounded-[30px] border border-white/[0.08] bg-[radial-gradient(circle_at_top_left,rgba(0,175,239,0.05),transparent_22%),radial-gradient(circle_at_82%_16%,rgba(51,204,153,0.05),transparent_20%),linear-gradient(180deg,rgba(255,255,255,0.022)_0%,rgba(255,255,255,0.008)_100%)] shadow-[0_18px_50px_rgba(0,0,0,0.12)]">
-            <div
-              className="pointer-events-none absolute inset-0 opacity-[0.05]"
-              style={{
-                backgroundImage:
-                  "linear-gradient(rgba(255,255,255,0.14) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.14) 1px, transparent 1px)",
-                backgroundSize: "84px 84px",
-              }}
-            />
-            <div className="grid grid-cols-2 md:hidden">
-              {primarySectors.map((sector, index) => {
-                const visual = sectorVisuals[sector];
-                const Icon = visual.icon;
-
-                return (
-                  <motion.article
-                    key={`${sector}-mobile`}
-                    custom={index}
-                    initial={shouldReduceMotion ? false : "hidden"}
-                    whileInView={shouldReduceMotion ? undefined : "visible"}
-                    viewport={{ once: true, margin: "-40px" }}
-                  variants={fadeUp}
-                  className={cn(
-                      "group relative flex flex-col items-center justify-center border-white/[0.08] px-3 py-5 text-center transition-colors duration-300 hover:bg-white/[0.02]",
-                      index >= 2 && "border-t",
-                      index % 2 === 1 && "border-l",
-                    )}
-                  >
-                    <Link
-                      to={`/expertise/${sectorSlugs[sector]}`}
-                      className="absolute inset-0 z-10"
-                      aria-label={sector}
-                    />
-                    <div className="flex flex-col items-center gap-3">
-                      <div
-                        className={cn(
-                          "flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-white/[0.08] shadow-[inset_0_1px_0_rgba(255,255,255,0.03)]",
-                          visual.accentClassName,
-                        )}
-                      >
-                        <Icon className="h-4 w-4" />
-                      </div>
-                      <h3 className="text-[0.88rem] font-semibold leading-snug tracking-tight text-foreground">
-                        {sector}
-                      </h3>
-                    </div>
-                  </motion.article>
-                );
-              })}
-            </div>
-
-            <div className="hidden md:grid md:grid-cols-2 xl:grid-cols-4">
-              {primarySectors.map((sector, index) => {
-                const visual = sectorVisuals[sector];
-                const Icon = visual.icon;
-
-                return (
-                  <motion.article
-                    key={sector}
-                    data-testid="industry-card"
-                    custom={index}
-                    initial={shouldReduceMotion ? false : "hidden"}
-                    whileInView={shouldReduceMotion ? undefined : "visible"}
-                    viewport={{ once: true, margin: "-40px" }}
-                    variants={fadeUp}
-                    className={cn(
-                      "group relative min-h-[108px] border-white/[0.08] p-4 transition-colors duration-300 hover:bg-white/[0.02] md:min-h-[160px] md:p-7",
-                      index >= 1 && "border-t md:border-t-0",
-                      index % 2 === 1 && "md:border-l xl:border-l-0",
-                      index >= 4 && "xl:border-t",
-                      index % 4 !== 0 && "xl:border-l",
-                    )}
-                  >
-                    <Link
-                      to={`/expertise/${sectorSlugs[sector]}`}
-                      className="absolute inset-0 z-10"
-                      aria-label={sector}
-                    />
-                    <div className="pointer-events-none absolute inset-x-6 top-0 h-px bg-gradient-to-r from-transparent via-white/14 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-                    <div className="flex items-start gap-3 md:gap-4">
-                      <div
-                        className={cn(
-                          "flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-white/[0.08] shadow-[inset_0_1px_0_rgba(255,255,255,0.03)] md:h-12 md:w-12 md:rounded-2xl",
-                          visual.accentClassName,
-                        )}
-                      >
-                        <Icon className="h-4.5 w-4.5 md:h-5.5 md:w-5.5" />
-                      </div>
-                      <div className="min-w-0">
-                        <h3 className="text-[1rem] font-semibold leading-snug tracking-tight text-foreground md:text-[1.26rem]">
-                          {sector}
-                        </h3>
-                        <p className="mt-2.5 hidden max-w-[28rem] text-sm leading-6 text-muted-foreground md:block">
-                          {sectorSummaries[sector]}
-                        </p>
-                      </div>
-                    </div>
-                  </motion.article>
-                );
-              })}
-            </div>
-          </div>
-        </div>
-      </PageSection>
-
       <ChapterSeparator />
 
       {/* ─── Testimonial ───────────────────────────────────────────────── */}
 
       {/* ─── Founder ───────────────────────────────────────────────────── */}
-      <PageSection mode="content" border="top" spacing="compact">
+      <PageSection mode="content" border="top" spacing="spacious">
         <motion.div
           initial={shouldReduceMotion ? false : { opacity: 0, y: 18 }}
           whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
