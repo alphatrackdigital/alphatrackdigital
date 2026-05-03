@@ -721,16 +721,16 @@ const AboutUs = () => {
           whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-60px" }}
           transition={{ duration: shouldReduceMotion ? 0 : 0.55 }}
-          className="relative overflow-hidden rounded-[28px] border border-white/[0.08] bg-[radial-gradient(circle_at_top_left,rgba(0,175,239,0.05),transparent_22%),radial-gradient(circle_at_80%_18%,rgba(51,204,153,0.05),transparent_22%),linear-gradient(180deg,rgba(255,255,255,0.022)_0%,rgba(255,255,255,0.008)_100%)] p-4 shadow-[0_18px_48px_rgba(0,0,0,0.12)] md:hidden"
+          className="relative overflow-hidden rounded-[28px] border border-white/[0.08] bg-[radial-gradient(circle_at_top_left,rgba(0,175,239,0.05),transparent_22%),radial-gradient(circle_at_80%_18%,rgba(51,204,153,0.05),transparent_22%),linear-gradient(180deg,rgba(255,255,255,0.022)_0%,rgba(255,255,255,0.008)_100%)] p-3 shadow-[0_18px_48px_rgba(0,0,0,0.12)] md:hidden"
         >
           <div className="pointer-events-none absolute inset-x-10 top-0 h-px bg-gradient-to-r from-transparent via-white/16 to-transparent" />
-          <div className="flex min-h-[220px] items-stretch gap-3">
+          <div className="flex min-h-[210px] items-stretch gap-3">
 
             {/* Photo column */}
-            <div className="relative w-[42%] shrink-0 overflow-hidden rounded-[18px] border border-white/[0.09] bg-black">
+            <div className="relative w-[38%] shrink-0 overflow-hidden rounded-[16px] border border-white/[0.09] bg-black">
               {imgError ? (
                 <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-atd-blue/20 via-background to-primary/10">
-                  <span className="text-3xl font-bold text-primary/40">
+                  <span className="text-2xl font-bold text-primary/40">
                     {companyProfile.founder.name.split(" ").map((n) => n[0]).join("")}
                   </span>
                 </div>
@@ -748,20 +748,20 @@ const AboutUs = () => {
             </div>
 
             {/* Text column */}
-            <div className="flex flex-1 flex-col justify-between py-1">
+            <div className="flex flex-1 flex-col justify-between">
               <div>
-                <p className="mb-2 text-[10px] font-semibold uppercase tracking-[0.22em] text-primary/90">
+                <p className="mb-1.5 text-[9px] font-semibold uppercase tracking-[0.2em] text-primary/90">
                   The Founder
                 </p>
-                <h2 className="text-xl font-bold leading-[1.15] tracking-tight text-foreground">
+                <h2 className="text-lg font-bold leading-[1.15] tracking-tight text-foreground">
                   Built from a <span className="text-gradient">clear</span> belief.
                 </h2>
-                <p className="mt-3 text-[0.8rem] leading-5 text-muted-foreground">
+                <p className="mt-2 line-clamp-4 text-[0.72rem] leading-[1.5] text-muted-foreground">
                   {founderStory.lead}
                 </p>
               </div>
-              <div className="mt-4 flex items-center gap-2">
-                <div className="flex h-7 w-7 shrink-0 items-center justify-center overflow-hidden rounded-full ring-1 ring-white/10">
+              <div className="mt-3 flex items-center gap-2 border-t border-white/[0.06] pt-2.5">
+                <div className="flex h-6 w-6 shrink-0 items-center justify-center overflow-hidden rounded-full ring-1 ring-white/10">
                   <img
                     src="/atd-circle-logo.png"
                     alt="AlphaTrack Digital logo"
@@ -770,10 +770,10 @@ const AboutUs = () => {
                   />
                 </div>
                 <div>
-                  <p className="text-[0.75rem] font-semibold leading-tight text-foreground">
+                  <p className="text-[0.72rem] font-semibold leading-tight text-foreground">
                     {companyProfile.founder.name}
                   </p>
-                  <p className="text-[0.7rem] text-muted-foreground">
+                  <p className="text-[0.65rem] leading-tight text-muted-foreground">
                     {companyProfile.founder.title}
                   </p>
                 </div>
