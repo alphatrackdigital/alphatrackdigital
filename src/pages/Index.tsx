@@ -1,4 +1,4 @@
-﻿import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import {
   ClipboardCheck,
@@ -81,6 +81,22 @@ const BlogImage = ({ src, alt }: { src: string; alt: string }) => {
       />
     </div>
   );
+};
+
+const useDesktopRevealMotion = () => {
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(min-width: 768px)");
+    const updateIsDesktop = () => setIsDesktop(mediaQuery.matches);
+
+    updateIsDesktop();
+    mediaQuery.addEventListener("change", updateIsDesktop);
+
+    return () => mediaQuery.removeEventListener("change", updateIsDesktop);
+  }, []);
+
+  return isDesktop;
 };
 
 // --- Data ---
@@ -314,6 +330,7 @@ const homepageSchema = {
 
 const Index = () => {
   const shouldReduceMotion = useReducedMotion();
+  const shouldAnimateReveals = useDesktopRevealMotion() && !shouldReduceMotion;
   const location = useLocation();
   const featuredBlogPosts = getFeaturedBlogPosts(3);
   const strategyCallTo = withCampaignSearch(BOOK_A_FREE_STRATEGY_CALL_CTA.to, location.search);
@@ -323,6 +340,15 @@ const Index = () => {
     .map((part) => part[0])
     .join("")
     .toUpperCase();
+  const revealMotion = (y = 18, delay = 0, duration = 0.35) =>
+    shouldAnimateReveals
+      ? {
+          initial: { opacity: 0, y },
+          whileInView: { opacity: 1, y: 0 },
+          viewport: { once: true },
+          transition: { delay, duration },
+        }
+      : { initial: false };
 
   return (
     <>
@@ -521,10 +547,7 @@ const Index = () => {
               <motion.div
                 key={metric.sourceRef}
                 data-testid="proof-metric"
-                initial={{ opacity: 0, y: 18 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: i * 0.08 }}
+                {...revealMotion(18, i * 0.08, 0.4)}
                 className={cn(
                   "flex flex-col items-center justify-start px-2 text-center sm:min-h-[5.1rem] sm:px-6",
                   i > 0 && "border-l border-white/[0.08]",
@@ -563,10 +586,7 @@ const Index = () => {
             {primaryServices.map((service, i) => (
               <motion.div
                 key={`${service.title}-mobile`}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.08, duration: 0.35 }}
+                {...revealMotion(20, i * 0.08, 0.35)}
               >
                 <div
                   className={cn(
@@ -613,10 +633,7 @@ const Index = () => {
             {primaryServices.map((service, i) => (
               <motion.div
                 key={service.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.08, duration: 0.4 }}
+                {...revealMotion(20, i * 0.08, 0.4)}
               >
                 <div
                   className={cn(
@@ -690,10 +707,7 @@ const Index = () => {
                 {supportingServices.map((s, i) => (
                   <motion.div
                     key={s.title}
-                    initial={{ opacity: 0, y: 16 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: i * 0.06, duration: 0.35 }}
+                    {...revealMotion(16, i * 0.06, 0.35)}
                     className={cn(
                       i > 0 && "border-t border-white/10",
                       i < 2 && "md:border-t-0",
@@ -734,21 +748,21 @@ const Index = () => {
       <section
         id="industries-section"
         data-testid="industries-section"
-        className="relative scroll-mt-24 overflow-hidden border-t border-white/10 bg-[#050812] py-14 md:py-24"
+        className="relative scroll-mt-24 overflow-hidden border-t border-white/10 py-14 md:py-24"
       >
         <div className="pointer-events-none absolute inset-0">
-          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,175,239,0.035)_0%,rgba(5,8,18,0.26)_38%,rgba(51,204,153,0.025)_100%)]" />
+          <div className="absolute left-[-8%] top-8 h-72 w-72 rounded-full bg-secondary/[0.035] blur-[120px]" />
+          <div className="absolute right-[10%] bottom-6 h-56 w-56 rounded-full bg-primary/[0.03] blur-[110px]" />
           <div
-            className="absolute inset-0 opacity-[0.09]"
+            className="absolute inset-0 opacity-[0.025]"
             style={{
-              backgroundImage:
-                "linear-gradient(90deg, rgba(0,175,239,0.18) 0 1px, transparent 1px), linear-gradient(180deg, rgba(51,204,153,0.14) 0 1px, transparent 1px)",
-              backgroundSize: "112px 112px",
-              maskImage: "linear-gradient(180deg, transparent 0%, black 20%, black 82%, transparent 100%)",
+              backgroundImage: [
+                "linear-gradient(rgba(255,255,255,0.9) 1px, transparent 1px)",
+                "linear-gradient(90deg, rgba(255,255,255,0.9) 1px, transparent 1px)",
+              ].join(", "),
+              backgroundSize: "88px 88px",
             }}
           />
-          <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/35 to-transparent" />
-          <div className="absolute inset-x-[8%] top-[7.25rem] h-px bg-gradient-to-r from-transparent via-white/12 to-transparent md:top-[9.5rem]" />
         </div>
         <div className="container relative mx-auto px-4 lg:px-8">
           <SectionIntro
@@ -767,10 +781,7 @@ const Index = () => {
                 return (
                 <motion.div
                   key={sector}
-                  initial={{ opacity: 0, y: 18 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.06, duration: 0.35 }}
+                  {...revealMotion(18, index * 0.06, 0.35)}
                 >
                   <Link
                     to={sectorExpertisePaths[sector]}
@@ -842,10 +853,7 @@ const Index = () => {
                 <motion.div
                   key={step.step}
                   data-testid="process-step"
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.1, duration: 0.4 }}
+                  {...revealMotion(20, i * 0.1, 0.4)}
                   className="relative flex pt-14"
                 >
                   <div className="flex h-full w-full flex-col rounded-[26px] border border-white/[0.08] bg-[linear-gradient(180deg,rgba(255,255,255,0.028)_0%,rgba(255,255,255,0.012)_100%)] p-5 shadow-[0_14px_40px_rgba(0,0,0,0.14)]">
@@ -871,10 +879,7 @@ const Index = () => {
               <motion.div
                 key={step.step}
                 data-testid="process-step"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.08, duration: 0.35 }}
+                {...revealMotion(20, i * 0.08, 0.35)}
                 className="relative"
               >
                 <div className="flex h-full flex-col rounded-[20px] border border-white/[0.08] bg-[linear-gradient(180deg,rgba(255,255,255,0.028)_0%,rgba(255,255,255,0.012)_100%)] p-3.5 shadow-[0_12px_34px_rgba(0,0,0,0.12)]">
@@ -1016,10 +1021,7 @@ const Index = () => {
           />
 
           <motion.div
-            initial={{ opacity: 0, y: 18 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.45 }}
+            {...revealMotion(18, 0, 0.45)}
             className="mx-auto max-w-[36rem] rounded-[22px] border border-primary/35 bg-[linear-gradient(180deg,rgba(255,255,255,0.022)_0%,rgba(255,255,255,0.01)_100%)] p-3.5 shadow-[0_14px_36px_rgba(0,8,22,0.12)] md:max-w-[50rem] md:rounded-[24px] md:p-7"
           >
             <div className="flex justify-end">
@@ -1051,10 +1053,7 @@ const Index = () => {
         <div className="container mx-auto px-4 lg:px-8">
           <div className="mx-auto max-w-5xl">
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
+              {...revealMotion(20, 0, 0.5)}
                className="mb-5 flex flex-col items-start gap-3 sm:mb-6 sm:flex-row sm:items-end sm:justify-between sm:gap-4"
             >
               <SectionIntro
@@ -1075,10 +1074,7 @@ const Index = () => {
             <div className="space-y-3 md:hidden">
               {featuredBlogPosts[0] && (
                 <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.35 }}
+                  {...revealMotion(20, 0, 0.35)}
                 >
                   <Link
                     to={`/blog/${featuredBlogPosts[0].slug}`}
@@ -1109,10 +1105,7 @@ const Index = () => {
                 {featuredBlogPosts.slice(1).map((post, i) => (
                   <motion.div
                     key={`${post.slug}-mobile`}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.35, delay: i * 0.08 }}
+                    {...revealMotion(20, i * 0.08, 0.35)}
                   >
                     <Link
                       to={`/blog/${post.slug}`}
@@ -1143,10 +1136,7 @@ const Index = () => {
                 {featuredBlogPosts.map((post, i) => (
                   <motion.div
                     key={post.slug}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.35, delay: i * 0.08 }}
+                    {...revealMotion(20, i * 0.08, 0.35)}
                   >
                     <Link
                       to={`/blog/${post.slug}`}
