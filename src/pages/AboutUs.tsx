@@ -17,7 +17,6 @@ import {
 } from "framer-motion";
 
 import CTASection from "@/components/shared/CTASection";
-import NewsletterSection from "@/components/shared/NewsletterSection";
 import PageSection from "@/components/shared/PageSection";
 import SectionIntro from "@/components/shared/SectionIntro";
 import SEO from "@/components/shared/SEO";
@@ -202,7 +201,7 @@ const AboutUs = () => {
                       <img
                         src="/about-hero-team-2026.png"
                         alt="AlphaTrack Digital team reviewing performance dashboards"
-                        className="h-[188px] w-full object-contain object-center"
+                        className="h-[188px] w-full object-cover object-[center_12%]"
                         loading="eager"
                         width={900}
                         height={1122}
@@ -344,7 +343,7 @@ const AboutUs = () => {
           description="These ideas shape every brief, every build, and every client relationship."
           maxWidth="lg"
           className="mb-12"
-          titleClassName="text-[2rem] leading-[1.08] md:text-4xl"
+          titleClassName="leading-[1.1] md:text-4xl"
           descriptionClassName="max-w-2xl text-sm leading-6 md:text-base md:leading-7"
         />
 
@@ -380,7 +379,7 @@ const AboutUs = () => {
           description="Tracking, media, automation, and reporting work together as a single commercial system."
           maxWidth="lg"
           className="mb-7 md:mb-10"
-          titleClassName="text-[2rem] leading-[1.08] md:text-4xl"
+          titleClassName="leading-[1.1] md:text-4xl"
           descriptionClassName="max-w-2xl text-sm leading-6 md:text-base md:leading-7"
         />
 
@@ -473,7 +472,7 @@ const AboutUs = () => {
           description="Choose the shape of engagement that fits the stage you are in now, not a bloated retainer by default."
           maxWidth="lg"
           className="mb-7 md:mb-10"
-          titleClassName="text-[2rem] leading-[1.08] md:text-4xl"
+          titleClassName="leading-[1.1] md:text-4xl"
           descriptionClassName="max-w-2xl text-sm leading-6 md:text-base md:leading-7"
         />
 
@@ -495,20 +494,17 @@ const AboutUs = () => {
                     "bg-[radial-gradient(circle_at_right,rgba(51,204,153,0.06)_0%,transparent_34%)]",
                 )}
               >
-                <div className="flex items-start justify-between gap-3">
-                  <span
-                    className={cn(
-                      "rounded-full px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em]",
-                      model.label === "Growth"
-                        ? "bg-primary/16 text-primary"
-                        : "bg-white/[0.05] text-primary/90",
-                    )}
-                  >
-                    {model.label}
-                  </span>
-                  <span className="text-[11px] text-muted-foreground">{model.timeframe}</span>
-                </div>
-                <h3 className="mt-3 text-[1rem] font-semibold tracking-tight text-foreground">
+                <span
+                  className={cn(
+                    "inline-flex rounded-full border px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em]",
+                    model.label === "Growth"
+                      ? "border-primary/50 bg-primary/12 text-primary"
+                      : "border-white/[0.10] bg-white/[0.05] text-primary/90",
+                  )}
+                >
+                  {model.label}
+                </span>
+                <h3 className="mt-2.5 text-[1rem] font-semibold tracking-tight text-foreground">
                   {model.title}
                 </h3>
                 <p className="mt-2 text-[13px] leading-6 text-muted-foreground">
@@ -544,10 +540,10 @@ const AboutUs = () => {
                   <div className="flex flex-wrap items-center gap-2.5">
                     <span
                       className={cn(
-                        "rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em]",
+                        "rounded-full border px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em]",
                         model.label === "Growth"
-                          ? "bg-primary/16 text-primary"
-                          : "bg-white/[0.05] text-primary/90",
+                          ? "border-primary/50 bg-primary/12 text-primary"
+                          : "border-white/[0.10] bg-white/[0.05] text-primary/90",
                       )}
                     >
                       {model.label}
@@ -593,7 +589,7 @@ const AboutUs = () => {
             title="Where we do our strongest work."
             maxWidth="lg"
             className="mb-6 md:mb-8"
-            titleClassName="text-[2rem] leading-[1.08] md:text-4xl"
+            titleClassName="leading-[1.1] md:text-4xl"
           />
 
           <div className="relative overflow-hidden rounded-[30px] border border-white/[0.08] bg-[radial-gradient(circle_at_top_left,rgba(0,175,239,0.05),transparent_22%),radial-gradient(circle_at_82%_16%,rgba(51,204,153,0.05),transparent_20%),linear-gradient(180deg,rgba(255,255,255,0.022)_0%,rgba(255,255,255,0.008)_100%)] shadow-[0_18px_50px_rgba(0,0,0,0.12)]">
@@ -619,21 +615,21 @@ const AboutUs = () => {
                     viewport={{ once: true, margin: "-40px" }}
                   variants={fadeUp}
                   className={cn(
-                      "group relative min-h-[78px] border-white/[0.08] p-3 transition-colors duration-300 hover:bg-white/[0.02]",
+                      "group relative flex flex-col items-center justify-center border-white/[0.08] px-3 py-5 text-center transition-colors duration-300 hover:bg-white/[0.02]",
                       index >= 2 && "border-t",
                       index % 2 === 1 && "border-l",
                     )}
                   >
-                    <div className="flex h-full items-start gap-3">
+                    <div className="flex flex-col items-center gap-3">
                       <div
                         className={cn(
-                          "flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-white/[0.08] shadow-[inset_0_1px_0_rgba(255,255,255,0.03)]",
+                          "flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-white/[0.08] shadow-[inset_0_1px_0_rgba(255,255,255,0.03)]",
                           visual.accentClassName,
                         )}
                       >
-                        <Icon className="h-3.5 w-3.5" />
+                        <Icon className="h-4 w-4" />
                       </div>
-                      <h3 className="pt-0.5 text-[0.92rem] font-semibold leading-[1.18] tracking-tight text-foreground">
+                      <h3 className="text-[0.88rem] font-semibold leading-snug tracking-tight text-foreground">
                         {sector}
                       </h3>
                     </div>
@@ -705,7 +701,7 @@ const AboutUs = () => {
           className="relative overflow-hidden rounded-[28px] border border-white/[0.08] bg-[radial-gradient(circle_at_top_left,rgba(0,175,239,0.05),transparent_22%),radial-gradient(circle_at_80%_18%,rgba(51,204,153,0.05),transparent_22%),linear-gradient(180deg,rgba(255,255,255,0.022)_0%,rgba(255,255,255,0.008)_100%)] p-4 shadow-[0_18px_48px_rgba(0,0,0,0.12)] md:hidden"
         >
           <div className="pointer-events-none absolute inset-x-10 top-0 h-px bg-gradient-to-r from-transparent via-white/16 to-transparent" />
-          <div className="relative aspect-[5/4] overflow-hidden rounded-[22px] border border-white/[0.09] bg-[#0a0d12]">
+          <div className="relative aspect-[4/5] overflow-hidden rounded-[22px] border border-white/[0.09] bg-black">
             {imgError ? (
               <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-atd-blue/20 via-background to-primary/10">
                 <span className="text-5xl font-bold text-primary/40">
@@ -714,18 +710,16 @@ const AboutUs = () => {
               </div>
             ) : (
               <img
-                src="/founder-portrait-optimized.jpg"
+                src="/founder-portrait-2026.jpg"
                 alt={`${companyProfile.founder.name}, ${companyProfile.founder.title}`}
-                className="h-full w-full object-contain object-center brightness-90"
+                className="h-full w-full object-contain brightness-90"
                 loading="lazy"
                 width={760}
                 height={1140}
                 onError={() => setImgError(true)}
               />
             )}
-            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_48%,hsl(226_38%_7%/0.58)_100%)]" />
-            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-background/82 via-background/20 to-transparent" />
-            <div className="absolute bottom-3 left-3 right-3 flex items-center gap-3 rounded-xl border border-white/[0.08] bg-background/82 px-4 py-3 backdrop-blur-md">
+            <div className="absolute bottom-3 left-3 right-3 flex items-center gap-3 rounded-xl border border-white/[0.08] bg-black/70 px-4 py-3 backdrop-blur-md">
               <div className="flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden rounded-full ring-1 ring-white/10">
                 <img
                   src="/atd-circle-logo.png"
@@ -745,29 +739,20 @@ const AboutUs = () => {
             </div>
           </div>
 
-          <div className="relative mt-5">
+          <div className="relative mt-4">
             <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.22em] text-primary/90">
               The Founder
             </p>
-            <h2 className="max-w-[11ch] text-[2rem] font-bold leading-[1.04] tracking-tight text-foreground">
+            <h2 className="text-3xl font-bold leading-[1.1] tracking-tight text-foreground">
               Built from a <span className="text-gradient">clear</span> belief.
             </h2>
 
-            <div className="mt-4 space-y-3.5">
-              <p className="text-[0.98rem] leading-7 text-foreground">
+            <div className="mt-4 space-y-3">
+              <p className="text-[0.95rem] leading-7 text-foreground">
                 {founderStory.lead}
               </p>
               <p className="text-sm leading-6 text-muted-foreground">
                 {founderStory.support}
-              </p>
-            </div>
-
-            <div className="mt-4 border-t border-white/[0.08] pt-3.5">
-              <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-primary/78">
-                Approach
-              </p>
-              <p className="mt-2 text-sm leading-6 text-muted-foreground">
-                {founderStory.approach}
               </p>
             </div>
           </div>
@@ -797,7 +782,7 @@ const AboutUs = () => {
                 </div>
               ) : (
                 <img
-                  src="/founder-portrait-optimized.jpg"
+                  src="/founder-portrait-2026.jpg"
                   alt={`${companyProfile.founder.name}, ${companyProfile.founder.title}`}
                   className="h-full w-full object-cover object-[center_10%] brightness-90"
                   loading="lazy"
@@ -873,8 +858,6 @@ const AboutUs = () => {
       </PageSection>
 
       {/* ─── CTA ───────────────────────────────────────────────────────── */}
-      <NewsletterSection className="py-10 border-t border-white/10" />
-
       <CTASection
         title={
           <>
