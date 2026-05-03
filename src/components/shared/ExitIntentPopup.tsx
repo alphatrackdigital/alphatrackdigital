@@ -64,6 +64,7 @@ const ExitIntentPopup = () => {
   const [firstName, setFirstName] = useState("");
   const [email, setEmail] = useState("");
   const [website, setWebsite] = useState("");
+  const [optIn, setOptIn] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [formMessage, setFormMessage] = useState("");
 
@@ -178,6 +179,7 @@ const ExitIntentPopup = () => {
           firstName: firstName.trim(),
           email: email.trim(),
           website: website.trim(),
+          optIn,
         }),
       });
 
@@ -318,6 +320,16 @@ const ExitIntentPopup = () => {
                 </button>
 
                 {formMessage && <p className="text-sm text-destructive">{formMessage}</p>}
+
+                <label className="flex items-start gap-2 text-xs leading-5 text-muted-foreground">
+                  <input
+                    type="checkbox"
+                    checked={optIn}
+                    onChange={(event) => setOptIn(event.target.checked)}
+                    className="mt-0.5 h-4 w-4 shrink-0 rounded border border-white/20 bg-white/[0.04] accent-primary"
+                  />
+                  <span>Yes, you can also send me occasional growth insights and service updates by email.</span>
+                </label>
 
                 <p className="text-center text-xs text-muted-foreground">
                   No spam. Practical growth insights only.

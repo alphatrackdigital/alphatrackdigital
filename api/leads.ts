@@ -1,4 +1,4 @@
-type LeadSource = "contact_form" | "tracking_audit_offer";
+type LeadSource = "contact_form" | "tracking_audit_offer" | "newsletter";
 
 interface LeadPayload {
   source: LeadSource;
@@ -35,12 +35,16 @@ const requestBuckets = new Map<string, { count: number; windowStart: number }>()
 const isValidLeadPayload = (payload: unknown): payload is LeadPayload => {
   if (!payload || typeof payload !== "object") return false;
   const data = payload as Record<string, unknown>;
-  if (data.source !== "contact_form" && data.source !== "tracking_audit_offer") return false;
-  if (typeof data.firstName !== "string" || !data.firstName.trim()) return false;
-  if (typeof data.lastName !== "string" || !data.lastName.trim()) return false;
+  if (data.source !== "contact_form" && data.source !== "tracking_audit_offer" && data.source !== "newsletter") return false;
   if (typeof data.email !== "string" || !data.email.trim()) return false;
+  if (data.source !== "newsletter") {
+    if (typeof data.firstName !== "string" || !data.firstName.trim()) return false;
+    if (typeof data.lastName !== "string" || !data.lastName.trim()) return false;
+  }
   if (data.source === "contact_form") {
     if (!Array.isArray(data.serviceInterest) || data.serviceInterest.length === 0) return false;
+  }
+  if (data.source === "newsletter") {
     if (data.optIn !== true) return false;
   }
   if (data.source === "tracking_audit_offer") {
@@ -73,23 +77,18 @@ const isRateLimited = (key: string) => {
 };
 
 const buildMessageAttribute = (data: LeadPayload) => {
-  const baseMessage = data.message?.trim() || "";
-
-  if (data.source !== "contact_form") {
-    return baseMessage;
-  }
-
-  const consentNote = `Contact consent confirmed on ${new Date().toISOString()}`;
-  return baseMessage ? `${baseMessage}\n\n${consentNote}` : consentNote;
+  return data.message?.trim() || "";
 };
 
 const withConsentAttributes = (
-  attributes: Record<string, string>,
+  attributes: Record<string, string | boolean>,
   data: LeadPayload,
 ) => {
-  if (data.source !== "contact_form") {
+  if (data.optIn !== true) {
     return attributes;
   }
+
+  attributes.OPT_IN = true;
 
   const consentAttribute = process.env.BREVO_CONSENT_ATTRIBUTE?.trim();
   const consentTimestampAttribute = process.env.BREVO_CONSENT_TIMESTAMP_ATTRIBUTE?.trim();
@@ -115,7 +114,11 @@ const toBrevoPayload = (data: LeadPayload, listId: number) => ({
     WEBSITE: data.websiteUrl || "",
     AD_SPEND: data.monthlyAdSpend || "",
     AD_PLATFORMS: data.adPlatforms || "",
-    SOURCE: data.source === "contact_form" ? "Contact Form" : "Tracking Audit Landing Page",
+    SOURCE: data.source === "contact_form"
+      ? "Contact Form"
+      : data.source === "newsletter"
+        ? "Newsletter"
+        : "Tracking Audit Landing Page",
     SERVICE_INTEREST: Array.isArray(data.serviceInterest) ? data.serviceInterest.join(", ") : "",
     MONTHLY_BUDGET: data.monthlyBudget || "",
   }, data),
@@ -144,12 +147,18 @@ const handler = async (req: Req, res: Res) => {
   const brevoApiKey = process.env.BREVO_API_KEY;
   const contactListId = Number(process.env.BREVO_CONTACT_LIST_ID || "2");
   const auditListId = Number(process.env.BREVO_AUDIT_LIST_ID || "3");
+  const newsletterListId = Number(process.env.BREVO_NEWSLETTER_LIST_ID || "4");
 
   if (!brevoApiKey) {
     return res.status(500).json({ ok: false, message: "Lead service is not configured." });
   }
 
-  const listId = payload.source === "contact_form" ? contactListId : auditListId;
+  const listId =
+    payload.source === "contact_form"
+      ? contactListId
+      : payload.source === "newsletter"
+        ? newsletterListId
+        : auditListId;
 
   try {
     const brevoResponse = await fetch("https://api.brevo.com/v3/contacts", {

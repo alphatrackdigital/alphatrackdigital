@@ -36,6 +36,7 @@ const auditSchema = z.object({
   websiteUrl: z.string().trim().url("Enter a valid URL").max(500),
   monthlyAdSpend: z.string().min(1, "Select your spend level"),
   adPlatforms: z.array(z.string()).min(1, "Select at least one platform"),
+  marketingOptIn: z.boolean().optional().default(false),
 });
 
 type AuditFormData = z.infer<typeof auditSchema>;
@@ -257,7 +258,7 @@ const TrackingLandingPage = () => {
     formState: { errors },
   } = useForm<AuditFormData>({
     resolver: zodResolver(auditSchema),
-    defaultValues: { monthlyAdSpend: "", adPlatforms: [] },
+    defaultValues: { monthlyAdSpend: "", adPlatforms: [], marketingOptIn: false },
   });
 
   const handleFirstInteraction = () => {
@@ -291,6 +292,7 @@ const TrackingLandingPage = () => {
         websiteUrl: data.websiteUrl,
         monthlyAdSpend: data.monthlyAdSpend,
         adPlatforms: data.adPlatforms.join(", "),
+        optIn: data.marketingOptIn === true,
       });
       setSubmittedEmail(data.email);
       setIsSubmitted(true);
@@ -675,6 +677,21 @@ const TrackingLandingPage = () => {
                       We use these details only to review your request and reply. If we need deeper
                       access before we can verify something, we will say so before making
                       assumptions.
+                    </div>
+
+                    <div className="flex items-start gap-3">
+                      <input
+                        type="checkbox"
+                        id="f-marketing-opt-in"
+                        className="mt-0.5 h-4 w-4 shrink-0 rounded border border-white/20 bg-white/5 accent-primary"
+                        {...register("marketingOptIn")}
+                      />
+                      <label
+                        htmlFor="f-marketing-opt-in"
+                        className="cursor-pointer text-[13.5px] leading-6 text-muted-foreground sm:text-sm"
+                      >
+                        Yes, you can also send me occasional insights and service updates by email.
+                      </label>
                     </div>
 
                     <Button
