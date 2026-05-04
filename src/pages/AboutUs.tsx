@@ -114,12 +114,12 @@ const AboutUs = () => {
                 <span className="inline-flex w-fit items-center rounded-full border border-white/[0.10] bg-white/[0.03] px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-primary/90 md:text-[11px] md:tracking-[0.18em]">
                   About Us
                 </span>
-                <p className="mt-5 text-[10px] font-semibold uppercase tracking-[0.16em] text-white/36 md:mt-8 md:text-[12px] md:tracking-[0.18em]">
+                <p className="mt-9 text-[10px] font-semibold uppercase tracking-[0.16em] text-white/36 md:mt-8 md:text-[12px] md:tracking-[0.18em]">
                   We are
                 </p>
-                <h1 className="mt-2 max-w-xl text-[2.35rem] font-bold tracking-tight text-foreground sm:text-[3.3rem] lg:text-[4.35rem] lg:tracking-[-0.04em]">
-                  <span className="block leading-[0.94]">AlphaTrack</span>
-                  <span className="mt-1 block w-fit pb-[0.14em] leading-[0.9] text-gradient">
+                <h1 className="mt-2 max-w-xl whitespace-nowrap text-[2.08rem] font-bold tracking-tight text-foreground sm:text-[3.3rem] lg:text-[4.35rem] lg:tracking-[-0.04em]">
+                  <span className="inline leading-[0.94] sm:block">AlphaTrack</span>
+                  <span className="ml-2 inline w-fit pb-[0.14em] leading-[0.9] text-gradient sm:ml-0 sm:mt-1 sm:block">
                     Digital
                   </span>
                 </h1>
@@ -155,7 +155,7 @@ const AboutUs = () => {
                 <div className="relative mt-7 md:hidden">
                   <div className="relative overflow-hidden rounded-[18px] border border-white/[0.08] bg-[#0f1115] shadow-[0_14px_34px_rgba(0,0,0,0.16)]">
                     {heroImgError ? (
-                      <div className="flex h-[204px] items-center justify-center bg-[radial-gradient(circle_at_top,rgba(0,175,239,0.12)_0%,rgba(17,17,20,0.92)_62%)]">
+                      <div className="flex h-[330px] items-center justify-center bg-[radial-gradient(circle_at_top,rgba(0,175,239,0.12)_0%,rgba(17,17,20,0.92)_62%)]">
                         <span className="text-center text-sm uppercase tracking-[0.22em] text-white/55">
                           Team Visual
                         </span>
@@ -164,7 +164,7 @@ const AboutUs = () => {
                       <img
                         src="/about-hero-team-2026.png"
                         alt="AlphaTrack Digital team reviewing performance dashboards"
-                        className="h-[204px] w-full object-cover object-[center_12%]"
+                        className="h-[330px] w-full object-cover object-[center_12%]"
                         loading="eager"
                         width={900}
                         height={1122}
@@ -326,56 +326,54 @@ const AboutUs = () => {
           transition={{ duration: shouldReduceMotion ? 0 : 0.55 }}
           className="md:hidden"
         >
-          <div className="grid min-h-[176px] grid-cols-[36%_1fr] items-stretch gap-3">
-            <div className="relative overflow-hidden rounded-[14px] border border-white/[0.09] bg-black">
-              {imgError ? (
-                <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-atd-blue/20 via-background to-primary/10">
-                  <span className="text-2xl font-bold text-primary/40">
-                    {companyProfile.founder.name.split(" ").map((n) => n[0]).join("")}
-                  </span>
-                </div>
-              ) : (
-                <img
-                  src="/founder-portrait-2026.jpg"
-                  alt={`${companyProfile.founder.name}, ${companyProfile.founder.title}`}
-                  className="h-full w-full object-cover object-top brightness-90"
-                  loading="lazy"
-                  width={760}
-                  height={1140}
-                  onError={() => setImgError(true)}
-                />
-              )}
-            </div>
-
-            <div className="flex flex-1 flex-col">
-              <div>
-                <p className="mb-1.5 text-[9px] font-semibold uppercase tracking-[0.2em] text-primary/90">
-                  The Founder
-                </p>
-                <h2 className="text-[1rem] font-bold leading-[1.18] tracking-tight text-foreground">
-                  Founder-led and measurement-first.
-                </h2>
-                <p className="mt-2 line-clamp-4 text-[0.72rem] leading-[1.5] text-muted-foreground">
-                  {founderStory.lead}
-                </p>
+          {/* Photo */}
+          <div className="relative h-[240px] overflow-hidden rounded-[16px] border border-white/[0.09] bg-black">
+            {imgError ? (
+              <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-atd-blue/20 via-background to-primary/10">
+                <span className="text-3xl font-bold text-primary/40">
+                  {companyProfile.founder.name.split(" ").map((n) => n[0]).join("")}
+                </span>
               </div>
-              <div className="mt-auto flex items-center gap-2 border-t border-white/[0.06] pt-2.5">
-                <div className="flex h-6 w-6 shrink-0 items-center justify-center overflow-hidden rounded-full ring-1 ring-white/10">
-                  <img
-                    src="/atd-circle-logo.png"
-                    alt="AlphaTrack Digital logo"
-                    className="h-full w-full object-cover"
-                    loading="lazy"
-                  />
-                </div>
-                <div>
-                  <p className="text-[0.72rem] font-semibold leading-tight text-foreground">
-                    {companyProfile.founder.name}
-                  </p>
-                  <p className="whitespace-nowrap text-[0.65rem] leading-tight text-muted-foreground">
-                    {founderDisplayTitle}
-                  </p>
-                </div>
+            ) : (
+              <img
+                src="/founder-portrait-2026.jpg"
+                alt={`${companyProfile.founder.name}, ${companyProfile.founder.title}`}
+                className="h-full w-full object-cover object-top brightness-90"
+                loading="lazy"
+                width={760}
+                height={1140}
+                onError={() => setImgError(true)}
+              />
+            )}
+          </div>
+
+          {/* Text */}
+          <div className="mt-5">
+            <p className="mb-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-primary/90">
+              The Founder
+            </p>
+            <h2 className="text-2xl font-bold leading-[1.15] tracking-tight text-foreground">
+              Founder-led.<br />Measurement-first.
+            </h2>
+            <p className="mt-3 text-sm leading-6 text-muted-foreground">
+              {founderStory.lead}
+            </p>
+            <div className="mt-5 flex items-center gap-3 border-t border-white/[0.07] pt-4">
+              <div className="flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden rounded-full ring-1 ring-white/10">
+                <img
+                  src="/atd-circle-logo.png"
+                  alt="AlphaTrack Digital logo"
+                  className="h-full w-full object-cover"
+                  loading="lazy"
+                />
+              </div>
+              <div>
+                <p className="text-sm font-semibold leading-tight text-foreground">
+                  {companyProfile.founder.name}
+                </p>
+                <p className="mt-0.5 text-xs text-muted-foreground">
+                  {founderDisplayTitle}
+                </p>
               </div>
             </div>
           </div>
