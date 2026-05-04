@@ -158,8 +158,10 @@ const FooterNewsletter = () => {
 const Footer = () => {
   return (
     <footer className="border-t border-white/10 bg-[#070a10]">
-      <div className="container mx-auto px-4 pt-0 pb-8 md:pb-16 lg:px-8">
-        <FooterNewsletter />
+      <div className="container mx-auto px-4 pb-8 pt-6 md:pb-16 md:pt-0 lg:px-8">
+        <div className="hidden md:block">
+          <FooterNewsletter />
+        </div>
         <div className="grid grid-cols-2 gap-x-6 gap-y-6 md:grid-cols-2 md:gap-12 lg:grid-cols-4">
           <div className="col-span-2 space-y-2.5 md:col-span-2 lg:col-span-1 lg:space-y-4">
             <Link to="/" aria-label="AlphaTrack Digital Home" className="inline-flex items-center">
