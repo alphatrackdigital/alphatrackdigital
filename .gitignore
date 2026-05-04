@@ -39,3 +39,5 @@ devserver-*.err
 .tmp-backend-deploy/
 
 .playwright-mcp/
+devserver.*.err
+devserver.*.out
