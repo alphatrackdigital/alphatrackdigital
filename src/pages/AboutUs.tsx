@@ -102,7 +102,7 @@ const AboutUs = () => {
         <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/12 to-transparent" />
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(51,204,153,0.08)_0%,transparent_32%),radial-gradient(circle_at_bottom_right,rgba(0,175,239,0.08)_0%,transparent_30%)]" />
 
-        <div className="container relative mx-auto px-4 lg:px-8">
+        <div className="container relative mx-auto px-5 sm:px-6 lg:px-8">
           <div className="mx-auto grid max-w-6xl items-stretch gap-6 md:gap-6 lg:grid-cols-[minmax(0,1.02fr)_minmax(360px,0.88fr)]">
             <motion.div
               initial={shouldReduceMotion ? false : { opacity: 0, y: 18 }}
@@ -209,7 +209,7 @@ const AboutUs = () => {
       </section>
 
       {/* ─── Founder ───────────────────────────────────────────────────── */}
-      <PageSection mode="content" border="top" spacing="default" surface="glow">
+      <PageSection mode="content" border="top" spacing="default" surface="glow" containerClassName="px-5 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-6xl">
           <motion.div
             initial={shouldReduceMotion ? false : { opacity: 0, y: 16 }}
@@ -266,7 +266,7 @@ const AboutUs = () => {
       </PageSection>
 
       {/* ─── Manifesto + Core Values ───────────────────────────────────── */}
-      <PageSection mode="content" spacing="default" border="top" surface="quiet">
+      <PageSection mode="content" spacing="default" border="top" surface="quiet" containerClassName="px-5 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-4xl text-center">
           <motion.p
             initial={shouldReduceMotion ? false : { opacity: 0, y: 12 }}
@@ -318,7 +318,7 @@ const AboutUs = () => {
       </PageSection>
 
       {/* ─── CTA ───────────────────────────────────────────────────────── */}
-      <PageSection mode="content" border="top" spacing="compact">
+      <PageSection mode="content" border="top" spacing="compact" containerClassName="px-5 sm:px-6 lg:px-8">
         <motion.div
           initial={shouldReduceMotion ? false : { opacity: 0, y: 18 }}
           whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
@@ -327,7 +327,7 @@ const AboutUs = () => {
           className="md:hidden"
         >
           {/* Photo */}
-          <div className="relative h-[240px] overflow-hidden rounded-[16px] border border-white/[0.09] bg-black">
+          <div className="relative h-[240px] overflow-hidden rounded-[16px] border border-white/[0.09] bg-black mx-1">
             {imgError ? (
               <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-atd-blue/20 via-background to-primary/10">
                 <span className="text-3xl font-bold text-primary/40">
@@ -348,7 +348,7 @@ const AboutUs = () => {
           </div>
 
           {/* Text */}
-          <div className="mt-5">
+          <div className="mt-5 px-1">
             <p className="mb-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-primary/90">
               The Founder
             </p>
