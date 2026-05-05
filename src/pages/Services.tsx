@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Check, Filter, Target, TrendingUp } from "lucide-react";
+import { Check } from "lucide-react";
 import { motion, useReducedMotion } from "framer-motion";
 
 import CTASection from "@/components/shared/CTASection";
@@ -10,7 +10,7 @@ import { BOOK_A_FREE_STRATEGY_CALL_CTA, REQUEST_A_FREE_TRACKING_AUDIT_CTA } from
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { prefetchRoute } from "@/lib/routePrefetch";
-import { ctmaFramework, engagementModels, tractionMetrics, whyChoosePoints } from "@/data/companyProfile";
+import { ctmaFramework, engagementModels, tractionMetrics } from "@/data/companyProfile";
 import { primaryServices, supportingServices } from "@/data/services";
 
 const fadeUp = {
@@ -213,7 +213,7 @@ const Services = () => {
                     </div>
                     <div className="min-w-0 lg:flex lg:h-full lg:flex-col lg:self-stretch">
                       <h4 className="truncate text-[15px] font-semibold md:truncate-none">{service.title}</h4>
-                      <p className="mt-2 line-clamp-2 text-[13px] leading-6 text-muted-foreground lg:line-clamp-none">
+                      <p className="mt-2 text-[13px] leading-6 text-muted-foreground">
                         {service.description}
                       </p>
                       <span className="mt-2.5 inline-flex items-center gap-1 text-xs font-medium text-primary/80 transition-colors group-hover:text-primary sm:mt-4 lg:pt-3">
@@ -404,137 +404,6 @@ const Services = () => {
                 </div>
               </motion.div>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* How We Think */}
-      <section className="border-t border-white/10 py-12 md:py-20">
-        <div className="container mx-auto px-6 lg:px-8">
-          <SectionIntro
-            eyebrow="How We Think"
-            mode="content"
-            title="Three principles we don't compromise on."
-            description="These ideas shape every brief, every build, and every client relationship."
-            maxWidth="lg"
-            className="mb-5 md:mb-10"
-            titleClassName="text-[1.65rem] leading-[1.12] md:text-4xl"
-            descriptionClassName="hidden max-w-2xl text-sm leading-6 sm:block md:text-base md:leading-7"
-          />
-
-          {/* Desktop diagram */}
-          <div className="relative hidden lg:block" style={{ height: "360px" }}>
-
-            {/* SVG connector lines, static dashed, no animation */}
-            {/* viewBox 1100x360; nodes: w=28%, left=[0%,35.5%,71%], top=[10px,30px,10px], no card padding
-                icon ring 72px → icon right/left edges from node left:
-                P1 right x=72, y=46  |  P2 left x=390, right x=462, y=66  |  P3 left x=781, y=46 */}
-            <svg
-              className="pointer-events-none absolute inset-0 h-full w-full"
-              viewBox="0 0 1100 360"
-              preserveAspectRatio="none"
-              fill="none"
-            >
-              <defs>
-                <linearGradient id="hwt-g1" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor="#003399" stopOpacity="0.55" />
-                  <stop offset="55%" stopColor="#00AFEF" stopOpacity="0.5" />
-                  <stop offset="100%" stopColor="#33CC99" stopOpacity="0.4" />
-                </linearGradient>
-                <linearGradient id="hwt-g2" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor="#00AFEF" stopOpacity="0.5" />
-                  <stop offset="100%" stopColor="#33CC99" stopOpacity="0.55" />
-                </linearGradient>
-                <filter id="hwt-glow" x="-20%" y="-80%" width="140%" height="260%">
-                  <feGaussianBlur in="SourceGraphic" stdDeviation="2.5" result="blur" />
-                  <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
-                </filter>
-              </defs>
-              {/* Connector 1 */}
-              <path d="M 72 46 C 220 46, 270 66, 390 66" stroke="url(#hwt-g1)" strokeWidth="2" strokeDasharray="10 7" filter="url(#hwt-glow)" />
-              {/* Connector 2 */}
-              <path d="M 462 66 C 610 66, 660 46, 781 46" stroke="url(#hwt-g2)" strokeWidth="2" strokeDasharray="10 7" filter="url(#hwt-glow)" />
-              {/* Terminal dots */}
-              <circle cx="72"  cy="46" r="3.5" fill="#003399" opacity="0.7" />
-              <circle cx="390" cy="66" r="3.5" fill="#00AFEF" opacity="0.7" />
-              <circle cx="462" cy="66" r="3.5" fill="#00AFEF" opacity="0.7" />
-              <circle cx="781" cy="46" r="3.5" fill="#33CC99" opacity="0.7" />
-            </svg>
-
-            {/* Principle nodes */}
-            {whyChoosePoints.map((item, i) => {
-                const nodeStyles = [
-                  { left: "0%",    top: "10px" },
-                  { left: "35.5%", top: "30px" },
-                  { left: "71%",   top: "10px" },
-                ] as const;
-                const NodeIcon = [Target, TrendingUp, Filter][i];
-                return (
-                  <motion.div
-                    key={item.title}
-                    custom={i}
-                    initial={shouldReduceMotion ? false : "hidden"}
-                    whileInView={shouldReduceMotion ? undefined : "visible"}
-                    viewport={{ once: true, margin: "-40px" }}
-                    variants={fadeUp}
-                    style={{ position: "absolute", width: "28%", ...nodeStyles[i] }}
-                  >
-                    {/* Icon ring */}
-                    <motion.div
-                      style={{
-                        background: "linear-gradient(135deg, #003399, #00AFEF, #33CC99)",
-                        padding: "2px",
-                        borderRadius: "50%",
-                        width: "72px",
-                        height: "72px",
-                        marginBottom: "18px",
-                      }}
-                      animate={shouldReduceMotion ? {} : {
-                        boxShadow: [
-                          "0 0 0 0 rgba(0,175,239,0.18)",
-                          "0 0 0 10px rgba(0,175,239,0)",
-                          "0 0 0 0 rgba(0,175,239,0.18)",
-                        ],
-                      }}
-                      transition={{ duration: 3.2, repeat: Infinity, delay: i * 1, ease: "easeInOut" }}
-                    >
-                      <div className="flex h-full w-full items-center justify-center rounded-full" style={{ background: "rgba(8,13,26,0.85)" }}>
-                        <NodeIcon className="h-7 w-7 text-primary" />
-                      </div>
-                    </motion.div>
-                    <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.22em] text-primary/75">0{i + 1}</p>
-                    <h3 className="mb-2.5 text-[1.2rem] font-semibold leading-snug text-foreground">{item.title}</h3>
-                    <p className="text-[13.5px] leading-[1.7] text-muted-foreground">{item.description}</p>
-                  </motion.div>
-                );
-            })}
-          </div>
-
-          {/* Mobile / tablet editorial list */}
-          <div className="border-y border-white/[0.08] divide-y divide-white/[0.08] lg:hidden">
-            {whyChoosePoints.map((item, i) => {
-              const MobileIcon = [Target, TrendingUp, Filter][i];
-              return (
-                <motion.div
-                  key={item.title}
-                  custom={i}
-                  initial={shouldReduceMotion ? false : "hidden"}
-                  whileInView={shouldReduceMotion ? undefined : "visible"}
-                  viewport={{ once: true, margin: "-40px" }}
-                  variants={fadeUp}
-                  className="grid grid-cols-[42px_minmax(0,1fr)] items-start gap-4 py-5 sm:grid-cols-[64px_minmax(0,1fr)] sm:py-6"
-                >
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full border border-primary/30 bg-primary/[0.04] sm:h-12 sm:w-12">
-                      <MobileIcon className="h-5 w-5 text-primary" />
-                  </div>
-                  <div className="min-w-0">
-                    <div className="mb-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-primary/80 sm:mb-2 sm:text-[11px] sm:tracking-[0.22em]">0{i + 1}</div>
-                    <h3 className="text-base font-semibold leading-snug text-foreground sm:text-lg">{item.title}</h3>
-                    <p className="mt-1.5 text-[13px] leading-6 text-muted-foreground sm:text-sm sm:leading-7">{item.description}</p>
-                  </div>
-                </motion.div>
-              );
-            })}
           </div>
         </div>
       </section>
