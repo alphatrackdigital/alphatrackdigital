@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
-import { BadgeCheck, Eye, Handshake, Lightbulb, Sparkles } from "lucide-react";
+import { BadgeCheck, Eye, Filter, Handshake, Lightbulb, Sparkles, Target, TrendingUp } from "lucide-react";
 
 import CTASection from "@/components/shared/CTASection";
 import PageSection from "@/components/shared/PageSection";
 import SEO from "@/components/shared/SEO";
-import { companyProfile } from "@/data/companyProfile";
+import { companyProfile, whyChoosePoints } from "@/data/companyProfile";
 
 const founderStory = {
   lead:
@@ -69,6 +69,8 @@ const valueDetails = [
     colorClassName: "border-sky-300/35 bg-sky-300/10 text-sky-200",
   },
 ] as const;
+
+const principleIcons = [Target, TrendingUp, Filter] as const;
 
 const AboutUs = () => {
   const shouldReduceMotion = useReducedMotion();
@@ -317,7 +319,62 @@ const AboutUs = () => {
         </motion.div>
       </PageSection>
 
-      {/* ─── CTA ───────────────────────────────────────────────────────── */}
+      {/* How We Think */}
+      <PageSection mode="content" spacing="default" border="top" surface="default" containerClassName="px-6 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-6xl">
+          <motion.div
+            initial={shouldReduceMotion ? false : { opacity: 0, y: 16 }}
+            whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: shouldReduceMotion ? 0 : 0.45 }}
+            className="max-w-3xl"
+          >
+            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-primary/85">
+              How We Think
+            </p>
+            <h2 className="mt-4 max-w-3xl text-[1.75rem] font-bold leading-[1.1] tracking-tight text-foreground md:text-[2.6rem]">
+              Three principles we do not compromise on.
+            </h2>
+            <p className="mt-4 max-w-2xl text-sm leading-6 text-muted-foreground md:text-base md:leading-7">
+              These ideas shape every brief, every build, and every client relationship.
+            </p>
+          </motion.div>
+
+          <div className="mt-8 border-y border-white/[0.08] md:mt-12 md:grid md:grid-cols-3">
+            {whyChoosePoints.map((item, index) => {
+              const PrincipleIcon = principleIcons[index];
+
+              return (
+                <motion.article
+                  key={item.title}
+                  initial={shouldReduceMotion ? false : { opacity: 0, y: 16 }}
+                  whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-60px" }}
+                  transition={{ duration: shouldReduceMotion ? 0 : 0.45, delay: shouldReduceMotion ? 0 : index * 0.06 }}
+                  className="grid grid-cols-[42px_minmax(0,1fr)] gap-4 py-6 md:block md:border-l md:border-white/[0.08] md:px-7 md:py-8 first:md:border-l-0"
+                >
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full border border-primary/30 bg-primary/[0.04] md:h-12 md:w-12">
+                    <PrincipleIcon className="h-5 w-5 text-primary" />
+                  </div>
+                  <div className="min-w-0">
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-primary/80 md:mt-5">
+                      0{index + 1}
+                    </p>
+                    <h3 className="mt-1.5 text-base font-semibold leading-snug text-foreground md:mt-2 md:text-lg">
+                      {item.title}
+                    </h3>
+                    <p className="mt-2 text-[13px] leading-6 text-muted-foreground md:text-sm md:leading-7">
+                      {item.description}
+                    </p>
+                  </div>
+                </motion.article>
+              );
+            })}
+          </div>
+        </div>
+      </PageSection>
+
+      {/* Founder */}
       <PageSection mode="content" border="top" spacing="compact" containerClassName="px-6 sm:px-6 lg:px-8">
         <motion.div
           initial={shouldReduceMotion ? false : { opacity: 0, y: 18 }}
