@@ -88,7 +88,7 @@ const CTASection = ({
             className={cn(
               "flex gap-6 md:gap-8",
               containerIsSplit
-                ? "flex-col items-start justify-between lg:flex-row lg:items-center"
+                ? "flex-col items-center justify-between lg:flex-row lg:items-center"
                 : "flex-col items-center text-center",
             )}
           >
@@ -96,10 +96,10 @@ const CTASection = ({
               eyebrow={variant === "service-close" ? "Next Step" : undefined}
               title={title}
               description={variant === "service-close" && !resolvedSecondaryCta ? undefined : description}
-              align={containerIsSplit ? "left" : "center"}
+              align="center"
               width={variant === "hero-close" ? "wide" : "default"}
               className={cn(
-                containerIsSplit ? "max-w-2xl" : "w-full",
+                containerIsSplit ? "max-w-2xl lg:text-left" : "w-full",
                 variant === "inline-proof" && !containerIsSplit && "max-w-2xl",
                 variant === "hero-close" && !containerIsSplit && "max-w-3xl",
               )}

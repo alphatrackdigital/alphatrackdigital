@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
 import {
-  Megaphone,
   Target,
   BarChart3,
   Users,
@@ -261,11 +260,10 @@ const PaidMedia = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.55 }}
             >
-              <div className="inline-flex items-center gap-2 rounded-md border border-primary/15 bg-primary/[0.07] px-4 py-2 text-xs font-semibold uppercase tracking-widest text-primary">
-                <Megaphone className="h-4 w-4" />
+              <span className="mb-5 inline-block text-xs font-semibold uppercase tracking-[0.2em] text-primary">
                 Paid Media Management
-              </div>
-              <h1 className="title-safe mt-8 pb-4 text-5xl font-extrabold leading-[1.14] tracking-[-0.035em] md:pb-5 md:text-6xl lg:text-[4.5rem]">
+              </span>
+              <h1 className="title-safe pb-4 text-5xl font-extrabold leading-[1.14] tracking-[-0.035em] md:pb-5 md:text-6xl lg:text-[4.5rem]">
                 Paid Media That{" "}
                 <span className="title-safe-inline text-gradient">Proves Its Value</span>
               </h1>

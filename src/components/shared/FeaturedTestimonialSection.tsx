@@ -58,7 +58,7 @@ const FeaturedTestimonialSection = ({
           </div>
 
           <blockquote className="relative mt-5 text-[0.88rem] leading-[1.72] text-foreground">
-            "{featuredTestimonial.quote}"
+            {featuredTestimonial.quote}
           </blockquote>
 
           <div className="relative mt-5 border-t border-white/10 pt-4">
@@ -67,7 +67,7 @@ const FeaturedTestimonialSection = ({
           </div>
         </motion.div>
 
-        <div className="hidden gap-4 lg:grid lg:grid-cols-[248px_minmax(0,1fr)] lg:items-stretch">
+        <div className="mx-auto hidden max-w-4xl gap-4 lg:grid lg:grid-cols-[248px_minmax(0,1fr)] lg:items-stretch">
           <motion.div
             initial={shouldReduceMotion ? false : { opacity: 0, y: 18 }}
             whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
@@ -118,11 +118,11 @@ const FeaturedTestimonialSection = ({
           >
             <Quote className="relative mb-5 h-7 w-7 text-primary/35" />
             <blockquote className="relative max-w-[60ch] text-base leading-[1.8] text-foreground md:text-[1.14rem] md:leading-[1.72]">
-              "{featuredTestimonial.quote}"
+              {featuredTestimonial.quote}
             </blockquote>
-            <div className="relative mt-6 flex flex-wrap items-start gap-x-3 gap-y-1 border-t border-white/10 pt-5">
+            <div className="relative mt-6 border-t border-white/10 pt-5">
               <p className="text-sm font-semibold text-foreground">{featuredTestimonial.name}</p>
-              <p className="text-xs text-muted-foreground/88">{featuredTestimonial.title}</p>
+              <p className="mt-0.5 text-xs text-muted-foreground/88">{featuredTestimonial.title}</p>
             </div>
           </motion.div>
         </div>
