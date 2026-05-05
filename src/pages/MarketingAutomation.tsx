@@ -2,10 +2,24 @@ import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
 import {
-  Settings,
+  AlertCircle,
+  ArrowRight,
+  ArrowUpRight,
+  BadgeCheck,
+  Bell,
+  BookOpen,
+  ClipboardCheck,
+  FileText,
+  GitBranch,
   Link2,
-  Building,
+  MailCheck,
+  Route,
+  Settings,
+  ShieldCheck,
+  Sparkles,
   TrendingUp,
+  Users,
+  Wrench,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Breadcrumbs from "@/components/shared/Breadcrumbs";
@@ -17,119 +31,29 @@ import { BOOK_A_FREE_STRATEGY_CALL_CTA } from "@/config/cta";
 import type { LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-interface IconCard {
-  icon: LucideIcon;
-  title: string;
-  description: string;
-}
-
 interface PremiumLinkCard {
   icon: LucideIcon;
-  label: string;
   title: string;
+  label: string;
   description: string;
+  shortDescription: string;
   path: string;
   ctaLabel: string;
   surfaceClassName: string;
 }
 
 const processSteps = [
-  { num: 1, title: "Map the journey", description: "We identify the drop-off points that should be automated first." },
-  { num: 2, title: "Build the workflows", description: "CRM stages, scoring, and follow-up logic are configured around your sales process." },
-  { num: 3, title: "Test every handoff", description: "Each workflow is validated end to end before anything goes live." },
-  { num: 4, title: "Handover clearly", description: "Your team gets documentation and practical training for day-to-day use." },
+  { num: 1, title: "Journey Mapping", description: "We map enquiry sources, CRM stages, handoffs, and the points where leads currently slow down or disappear." },
+  { num: 2, title: "Workflow Design", description: "We define triggers, segments, scoring rules, notifications, and messages around your real sales process." },
+  { num: 3, title: "Build & Integration", description: "We connect forms, CRM fields, email sequences, routing rules, and the tools needed to keep follow-up moving." },
+  { num: 4, title: "QA & Handover", description: "Every workflow is tested end to end, documented clearly, and handed over with practical team guidance." },
 ];
 
-const tiers = [
-  {
-    tierLabel: "Tier 1",
-    name: "Starter",
-    description: "Businesses with manual lead follow-up",
-    price: "£800",
-    priceNote: "from",
-    features: [
-      "Brevo CRM setup and configuration",
-      "Lead form integration (website to CRM)",
-      "1 automated email sequence (welcome/nurture)",
-      "Basic contact segmentation",
-      "New lead notification workflows",
-      "Documentation and handover",
-    ],
-  },
-  {
-    tierLabel: "Tier 2",
-    name: "Growth",
-    description: "Businesses scaling lead generation",
-    price: "£1,800",
-    priceNote: "from",
-    features: [
-      "Everything in Starter",
-      "Multiple email sequences (nurture, re-engage)",
-      "Lead scoring rules",
-      "Multi-channel automation (email + SMS)",
-      "A/B testing on sequences",
-      "Monthly performance review",
-    ],
-    highlighted: true,
-    highlightLabel: "POPULAR",
-  },
-  {
-    tierLabel: "Tier 3",
-    name: "Advanced",
-    description: "Complex sales processes and integrations",
-    price: "£3,500",
-    priceNote: "from",
-    features: [
-      "Everything in Growth",
-      "Custom conditional workflows",
-      "CRM reporting dashboards",
-      "API integrations with other tools",
-      "Advanced segmentation and personalisation",
-      "Ongoing optimisation support",
-    ],
-  },
-];
-
-const whyCards: IconCard[] = [
-  {
-    icon: Settings,
-    title: "Built on Brevo",
-    description: "Brevo gives CRM, email, automation, and meetings in one platform at a fraction of many enterprise alternatives.",
-  },
-  {
-    icon: Link2,
-    title: "Paired With Tracking",
-    description: "We are the same team that builds your conversion tracking, so you get full visibility from click to close.",
-  },
-  {
-    icon: Building,
-    title: "We Use It Ourselves",
-    description: "Our own lead capture, CRM, and automation stack runs on the same platform we implement for clients.",
-  },
-  {
-    icon: TrendingUp,
-    title: "Designed to Scale",
-    description: "Start simple, then grow into scoring, multi-channel automation, and advanced workflows without rebuilding.",
-  },
-];
-
-const automationPriorities = [
-  {
-    title: "Lead capture and routing",
-    description: "Forms, notifications, and CRM creation should happen instantly so new enquiries never sit in limbo.",
-  },
-  {
-    title: "Follow-up sequences",
-    description: "Welcome, nurture, and reminder flows keep the conversation moving while your team focuses on higher-value work.",
-  },
-  {
-    title: "Sales handoff and scoring",
-    description: "The right leads should be surfaced at the right moment with context your team can act on quickly.",
-  },
-  {
-    title: "Re-engagement and retention",
-    description: "Automation should not stop at first contact. It should help revive cold leads and support repeat business too.",
-  },
+const whyCards = [
+  { title: "Built Around Your Sales Process", description: "The workflow logic reflects how your team qualifies, follows up, and closes leads." },
+  { title: "Tracking and CRM Work Together", description: "Automation becomes more useful when lead source, campaign quality, and CRM stages connect." },
+  { title: "Simple First, Scalable Later", description: "We start with the highest-impact workflows, then leave room for scoring, segmentation, and deeper lifecycle logic." },
+  { title: "Clear Handover and Ownership", description: "You own the account, workflows, documentation, and day-to-day operating knowledge after launch." },
 ];
 
 const connectedServices: PremiumLinkCard[] = [
@@ -137,7 +61,8 @@ const connectedServices: PremiumLinkCard[] = [
     icon: Link2,
     label: "Measurement foundation",
     title: "Conversion Tracking",
-    description: "Know which channels bring the leads worth automating, and which journeys need follow-up first.",
+    shortDescription: "Know which leads are worth automating.",
+    description: "Tracking shows which campaigns and conversion paths bring the leads worth prioritising, scoring, and nurturing.",
     path: "/service/conversion-tracking",
     ctaLabel: "See Conversion Tracking",
     surfaceClassName:
@@ -147,11 +72,12 @@ const connectedServices: PremiumLinkCard[] = [
     icon: TrendingUp,
     label: "Lifecycle messaging",
     title: "Email Marketing",
-    description: "Turn CRM logic into stronger welcome, recovery, and lifecycle email programmes once the workflow foundation is in place.",
+    shortDescription: "Turn workflow logic into stronger messaging.",
+    description: "Once the CRM and workflow foundation is clear, email marketing can support welcome, recovery, nurture, and retention journeys.",
     path: "/service/email-marketing",
     ctaLabel: "See Email Marketing",
     surfaceClassName:
-      "bg-[linear-gradient(180deg,rgba(51,204,153,0.14)_0%,rgba(0,175,239,0.04)_48%,rgba(255,255,255,0.015)_100%)]",
+      "bg-[linear-gradient(180deg,rgba(51,204,153,0.16)_0%,rgba(0,175,239,0.04)_48%,rgba(255,255,255,0.015)_100%)]",
   },
 ];
 
@@ -209,10 +135,10 @@ const MarketingAutomation = () => {
         </script>
       </Helmet>
 
-      {/* ── Hero ── */}
+      {/* Hero */}
       <section className="relative overflow-hidden pt-8 pb-24 text-center md:pt-10 md:pb-28">
         <div className="pointer-events-none absolute inset-0">
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_55%_at_50%_-5%,rgba(51,204,153,0.11)_0%,rgba(0,51,153,0.07)_45%,transparent_70%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_55%_at_50%_-5%,rgba(51,204,153,0.13)_0%,rgba(0,51,153,0.07)_45%,transparent_70%)]" />
           <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
         </div>
         <div className="container relative z-10 mx-auto px-4 lg:px-8">
@@ -233,81 +159,291 @@ const MarketingAutomation = () => {
               <span className="mb-5 inline-block text-xs font-semibold uppercase tracking-[0.2em] text-primary">
                 Marketing Automation & CRM
               </span>
-              <h1 className="title-safe pb-4 text-5xl font-extrabold leading-[1.14] tracking-[-0.035em] md:pb-5 md:text-6xl lg:text-[4.5rem]">
-                Capture the Lead.{" "}
-                <span className="title-safe-inline text-gradient">Nurture the Sale.</span>
+              <h1 className="title-safe pb-4 text-5xl font-extrabold leading-[1.14] tracking-[-0.035em] md:pb-5 md:text-6xl lg:text-[4.65rem]">
+                <span className="block">Capture the Lead.</span>
+                <span className="title-safe-inline mt-1 block text-gradient">Nurture the Sale.</span>
               </h1>
               <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-muted-foreground">
-                We build the automated workflows, email sequences, and CRM systems that turn captured leads into paying clients, without the manual bottlenecks slowing your team down.
+                We build the automated workflows, email sequences, and CRM systems that turn captured leads into paying clients without manual bottlenecks slowing your team down.
               </p>
               <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
                 <Button asChild size="lg" className="gap-2 rounded-xl bg-primary px-9 text-primary-foreground hover:bg-primary/90">
-                  <Link to={BOOK_A_FREE_STRATEGY_CALL_CTA.to}>{BOOK_A_FREE_STRATEGY_CALL_CTA.label}</Link>
+                  <Link to={BOOK_A_FREE_STRATEGY_CALL_CTA.to}>
+                    {BOOK_A_FREE_STRATEGY_CALL_CTA.label}
+                  </Link>
                 </Button>
-              </div>
-              {/* Quick stats */}
-              <div className="hidden mx-auto mt-14 grid max-w-xl grid-cols-3 gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10">
-                {[
-                  { label: "Outcome", value: "Faster follow-up, fewer lost leads" },
-                  { label: "Typical launch", value: "1–2 weeks" },
-                  { label: "Best for", value: "Teams with manual lead flow" },
-                ].map((stat) => (
-                  <div key={stat.label} className="bg-background px-5 py-4 text-left">
-                    <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-primary/70">{stat.label}</p>
-                    <p className="mt-1.5 text-sm font-medium">{stat.value}</p>
-                  </div>
-                ))}
               </div>
             </motion.div>
           </div>
         </div>
       </section>
 
-      <section className="border-t border-white/10 py-24">
+      {/* Problem / Fix */}
+      <section className="border-t border-white/10 py-4 lg:py-6">
         <div className="container mx-auto px-4 lg:px-8">
-          <div className="grid gap-10 lg:grid-cols-[minmax(0,1.04fr)_minmax(0,0.96fr)] lg:items-center">
+          <div className="mb-8 lg:mb-10">
+            <span className="mb-4 inline-block text-xs font-bold uppercase tracking-[0.22em] text-primary">
+              The Problem & How We Fix It
+            </span>
+            <h2 className="title-safe text-2xl font-extrabold leading-[1.2] tracking-[-0.025em] md:text-3xl lg:whitespace-nowrap">
+              Where leads are lost and how we{" "}
+              <span className="title-safe-inline text-gradient">fix the follow-up.</span>
+            </h2>
+          </div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 28 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="relative overflow-hidden rounded-[28px] border border-white/10 bg-[radial-gradient(80%_60%_at_0%_0%,rgba(239,68,68,0.06),transparent_60%),radial-gradient(80%_60%_at_100%_100%,rgba(51,204,153,0.05),transparent_60%),linear-gradient(180deg,rgba(255,255,255,0.024)_0%,rgba(255,255,255,0.008)_100%)] shadow-[0_30px_80px_rgba(0,0,0,0.3),inset_0_1px_0_rgba(255,255,255,0.04)]"
+          >
+            <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(239,107,122,0.4)_25%,rgba(51,204,153,0.4)_75%,transparent)]" />
+            <div className="pointer-events-none absolute bottom-0 left-1/2 top-0 hidden w-px bg-[linear-gradient(180deg,transparent_0%,rgba(255,255,255,0.08)_12%,rgba(255,255,255,0.08)_88%,transparent_100%)] lg:block" />
+            {/* Column headers */}
+            <div className="grid grid-cols-[1fr_44px_1fr] border-b border-white/[0.07] lg:grid-cols-[1fr_72px_1fr]">
+              <div className="relative overflow-hidden p-4 lg:p-10">
+                <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_90%_70%_at_0%_0%,rgba(239,68,68,0.12),transparent_65%)]" />
+                <div className="relative">
+                  <span className="inline-flex items-center gap-2 rounded-full border border-red-400/30 bg-red-400/[0.1] px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-red-400/90">
+                    <AlertCircle className="h-3 w-3" />The Problem
+                  </span>
+                  <p className="mt-4 hidden text-xl font-extrabold leading-snug tracking-[-0.02em] lg:block lg:text-2xl">
+                    Leads come in.{" "}
+                    <span className="text-red-400/80 line-through decoration-red-400/60 decoration-2">Then momentum gets lost</span>.
+                  </p>
+                </div>
+              </div>
+              <div />
+              <div className="relative overflow-hidden border-l border-white/[0.07] p-4 lg:p-10">
+                <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_90%_70%_at_100%_0%,rgba(51,204,153,0.1),transparent_65%)]" />
+                <div className="relative">
+                  <span className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/[0.1] px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-primary">
+                    <ShieldCheck className="h-3 w-3" />How We Fix It
+                  </span>
+                  <p className="mt-4 hidden text-xl font-extrabold leading-snug tracking-[-0.02em] lg:block lg:whitespace-nowrap lg:text-2xl">
+                    Automated from first touch.{" "}
+                    <span className="text-gradient">To the next step.</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+            {/* Paired rows */}
+            {[
+              { problem: "Slow first responses lower the chance of conversion",        fix: { icon: Route,      title: "Map the journey before the tool",      description: "Automation follows your buyer journey and sales process instead of forcing the team into a generic template." } },
+              { problem: "Enquiries get lost with no pipeline visibility or ownership", fix: { icon: Bell,       title: "Keep handoffs fast and visible",       description: "New leads, hot actions, and follow-up tasks are routed quickly so ownership is clear and response times improve." } },
+              { problem: "Teams repeat follow-up that could run automatically",         fix: { icon: ShieldCheck, title: "Test every workflow before launch",    description: "We validate triggers, messages, CRM updates, and notifications before the system becomes part of daily operations." } },
+            ].map((pair, i) => (
+              <div key={i} className="group grid grid-cols-[1fr_44px_1fr] items-center border-b border-white/[0.05] px-4 py-4 last:border-b-0 lg:grid-cols-[1fr_72px_1fr] lg:px-10 lg:py-6">
+                <div className="flex items-center gap-3 pr-2">
+                  <span className="shrink-0 font-mono text-[11px] tracking-[0.14em] text-red-400/60">0{i + 1}</span>
+                  <p className="text-[14px] font-medium leading-snug text-foreground/80 lg:text-[17px]">{pair.problem}</p>
+                </div>
+                <div className="flex items-center justify-center">
+                  <div className="flex h-7 w-7 items-center justify-center rounded-full border border-white/10 bg-background text-primary transition-colors duration-200 group-hover:border-primary/40">
+                    <ArrowRight className="h-3 w-3" />
+                  </div>
+                </div>
+                <div className="flex items-start gap-2 pl-1">
+                  <div className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-primary/20 bg-[radial-gradient(circle_at_30%_30%,rgba(51,204,153,0.18),transparent_60%),rgba(51,204,153,0.06)]">
+                    <pair.fix.icon className="h-[15px] w-[15px] text-primary" />
+                  </div>
+                  <div>
+                    <p className="text-[14px] font-semibold leading-snug text-foreground lg:text-[17px]">{pair.fix.title}</p>
+                    <p className="mt-1 hidden text-[13px] leading-[1.65] text-muted-foreground lg:block">{pair.fix.description}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+            <div className="flex justify-center border-t border-white/[0.07] px-5 py-5 lg:px-10 lg:py-6">
+              <Button asChild size="lg" className="gap-2 rounded-xl bg-primary text-primary-foreground hover:bg-primary/90">
+                <Link to={BOOK_A_FREE_STRATEGY_CALL_CTA.to}>{BOOK_A_FREE_STRATEGY_CALL_CTA.label}</Link>
+              </Button>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Process Steps */}
+      <section className="border-t border-white/10 bg-white/[0.015] py-16 lg:py-20">
+        <div className="container mx-auto px-4 lg:px-8">
+          <span className="mb-4 inline-block text-xs font-bold uppercase tracking-[0.22em] text-primary">
+            Implementation Approach
+          </span>
+          <h2 className="text-2xl font-extrabold tracking-[-0.025em] md:text-3xl">
+            Built Around Your Lead Flow
+          </h2>
+          <p className="mt-3 max-w-xl text-muted-foreground">
+            Every workflow starts with the journey: where leads come from, what they need next, and who should act when they qualify.
+          </p>
+          <div className="relative mt-12 hidden lg:block">
+            <div className="absolute left-[calc(12.5%+32px)] right-[calc(12.5%+32px)] top-8 h-px bg-gradient-to-r from-primary/10 via-primary/40 to-primary/10" />
+            <div className="grid grid-cols-4">
+              {processSteps.map((step) => (
+                <div key={step.num} className="relative flex flex-col items-center px-6 text-center">
+                  <div className="relative z-10 flex h-16 w-16 items-center justify-center rounded-full border border-primary/25 bg-background shadow-[0_0_0_6px_rgba(0,175,239,0.04),0_12px_28px_rgba(0,0,0,0.3)]">
+                    <span className="bg-[linear-gradient(135deg,#ffffff_0%,#33cc99_55%,#00afef_100%)] bg-clip-text text-xl font-black text-transparent">
+                      0{step.num}
+                    </span>
+                  </div>
+                  <p className="mt-6 text-[14px] font-semibold leading-snug">{step.title}</p>
+                  <p className="mt-2.5 text-[13px] leading-[1.7] text-muted-foreground">{step.description}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="relative mt-12 lg:hidden">
+            <div className="absolute bottom-8 left-[19px] top-8 w-px bg-gradient-to-b from-primary/10 via-primary/35 to-primary/10" />
+            <div className="flex flex-col gap-8">
+              {processSteps.map((step) => (
+                <div key={step.num} className="relative flex gap-5 pl-1">
+                  <div className="relative z-10 flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-primary/25 bg-background shadow-[0_0_0_4px_rgba(0,175,239,0.04)]">
+                    <span className="text-sm font-black text-primary">0{step.num}</span>
+                  </div>
+                  <div className="pt-1.5">
+                    <p className="text-[14px] font-semibold leading-snug">{step.title}</p>
+                    <p className="mt-1.5 text-sm leading-[1.7] text-muted-foreground">{step.description}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Why Us */}
+      <section className="py-4 lg:py-6">
+        <div className="container mx-auto px-4 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="overflow-hidden rounded-[32px] border border-primary/15 bg-[radial-gradient(ellipse_80%_55%_at_10%_0%,rgba(51,204,153,0.07),transparent_72%),linear-gradient(180deg,rgba(255,255,255,0.024)_0%,rgba(255,255,255,0.01)_100%)] p-8 lg:p-12"
+          >
+            <span className="mb-4 inline-block text-xs font-semibold uppercase tracking-[0.2em] text-primary">Why AlphaTrack Digital</span>
+            <h2 className="max-w-2xl text-2xl font-extrabold md:text-3xl">
+              We do not just configure tools. We design operating systems for follow-up.
+            </h2>
+            <div className="mt-10 grid gap-0 md:grid-cols-2">
+              {whyCards.map((card, i) => (
+                <motion.div
+                  key={card.title}
+                  initial={{ opacity: 0, y: 16 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.08 }}
+                  className="flex gap-5 border-t border-white/[0.07] py-6 md:px-6 md:first:pl-0 md:[&:nth-child(2)]:pr-0 md:[&:nth-child(3)]:pl-0"
+                >
+                  <span className="bg-[linear-gradient(135deg,#ffffff_0%,#33cc99_55%,#00afef_100%)] bg-clip-text text-[2rem] font-black leading-none text-transparent opacity-40">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <div className="pt-1">
+                    <h3 className="font-semibold">{card.title}</h3>
+                    <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">{card.description}</p>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* What's Included */}
+      <section className="border-t border-white/10 py-12 lg:py-16">
+        <div className="container mx-auto px-4 lg:px-8">
+          <span className="mb-3 inline-block text-xs font-bold uppercase tracking-[0.22em] text-primary">
+            What's Included
+          </span>
+          <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
+            <div>
+              <h2 className="text-2xl font-extrabold tracking-[-0.025em] md:text-3xl">
+                Every engagement is scoped to your CRM and follow-up reality.
+              </h2>
+              <p className="mt-3 max-w-lg text-sm leading-7 text-muted-foreground">
+                Scope varies by integrations, message count, pipeline complexity, and how much ownership your team needs after launch.
+              </p>
+            </div>
+          </div>
+          <div className="mt-8 grid grid-cols-2 gap-x-6 gap-y-0 sm:grid-cols-3">
+            {[
+              { icon: FileText, title: "Journey Map" },
+              { icon: GitBranch, title: "Workflow Logic" },
+              { icon: Wrench, title: "CRM Setup" },
+              { icon: MailCheck, title: "Email Sequences" },
+              { icon: Bell, title: "Lead Notifications" },
+              { icon: BadgeCheck, title: "QA & Validation" },
+              { icon: BookOpen, title: "Documentation" },
+              { icon: Users, title: "Team Handover" },
+              { icon: ArrowUpRight, title: "Optimisation Plan" },
+            ].map((item) => (
+              <div key={item.title} className="flex items-center gap-3 border-t border-white/[0.07] py-4">
+                <item.icon className="h-4 w-4 shrink-0 text-primary" />
+                <p className="text-[13px] font-medium leading-snug">{item.title}</p>
+              </div>
+            ))}
+          </div>
+          <div className="mt-8 flex justify-center lg:justify-start">
+            <Button asChild size="lg" className="gap-2 rounded-xl bg-primary text-primary-foreground hover:bg-primary/90">
+              <Link to={BOOK_A_FREE_STRATEGY_CALL_CTA.to}>
+                {BOOK_A_FREE_STRATEGY_CALL_CTA.label}
+              </Link>
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      <FeaturedTestimonialSection title="What clients say when execution matters." />
+
+      {/* What Automation Unlocks Next */}
+      <section className="border-t border-white/10 py-12 lg:py-16">
+        <div className="container mx-auto px-4 lg:px-8">
+          <div className="grid gap-6 lg:grid-cols-[minmax(0,1.04fr)_minmax(0,0.96fr)] lg:items-center lg:gap-10">
             <div className="flex h-full flex-col justify-center lg:pr-8">
               <span className="mb-3 inline-block text-xs font-semibold uppercase tracking-[0.22em] text-primary">
                 What Automation Unlocks Next
               </span>
-              <h2 className="title-safe flex flex-col gap-3 pb-4 text-3xl font-extrabold leading-[1.14] tracking-[-0.03em] md:text-4xl lg:text-[2.16rem]">
+              <h2 className="title-safe flex flex-col gap-2 pb-2 text-2xl font-extrabold leading-[1.14] tracking-[-0.03em] md:text-4xl lg:text-[2.16rem]">
                 <span className="lg:whitespace-nowrap">Follow-Up Should Strengthen</span>
                 <span className="title-safe-inline text-gradient lg:whitespace-nowrap">The Rest of the System</span>
               </h2>
-              <p className="mt-4 max-w-lg text-sm leading-7 text-muted-foreground md:text-[15px]">
+              <p className="mt-3 max-w-lg text-sm leading-7 text-muted-foreground md:text-[15px]">
                 Once leads are routed and nurtured consistently, attribution gets clearer and lifecycle messaging has a stronger system to build on.
               </p>
             </div>
-            <div className="rounded-[30px] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.03)_0%,rgba(255,255,255,0.01)_100%)] p-3 shadow-[0_24px_80px_rgba(0,0,0,0.22)] lg:max-w-[42rem] lg:justify-self-end">
-              <div className="grid gap-3 md:grid-cols-2">
+            <div className="rounded-[30px] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.03)_0%,rgba(255,255,255,0.01)_100%)] p-2 shadow-[0_24px_80px_rgba(0,0,0,0.22)] lg:max-w-[42rem] lg:justify-self-end lg:p-3">
+              <div className="grid gap-2 md:grid-cols-2 lg:gap-3">
                 {connectedServices.map((item) => (
                   <Link
                     key={item.title}
                     to={item.path}
                     className={cn(
-                      "group relative overflow-hidden rounded-[26px] border border-white/10 p-6 transition-all duration-300 hover:-translate-y-1 hover:border-primary/25 lg:p-7",
+                      "group relative overflow-hidden rounded-[22px] border border-white/10 p-4 transition-all duration-300 hover:-translate-y-1 hover:border-primary/25 lg:rounded-[26px] lg:p-6",
                       item.surfaceClassName,
                     )}
                   >
                     <div className="pointer-events-none absolute right-0 top-0 h-28 w-28 rounded-full bg-white/[0.05] blur-3xl" />
                     <div className="relative flex h-full flex-col">
-                      <div className="grid grid-cols-[minmax(0,1fr)_2.5rem] items-start gap-4">
-                        <div className="min-w-0 pr-1">
+                      <div className="flex items-center justify-between gap-3">
+                        <div className="min-w-0">
                           <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-primary/80">
                             {item.label}
                           </p>
-                          <h3 className="mt-3 text-[1.04rem] font-semibold leading-[1.12] tracking-[-0.035em] md:whitespace-nowrap md:text-[1.08rem] lg:text-[1.12rem]">
+                          <h3 className="mt-1.5 text-[1rem] font-semibold leading-[1.15] tracking-[-0.03em] lg:mt-3 lg:text-[1.08rem]">
                             {item.title}
                           </h3>
                         </div>
-                        <div className="mt-1 flex h-10 w-10 items-center justify-center rounded-2xl border border-white/10 bg-black/20">
-                          <item.icon className="h-5 w-5 text-primary" />
+                        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-black/20 lg:h-10 lg:w-10 lg:rounded-2xl">
+                          <item.icon className="h-4 w-4 text-primary lg:h-5 lg:w-5" />
                         </div>
                       </div>
-                      <p className="mt-5 flex-1 text-sm leading-7 text-muted-foreground">
+                      <p className="mt-2 text-[12px] leading-[1.6] text-muted-foreground lg:hidden">
+                        {item.shortDescription}
+                      </p>
+                      <p className="mt-5 hidden flex-1 text-sm leading-7 text-muted-foreground lg:block">
                         {item.description}
                       </p>
-                      <div className="mt-6 flex justify-end border-t border-white/10 pt-4">
+                      <div className="mt-3 flex justify-end border-t border-white/10 pt-3 lg:mt-6 lg:pt-4">
                         <span className="inline-flex items-center gap-1 text-sm font-medium text-primary">
                           {item.ctaLabel}
                         </span>
@@ -321,205 +457,6 @@ const MarketingAutomation = () => {
         </div>
       </section>
 
-      {/* ── Panel 1: The Problem ── */}
-      <section className="py-3">
-        <div className="container mx-auto px-4 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 28 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="overflow-hidden rounded-[32px] border border-white/10 bg-white/[0.02]"
-          >
-            <div className="grid lg:grid-cols-2">
-              {/* Text */}
-              <div className="flex flex-col justify-center p-8 lg:p-10">
-                <span className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-primary">The Problem</span>
-                <h2 className="text-2xl font-extrabold leading-tight md:text-[2rem]">
-                  Leads come in. Then what?
-                </h2>
-                <p className="mt-4 max-w-xl text-[15px] leading-7 text-muted-foreground">
-                  Many teams spend heavily to generate enquiries, then rely on inboxes and manual reminders to keep the process moving. That delay quietly kills conversion momentum.
-                </p>
-                <ul className="mt-6 space-y-2.5">
-                  {[
-                    "Slow first responses lower the chance of conversion",
-                    "Enquiries get lost with no pipeline visibility or ownership",
-                    "Teams repeat follow-up that could run automatically",
-                  ].map((item) => (
-                    <li key={item} className="flex items-start gap-3 text-sm leading-6 text-muted-foreground">
-                      <div className="mt-1.5 h-2.5 w-2.5 shrink-0 rounded-full bg-red-500/20 ring-1 ring-red-400/40" />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-                <div className="mt-7">
-                  <Button asChild size="lg" className="gap-2 rounded-xl bg-primary text-primary-foreground hover:bg-primary/90">
-                    <Link to={BOOK_A_FREE_STRATEGY_CALL_CTA.to}>{BOOK_A_FREE_STRATEGY_CALL_CTA.label}</Link>
-                  </Button>
-                </div>
-              </div>
-              {/* Visual: manual chaos mock */}
-              <div className="flex items-center justify-center border-t border-white/10 bg-white/[0.015] p-8 lg:border-l lg:border-t-0 lg:p-10">
-                <div className="w-full max-w-[296px] rounded-2xl border border-red-500/15 bg-black/50 p-4 shadow-[0_0_50px_rgba(239,68,68,0.05)]">
-                  <div className="mb-3 flex items-center justify-between">
-                    <span className="text-[11px] font-semibold uppercase tracking-widest text-red-400/80">Without Automation</span>
-                    <span className="rounded-full bg-red-500/15 px-2.5 py-0.5 text-[10px] font-bold text-red-400">Manual</span>
-                  </div>
-                  {[
-                    { msg: "Lead arrived, no follow-up sent", time: "6h ago" },
-                    { msg: "3 enquiries missed this week", time: "3d ago" },
-                    { msg: "Manual reminder: call lead back", time: "5d ago" },
-                    { msg: "Proposal email sent manually", time: "1w ago" },
-                  ].map((item) => (
-                    <div key={item.msg} className="mb-2 rounded-xl border border-white/5 bg-white/[0.03] px-3.5 py-2">
-                      <p className="text-[12px] text-muted-foreground">{item.msg}</p>
-                      <p className="mt-0.5 text-[10px] text-muted-foreground/40">{item.time}</p>
-                    </div>
-                  ))}
-                  <p className="mt-3 flex items-center gap-2 text-[11px] text-red-400/70">
-                    <span>⚠</span> No automated system in place
-                  </p>
-                </div>
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* ── Panel 2: The Solution ── */}
-      <section className="py-3">
-        <div className="container mx-auto px-4 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 28 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="overflow-hidden rounded-[32px] border border-white/10 bg-white/[0.02]"
-          >
-            <div className="grid lg:grid-cols-2">
-              {/* Visual: workflow mock */}
-              <div className="flex items-center justify-center border-b border-white/10 bg-white/[0.015] p-8 lg:border-b-0 lg:border-r lg:p-10">
-                <div className="w-full max-w-[300px]">
-                  <div className="mb-3 flex items-center justify-between">
-                    <span className="text-[11px] font-semibold uppercase tracking-widest text-primary">Automated Workflow</span>
-                    <span className="flex items-center gap-1.5 rounded-full bg-green-500/10 px-2.5 py-0.5 text-[10px] font-bold text-green-400">
-                      <span className="inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-green-400" />
-                      Active
-                    </span>
-                  </div>
-                  <div className="space-y-2">
-                    {[
-                      { step: "Lead captured via form", delay: "Instant" },
-                      { step: "Welcome email sent", delay: "0 seconds" },
-                      { step: "CRM contact created", delay: "Instant" },
-                      { step: "Follow-up sequence starts", delay: "D+2" },
-                      { step: "Lead score updated", delay: "On open" },
-                      { step: "Sales team notified", delay: "On qualify" },
-                    ].map((item, i) => (
-                      <div key={i} className="flex items-center gap-2.5">
-                        <div className="flex h-[26px] w-[26px] shrink-0 items-center justify-center rounded-full border border-primary/25 bg-primary/[0.08] text-[10px] font-bold text-primary">
-                          {i + 1}
-                        </div>
-                        <div className="flex flex-1 items-center justify-between rounded-xl border border-white/8 bg-white/[0.03] px-3 py-1.5">
-                          <span className="text-[12px]">{item.step}</span>
-                          <span className="ml-2 shrink-0 text-[10px] text-primary/60">{item.delay}</span>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-              {/* Text */}
-              <div className="flex flex-col justify-center p-8 lg:p-10">
-                <span className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-primary">How We Fix It</span>
-                <h2 className="text-2xl font-extrabold leading-tight md:text-[2rem]">
-                  Automated from first touch to close
-                </h2>
-                <p className="mt-4 max-w-xl text-[15px] leading-7 text-muted-foreground">
-                  We design automation around your sales process, not a generic template. Every workflow is mapped, tested, and validated before it goes live, and you own everything after handover.
-                </p>
-                <div className="mt-7 grid gap-3 md:grid-cols-2">
-                  {processSteps.map((step) => (
-                    <div key={step.num} className="rounded-[20px] border border-white/8 bg-white/[0.02] p-4">
-                      <div className="flex items-center gap-3">
-                        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-atd-blue to-primary text-[11px] font-extrabold text-primary-foreground">
-                          {step.num}
-                        </div>
-                        <p className="text-[15px] font-semibold leading-snug">{step.title}</p>
-                      </div>
-                      <p className="mt-2 text-[12px] leading-6 text-muted-foreground">{step.description}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* ── Capabilities Grid ── */}
-      <section className="py-16">
-        <div className="container mx-auto px-4 lg:px-8">
-          <h2 className="text-2xl font-bold md:text-3xl">What We Usually Automate First</h2>
-          <p className="mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground">
-            The goal is not to automate everything. It is to automate the few moments that most affect conversion speed and lead quality.
-          </p>
-          <div className="mt-8 grid gap-5 md:grid-cols-2">
-            {automationPriorities.map((item) => (
-              <div key={item.title} className="rounded-[24px] border border-white/10 bg-white/[0.02] p-6">
-                <h3 className="text-lg font-semibold">{item.title}</h3>
-                <p className="mt-3 text-sm leading-7 text-muted-foreground">{item.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── Tiers ── */}
-      
-
-      {/* ── Why Us Panel ── */}
-      <section className="py-3">
-        <div className="container mx-auto px-4 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="overflow-hidden rounded-[32px] border border-white/10 bg-white/[0.02] p-10 lg:p-14"
-          >
-            <span className="mb-4 inline-block text-xs font-semibold uppercase tracking-[0.2em] text-primary">Why AlphaTrack Digital</span>
-            <h2 className="max-w-2xl text-3xl font-extrabold md:text-4xl">
-              We don't just configure tools. We design systems that work for your business.
-            </h2>
-            <div className="mt-10 grid gap-6 md:grid-cols-2">
-              {whyCards.map((card, i) => (
-                <motion.div
-                  key={card.title}
-                  initial={{ opacity: 0, y: 16 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.08 }}
-                  className="flex gap-5 rounded-2xl border border-white/8 bg-white/[0.02] p-6"
-                >
-                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-primary/15 bg-primary/[0.07]">
-                    <card.icon className="h-5 w-5 text-primary" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold">{card.title}</h3>
-                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{card.description}</p>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* ── FAQ ── */}
-      <FeaturedTestimonialSection title="What clients say when execution matters." />
-
       <FAQAccordion
         items={serviceFaqs}
         title="Frequently Asked Questions"
@@ -532,7 +469,6 @@ const MarketingAutomation = () => {
         accordionClassName="space-y-3"
       />
 
-      {/* ── CTA ── */}
       <CTASection
         title={
           <span className="flex flex-col gap-3 md:gap-4">

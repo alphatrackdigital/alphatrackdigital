@@ -2,16 +2,18 @@ import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
 import {
-  Target,
-  ClipboardCheck,
-  Layers,
-  ShieldCheck,
-  FileText,
-  Wrench,
+  AlertCircle,
+  ArrowRight,
+  ArrowUpRight,
   BadgeCheck,
   BookOpen,
-  ArrowUpRight,
+  ClipboardCheck,
+  FileText,
+  Layers,
+  ShieldCheck,
+  Target,
   Users,
+  Wrench,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Breadcrumbs from "@/components/shared/Breadcrumbs";
@@ -22,12 +24,6 @@ import SEO from "@/components/shared/SEO";
 import { BOOK_A_FREE_STRATEGY_CALL_CTA, REQUEST_A_FREE_TRACKING_AUDIT_CTA } from "@/config/cta";
 import type { LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
-
-interface IconCard {
-  icon: LucideIcon;
-  title: string;
-  description: string;
-}
 
 interface PremiumLinkCard {
   icon: LucideIcon;
@@ -45,24 +41,6 @@ const processSteps = [
   { num: 2, title: "Implementation", description: "We configure GTM, GA4, Meta Ads, Google Ads, and any other platforms you use." },
   { num: 3, title: "QA & Validation", description: "Every conversion event is tested and proven. If we can't verify it fires correctly, it doesn't go live." },
   { num: 4, title: "Handover & Support", description: "We walk you through what we built and hand over full documentation." },
-];
-
-const deliveryPrinciples: IconCard[] = [
-  {
-    icon: Target,
-    title: "Prioritise what changes budget",
-    description: "We decide which events matter before any tooling work starts, so the setup follows real business priorities.",
-  },
-  {
-    icon: Layers,
-    title: "Keep platforms speaking the same language",
-    description: "GA4, GTM, ad platforms, and the CRM are configured around one measurement logic instead of competing definitions.",
-  },
-  {
-    icon: ShieldCheck,
-    title: "Validate before anything becomes reporting truth",
-    description: "Every critical event is tested before launch and documented clearly enough for the team to trust after handover.",
-  },
 ];
 
 const tiers = [
@@ -265,72 +243,84 @@ const ConversionTracking = () => {
       {/* ── Problem / Fix ── */}
       <section className="border-t border-white/10 py-4 lg:py-6">
         <div className="container mx-auto px-4 lg:px-8">
+          <div className="mb-8 lg:mb-10">
+            <span className="mb-4 inline-block text-xs font-bold uppercase tracking-[0.22em] text-primary">
+              The Problem & How We Fix It
+            </span>
+            <h2 className="title-safe text-2xl font-extrabold leading-[1.2] tracking-[-0.025em] md:text-3xl lg:whitespace-nowrap">
+              Where tracking breaks down and how we{" "}
+              <span className="title-safe-inline text-gradient">clean the signal.</span>
+            </h2>
+          </div>
+
           <motion.div
             initial={{ opacity: 0, y: 28 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="overflow-hidden rounded-[32px] border border-white/10 bg-white/[0.02]"
+            className="relative overflow-hidden rounded-[28px] border border-white/10 bg-[radial-gradient(80%_60%_at_0%_0%,rgba(239,68,68,0.06),transparent_60%),radial-gradient(80%_60%_at_100%_100%,rgba(51,204,153,0.05),transparent_60%),linear-gradient(180deg,rgba(255,255,255,0.024)_0%,rgba(255,255,255,0.008)_100%)] shadow-[0_30px_80px_rgba(0,0,0,0.3),inset_0_1px_0_rgba(255,255,255,0.04)]"
           >
-            <div className="grid lg:grid-cols-2 lg:items-start">
-              {/* Left — The Problem */}
-              <div className="relative flex h-full flex-col overflow-hidden p-5 lg:p-10">
-                <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_0%_0%,rgba(239,68,68,0.07),transparent_70%)]" />
-                <div className="relative flex flex-1 flex-col">
-                  <span className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-red-400/80">The Problem</span>
-                  <h2 className="text-xl font-extrabold leading-tight lg:text-[1.6rem]">
-                    Most businesses are flying blind with their ad data
-                  </h2>
-                  <p className="mt-3 text-sm leading-7 text-muted-foreground">
-                    Your platforms rarely agree. When you can't trust the numbers, every budget call is a guess.
+            <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(239,107,122,0.4)_25%,rgba(51,204,153,0.4)_75%,transparent)]" />
+            <div className="pointer-events-none absolute bottom-0 left-1/2 top-0 hidden w-px bg-[linear-gradient(180deg,transparent_0%,rgba(255,255,255,0.08)_12%,rgba(255,255,255,0.08)_88%,transparent_100%)] lg:block" />
+            {/* Column headers */}
+            <div className="grid grid-cols-[1fr_44px_1fr] border-b border-white/[0.07] lg:grid-cols-[1fr_72px_1fr]">
+              <div className="relative overflow-hidden p-4 lg:p-10">
+                <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_90%_70%_at_0%_0%,rgba(239,68,68,0.12),transparent_65%)]" />
+                <div className="relative">
+                  <span className="inline-flex items-center gap-2 rounded-full border border-red-400/30 bg-red-400/[0.1] px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-red-400/90">
+                    <AlertCircle className="h-3 w-3" />The Problem
+                  </span>
+                  <p className="mt-4 hidden text-xl font-extrabold leading-snug tracking-[-0.02em] lg:block lg:text-2xl">
+                    Most businesses are flying{" "}
+                    <span className="text-red-400/80 line-through decoration-red-400/60 decoration-2">blind with their data</span>.
                   </p>
-                  <ul className="mt-5 space-y-3">
-                    {[
-                      "Platforms chase the wrong signals",
-                      "Teams argue over data instead of acting on it",
-                      "No one can prove what's actually driving revenue",
-                    ].map((item) => (
-                      <li key={item} className="flex items-start gap-3 text-sm leading-6 text-muted-foreground">
-                        <div className="mt-1.5 h-2.5 w-2.5 shrink-0 rounded-full bg-red-500/20 ring-1 ring-red-400/40" />
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-                  <div className="mt-6 lg:mt-auto lg:pt-8">
-                    <Link
-                      to={REQUEST_A_FREE_TRACKING_AUDIT_CTA.to}
-                      className="text-sm font-medium text-red-400/80 underline-offset-4 hover:text-red-400 hover:underline"
-                    >
-                      {REQUEST_A_FREE_TRACKING_AUDIT_CTA.label} →
-                    </Link>
+                </div>
+              </div>
+              <div />
+              <div className="relative overflow-hidden border-l border-white/[0.07] p-4 lg:p-10">
+                <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_90%_70%_at_100%_0%,rgba(51,204,153,0.1),transparent_65%)]" />
+                <div className="relative">
+                  <span className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/[0.1] px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-primary">
+                    <ShieldCheck className="h-3 w-3" />How We Fix It
+                  </span>
+                  <p className="mt-4 hidden text-xl font-extrabold leading-snug tracking-[-0.02em] lg:block lg:whitespace-nowrap lg:text-2xl">
+                    Measurement-first.{" "}
+                    <span className="text-gradient">Built to scale.</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+            {/* Paired rows */}
+            {[
+              { problem: "Platforms chase the wrong signals",               fix: { icon: Target,     title: "Prioritise what changes budget",                  description: "We decide which events matter before any tooling work starts, so the setup follows real business priorities." } },
+              { problem: "Teams argue over data instead of acting on it",   fix: { icon: Layers,     title: "Keep platforms speaking the same language",       description: "GA4, GTM, ad platforms, and the CRM are configured around one measurement logic instead of competing definitions." } },
+              { problem: "No one can prove what's actually driving revenue", fix: { icon: ShieldCheck, title: "Validate before anything becomes reporting truth", description: "Every critical event is tested before launch and documented clearly enough for the team to trust after handover." } },
+            ].map((pair, i) => (
+              <div key={i} className="group grid grid-cols-[1fr_44px_1fr] items-center border-b border-white/[0.05] px-4 py-4 last:border-b-0 lg:grid-cols-[1fr_72px_1fr] lg:px-10 lg:py-6">
+                <div className="flex items-center gap-3 pr-2">
+                  <span className="shrink-0 font-mono text-[11px] tracking-[0.14em] text-red-400/60">0{i + 1}</span>
+                  <p className="text-[14px] font-medium leading-snug text-foreground/80 lg:text-[17px]">{pair.problem}</p>
+                </div>
+                <div className="flex items-center justify-center">
+                  <div className="flex h-7 w-7 items-center justify-center rounded-full border border-white/10 bg-background text-primary transition-colors duration-200 group-hover:border-primary/40">
+                    <ArrowRight className="h-3 w-3" />
+                  </div>
+                </div>
+                <div className="flex items-start gap-2 pl-1">
+                  <div className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-primary/20 bg-[radial-gradient(circle_at_30%_30%,rgba(51,204,153,0.18),transparent_60%),rgba(51,204,153,0.06)]">
+                    <pair.fix.icon className="h-[15px] w-[15px] text-primary" />
+                  </div>
+                  <div>
+                    <p className="text-[14px] font-semibold leading-snug text-foreground lg:text-[17px]">{pair.fix.title}</p>
+                    <p className="mt-1 hidden text-[13px] leading-[1.65] text-muted-foreground lg:block">{pair.fix.description}</p>
                   </div>
                 </div>
               </div>
-              {/* Right — How We Fix It */}
-              <div className="flex flex-col border-t border-white/10 p-5 lg:border-l lg:border-t-0 lg:p-10">
-                <span className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-primary">How We Fix It</span>
-                <h2 className="text-xl font-extrabold leading-tight lg:text-[1.6rem]">
-                  Measurement-first. Built to scale.
-                </h2>
-                <p className="mt-3 text-sm leading-7 text-muted-foreground">
-                  We start with a plan, not tools. Before a single tag goes live, we agree on what success looks like — then build it to last.
-                </p>
-                <div className="mt-5 flex flex-col divide-y divide-white/[0.06]">
-                  {deliveryPrinciples.map((item) => (
-                    <div key={item.title} className="flex gap-3 py-3 first:pt-0 last:pb-0">
-                      <div className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-lg border border-primary/20 bg-primary/[0.07]">
-                        <item.icon className="h-[13px] w-[13px] text-primary" />
-                      </div>
-                      <div>
-                        <p className="text-[13px] font-semibold leading-snug">{item.title}</p>
-                        <p className="mt-1 hidden text-[12px] leading-[1.65] text-muted-foreground lg:block">
-                          {item.description}
-                        </p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
+            ))}
+            <div className="flex justify-center border-t border-white/[0.07] px-5 py-5 lg:px-10 lg:py-6">
+              <Button asChild size="lg" className="gap-2 rounded-xl bg-primary text-primary-foreground hover:bg-primary/90">
+                <Link to={REQUEST_A_FREE_TRACKING_AUDIT_CTA.to}>{REQUEST_A_FREE_TRACKING_AUDIT_CTA.label}</Link>
+              </Button>
             </div>
           </motion.div>
         </div>
@@ -342,7 +332,7 @@ const ConversionTracking = () => {
           <span className="mb-4 inline-block text-xs font-bold uppercase tracking-[0.22em] text-primary">
             Implementation Approach
           </span>
-          <h2 className="text-3xl font-extrabold tracking-[-0.025em] md:text-4xl">
+          <h2 className="text-2xl font-extrabold tracking-[-0.025em] md:text-3xl">
             Built Around Your Stack
           </h2>
           <p className="mt-3 max-w-xl text-muted-foreground">
@@ -396,7 +386,7 @@ const ConversionTracking = () => {
             className="overflow-hidden rounded-[32px] border border-white/10 bg-white/[0.02] p-8 lg:p-12"
           >
             <span className="mb-4 inline-block text-xs font-semibold uppercase tracking-[0.2em] text-primary">Why AlphaTrack Digital</span>
-            <h2 className="max-w-2xl text-3xl font-extrabold md:text-4xl">
+            <h2 className="max-w-2xl text-2xl font-extrabold md:text-3xl">
               We don't just install tags. We build measurement systems you can trust.
             </h2>
             <div className="mt-10 grid gap-0 md:grid-cols-2">
