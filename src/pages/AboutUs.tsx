@@ -19,6 +19,15 @@ const founderStory = {
 
 // ─── Page ──────────────────────────────────────────────────────────────────
 
+const fadeUp = {
+  hidden: { opacity: 0, y: 22 },
+  visible: (i: number = 0) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.45, delay: i * 0.09, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] },
+  }),
+};
+
 const focusAreas = [
   {
     title: "Conversion Tracking",
