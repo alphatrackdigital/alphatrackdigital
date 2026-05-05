@@ -206,12 +206,12 @@ const Services = () => {
                     <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white/[0.035]">
                       <service.icon className="h-5 w-5 text-primary" />
                     </div>
-                    <div className="min-w-0">
+                    <div className="min-w-0 lg:flex lg:h-full lg:flex-col lg:self-stretch">
                       <h4 className="truncate text-[15px] font-semibold md:truncate-none">{service.title}</h4>
-                      <p className="mt-2 line-clamp-2 text-[13px] leading-6 text-muted-foreground lg:line-clamp-none">
+                      <p className="mt-2 line-clamp-2 text-[13px] leading-6 text-muted-foreground lg:line-clamp-none lg:flex-1">
                         {service.description}
                       </p>
-                      <span className="mt-2.5 inline-flex items-center gap-1 text-xs font-medium text-primary/80 transition-colors group-hover:text-primary sm:mt-4">
+                      <span className="mt-2.5 inline-flex items-center gap-1 text-xs font-medium text-primary/80 transition-colors group-hover:text-primary sm:mt-4 lg:mt-auto">
                         {service.ctaLabel}
                       </span>
                     </div>
