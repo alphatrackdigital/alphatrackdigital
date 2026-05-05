@@ -3,7 +3,6 @@ import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
 import {
   AlertCircle,
-  ArrowRight,
   ArrowUpRight,
   BadgeCheck,
   Bell,
@@ -141,7 +140,7 @@ const MarketingAutomation = () => {
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_55%_at_50%_-5%,rgba(51,204,153,0.13)_0%,rgba(0,51,153,0.07)_45%,transparent_70%)]" />
           <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
         </div>
-        <div className="container relative z-10 mx-auto px-4 lg:px-8">
+        <div className="container relative z-10 mx-auto px-6 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-[62rem]">
             <Breadcrumbs
               items={[
@@ -180,7 +179,7 @@ const MarketingAutomation = () => {
 
       {/* Problem / Fix */}
       <section className="border-t border-white/10 py-4 lg:py-6">
-        <div className="container mx-auto px-4 lg:px-8">
+        <div className="container mx-auto px-6 sm:px-6 lg:px-8">
           <div className="mb-8 lg:mb-10">
             <span className="mb-4 inline-block text-xs font-bold uppercase tracking-[0.22em] text-primary">
               The Problem & How We Fix It
@@ -199,12 +198,11 @@ const MarketingAutomation = () => {
             className="relative overflow-hidden rounded-[28px] border border-white/10 bg-[radial-gradient(80%_60%_at_0%_0%,rgba(239,68,68,0.06),transparent_60%),radial-gradient(80%_60%_at_100%_100%,rgba(51,204,153,0.05),transparent_60%),linear-gradient(180deg,rgba(255,255,255,0.024)_0%,rgba(255,255,255,0.008)_100%)] shadow-[0_30px_80px_rgba(0,0,0,0.3),inset_0_1px_0_rgba(255,255,255,0.04)]"
           >
             <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(239,107,122,0.4)_25%,rgba(51,204,153,0.4)_75%,transparent)]" />
-            <div className="pointer-events-none absolute bottom-0 left-1/2 top-0 hidden w-px bg-[linear-gradient(180deg,transparent_0%,rgba(255,255,255,0.08)_12%,rgba(255,255,255,0.08)_88%,transparent_100%)] lg:block" />
             {/* Column headers */}
-            <div className="grid grid-cols-[1fr_44px_1fr] border-b border-white/[0.07] lg:grid-cols-[1fr_72px_1fr]">
+            <div className="grid grid-cols-2">
               <div className="relative overflow-hidden p-4 lg:p-10">
                 <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_90%_70%_at_0%_0%,rgba(239,68,68,0.12),transparent_65%)]" />
-                <div className="relative">
+                <div className="relative flex flex-col items-center lg:items-start">
                   <span className="inline-flex items-center gap-2 rounded-full border border-red-400/30 bg-red-400/[0.1] px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-red-400/90">
                     <AlertCircle className="h-3 w-3" />The Problem
                   </span>
@@ -214,10 +212,9 @@ const MarketingAutomation = () => {
                   </p>
                 </div>
               </div>
-              <div />
               <div className="relative overflow-hidden border-l border-white/[0.07] p-4 lg:p-10">
                 <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_90%_70%_at_100%_0%,rgba(51,204,153,0.1),transparent_65%)]" />
-                <div className="relative">
+                <div className="relative flex flex-col items-center lg:items-start">
                   <span className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/[0.1] px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-primary">
                     <ShieldCheck className="h-3 w-3" />How We Fix It
                   </span>
@@ -234,18 +231,13 @@ const MarketingAutomation = () => {
               { problem: "Enquiries get lost with no pipeline visibility or ownership", fix: { icon: Bell,       title: "Keep handoffs fast and visible",       description: "New leads, hot actions, and follow-up tasks are routed quickly so ownership is clear and response times improve." } },
               { problem: "Teams repeat follow-up that could run automatically",         fix: { icon: ShieldCheck, title: "Test every workflow before launch",    description: "We validate triggers, messages, CRM updates, and notifications before the system becomes part of daily operations." } },
             ].map((pair, i) => (
-              <div key={i} className="group grid grid-cols-[1fr_44px_1fr] items-center border-b border-white/[0.05] px-4 py-4 last:border-b-0 lg:grid-cols-[1fr_72px_1fr] lg:px-10 lg:py-6">
-                <div className="flex items-center gap-3 pr-2">
+              <div key={i} className="group grid grid-cols-2 border-b border-white/[0.05] last:border-b-0">
+                <div className="flex items-center gap-3 px-4 py-4 lg:px-10 lg:py-6">
                   <span className="shrink-0 font-mono text-[11px] tracking-[0.14em] text-red-400/60">0{i + 1}</span>
                   <p className="text-[14px] font-medium leading-snug text-foreground/80 lg:text-[17px]">{pair.problem}</p>
                 </div>
-                <div className="flex items-center justify-center">
-                  <div className="flex h-7 w-7 items-center justify-center rounded-full border border-white/10 bg-background text-primary transition-colors duration-200 group-hover:border-primary/40">
-                    <ArrowRight className="h-3 w-3" />
-                  </div>
-                </div>
-                <div className="flex items-start gap-2 pl-1">
-                  <div className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-primary/20 bg-[radial-gradient(circle_at_30%_30%,rgba(51,204,153,0.18),transparent_60%),rgba(51,204,153,0.06)]">
+                <div className="flex items-center border-l border-white/[0.07] px-4 py-4 lg:gap-3 lg:px-6 lg:py-6">
+                  <div className="mr-3 hidden h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-primary/20 bg-[radial-gradient(circle_at_30%_30%,rgba(51,204,153,0.18),transparent_60%),rgba(51,204,153,0.06)] lg:flex">
                     <pair.fix.icon className="h-[15px] w-[15px] text-primary" />
                   </div>
                   <div>
@@ -266,7 +258,7 @@ const MarketingAutomation = () => {
 
       {/* Process Steps */}
       <section className="border-t border-white/10 bg-white/[0.015] py-16 lg:py-20">
-        <div className="container mx-auto px-4 lg:px-8">
+        <div className="container mx-auto px-6 sm:px-6 lg:px-8">
           <span className="mb-4 inline-block text-xs font-bold uppercase tracking-[0.22em] text-primary">
             Implementation Approach
           </span>
@@ -313,7 +305,7 @@ const MarketingAutomation = () => {
 
       {/* Why Us */}
       <section className="py-4 lg:py-6">
-        <div className="container mx-auto px-4 lg:px-8">
+        <div className="container mx-auto px-6 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -351,7 +343,7 @@ const MarketingAutomation = () => {
 
       {/* What's Included */}
       <section className="border-t border-white/10 py-12 lg:py-16">
-        <div className="container mx-auto px-4 lg:px-8">
+        <div className="container mx-auto px-6 sm:px-6 lg:px-8">
           <span className="mb-3 inline-block text-xs font-bold uppercase tracking-[0.22em] text-primary">
             What's Included
           </span>
@@ -397,7 +389,7 @@ const MarketingAutomation = () => {
 
       {/* What Automation Unlocks Next */}
       <section className="border-t border-white/10 py-12 lg:py-16">
-        <div className="container mx-auto px-4 lg:px-8">
+        <div className="container mx-auto px-6 sm:px-6 lg:px-8">
           <div className="grid gap-6 lg:grid-cols-[minmax(0,1.04fr)_minmax(0,0.96fr)] lg:items-center lg:gap-10">
             <div className="flex h-full flex-col justify-center lg:pr-8">
               <span className="mb-3 inline-block text-xs font-semibold uppercase tracking-[0.22em] text-primary">
