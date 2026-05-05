@@ -34,7 +34,7 @@ export const expertisePages: ExpertisePage[] = [
     heroSnapshot: [
       {
         label: "Pipeline Clarity",
-        value: "Connect signups, demos, and trials to the campaigns that generated them — no more guessing what's driving pipeline.",
+        value: "Connect signups, demos, and trials to the campaigns that generated them, no more guessing what's driving pipeline.",
       },
       {
         label: "Paid Acquisition",
@@ -90,7 +90,7 @@ export const expertisePages: ExpertisePage[] = [
       {
         question: "Do you work with early-stage SaaS teams or only established products?",
         answer:
-          "Both. Early-stage teams benefit most from getting tracking right from the start — it prevents the painful retroactive cleanup many fast-growing companies face. Established products often come to us to fix attribution gaps or rebuild paid acquisition efficiency after plateau periods.",
+          "Both. Early-stage teams benefit most from getting tracking right from the start, it prevents the painful retroactive cleanup many fast-growing companies face. Established products often come to us to fix attribution gaps or rebuild paid acquisition efficiency after plateau periods.",
       },
       {
         question: "Can you help with both product-led and sales-led growth models?",
@@ -169,7 +169,7 @@ export const expertisePages: ExpertisePage[] = [
       {
         question: "Do you work with schools, universities, or private training providers?",
         answer:
-          "All three. Our tracking and campaign work applies across K-12 schools, higher education institutions, vocational training providers, and ed-tech platforms. The fundamentals — clear attribution, efficient paid acquisition, and consistent follow-up — are the same across these contexts.",
+          "All three. Our tracking and campaign work applies across K-12 schools, higher education institutions, vocational training providers, and ed-tech platforms. The fundamentals, clear attribution, efficient paid acquisition, and consistent follow-up, are the same across these contexts.",
       },
       {
         question: "How do you handle the seasonal nature of education marketing?",
@@ -202,7 +202,7 @@ export const expertisePages: ExpertisePage[] = [
     heroSnapshot: [
       {
         label: "Purchase Attribution",
-        value: "See exactly which channels and campaigns are driving revenue — not just clicks and sessions.",
+        value: "See exactly which channels and campaigns are driving revenue, not just clicks and sessions.",
       },
       {
         label: "Paid Performance",
@@ -263,7 +263,7 @@ export const expertisePages: ExpertisePage[] = [
       {
         question: "How do you approach abandoned cart and post-purchase automation?",
         answer:
-          "We build multi-step email sequences triggered by cart abandonment, browse behaviour, and purchase events. Abandoned cart flows typically run three emails over 24-72 hours. Post-purchase flows focus on onboarding, cross-sell timing, and review requests — the touchpoints that most brands skip but that significantly affect repeat purchase rates.",
+          "We build multi-step email sequences triggered by cart abandonment, browse behaviour, and purchase events. Abandoned cart flows typically run three emails over 24-72 hours. Post-purchase flows focus on onboarding, cross-sell timing, and review requests, the touchpoints that most brands skip but that significantly affect repeat purchase rates.",
       },
       {
         question: "Do you manage paid media on an ongoing retainer or project basis?",
@@ -337,12 +337,12 @@ export const expertisePages: ExpertisePage[] = [
       {
         question: "How do you measure FMCG campaign effectiveness when most purchases happen in-store?",
         answer:
-          "We focus on the digital signals that correlate with demand — website visits to stockist pages, retailer click-throughs, coupon or sample redemption rates, and social engagement quality. Where direct e-commerce tracking is possible, we implement it. For purely in-store products, we help build measurement frameworks that give you the best available proxies for commercial impact.",
+          "We focus on the digital signals that correlate with demand, website visits to stockist pages, retailer click-throughs, coupon or sample redemption rates, and social engagement quality. Where direct e-commerce tracking is possible, we implement it. For purely in-store products, we help build measurement frameworks that give you the best available proxies for commercial impact.",
       },
       {
         question: "Can you help coordinate media across a product launch?",
         answer:
-          "Yes. We structure launch campaigns across awareness, consideration, and conversion phases — typically covering social video, display, search, and influencer-adjacent targeting — with a shared reporting setup so you can see performance across the full launch window in one place.",
+          "Yes. We structure launch campaigns across awareness, consideration, and conversion phases, typically covering social video, display, search, and influencer-adjacent targeting, with a shared reporting setup so you can see performance across the full launch window in one place.",
       },
       {
         question: "Do you help with D2C ecommerce for FMCG brands?",
@@ -352,7 +352,7 @@ export const expertisePages: ExpertisePage[] = [
       {
         question: "How do you help FMCG brands build first-party data?",
         answer:
-          "We design lead capture mechanisms appropriate to FMCG — competition mechanics, product registration, sample request forms, and newsletter sign-ups tied to recipe content or lifestyle campaigns. These are paired with email automation sequences that maintain engagement and create a direct channel to consumers outside of paid media.",
+          "We design lead capture mechanisms appropriate to FMCG, competition mechanics, product registration, sample request forms, and newsletter sign-ups tied to recipe content or lifestyle campaigns. These are paired with email automation sequences that maintain engagement and create a direct channel to consumers outside of paid media.",
       },
       {
         question: "What's a realistic timeline for seeing clearer campaign reporting?",
@@ -370,7 +370,7 @@ export const expertisePages: ExpertisePage[] = [
     heroSnapshot: [
       {
         label: "Booking Visibility",
-        value: "Track which campaigns drive actual bookings and visits — not just page views and form submissions.",
+        value: "Track which campaigns drive actual bookings and visits, not just page views and form submissions.",
       },
       {
         label: "Event & Seasonal Campaigns",
@@ -426,12 +426,12 @@ export const expertisePages: ExpertisePage[] = [
       {
         question: "What channels work best for hospitality and entertainment brands?",
         answer:
-          "Meta and Instagram tend to work well for visually-driven venues — restaurants, hotels, and experience brands. Google Search captures high-intent bookings. YouTube and programmatic display suit awareness pushes for events or seasonal campaigns. The right mix depends on your venue type, booking lead time, and whether you're targeting local or destination audiences.",
+          "Meta and Instagram tend to work well for visually-driven venues, restaurants, hotels, and experience brands. Google Search captures high-intent bookings. YouTube and programmatic display suit awareness pushes for events or seasonal campaigns. The right mix depends on your venue type, booking lead time, and whether you're targeting local or destination audiences.",
       },
       {
         question: "Can you help with both B2C guest marketing and B2B corporate bookings?",
         answer:
-          "Yes. Many hospitality brands serve both audiences. We structure campaigns and CRM automation separately for each — typically LinkedIn and email sequences for corporate and events clients, and social plus search for leisure guests. Measurement and reporting are kept separate so you can evaluate each segment independently.",
+          "Yes. Many hospitality brands serve both audiences. We structure campaigns and CRM automation separately for each, typically LinkedIn and email sequences for corporate and events clients, and social plus search for leisure guests. Measurement and reporting are kept separate so you can evaluate each segment independently.",
       },
       {
         question: "How do you re-engage past guests?",
@@ -454,7 +454,7 @@ export const expertisePages: ExpertisePage[] = [
     heroSnapshot: [
       {
         label: "Lead Source Clarity",
-        value: "Know which portals, campaigns, and channels are generating your best-quality enquiries — not just the most volume.",
+        value: "Know which portals, campaigns, and channels are generating your best-quality enquiries, not just the most volume.",
       },
       {
         label: "Paid Lead Generation",
@@ -515,17 +515,17 @@ export const expertisePages: ExpertisePage[] = [
       {
         question: "We use Rightmove and Zoopla. Can you add value beyond portal listings?",
         answer:
-          "Yes. Portal listings generate passive demand. We build complementary paid campaigns that target buyers or tenants earlier in their research process — before they're comparison shopping on portals — giving your listings a better chance of converting when prospects do arrive. We also help build re-marketing audiences from portal traffic where technically possible.",
+          "Yes. Portal listings generate passive demand. We build complementary paid campaigns that target buyers or tenants earlier in their research process, before they're comparison shopping on portals, giving your listings a better chance of converting when prospects do arrive. We also help build re-marketing audiences from portal traffic where technically possible.",
       },
       {
         question: "How quickly can you help us set up follow-up automation?",
         answer:
-          "A basic automated follow-up sequence — instant confirmation email, 24-hour follow-up, and a 7-day re-engagement touch — can typically be live within one to two weeks. More complex workflows involving agent routing, lead scoring, and multi-stage nurture campaigns take three to four weeks, depending on CRM complexity.",
+          "A basic automated follow-up sequence, instant confirmation email, 24-hour follow-up, and a 7-day re-engagement touch, can typically be live within one to two weeks. More complex workflows involving agent routing, lead scoring, and multi-stage nurture campaigns take three to four weeks, depending on CRM complexity.",
       },
       {
         question: "Do you work with residential, commercial, or both?",
         answer:
-          "Both. The tracking and automation principles are the same. Commercial real estate campaigns typically involve longer sales cycles and smaller audience sizes, which changes how we structure paid media — LinkedIn becomes more relevant, and lead nurture sequences run over longer periods. We adjust the approach to fit the asset type and buyer profile.",
+          "Both. The tracking and automation principles are the same. Commercial real estate campaigns typically involve longer sales cycles and smaller audience sizes, which changes how we structure paid media, LinkedIn becomes more relevant, and lead nurture sequences run over longer periods. We adjust the approach to fit the asset type and buyer profile.",
       },
     ],
   },

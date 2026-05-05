@@ -80,7 +80,7 @@ const FooterNewsletter = () => {
               noValidate
               className="flex w-full flex-col gap-2.5 lg:max-w-md"
             >
-              {/* Unified pill — always visible */}
+              {/* Unified pill, always visible */}
               <div
                 className={`flex items-center rounded-full border bg-white/[0.05] p-1 transition-shadow duration-200 focus-within:shadow-[0_0_0_3px_rgba(51,204,153,0.10)] ${
                   errorMsg ? "border-destructive/50" : "border-white/12 focus-within:border-primary/35"

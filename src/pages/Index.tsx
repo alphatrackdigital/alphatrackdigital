@@ -812,8 +812,8 @@ const Index = () => {
                 className="font-medium text-foreground/80 underline-offset-4 transition-colors hover:text-primary hover:underline"
               >
                 Let's talk
-              </Link>{" "}
-              — we've likely worked in it.
+              </Link>
+              . We've likely worked in it.
             </p>
           </div>
         </div>

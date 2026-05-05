@@ -130,7 +130,7 @@ const tiers = [
 const whyCards: IconCard[] = [
   { icon: ClipboardCheck, title: "Measurement-First Approach", description: "We define what success means before touching any tools. Your tracking is built on a plan, not guesswork." },
   { icon: Building, title: "We Practice What We Preach", description: "Our own website runs on the same tracking stack we set up for clients. We're our own first case study." },
-  { icon: Layers, title: "Upgrade-Ready Architecture", description: "Start with what you need now. Our setups grow with you — no rebuilds needed when you scale." },
+  { icon: Layers, title: "Upgrade-Ready Architecture", description: "Start with what you need now. Our setups grow with you, no rebuilds needed when you scale." },
   { icon: ShieldCheck, title: "Every Event Is Provable", description: "We don't ship tracking that \"probably works.\" Every conversion event is validated before go-live." },
 ];
 
@@ -241,7 +241,7 @@ const ConversionTracking = () => {
                 <span className="title-safe-inline mt-1 block text-gradient">Start Measuring.</span>
               </h1>
               <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-muted-foreground">
-                We set up the tracking that tells you exactly which channels, campaigns, and clicks are driving your leads and sales — so you can spend smarter, not harder.
+                We set up the tracking that tells you exactly which channels, campaigns, and clicks are driving your leads and sales, so you can spend smarter, not harder.
               </p>
               <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
                 <Button asChild size="lg" className="gap-2 rounded-xl bg-primary px-9 text-primary-foreground hover:bg-primary/90">
@@ -433,7 +433,7 @@ const ConversionTracking = () => {
                   Measurement-first. Built to scale.
                 </h2>
                 <p className="mt-4 max-w-xl text-[15px] leading-7 text-muted-foreground">
-                  We don't start with tools. We start with your business. Before a single tag is placed, we agree on what success looks like — then build a setup that's accurate, auditable, and ready to grow with you.
+                  We don't start with tools. We start with your business. Before a single tag is placed, we agree on what success looks like, then build a setup that's accurate, auditable, and ready to grow with you.
                 </p>
                 <div className="mt-7 grid gap-3 md:grid-cols-3">
                   {deliveryPrinciples.map((item) => (
@@ -466,7 +466,7 @@ const ConversionTracking = () => {
             Built Around Your Stack
           </h2>
           <p className="mt-3 max-w-xl text-muted-foreground">
-            Every project starts with a measurement plan agreed upfront. All setups are upgrade-ready — no rebuilds as you grow.
+            Every project starts with a measurement plan agreed upfront. All setups are upgrade-ready, no rebuilds as you grow.
           </p>
           <div className="mt-12 overflow-hidden rounded-[30px] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.03)_0%,rgba(255,255,255,0.012)_100%)] px-6 py-8 shadow-[0_20px_70px_rgba(0,0,0,0.2)] md:px-8 md:py-10">
             <div className="relative hidden lg:block">

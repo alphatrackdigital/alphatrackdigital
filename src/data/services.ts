@@ -63,7 +63,7 @@ export const supportingServices: SupportingService[] = [
     title: "Website Development",
     bestFor: "Launches and landing paths",
     description:
-      "Fast, conversion-focused websites built on WordPress and Webflow — with tracking and SEO built in from day one.",
+      "Fast, conversion-focused websites built on WordPress and Webflow, with tracking and SEO built in from day one.",
     path: "/service/website-development",
     ctaLabel: "Plan a Website Build",
   },

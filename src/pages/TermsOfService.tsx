@@ -39,7 +39,7 @@ const TermsOfService = () => {
           <div>
             <h2 className="text-xl font-bold mb-3">Intellectual Property</h2>
             <p className="text-muted-foreground leading-relaxed">
-              All content on this website — including text, graphics, logos, and design — is the property of AlphaTrack Digital and is protected by applicable intellectual property laws. You may not reproduce or distribute any content without our written consent.
+              All content on this website, including text, graphics, logos, and design, is the property of AlphaTrack Digital and is protected by applicable intellectual property laws. You may not reproduce or distribute any content without our written consent.
             </p>
           </div>
 

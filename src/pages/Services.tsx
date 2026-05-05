@@ -57,15 +57,18 @@ const Services = () => {
             <span className="mb-5 inline-block text-xs font-semibold uppercase tracking-[0.2em] text-primary">
               Services
             </span>
-            <h1 className="mx-auto max-w-3xl text-[2.35rem] font-extrabold leading-[1.12] tracking-tight sm:text-4xl md:text-5xl lg:text-6xl">
-              <span className="block">Marketing Systems That</span>
-              <span className="mt-2 block text-[2.22rem] leading-[1.08] text-gradient sm:text-4xl md:text-5xl lg:text-6xl">
-                Track, Acquire, and Retain
+            <h1 className="mx-auto max-w-3xl font-extrabold leading-[1.08] tracking-tight md:text-5xl lg:text-6xl">
+              <span className="block whitespace-nowrap text-[1.45rem] min-[360px]:text-[1.7rem] min-[390px]:text-[1.8rem] min-[430px]:text-[1.95rem] sm:text-[2.15rem] md:text-5xl lg:text-6xl">
+                Marketing Systems That
+              </span>
+              <span className="mt-2 block text-[1.45rem] leading-[1.04] text-gradient min-[360px]:text-[1.7rem] min-[390px]:text-[1.8rem] min-[430px]:text-[1.95rem] sm:text-[2.15rem] md:text-5xl md:leading-tight lg:text-6xl">
+                <span className="block whitespace-nowrap">Track, Acquire, and</span>
+                <span className="block">Retain</span>
               </span>
             </h1>
             <p className="mx-auto mt-6 max-w-2xl text-[1.02rem] leading-8 text-muted-foreground sm:text-lg sm:leading-relaxed">
               We build the measurement, paid media, and automation infrastructure that makes growth
-              predictable — not accidental. Every service is designed to connect, compound, and
+              predictable, not accidental. Every service is designed to connect, compound, and
               prove its value.
             </p>
             <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
@@ -115,7 +118,7 @@ const Services = () => {
           <SectionIntro
             eyebrow="Core Services"
             title="Where We Deliver the Most Impact"
-            description="Our three core services form the backbone of every engagement. They're designed to work together — but each delivers measurable value on its own."
+            description="Our three core services form the backbone of every engagement. They're designed to work together, but each delivers measurable value on its own."
             width="wide"
             titleClassName="text-[1.65rem] md:text-3xl"
             descriptionClassName="hidden max-w-2xl text-sm sm:block"
@@ -422,8 +425,8 @@ const Services = () => {
           {/* Desktop diagram */}
           <div className="relative hidden lg:block" style={{ height: "360px" }}>
 
-            {/* SVG connector lines — static dashed, no animation */}
-            {/* viewBox 1100×360; nodes: w=28%, left=[0%,35.5%,71%], top=[10px,30px,10px], no card padding
+            {/* SVG connector lines, static dashed, no animation */}
+            {/* viewBox 1100x360; nodes: w=28%, left=[0%,35.5%,71%], top=[10px,30px,10px], no card padding
                 icon ring 72px → icon right/left edges from node left:
                 P1 right x=72, y=46  |  P2 left x=390, right x=462, y=66  |  P3 left x=781, y=46 */}
             <svg

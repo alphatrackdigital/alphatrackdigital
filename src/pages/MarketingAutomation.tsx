@@ -239,7 +239,7 @@ const MarketingAutomation = () => {
                 <span className="title-safe-inline text-gradient">Nurture the Sale.</span>
               </h1>
               <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-muted-foreground">
-                We build the automated workflows, email sequences, and CRM systems that turn captured leads into paying clients — without the manual bottlenecks slowing your team down.
+                We build the automated workflows, email sequences, and CRM systems that turn captured leads into paying clients, without the manual bottlenecks slowing your team down.
               </p>
               <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
                 <Button asChild size="lg" className="gap-2 rounded-xl bg-primary px-9 text-primary-foreground hover:bg-primary/90">
@@ -368,7 +368,7 @@ const MarketingAutomation = () => {
                     <span className="rounded-full bg-red-500/15 px-2.5 py-0.5 text-[10px] font-bold text-red-400">Manual</span>
                   </div>
                   {[
-                    { msg: "Lead arrived — no follow-up sent", time: "6h ago" },
+                    { msg: "Lead arrived, no follow-up sent", time: "6h ago" },
                     { msg: "3 enquiries missed this week", time: "3d ago" },
                     { msg: "Manual reminder: call lead back", time: "5d ago" },
                     { msg: "Proposal email sent manually", time: "1w ago" },
@@ -438,7 +438,7 @@ const MarketingAutomation = () => {
                   Automated from first touch to close
                 </h2>
                 <p className="mt-4 max-w-xl text-[15px] leading-7 text-muted-foreground">
-                  We design automation around your sales process, not a generic template. Every workflow is mapped, tested, and validated before it goes live — and you own everything after handover.
+                  We design automation around your sales process, not a generic template. Every workflow is mapped, tested, and validated before it goes live, and you own everything after handover.
                 </p>
                 <div className="mt-7 grid gap-3 md:grid-cols-2">
                   {processSteps.map((step) => (
