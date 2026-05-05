@@ -208,10 +208,7 @@ const Services = () => {
                     </div>
                     <div className="min-w-0">
                       <h4 className="truncate text-[15px] font-semibold md:truncate-none">{service.title}</h4>
-                      <p className="mt-1 hidden text-[11px] font-medium uppercase tracking-[0.14em] text-primary/60 sm:block md:min-h-[2.5rem] lg:min-h-[3.25rem]">
-                        {service.bestFor}
-                      </p>
-                      <p className="mt-1.5 line-clamp-2 text-[13px] leading-6 text-muted-foreground sm:mt-2">
+                      <p className="mt-2 line-clamp-2 text-[13px] leading-6 text-muted-foreground">
                         {service.description}
                       </p>
                       <span className="mt-2.5 inline-flex items-center gap-1 text-xs font-medium text-primary/80 transition-colors group-hover:text-primary sm:mt-4">
