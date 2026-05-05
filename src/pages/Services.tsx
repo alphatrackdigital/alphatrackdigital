@@ -52,16 +52,18 @@ const Services = () => {
           <div className="absolute left-1/2 top-1/3 h-[520px] w-[520px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-atd-blue/[0.07] blur-[140px]" />
           <div className="absolute right-[8%] bottom-[10%] h-[280px] w-[280px] rounded-full bg-primary/[0.05] blur-[100px]" />
         </div>
-        <div className="container relative mx-auto px-4 text-center lg:px-8">
+        <div className="container relative mx-auto px-6 text-center lg:px-8">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
             <span className="mb-5 inline-block text-xs font-semibold uppercase tracking-[0.2em] text-primary">
               Services
             </span>
-            <h1 className="mx-auto max-w-3xl text-4xl font-extrabold leading-tight tracking-tight md:text-5xl lg:text-6xl">
-              Marketing Systems That{" "}
-              <span className="text-gradient">Track, Acquire, and Retain</span>
+            <h1 className="mx-auto max-w-3xl text-[2.35rem] font-extrabold leading-[1.12] tracking-tight sm:text-4xl md:text-5xl lg:text-6xl">
+              <span className="block">Marketing Systems That</span>
+              <span className="mt-2 block text-[2.22rem] leading-[1.08] text-gradient sm:text-4xl md:text-5xl lg:text-6xl">
+                Track, Acquire, and Retain
+              </span>
             </h1>
-            <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-muted-foreground">
+            <p className="mx-auto mt-6 max-w-2xl text-[1.02rem] leading-8 text-muted-foreground sm:text-lg sm:leading-relaxed">
               We build the measurement, paid media, and automation infrastructure that makes growth
               predictable — not accidental. Every service is designed to connect, compound, and
               prove its value.
@@ -109,7 +111,7 @@ const Services = () => {
 
       {/* Core Services */}
       <section className="pt-12 pb-0 md:pt-16">
-        <div className="container mx-auto px-4 lg:px-8">
+        <div className="container mx-auto px-6 lg:px-8">
           <SectionIntro
             eyebrow="Core Services"
             title="Where We Deliver the Most Impact"
@@ -179,7 +181,7 @@ const Services = () => {
 
       {/* Supporting Services */}
       <section className="pb-14 pt-10 md:pb-20 md:pt-14">
-        <div className="container mx-auto px-4 lg:px-8">
+        <div className="container mx-auto px-6 lg:px-8">
           <div className="border-t border-border pt-8 md:pt-10">
             <SectionIntro
               eyebrow="Supporting Services"
@@ -225,7 +227,7 @@ const Services = () => {
 
       {/* Operating System */}
       <section className="border-t border-white/10 bg-white/[0.01] py-12 md:py-20">
-        <div className="container mx-auto px-4 lg:px-8">
+        <div className="container mx-auto px-6 lg:px-8">
           <SectionIntro
             eyebrow="Operating System"
             mode="content"
@@ -323,7 +325,7 @@ const Services = () => {
 
       {/* How We Engage */}
       <section className="border-t border-white/10 py-16 md:py-20">
-        <div className="container mx-auto px-4 lg:px-8">
+        <div className="container mx-auto px-6 lg:px-8">
           <SectionIntro
             eyebrow="How We Engage"
             mode="content"
@@ -405,7 +407,7 @@ const Services = () => {
 
       {/* How We Think */}
       <section className="border-t border-white/10 py-12 md:py-20">
-        <div className="container mx-auto px-4 lg:px-8">
+        <div className="container mx-auto px-6 lg:px-8">
           <SectionIntro
             eyebrow="How We Think"
             mode="content"
@@ -536,7 +538,7 @@ const Services = () => {
 
       {/* Proof strip */}
       <section className="border-t border-white/10 bg-white/[0.01] py-12">
-        <div className="container mx-auto px-4 lg:px-8">
+        <div className="container mx-auto px-6 lg:px-8">
           <div className="grid grid-cols-2 gap-8 sm:grid-cols-3 md:grid-cols-5">
             {tractionMetrics.map((m, i) => {
               const colors = ["#003399", "#00AFEF", "#33CC99", "#00AFEF", "#003399"];

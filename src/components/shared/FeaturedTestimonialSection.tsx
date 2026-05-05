@@ -22,7 +22,7 @@ const FeaturedTestimonialSection = ({
       data-testid="featured-testimonial-section"
       className={cn("border-t border-white/10 py-12 md:py-16", className)}
     >
-      <div className="container mx-auto px-4 lg:px-8">
+      <div className="container mx-auto px-6 lg:px-8">
         <motion.div
           initial={shouldReduceMotion ? false : { opacity: 0, y: 18 }}
           whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
@@ -51,13 +51,13 @@ const FeaturedTestimonialSection = ({
               <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-primary/86">
                 {eyebrow}
               </p>
-              <h2 className="mt-1 text-[1.35rem] font-bold leading-tight tracking-tight text-foreground">
+              <h2 className="mt-1 text-[1.22rem] font-bold leading-tight tracking-tight text-foreground">
                 {title}
               </h2>
             </div>
           </div>
 
-          <blockquote className="relative mt-5 text-[0.95rem] leading-7 text-foreground">
+          <blockquote className="relative mt-5 text-[0.88rem] leading-[1.72] text-foreground">
             "{featuredTestimonial.quote}"
           </blockquote>
 
