@@ -1028,7 +1028,7 @@ const Index = () => {
               <Quote className="h-6 w-6 text-primary/20 md:h-8 md:w-8" />
             </div>
             <blockquote className="-mt-1 max-w-[34rem] text-[0.88rem] leading-6 text-foreground/86 md:max-w-[42rem] md:text-[1.08rem] md:leading-8">
-              "{featuredTestimonial.quote}"
+              {featuredTestimonial.quote}
             </blockquote>
             <div className="mt-3 border-t border-white/[0.08] pt-3 md:mt-6 md:pt-4">
               <div className="flex items-center gap-3 md:gap-4">
