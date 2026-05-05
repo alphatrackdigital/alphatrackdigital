@@ -270,7 +270,7 @@ const PaidMedia = () => {
                 <span className="title-safe-inline text-gradient">Proves Its Value</span>
               </h1>
               <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-muted-foreground">
-                Strategic paid social and search campaigns built to drive qualified traffic. We combine Meta Ads, Google Ads, and LinkedIn to reach your audience where they are — and prove every spend.
+                Strategic paid social and search campaigns built to drive qualified traffic. We combine Meta Ads, Google Ads, and LinkedIn to reach your audience where they are, and prove every spend.
               </p>
               <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
                 <Button asChild size="lg" className="gap-2 rounded-xl bg-primary px-9 text-primary-foreground hover:bg-primary/90">
@@ -372,7 +372,7 @@ const PaidMedia = () => {
                   Most paid media spend disappears without proof
                 </h2>
                 <p className="mt-4 max-w-xl text-[15px] leading-7 text-muted-foreground">
-                  Without proper tracking and a deliberate channel strategy, ad budgets are allocated on instinct. Platforms report the numbers they want to show — and your real return stays invisible.
+                  Without proper tracking and a deliberate channel strategy, ad budgets are allocated on instinct. Platforms report the numbers they want to show, and your real return stays invisible.
                 </p>
                 <ul className="mt-6 space-y-2.5">
                   {[
@@ -400,9 +400,9 @@ const PaidMedia = () => {
                     <span className="rounded-full bg-red-500/15 px-2.5 py-0.5 text-[10px] font-bold text-red-400">Untracked</span>
                   </div>
                   {[
-                    { channel: "Google Ads", spend: "£4,200", conv: "—" },
-                    { channel: "Meta Ads", spend: "£3,800", conv: "—" },
-                    { channel: "LinkedIn", spend: "£1,200", conv: "—" },
+                    { channel: "Google Ads", spend: "£4,200", conv: "-" },
+                    { channel: "Meta Ads", spend: "£3,800", conv: "-" },
+                    { channel: "LinkedIn", spend: "£1,200", conv: "-" },
                   ].map((row) => (
                     <div key={row.channel} className="mb-2 flex items-center justify-between rounded-xl border border-white/5 bg-white/[0.03] px-3.5 py-2">
                       <span className="text-[13px]">{row.channel}</span>
@@ -446,7 +446,7 @@ const PaidMedia = () => {
                     </span>
                   </div>
                   {[
-                    { metric: "ROAS", value: "4.2×", change: "+18%", up: true },
+                    { metric: "ROAS", value: "4.2x", change: "+18%", up: true },
                     { metric: "CAC", value: "£14.80", change: "−24%", up: true },
                     { metric: "CTR", value: "3.8%", change: "+0.9pp", up: true },
                     { metric: "Qualified Leads", value: "342", change: "+61%", up: true },

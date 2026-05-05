@@ -23,7 +23,7 @@ export const blogPosts: BlogPost[] = [
     slug: "the-power-of-no-code-web-design-for-small-businesses",
     title: "The Power of No-Code Web Design for Small Businesses",
     excerpt:
-      "Why modern no-code platforms are levelling the playing field for small business websites — and how to use them to compete with bigger brands.",
+      "Why modern no-code platforms are levelling the playing field for small business websites, and how to use them to compete with bigger brands.",
     image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=600&auto=format&fit=crop&q=60",
     category: "Web Development",
     readTime: "4 min read",
@@ -33,7 +33,7 @@ export const blogPosts: BlogPost[] = [
     slug: "why-programmatic-advertising-is-a-game-changer",
     title: "Why Programmatic Advertising is a Game-Changer",
     excerpt:
-      "Programmatic advertising is reshaping how brands reach audiences at scale — here's what you need to know about automated, data-driven ad buying.",
+      "Programmatic advertising is reshaping how brands reach audiences at scale, here's what you need to know about automated, data-driven ad buying.",
     image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600&auto=format&fit=crop&q=60",
     category: "Paid Media",
     readTime: "6 min read",
@@ -93,7 +93,7 @@ export const blogPosts: BlogPost[] = [
     slug: "linkedin-ads-b2b-strategy-guide",
     title: "LinkedIn Ads for B2B: A Strategy Guide That Actually Works",
     excerpt:
-      "LinkedIn is the most expensive ad platform — and the most misused. Here's how to structure campaigns, target the right decision-makers, and turn clicks into qualified pipeline.",
+      "LinkedIn is the most expensive ad platform, and the most misused. Here's how to structure campaigns, target the right decision-makers, and turn clicks into qualified pipeline.",
     image: "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=600&auto=format&fit=crop&q=60",
     category: "Paid Social",
     readTime: "7 min read",
@@ -103,7 +103,7 @@ export const blogPosts: BlogPost[] = [
     slug: "email-automation-flows-every-business-needs",
     title: "5 Email Automation Flows Every Business Needs (And How to Build Them)",
     excerpt:
-      "Most businesses set up a welcome email and call it automation. Here are the five high-revenue flows you're probably missing — and exactly how to build them on Brevo or Klaviyo.",
+      "Most businesses set up a welcome email and call it automation. Here are the five high-revenue flows you're probably missing, and exactly how to build them on Brevo or Klaviyo.",
     image: "https://images.unsplash.com/photo-1596526131083-e8c633c948d2?w=600&auto=format&fit=crop&q=60",
     category: "Automation",
     readTime: "6 min read",
@@ -123,7 +123,7 @@ export const blogPosts: BlogPost[] = [
     slug: "server-side-tracking-why-your-business-needs-it",
     title: "Server-Side Tracking: Why Your Business Needs It in 2025",
     excerpt:
-      "Ad blockers, iOS privacy changes, and cookie restrictions are breaking client-side tracking across the board. Server-side tagging is no longer optional — here's why and how to implement it.",
+      "Ad blockers, iOS privacy changes, and cookie restrictions are breaking client-side tracking across the board. Server-side tagging is no longer optional, here's why and how to implement it.",
     image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&auto=format&fit=crop&q=60",
     category: "Tracking",
     readTime: "8 min read",

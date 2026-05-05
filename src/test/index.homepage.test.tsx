@@ -54,7 +54,7 @@ describe("Homepage proof and stack sections", () => {
     expect(screen.queryByText("Viewer-to-Site Rate")).not.toBeInTheDocument();
     expect(screen.queryByText("Completion Rate")).not.toBeInTheDocument();
     expect(screen.queryByText(/^Website Visits$/)).not.toBeInTheDocument();
-    expect(screen.queryByText("4.2Ã—")).not.toBeInTheDocument();
+    expect(screen.queryByText("4.2x")).not.toBeInTheDocument();
     expect(screen.queryByText("+68%")).not.toBeInTheDocument();
     expect(screen.queryByText("99.4%")).not.toBeInTheDocument();
     expect(screen.queryByText("âˆ’25%")).not.toBeInTheDocument();
