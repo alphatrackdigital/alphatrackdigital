@@ -239,13 +239,43 @@ const Services = () => {
             titleClassName="text-[1.65rem] leading-[1.12] md:text-4xl"
             descriptionClassName="hidden max-w-2xl text-sm leading-6 sm:block md:text-base md:leading-7"
           />
-          <div className="grid gap-6 lg:grid-cols-[0.62fr_1.38fr] lg:gap-10">
+          <div className="relative mx-auto w-full max-w-[24rem] lg:hidden">
+            {ctmaFramework.map((item, i) => (
+              <motion.div
+                key={item.title}
+                custom={i}
+                initial={shouldReduceMotion ? false : "hidden"}
+                whileInView={shouldReduceMotion ? undefined : "visible"}
+                viewport={{ once: true, margin: "-40px" }}
+                variants={fadeUp}
+                className="relative grid grid-cols-[44px_minmax(0,1fr)] items-start gap-4 py-3.5"
+              >
+                {i < ctmaFramework.length - 1 && (
+                  <div className="absolute left-[21px] top-12 h-[calc(100%-1rem)] w-px bg-gradient-to-b from-primary/45 to-white/10" />
+                )}
+                <div className="relative z-10 flex h-11 w-11 items-center justify-center rounded-full border border-primary/35 bg-background text-[0.76rem] font-bold text-primary">
+                  <span>{String(i + 1).padStart(2, "0")}</span>
+                </div>
+                <div className="min-w-0">
+                  <h3 className="text-[1.06rem] font-semibold tracking-tight text-foreground">{item.title}</h3>
+                  <p className="mt-1 line-clamp-2 text-[13px] leading-6 text-muted-foreground">
+                    {mobileCtmaSummaries[item.title] ?? item.summary}
+                  </p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          <div className="relative hidden overflow-hidden rounded-[28px] border border-white/[0.08] bg-[radial-gradient(circle_at_top_left,rgba(51,204,153,0.05),transparent_24%),radial-gradient(circle_at_82%_14%,rgba(0,175,239,0.05),transparent_22%),linear-gradient(180deg,rgba(255,255,255,0.024)_0%,rgba(255,255,255,0.01)_100%)] p-4 shadow-[0_22px_54px_rgba(0,0,0,0.14)] md:rounded-[32px] md:p-6 lg:block lg:p-7">
+            <div className="pointer-events-none absolute inset-0 opacity-[0.05]" style={{ backgroundImage: "linear-gradient(rgba(255,255,255,0.12) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.12) 1px, transparent 1px)", backgroundSize: "84px 84px" }} />
+            <div className="pointer-events-none absolute inset-x-12 top-0 h-px bg-gradient-to-r from-transparent via-white/16 to-transparent" />
+            <div className="relative grid gap-5 lg:grid-cols-[0.66fr_1.34fr] lg:gap-8">
               <motion.div
                 initial={shouldReduceMotion ? false : { opacity: 0, y: 16 }}
                 whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-40px" }}
                 transition={{ duration: shouldReduceMotion ? 0 : 0.45 }}
-                className="hidden h-full flex-col md:flex"
+                className="flex h-full flex-col"
               >
                 <div>
                   <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-primary/82">System Logic</p>
@@ -255,12 +285,12 @@ const Services = () => {
                 </div>
                 <div className="relative mt-5 flex items-center justify-center lg:mt-6 lg:justify-start">
                   <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,175,239,0.08)_0%,transparent_55%)] blur-3xl" />
-                  <div className="relative w-full max-w-[300px] sm:max-w-[340px] md:max-w-[360px]">
-                    <img src="/ctma-operating-system-optimized.jpg" alt="AlphaTrack Digital connected operating system flow" className="relative w-full rounded-[18px] object-contain opacity-90" loading="lazy" width={1100} height={604} />
+                  <div className="relative w-full max-w-[300px] overflow-hidden rounded-[22px] border border-white/[0.08] bg-[radial-gradient(circle_at_top_left,rgba(0,175,239,0.08),transparent_30%),linear-gradient(180deg,rgba(255,255,255,0.025)_0%,rgba(255,255,255,0.01)_100%)] p-2 shadow-[0_20px_44px_rgba(0,0,0,0.16)] sm:max-w-[340px] md:max-w-[360px] md:rounded-[24px] md:p-2.5">
+                    <img src="/ctma-operating-system-optimized.jpg" alt="AlphaTrack Digital connected operating system flow" className="relative w-full rounded-[22px] object-contain" loading="lazy" width={1100} height={604} />
                   </div>
                 </div>
               </motion.div>
-              <div className="relative mx-auto w-full max-w-[24rem] md:mx-0 md:max-w-none">
+              <div className="grid grid-cols-1 gap-2.5 overflow-hidden rounded-[24px] border border-white/[0.08] bg-black/10 p-1.5 md:gap-0 md:rounded-[28px] md:p-0">
                 {ctmaFramework.map((item, i) => (
                   <motion.div
                     key={item.title}
@@ -269,19 +299,19 @@ const Services = () => {
                     whileInView={shouldReduceMotion ? undefined : "visible"}
                     viewport={{ once: true, margin: "-40px" }}
                     variants={fadeUp}
-                    className="relative grid grid-cols-[44px_minmax(0,1fr)] items-start gap-4 py-3.5 md:grid-cols-[56px_minmax(0,1fr)] md:gap-5 md:py-4"
-                  >
-                    {i < ctmaFramework.length - 1 && (
-                      <div className="absolute left-[21px] top-12 h-[calc(100%-1rem)] w-px bg-gradient-to-b from-primary/45 to-white/10" />
+                    className={cn(
+                      "grid grid-cols-[42px_minmax(0,1fr)] items-center gap-3 rounded-[18px] border border-white/[0.08] bg-white/[0.02] px-3.5 py-3 transition-colors duration-300 hover:bg-white/[0.03] md:min-h-0 md:rounded-none md:border-0 md:bg-transparent md:grid-cols-[74px_minmax(0,1fr)] md:items-start md:gap-4 md:px-5 md:py-[1.125rem]",
+                      i !== 0 && "md:border-t md:border-white/[0.08]",
                     )}
-                    <div className="relative z-10 flex h-11 w-11 items-center justify-center rounded-full border border-primary/35 bg-background text-[0.76rem] font-bold text-primary">
-                      <span>
-                        {String(i + 1).padStart(2, "0")}
+                  >
+                    <div className="flex h-10 w-10 items-center justify-center rounded-[16px] border border-white/[0.08] bg-[radial-gradient(circle_at_top_left,rgba(51,204,153,0.14),transparent_34%),radial-gradient(circle_at_bottom_right,rgba(0,175,239,0.12),transparent_42%),linear-gradient(180deg,rgba(255,255,255,0.035)_0%,rgba(255,255,255,0.012)_100%)] shadow-[inset_0_1px_0_rgba(255,255,255,0.04),0_14px_26px_rgba(0,0,0,0.14)] md:h-11 md:w-11 md:rounded-[18px]">
+                      <span className="bg-[linear-gradient(135deg,#ffffff_0%,#33cc99_48%,#00afef_100%)] bg-clip-text text-[0.88rem] font-black tracking-[0.18em] text-transparent md:text-[0.98rem]">
+                        {item.title.charAt(0)}
                       </span>
                     </div>
-                    <div className="min-w-0">
-                      <h3 className="text-[1.06rem] font-semibold tracking-tight text-foreground md:text-[1.08rem]">{item.title}</h3>
-                      <p className="mt-1 line-clamp-2 text-[13px] leading-6 text-muted-foreground md:mt-1.5 md:max-w-xl md:line-clamp-none md:text-sm md:leading-6">
+                    <div>
+                      <h3 className="text-[0.95rem] font-semibold tracking-tight text-foreground md:text-[1.06rem]">{item.title}</h3>
+                      <p className="mt-1 max-w-xl text-[11px] leading-5 text-muted-foreground whitespace-nowrap md:mt-1.5 md:text-sm md:leading-6 md:whitespace-normal">
                         <span className="md:hidden">{mobileCtmaSummaries[item.title] ?? item.summary}</span>
                         <span className="hidden md:inline">{item.summary}</span>
                       </p>
@@ -289,6 +319,7 @@ const Services = () => {
                   </motion.div>
                 ))}
               </div>
+            </div>
           </div>
         </div>
       </section>
