@@ -359,7 +359,7 @@ const TrackingLandingPage = () => {
       </section>
 
       <section className="border-t border-white/[0.06] bg-white/[0.01] py-16 md:py-20">
-        <div className="container mx-auto px-4 lg:px-8">
+        <div className="container mx-auto px-6 md:px-4 lg:px-8">
           <h2 className="mb-10 text-center text-sm font-semibold text-muted-foreground">
             If any of these sound familiar, the tracking needs attention
           </h2>
@@ -420,7 +420,7 @@ const TrackingLandingPage = () => {
       </section>
 
       <section className="border-t border-white/[0.06] bg-white/[0.01] py-12 md:py-16">
-        <div className="container mx-auto px-4 lg:px-8">
+        <div className="container mx-auto px-6 md:px-4 lg:px-8">
           <div className="mx-auto max-w-3xl text-center">
             <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
               How we keep it useful
@@ -453,7 +453,7 @@ const TrackingLandingPage = () => {
       </section>
 
       <section id="claim" className="border-t border-white/[0.06] py-16 md:py-20">
-        <div className="container mx-auto px-4 lg:px-8">
+        <div className="container mx-auto px-6 md:px-4 lg:px-8">
           <div className="grid gap-6 md:gap-10 lg:grid-cols-[minmax(0,1.16fr)_minmax(420px,500px)] lg:items-start lg:gap-6 xl:gap-10">
             <motion.div
               initial={{ opacity: 0, y: 20 }}

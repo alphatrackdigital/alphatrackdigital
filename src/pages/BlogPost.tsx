@@ -399,7 +399,7 @@ const BlogPost = () => {
         </div>
       </section>
       <article className="py-12">
-        <div className="container mx-auto px-4 lg:px-8">
+        <div className="container mx-auto px-6 md:px-4 lg:px-8">
           <div className="mx-auto max-w-4xl">
             <Link to="/blog" className="mb-6 inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-primary">
               <ArrowLeft className="h-4 w-4" /> Back to blog
@@ -443,7 +443,7 @@ const BlogPost = () => {
 
       {/* Related Posts */}
       <section className="border-t border-white/10 py-16">
-        <div className="container mx-auto px-4 lg:px-8">
+        <div className="container mx-auto px-6 md:px-4 lg:px-8">
           <h2 className="mb-8 text-2xl font-bold">More Articles</h2>
           <div className="grid gap-6 md:grid-cols-3">
             {relatedPosts.map((rp) => (

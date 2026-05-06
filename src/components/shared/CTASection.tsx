@@ -17,6 +17,7 @@ interface CTASectionProps {
   layout?: "centered" | "split";
   titleClassName?: string;
   descriptionClassName?: string;
+  className?: string;
 }
 
 const CTASection = ({
@@ -33,6 +34,7 @@ const CTASection = ({
   layout = "centered",
   titleClassName,
   descriptionClassName,
+  className,
 }: CTASectionProps) => {
   const location = useLocation();
   const containerIsSplit = layout === "split";
@@ -51,7 +53,8 @@ const CTASection = ({
     <section
       className={cn(
         "relative overflow-hidden border-t border-white/10",
-        variant === "inline-proof" ? "py-12 md:py-16" : "py-10 md:py-[4.75rem]",
+        variant === "service-close" ? "py-5 md:py-[4.75rem]" : variant === "inline-proof" ? "py-12 md:py-16" : "py-10 md:py-[4.75rem]",
+        className,
       )}
     >
       <div className="pointer-events-none absolute inset-0">
@@ -72,12 +75,12 @@ const CTASection = ({
       <div className="container relative mx-auto px-4 lg:px-8">
         <div
           className={cn(
-            "relative overflow-hidden rounded-[22px] border border-white/10 bg-white/[0.02] md:rounded-[28px]",
+            "relative overflow-hidden border-white/10 bg-white/[0.02] md:rounded-[28px] md:border",
             variant === "hero-close" &&
-              "border-primary/15 bg-[radial-gradient(circle_at_top_left,rgba(51,204,153,0.07),transparent_34%),linear-gradient(180deg,rgba(255,255,255,0.025)_0%,rgba(255,255,255,0.01)_100%)] shadow-[0_14px_40px_rgba(0,0,0,0.12)] md:rounded-[24px]",
-            variant === "service-close" && "mx-auto max-w-[66rem]",
+              "rounded-[20px] border border-primary/15 bg-[radial-gradient(circle_at_top_left,rgba(51,204,153,0.07),transparent_34%),linear-gradient(180deg,rgba(255,255,255,0.025)_0%,rgba(255,255,255,0.01)_100%)] shadow-[0_20px_60px_rgba(0,0,0,0.22),inset_0_1px_0_rgba(255,255,255,0.05)] md:rounded-[26px]",
+            variant === "service-close" && "mx-auto max-w-[66rem] border-0 bg-transparent md:border md:bg-white/[0.02]",
             variant === "hero-close" && "px-5 py-7 md:px-10 md:py-10",
-            variant === "service-close" && "px-6 py-10 md:px-9",
+            variant === "service-close" && "px-0 py-4 md:px-9 md:py-10",
             variant === "inline-proof" && "px-6 py-8 md:px-8",
           )}
         >
@@ -128,12 +131,18 @@ const CTASection = ({
                   : "items-center",
               )}
             >
-              <div className="flex w-full max-w-full flex-col items-stretch gap-3.5 sm:w-auto sm:flex-row sm:items-center">
+              <div
+                className={cn(
+                  "flex w-full max-w-full flex-col gap-3.5 sm:w-auto sm:flex-row sm:items-center",
+                  variant === "service-close" ? "items-center" : "items-stretch",
+                )}
+              >
                 <Button
                   asChild
                   size="lg"
                   className={cn(
                     "h-11 max-w-full rounded-xl bg-primary px-5 text-center text-primary-foreground hover:bg-primary/90 sm:px-8 md:h-11",
+                    variant === "service-close" && "w-auto px-7",
                     variant === "hero-close" && "shadow-[0_0_18px_rgba(51,204,153,0.10)]",
                   )}
                 >

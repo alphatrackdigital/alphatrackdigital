@@ -56,7 +56,7 @@ const Blog = () => {
 
       {/* Category filter */}
       <section className="border-b border-white/10 bg-white/[0.01] pb-6">
-        <div className="container mx-auto px-4 lg:px-8">
+        <div className="container mx-auto px-6 md:px-4 lg:px-8">
           <div className="flex flex-wrap gap-2" role="list" aria-label="Filter by category">
             {categories.map((cat) => (
               <button
@@ -84,7 +84,7 @@ const Blog = () => {
       </section>
 
       <section className="py-12">
-        <div className="container mx-auto px-4 lg:px-8">
+        <div className="container mx-auto px-6 md:px-4 lg:px-8">
           <AnimatePresence mode="wait">
             {featured ? (
               <motion.div
@@ -132,7 +132,7 @@ const Blog = () => {
 
       {rest.length > 0 && (
         <section className="pb-20">
-          <div className="container mx-auto px-4 lg:px-8">
+          <div className="container mx-auto px-6 md:px-4 lg:px-8">
             <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
               <AnimatePresence>
                 {rest.map((post, i) => (
