@@ -36,16 +36,16 @@ const FooterNewsletter = () => {
   };
 
   return (
-    <div className="relative mb-10 md:mb-12">
+    <div className="relative mb-12">
       {/* Top glow line */}
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
       {/* Bottom divider */}
       <div className="absolute inset-x-0 bottom-0 h-px bg-white/10" />
 
-      <div className="py-8 md:py-10">
+      <div className="py-10">
         {status === "success" ? (
           <div
-            className="flex items-center gap-3 py-1"
+            className="mx-auto flex max-w-[28rem] items-center justify-center gap-3 py-1 text-left"
             role="status"
             aria-live="polite"
           >
@@ -62,15 +62,18 @@ const FooterNewsletter = () => {
             </div>
           </div>
         ) : (
-          <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between lg:gap-16">
+          <div className="mx-auto flex max-w-5xl items-center justify-center gap-10 xl:gap-14">
 
             {/* Heading block */}
-            <div className="shrink-0 lg:max-w-xs">
-              <p className="text-xl font-bold leading-tight tracking-tight text-foreground">
-                The newsletter marketers actually read.
+            <div className="max-w-[28rem] shrink-0 text-left">
+              <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.22em] text-primary/70">
+                Free Newsletter
               </p>
-              <p className="mt-2 text-[13px] leading-relaxed text-muted-foreground">
-                Fortnightly. Free. No fluff.
+              <p className="text-[1.28rem] font-bold leading-snug tracking-tight text-foreground">
+                Practical insights for performance marketers.
+              </p>
+              <p className="mt-2 max-w-[25rem] text-[13px] leading-relaxed text-muted-foreground/85">
+                Tracking, paid media, and automation. Every two weeks.
               </p>
             </div>
 
@@ -78,30 +81,28 @@ const FooterNewsletter = () => {
             <form
               onSubmit={handleSubmit}
               noValidate
-              className="flex w-full flex-col gap-2.5 lg:max-w-md"
+              className="flex w-full max-w-[28rem] flex-col gap-3 text-left"
             >
-              {/* Unified pill, always visible */}
               <div
-                className={`flex items-center rounded-full border bg-white/[0.05] p-1 transition-shadow duration-200 focus-within:shadow-[0_0_0_3px_rgba(51,204,153,0.10)] ${
-                  errorMsg ? "border-destructive/50" : "border-white/12 focus-within:border-primary/35"
+                className={`flex min-h-14 items-center rounded-full border bg-white/[0.06] p-1.5 transition-shadow duration-200 focus-within:shadow-[0_0_0_3px_rgba(51,204,153,0.14)] ${
+                  errorMsg ? "border-destructive/50" : "border-white/[0.12] focus-within:border-primary/35"
                 }`}
               >
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => { setEmail(e.target.value); if (errorMsg) setErrorMsg(""); }}
-                  placeholder="your@email.com"
+                  placeholder="Enter your email address"
                   required
                   aria-label="Email address"
                   aria-invalid={Boolean(errorMsg)}
                   aria-describedby={errorMsg ? emailErrorId : undefined}
-                  className="h-10 min-w-0 flex-1 bg-transparent px-4 text-[13px] text-foreground placeholder:text-muted-foreground/50 focus-visible:outline-none"
+                  className="h-11 min-w-0 flex-1 bg-transparent px-5 text-[14px] text-foreground placeholder:text-muted-foreground/65 focus-visible:outline-none"
                 />
-                {/* Desktop inline button */}
                 <button
                   type="submit"
                   disabled={status === "loading"}
-                  className="hidden h-10 shrink-0 items-center justify-center rounded-full bg-primary px-5 text-[13px] font-semibold text-primary-foreground transition-opacity hover:opacity-90 disabled:opacity-60 sm:inline-flex"
+                  className="inline-flex h-11 shrink-0 items-center justify-center rounded-full bg-primary px-6 text-[13px] font-semibold text-primary-foreground shadow-[0_0_18px_rgba(51,204,153,0.22)] transition hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[#070a10] disabled:opacity-60"
                 >
                   {status === "loading" ? (
                     <Loader2 className="h-3.5 w-3.5 animate-spin" />
@@ -111,35 +112,21 @@ const FooterNewsletter = () => {
                 </button>
               </div>
 
-              {/* Mobile full-width button */}
-              <button
-                type="submit"
-                disabled={status === "loading"}
-                className="inline-flex h-11 w-full items-center justify-center rounded-full bg-primary text-[13px] font-semibold text-primary-foreground transition-opacity hover:opacity-90 disabled:opacity-60 sm:hidden"
-              >
-                {status === "loading" ? (
-                  <Loader2 className="h-3.5 w-3.5 animate-spin" />
-                ) : (
-                  "Subscribe"
-                )}
-              </button>
-
               {(errorMsg || status === "error") && (
                 <p id={emailErrorId} className="px-1 text-[11px] text-destructive" role="alert">
                   {errorMsg || "Something went wrong. Please try again."}
                 </p>
               )}
 
-              {/* Consent footnote */}
-              <label className="flex cursor-pointer items-start gap-2 px-1">
+              <label className="mx-auto flex w-full cursor-pointer items-start justify-center gap-2.5 px-1 text-center">
                 <input
                   type="checkbox"
                   checked={optIn}
                   onChange={(e) => { setOptIn(e.target.checked); if (errorMsg) setErrorMsg(""); }}
                   aria-required="true"
-                  className="mt-0.5 h-3.5 w-3.5 shrink-0 rounded-sm border border-white/20 bg-white/[0.06] accent-primary"
+                  className="mt-[3px] h-3.5 w-3.5 shrink-0 rounded-sm border border-white/20 bg-white/[0.06] accent-primary"
                 />
-                <span className="text-[11px] leading-relaxed text-muted-foreground/60">
+                <span className="text-[11px] leading-relaxed text-muted-foreground/70">
                   I agree to receive emails from AlphaTrack Digital.{" "}
                   <Link to="/privacy-policy" className="underline underline-offset-2 transition-colors hover:text-muted-foreground">
                     Privacy Policy
@@ -159,7 +146,7 @@ const Footer = () => {
   return (
     <footer className="border-t border-white/10 bg-[#070a10]">
       <div className="container mx-auto px-4 pb-8 pt-6 md:pb-16 md:pt-0 lg:px-8">
-        <div className="hidden md:block">
+        <div className="hidden lg:block">
           <FooterNewsletter />
         </div>
         <div className="grid grid-cols-2 gap-x-6 gap-y-6 md:grid-cols-2 md:gap-12 lg:grid-cols-4">

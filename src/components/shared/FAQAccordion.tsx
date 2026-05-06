@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Accordion,
   AccordionContent,
@@ -22,6 +23,7 @@ interface FAQAccordionProps {
   defaultOpenItem?: number;
   contentClassName?: string;
   accordionClassName?: string;
+  mobileInitialItems?: number;
 }
 
 const FAQAccordion = ({
@@ -34,14 +36,18 @@ const FAQAccordion = ({
   defaultOpenItem,
   contentClassName,
   accordionClassName,
+  mobileInitialItems,
 }: FAQAccordionProps) => {
+  const [showAllMobile, setShowAllMobile] = useState(false);
   const defaultValue =
     typeof defaultOpenItem === "number" && defaultOpenItem >= 0 && defaultOpenItem < items.length
       ? `faq-${defaultOpenItem}`
       : undefined;
+  const mobileLimit = mobileInitialItems ?? items.length;
+  const shouldLimitMobile = typeof mobileInitialItems === "number" && items.length > mobileLimit;
 
   return (
-    <section className={cn("py-14 md:py-20", variant === "minimal" && "bg-white/[0.01]")}>
+    <section className={cn("py-10 md:py-20", variant === "minimal" && "bg-white/[0.01]")}>
       <div className="container mx-auto px-4 lg:px-8">
         <SectionIntro
           eyebrow={eyebrow}
@@ -49,7 +55,8 @@ const FAQAccordion = ({
           description={description}
           align="center"
           width="narrow"
-          className="mb-6 md:mb-10"
+          className="mb-5 md:mb-10"
+          descriptionClassName="hidden md:block"
         />
         <div className={cn("mx-auto max-w-3xl", contentClassName)}>
           <Accordion
@@ -73,6 +80,7 @@ const FAQAccordion = ({
                     ? "rounded-2xl border border-white/10 bg-white/[0.03] data-[state=open]:border-primary/20 data-[state=open]:shadow-[0_14px_34px_rgba(0,0,0,0.12)]"
                     : "border-b border-white/[0.07] bg-transparent data-[state=open]:bg-white/[0.025] last:border-b-0",
                   density === "compact" && "px-5",
+                  shouldLimitMobile && !showAllMobile && i >= mobileLimit && "hidden md:block",
                 )}
               >
                 <AccordionTrigger
@@ -94,6 +102,17 @@ const FAQAccordion = ({
               </AccordionItem>
             ))}
           </Accordion>
+          {shouldLimitMobile && (
+            <div className="mt-4 flex justify-center md:hidden">
+              <button
+                type="button"
+                onClick={() => setShowAllMobile((current) => !current)}
+                className="text-sm font-medium text-primary transition-colors hover:text-primary/80"
+              >
+                {showAllMobile ? "Show fewer FAQs" : "View all FAQs"}
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </section>

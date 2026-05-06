@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import {
   ClipboardCheck,
+  ChevronDown,
   PhoneCall,
   Rocket,
   BarChart3,
@@ -157,24 +158,28 @@ const processSteps = [
     step: "01",
     title: "Discovery Call",
     description: "The first call covers your goals and current setup.",
+    shortDescription: "Goals and current setup.",
   },
   {
     icon: ClipboardCheck,
     step: "02",
     title: "Audit & Strategy",
     description: "An audit shows what is working and what needs to change.",
+    shortDescription: "Find gaps and priorities.",
   },
   {
     icon: Rocket,
     step: "03",
     title: "Implementation",
     description: "The agreed fixes, campaigns, and systems go live.",
+    shortDescription: "Launch the agreed fixes.",
   },
   {
     icon: BarChart3,
     step: "04",
     title: "Measure & Refine",
     description: "Results are tracked, reviewed, and improved over time.",
+    shortDescription: "Track, review, improve.",
   },
 ];
 
@@ -572,7 +577,7 @@ const Index = () => {
           <div className="absolute right-[-6%] top-[18%] h-56 w-56 rounded-full bg-secondary/[0.045] blur-[105px]" />
           <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/24 to-transparent" />
         </div>
-        <div className="container mx-auto px-4 lg:px-8">
+        <div className="container mx-auto px-6 lg:px-8">
           <SectionIntro
             eyebrow="Services"
             title="What We Do"
@@ -588,43 +593,51 @@ const Index = () => {
                 key={`${service.title}-mobile`}
                 {...revealMotion(20, i * 0.08, 0.35)}
               >
-                <div
+                <Link
+                  to={service.path}
+                  aria-label={`Learn more about ${service.title}`}
                   className={cn(
-                    "group flex h-full flex-col rounded-[22px] border p-4",
+                    "group relative flex h-full items-start gap-3 overflow-hidden rounded-[18px] border px-4 py-3.5 transition-all duration-200 hover:-translate-y-0.5",
                     service.flagship
-                      ? "border-primary/30 bg-[linear-gradient(180deg,rgba(0,51,153,0.16)_0%,rgba(0,175,239,0.04)_42%,rgba(51,204,153,0.04)_100%)] shadow-[0_18px_60px_rgba(0,51,153,0.12)]"
-                      : "border-white/10 bg-white/[0.02]",
+                      ? "border-primary/25 bg-[radial-gradient(ellipse_100%_65%_at_0%_0%,rgba(0,51,153,0.24),transparent_58%),radial-gradient(ellipse_70%_55%_at_100%_100%,rgba(51,204,153,0.1),transparent_60%),linear-gradient(180deg,rgba(255,255,255,0.03)_0%,rgba(255,255,255,0.008)_100%)] shadow-[0_14px_40px_rgba(0,51,153,0.14),inset_0_1px_0_rgba(255,255,255,0.05)]"
+                      : "border-white/[0.08] bg-[#0f1720] shadow-[0_8px_24px_rgba(0,0,0,0.2)]",
                   )}
                 >
-                  <div className="mb-3 flex items-start justify-between gap-3">
+                  {service.flagship && (
+                    <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/45 to-transparent" />
+                  )}
+                  <div
+                    className={cn(
+                      "mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border",
+                      service.flagship
+                        ? "border-primary/20 bg-primary/[0.09]"
+                        : "border-white/[0.09] bg-white/[0.04]",
+                    )}
+                  >
+                    <service.icon className="h-[17px] w-[17px] text-primary" />
+                  </div>
+                  <div className="min-w-0 flex-1">
                     <span
                       className={cn(
-                        "inline-flex rounded-full px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.18em]",
+                        "inline-flex rounded-full px-2 py-0.5 text-[9px] font-semibold uppercase tracking-[0.18em]",
                         service.flagship
-                          ? "bg-primary text-primary-foreground"
-                          : "border border-white/10 bg-white/[0.04] text-muted-foreground",
+                          ? "bg-primary text-primary-foreground shadow-[0_0_12px_rgba(51,204,153,0.25)]"
+                          : "border border-white/[0.12] bg-white/[0.06] text-muted-foreground",
                       )}
                     >
                       {service.badge}
                     </span>
+                    <h3 className="mt-2 text-[0.96rem] font-semibold leading-snug tracking-tight">
+                      {service.title}
+                    </h3>
+                    <p className="mt-1 line-clamp-2 text-[12.5px] leading-5 text-muted-foreground">
+                      {service.description}
+                    </p>
+                    <span className="mt-2 inline-flex items-center gap-1.5 text-[12.5px] font-medium text-primary transition-all duration-200 group-hover:gap-2 group-hover:text-primary/80">
+                      Learn more
+                    </span>
                   </div>
-                  <div className="mb-3 flex h-9 w-9 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.04]">
-                    <service.icon className="h-4.5 w-4.5 text-primary" />
-                  </div>
-                  <h3 className="text-[1.02rem] font-semibold leading-snug tracking-tight">
-                    {service.title}
-                  </h3>
-                  <p className="mt-2 line-clamp-2 text-[13px] leading-6 text-muted-foreground">
-                    {service.description}
-                  </p>
-                  <Link
-                    to={service.path}
-                    className="mt-4 inline-flex items-center gap-1 text-[13px] font-medium text-primary transition-colors hover:text-primary/80"
-                    aria-label={`Learn more about ${service.title}`}
-                  >
-                    Learn more<span className="sr-only"> about {service.title}</span>
-                  </Link>
-                </div>
+                </Link>
               </motion.div>
             ))}
           </div>
@@ -635,28 +648,40 @@ const Index = () => {
                 key={service.title}
                 {...revealMotion(20, i * 0.08, 0.4)}
               >
-                <div
+                <Link
+                  to={service.path}
+                  aria-label={`Learn more about ${service.title}`}
                   className={cn(
-                    "group flex h-full flex-col rounded-[24px] border p-5 transition-all duration-300 hover:-translate-y-1 md:p-7",
+                    "group relative flex h-full flex-col overflow-hidden rounded-[24px] border p-6 transition-all duration-300 hover:-translate-y-1 md:p-7",
                     service.flagship
-                      ? "border-primary/30 bg-[linear-gradient(180deg,rgba(0,51,153,0.16)_0%,rgba(0,175,239,0.04)_42%,rgba(51,204,153,0.04)_100%)] shadow-[0_18px_60px_rgba(0,51,153,0.12)]"
-                      : "border-white/10 bg-white/[0.02] hover:border-white/20",
+                      ? "border-primary/25 bg-[radial-gradient(ellipse_100%_65%_at_0%_0%,rgba(0,51,153,0.24),transparent_58%),radial-gradient(ellipse_70%_55%_at_100%_100%,rgba(51,204,153,0.1),transparent_60%),linear-gradient(180deg,rgba(255,255,255,0.03)_0%,rgba(255,255,255,0.008)_100%)] shadow-[0_20px_60px_rgba(0,51,153,0.16),inset_0_1px_0_rgba(255,255,255,0.05)]"
+                      : "border-white/[0.08] bg-[#0f1720] shadow-[0_12px_36px_rgba(0,0,0,0.22)] hover:border-white/[0.15] hover:shadow-[0_16px_44px_rgba(0,0,0,0.28)]",
                   )}
                 >
+                  {service.flagship && (
+                    <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/45 to-transparent" />
+                  )}
                   <div className="mb-5 flex items-start justify-between gap-4 md:mb-6">
                     <span
                       className={cn(
                         "inline-flex rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em]",
                         service.flagship
-                          ? "bg-primary text-primary-foreground"
-                          : "border border-white/10 bg-white/[0.04] text-muted-foreground",
+                          ? "bg-primary text-primary-foreground shadow-[0_0_14px_rgba(51,204,153,0.28)]"
+                          : "border border-white/[0.12] bg-white/[0.06] text-muted-foreground",
                       )}
                     >
                       {service.badge}
                     </span>
                   </div>
-                  <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.04] md:mb-4 md:h-11 md:w-11">
-                    <service.icon className="h-5 w-5 text-primary md:h-6 md:w-6" />
+                  <div
+                    className={cn(
+                      "mb-4 flex h-11 w-11 items-center justify-center rounded-2xl border md:h-12 md:w-12",
+                      service.flagship
+                        ? "border-primary/20 bg-primary/[0.09]"
+                        : "border-white/[0.09] bg-white/[0.04]",
+                    )}
+                  >
+                    <service.icon className="h-5 w-5 text-primary md:h-[22px] md:w-[22px]" />
                   </div>
                   <h3
                     className={cn(
@@ -671,14 +696,10 @@ const Index = () => {
                   <p className="mt-3 flex-1 text-sm leading-7 text-muted-foreground">
                     {service.description}
                   </p>
-                  <Link
-                    to={service.path}
-                    className="mt-5 inline-flex items-center gap-1 text-sm font-medium text-primary transition-colors hover:text-primary/80 md:mt-6"
-                    aria-label={`Learn more about ${service.title}`}
-                  >
-                    Learn more<span className="sr-only"> about {service.title}</span>
-                  </Link>
-                </div>
+                  <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-medium text-primary transition-all duration-200 group-hover:gap-2.5 group-hover:text-primary/80 md:mt-6">
+                    Learn more
+                  </span>
+                </Link>
               </motion.div>
             ))}
           </div>
@@ -748,7 +769,7 @@ const Index = () => {
       <section
         id="industries-section"
         data-testid="industries-section"
-        className="relative scroll-mt-24 overflow-hidden border-t border-white/10 py-14 md:py-24"
+        className="relative scroll-mt-24 overflow-hidden border-t border-white/10 py-10 md:py-24"
       >
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute left-[-8%] top-8 h-72 w-72 rounded-full bg-secondary/[0.035] blur-[120px]" />
@@ -770,11 +791,11 @@ const Index = () => {
             title="Who We Work With"
             description="We work with brands in ecommerce, FMCG, education, SaaS, hospitality, real estate, fashion, and gaming."
             width="wide"
-            className="mb-6 md:mb-10"
+            className="mb-4 md:mb-10"
             descriptionClassName="max-w-3xl"
           />
 
-          <div className="grid grid-cols-2 gap-2.5 md:grid-cols-4 md:gap-4">
+          <div className="grid grid-cols-2 gap-y-3 gap-x-2.5 md:grid-cols-4 md:gap-4">
               {primarySectors.map((sector, index) => {
                 const visual = sectorVisuals[sector];
 
@@ -787,16 +808,15 @@ const Index = () => {
                     to={sectorExpertisePaths[sector]}
                     data-testid="industry-card"
                     aria-label={`View ${sector} expertise`}
-                    className="group relative flex h-full min-h-[4.5rem] items-center gap-2.5 overflow-hidden rounded-[16px] border border-white/[0.075] bg-[linear-gradient(180deg,rgba(255,255,255,0.028)_0%,rgba(255,255,255,0.012)_100%)] p-3 shadow-[0_10px_26px_rgba(0,0,0,0.09)] transition-[border-color,background-color,transform] duration-300 hover:-translate-y-0.5 hover:border-white/[0.13] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 md:block md:min-h-0 md:rounded-[20px] md:p-5 md:shadow-[0_12px_34px_rgba(0,0,0,0.10)]"
+                    className="group flex h-full min-h-[3.65rem] items-center gap-2.5 overflow-hidden rounded-[16px] px-3 py-2 transition-[opacity] duration-200 hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 md:block md:min-h-0 md:rounded-[20px] md:p-4"
                   >
-                    <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-                    <div className={cn("flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border border-white/[0.07] bg-white/[0.035] transition-[border-color] duration-300 group-hover:border-white/[0.16] md:mb-4 md:h-12 md:w-12 md:rounded-2xl", visual.accentClassName)}>
-                      <visual.icon className="h-4 w-4 md:h-6 md:w-6" />
+                    <div className={cn("flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border border-white/[0.07] bg-white/[0.035] md:mb-4 md:h-11 md:w-11 md:rounded-2xl", visual.accentClassName)}>
+                      <visual.icon className="h-4 w-4 md:h-5 md:w-5" />
                     </div>
-                    <h3 className="text-[0.86rem] font-semibold leading-snug tracking-tight text-foreground/92 md:mb-1.5 md:text-[1.05rem]">
+                    <h3 className="text-[0.86rem] font-semibold leading-snug tracking-tight text-foreground/92 md:mb-1.5 md:text-[1.02rem]">
                       {sector}
                     </h3>
-                    <p className="hidden text-[0.85rem] leading-relaxed text-muted-foreground/70 md:block">
+                    <p className="hidden text-[0.82rem] leading-relaxed text-muted-foreground/65 md:block">
                       {sectorSummaries[sector]}
                     </p>
                   </Link>
@@ -804,98 +824,119 @@ const Index = () => {
               )})}
           </div>
 
-          <div className="mt-7 flex justify-center md:mt-9">
+          <div className="mt-5 flex justify-center md:mt-9">
             <p className="max-w-[22rem] text-center text-sm leading-6 text-muted-foreground/60 sm:max-w-none">
-              Don't see your industry?{" "}
-              <Link
-                to="/contact-us"
-                className="font-medium text-foreground/80 underline-offset-4 transition-colors hover:text-primary hover:underline"
-              >
-                Let's talk
-              </Link>
-              . We've likely worked in it.
+              Don't see your industry?
+              <span className="mt-1 block">
+                <Link
+                  to="/contact-us"
+                  className="font-medium text-foreground/80 underline-offset-4 transition-colors hover:text-primary hover:underline"
+                >
+                  Let's talk
+                </Link>
+                . We've likely worked in it.
+              </span>
             </p>
           </div>
         </div>
       </section>
 
-      <section className="relative overflow-hidden border-t border-white/10 py-14 md:py-24">
+      <section className="relative overflow-hidden border-t border-white/10 py-10 md:py-24">
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute left-1/2 top-12 h-64 w-[55%] -translate-x-1/2 rounded-full bg-atd-blue/[0.10] blur-[115px]" />
           <div className="absolute inset-x-[14%] top-0 h-px bg-gradient-to-r from-transparent via-white/12 to-transparent" />
         </div>
-        <div className="container mx-auto px-4 lg:px-8">
+        <div className="container mx-auto px-6 lg:px-8">
           <SectionIntro
             eyebrow="Process"
             title="How We Work"
             description="We keep the work clear from the first call to reporting."
             width="wide"
-            className="mb-6 md:mb-10"
+            className="mb-4 md:mb-10"
             descriptionClassName="max-w-3xl"
           />
-          <div className="relative mt-6 rounded-[30px] border border-white/[0.06] bg-[radial-gradient(circle_at_top_center,rgba(0,51,153,0.11),transparent_40%),radial-gradient(circle_at_30%_0%,rgba(0,175,239,0.05),transparent_28%),linear-gradient(180deg,rgba(255,255,255,0.02)_0%,rgba(255,255,255,0.008)_100%)] px-3 py-4 shadow-[0_16px_48px_rgba(0,8,22,0.12)] sm:px-4 sm:py-5 lg:mt-8 lg:px-5 lg:py-7">
-          <div className="relative hidden lg:block">
-            <div className="pointer-events-none absolute inset-x-[9%] top-2">
-              <div className="absolute inset-x-0 top-[1.85rem] h-px bg-white/[0.10]" />
-              <div className="relative flex justify-between">
-                {processSteps.map((step) => (
-                  <div key={step.step} className="flex flex-col items-center">
-                    <span className="mb-3 text-[10px] font-semibold uppercase tracking-[0.18em] text-primary/75">
-                      {step.step}
-                    </span>
-                    <span className="h-3 w-3 rounded-full border border-primary/35 bg-background shadow-[0_0_0_4px_rgba(6,10,12,0.65)]" />
-                  </div>
+          <div className="relative mt-4 overflow-hidden lg:mt-8 lg:rounded-[30px] lg:border lg:border-white/[0.08] lg:bg-[#080e16] lg:shadow-[0_20px_60px_rgba(0,0,0,0.28),inset_0_1px_0_rgba(255,255,255,0.04)]">
+            <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+
+            {/* Desktop */}
+            <div className="relative hidden p-5 lg:block lg:p-6">
+              {/* Timeline */}
+              <div className="pointer-events-none absolute inset-x-[9%] top-6">
+                <div className="absolute inset-x-0 top-[1.6rem] h-px bg-gradient-to-r from-primary/15 via-primary/40 to-primary/15" />
+                <div className="relative flex justify-between">
+                  {processSteps.map((step) => (
+                    <div key={step.step} className="flex flex-col items-center">
+                      <span className="mb-2 text-[10px] font-bold uppercase tracking-[0.18em] text-primary/60">
+                        {`Step ${step.step}`}
+                      </span>
+                      <div className="flex h-3.5 w-3.5 items-center justify-center rounded-full border border-primary/50 bg-[#080e16] shadow-[0_0_0_4px_rgba(8,14,22,0.9),0_0_10px_rgba(51,204,153,0.22)]">
+                        <div className="h-1.5 w-1.5 rounded-full bg-primary/80" />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Cards */}
+              <div className="grid gap-4 pt-16 lg:grid-cols-4">
+                {processSteps.map((step, i) => (
+                  <motion.div
+                    key={step.step}
+                    data-testid="process-step"
+                    {...revealMotion(20, i * 0.1, 0.4)}
+                  >
+                    <div className="flex h-full flex-col rounded-[22px] border border-white/[0.08] bg-[#0f1720] p-5 shadow-[0_10px_30px_rgba(0,0,0,0.22)] transition-[border-color] duration-300 hover:border-white/[0.14]">
+                      <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl border border-primary/20 bg-primary/[0.08]">
+                        <step.icon className="h-[18px] w-[18px] text-primary/90" />
+                      </div>
+                      <h3 className="text-[1.08rem] font-semibold leading-snug">{step.title}</h3>
+                      <p className="mt-2.5 flex-1 text-sm leading-7 text-muted-foreground">{step.description}</p>
+                    </div>
+                  </motion.div>
                 ))}
               </div>
             </div>
-            <div className="grid gap-5 lg:grid-cols-4">
-              {processSteps.map((step, i) => (
-                <motion.div
-                  key={step.step}
-                  data-testid="process-step"
-                  {...revealMotion(20, i * 0.1, 0.4)}
-                  className="relative flex pt-14"
-                >
-                  <div className="flex h-full w-full flex-col rounded-[26px] border border-white/[0.08] bg-[linear-gradient(180deg,rgba(255,255,255,0.028)_0%,rgba(255,255,255,0.012)_100%)] p-5 shadow-[0_14px_40px_rgba(0,0,0,0.14)]">
-                    <div className="mb-5 flex items-start justify-between gap-4">
-                      <div>
-                        <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary/75">
-                          Step {step.step}
-                        </p>
-                        <h3 className="mt-3 text-[1.18rem] font-semibold">{step.title}</h3>
-                      </div>
-                      <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-white/[0.08] bg-white/[0.03]">
-                        <step.icon className="h-5 w-5 text-primary/85" />
-                      </div>
-                    </div>
-                    <p className="mt-3 flex-1 text-sm leading-7 text-muted-foreground">{step.description}</p>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-          <div className="mt-1 grid grid-cols-2 gap-3 lg:hidden">
-            {processSteps.map((step, i) => (
-              <motion.div
-                key={step.step}
-                data-testid="process-step"
-                {...revealMotion(20, i * 0.08, 0.35)}
-                className="relative"
-              >
-                <div className="flex h-full flex-col rounded-[20px] border border-white/[0.08] bg-[linear-gradient(180deg,rgba(255,255,255,0.028)_0%,rgba(255,255,255,0.012)_100%)] p-3.5 shadow-[0_12px_34px_rgba(0,0,0,0.12)]">
-                  <div>
-                    <span className="inline-flex rounded-full border border-primary/25 bg-primary/[0.08] px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-primary/80">
+
+            {/* Mobile */}
+            <div className="relative mx-auto flex min-h-[18rem] max-w-[22rem] items-center py-2 lg:hidden">
+              <div className="absolute bottom-[3.2rem] left-4 top-[3.2rem] w-px bg-gradient-to-b from-atd-cyan/25 via-atd-green/45 to-primary/30" />
+
+              <div className="w-full space-y-5">
+                {processSteps.map((step, i) => (
+                  <motion.div
+                    key={step.step}
+                    data-testid="process-step"
+                    className="relative flex items-center gap-5"
+                    {...revealMotion(14, i * 0.08, 0.35)}
+                  >
+                    <div
+                      className={cn(
+                        "relative z-10 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border bg-[#080e16] text-[10px] font-bold shadow-[0_0_16px_rgba(51,204,153,0.10)]",
+                        i === 0 && "border-atd-cyan/45 text-atd-cyan",
+                        i === 1 && "border-atd-green/45 text-atd-green",
+                        i === 2 && "border-primary/45 text-primary",
+                        i === 3 && "border-primary/65 text-primary",
+                      )}
+                    >
                       {step.step}
-                    </span>
-                    <h3 className="mt-2 whitespace-nowrap text-[clamp(0.78rem,3.7vw,0.96rem)] font-semibold leading-snug">
-                      {step.title}
-                    </h3>
-                  </div>
-                  <p className="mt-2 line-clamp-3 flex-1 text-[12.5px] leading-5 text-muted-foreground">{step.description}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
+                    </div>
+                    <span
+                      className={cn(
+                        "absolute left-8 h-px w-3",
+                        i === 0 && "bg-atd-cyan/50",
+                        i === 1 && "bg-atd-green/50",
+                        i === 2 && "bg-primary/50",
+                        i === 3 && "bg-primary/70",
+                      )}
+                    />
+                    <div>
+                      <h3 className="text-[0.98rem] font-semibold leading-snug text-foreground">{step.title}</h3>
+                      <p className="mt-1 text-[12px] leading-5 text-muted-foreground/85">{step.shortDescription}</p>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -905,7 +946,7 @@ const Index = () => {
         data-testid="growth-stack-section"
         className="border-t border-white/10 bg-white/[0.01] py-12 md:py-16"
       >
-        <div className="container mx-auto px-4 lg:px-8">
+        <div className="container mx-auto px-6 lg:px-8">
           <SectionIntro
             eyebrow="Platforms"
             title="Tools We Use"
@@ -917,25 +958,49 @@ const Index = () => {
             titleId="growth-stack-heading"
           />
 
-          <div className="space-y-4 md:hidden">
+          <div className="border-y border-white/[0.08] md:hidden">
             {toolCollections.map((group) => (
-              <div
+              <details
                 key={`${group.title}-mobile`}
-                className="pb-4 last:pb-0 [&+&]:border-t [&+&]:border-white/[0.08] [&+&]:pt-4"
+                className="group border-b border-white/[0.08] py-4 last:border-b-0 [&_summary::-webkit-details-marker]:hidden"
               >
-                <div>
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary/80">
-                    {group.title}
-                  </p>
-                  <p className="mt-1.5 text-[13px] leading-5 text-muted-foreground">
-                    {group.description}
-                  </p>
-                </div>
-                <div className="mt-3 grid grid-cols-2 gap-x-4 gap-y-2.5 border-t border-white/[0.06] pt-3">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-4">
+                  <div className="min-w-0">
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary/80">
+                      {group.title}
+                    </p>
+                    <p className="mt-1 text-[13px] leading-5 text-muted-foreground/80">
+                      {group.description}
+                    </p>
+                  </div>
+                  <div className="flex shrink-0 items-center gap-2.5">
+                    <div className="flex items-center -space-x-1">
+                      {group.items.slice(0, 4).map((tool) => (
+                        <span
+                          key={tool.name}
+                          className="flex h-7 w-7 items-center justify-center rounded-full border border-white/[0.08] bg-[#080e16]"
+                        >
+                          <img
+                            src={tool.icon}
+                            alt=""
+                            className="block h-4 w-4 object-contain"
+                            loading="lazy"
+                            decoding="async"
+                            width={20}
+                            height={20}
+                          />
+                        </span>
+                      ))}
+                    </div>
+                    <ChevronDown className="h-4 w-4 text-muted-foreground/70 transition-transform duration-200 group-open:rotate-180" />
+                  </div>
+                </summary>
+
+                <div className="mt-3 grid grid-cols-2 gap-x-4 gap-y-2 border-t border-white/[0.06] pt-3">
                   {group.items.map((tool) => (
                     <span
                       key={tool.name}
-                      className="flex min-h-[1.75rem] items-center gap-2 text-[11.5px] text-foreground/88"
+                      className="flex min-h-[1.65rem] items-center gap-2 text-[11.5px] text-foreground/88"
                     >
                       <span className="flex h-4 w-4 shrink-0 items-center justify-center overflow-hidden">
                         <img
@@ -952,7 +1017,7 @@ const Index = () => {
                     </span>
                   ))}
                 </div>
-              </div>
+              </details>
             ))}
           </div>
 
@@ -1050,7 +1115,7 @@ const Index = () => {
           <div className="absolute left-[8%] top-16 h-48 w-48 rounded-full bg-atd-blue/[0.08] blur-[100px]" />
           <div className="absolute right-[6%] bottom-8 h-44 w-44 rounded-full bg-primary/[0.035] blur-[105px]" />
         </div>
-        <div className="container mx-auto px-4 lg:px-8">
+        <div className="container mx-auto px-6 lg:px-8">
           <div className="mx-auto max-w-5xl">
             <motion.div
               {...revealMotion(20, 0, 0.5)}
@@ -1193,6 +1258,7 @@ const Index = () => {
         description="Book a free 15-minute strategy call. We will review your setup, share what we see, and give you a clear next step."
         secondaryCta={null}
         variant="hero-close"
+        className="!border-t-0 px-6 pb-12 pt-0 md:px-8 md:pb-16"
       />
     </>
   );

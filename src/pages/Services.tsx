@@ -47,7 +47,7 @@ const Services = () => {
       />
 
       {/* Hero */}
-      <section className="relative flex min-h-[calc(100svh-4rem)] flex-col items-center justify-center overflow-hidden pb-28 pt-8 sm:pb-24 sm:pt-12 lg:pt-16">
+      <section className="relative overflow-hidden pb-14 pt-6 text-center md:pb-20 md:pt-10">
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute left-1/2 top-1/3 h-[520px] w-[520px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-atd-blue/[0.07] blur-[140px]" />
           <div className="absolute right-[8%] bottom-[10%] h-[280px] w-[280px] rounded-full bg-primary/[0.05] blur-[100px]" />
@@ -95,21 +95,6 @@ const Services = () => {
           </motion.div>
         </div>
 
-        {/* Scroll indicator */}
-        <motion.div
-          className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1, duration: 0.6 }}
-        >
-          <span className="text-[11px] font-medium uppercase tracking-[0.2em] text-muted-foreground/50">Scroll</span>
-          <motion.div
-            className="h-10 w-px bg-gradient-to-b from-muted-foreground/30 to-transparent"
-            animate={{ scaleY: [1, 0.4, 1], opacity: [0.5, 1, 0.5] }}
-            transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
-            style={{ originY: 0 }}
-          />
-        </motion.div>
       </section>
 
       {/* Core Services */}

@@ -223,7 +223,7 @@ const BookACall = () => {
       </section>
 
       <section className="border-t border-white/[0.05] py-10 md:py-20">
-        <div className="container mx-auto px-4 lg:px-8">
+        <div className="container mx-auto px-6 md:px-4 lg:px-8">
           <div className="mx-auto max-w-4xl rounded-[24px] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.045)_0%,rgba(255,255,255,0.015)_100%)] px-5 py-6 shadow-[0_20px_60px_rgba(0,0,0,0.18)] md:rounded-[30px] md:px-8 md:py-10">
             <div className="flex items-start justify-between gap-4">
               <div>

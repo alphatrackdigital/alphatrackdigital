@@ -629,10 +629,10 @@ const ServiceDetail = () => {
               <span className="mb-5 inline-block text-xs font-semibold uppercase tracking-[0.2em] text-primary">
                 {service.title}
               </span>
-              <h1 className="title-safe pb-4 text-5xl font-extrabold leading-[1.14] tracking-[-0.035em] md:pb-5 md:text-6xl lg:text-[4.65rem]">
+              <h1 className="title-safe pb-4 text-[2.25rem] font-extrabold leading-[1.14] tracking-[-0.035em] md:pb-5 md:text-6xl lg:text-[4.65rem]">
                 {service.headline} <span className="title-safe-inline text-gradient">{service.gradientWord}</span>
               </h1>
-              <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-muted-foreground">
+              <p className="mx-auto mt-6 max-w-2xl text-[15px] leading-relaxed text-muted-foreground md:text-lg">
                 {service.description}
               </p>
               <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
@@ -647,12 +647,12 @@ const ServiceDetail = () => {
 
       {/* The Problem */}
       <section className="border-t border-white/10 bg-white/[0.025] py-8 lg:py-14">
-        <div className="container mx-auto px-4 lg:px-8">
+        <div className="container mx-auto px-6 md:px-4 lg:px-8">
           <div className="mb-5 lg:mb-8">
             <span className="inline-block text-xs font-semibold uppercase tracking-widest text-primary">
               The Problem
             </span>
-            <h2 className="mt-2 max-w-lg text-3xl font-bold leading-tight lg:mt-3 md:text-4xl">What Gets in the Way</h2>
+            <h2 className="mt-2 max-w-lg text-2xl font-bold leading-tight lg:mt-3 md:text-4xl">What Gets in the Way</h2>
           </div>
 
           <div>
@@ -690,12 +690,12 @@ const ServiceDetail = () => {
 
       {/* How We Do It */}
       <section className="border-t border-white/10 py-8 lg:py-20">
-        <div className="container mx-auto px-4 lg:px-8">
+        <div className="container mx-auto px-6 md:px-4 lg:px-8">
           <div className="mb-6 lg:mb-12">
             <span className="inline-block text-xs font-semibold uppercase tracking-widest text-primary">
               Our Process
             </span>
-            <h2 className="mt-3 text-3xl font-bold md:text-4xl">How We Do It</h2>
+            <h2 className="mt-3 text-2xl font-bold md:text-4xl">How We Do It</h2>
           </div>
 
           {/* Desktop: horizontal timeline */}
@@ -759,12 +759,12 @@ const ServiceDetail = () => {
 
       {/* What You Get */}
       <section className="border-t border-white/10 bg-white/[0.02] py-8 lg:py-20">
-        <div className="container mx-auto px-4 lg:px-8">
+        <div className="container mx-auto px-6 md:px-4 lg:px-8">
           <div className="mb-6 lg:mb-12">
             <span className="inline-block text-xs font-semibold uppercase tracking-widest text-primary">
               Scope &amp; Outcomes
             </span>
-            <h2 className="mt-3 text-3xl font-bold md:text-4xl">What You Get</h2>
+            <h2 className="mt-3 text-2xl font-bold md:text-4xl">What You Get</h2>
           </div>
 
           {/* Features */}
@@ -827,12 +827,12 @@ const ServiceDetail = () => {
 
       {/* Related Services */}
       <section className="border-t border-white/10 py-8 lg:py-16">
-        <div className="container mx-auto px-4 lg:px-8">
+        <div className="container mx-auto px-6 md:px-4 lg:px-8">
           <div className="mb-6 lg:mb-10">
             <span className="inline-block text-xs font-semibold uppercase tracking-widest text-primary">
               Related Services
             </span>
-            <h2 className="mt-3 text-3xl font-bold md:text-4xl">Works Best With</h2>
+            <h2 className="mt-3 text-2xl font-bold md:text-4xl">Works Best With</h2>
           </div>
           <div className="grid grid-cols-1 lg:grid-cols-2">
             {relatedServices.map((related, index) => (
