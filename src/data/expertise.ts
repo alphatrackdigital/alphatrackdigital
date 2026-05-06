@@ -28,84 +28,84 @@ export const expertisePages: ExpertisePage[] = [
   {
     slug: "saas",
     name: "SaaS",
-    heroTitle: "SaaS marketing that turns interest into qualified pipeline.",
+    heroTitle: "SaaS marketing that turns interest into paying customers.",
     heroDescription:
-      "We help SaaS teams improve tracking, paid acquisition, landing journeys, and lead follow-up so growth is easier to measure and scale.",
+      "We help SaaS businesses track where their leads come from, run ads that attract the right buyers, and build follow-up systems that move prospects from first visit to closed deal.",
     heroSnapshot: [
       {
         label: "Pipeline Clarity",
-        value: "Connect signups, demos, and trials to the campaigns that generated them, no more guessing what's driving pipeline.",
+        value: "See exactly which campaigns bring in signups, demo requests, and paying customers. No more guessing what is working.",
       },
       {
         label: "Paid Acquisition",
-        value: "Search, social, and retargeting built to bring in qualified demand, not just traffic volume.",
+        value: "Search, social, and retargeting campaigns built to attract serious buyers, not just clicks and traffic.",
       },
       {
         label: "Lead Follow-Up",
-        value: "Lifecycle emails and CRM automations that keep prospects warm from first click to closed deal.",
+        value: "Automated emails and CRM workflows that keep prospects warm from first visit to closed deal.",
       },
     ],
     challenges: [
-      "It is hard to see which channels are driving demos, trials, and pipeline.",
-      "Paid campaigns bring traffic, but not enough qualified leads.",
-      "Good leads drop off between the first click, the form, and sales follow-up.",
+      "You can see traffic and signups, but not which campaigns are bringing in people who actually convert.",
+      "Paid ads bring visitors, but most of them are not the right fit and conversion rates stay low.",
+      "Interested prospects go cold between the first click and a conversation with your sales team.",
     ],
     serviceFocus: [
       {
-        title: "Tracking that connects signups to revenue",
+        title: "Tracking that connects signups to sales",
         description:
-          "Clear tracking across signups, demos, trials, and CRM stages so the team can see what is really driving growth.",
+          "Clear tracking across signups, demo requests, and CRM stages so your team can see which marketing activity is actually driving growth.",
         path: "/service/conversion-tracking",
       },
       {
-        title: "Paid acquisition built for qualified demand",
+        title: "Paid ads built to bring in the right buyers",
         description:
-          "Search, social, and retargeting campaigns focused on bringing in the right traffic instead of vanity volume.",
+          "Search, social, and retargeting campaigns focused on attracting people who are a real fit for your product, not just ad clicks.",
         path: "/service/paid-media",
       },
       {
-        title: "Follow-up that keeps pipeline moving",
+        title: "Follow-up that keeps leads moving",
         description:
-          "Lifecycle emails, CRM automations, and nurture flows that keep leads engaged after the first touch.",
+          "Lifecycle emails, CRM automations, and nurture flows that keep leads engaged from the first touch until they are ready to buy.",
         path: "/service/marketing-automation",
       },
     ],
     outcomes: [
-      "Clearer demo and trial attribution",
-      "Better lead quality from paid campaigns",
-      "Stronger follow-up between marketing and sales",
+      "Know which campaigns bring in your best leads",
+      "Attract real buyers from paid ads, not just browsers",
+      "Leads get a timely, consistent follow-up every time",
     ],
     idealFor: [
-      "You're running paid media but can't trace which campaigns drive demos or trials",
-      "Your MQL-to-SQL conversion is weak and follow-up is inconsistent",
-      "You want to scale paid spend but need cleaner data before increasing budget",
-      "Your team is growing and needs a measurement foundation before the next round",
+      "You are running ads but cannot tell which campaigns lead to signups, demos, or paying customers",
+      "You get leads but conversion is low and your sales team's follow-up is inconsistent",
+      "You want to increase your ad budget but need to trust your data first",
+      "Your team is growing and you need solid tracking in place before you scale",
     ],
     faqs: [
       {
         question: "How quickly can you get tracking in place for a SaaS product?",
         answer:
-          "For most SaaS setups we can complete a full GA4 and GTM implementation with CRM event tracking within two to three weeks. More complex multi-product environments take longer, but we start with a clear measurement plan so you know exactly what gets built and when.",
+          "For most SaaS setups we can complete a full GA4 and GTM implementation with CRM event tracking within two to three weeks. More complex products with multiple tools or data sources take a little longer, but we start with a clear plan so you always know what gets built and when.",
       },
       {
         question: "Do you work with early-stage SaaS teams or only established products?",
         answer:
-          "Both. Early-stage teams benefit most from getting tracking right from the start, it prevents the painful retroactive cleanup many fast-growing companies face. Established products often come to us to fix attribution gaps or rebuild paid acquisition efficiency after plateau periods.",
+          "Both. Early-stage teams benefit from getting tracking right from the start, which prevents a lot of painful cleanup later. More established products often come to us to fix gaps in their reporting or rebuild paid campaign performance after hitting a growth plateau.",
       },
       {
-        question: "Can you help with both product-led and sales-led growth models?",
+        question: "Can you help if our growth model is product-led, sales-led, or somewhere in between?",
         answer:
-          "Yes. For PLG, we focus on product event tracking, trial conversion flows, and lifecycle automation. For sales-led, the emphasis is on CRM integration, lead scoring, and handoff automation between marketing and sales. Many SaaS teams operate in a hybrid model and we support that too.",
+          "Yes. For product-led businesses where users sign up and try before buying, we focus on product event tracking, trial conversion flows, and lifecycle automation. For sales-led businesses, the focus shifts to CRM integration, lead scoring, and handoff automation between marketing and sales. Many SaaS teams sit somewhere in between and we support that too.",
       },
       {
-        question: "What paid channels do you run for SaaS companies?",
+        question: "What paid channels do you use for SaaS companies?",
         answer:
-          "Primarily Google Search for high-intent demand capture, LinkedIn for enterprise and B2B SaaS audience targeting, and Meta or retargeting for nurturing prospects already in your funnel. Channel mix depends on your ICP, ACV, and where your buyers actually research solutions.",
+          "Primarily Google Search for capturing high-intent demand, LinkedIn for reaching business and enterprise audiences, and Meta or retargeting for nurturing people already in your funnel. The right mix depends on your target customer, deal size, and where your buyers actually research solutions.",
       },
       {
-        question: "How do you handle attribution across long SaaS sales cycles?",
+        question: "How do you handle attribution when the sales cycle takes weeks or months?",
         answer:
-          "We set up multi-touch attribution using GA4 and your CRM so you can see the full journey from first ad click to closed deal, even when the cycle spans weeks or months. We also build reporting dashboards that give both marketing and sales a shared view of pipeline by source.",
+          "We set up multi-touch attribution using GA4 and your CRM so you can see the full journey from first ad click to closed deal, even across a long sales cycle. We also build reporting dashboards that give both your marketing and sales teams a shared view of leads by source.",
       },
     ],
   },

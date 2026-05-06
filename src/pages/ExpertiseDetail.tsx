@@ -127,8 +127,8 @@ const ExpertiseDetail = () => {
         <SectionIntro
           eyebrow="Common Challenges"
           mode="content"
-          title={`What often slows growth in ${expertise.name}.`}
-          description="These are the gaps we usually help teams fix first."
+          title={`The challenges most ${expertise.name} teams face.`}
+          description="These are the problems that hold back growth the most."
           maxWidth="lg"
           className="mb-12"
           titleClassName="text-[1.85rem] leading-[1.18] md:text-[2.15rem]"
@@ -139,7 +139,7 @@ const ExpertiseDetail = () => {
           whileInView="visible"
           viewport={{ once: true, margin: "-50px" }}
           variants={staggerContainer}
-          className="grid gap-5 sm:grid-cols-3"
+          className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3"
         >
           {expertise.challenges.map((challenge, index) => (
             <motion.div
@@ -160,10 +160,6 @@ const ExpertiseDetail = () => {
               <div className="mb-6 h-[2px] w-8 rounded-full bg-primary/40 transition-all duration-300 group-hover:w-14 group-hover:bg-primary/70" />
 
               <p className="relative text-[15px] leading-[1.75] text-foreground/85">{challenge}</p>
-
-              <span className="mt-5 block text-[10px] font-bold uppercase tracking-[0.28em] text-primary/50">
-                Challenge 0{index + 1}
-              </span>
             </motion.div>
           ))}
         </motion.div>
@@ -176,8 +172,8 @@ const ExpertiseDetail = () => {
         <SectionIntro
           eyebrow="How We Help"
           mode="content"
-          title={`How we support ${expertise.name} brands.`}
-          description="Our work usually starts with these three areas."
+          title={`How we help ${expertise.name} businesses grow.`}
+          description="We focus on three areas that make the biggest difference."
           maxWidth="lg"
           className="mb-12"
           titleClassName="text-[1.85rem] leading-[1.18] md:text-[2.15rem]"
@@ -256,8 +252,8 @@ const ExpertiseDetail = () => {
             <SectionIntro
               eyebrow="Results You Can Expect"
               mode="content"
-              title="What success should look like."
-              description="The work should lead to clearer reporting, better decisions, and stronger commercial performance over time."
+              title="What to expect from the work."
+              description="These are the clear outcomes the engagement is built around."
               maxWidth="lg"
               titleClassName="text-[1.85rem] leading-[1.18] md:text-[2.15rem]"
             />
@@ -306,8 +302,8 @@ const ExpertiseDetail = () => {
             <SectionIntro
               eyebrow="Is This Right For You"
               mode="content"
-              title="Built for teams at this stage."
-              description="We work best with brands that have foundations in place and are ready to grow more intelligently."
+              title="Who this works best for."
+              description="We do our best work with teams that are past the early stage and ready to grow with better data and execution."
               maxWidth="lg"
               titleClassName="text-[1.85rem] leading-[1.18] md:text-[2.15rem]"
             />
@@ -343,8 +339,8 @@ const ExpertiseDetail = () => {
       <FAQAccordion
         items={expertise.faqs}
         eyebrow="Common Questions"
-        title={`Questions about ${expertise.name} marketing.`}
-        description="If you have a question we haven't covered, book a call and we will walk you through it."
+        title={`Common questions about ${expertise.name} marketing.`}
+        description="Have a question we have not covered? Book a call and we will walk you through it."
         variant="panel"
         density="comfortable"
         defaultOpenItem={0}
@@ -354,11 +350,11 @@ const ExpertiseDetail = () => {
       <CTASection
         title={
           <>
-            Need a clearer growth plan for{" "}
-            <span className="text-gradient">{expertise.name}</span>?
+            Ready to grow your{" "}
+            <span className="text-gradient">{expertise.name}</span> business?
           </>
         }
-        description="Book a free strategy call and we will show you the clearest next step across tracking, paid media, and automation."
+        description="Book a free strategy call and we will show you exactly where to focus first."
         secondaryCta={{ label: "Explore Services", to: "/service" }}
         variant="hero-close"
         proofChips={["No lock-in contracts", "Free first strategy call", "Built for your sector"]}

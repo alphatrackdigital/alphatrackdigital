@@ -1,15 +1,6 @@
 import { Navigate, Link, useParams } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-import {
-  Mail,
-  Globe,
-  Search,
-  PenTool,
-  CheckCircle2,
-  CircleOff,
-  Compass,
-  Link2,
-} from "lucide-react";
+import { Mail, Globe, Search, PenTool } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
@@ -61,6 +52,10 @@ interface ServiceData {
     primaryTo: string;
     secondaryLabel: string;
     secondaryTo: string;
+  };
+  ctaHeadline: {
+    line1: string;
+    line2: string;
   };
   relatedServices: RelatedServiceLink[];
   seoTitle: string;
@@ -173,6 +168,10 @@ const serviceData: Record<string, ServiceData> = {
       primaryTo: "/book-a-call",
       secondaryLabel: "See Marketing Automation",
       secondaryTo: "/service/marketing-automation",
+    },
+    ctaHeadline: {
+      line1: "Ready to Build",
+      line2: "Your Email System?",
     },
     relatedServices: [
       {
@@ -293,6 +292,10 @@ const serviceData: Record<string, ServiceData> = {
       secondaryLabel: "See Conversion Tracking",
       secondaryTo: "/service/conversion-tracking",
     },
+    ctaHeadline: {
+      line1: "Ready to Build",
+      line2: "Your Website?",
+    },
     relatedServices: [
       {
         slug: "conversion-tracking",
@@ -411,6 +414,10 @@ const serviceData: Record<string, ServiceData> = {
       primaryTo: "/book-a-call",
       secondaryLabel: "See Website Development",
       secondaryTo: "/service/website-development",
+    },
+    ctaHeadline: {
+      line1: "Ready to Grow",
+      line2: "Your Organic Reach?",
     },
     relatedServices: [
       {
@@ -531,6 +538,10 @@ const serviceData: Record<string, ServiceData> = {
       secondaryLabel: "See SEO",
       secondaryTo: "/service/seo",
     },
+    ctaHeadline: {
+      line1: "Ready to Build",
+      line2: "Your Content Plan?",
+    },
     relatedServices: [
       {
         slug: "seo",
@@ -545,27 +556,6 @@ const serviceData: Record<string, ServiceData> = {
     seoDesc: "Strategic content planning and media strategy aligned to growth goals, with channel roles, editorial structure, and reporting tied to business outcomes.",
   },
 };
-
-const qualificationCards = [
-  {
-    key: "fit",
-    title: "Best fit",
-    icon: CheckCircle2,
-    getDescription: (service: ServiceData) => service.fit,
-  },
-  {
-    key: "not-fit",
-    title: "Not ideal for",
-    icon: CircleOff,
-    getDescription: (service: ServiceData) => service.notIdealFor,
-  },
-  {
-    key: "start",
-    title: "Good starting point",
-    icon: Compass,
-    getDescription: (service: ServiceData) => service.startingPoint,
-  },
-] as const;
 
 const ServiceDetail = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -615,13 +605,14 @@ const ServiceDetail = () => {
         </script>
       </Helmet>
 
+      {/* Hero */}
       <section className="relative overflow-hidden pt-8 pb-24 text-center md:pt-10 md:pb-28">
         <div className="pointer-events-none absolute inset-0">
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_75%_50%_at_50%_-5%,rgba(0,175,239,0.10)_0%,rgba(0,51,153,0.06)_45%,transparent_70%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_55%_at_50%_0%,rgba(0,175,239,0.13)_0%,rgba(0,51,153,0.07)_50%,transparent_72%)]" />
           <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
         </div>
-        <div className="container relative z-10 mx-auto px-4 lg:px-8">
-          <div className="mx-auto max-w-[60rem]">
+        <div className="container relative z-10 mx-auto px-6 lg:px-8">
+          <div className="mx-auto max-w-[62rem]">
             <Breadcrumbs
               items={[
                 { label: "Home", path: "/" },
@@ -638,7 +629,7 @@ const ServiceDetail = () => {
               <span className="mb-5 inline-block text-xs font-semibold uppercase tracking-[0.2em] text-primary">
                 {service.title}
               </span>
-              <h1 className="title-safe pb-4 text-5xl font-extrabold leading-[1.14] tracking-[-0.035em] md:pb-5 md:text-6xl lg:text-[4.5rem]">
+              <h1 className="title-safe pb-4 text-5xl font-extrabold leading-[1.14] tracking-[-0.035em] md:pb-5 md:text-6xl lg:text-[4.65rem]">
                 {service.headline} <span className="title-safe-inline text-gradient">{service.gradientWord}</span>
               </h1>
               <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-muted-foreground">
@@ -649,222 +640,228 @@ const ServiceDetail = () => {
                   <Link to={service.cta.primaryTo}>{service.cta.primaryLabel}</Link>
                 </Button>
               </div>
-              <div className="hidden mx-auto mt-12 grid max-w-2xl grid-cols-3 gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10">
-                {[
-                  { label: "Outcome", value: service.outcomes[0] },
-                  { label: "Timeline", value: service.timeline },
-                  { label: "Start with", value: service.startingPoint },
-                ].map((stat) => (
-                  <div key={stat.label} className="bg-background px-5 py-4 text-left">
-                    <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-primary/70">{stat.label}</p>
-                    <p className="mt-1.5 line-clamp-3 text-sm font-medium">{stat.value}</p>
-                  </div>
-                ))}
-              </div>
             </motion.div>
           </div>
         </div>
       </section>
 
-      <section className="border-t border-white/10 bg-white/[0.015] py-16">
+      {/* The Problem */}
+      <section className="border-t border-white/10 bg-white/[0.025] py-8 lg:py-14">
         <div className="container mx-auto px-4 lg:px-8">
-          <span className="mb-3 inline-block text-xs font-semibold uppercase tracking-widest text-primary">
-            Decision Snapshot
-          </span>
-          <h2 className="max-w-2xl text-3xl font-bold md:text-4xl">Where This Service Fits Best</h2>
-          <div className="mt-10 grid gap-5 md:grid-cols-3">
-            {qualificationCards.map((card, index) => (
-              <motion.div
-                key={card.key}
-                initial={{ opacity: 0, y: 16 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.08 }}
-                className="rounded-2xl border border-white/10 bg-white/[0.02] p-6"
-              >
-                <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-primary/15 bg-primary/[0.07]">
-                  <card.icon className="h-5 w-5 text-primary" />
-                </div>
-                <h3 className="mt-4 font-semibold">{card.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                  {card.getDescription(service)}
-                </p>
-              </motion.div>
-            ))}
+          <div className="mb-5 lg:mb-8">
+            <span className="inline-block text-xs font-semibold uppercase tracking-widest text-primary">
+              The Problem
+            </span>
+            <h2 className="mt-2 max-w-lg text-3xl font-bold leading-tight lg:mt-3 md:text-4xl">What Gets in the Way</h2>
+          </div>
+
+          <div>
+            {service.problems.map((problem, index) => {
+              const numberClass = [
+                "text-primary",
+                "text-[#33CC99]",
+                "bg-gradient-to-r from-primary to-[#33CC99] bg-clip-text text-transparent",
+              ][index];
+              return (
+                <motion.div
+                  key={problem.title}
+                  initial={{ opacity: 0, y: 14 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.08 }}
+                  className="border-t border-white/[0.08] py-4 lg:py-6"
+                >
+                  <div className="grid grid-cols-1 gap-1.5 lg:grid-cols-[4rem_1fr_1.5fr] lg:items-start lg:gap-10">
+                    <span className={`text-[1.5rem] font-black leading-none tracking-tighter lg:text-[2.25rem] ${numberClass}`}>
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <h3 className="text-[15px] font-semibold leading-snug tracking-[-0.01em] lg:pt-1 lg:text-[16px]">
+                      {problem.title}
+                    </h3>
+                    <p className="text-sm leading-[1.75] text-muted-foreground lg:pt-1">{problem.description}</p>
+                  </div>
+                </motion.div>
+              );
+            })}
+            <div className="border-t border-white/[0.08]" />
           </div>
         </div>
       </section>
 
-      <section className="border-t border-white/10 py-20">
+      {/* How We Do It */}
+      <section className="border-t border-white/10 py-8 lg:py-20">
         <div className="container mx-auto px-4 lg:px-8">
-          <span className="mb-4 inline-block text-xs font-bold uppercase tracking-widest text-primary">
-            The Challenge
-          </span>
-          <h2 className="max-w-2xl text-3xl font-bold md:text-4xl">Why This Matters</h2>
-          <div className="mt-10 grid gap-5 md:grid-cols-3">
-            {service.problems.map((problem, index) => (
-              <motion.div
-                key={problem.title}
-                initial={{ opacity: 0, y: 16 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.08 }}
-                className="rounded-2xl border border-white/10 bg-white/[0.02] p-6"
-              >
-                <span className="mb-3 inline-block text-xs font-bold uppercase tracking-widest text-primary/50">
-                  0{index + 1}
-                </span>
-                <h3 className="font-semibold">{problem.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                  {problem.description}
-                </p>
-              </motion.div>
-            ))}
+          <div className="mb-6 lg:mb-12">
+            <span className="inline-block text-xs font-semibold uppercase tracking-widest text-primary">
+              Our Process
+            </span>
+            <h2 className="mt-3 text-3xl font-bold md:text-4xl">How We Do It</h2>
           </div>
-        </div>
-      </section>
 
-      <section className="border-t border-white/10 bg-white/[0.015] py-20">
-        <div className="container mx-auto px-4 lg:px-8">
-          <span className="mb-3 inline-block text-xs font-semibold uppercase tracking-widest text-primary">
-            What We Prioritise
-          </span>
-          <h2 className="max-w-2xl text-3xl font-bold md:text-4xl">{service.decisionTitle}</h2>
-          <p className="mt-3 max-w-2xl text-sm leading-7 text-muted-foreground">
-            {service.decisionDescription}
-          </p>
-          <div className="mt-10 grid gap-5 md:grid-cols-3">
-            {service.decisionCards.map((card, index) => (
-              <motion.div
-                key={card.title}
-                initial={{ opacity: 0, y: 16 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.08 }}
-                className="rounded-[26px] border border-white/10 bg-background/75 p-6"
-              >
-                <h3 className="text-lg font-semibold">{card.title}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{card.description}</p>
-              </motion.div>
-            ))}
+          {/* Desktop: horizontal timeline */}
+          <div className="hidden lg:block">
+            <div className="relative">
+              <div className="absolute inset-x-[1.125rem] top-[1.125rem] h-px bg-gradient-to-r from-primary/25 via-primary/15 to-primary/10" />
+              <div className="relative flex w-full justify-between">
+                {service.approach.map((step, index) => (
+                  <motion.div
+                    key={step.title}
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: index * 0.1 }}
+                    className="flex h-9 w-9 items-center justify-center rounded-full border border-primary/30 bg-background text-xs font-bold text-primary"
+                  >
+                    {String(index + 1).padStart(2, "0")}
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+            <div className="mt-7 grid grid-cols-4 gap-8">
+              {service.approach.map((step, index) => (
+                <motion.div
+                  key={step.title}
+                  initial={{ opacity: 0, y: 12 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.1 + 0.1 }}
+                >
+                  <h3 className="text-[15px] font-semibold">{step.title}</h3>
+                  <p className="mt-2 text-sm leading-[1.7] text-muted-foreground">{step.description}</p>
+                </motion.div>
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
 
-      <section className="border-t border-white/10 py-20">
-        <div className="container mx-auto px-4 lg:px-8">
-          <span className="mb-3 inline-block text-xs font-semibold uppercase tracking-widest text-primary">
-            What Good Looks Like
-          </span>
-          <h2 className="max-w-2xl text-3xl font-bold md:text-4xl">Signals We Want to Improve</h2>
-          <div className="mt-10 grid gap-5 md:grid-cols-3">
-            {service.successSignals.map((signal, index) => (
-              <motion.div
-                key={signal.title}
-                initial={{ opacity: 0, y: 16 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.08 }}
-                className="rounded-2xl border border-primary/12 bg-gradient-to-br from-primary/6 to-transparent p-6"
-              >
-                <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary/70">
-                  Outcome {index + 1}
-                </p>
-                <h3 className="mt-3 font-semibold">{signal.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{signal.description}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="border-t border-white/10 bg-white/[0.015] py-20">
-        <div className="container mx-auto px-4 lg:px-8">
-          <span className="mb-3 inline-block text-xs font-semibold uppercase tracking-widest text-primary">
-            Scope
-          </span>
-          <h2 className="max-w-2xl text-3xl font-bold md:text-4xl">What This Usually Includes</h2>
-          <div className="mt-10 grid gap-4 md:grid-cols-2">
-            {service.features.map((feature, index) => (
-              <motion.div
-                key={feature}
-                initial={{ opacity: 0, x: -10 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.04 }}
-                className="flex items-start gap-3 rounded-xl border border-white/10 bg-card p-5"
-              >
-                <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-primary" />
-                <span className="text-sm text-muted-foreground">{feature}</span>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="border-t border-white/10 py-20">
-        <div className="container mx-auto px-4 lg:px-8">
-          <span className="mb-3 inline-block text-xs font-semibold uppercase tracking-widest text-primary">
-            Our Approach
-          </span>
-          <h2 className="max-w-2xl text-3xl font-bold md:text-4xl">How We Work</h2>
-          <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+          {/* Mobile: vertical list */}
+          <div className="divide-y divide-white/[0.07] lg:hidden">
             {service.approach.map((step, index) => (
               <motion.div
                 key={step.title}
-                initial={{ opacity: 0, y: 16 }}
+                initial={{ opacity: 0, y: 12 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.08 }}
-                className="rounded-[26px] border border-white/10 bg-white/[0.02] p-7"
+                className="flex items-start gap-4 py-4"
               >
-                <span className="mb-3 inline-block text-xs font-bold uppercase tracking-widest text-primary/50">
-                  0{index + 1}
-                </span>
-                <h3 className="font-semibold">{step.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{step.description}</p>
+                <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-primary/25 bg-primary/[0.06] text-[11px] font-bold text-primary">
+                  {String(index + 1).padStart(2, "0")}
+                </div>
+                <div>
+                  <h3 className="font-semibold">{step.title}</h3>
+                  <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">{step.description}</p>
+                </div>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="border-t border-white/10 bg-white/[0.015] py-20">
+      {/* What You Get */}
+      <section className="border-t border-white/10 bg-white/[0.02] py-8 lg:py-20">
         <div className="container mx-auto px-4 lg:px-8">
-          <div className="mb-10 flex items-center gap-3">
-            <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-primary/15 bg-primary/[0.07]">
-              <Link2 className="h-5 w-5 text-primary" />
-            </div>
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary">Related Services</p>
-              <h2 className="mt-1 text-3xl font-bold md:text-4xl">What This Works Best With</h2>
+          <div className="mb-6 lg:mb-12">
+            <span className="inline-block text-xs font-semibold uppercase tracking-widest text-primary">
+              Scope &amp; Outcomes
+            </span>
+            <h2 className="mt-3 text-3xl font-bold md:text-4xl">What You Get</h2>
+          </div>
+
+          {/* Features */}
+          <div>
+            <p className="mb-4 text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground/40 lg:mb-6">
+              Included in the engagement
+            </p>
+            <div className="grid grid-cols-1 gap-x-12 gap-y-2.5 sm:grid-cols-2">
+              {service.features.map((feature, index) => (
+                <motion.div
+                  key={feature}
+                  initial={{ opacity: 0, y: 8 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.04 }}
+                  className="flex items-center gap-2.5"
+                >
+                  <div className="h-[3px] w-[3px] shrink-0 rounded-full bg-primary/50" />
+                  <span className="text-sm text-muted-foreground">{feature}</span>
+                </motion.div>
+              ))}
             </div>
           </div>
-          <div className="grid gap-5 md:grid-cols-2">
-            {relatedServices.map((related) => (
+
+          {/* Separator */}
+          <div className="my-6 h-px bg-gradient-to-r from-transparent via-white/12 to-transparent lg:my-10" />
+
+          {/* Outcomes */}
+          <div>
+            <p className="mb-5 text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground/40 lg:mb-8">
+              What changes for you
+            </p>
+            <div className="grid grid-cols-1 gap-5 sm:grid-cols-3">
+              {service.successSignals.map((signal, index) => {
+                const numColor = [
+                  "text-primary",
+                  "text-[#33CC99]",
+                  "bg-gradient-to-r from-primary to-[#33CC99] bg-clip-text text-transparent",
+                ][index];
+                return (
+                  <motion.div
+                    key={signal.title}
+                    initial={{ opacity: 0, y: 14 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: index * 0.1 }}
+                  >
+                    <span className={`text-[1.4rem] font-black leading-none tracking-tighter lg:text-[1.75rem] ${numColor}`}>
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <h3 className="mt-2.5 text-[15px] font-semibold leading-snug lg:mt-4">{signal.title}</h3>
+                    <p className="mt-1.5 text-sm leading-[1.75] text-muted-foreground">{signal.description}</p>
+                  </motion.div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Related Services */}
+      <section className="border-t border-white/10 py-8 lg:py-16">
+        <div className="container mx-auto px-4 lg:px-8">
+          <div className="mb-6 lg:mb-10">
+            <span className="inline-block text-xs font-semibold uppercase tracking-widest text-primary">
+              Related Services
+            </span>
+            <h2 className="mt-3 text-3xl font-bold md:text-4xl">Works Best With</h2>
+          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-2">
+            {relatedServices.map((related, index) => (
               <motion.div
                 key={related.path}
-                initial={{ opacity: 0, y: 16 }}
+                initial={{ opacity: 0, y: 14 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                className="h-full"
+                transition={{ delay: index * 0.08 }}
               >
                 <Link
                   to={related.path}
                   onMouseEnter={() => prefetchRoute(related.path)}
                   onFocus={() => prefetchRoute(related.path)}
-                  className="group flex h-full flex-col rounded-[26px] border border-white/10 bg-white/[0.02] p-7 transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/20"
+                  className={`group flex flex-col gap-3 py-5 transition-opacity hover:opacity-90 lg:gap-5 lg:py-8 ${
+                    index === 0
+                      ? "border-b border-white/[0.07] lg:border-b-0 lg:border-r lg:pr-14"
+                      : "lg:pl-14"
+                  }`}
                 >
-                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.04]">
-                    <related.icon className="h-6 w-6 text-primary" />
+                  <related.icon className="h-5 w-5 text-primary" />
+                  <div>
+                    <h3 className="text-lg font-semibold transition-colors group-hover:text-primary">
+                      {related.title}
+                    </h3>
+                    <p className="mt-2.5 text-sm leading-[1.75] text-muted-foreground">{related.reason}</p>
                   </div>
-                  <h3 className="mt-5 text-xl font-semibold">{related.title}</h3>
-                  <p className="mt-3 text-sm leading-7 text-muted-foreground">{related.reason}</p>
-                  <p className="mt-4 text-xs uppercase tracking-[0.15em] text-muted-foreground/65">
-                    Best for {related.bestFor}
-                  </p>
-                  <span className="mt-5 inline-flex items-center gap-1 text-sm font-medium text-primary">
-                    {related.ctaLabel}
+                  <span className="text-sm font-medium text-primary/60 transition-colors group-hover:text-primary">
+                    {related.ctaLabel} →
                   </span>
                 </Link>
               </motion.div>
@@ -889,15 +886,16 @@ const ServiceDetail = () => {
 
       <CTASection
         title={
-          <>
-            Ready to Improve Your <span className="title-safe-inline text-gradient">{service.title}?</span>
-          </>
+          <span className="flex flex-col gap-3 md:gap-4">
+            <span className="block">{service.ctaHeadline.line1}</span>
+            <span className="title-safe-inline block text-gradient">{service.ctaHeadline.line2}</span>
+          </span>
         }
-        description={`If ${service.title.toLowerCase()} is the constraint, we can map the right starting scope and next steps with you.`}
+        description=""
         primaryCta={{ label: service.cta.primaryLabel, to: service.cta.primaryTo }}
-        secondaryCta={{ label: service.cta.secondaryLabel, to: service.cta.secondaryTo }}
         variant="service-close"
         layout="split"
+        titleClassName="max-w-[15ch] pb-4 text-[2.38rem] leading-[1.12] tracking-[-0.04em] md:text-[2.82rem] lg:text-[3rem]"
       />
     </>
   );
