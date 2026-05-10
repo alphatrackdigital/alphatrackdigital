@@ -145,11 +145,11 @@ const FooterNewsletter = () => {
 const Footer = () => {
   return (
     <footer className="border-t border-white/10 bg-[#070a10]">
-      <div className="container mx-auto px-4 pb-8 pt-6 md:pb-16 md:pt-0 lg:px-8">
+      <div className="container mx-auto px-4 pb-10 pt-10 md:pb-16 md:pt-8 lg:px-8">
         <div className="hidden lg:block">
           <FooterNewsletter />
         </div>
-        <div className="grid grid-cols-2 gap-x-6 gap-y-6 md:grid-cols-2 md:gap-12 lg:grid-cols-4">
+        <div className="grid grid-cols-2 gap-x-6 gap-y-7 md:grid-cols-2 md:gap-12 lg:grid-cols-4">
           <div className="col-span-2 space-y-2.5 md:col-span-2 lg:col-span-1 lg:space-y-4">
             <Link to="/" aria-label="AlphaTrack Digital Home" className="inline-flex items-center">
               <img
@@ -165,7 +165,7 @@ const Footer = () => {
               Measurement-first digital growth agency. We build the tracking, automation, and paid
               media systems that turn your marketing spend into measurable revenue.
             </p>
-            <div className="mt-2.5 flex gap-2 md:mt-4 md:gap-3">
+            <div className="mt-2 flex gap-2 md:mt-4 md:gap-3">
               <a
                 href="https://web.facebook.com/AlphaTrack.Digital"
                 target="_blank"
@@ -255,7 +255,7 @@ const Footer = () => {
             </nav>
           </div>
 
-          <div className="col-span-2 space-y-2.5 md:col-span-2 md:space-y-4 lg:col-span-1">
+          <div className="col-span-2 mt-1 space-y-2.5 md:col-span-2 md:mt-2 md:space-y-4 lg:col-span-1 lg:mt-0">
             <h3 className="text-sm font-semibold text-foreground">Contact</h3>
             <div className="flex flex-col gap-1.5 text-[13px] text-muted-foreground md:gap-2 md:text-sm">
               <a href={companyProfile.contact.phoneHref} className="transition-colors hover:text-primary">
@@ -271,7 +271,7 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="mt-6 flex flex-col gap-2 border-t border-white/10 pt-4 text-[11px] text-muted-foreground sm:flex-row sm:items-center sm:justify-between sm:text-xs md:mt-12 md:gap-3 md:pt-6">
+        <div className="mt-8 flex flex-col gap-2 border-t border-white/10 pt-5 text-[11px] text-muted-foreground sm:flex-row sm:items-center sm:justify-between sm:text-xs md:mt-12 md:gap-3 md:pt-6">
           <p>Copyright AlphaTrack Digital {new Date().getFullYear()}. All rights reserved.</p>
           <div className="flex items-center gap-3 md:gap-4">
             <Link to="/privacy-policy" className="transition-colors hover:text-foreground">

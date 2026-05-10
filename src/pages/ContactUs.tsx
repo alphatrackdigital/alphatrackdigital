@@ -8,6 +8,7 @@ import { z } from "zod";
 import { toast } from "sonner";
 
 import PageSection from "@/components/shared/PageSection";
+import HeroEyebrow from "@/components/shared/HeroEyebrow";
 import SEO from "@/components/shared/SEO";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -214,9 +215,7 @@ const ContactUs = () => {
               className="pointer-events-none absolute right-6 top-28 h-24 w-24 rounded-full bg-atd-blue/10 blur-[72px] lg:left-24 lg:right-auto lg:top-40 lg:h-28 lg:w-28"
             />
             <div className="space-y-6 sm:space-y-7 md:space-y-8">
-              <span className="inline-flex w-fit items-center self-center rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.22em] text-primary/90 lg:self-start">
-                Contact Us
-              </span>
+              <HeroEyebrow className="self-center lg:self-start">Contact Us</HeroEyebrow>
 
               <h1 className="mx-auto max-w-[20rem] text-[2.35rem] font-bold leading-[0.96] tracking-tight sm:max-w-[26rem] sm:text-[3rem] md:max-w-[31rem] md:text-[3.55rem] lg:mx-0 lg:max-w-[34rem] lg:text-[2.65rem] xl:text-[2.95rem]">
                 <span className="block text-foreground">Talk to a Team That</span>

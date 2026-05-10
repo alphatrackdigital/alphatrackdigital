@@ -23,6 +23,8 @@ interface FAQAccordionProps {
   defaultOpenItem?: number;
   contentClassName?: string;
   accordionClassName?: string;
+  sectionClassName?: string;
+  sectionSpacingClassName?: string;
   mobileInitialItems?: number;
 }
 
@@ -36,6 +38,8 @@ const FAQAccordion = ({
   defaultOpenItem,
   contentClassName,
   accordionClassName,
+  sectionClassName,
+  sectionSpacingClassName,
   mobileInitialItems,
 }: FAQAccordionProps) => {
   const [showAllMobile, setShowAllMobile] = useState(false);
@@ -47,7 +51,13 @@ const FAQAccordion = ({
   const shouldLimitMobile = typeof mobileInitialItems === "number" && items.length > mobileLimit;
 
   return (
-    <section className={cn("py-10 md:py-20", variant === "minimal" && "bg-white/[0.01]")}>
+    <section
+      className={cn(
+        sectionSpacingClassName ?? "py-10 md:py-20",
+        variant === "minimal" && "bg-white/[0.01]",
+        sectionClassName,
+      )}
+    >
       <div className="container mx-auto px-4 lg:px-8">
         <SectionIntro
           eyebrow={eyebrow}

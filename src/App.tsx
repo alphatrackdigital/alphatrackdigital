@@ -9,6 +9,7 @@ import { routeImporters } from "@/lib/routePrefetch";
 import Index from "./pages/Index";
 
 const AboutUs = lazy(routeImporters.aboutUs);
+const Expertise = lazy(routeImporters.expertise);
 const ExpertiseDetail = lazy(routeImporters.expertiseDetail);
 const Services = lazy(routeImporters.services);
 const ContactUs = lazy(routeImporters.contactUs);
@@ -18,6 +19,7 @@ const ConversionTracking = lazy(routeImporters.conversionTracking);
 const MarketingAutomation = lazy(routeImporters.marketingAutomation);
 const PaidMedia = lazy(routeImporters.paidMedia);
 const ServiceDetail = lazy(routeImporters.serviceDetail);
+const Results = lazy(routeImporters.results);
 const Blog = lazy(routeImporters.blog);
 const BlogPost = lazy(routeImporters.blogPost);
 const BookACall = lazy(routeImporters.bookACall);
@@ -54,12 +56,14 @@ export const AppRouter = () => (
       <Route element={<Layout />}>
         <Route path="/" element={<Index />} />
         <Route path="/about-us" element={withRouteSuspense(AboutUs)} />
+        <Route path="/expertise" element={withRouteSuspense(Expertise)} />
         <Route path="/expertise/:slug" element={withRouteSuspense(ExpertiseDetail)} />
         <Route path="/service" element={withRouteSuspense(Services)} />
         <Route path="/service/conversion-tracking" element={withRouteSuspense(ConversionTracking)} />
         <Route path="/service/marketing-automation" element={withRouteSuspense(MarketingAutomation)} />
         <Route path="/service/paid-media" element={withRouteSuspense(PaidMedia)} />
         <Route path="/service/:slug" element={withRouteSuspense(ServiceDetail)} />
+        <Route path="/results" element={withRouteSuspense(Results)} />
         <Route path="/blog" element={withRouteSuspense(Blog)} />
         <Route path="/blog/:slug" element={withRouteSuspense(BlogPost)} />
         <Route path="/contact-us" element={withRouteSuspense(ContactUs)} />

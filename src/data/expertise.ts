@@ -1,4 +1,5 @@
 import type { FAQItem } from "@/components/shared/FAQAccordion";
+import type { ExpertiseHeroContent } from "@/components/shared/ExpertiseHero";
 
 export interface HeroSnapshotItem {
   label: string;
@@ -11,9 +12,48 @@ export interface ExpertiseServiceFocus {
   path: string;
 }
 
+export interface ExpertiseAudienceFit {
+  label: string;
+  description: string;
+}
+
+export interface ExpertiseProblemCard {
+  title: string;
+  description: string;
+}
+
+export interface ExpertiseApproachStep {
+  label: string;
+  title: string;
+  description: string;
+}
+
+export interface ExpertiseDeliverable {
+  title: string;
+  description: string;
+  servicePath?: string;
+}
+
+export interface ExpertiseTool {
+  name: string;
+  icon: string;
+}
+
+export interface ExpertiseDiagramStep {
+  label: string;
+  detail: string;
+}
+
+export interface ExpertisePositioning {
+  eyebrow: string;
+  summary: string;
+  note: string;
+}
+
 export interface ExpertisePage {
   slug: string;
   name: string;
+  expertiseHero?: ExpertiseHeroContent;
   heroTitle: string;
   heroDescription: string;
   heroSnapshot: HeroSnapshotItem[];
@@ -21,6 +61,18 @@ export interface ExpertisePage {
   serviceFocus: ExpertiseServiceFocus[];
   outcomes: string[];
   idealFor: string[];
+  positioning?: ExpertisePositioning;
+  audienceFit?: ExpertiseAudienceFit[];
+  problemCards?: ExpertiseProblemCard[];
+  approachSteps?: ExpertiseApproachStep[];
+  deliverables?: ExpertiseDeliverable[];
+  toolStack?: ExpertiseTool[];
+  diagram?: {
+    title: string;
+    description: string;
+    steps: ExpertiseDiagramStep[];
+  };
+  proofNotes?: string[];
   faqs: FAQItem[];
 }
 
@@ -28,9 +80,68 @@ export const expertisePages: ExpertisePage[] = [
   {
     slug: "saas",
     name: "SaaS",
+    expertiseHero: {
+      eyebrow: "SaaS Growth Expertise",
+      title: "Turn your data into a predictable pipeline",
+      highlightedText: "predictable",
+      description:
+        "Most SaaS teams are spending on ads without knowing what converts, which channels create pipeline, or where revenue leaks after signup. We fix the measurement layer first, then scale what works.",
+      primaryCtaLabel: "Book A Free Strategy Call",
+      primaryCtaTo: "/book-a-call",
+      secondaryCtaLabel: "See how we work",
+      secondaryCtaTo: "/expertise/saas#how-we-work",
+      visual: "saas-pipeline",
+      background: "saas",
+      dashboard: {
+        title: "AlphaTrack Analytics - SaaS Dashboard",
+        statusLabel: "Live",
+        metrics: [
+          { label: "MRR", value: "$48.2K", delta: "+23% vs last month", accent: "green" },
+          { label: "CAC", value: "$184", delta: "-18% this quarter", accent: "green" },
+          { label: "Churn Rate", value: "2.1%", delta: "down from 4.6%", accent: "green" },
+          { label: "LTV:CAC", value: "4.8x", delta: "Target: 3x+", accent: "cyan" },
+        ],
+        chart: {
+          title: "MRR Growth (6 months)",
+          valueLabel: "$48.2K",
+          labels: ["Jul", "Aug", "Sep", "Oct", "Nov", "Dec", "Jan"],
+        },
+        channels: {
+          title: "Top Channels",
+          rows: [
+            { label: "Google Ads", value: "4.2%" },
+            { label: "LinkedIn Ads", value: "3.7%" },
+            { label: "Organic Search", value: "2.9%" },
+            { label: "Email nurture", value: "1.8%", muted: true },
+            { label: "Direct", value: "1.2%", muted: true },
+          ],
+        },
+        conversion: {
+          title: "Trial -> Paid Conversion",
+          rows: [
+            { label: "Trials started", value: "1,240", width: 100, accent: "blue" },
+            { label: "Activated", value: "868 (70%)", width: 70, accent: "cyan" },
+            { label: "Converted to paid", value: "372 (30%)", width: 30, accent: "green" },
+          ],
+        },
+        performance: {
+          title: "Paid Media Performance",
+          spend: "$12,400",
+          roas: "3.9x",
+          note: "Efficiency trend",
+        },
+      },
+    },
     heroTitle: "SaaS marketing that turns interest into paying customers.",
     heroDescription:
       "We help SaaS businesses track where their leads come from, run ads that attract the right buyers, and build follow-up systems that move prospects from first visit to closed deal.",
+    positioning: {
+      eyebrow: "SaaS Growth Systems",
+      summary:
+        "ATD helps SaaS teams connect the parts of growth that usually get treated separately: tracking, paid acquisition, CRM visibility, and lead follow-up.",
+      note:
+        "The aim is not more activity. It is a cleaner system for seeing what creates qualified demand and what needs to happen next.",
+    },
     heroSnapshot: [
       {
         label: "Pipeline Clarity",
@@ -45,10 +156,45 @@ export const expertisePages: ExpertisePage[] = [
         value: "Automated emails and CRM workflows that keep prospects warm from first visit to closed deal.",
       },
     ],
+    audienceFit: [
+      {
+        label: "Paid acquisition is active",
+        description: "You are already spending on Google, LinkedIn, Meta, or retargeting and need clearer insight into lead quality.",
+      },
+      {
+        label: "Attribution is unclear",
+        description: "Your team can see traffic and signups, but struggles to connect them to demos, opportunities, or closed deals.",
+      },
+      {
+        label: "Follow-up is inconsistent",
+        description: "Leads enter the funnel but handoff, nurture, or sales reminders depend too much on manual effort.",
+      },
+      {
+        label: "Scaling needs better data",
+        description: "You want to increase budget or expand channels, but need to trust the measurement layer first.",
+      },
+    ],
     challenges: [
       "You can see traffic and signups, but not which campaigns are bringing in people who actually convert.",
       "Paid ads bring visitors, but most of them are not the right fit and conversion rates stay low.",
       "Interested prospects go cold between the first click and a conversation with your sales team.",
+    ],
+    problemCards: [
+      {
+        title: "Campaigns create activity, not qualified pipeline",
+        description:
+          "Ad platforms may report conversions, but those conversions do not always become serious trials, demos, or opportunities. Without lead-quality feedback, budget decisions stay shallow.",
+      },
+      {
+        title: "Tracking stops before revenue visibility",
+        description:
+          "Many SaaS teams measure visits and signups, then lose the thread once leads enter the product or CRM. That makes it hard to know which channel is producing real commercial progress.",
+      },
+      {
+        title: "Follow-up slows down after the first conversion",
+        description:
+          "A signup, form fill, or demo request is only the start. If reminders, nurture, and sales handoff are inconsistent, warm prospects lose momentum before a buying conversation happens.",
+      },
     ],
     serviceFocus: [
       {
@@ -70,10 +216,91 @@ export const expertisePages: ExpertisePage[] = [
         path: "/service/marketing-automation",
       },
     ],
+    approachSteps: [
+      {
+        label: "Capture",
+        title: "Track the right product and lead events",
+        description:
+          "We map the SaaS funnel around visits, signups, demo requests, trial actions, CRM stages, and conversion events before changing campaigns.",
+      },
+      {
+        label: "Target",
+        title: "Structure acquisition around buyer intent",
+        description:
+          "Campaigns are organised by search intent, audience quality, funnel stage, and retargeting purpose so spend is easier to evaluate.",
+      },
+      {
+        label: "Measure",
+        title: "Connect ads, analytics, and CRM reporting",
+        description:
+          "GA4, ad platforms, and CRM data are brought into a clearer reporting view so the team can see where useful demand is coming from.",
+      },
+      {
+        label: "Automate",
+        title: "Keep leads moving after the first touch",
+        description:
+          "Lifecycle email, lead routing, reminders, and CRM workflows help prospects get the right follow-up without relying on manual checks.",
+      },
+    ],
+    deliverables: [
+      {
+        title: "Conversion tracking and attribution setup",
+        description:
+          "GA4, GTM, campaign parameters, CRM events, and key conversion actions configured around the way your SaaS funnel actually works.",
+        servicePath: "/service/conversion-tracking",
+      },
+      {
+        title: "Paid media campaign structure",
+        description:
+          "Google, LinkedIn, Meta, and retargeting campaigns organised around intent, audience fit, message stage, and reporting clarity.",
+        servicePath: "/service/paid-media",
+      },
+      {
+        title: "CRM and lifecycle follow-up workflows",
+        description:
+          "Email sequences, lead alerts, handoff rules, nurture steps, and re-engagement flows for trials, demos, and sales-led journeys.",
+        servicePath: "/service/marketing-automation",
+      },
+      {
+        title: "Reporting dashboard and decision view",
+        description:
+          "A practical dashboard that helps founders, marketers, and sales teams compare channel performance against the pipeline actions that matter.",
+      },
+    ],
+    toolStack: [
+      { name: "Google Analytics 4", icon: "google-analytics.svg" },
+      { name: "Google Tag Manager", icon: "google-tag-manager.svg" },
+      { name: "Google Ads", icon: "google-ads.svg" },
+      { name: "LinkedIn Ads", icon: "linkedin-ads.svg" },
+      { name: "Meta Ads", icon: "meta-ads.svg" },
+      { name: "HubSpot", icon: "hubspot.svg" },
+      { name: "Brevo", icon: "brevo.svg" },
+      { name: "Looker Studio", icon: "looker-studio.svg" },
+      { name: "Zapier", icon: "zapier.svg" },
+      { name: "Make", icon: "make.svg" },
+    ],
+    diagram: {
+      title: "A cleaner SaaS growth loop",
+      description:
+        "The page and campaigns are only useful when they connect to what happens after the conversion. This is the operating view we build toward.",
+      steps: [
+        { label: "Traffic", detail: "Search, social, retargeting, referrals" },
+        { label: "Signup or demo", detail: "Forms, trials, bookings, key product actions" },
+        { label: "CRM visibility", detail: "Source, fit, stage, owner, next action" },
+        { label: "Nurture", detail: "Email, reminders, retargeting, sales handoff" },
+        { label: "Revenue signal", detail: "Qualified pipeline, closed deals, expansion insight" },
+      ],
+    },
     outcomes: [
       "Know which campaigns bring in your best leads",
       "Attract real buyers from paid ads, not just browsers",
       "Leads get a timely, consistent follow-up every time",
+    ],
+    proofNotes: [
+      "Clearer lead-source reporting across signups, demos, and CRM stages.",
+      "Better acquisition decisions because campaigns can be judged by lead quality, not just volume.",
+      "Faster follow-up through automated routing, reminders, and nurture.",
+      "More confident scaling conversations because the measurement layer is easier to trust.",
     ],
     idealFor: [
       "You are running ads but cannot tell which campaigns lead to signups, demos, or paying customers",
@@ -85,27 +312,27 @@ export const expertisePages: ExpertisePage[] = [
       {
         question: "How quickly can you get tracking in place for a SaaS product?",
         answer:
-          "For most SaaS setups we can complete a full GA4 and GTM implementation with CRM event tracking within two to three weeks. More complex products with multiple tools or data sources take a little longer, but we start with a clear plan so you always know what gets built and when.",
+          "Most SaaS tracking rebuilds take two to three weeks once access and event requirements are clear. More complex products with multiple tools, domains, or CRM stages can take longer, but we start with a clear tracking map before implementation.",
       },
       {
         question: "Do you work with early-stage SaaS teams or only established products?",
         answer:
-          "Both. Early-stage teams benefit from getting tracking right from the start, which prevents a lot of painful cleanup later. More established products often come to us to fix gaps in their reporting or rebuild paid campaign performance after hitting a growth plateau.",
+          "Both. Early-stage teams often need clean tracking before spend increases. Established products usually come to us when reporting gaps, weak paid performance, or inconsistent lead follow-up are making growth harder to manage.",
       },
       {
         question: "Can you help if our growth model is product-led, sales-led, or somewhere in between?",
         answer:
-          "Yes. For product-led businesses where users sign up and try before buying, we focus on product event tracking, trial conversion flows, and lifecycle automation. For sales-led businesses, the focus shifts to CRM integration, lead scoring, and handoff automation between marketing and sales. Many SaaS teams sit somewhere in between and we support that too.",
+          "Yes. For product-led teams, we focus more on product events, trial actions, and lifecycle automation. For sales-led teams, we focus more on CRM stages, lead scoring, and handoff. Many SaaS teams sit between the two, so the setup is shaped around your actual funnel.",
       },
       {
         question: "What paid channels do you use for SaaS companies?",
         answer:
-          "Primarily Google Search for capturing high-intent demand, LinkedIn for reaching business and enterprise audiences, and Meta or retargeting for nurturing people already in your funnel. The right mix depends on your target customer, deal size, and where your buyers actually research solutions.",
+          "Usually Google Search for high-intent demand, LinkedIn for specific B2B audiences, and Meta or retargeting for nurturing people already in the funnel. The right mix depends on your buyer, price point, market, and sales cycle.",
       },
       {
         question: "How do you handle attribution when the sales cycle takes weeks or months?",
         answer:
-          "We set up multi-touch attribution using GA4 and your CRM so you can see the full journey from first ad click to closed deal, even across a long sales cycle. We also build reporting dashboards that give both your marketing and sales teams a shared view of leads by source.",
+          "We connect campaign, analytics, and CRM data so the team can see the journey from first touch to later pipeline stages. For longer cycles, we focus on useful visibility rather than pretending every deal can be reduced to a single click.",
       },
     ],
   },

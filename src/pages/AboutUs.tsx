@@ -3,6 +3,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import { BadgeCheck, Eye, Filter, Handshake, Lightbulb, Sparkles, Target, TrendingUp } from "lucide-react";
 
 import CTASection from "@/components/shared/CTASection";
+import HeroEyebrow from "@/components/shared/HeroEyebrow";
 import PageSection from "@/components/shared/PageSection";
 import SEO from "@/components/shared/SEO";
 import SectionIntro from "@/components/shared/SectionIntro";
@@ -97,20 +98,39 @@ const AboutUs = () => {
       {/* ─── Hero ──────────────────────────────────────────────────────── */}
       <section
         data-testid="about-hero-section"
-        className="relative overflow-hidden border-b border-white/10 bg-[#111214] py-10 md:py-20 lg:py-24"
+        className="relative overflow-hidden border-b border-white/10 bg-[#05070d] py-10 md:py-20 lg:py-24"
       >
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_16%_20%,rgba(51,204,153,0.11)_0%,transparent_30%),radial-gradient(circle_at_78%_28%,rgba(0,175,239,0.13)_0%,transparent_32%),radial-gradient(circle_at_74%_86%,rgba(0,51,153,0.16)_0%,transparent_34%),linear-gradient(180deg,#05070d_0%,#071016_48%,#05070d_100%)]" />
         <div
-          className="pointer-events-none absolute inset-0 opacity-[0.10]"
+          className="pointer-events-none absolute inset-0 opacity-[0.045]"
           style={{
             backgroundImage:
-              "linear-gradient(rgba(255,255,255,0.32) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.32) 1px, transparent 1px)",
-            backgroundSize: "76px 76px",
+              "linear-gradient(rgba(255,255,255,0.55) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.55) 1px, transparent 1px)",
+            backgroundSize: "84px 84px",
             maskImage:
-              "linear-gradient(180deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.55) 58%, rgba(0,0,0,0.1) 100%)",
+              "radial-gradient(ellipse at 42% 38%, rgba(0,0,0,0.78) 0%, rgba(0,0,0,0.38) 46%, rgba(0,0,0,0) 78%)",
           }}
         />
+        <div className="pointer-events-none absolute inset-0 opacity-[0.055] [background-image:radial-gradient(circle,rgba(0,175,239,0.75)_1px,transparent_1.5px)] [background-size:36px_36px] [mask-image:radial-gradient(ellipse_at_74%_44%,black_0%,transparent_62%)]" />
+        <svg
+          className="pointer-events-none absolute inset-y-0 right-0 hidden h-full w-[58%] opacity-70 lg:block"
+          viewBox="0 0 760 620"
+          fill="none"
+          aria-hidden="true"
+        >
+          <defs>
+            <linearGradient id="aboutHeroSignal" x1="30" x2="730" y1="310" y2="310">
+              <stop stopColor="#00AFEF" stopOpacity="0" />
+              <stop offset="0.48" stopColor="#00AFEF" stopOpacity="0.26" />
+              <stop offset="1" stopColor="#33CC99" stopOpacity="0.18" />
+            </linearGradient>
+          </defs>
+          <path d="M40 180C174 132 276 166 386 246C504 332 616 356 734 288" stroke="url(#aboutHeroSignal)" strokeWidth="1.4" />
+          <path d="M88 440C226 372 322 404 444 334C558 268 640 260 738 318" stroke="url(#aboutHeroSignal)" strokeWidth="1.4" />
+          <path d="M246 98V532M526 74V574M674 132V512" stroke="rgba(255,255,255,0.04)" />
+        </svg>
         <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/12 to-transparent" />
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(51,204,153,0.08)_0%,transparent_32%),radial-gradient(circle_at_bottom_right,rgba(0,175,239,0.08)_0%,transparent_30%)]" />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-[#05070d] to-transparent" />
 
         <div className="container relative mx-auto px-6 sm:px-6 lg:px-8">
           <div className="mx-auto grid max-w-6xl items-stretch gap-6 md:gap-6 lg:grid-cols-[minmax(0,1.02fr)_minmax(360px,0.88fr)]">
@@ -121,9 +141,7 @@ const AboutUs = () => {
               className="flex h-full flex-col justify-between"
             >
               <div className="flex h-full flex-col">
-                <span className="inline-flex w-fit items-center rounded-full border border-white/[0.10] bg-white/[0.03] px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-primary/90 md:text-[11px] md:tracking-[0.18em]">
-                  About Us
-                </span>
+                <HeroEyebrow>About Us</HeroEyebrow>
                 <p className="mt-9 text-[10px] font-semibold uppercase tracking-[0.16em] text-white/36 md:mt-8 md:text-[12px] md:tracking-[0.18em]">
                   We are
                 </p>
@@ -163,6 +181,7 @@ const AboutUs = () => {
                 </div>
 
                 <div className="relative mt-7 md:hidden">
+                  <div className="absolute -inset-3 rounded-[24px] bg-[radial-gradient(circle_at_70%_24%,rgba(0,175,239,0.18),transparent_42%),radial-gradient(circle_at_18%_80%,rgba(51,204,153,0.13),transparent_42%)] blur-xl" />
                   <div className="relative overflow-hidden rounded-[18px] border border-white/[0.08] bg-[#0f1115] shadow-[0_14px_34px_rgba(0,0,0,0.16)]">
                     {heroImgError ? (
                       <div className="flex h-[330px] items-center justify-center bg-[radial-gradient(circle_at_top,rgba(0,175,239,0.12)_0%,rgba(17,17,20,0.92)_62%)]">
@@ -182,6 +201,7 @@ const AboutUs = () => {
                       />
                     )}
                     <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(12,14,18,0.02)_0%,rgba(12,14,18,0.06)_100%)]" />
+                    <div className="pointer-events-none absolute inset-0 ring-1 ring-inset ring-primary/[0.08]" />
                   </div>
                 </div>
               </div>
@@ -192,27 +212,31 @@ const AboutUs = () => {
               initial={shouldReduceMotion ? false : { opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: shouldReduceMotion ? 0 : 0.5, delay: shouldReduceMotion ? 0 : 0.08 }}
-              className="relative hidden h-full min-h-0 overflow-hidden rounded-[28px] border border-white/[0.08] bg-[#0f1115] shadow-[0_24px_60px_rgba(0,0,0,0.18)] md:block md:rounded-[32px]"
+              className="relative hidden h-full min-h-0 md:block"
             >
-              {heroImgError ? (
-                <div className="flex h-full min-h-[280px] items-center justify-center bg-[radial-gradient(circle_at_top,rgba(0,175,239,0.16)_0%,rgba(17,17,20,0.92)_62%)] sm:min-h-[320px] lg:min-h-[420px]">
-                  <span className="text-center text-sm uppercase tracking-[0.22em] text-white/55">
-                    Team Visual
-                  </span>
-                </div>
-              ) : (
-                <img
-                  src="/about-hero-team-2026.png"
-                  alt="AlphaTrack Digital team reviewing performance dashboards"
-                  className="h-full w-full object-cover object-[center_12%]"
-                  loading="eager"
-                  width={900}
-                  height={1122}
-                  onError={() => setHeroImgError(true)}
-                />
-              )}
-              <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(12,14,18,0.04)_0%,rgba(12,14,18,0.05)_36%,rgba(12,14,18,0.34)_100%)]" />
-              <div className="pointer-events-none absolute inset-0 ring-1 ring-inset ring-white/[0.04]" />
+              <div className="pointer-events-none absolute -inset-5 rounded-[38px] bg-[radial-gradient(circle_at_72%_20%,rgba(0,175,239,0.20),transparent_42%),radial-gradient(circle_at_12%_78%,rgba(51,204,153,0.13),transparent_46%)] blur-2xl" />
+              <div className="relative h-full min-h-0 overflow-hidden rounded-[28px] border border-white/[0.09] bg-[#0f1115] shadow-[0_24px_70px_rgba(0,0,0,0.26)] md:rounded-[32px]">
+                {heroImgError ? (
+                  <div className="flex h-full min-h-[280px] items-center justify-center bg-[radial-gradient(circle_at_top,rgba(0,175,239,0.16)_0%,rgba(17,17,20,0.92)_62%)] sm:min-h-[320px] lg:min-h-[420px]">
+                    <span className="text-center text-sm uppercase tracking-[0.22em] text-white/55">
+                      Team Visual
+                    </span>
+                  </div>
+                ) : (
+                  <img
+                    src="/about-hero-team-2026.png"
+                    alt="AlphaTrack Digital team reviewing performance dashboards"
+                    className="h-full w-full object-cover object-[center_12%]"
+                    loading="eager"
+                    width={900}
+                    height={1122}
+                    onError={() => setHeroImgError(true)}
+                  />
+                )}
+                <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(12,14,18,0.02)_0%,rgba(12,14,18,0.06)_36%,rgba(12,14,18,0.36)_100%)]" />
+                <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_78%_12%,rgba(0,175,239,0.10)_0%,transparent_30%)]" />
+                <div className="pointer-events-none absolute inset-0 ring-1 ring-inset ring-primary/[0.08]" />
+              </div>
             </motion.div>
           </div>
         </div>

@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import Breadcrumbs from "@/components/shared/Breadcrumbs";
+import HeroEyebrow from "@/components/shared/HeroEyebrow";
 import SEO from "@/components/shared/SEO";
 import { Button } from "@/components/ui/button";
 import { companyProfile, featuredTestimonial } from "@/data/companyProfile";
@@ -104,9 +105,7 @@ const BookACall = () => {
             <div className="mt-12 grid gap-4 md:mt-20 md:grid-cols-[minmax(0,34rem)_minmax(0,420px)] md:justify-center md:items-stretch lg:grid-cols-[minmax(0,36rem)_minmax(0,460px)] lg:gap-6">
               <div className="flex h-full w-full flex-col">
                 <div>
-                  <span className="mb-5 inline-block text-xs font-semibold uppercase tracking-[0.2em] text-primary">
-                    Free Strategy Call
-                  </span>
+                  <HeroEyebrow className="mb-5">Free Strategy Call</HeroEyebrow>
 
                   <h1 className="title-safe mt-6 pb-2 text-[2.55rem] font-extrabold leading-[1.04] tracking-[-0.045em] md:mt-8 md:pb-3 md:whitespace-nowrap md:text-[3.35rem] lg:text-[3.6rem]">
                     Book a <span className="title-safe-inline text-gradient">Strategy</span> Call

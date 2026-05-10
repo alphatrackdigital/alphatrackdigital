@@ -8,6 +8,7 @@ import Breadcrumbs from "@/components/shared/Breadcrumbs";
 import CTASection from "@/components/shared/CTASection";
 import FeaturedTestimonialSection from "@/components/shared/FeaturedTestimonialSection";
 import FAQAccordion from "@/components/shared/FAQAccordion";
+import HeroEyebrow from "@/components/shared/HeroEyebrow";
 import SEO from "@/components/shared/SEO";
 import { BOOK_A_FREE_STRATEGY_CALL_CTA } from "@/config/cta";
 import { getServiceBySlug } from "@/data/services";
@@ -606,30 +607,29 @@ const ServiceDetail = () => {
       </Helmet>
 
       {/* Hero */}
-      <section className="relative overflow-hidden pt-8 pb-24 text-center md:pt-10 md:pb-28">
+      <section className="relative min-h-[36rem] overflow-hidden bg-[#05070d] pb-24 pt-6 text-center md:min-h-[42.5rem] md:pb-36 md:pt-10">
         <div className="pointer-events-none absolute inset-0">
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_55%_at_50%_0%,rgba(0,175,239,0.13)_0%,rgba(0,51,153,0.07)_50%,transparent_72%)]" />
+          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(5,7,13,1)_0%,rgba(7,10,16,0.94)_56%,rgba(5,7,13,1)_100%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_55%_at_50%_0%,rgba(0,175,239,0.12)_0%,rgba(0,51,153,0.07)_50%,transparent_72%)]" />
           <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
         </div>
         <div className="container relative z-10 mx-auto px-6 lg:px-8">
+          <Breadcrumbs
+            items={[
+              { label: "Home", path: "/" },
+              { label: "Services", path: "/service" },
+              { label: service.title },
+            ]}
+          />
           <div className="mx-auto max-w-[62rem]">
-            <Breadcrumbs
-              items={[
-                { label: "Home", path: "/" },
-                { label: "Services", path: "/service" },
-                { label: service.title },
-              ]}
-            />
             <motion.div
-              className="mt-16 md:mt-20"
+              className="mt-14 md:mt-24"
               initial={{ opacity: 0, y: 22 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.55 }}
             >
-              <span className="mb-5 inline-block text-xs font-semibold uppercase tracking-[0.2em] text-primary">
-                {service.title}
-              </span>
-              <h1 className="title-safe pb-4 text-[2.25rem] font-extrabold leading-[1.14] tracking-[-0.035em] md:pb-5 md:text-6xl lg:text-[4.65rem]">
+              <HeroEyebrow className="mb-5">{service.title}</HeroEyebrow>
+              <h1 className="title-safe pb-4 text-[2.25rem] font-extrabold leading-[1.14] tracking-normal md:pb-5 md:text-6xl lg:text-[4.65rem]">
                 {service.headline} <span className="title-safe-inline text-gradient">{service.gradientWord}</span>
               </h1>
               <p className="mx-auto mt-6 max-w-2xl text-[15px] leading-relaxed text-muted-foreground md:text-lg">
@@ -646,7 +646,7 @@ const ServiceDetail = () => {
       </section>
 
       {/* The Problem */}
-      <section className="border-t border-white/10 bg-white/[0.025] py-8 lg:py-14">
+      <section className="border-t border-white/10 bg-[#070a10] py-8 lg:py-14">
         <div className="container mx-auto px-6 md:px-4 lg:px-8">
           <div className="mb-5 lg:mb-8">
             <span className="inline-block text-xs font-semibold uppercase tracking-widest text-primary">
@@ -672,10 +672,10 @@ const ServiceDetail = () => {
                   className="border-t border-white/[0.08] py-4 lg:py-6"
                 >
                   <div className="grid grid-cols-1 gap-1.5 lg:grid-cols-[4rem_1fr_1.5fr] lg:items-start lg:gap-10">
-                    <span className={`text-[1.5rem] font-black leading-none tracking-tighter lg:text-[2.25rem] ${numberClass}`}>
+                    <span className={`text-[1.5rem] font-black leading-none tracking-normal lg:text-[2.25rem] ${numberClass}`}>
                       {String(index + 1).padStart(2, "0")}
                     </span>
-                    <h3 className="text-[15px] font-semibold leading-snug tracking-[-0.01em] lg:pt-1 lg:text-[16px]">
+                    <h3 className="text-[15px] font-semibold leading-snug tracking-normal lg:pt-1 lg:text-[16px]">
                       {problem.title}
                     </h3>
                     <p className="text-sm leading-[1.75] text-muted-foreground lg:pt-1">{problem.description}</p>
@@ -689,7 +689,7 @@ const ServiceDetail = () => {
       </section>
 
       {/* How We Do It */}
-      <section className="border-t border-white/10 py-8 lg:py-20">
+      <section className="border-t border-white/10 bg-[#080b10] py-8 lg:py-20">
         <div className="container mx-auto px-6 md:px-4 lg:px-8">
           <div className="mb-6 lg:mb-12">
             <span className="inline-block text-xs font-semibold uppercase tracking-widest text-primary">
@@ -758,7 +758,7 @@ const ServiceDetail = () => {
       </section>
 
       {/* What You Get */}
-      <section className="border-t border-white/10 bg-white/[0.02] py-8 lg:py-20">
+      <section className="border-t border-white/10 bg-[#070a10] py-8 lg:py-20">
         <div className="container mx-auto px-6 md:px-4 lg:px-8">
           <div className="mb-6 lg:mb-12">
             <span className="inline-block text-xs font-semibold uppercase tracking-widest text-primary">
@@ -812,7 +812,7 @@ const ServiceDetail = () => {
                     viewport={{ once: true }}
                     transition={{ delay: index * 0.1 }}
                   >
-                    <span className={`text-[1.4rem] font-black leading-none tracking-tighter lg:text-[1.75rem] ${numColor}`}>
+                    <span className={`text-[1.4rem] font-black leading-none tracking-normal lg:text-[1.75rem] ${numColor}`}>
                       {String(index + 1).padStart(2, "0")}
                     </span>
                     <h3 className="mt-2.5 text-[15px] font-semibold leading-snug lg:mt-4">{signal.title}</h3>
@@ -826,7 +826,7 @@ const ServiceDetail = () => {
       </section>
 
       {/* Related Services */}
-      <section className="border-t border-white/10 py-8 lg:py-16">
+      <section className="border-t border-white/10 bg-[#080b10] py-8 lg:py-16">
         <div className="container mx-auto px-6 md:px-4 lg:px-8">
           <div className="mb-6 lg:mb-10">
             <span className="inline-block text-xs font-semibold uppercase tracking-widest text-primary">
@@ -895,7 +895,7 @@ const ServiceDetail = () => {
         primaryCta={{ label: service.cta.primaryLabel, to: service.cta.primaryTo }}
         variant="service-close"
         layout="split"
-        titleClassName="max-w-[15ch] pb-4 text-[2.38rem] leading-[1.12] tracking-[-0.04em] md:text-[2.82rem] lg:text-[3rem]"
+        titleClassName="max-w-[15ch] pb-4 text-[2.38rem] leading-[1.12] tracking-normal md:text-[2.82rem] lg:text-[3rem]"
       />
     </>
   );

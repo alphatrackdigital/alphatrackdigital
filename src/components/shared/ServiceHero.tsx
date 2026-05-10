@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import type { LucideIcon } from "lucide-react";
 import { BOOK_A_FREE_STRATEGY_CALL_CTA } from "@/config/cta";
 import Breadcrumbs from "@/components/shared/Breadcrumbs";
+import HeroEyebrow from "@/components/shared/HeroEyebrow";
 import SectionIntro from "@/components/shared/SectionIntro";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -105,10 +106,10 @@ const ServiceHero = ({
 
         <div className="mt-6 grid gap-8 md:mt-8 lg:grid-cols-2 lg:items-center lg:gap-12">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
-            <div className="mb-4 inline-flex items-center gap-2 rounded-md border border-primary/15 bg-primary/[0.07] px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-primary md:mb-6 md:px-4 md:text-xs md:tracking-widest">
+            <HeroEyebrow className="mb-4 gap-2 md:mb-6">
               {BadgeIcon && <BadgeIcon className="h-4 w-4" />}
               {badgeLabel}
-            </div>
+            </HeroEyebrow>
 
             <SectionIntro
               title={title}
