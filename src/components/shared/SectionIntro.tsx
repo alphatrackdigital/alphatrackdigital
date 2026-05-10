@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 
+import HeroEyebrow from "@/components/shared/HeroEyebrow";
 import { cn } from "@/lib/utils";
 
 interface SectionIntroProps {
@@ -70,14 +71,18 @@ const SectionIntro = ({
   return (
     <div className={cn(isCentered && "text-center", className)}>
       {eyebrow && (
-        <p
-          className={cn(
-            "mb-3 text-[11px] font-semibold uppercase tracking-[0.22em]",
-            eyebrowToneClasses[eyebrowTone],
-          )}
-        >
-          {eyebrow}
-        </p>
+        mode === "hero" ? (
+          <HeroEyebrow className={cn("mb-3", isCentered && "mx-auto")}>{eyebrow}</HeroEyebrow>
+        ) : (
+          <p
+            className={cn(
+              "mb-3 text-[11px] font-semibold uppercase tracking-[0.22em]",
+              eyebrowToneClasses[eyebrowTone],
+            )}
+          >
+            {eyebrow}
+          </p>
+        )
       )}
       <TitleTag
         id={titleId}

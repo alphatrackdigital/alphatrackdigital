@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, useLocation, type To } from "react-router-dom";
-import { Menu, X, ChevronDown } from "lucide-react";
+import { Menu, X, ChevronDown, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { BOOK_A_FREE_STRATEGY_CALL_CTA } from "@/config/cta";
 import { withCampaignSearch } from "@/lib/campaignAttribution";
@@ -13,7 +13,7 @@ import { expertisePages } from "@/data/expertise";
 const navLinks = [
   { label: "Services", path: "/service", menuType: "services" as const, hash: undefined as string | undefined },
   { label: "Expertise", path: "/expertise", menuType: "expertise" as const, hash: undefined as string | undefined },
-  { label: "Results", disabled: true, path: undefined as string | undefined, menuType: undefined as string | undefined, hash: undefined as string | undefined },
+  { label: "Results", path: "/results", menuType: undefined as string | undefined, hash: undefined as string | undefined },
   { label: "About Us", path: "/about-us", menuType: undefined as string | undefined, hash: undefined as string | undefined },
   { label: "Blog", path: "/blog", menuType: undefined as string | undefined, hash: undefined as string | undefined },
 ];
@@ -226,68 +226,72 @@ const Header = () => {
 
               <AnimatePresence>
                 {desktopServicesOpen && (
-                  <div className="absolute left-1/2 top-full z-50 w-[min(760px,calc(100vw-3rem))] -translate-x-1/2 pt-5">
+                  <div className="absolute left-1/2 top-full z-50 w-[min(580px,calc(100vw-3rem))] -translate-x-1/2 pt-3">
                     <motion.div
                       id="desktop-services-menu"
                       data-testid="desktop-services-menu"
-                      initial={{ opacity: 0, y: 12, scale: 0.985 }}
+                      initial={{ opacity: 0, y: 8, scale: 0.99 }}
                       animate={{ opacity: 1, y: 0, scale: 1 }}
-                      exit={{ opacity: 0, y: 12, scale: 0.985 }}
+                      exit={{ opacity: 0, y: 8, scale: 0.99 }}
                       transition={{ duration: 0.18, ease: "easeOut" }}
-                      className="relative overflow-hidden rounded-[28px] border border-white/[0.08] bg-[#070a10] px-3.5 py-3.5 shadow-[0_20px_48px_rgba(0,8,22,0.24)]"
+                      className="relative overflow-hidden rounded-xl border border-white/[0.08] bg-[#070a10] p-4 shadow-[0_12px_28px_rgba(0,8,22,0.28)]"
                     >
-                      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/14 to-transparent" />
-                      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.015)_0%,rgba(255,255,255,0)_22%)]" />
-                      <div className="relative grid gap-3.5 lg:grid-cols-2">
-                        <div>
-                          <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary/80">
+                      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/35 to-transparent" />
+                      <div className="relative grid gap-5 md:grid-cols-2">
+                        <section>
+                          <p className="px-1 pb-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-primary/80">
                             Core Services
                           </p>
-                          <div className="mt-2 space-y-1">
+                          <div className="space-y-1">
                             {primaryServices.map((service) => (
                               <Link
                                 key={service.path}
                                 to={service.path}
                                 {...getPrefetchHandlers(service.path)}
-                                className="group flex items-center gap-2.5 rounded-2xl border border-transparent px-3 py-2 transition-colors hover:border-white/[0.05] hover:bg-white/[0.025]"
+                                className="group flex min-h-11 items-center gap-3 rounded-lg px-2 py-2 transition-colors hover:bg-white/[0.045]"
                               >
-                                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border border-white/[0.08] bg-white/[0.03]">
-                                  <service.icon className="h-4 w-4 text-primary" />
-                                </div>
-                                <p className="min-w-0 flex-1 text-sm font-semibold leading-snug text-foreground">{service.title}</p>
+                                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md border border-white/[0.07] bg-white/[0.025]">
+                                  <service.icon className="h-3.5 w-3.5 text-primary" />
+                                </span>
+                                <span className="min-w-0 flex-1 text-sm font-semibold leading-snug text-foreground">
+                                  {service.title}
+                                </span>
                               </Link>
                             ))}
                           </div>
-                        </div>
+                        </section>
 
-                        <div>
-                          <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary/80">
+                        <section>
+                          <p className="px-1 pb-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-primary/80">
                             More Services
                           </p>
-                          <div className="mt-2 space-y-1">
+                          <div className="grid gap-1">
                             {supportingServices.map((service) => (
                               <Link
                                 key={service.path}
                                 to={service.path}
                                 {...getPrefetchHandlers(service.path)}
-                                className="group flex items-center gap-2.5 rounded-2xl border border-transparent px-3 py-2 transition-colors hover:border-white/[0.05] hover:bg-white/[0.025]"
+                                className="group flex min-h-11 items-center gap-3 rounded-lg px-2 py-2 transition-colors hover:bg-white/[0.045]"
                               >
-                                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border border-white/[0.08] bg-white/[0.03]">
-                                  <service.icon className="h-4 w-4 text-primary" />
-                                </div>
-                                <p className="min-w-0 flex-1 text-sm font-semibold leading-snug text-foreground">{service.title}</p>
+                                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md border border-white/[0.07] bg-white/[0.025]">
+                                  <service.icon className="h-3.5 w-3.5 text-primary" />
+                                </span>
+                                <span className="min-w-0 flex-1 text-sm font-semibold leading-snug text-foreground">
+                                  {service.title}
+                                </span>
                               </Link>
                             ))}
                           </div>
-                        </div>
+                        </section>
                       </div>
-                      <div className="relative mt-3 border-t border-white/[0.08] pt-3">
+                      <div className="relative mt-3 border-t border-white/[0.07] pt-2.5">
                         <Link
                           to="/service"
                           {...getPrefetchHandlers("/service")}
-                          className="inline-flex text-sm font-medium text-primary transition-colors hover:text-primary/80"
+                          className="group flex items-center justify-between rounded-md px-1 py-1.5 text-sm font-semibold text-primary transition-colors hover:text-primary/80"
                         >
-                          View all services
+                          <span>View all services</span>
+                          <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
                         </Link>
                       </div>
                     </motion.div>
@@ -297,29 +301,42 @@ const Header = () => {
 
               <AnimatePresence>
                 {desktopExpertiseOpen && (
-                  <div className="absolute left-1/2 top-full z-50 w-[min(320px,calc(100vw-3rem))] -translate-x-1/2 pt-5">
+                  <div className="absolute left-1/2 top-full z-50 w-[min(430px,calc(100vw-3rem))] -translate-x-1/2 pt-3">
                     <motion.div
                       id="desktop-expertise-menu"
                       data-testid="desktop-expertise-menu"
-                      initial={{ opacity: 0, y: 12, scale: 0.985 }}
+                      initial={{ opacity: 0, y: 8, scale: 0.99 }}
                       animate={{ opacity: 1, y: 0, scale: 1 }}
-                      exit={{ opacity: 0, y: 12, scale: 0.985 }}
+                      exit={{ opacity: 0, y: 8, scale: 0.99 }}
                       transition={{ duration: 0.18, ease: "easeOut" }}
-                      className="relative overflow-hidden rounded-[24px] border border-white/[0.08] bg-[#070a10] p-3 shadow-[0_20px_48px_rgba(0,8,22,0.24)]"
+                      className="relative overflow-hidden rounded-xl border border-white/[0.08] bg-[#070a10] p-4 shadow-[0_12px_28px_rgba(0,8,22,0.28)]"
                     >
-                      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/14 to-transparent" />
-                      <div className="space-y-1">
+                      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/35 to-transparent" />
+                      <p className="px-1 pb-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-primary/80">
+                        Expertise
+                      </p>
+                      <div className="grid gap-1 sm:grid-cols-2">
                         {expertisePages.map((item) => (
                           <Link
                             key={item.slug}
                             to={`/expertise/${item.slug}`}
                             onMouseEnter={() => prefetchRoute(`/expertise/${item.slug}`)}
                             onFocus={() => prefetchRoute(`/expertise/${item.slug}`)}
-                            className="block rounded-xl px-3.5 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-white/[0.04] hover:text-primary"
+                            className="flex min-h-11 items-center rounded-lg px-2 py-2 text-sm font-semibold leading-snug text-foreground transition-colors hover:bg-white/[0.045] hover:text-primary"
                           >
                             {item.name}
                           </Link>
                         ))}
+                      </div>
+                      <div className="relative mt-3 border-t border-white/[0.07] pt-2.5">
+                        <Link
+                          to="/expertise"
+                          {...getPrefetchHandlers("/expertise")}
+                          className="group flex items-center justify-between rounded-md px-1 py-1.5 text-sm font-semibold text-primary transition-colors hover:text-primary/80"
+                        >
+                          <span>View all expertise</span>
+                          <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+                        </Link>
                       </div>
                     </motion.div>
                   </div>
@@ -358,20 +375,20 @@ const Header = () => {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.2, ease: "easeInOut" }}
-            className="border-b border-white/[0.08] bg-background/94 shadow-[0_10px_30px_rgba(0,0,0,0.24)] backdrop-blur-xl md:hidden"
+            className="border-b border-white/[0.08] bg-[linear-gradient(180deg,#070a10_0%,#090d14_100%)] shadow-[0_10px_24px_rgba(0,0,0,0.18)] md:hidden"
             id="mobile-nav"
           >
-            <nav className="container mx-auto flex flex-col gap-1 px-4 py-3">
+            <nav className="container mx-auto flex flex-col gap-1 px-4 py-4">
               {navLinks.map((link) =>
                 link.disabled ? (
                   <div
                     key={link.label}
-                    className="rounded-lg px-4 py-3 text-sm font-medium text-muted-foreground"
+                    className="min-h-12 rounded-lg px-3 py-3 text-sm font-medium text-muted-foreground"
                   >
                     {link.label}
                   </div>
                 ) : link.menuType ? (
-                  <div key={link.path} className="rounded-xl border border-white/[0.06] bg-white/[0.02]">
+                  <div key={link.path} className="border-b border-white/[0.055] pb-1">
                     <button
                       type="button"
                       data-testid={`mobile-${link.menuType}-trigger`}
@@ -388,11 +405,11 @@ const Header = () => {
                         }
                       }}
                       className={cn(
-                        "flex w-full items-center justify-between px-4 py-3 text-left text-sm font-medium transition-colors",
+                        "flex min-h-12 w-full items-center justify-between rounded-lg px-3 py-3 text-left text-sm font-semibold transition-colors",
                         isActive(link.path, link.hash) ||
                           (link.menuType === "services" ? mobileServicesOpen : mobileExpertiseOpen)
-                          ? "text-primary"
-                          : "text-muted-foreground hover:text-foreground",
+                          ? "bg-primary/[0.07] text-primary"
+                          : "text-muted-foreground hover:bg-white/[0.035] hover:text-foreground",
                       )}
                     >
                       <span>{link.label}</span>
@@ -413,9 +430,9 @@ const Header = () => {
                           animate={{ height: "auto", opacity: 1 }}
                           exit={{ height: 0, opacity: 0 }}
                           transition={{ duration: 0.2, ease: "easeInOut" }}
-                          className="overflow-hidden border-t border-white/[0.06]"
+                          className="overflow-hidden"
                         >
-                          <div className="space-y-4 px-4 py-4">
+                          <div className="space-y-4 pb-4 pl-3 pr-1 pt-2">
                             {link.menuType === "services" ? (
                               <>
                                 <Link
@@ -423,16 +440,16 @@ const Header = () => {
                                   onClick={closeMobileMenu}
                                   onTouchStart={() => prefetchRoute("/service")}
                                   onFocus={() => prefetchRoute("/service")}
-                                  className="inline-flex text-sm font-medium text-primary"
+                                  className="inline-flex rounded-md px-2 py-1.5 text-sm font-semibold text-primary transition-colors hover:bg-primary/[0.08]"
                                 >
                                   All Services
                                 </Link>
 
                                 <div>
-                                  <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary/80">
+                                  <p className="px-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-primary/75">
                                     Core Services
                                   </p>
-                                  <div className="mt-2 space-y-1">
+                                  <div className="mt-2">
                                     {primaryServices.map((service) => (
                                       <Link
                                         key={service.path}
@@ -440,7 +457,7 @@ const Header = () => {
                                         onClick={closeMobileMenu}
                                         onTouchStart={() => prefetchRoute(service.path)}
                                         onFocus={() => prefetchRoute(service.path)}
-                                        className="block rounded-lg px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-white/[0.04] hover:text-foreground"
+                                        className="block rounded-md border-t border-white/[0.045] px-2 py-2.5 text-sm font-medium text-muted-foreground transition-colors first:border-t-0 hover:bg-white/[0.035] hover:text-foreground"
                                       >
                                         {service.title}
                                       </Link>
@@ -449,10 +466,10 @@ const Header = () => {
                                 </div>
 
                                 <div>
-                                  <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary/80">
+                                  <p className="px-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-primary/75">
                                     More Services
                                   </p>
-                                  <div className="mt-2 space-y-1">
+                                  <div className="mt-2">
                                     {supportingServices.map((service) => (
                                       <Link
                                         key={service.path}
@@ -460,7 +477,7 @@ const Header = () => {
                                         onClick={closeMobileMenu}
                                         onTouchStart={() => prefetchRoute(service.path)}
                                         onFocus={() => prefetchRoute(service.path)}
-                                        className="block rounded-lg px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-white/[0.04] hover:text-foreground"
+                                        className="block rounded-md border-t border-white/[0.045] px-2 py-2.5 text-sm font-medium text-muted-foreground transition-colors first:border-t-0 hover:bg-white/[0.035] hover:text-foreground"
                                       >
                                         {service.title}
                                       </Link>
@@ -469,7 +486,16 @@ const Header = () => {
                                 </div>
                               </>
                             ) : (
-                              <div className="space-y-1">
+                              <div>
+                                <Link
+                                  to="/expertise"
+                                  onClick={closeMobileMenu}
+                                  onTouchStart={() => prefetchRoute("/expertise")}
+                                  onFocus={() => prefetchRoute("/expertise")}
+                                  className="mb-2 inline-flex rounded-md px-2 py-1.5 text-sm font-semibold text-primary transition-colors hover:bg-primary/[0.08]"
+                                >
+                                  All Expertise
+                                </Link>
                                 {expertisePages.map((item) => (
                                   <Link
                                     key={item.slug}
@@ -477,7 +503,7 @@ const Header = () => {
                                     onClick={closeMobileMenu}
                                     onTouchStart={() => prefetchRoute(`/expertise/${item.slug}`)}
                                     onFocus={() => prefetchRoute(`/expertise/${item.slug}`)}
-                                    className="block rounded-lg px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-white/[0.04] hover:text-foreground"
+                                    className="block rounded-md border-t border-white/[0.045] px-2 py-2.5 text-sm font-medium text-muted-foreground transition-colors first:border-t-0 hover:bg-white/[0.035] hover:text-foreground"
                                   >
                                     {item.name}
                                   </Link>
@@ -497,26 +523,16 @@ const Header = () => {
                     onTouchStart={() => prefetchRoute(link.path)}
                     onFocus={() => prefetchRoute(link.path)}
                     className={cn(
-                      "rounded-lg px-4 py-3 text-sm font-medium transition-colors",
+                      "min-h-12 rounded-lg px-3 py-3 text-sm font-semibold transition-colors",
                       isActive(link.path, link.hash)
-                        ? "bg-primary/[0.08] text-primary"
-                        : "text-muted-foreground hover:bg-white/[0.04] hover:text-foreground",
+                        ? "bg-primary/[0.07] text-primary"
+                        : "text-muted-foreground hover:bg-white/[0.035] hover:text-foreground",
                     )}
                   >
                     {link.label}
                   </Link>
                 ),
               )}
-              <Button asChild className="mt-2 w-full max-w-full rounded-lg bg-primary px-3 text-center text-primary-foreground">
-                <Link
-                  to={strategyCallTo}
-                  onClick={closeMobileMenu}
-                  onTouchStart={() => prefetchRoute(BOOK_A_FREE_STRATEGY_CALL_CTA.to)}
-                  onFocus={() => prefetchRoute(BOOK_A_FREE_STRATEGY_CALL_CTA.to)}
-                >
-                  {BOOK_A_FREE_STRATEGY_CALL_CTA.label}
-                </Link>
-              </Button>
             </nav>
           </motion.div>
         )}

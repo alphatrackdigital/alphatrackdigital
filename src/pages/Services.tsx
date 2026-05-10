@@ -4,6 +4,7 @@ import { motion, useReducedMotion } from "framer-motion";
 
 import CTASection from "@/components/shared/CTASection";
 import FeaturedTestimonialSection from "@/components/shared/FeaturedTestimonialSection";
+import HeroEyebrow from "@/components/shared/HeroEyebrow";
 import SEO from "@/components/shared/SEO";
 import SectionIntro from "@/components/shared/SectionIntro";
 import { BOOK_A_FREE_STRATEGY_CALL_CTA, REQUEST_A_FREE_TRACKING_AUDIT_CTA } from "@/config/cta";
@@ -47,17 +48,25 @@ const Services = () => {
       />
 
       {/* Hero */}
-      <section className="relative overflow-hidden pb-14 pt-6 text-center md:pb-20 md:pt-10">
+      <section className="relative overflow-hidden border-t border-white/10 bg-[#05070d] pb-14 pt-6 text-center md:pb-20 md:pt-10">
         <div className="pointer-events-none absolute inset-0">
-          <div className="absolute left-1/2 top-1/3 h-[520px] w-[520px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-atd-blue/[0.07] blur-[140px]" />
-          <div className="absolute right-[8%] bottom-[10%] h-[280px] w-[280px] rounded-full bg-primary/[0.05] blur-[100px]" />
+          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(5,7,13,1)_0%,rgba(7,10,16,0.94)_54%,rgba(5,7,13,1)_100%)]" />
+          <div
+            className="absolute inset-0 hidden opacity-[0.026] sm:block"
+            style={{
+              backgroundImage:
+                "linear-gradient(rgba(255,255,255,0.9) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.9) 1px, transparent 1px)",
+              backgroundSize: "84px 84px",
+            }}
+          />
+          <div className="absolute left-1/2 top-[28%] h-[18rem] w-[24rem] -translate-x-1/2 rounded-full bg-[radial-gradient(circle_at_center,rgba(0,175,239,0.12)_0%,rgba(51,204,153,0.07)_42%,transparent_74%)] blur-[76px] md:h-[25rem] md:w-[42rem] md:blur-[124px]" />
+          <div className="absolute -left-[12%] bottom-[-20%] hidden h-[22rem] w-[22rem] rounded-full bg-atd-blue/[0.14] blur-[118px] md:block" />
+          <div className="absolute right-[-8%] top-[18%] hidden h-[18rem] w-[14rem] rotate-[18deg] bg-[radial-gradient(circle_at_center,rgba(0,51,153,0.24),transparent_64%)] blur-[88px] md:block" />
         </div>
         <div className="container relative mx-auto px-6 text-center lg:px-8">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
-            <span className="mb-5 inline-block text-xs font-semibold uppercase tracking-[0.2em] text-primary">
-              Services
-            </span>
-            <h1 className="mx-auto max-w-3xl font-extrabold leading-[1.08] tracking-tight md:text-5xl lg:text-6xl">
+            <HeroEyebrow className="mb-5 mx-auto">Services</HeroEyebrow>
+            <h1 className="title-safe mx-auto max-w-3xl font-extrabold leading-[1.08] tracking-normal md:text-5xl lg:text-6xl">
               <span className="block whitespace-nowrap text-[1.45rem] min-[360px]:text-[1.7rem] min-[390px]:text-[1.8rem] min-[430px]:text-[1.95rem] sm:text-[2.15rem] md:text-5xl lg:text-6xl">
                 Marketing Systems That
               </span>
@@ -98,7 +107,7 @@ const Services = () => {
       </section>
 
       {/* Core Services */}
-      <section className="pt-12 pb-0 md:pt-16">
+      <section className="border-t border-white/10 bg-[#070a10] pt-12 pb-0 md:pt-16">
         <div className="container mx-auto px-6 lg:px-8">
           <SectionIntro
             eyebrow="Core Services"
@@ -124,7 +133,7 @@ const Services = () => {
                   onMouseEnter={() => prefetchRoute(service.path)}
                   onFocus={() => prefetchRoute(service.path)}
                   className={cn(
-                    "group grid h-full grid-cols-[44px_minmax(0,1fr)] items-start gap-3 rounded-2xl border p-4 transition-all duration-300 hover:-translate-y-1 md:flex md:flex-col md:rounded-[26px] md:p-7",
+                    "group grid h-full grid-cols-[44px_minmax(0,1fr)] items-start gap-3 rounded-2xl border p-4 transition-all duration-300 hover:-translate-y-1 md:flex md:flex-col md:p-6",
                     service.flagship
                       ? "border-primary/25 bg-[linear-gradient(180deg,rgba(0,51,153,0.16)_0%,rgba(0,175,239,0.04)_42%,rgba(51,204,153,0.04)_100%)] shadow-[0_18px_60px_rgba(0,51,153,0.12)]"
                       : "border-white/10 bg-white/[0.02] hover:border-white/20",
@@ -168,7 +177,7 @@ const Services = () => {
       </section>
 
       {/* Supporting Services */}
-      <section className="pb-14 pt-10 md:pb-20 md:pt-14">
+      <section className="bg-[#070a10] pb-14 pt-10 md:pb-20 md:pt-14">
         <div className="container mx-auto px-6 lg:px-8">
           <div className="border-t border-border pt-8 md:pt-10">
             <SectionIntro
@@ -214,7 +223,7 @@ const Services = () => {
       </section>
 
       {/* Operating System */}
-      <section className="border-t border-white/10 bg-white/[0.01] py-12 md:py-20">
+      <section className="border-t border-white/10 bg-[#080b10] py-12 md:py-20">
         <div className="container mx-auto px-6 lg:px-8">
           <SectionIntro
             eyebrow="Operating System"
@@ -244,7 +253,7 @@ const Services = () => {
                   <span>{String(i + 1).padStart(2, "0")}</span>
                 </div>
                 <div className="min-w-0">
-                  <h3 className="text-[1.06rem] font-semibold tracking-tight text-foreground">{item.title}</h3>
+                  <h3 className="text-[1.06rem] font-semibold tracking-normal text-foreground">{item.title}</h3>
                   <p className="mt-1 line-clamp-2 text-[13px] leading-6 text-muted-foreground">
                     {mobileCtmaSummaries[item.title] ?? item.summary}
                   </p>
@@ -253,7 +262,7 @@ const Services = () => {
             ))}
           </div>
 
-          <div className="relative hidden overflow-hidden rounded-[28px] border border-white/[0.08] bg-[radial-gradient(circle_at_top_left,rgba(51,204,153,0.05),transparent_24%),radial-gradient(circle_at_82%_14%,rgba(0,175,239,0.05),transparent_22%),linear-gradient(180deg,rgba(255,255,255,0.024)_0%,rgba(255,255,255,0.01)_100%)] p-4 shadow-[0_22px_54px_rgba(0,0,0,0.14)] md:rounded-[32px] md:p-6 lg:block lg:p-7">
+          <div className="relative hidden overflow-hidden rounded-2xl border border-white/[0.08] bg-[radial-gradient(circle_at_top_left,rgba(51,204,153,0.05),transparent_24%),radial-gradient(circle_at_82%_14%,rgba(0,175,239,0.05),transparent_22%),linear-gradient(180deg,rgba(255,255,255,0.024)_0%,rgba(255,255,255,0.01)_100%)] p-4 shadow-[0_22px_54px_rgba(0,0,0,0.14)] md:p-6 lg:block lg:p-7">
             <div className="pointer-events-none absolute inset-0 opacity-[0.05]" style={{ backgroundImage: "linear-gradient(rgba(255,255,255,0.12) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.12) 1px, transparent 1px)", backgroundSize: "84px 84px" }} />
             <div className="pointer-events-none absolute inset-x-12 top-0 h-px bg-gradient-to-r from-transparent via-white/16 to-transparent" />
             <div className="relative grid gap-5 lg:grid-cols-[0.66fr_1.34fr] lg:gap-8">
@@ -266,18 +275,18 @@ const Services = () => {
               >
                 <div>
                   <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-primary/82">System Logic</p>
-                  <h3 className="mt-3 max-w-sm text-[1.72rem] font-semibold tracking-tight text-foreground md:mt-4 md:text-[2rem] md:leading-[1.18]">
+                  <h3 className="mt-3 max-w-sm text-[1.72rem] font-semibold tracking-normal text-foreground md:mt-4 md:text-[2rem] md:leading-[1.18]">
                     Every layer hands cleaner signal to the next.
                   </h3>
                 </div>
                 <div className="relative mt-5 flex items-center justify-center lg:mt-6 lg:justify-start">
                   <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,175,239,0.08)_0%,transparent_55%)] blur-3xl" />
-                  <div className="relative w-full max-w-[300px] overflow-hidden rounded-[22px] border border-white/[0.08] bg-[radial-gradient(circle_at_top_left,rgba(0,175,239,0.08),transparent_30%),linear-gradient(180deg,rgba(255,255,255,0.025)_0%,rgba(255,255,255,0.01)_100%)] p-2 shadow-[0_20px_44px_rgba(0,0,0,0.16)] sm:max-w-[340px] md:max-w-[360px] md:rounded-[24px] md:p-2.5">
-                    <img src="/ctma-operating-system-optimized.jpg" alt="AlphaTrack Digital connected operating system flow" className="relative w-full rounded-[22px] object-contain" loading="lazy" width={1100} height={604} />
+                  <div className="relative w-full max-w-[300px] overflow-hidden rounded-2xl border border-white/[0.08] bg-[radial-gradient(circle_at_top_left,rgba(0,175,239,0.08),transparent_30%),linear-gradient(180deg,rgba(255,255,255,0.025)_0%,rgba(255,255,255,0.01)_100%)] p-2 shadow-[0_20px_44px_rgba(0,0,0,0.16)] sm:max-w-[340px] md:max-w-[360px] md:p-2.5">
+                    <img src="/ctma-operating-system-optimized.jpg" alt="AlphaTrack Digital connected operating system flow" className="relative w-full rounded-xl object-contain" loading="lazy" width={1100} height={604} />
                   </div>
                 </div>
               </motion.div>
-              <div className="grid grid-cols-1 gap-2.5 overflow-hidden rounded-[24px] border border-white/[0.08] bg-black/10 p-1.5 md:gap-0 md:rounded-[28px] md:p-0">
+              <div className="grid grid-cols-1 gap-2.5 overflow-hidden rounded-2xl border border-white/[0.08] bg-black/10 p-1.5 md:gap-0 md:p-0">
                 {ctmaFramework.map((item, i) => (
                   <motion.div
                     key={item.title}
@@ -297,7 +306,7 @@ const Services = () => {
                       </span>
                     </div>
                     <div>
-                      <h3 className="text-[0.95rem] font-semibold tracking-tight text-foreground md:text-[1.06rem]">{item.title}</h3>
+                      <h3 className="text-[0.95rem] font-semibold tracking-normal text-foreground md:text-[1.06rem]">{item.title}</h3>
                       <p className="mt-1 max-w-xl text-[11px] leading-5 text-muted-foreground whitespace-nowrap md:mt-1.5 md:text-sm md:leading-6 md:whitespace-normal">
                         <span className="md:hidden">{mobileCtmaSummaries[item.title] ?? item.summary}</span>
                         <span className="hidden md:inline">{item.summary}</span>
@@ -312,7 +321,7 @@ const Services = () => {
       </section>
 
       {/* How We Engage */}
-      <section className="border-t border-white/10 py-16 md:py-20">
+      <section className="border-t border-white/10 bg-[#070a10] py-16 md:py-20">
         <div className="container mx-auto px-6 lg:px-8">
           <SectionIntro
             eyebrow="How We Engage"
@@ -325,7 +334,7 @@ const Services = () => {
             descriptionClassName="max-w-2xl text-sm leading-6 md:text-base md:leading-7"
           />
           <div className="md:hidden">
-            <div className="relative overflow-hidden rounded-[28px] border border-white/[0.08] bg-[radial-gradient(circle_at_top_left,rgba(0,175,239,0.05),transparent_24%),radial-gradient(circle_at_bottom_right,rgba(51,204,153,0.05),transparent_24%),linear-gradient(180deg,rgba(255,255,255,0.024)_0%,rgba(255,255,255,0.008)_100%)] shadow-[0_18px_46px_rgba(0,0,0,0.12)]">
+            <div className="relative overflow-hidden rounded-2xl border border-white/[0.08] bg-[radial-gradient(circle_at_top_left,rgba(0,175,239,0.05),transparent_24%),radial-gradient(circle_at_bottom_right,rgba(51,204,153,0.05),transparent_24%),linear-gradient(180deg,rgba(255,255,255,0.024)_0%,rgba(255,255,255,0.008)_100%)] shadow-[0_18px_46px_rgba(0,0,0,0.12)]">
               <div className="pointer-events-none absolute inset-x-10 top-0 h-px bg-gradient-to-r from-transparent via-white/18 to-transparent" />
               {engagementModels.map((model, i) => (
                 <motion.article
@@ -344,7 +353,7 @@ const Services = () => {
                   <span className={cn("inline-flex rounded-full border px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em]", model.label === "Growth" ? "border-primary/50 bg-primary/12 text-primary" : "border-white/[0.10] bg-white/[0.05] text-primary/90")}>
                     {model.label}
                   </span>
-                  <h3 className="mt-2.5 text-[1rem] font-semibold tracking-tight text-foreground">{model.title}</h3>
+                  <h3 className="mt-2.5 text-[1rem] font-semibold tracking-normal text-foreground">{model.title}</h3>
                   <p className="mt-2 text-[13px] leading-6 text-muted-foreground">{mobileEngagementSummaries[model.label] ?? model.idealFor}</p>
                 </motion.article>
               ))}
@@ -360,7 +369,7 @@ const Services = () => {
                 viewport={{ once: true, margin: "-40px" }}
                 variants={fadeUp}
                 className={cn(
-                  "relative flex h-full flex-col overflow-hidden rounded-[24px] border p-5 shadow-[0_18px_46px_rgba(0,0,0,0.10)] md:rounded-[30px] md:p-6 lg:p-7",
+                  "relative flex h-full flex-col overflow-hidden rounded-2xl border p-5 shadow-[0_18px_46px_rgba(0,0,0,0.10)] md:p-6 lg:p-7",
                   model.label === "Growth"
                     ? "order-first border-primary/18 bg-[radial-gradient(circle_at_top,rgba(0,175,239,0.09)_0%,transparent_28%),radial-gradient(circle_at_bottom_right,rgba(51,204,153,0.08)_0%,transparent_26%),linear-gradient(180deg,rgba(255,255,255,0.028)_0%,rgba(255,255,255,0.01)_100%)] lg:order-none lg:-translate-y-4"
                     : "border-white/[0.08] bg-[linear-gradient(180deg,rgba(255,255,255,0.024)_0%,rgba(255,255,255,0.008)_100%)]",
@@ -376,7 +385,7 @@ const Services = () => {
                     </span>
                     <span className="text-[11px] text-muted-foreground">{model.timeframe}</span>
                   </div>
-                  <h3 className="text-[1.08rem] font-semibold tracking-tight text-foreground md:text-[1.2rem]">{model.title}</h3>
+                  <h3 className="text-[1.08rem] font-semibold tracking-normal text-foreground md:text-[1.2rem]">{model.title}</h3>
                   <p className="mt-3 max-w-[32ch] text-sm leading-6 text-muted-foreground md:leading-7">{model.idealFor}</p>
                   <ul className="mt-5 space-y-2 border-t border-white/[0.07] pt-4 md:mt-6 md:space-y-2.5 md:pt-5">
                     {model.includes.map((item, itemIndex) => (
@@ -394,7 +403,7 @@ const Services = () => {
       </section>
 
       {/* Proof strip */}
-      <section className="border-t border-white/10 bg-white/[0.01] py-12">
+      <section className="border-t border-white/10 bg-[#080b10] py-12">
         <div className="container mx-auto px-6 lg:px-8">
           <div className="grid grid-cols-2 gap-8 sm:grid-cols-3 md:grid-cols-5">
             {tractionMetrics.map((m, i) => {
@@ -409,7 +418,7 @@ const Services = () => {
                       "col-span-2 sm:col-span-1",
                   )}
                 >
-                  <p className="text-3xl font-extrabold tracking-tight md:text-4xl" style={{ color: colors[i] }}>
+                  <p className="text-3xl font-extrabold tracking-normal md:text-4xl" style={{ color: colors[i] }}>
                     {m.value}
                   </p>
                   <p className="mt-1.5 text-[11px] font-medium uppercase tracking-[0.15em] text-muted-foreground/70">

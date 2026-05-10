@@ -25,6 +25,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import HeroEyebrow from "@/components/shared/HeroEyebrow";
 import { BOOK_A_FREE_STRATEGY_CALL_CTA, REQUEST_A_FREE_TRACKING_AUDIT_CTA } from "@/config/cta";
 import { companyProfile } from "@/data/companyProfile";
 import { submitLead } from "@/lib/leads";
@@ -472,9 +473,7 @@ const TrackingLandingPage = () => {
               />
 
               <div className="space-y-6 sm:space-y-7 md:space-y-8">
-                <span className="inline-flex w-fit items-center self-center rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.22em] text-primary/90 lg:self-start">
-                  Request your audit
-                </span>
+                <HeroEyebrow className="self-center lg:self-start">Request your audit</HeroEyebrow>
 
                 <h2 className="mx-auto max-w-[20rem] text-[2.35rem] font-bold leading-[0.96] tracking-tight sm:max-w-[26rem] sm:text-[3rem] md:max-w-[31rem] md:text-[3.55rem] lg:mx-0 lg:max-w-[34rem] lg:text-[2.65rem] xl:text-[2.95rem]">
                   <span className="block text-foreground">Share the setup.</span>

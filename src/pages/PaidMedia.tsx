@@ -9,7 +9,6 @@ import {
   BookOpen,
   ClipboardCheck,
   FileText,
-  Layers,
   Megaphone,
   ShieldCheck,
   Target,
@@ -22,6 +21,7 @@ import Breadcrumbs from "@/components/shared/Breadcrumbs";
 import CTASection from "@/components/shared/CTASection";
 import FeaturedTestimonialSection from "@/components/shared/FeaturedTestimonialSection";
 import FAQAccordion from "@/components/shared/FAQAccordion";
+import HeroEyebrow from "@/components/shared/HeroEyebrow";
 import SEO from "@/components/shared/SEO";
 import { BOOK_A_FREE_STRATEGY_CALL_CTA } from "@/config/cta";
 import type { LucideIcon } from "lucide-react";
@@ -134,30 +134,27 @@ const PaidMedia = () => {
       </Helmet>
 
       {/* Hero */}
-      <section className="relative overflow-hidden pb-14 pt-6 text-center md:pb-28 md:pt-10">
+      <section className="relative min-h-[36rem] overflow-hidden bg-[#05070d] pb-24 pt-6 text-center md:min-h-[42.5rem] md:pb-36 md:pt-10">
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_55%_at_50%_-5%,rgba(0,175,239,0.14)_0%,rgba(0,51,153,0.08)_46%,transparent_72%)]" />
-          <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
         </div>
-        <div className="container relative z-10 mx-auto max-w-6xl px-6 sm:px-6 lg:px-8">
+        <div className="container relative z-10 mx-auto px-6 sm:px-6 lg:px-8">
+          <Breadcrumbs
+            items={[
+              { label: "Home", path: "/" },
+              { label: "Services", path: "/service" },
+              { label: "Paid Media Management" },
+            ]}
+          />
           <div className="mx-auto max-w-[62rem]">
-            <Breadcrumbs
-              items={[
-                { label: "Home", path: "/" },
-                { label: "Services", path: "/service" },
-                { label: "Paid Media Management" },
-              ]}
-            />
             <motion.div
-              className="mt-10 md:mt-20"
+              className="mt-14 md:mt-24"
               initial={{ opacity: 0, y: 22 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.55 }}
             >
-              <span className="mb-4 inline-block text-xs font-semibold uppercase tracking-[0.16em] text-primary md:mb-5 md:tracking-[0.2em]">
-                Paid Media Management
-              </span>
-              <h1 className="title-safe pb-4 text-[2.25rem] font-extrabold leading-[1.14] tracking-[-0.035em] md:pb-5 md:text-6xl lg:text-[4.65rem]">
+              <HeroEyebrow className="mb-4 md:mb-5">Paid Media Management</HeroEyebrow>
+              <h1 className="title-safe pb-4 text-[2.25rem] font-extrabold leading-[1.14] tracking-normal md:pb-5 md:text-6xl lg:text-[4.65rem]">
                 <span className="block">Paid Media That</span>
                 <span className="title-safe-inline mt-1 block text-gradient">Proves Its Value.</span>
               </h1>
@@ -177,15 +174,15 @@ const PaidMedia = () => {
       </section>
 
       {/* Problem / Fix */}
-      <section className="border-t border-white/10 py-6 lg:py-10">
+      <section className="relative overflow-hidden bg-[radial-gradient(ellipse_70%_42%_at_50%_0%,rgba(255,255,255,0.018),transparent_72%),linear-gradient(180deg,rgba(255,255,255,0.008)_0%,rgba(255,255,255,0)_62%)] pb-8 pt-14 lg:pb-12 lg:pt-20">
         <div className="container mx-auto max-w-6xl px-6 sm:px-6 lg:px-8">
           <div className="mb-8 lg:mb-10">
-            <span className="mb-4 inline-block text-xs font-bold uppercase tracking-[0.22em] text-primary">
+            <span className="mb-4 inline-block text-[10px] font-semibold uppercase tracking-[0.16em] text-primary md:text-xs md:tracking-[0.22em]">
               The Problem & How We Fix It
             </span>
-            <h2 className="title-safe text-xl font-extrabold leading-[1.2] tracking-[-0.025em] md:text-3xl lg:whitespace-nowrap">
+            <h2 className="title-safe text-xl font-extrabold leading-[1.2] tracking-normal md:text-3xl lg:whitespace-nowrap">
               Where the budget leaks and how we{" "}
-              <span className="title-safe-inline text-gradient">stop the bleed.</span>
+              <span className="title-safe-inline text-gradient">stop the leak.</span>
             </h2>
           </div>
 
@@ -194,25 +191,25 @@ const PaidMedia = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="relative overflow-hidden rounded-[28px] border border-white/10 bg-[radial-gradient(80%_60%_at_0%_0%,rgba(239,68,68,0.06),transparent_60%),radial-gradient(80%_60%_at_100%_100%,rgba(51,204,153,0.05),transparent_60%),linear-gradient(180deg,rgba(255,255,255,0.024)_0%,rgba(255,255,255,0.008)_100%)] shadow-[0_30px_80px_rgba(0,0,0,0.3),inset_0_1px_0_rgba(255,255,255,0.04)]"
+            className="relative overflow-hidden rounded-2xl border border-white/10 bg-[radial-gradient(80%_60%_at_0%_0%,rgba(0,51,153,0.08),transparent_60%),radial-gradient(80%_60%_at_100%_100%,rgba(51,204,153,0.05),transparent_60%),linear-gradient(180deg,rgba(255,255,255,0.024)_0%,rgba(255,255,255,0.008)_100%)] shadow-[0_30px_80px_rgba(0,0,0,0.3),inset_0_1px_0_rgba(255,255,255,0.04)]"
           >
             {/* Top gradient border */}
-            <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(239,107,122,0.4)_25%,rgba(51,204,153,0.4)_75%,transparent)]" />
+            <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(0,175,239,0.36)_25%,rgba(51,204,153,0.4)_75%,transparent)]" />
 
             {/* Column headers */}
             <div className="grid grid-cols-2 border-b border-white/[0.05] lg:items-start">
               {/* Problem header */}
               <div className="relative overflow-hidden p-4 lg:px-10 lg:py-5">
-                <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_90%_70%_at_0%_0%,rgba(239,68,68,0.12),transparent_65%)]" />
+                <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_90%_70%_at_0%_0%,rgba(0,51,153,0.14),transparent_65%)]" />
                 <div className="relative flex flex-col items-center lg:items-start">
-                  <span className="inline-flex items-center gap-1.5 whitespace-nowrap rounded-full border border-red-400/30 bg-red-400/[0.1] px-2.5 py-1.5 text-[10px] font-semibold uppercase tracking-[0.08em] text-red-400/90 md:gap-2 md:px-3 md:text-[11px] md:tracking-[0.16em]">
+                  <span className="inline-flex items-center gap-1.5 whitespace-nowrap rounded-full border border-atd-blue/35 bg-atd-blue/[0.12] px-2.5 py-1.5 text-[10px] font-semibold uppercase tracking-[0.08em] text-atd-cyan md:gap-2 md:px-3 md:text-[11px] md:tracking-[0.16em]">
                     <AlertCircle className="h-3 w-3" />
                     <span className="md:hidden">Problem</span>
                     <span className="hidden md:inline">The Problem</span>
                   </span>
-                  <p className="mt-4 hidden text-xl font-extrabold leading-snug tracking-[-0.02em] lg:block lg:whitespace-nowrap lg:text-[17px]">
+                  <p className="mt-4 hidden text-xl font-extrabold leading-snug tracking-normal lg:block lg:whitespace-nowrap lg:text-[17px]">
                     Most paid media spend disappears{" "}
-                    <span className="relative inline-block text-red-400/80 line-through decoration-red-400/60 decoration-2">
+                    <span className="relative inline-block text-atd-cyan/85 line-through decoration-atd-cyan/55 decoration-2">
                       without proof
                     </span>
                     .
@@ -229,7 +226,7 @@ const PaidMedia = () => {
                     <span className="md:hidden">Fix</span>
                     <span className="hidden md:inline">How We Fix It</span>
                   </span>
-                  <p className="mt-4 hidden text-xl font-extrabold leading-snug tracking-[-0.02em] lg:block lg:whitespace-nowrap lg:text-[17px]">
+                  <p className="mt-4 hidden text-xl font-extrabold leading-snug tracking-normal lg:block lg:whitespace-nowrap lg:text-[17px]">
                     Strategy-led. Measurement-backed.{" "}
                     <span className="text-gradient">Built for return.</span>
                   </p>
@@ -239,9 +236,9 @@ const PaidMedia = () => {
 
             {/* Paired rows */}
             {[
-              { problem: "Budget moves without knowing what's working.",          fix: { icon: Target,      text: "Campaigns built around conversion events, not platform metrics." } },
-              { problem: "Broad targeting brings clicks that don't convert.",     fix: { icon: Layers,      text: "Each channel gets a clear role — search captures demand, social shapes it." } },
-              { problem: "Creative wins happen but can't be repeated.",           fix: { icon: ShieldCheck, text: "Budget and creative decisions move toward qualified leads and return." } },
+              { problem: "Budget moves without knowing what's working.",          fix: { text: "Campaigns built around conversion events, not platform metrics." } },
+              { problem: "Broad targeting brings clicks that don't convert.",     fix: { text: "Each channel gets a clear role, search captures demand and social shapes it." } },
+              { problem: "Creative wins happen but can't be repeated.",           fix: { text: "Budget and creative decisions move toward qualified leads and return." } },
             ].map((pair, i) => (
               <div
                 key={i}
@@ -249,7 +246,7 @@ const PaidMedia = () => {
               >
                 {/* Problem */}
                 <div className="flex items-center gap-3 px-4 py-3 lg:px-10 lg:py-4">
-                  <span className="shrink-0 font-mono text-[11px] tracking-[0.14em] text-red-400/60">
+                  <span className="shrink-0 font-mono text-[11px] tracking-[0.14em] text-atd-cyan/70">
                     0{i + 1}
                   </span>
                   <p className="text-[13px] font-medium leading-snug text-foreground/80 lg:text-[14px]">
@@ -258,10 +255,7 @@ const PaidMedia = () => {
                 </div>
 
                 {/* Fix */}
-                <div className="flex items-center gap-3 border-l border-white/[0.07] px-4 py-3 lg:px-6 lg:py-4">
-                  <div className="hidden h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-primary/20 bg-[radial-gradient(circle_at_30%_30%,rgba(51,204,153,0.18),transparent_60%),rgba(51,204,153,0.06)] lg:flex">
-                    <pair.fix.icon className="h-[15px] w-[15px] text-primary" />
-                  </div>
+                <div className="flex items-center border-l border-white/[0.07] px-4 py-3 lg:px-6 lg:py-4">
                   <p className="text-[13px] leading-snug text-foreground/90 lg:text-[14px]">{pair.fix.text}</p>
                 </div>
               </div>
@@ -285,7 +279,7 @@ const PaidMedia = () => {
           <span className="mb-3 inline-block text-xs font-bold uppercase tracking-[0.18em] text-primary md:mb-4 md:tracking-[0.22em]">
             Implementation Approach
           </span>
-          <h2 className="text-2xl font-extrabold tracking-[-0.025em] md:text-3xl">
+          <h2 className="text-2xl font-extrabold tracking-normal md:text-3xl">
             Built Around Your Acquisition Stack
           </h2>
           <p className="mt-2 max-w-xl text-sm leading-6 text-muted-foreground md:mt-3 md:text-base md:leading-7">
@@ -394,7 +388,7 @@ const PaidMedia = () => {
         {/* Mobile */}
         <div className="container mx-auto max-w-6xl px-6 sm:px-6 lg:hidden lg:px-8">
           <span className="mb-3 inline-block text-xs font-bold uppercase tracking-[0.18em] text-primary">What's Included</span>
-          <h2 className="text-2xl font-extrabold tracking-[-0.025em]">Every engagement is scoped to your growth stage.</h2>
+          <h2 className="text-2xl font-extrabold tracking-normal">Every engagement is scoped to your growth stage.</h2>
           <div className="mt-6 border-y border-white/[0.08]">
             {[
               { phase: "Audit", items: ["Account Audit", "Conversion QA", "Performance Reporting"] },
@@ -424,7 +418,7 @@ const PaidMedia = () => {
               <div className="relative z-10 flex items-center">
                 <div className="max-w-[440px]">
                   <span className="mb-5 inline-block text-xs font-bold uppercase tracking-[0.22em] text-primary">What's Included</span>
-                  <h2 className="max-w-[420px] text-[1.75rem] font-black leading-[1.08] tracking-[-0.04em] text-white xl:text-[2rem]">
+                  <h2 className="max-w-[420px] text-[1.75rem] font-black leading-[1.08] tracking-normal text-white xl:text-[2rem]">
                     Every engagement is scoped to your growth stage.
                   </h2>
                   <p className="mt-5 max-w-[420px] text-[14px] leading-7 text-muted-foreground">
@@ -480,7 +474,7 @@ const PaidMedia = () => {
                             <item.icon className="h-[15px] w-[15px]" />
                           </div>
                           <div>
-                            <h3 className="text-[14px] font-bold tracking-[-0.015em] text-white">{item.title}</h3>
+                            <h3 className="text-[14px] font-bold tracking-normal text-white">{item.title}</h3>
                             <p className="mt-0.5 text-[12px] leading-5 text-slate-300">{item.description}</p>
                           </div>
                         </div>
@@ -504,7 +498,7 @@ const PaidMedia = () => {
               <span className="mb-3 inline-block text-xs font-semibold uppercase tracking-[0.18em] text-primary md:tracking-[0.22em]">
                 What Paid Media Unlocks Next
               </span>
-              <h2 className="title-safe flex flex-col gap-2 pb-2 text-2xl font-extrabold leading-[1.14] tracking-[-0.03em] md:text-4xl lg:text-[2.16rem]">
+              <h2 className="title-safe flex flex-col gap-2 pb-2 text-2xl font-extrabold leading-[1.14] tracking-normal md:text-4xl lg:text-[2.16rem]">
                 <span className="md:hidden">What Paid Media Unlocks</span>
                 <span className="hidden md:block lg:whitespace-nowrap">Ad Spend Should Strengthen</span>
                 <span className="hidden title-safe-inline text-gradient md:block lg:whitespace-nowrap">The Rest of the System</span>
@@ -524,14 +518,14 @@ const PaidMedia = () => {
                 </Link>
               ))}
             </div>
-            <div className="hidden rounded-[30px] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.03)_0%,rgba(255,255,255,0.01)_100%)] p-2 shadow-[0_24px_80px_rgba(0,0,0,0.22)] md:block lg:max-w-[42rem] lg:justify-self-end lg:p-3">
+            <div className="hidden rounded-2xl border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.03)_0%,rgba(255,255,255,0.01)_100%)] p-2 shadow-[0_24px_80px_rgba(0,0,0,0.22)] md:block lg:max-w-[42rem] lg:justify-self-end lg:p-3">
               <div className="grid gap-2 md:grid-cols-2 lg:gap-3">
                 {connectedServices.map((item) => (
                   <Link
                     key={item.title}
                     to={item.path}
                     className={cn(
-                      "group relative overflow-hidden rounded-[22px] border border-white/10 p-4 transition-all duration-300 hover:-translate-y-1 hover:border-primary/25 lg:rounded-[26px] lg:p-6",
+                      "group relative overflow-hidden rounded-2xl border border-white/10 p-4 transition-all duration-300 hover:-translate-y-1 hover:border-primary/25 lg:p-6",
                       item.surfaceClassName,
                     )}
                   >
@@ -542,7 +536,7 @@ const PaidMedia = () => {
                           <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-primary/80">
                             {item.label}
                           </p>
-                          <h3 className="mt-1.5 text-[1rem] font-semibold leading-[1.15] tracking-[-0.03em] lg:mt-3 lg:text-[1.08rem]">
+                          <h3 className="mt-1.5 text-[1rem] font-semibold leading-[1.15] tracking-normal lg:mt-3 lg:text-[1.08rem]">
                             {item.title}
                           </h3>
                         </div>
@@ -594,7 +588,7 @@ const PaidMedia = () => {
         primaryCta={BOOK_A_FREE_STRATEGY_CALL_CTA}
         variant="service-close"
         layout="split"
-        titleClassName="max-w-[14ch] pb-4 text-[2.38rem] leading-[1.12] tracking-[-0.04em] md:text-[2.82rem] lg:text-[3rem]"
+        titleClassName="max-w-[14ch] pb-4 text-[2.38rem] leading-[1.12] tracking-normal md:text-[2.82rem] lg:text-[3rem]"
       />
     </>
   );

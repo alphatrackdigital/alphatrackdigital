@@ -19,6 +19,7 @@ import {
 import { Button } from "@/components/ui/button";
 import CTASection from "@/components/shared/CTASection";
 import FAQAccordion from "@/components/shared/FAQAccordion";
+import HeroEyebrow from "@/components/shared/HeroEyebrow";
 import { BOOK_A_FREE_STRATEGY_CALL_CTA } from "@/config/cta";
 import SEO from "@/components/shared/SEO";
 import SectionIntro from "@/components/shared/SectionIntro";
@@ -64,7 +65,11 @@ const BlogImage = ({ src, alt }: { src: string; alt: string }) => {
 
   return (
     <div className="relative h-full w-full">
-      {!loaded && <div className="absolute inset-0 animate-pulse bg-card" />}
+      {!loaded && (
+        <div className="absolute inset-0 flex items-center justify-center bg-[radial-gradient(circle_at_top_left,rgba(0,175,239,0.12),transparent_42%),linear-gradient(135deg,rgba(13,20,29,1)_0%,rgba(7,10,16,1)_100%)]">
+          <BarChart3 className="h-8 w-8 text-primary/30" />
+        </div>
+      )}
       <img
         src={src}
         alt={alt}
@@ -74,7 +79,7 @@ const BlogImage = ({ src, alt }: { src: string; alt: string }) => {
           "h-full w-full object-cover transition-all duration-500 group-hover:scale-105",
           loaded ? "opacity-100" : "opacity-0"
         )}
-        loading="lazy"
+        loading="eager"
         decoding="async"
         width={600}
         height={338}
@@ -186,43 +191,43 @@ const processSteps = [
 const sectorVisuals = {
   "Ecommerce & Retail": {
     icon: ShoppingCart,
-    accentClassName: "bg-secondary/14 text-secondary",
-    glowColor: "rgba(0, 210, 255, 0.10)",
+    accentClassName: "bg-atd-cyan/12 text-atd-cyan",
+    glowColor: "rgba(0, 175, 239, 0.10)",
   },
   FMCG: {
     icon: Package2,
-    accentClassName: "bg-amber-500/14 text-amber-400",
-    glowColor: "rgba(251, 191, 36, 0.09)",
+    accentClassName: "bg-atd-green/12 text-atd-green",
+    glowColor: "rgba(51, 204, 153, 0.10)",
   },
   Education: {
     icon: GraduationCap,
-    accentClassName: "bg-violet-500/14 text-violet-400",
-    glowColor: "rgba(139, 92, 246, 0.10)",
+    accentClassName: "bg-atd-blue/16 text-atd-cyan",
+    glowColor: "rgba(0, 51, 153, 0.12)",
   },
   SaaS: {
     icon: BriefcaseBusiness,
-    accentClassName: "bg-primary/14 text-primary",
-    glowColor: "rgba(52, 211, 153, 0.10)",
+    accentClassName: "bg-atd-green/12 text-atd-green",
+    glowColor: "rgba(51, 204, 153, 0.10)",
   },
   "Entertainment & Hospitality": {
     icon: Plane,
-    accentClassName: "bg-rose-500/14 text-rose-400",
-    glowColor: "rgba(251, 113, 133, 0.10)",
+    accentClassName: "bg-atd-cyan/12 text-atd-cyan",
+    glowColor: "rgba(0, 175, 239, 0.10)",
   },
   "Real Estate": {
     icon: Building2,
-    accentClassName: "bg-blue-400/14 text-blue-400",
-    glowColor: "rgba(96, 165, 250, 0.10)",
+    accentClassName: "bg-atd-blue/16 text-atd-cyan",
+    glowColor: "rgba(0, 51, 153, 0.12)",
   },
   Fashion: {
     icon: Shirt,
-    accentClassName: "bg-pink-500/14 text-pink-400",
-    glowColor: "rgba(244, 114, 182, 0.10)",
+    accentClassName: "bg-atd-green/12 text-atd-green",
+    glowColor: "rgba(51, 204, 153, 0.10)",
   },
   Gaming: {
     icon: Gamepad2,
-    accentClassName: "bg-lime-400/14 text-lime-300",
-    glowColor: "rgba(190, 242, 100, 0.09)",
+    accentClassName: "bg-atd-cyan/12 text-atd-cyan",
+    glowColor: "rgba(0, 175, 239, 0.10)",
   },
 } as const;
 
@@ -365,8 +370,8 @@ const Index = () => {
         schema={homepageSchema}
       />
 
-      <section className="relative z-0 flex min-h-[64svh] items-start overflow-hidden md:min-h-[80vh]">
-        <div className="absolute inset-0 pointer-events-none bg-[#050812]" />
+      <section className="relative z-0 flex min-h-[62svh] items-start overflow-hidden bg-[#05070d] md:min-h-[calc(100svh-10rem)]">
+        <div className="absolute inset-0 pointer-events-none bg-[#05070d]" />
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
           <div
             className="absolute inset-0 hidden opacity-[0.028] sm:block"
@@ -380,14 +385,14 @@ const Index = () => {
           />
           <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(5,8,18,0.08)_0%,rgba(5,8,18,0.22)_52%,rgba(5,8,18,0.82)_100%)]" />
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(8,17,39,0)_0%,rgba(5,8,18,0.05)_44%,rgba(4,7,16,0.36)_76%,rgba(2,4,10,0.78)_100%)]" />
-          <div className="absolute left-1/2 top-[17%] h-[15rem] w-[18rem] -translate-x-1/2 rounded-full bg-[radial-gradient(circle_at_center,rgba(28,182,244,0.16)_0%,rgba(68,211,154,0.09)_40%,transparent_74%)] blur-[58px] md:top-[18%] md:h-[22rem] md:w-[36rem] md:blur-[108px]" />
-          <div className="absolute left-1/2 top-[16%] h-[18rem] w-[21rem] -translate-x-1/2 rounded-full bg-[#050812]/80 blur-[70px] md:top-[18%] md:h-[26rem] md:w-[42rem] md:blur-[132px]" />
-          <div className="absolute left-1/2 top-[18%] hidden h-[18rem] w-[22rem] -translate-x-1/2 rounded-full bg-[radial-gradient(circle_at_center,rgba(28,182,244,0.14)_0%,rgba(68,211,154,0.08)_42%,transparent_72%)] blur-[92px] sm:block md:top-[20%] md:h-[24rem] md:w-[40rem] md:blur-[124px]" />
-          <div className="absolute -left-[16%] bottom-[-8%] hidden h-[18rem] w-[18rem] rounded-full bg-[#1a67ff]/[0.18] blur-[96px] sm:block md:h-[24rem] md:w-[24rem] md:blur-[126px]" />
+          <div className="absolute left-1/2 top-[17%] h-[15rem] w-[18rem] -translate-x-1/2 rounded-full bg-[radial-gradient(circle_at_center,rgba(0,175,239,0.16)_0%,rgba(51,204,153,0.09)_40%,transparent_74%)] blur-[58px] md:top-[18%] md:h-[22rem] md:w-[36rem] md:blur-[108px]" />
+          <div className="absolute left-1/2 top-[16%] h-[18rem] w-[21rem] -translate-x-1/2 rounded-full bg-background/80 blur-[70px] md:top-[18%] md:h-[26rem] md:w-[42rem] md:blur-[132px]" />
+          <div className="absolute left-1/2 top-[18%] hidden h-[18rem] w-[22rem] -translate-x-1/2 rounded-full bg-[radial-gradient(circle_at_center,rgba(0,175,239,0.14)_0%,rgba(51,204,153,0.08)_42%,transparent_72%)] blur-[92px] sm:block md:top-[20%] md:h-[24rem] md:w-[40rem] md:blur-[124px]" />
+          <div className="absolute -left-[16%] bottom-[-8%] hidden h-[18rem] w-[18rem] rounded-full bg-atd-blue/[0.18] blur-[96px] sm:block md:h-[24rem] md:w-[24rem] md:blur-[126px]" />
           <div className="absolute left-[6%] bottom-[18%] hidden h-28 w-28 rounded-full bg-secondary/[0.15] blur-[72px] sm:block md:h-40 md:w-40 md:blur-[94px]" />
-          <div className="absolute -left-[6%] bottom-[12%] h-20 w-28 rounded-full bg-[radial-gradient(circle_at_center,rgba(10,70,201,0.12)_0%,rgba(28,182,244,0.06)_42%,transparent_74%)] blur-[42px] md:h-36 md:w-48 md:blur-[72px]" />
-          <div className="absolute right-[1%] top-[57%] hidden h-24 w-24 rounded-full bg-[radial-gradient(circle_at_center,rgba(68,211,154,0.18)_0%,rgba(28,182,244,0.13)_34%,rgba(10,70,201,0.06)_58%,transparent_76%)] blur-[50px] sm:block md:right-[5%] md:top-[42%] md:h-32 md:w-32 md:blur-[70px]" />
-          <div className="absolute right-[-6%] top-[18%] hidden h-[14rem] w-[10rem] rotate-[18deg] bg-[radial-gradient(circle_at_center,rgba(17,125,255,0.32),transparent_62%)] blur-[72px] sm:block md:h-[21rem] md:w-[14rem] md:blur-[96px]" />
+          <div className="absolute -left-[6%] bottom-[12%] h-20 w-28 rounded-full bg-[radial-gradient(circle_at_center,rgba(0,51,153,0.12)_0%,rgba(0,175,239,0.06)_42%,transparent_74%)] blur-[42px] md:h-36 md:w-48 md:blur-[72px]" />
+          <div className="absolute right-[1%] top-[57%] hidden h-24 w-24 rounded-full bg-[radial-gradient(circle_at_center,rgba(51,204,153,0.18)_0%,rgba(0,175,239,0.13)_34%,rgba(0,51,153,0.06)_58%,transparent_76%)] blur-[50px] sm:block md:right-[5%] md:top-[42%] md:h-32 md:w-32 md:blur-[70px]" />
+          <div className="absolute right-[-6%] top-[18%] hidden h-[14rem] w-[10rem] rotate-[18deg] bg-[radial-gradient(circle_at_center,rgba(0,51,153,0.32),transparent_62%)] blur-[72px] sm:block md:h-[21rem] md:w-[14rem] md:blur-[96px]" />
           <svg
             viewBox="0 0 1600 760"
             aria-hidden="true"
@@ -395,25 +400,25 @@ const Index = () => {
           >
             <defs>
               <linearGradient id="hero-arc-main" x1="0%" y1="100%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor="#0A46C9" stopOpacity="0" />
-                <stop offset="6%" stopColor="#0A46C9" stopOpacity="0.94" />
-                <stop offset="48%" stopColor="#1CB6F4" stopOpacity="0.92" />
-                <stop offset="84%" stopColor="#44D39A" stopOpacity="0.9" />
-                <stop offset="100%" stopColor="#44D39A" stopOpacity="0" />
+                <stop offset="0%" stopColor="#003399" stopOpacity="0" />
+                <stop offset="6%" stopColor="#003399" stopOpacity="0.94" />
+                <stop offset="48%" stopColor="#00AFEF" stopOpacity="0.92" />
+                <stop offset="84%" stopColor="#33CC99" stopOpacity="0.9" />
+                <stop offset="100%" stopColor="#33CC99" stopOpacity="0" />
               </linearGradient>
               <linearGradient id="hero-arc-soft" x1="8%" y1="100%" x2="100%" y2="12%">
-                <stop offset="0%" stopColor="#0A46C9" stopOpacity="0" />
-                <stop offset="9%" stopColor="#0A46C9" stopOpacity="0.34" />
-                <stop offset="50%" stopColor="#1CB6F4" stopOpacity="0.28" />
-                <stop offset="82%" stopColor="#44D39A" stopOpacity="0.22" />
-                <stop offset="100%" stopColor="#44D39A" stopOpacity="0" />
+                <stop offset="0%" stopColor="#003399" stopOpacity="0" />
+                <stop offset="9%" stopColor="#003399" stopOpacity="0.34" />
+                <stop offset="50%" stopColor="#00AFEF" stopOpacity="0.28" />
+                <stop offset="82%" stopColor="#33CC99" stopOpacity="0.22" />
+                <stop offset="100%" stopColor="#33CC99" stopOpacity="0" />
               </linearGradient>
               <linearGradient id="hero-arc-glow" x1="0%" y1="100%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor="#0A46C9" stopOpacity="0" />
-                <stop offset="9%" stopColor="#0A46C9" stopOpacity="0.42" />
-                <stop offset="52%" stopColor="#1CB6F4" stopOpacity="0.3" />
-                <stop offset="84%" stopColor="#44D39A" stopOpacity="0.26" />
-                <stop offset="100%" stopColor="#44D39A" stopOpacity="0" />
+                <stop offset="0%" stopColor="#003399" stopOpacity="0" />
+                <stop offset="9%" stopColor="#003399" stopOpacity="0.42" />
+                <stop offset="52%" stopColor="#00AFEF" stopOpacity="0.3" />
+                <stop offset="84%" stopColor="#33CC99" stopOpacity="0.26" />
+                <stop offset="100%" stopColor="#33CC99" stopOpacity="0" />
               </linearGradient>
             </defs>
             <path
@@ -487,16 +492,14 @@ const Index = () => {
             transition={{ duration: shouldReduceMotion ? 0 : 0.45 }}
             className="mx-auto max-w-[54rem] text-center"
           >
-            <div className="mb-6 inline-flex items-center gap-1.5 rounded-full border border-primary/25 bg-primary/[0.08] px-3 py-0.5 shadow-[0_0_16px_rgba(51,204,153,0.08)] sm:mb-6 sm:gap-2 sm:px-3.5 sm:py-1 md:mb-6 md:gap-2.5 md:px-4 md:py-1.5">
-              <span className="relative flex h-1.5 w-1.5 sm:h-2 sm:w-2">
-                <span className="absolute hidden h-full w-full rounded-full bg-primary opacity-60 motion-safe:animate-ping sm:inline-flex" />
-                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-primary sm:h-2 sm:w-2" />
-              </span>
-              <span className="text-[11px] font-medium text-primary sm:text-[12.5px] md:text-sm">{companyProfile.heroEyebrow}</span>
-            </div>
+            <HeroEyebrow className="mb-6 mx-auto">{companyProfile.heroEyebrow}</HeroEyebrow>
 
-            <h1 className="mx-auto max-w-4xl text-[2.12rem] font-bold leading-[0.98] tracking-tight sm:text-[2.95rem] md:text-[4.05rem] lg:text-[4.95rem] xl:text-[5.3rem]">
+            <h1
+              aria-label="Growth should never be guesswork."
+              className="mx-auto max-w-4xl text-[2.12rem] font-bold leading-[0.98] tracking-tight sm:text-[2.95rem] md:text-[4.05rem] lg:text-[4.95rem] xl:text-[5.3rem]"
+            >
               <span className="block">Growth should never</span>
+              {" "}
               <span className="mt-2 block">
                 be <span className="text-gradient">guesswork.</span>
               </span>
@@ -526,25 +529,25 @@ const Index = () => {
                 <Link to="/service">Explore Services</Link>
               </Button>
             </div>
-
           </motion.div>
         </div>
+
       </section>
 
       <section
         data-testid="proof-strip-section"
-        className="relative z-10 overflow-hidden border-t border-white/[0.08] bg-[#050812]/92 py-4 backdrop-blur-[2px] md:py-8"
+        className="relative z-10 overflow-hidden border-t border-white/[0.08] bg-[#050812]/92 py-4 backdrop-blur-[2px] md:pb-5 md:pt-5"
       >
         <div className="pointer-events-none absolute inset-0">
-          <div className="absolute inset-x-0 top-0 h-20 bg-[linear-gradient(180deg,rgba(5,8,18,0.98)_0%,rgba(5,8,18,0.88)_42%,rgba(5,8,18,0)_100%)]" />
-          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(5,8,18,0.92)_0%,rgba(5,8,18,0.84)_18%,rgba(5,8,18,0.9)_100%)]" />
-          <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/28 to-transparent" />
+          <div className="absolute inset-x-0 top-0 h-14 bg-[linear-gradient(180deg,rgba(5,8,18,0.98)_0%,rgba(5,8,18,0.82)_48%,rgba(5,8,18,0)_100%)]" />
+          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(5,8,18,0.9)_0%,rgba(5,8,18,0.84)_30%,rgba(5,8,18,0.9)_100%)]" />
+          <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/18 to-transparent" />
           <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
           <div className="absolute left-[18%] top-1/2 h-36 w-36 -translate-y-1/2 rounded-full bg-primary/[0.02] blur-[90px]" />
           <div className="absolute right-[18%] top-1/2 h-36 w-36 -translate-y-1/2 rounded-full bg-secondary/[0.02] blur-[90px]" />
         </div>
         <div className="container relative mx-auto px-4 lg:px-8">
-          <p className="mb-2.5 text-center text-[9px] font-medium uppercase tracking-[0.18em] text-muted-foreground/68 sm:text-[10px]">
+          <p className="mb-2.5 text-center text-[9px] font-medium uppercase tracking-[0.18em] text-muted-foreground/68 sm:text-[10px] md:mb-2.5 md:text-[8.5px] md:text-muted-foreground/58">
             {homepageProofLine}
           </p>
           <div className="mx-auto grid max-w-5xl grid-cols-3">
@@ -554,14 +557,14 @@ const Index = () => {
                 data-testid="proof-metric"
                 {...revealMotion(18, i * 0.08, 0.4)}
                 className={cn(
-                  "flex flex-col items-center justify-start px-2 text-center sm:min-h-[5.1rem] sm:px-6",
-                  i > 0 && "border-l border-white/[0.08]",
+                  "flex flex-col items-center justify-start px-2 text-center sm:min-h-[5.1rem] sm:px-6 md:min-h-[3.35rem]",
+                  i > 0 && "border-l border-white/[0.045]",
                 )}
               >
-                <p className="text-[1.22rem] font-bold leading-none text-gradient sm:text-[1.6rem] md:text-[1.95rem]">
+                <p className="text-[1.22rem] font-bold leading-none text-gradient sm:text-[1.6rem] md:text-[1.5rem]">
                   {metric.value}
                 </p>
-                <p className="mt-1.5 flex min-h-[1rem] max-w-none items-start justify-center whitespace-nowrap text-[9px] leading-4 text-muted-foreground sm:mt-2 sm:min-h-[2rem] sm:max-w-[9.4rem] sm:whitespace-normal sm:text-[12.5px] sm:leading-5 md:max-w-[10rem]">
+                <p className="mt-1.5 flex min-h-[1rem] max-w-none items-start justify-center whitespace-nowrap text-[9px] leading-4 text-muted-foreground sm:mt-2 sm:min-h-[2rem] sm:max-w-[9.4rem] sm:whitespace-normal sm:text-[12.5px] sm:leading-5 md:mt-0.5 md:min-h-[1.35rem] md:max-w-[8.8rem] md:text-[10.5px] md:leading-4">
                   <span className="sm:hidden">{metric.compactLabel}</span>
                   <span className="hidden sm:inline">{metric.label}</span>
                 </p>
@@ -571,23 +574,24 @@ const Index = () => {
         </div>
       </section>
 
-      <section className="relative overflow-hidden py-14 md:py-24">
+      <section className="relative overflow-hidden bg-[#070a10] pb-16 pt-16 md:py-16">
         <div className="pointer-events-none absolute inset-0">
-          <div className="absolute -left-16 top-16 h-64 w-64 rounded-full bg-atd-blue/[0.09] blur-[95px]" />
+          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(7,10,16,1)_0%,rgba(8,12,18,0.96)_42%,rgba(7,10,16,1)_100%)]" />
+          <div className="absolute inset-x-0 top-0 h-24 bg-[linear-gradient(180deg,rgba(5,7,13,0.72)_0%,rgba(7,10,16,0)_100%)]" />
+          <div className="absolute -left-16 top-10 h-64 w-64 rounded-full bg-atd-blue/[0.09] blur-[95px]" />
           <div className="absolute right-[-6%] top-[18%] h-56 w-56 rounded-full bg-secondary/[0.045] blur-[105px]" />
-          <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/24 to-transparent" />
         </div>
-        <div className="container mx-auto px-6 lg:px-8">
+        <div className="container relative mx-auto px-6 lg:px-8">
           <SectionIntro
             eyebrow="Services"
             title="What We Do"
             description="Tracking, paid ads, and automation that help your marketing perform better."
             width="wide"
-            className="mb-6 md:mb-10"
+            className="mb-5 md:mb-8"
             descriptionClassName="max-w-4xl"
           />
 
-          <div className="mt-6 space-y-3 md:hidden">
+          <div className="mt-5 space-y-3 md:hidden">
             {primaryServices.map((service, i) => (
               <motion.div
                 key={`${service.title}-mobile`}
@@ -600,7 +604,7 @@ const Index = () => {
                     "group relative flex h-full items-start gap-3 overflow-hidden rounded-[18px] border px-4 py-3.5 transition-all duration-200 hover:-translate-y-0.5",
                     service.flagship
                       ? "border-primary/25 bg-[radial-gradient(ellipse_100%_65%_at_0%_0%,rgba(0,51,153,0.24),transparent_58%),radial-gradient(ellipse_70%_55%_at_100%_100%,rgba(51,204,153,0.1),transparent_60%),linear-gradient(180deg,rgba(255,255,255,0.03)_0%,rgba(255,255,255,0.008)_100%)] shadow-[0_14px_40px_rgba(0,51,153,0.14),inset_0_1px_0_rgba(255,255,255,0.05)]"
-                      : "border-white/[0.08] bg-[#0f1720] shadow-[0_8px_24px_rgba(0,0,0,0.2)]",
+                      : "border-white/[0.08] bg-[#0d141d] shadow-[0_8px_24px_rgba(0,0,0,0.2)]",
                   )}
                 >
                   {service.flagship && (
@@ -642,7 +646,7 @@ const Index = () => {
             ))}
           </div>
 
-          <div className="mt-10 hidden gap-4 md:grid md:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-8 hidden gap-4 md:grid md:grid-cols-2 lg:grid-cols-3">
             {primaryServices.map((service, i) => (
               <motion.div
                 key={service.title}
@@ -652,10 +656,10 @@ const Index = () => {
                   to={service.path}
                   aria-label={`Learn more about ${service.title}`}
                   className={cn(
-                    "group relative flex h-full flex-col overflow-hidden rounded-[24px] border p-6 transition-all duration-300 hover:-translate-y-1 md:p-7",
+                    "group relative flex h-full flex-col overflow-hidden rounded-2xl border p-6 transition-all duration-300 hover:-translate-y-1 md:p-7",
                     service.flagship
                       ? "border-primary/25 bg-[radial-gradient(ellipse_100%_65%_at_0%_0%,rgba(0,51,153,0.24),transparent_58%),radial-gradient(ellipse_70%_55%_at_100%_100%,rgba(51,204,153,0.1),transparent_60%),linear-gradient(180deg,rgba(255,255,255,0.03)_0%,rgba(255,255,255,0.008)_100%)] shadow-[0_20px_60px_rgba(0,51,153,0.16),inset_0_1px_0_rgba(255,255,255,0.05)]"
-                      : "border-white/[0.08] bg-[#0f1720] shadow-[0_12px_36px_rgba(0,0,0,0.22)] hover:border-white/[0.15] hover:shadow-[0_16px_44px_rgba(0,0,0,0.28)]",
+                      : "border-white/[0.08] bg-[#0d141d] shadow-[0_12px_36px_rgba(0,0,0,0.22)] hover:border-white/[0.15] hover:shadow-[0_16px_44px_rgba(0,0,0,0.28)]",
                   )}
                 >
                   {service.flagship && (
@@ -704,7 +708,7 @@ const Index = () => {
             ))}
           </div>
 
-          <div className="mt-10 border-t border-white/10 pt-6 md:mt-14 md:pt-8">
+          <div className="mt-12 border-t border-white/10 pt-8 md:mt-14 md:pt-8">
             <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between md:gap-4">
               <SectionIntro
                 eyebrow="More Services"
@@ -722,7 +726,7 @@ const Index = () => {
                 View all services
               </Link>
             </div>
-            <div className="relative mt-5 overflow-hidden rounded-[22px] border border-white/[0.08] bg-[radial-gradient(circle_at_top_left,rgba(0,51,153,0.10),transparent_34%),radial-gradient(circle_at_80%_12%,rgba(0,175,239,0.04),transparent_26%),linear-gradient(180deg,rgba(255,255,255,0.018)_0%,rgba(255,255,255,0.01)_100%)] shadow-[0_16px_50px_rgba(0,8,22,0.12)] md:mt-6 md:rounded-[26px]">
+            <div className="relative mt-5 overflow-hidden rounded-2xl border border-white/[0.08] bg-[radial-gradient(circle_at_top_left,rgba(0,51,153,0.10),transparent_34%),radial-gradient(circle_at_80%_12%,rgba(0,175,239,0.04),transparent_26%),linear-gradient(180deg,rgba(255,255,255,0.018)_0%,rgba(255,255,255,0.01)_100%)] shadow-[0_16px_50px_rgba(0,8,22,0.12)] md:mt-6 md:rounded-[18px]">
               <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
               <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4">
                 {supportingServices.map((s, i) => (
@@ -766,87 +770,13 @@ const Index = () => {
         </div>
       </section>
 
-      <section
-        id="industries-section"
-        data-testid="industries-section"
-        className="relative scroll-mt-24 overflow-hidden border-t border-white/10 py-10 md:py-24"
-      >
+      <section className="relative overflow-hidden border-t border-white/10 bg-[#060b12] py-16 md:py-20">
         <div className="pointer-events-none absolute inset-0">
-          <div className="absolute left-[-8%] top-8 h-72 w-72 rounded-full bg-secondary/[0.035] blur-[120px]" />
-          <div className="absolute right-[10%] bottom-6 h-56 w-56 rounded-full bg-primary/[0.03] blur-[110px]" />
-          <div
-            className="absolute inset-0 opacity-[0.025]"
-            style={{
-              backgroundImage: [
-                "linear-gradient(rgba(255,255,255,0.9) 1px, transparent 1px)",
-                "linear-gradient(90deg, rgba(255,255,255,0.9) 1px, transparent 1px)",
-              ].join(", "),
-              backgroundSize: "88px 88px",
-            }}
-          />
-        </div>
-        <div className="container relative mx-auto px-4 lg:px-8">
-          <SectionIntro
-            eyebrow="Expertise"
-            title="Who We Work With"
-            description="We work with brands in ecommerce, FMCG, education, SaaS, hospitality, real estate, fashion, and gaming."
-            width="wide"
-            className="mb-4 md:mb-10"
-            descriptionClassName="max-w-3xl"
-          />
-
-          <div className="grid grid-cols-2 gap-y-3 gap-x-2.5 md:grid-cols-4 md:gap-4">
-              {primarySectors.map((sector, index) => {
-                const visual = sectorVisuals[sector];
-
-                return (
-                <motion.div
-                  key={sector}
-                  {...revealMotion(18, index * 0.06, 0.35)}
-                >
-                  <Link
-                    to={sectorExpertisePaths[sector]}
-                    data-testid="industry-card"
-                    aria-label={`View ${sector} expertise`}
-                    className="group flex h-full min-h-[3.65rem] items-center gap-2.5 overflow-hidden rounded-[16px] px-3 py-2 transition-[opacity] duration-200 hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 md:block md:min-h-0 md:rounded-[20px] md:p-4"
-                  >
-                    <div className={cn("flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border border-white/[0.07] bg-white/[0.035] md:mb-4 md:h-11 md:w-11 md:rounded-2xl", visual.accentClassName)}>
-                      <visual.icon className="h-4 w-4 md:h-5 md:w-5" />
-                    </div>
-                    <h3 className="text-[0.86rem] font-semibold leading-snug tracking-tight text-foreground/92 md:mb-1.5 md:text-[1.02rem]">
-                      {sector}
-                    </h3>
-                    <p className="hidden text-[0.82rem] leading-relaxed text-muted-foreground/65 md:block">
-                      {sectorSummaries[sector]}
-                    </p>
-                  </Link>
-                </motion.div>
-              )})}
-          </div>
-
-          <div className="mt-5 flex justify-center md:mt-9">
-            <p className="max-w-[22rem] text-center text-sm leading-6 text-muted-foreground/60 sm:max-w-none">
-              Don't see your industry?
-              <span className="mt-1 block">
-                <Link
-                  to="/contact-us"
-                  className="font-medium text-foreground/80 underline-offset-4 transition-colors hover:text-primary hover:underline"
-                >
-                  Let's talk
-                </Link>
-                . We've likely worked in it.
-              </span>
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <section className="relative overflow-hidden border-t border-white/10 py-10 md:py-24">
-        <div className="pointer-events-none absolute inset-0">
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(0,51,153,0.08),transparent_54%)]" />
           <div className="absolute left-1/2 top-12 h-64 w-[55%] -translate-x-1/2 rounded-full bg-atd-blue/[0.10] blur-[115px]" />
           <div className="absolute inset-x-[14%] top-0 h-px bg-gradient-to-r from-transparent via-white/12 to-transparent" />
         </div>
-        <div className="container mx-auto px-6 lg:px-8">
+        <div className="container relative mx-auto px-6 lg:px-8">
           <SectionIntro
             eyebrow="Process"
             title="How We Work"
@@ -855,7 +785,7 @@ const Index = () => {
             className="mb-4 md:mb-10"
             descriptionClassName="max-w-3xl"
           />
-          <div className="relative mt-4 overflow-hidden lg:mt-8 lg:rounded-[30px] lg:border lg:border-white/[0.08] lg:bg-[#080e16] lg:shadow-[0_20px_60px_rgba(0,0,0,0.28),inset_0_1px_0_rgba(255,255,255,0.04)]">
+          <div className="relative mt-4 overflow-hidden lg:mt-8 lg:rounded-[18px] lg:border lg:border-white/[0.08] lg:bg-[#0a1119] lg:shadow-[0_20px_60px_rgba(0,0,0,0.28),inset_0_1px_0_rgba(255,255,255,0.04)]">
             <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
 
             {/* Desktop */}
@@ -869,7 +799,7 @@ const Index = () => {
                       <span className="mb-2 text-[10px] font-bold uppercase tracking-[0.18em] text-primary/60">
                         {`Step ${step.step}`}
                       </span>
-                      <div className="flex h-3.5 w-3.5 items-center justify-center rounded-full border border-primary/50 bg-[#080e16] shadow-[0_0_0_4px_rgba(8,14,22,0.9),0_0_10px_rgba(51,204,153,0.22)]">
+                      <div className="flex h-3.5 w-3.5 items-center justify-center rounded-full border border-primary/50 bg-[#0a1119] shadow-[0_0_0_4px_rgba(10,17,25,0.9),0_0_10px_rgba(51,204,153,0.22)]">
                         <div className="h-1.5 w-1.5 rounded-full bg-primary/80" />
                       </div>
                     </div>
@@ -885,7 +815,7 @@ const Index = () => {
                     data-testid="process-step"
                     {...revealMotion(20, i * 0.1, 0.4)}
                   >
-                    <div className="flex h-full flex-col rounded-[22px] border border-white/[0.08] bg-[#0f1720] p-5 shadow-[0_10px_30px_rgba(0,0,0,0.22)] transition-[border-color] duration-300 hover:border-white/[0.14]">
+                    <div className="flex h-full flex-col rounded-2xl border border-white/[0.08] bg-[#0d141d] p-5 shadow-[0_10px_30px_rgba(0,0,0,0.22)] transition-[border-color] duration-300 hover:border-white/[0.14]">
                       <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl border border-primary/20 bg-primary/[0.08]">
                         <step.icon className="h-[18px] w-[18px] text-primary/90" />
                       </div>
@@ -911,7 +841,7 @@ const Index = () => {
                   >
                     <div
                       className={cn(
-                        "relative z-10 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border bg-[#080e16] text-[10px] font-bold shadow-[0_0_16px_rgba(51,204,153,0.10)]",
+                        "relative z-10 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border bg-[#0a1119] text-[10px] font-bold shadow-[0_0_16px_rgba(51,204,153,0.10)]",
                         i === 0 && "border-atd-cyan/45 text-atd-cyan",
                         i === 1 && "border-atd-green/45 text-atd-green",
                         i === 2 && "border-primary/45 text-primary",
@@ -942,11 +872,95 @@ const Index = () => {
       </section>
 
       <section
+        id="industries-section"
+        data-testid="industries-section"
+        className="relative scroll-mt-24 overflow-hidden border-t border-white/10 bg-[#070a10] py-16 md:py-16"
+      >
+        <div className="pointer-events-none absolute inset-0">
+          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(7,10,16,1)_0%,rgba(7,11,18,0.98)_50%,rgba(7,10,16,1)_100%)]" />
+          <div className="absolute left-[-8%] top-8 h-72 w-72 rounded-full bg-secondary/[0.035] blur-[120px]" />
+          <div className="absolute right-[10%] bottom-6 h-56 w-56 rounded-full bg-primary/[0.03] blur-[110px]" />
+          <div
+            className="absolute inset-0 opacity-[0.018]"
+            style={{
+              backgroundImage: [
+                "linear-gradient(rgba(255,255,255,0.9) 1px, transparent 1px)",
+                "linear-gradient(90deg, rgba(255,255,255,0.9) 1px, transparent 1px)",
+              ].join(", "),
+              backgroundSize: "88px 88px",
+            }}
+          />
+        </div>
+        <div className="container relative mx-auto px-4 lg:px-8">
+          <SectionIntro
+            eyebrow="Expertise"
+            title="Who We Work With"
+            description="We work with brands in ecommerce, FMCG, education, SaaS, hospitality, real estate, fashion, and gaming."
+            width="wide"
+            className="mb-4 md:mb-8"
+            descriptionClassName="max-w-3xl"
+          />
+
+          <div className="grid grid-cols-2 gap-y-3 gap-x-2.5 md:grid-cols-4 md:gap-4">
+            {primarySectors.map((sector, index) => {
+              const visual = sectorVisuals[sector];
+
+              return (
+                <motion.div key={sector} {...revealMotion(18, index * 0.06, 0.35)}>
+                  <Link
+                    to={sectorExpertisePaths[sector]}
+                    data-testid="industry-card"
+                    aria-label={`View ${sector} expertise`}
+                    className="group flex h-full min-h-[3.65rem] items-center gap-2.5 overflow-hidden rounded-xl px-3 py-2 transition-[opacity] duration-200 hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 md:block md:min-h-0 md:rounded-2xl md:p-4"
+                  >
+                    <div
+                      className={cn(
+                        "flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border border-white/[0.07] bg-white/[0.035] md:mb-4 md:h-11 md:w-11 md:rounded-2xl",
+                        visual.accentClassName,
+                      )}
+                    >
+                      <visual.icon className="h-4 w-4 md:h-5 md:w-5" />
+                    </div>
+                    <h3 className="text-[0.86rem] font-semibold leading-snug tracking-tight text-foreground/92 md:mb-1.5 md:text-[1.02rem]">
+                      {sector}
+                    </h3>
+                    <p className="hidden text-[0.82rem] leading-relaxed text-muted-foreground/65 md:block">
+                      {sectorSummaries[sector]}
+                    </p>
+                  </Link>
+                </motion.div>
+              );
+            })}
+          </div>
+
+          <div className="mt-5 flex justify-center md:mt-8">
+            <p className="max-w-[22rem] text-center text-sm leading-6 text-muted-foreground/60 sm:max-w-none">
+              Don't see your industry?
+              <span className="mt-1 block">
+                <Link
+                  to="/contact-us"
+                  className="font-medium text-foreground/80 underline-offset-4 transition-colors hover:text-primary hover:underline"
+                >
+                  Let's talk
+                </Link>
+                . We've likely worked in it.
+              </span>
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section
         aria-labelledby="growth-stack-heading"
         data-testid="growth-stack-section"
-        className="border-t border-white/10 bg-white/[0.01] py-12 md:py-16"
+        className="relative overflow-hidden border-t border-white/10 bg-[#080b10] py-16 md:py-14"
       >
-        <div className="container mx-auto px-6 lg:px-8">
+        <div className="pointer-events-none absolute inset-0">
+          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(8,11,16,1)_0%,rgba(8,13,20,0.9)_52%,rgba(8,11,16,1)_100%)]" />
+          <div className="absolute left-[16%] top-0 h-40 w-40 rounded-full bg-atd-cyan/[0.025] blur-[92px]" />
+          <div className="absolute right-[14%] bottom-0 h-44 w-44 rounded-full bg-atd-blue/[0.045] blur-[105px]" />
+        </div>
+        <div className="container relative mx-auto px-6 lg:px-8">
           <SectionIntro
             eyebrow="Platforms"
             title="Tools We Use"
@@ -978,13 +992,13 @@ const Index = () => {
                       {group.items.slice(0, 4).map((tool) => (
                         <span
                           key={tool.name}
-                          className="flex h-7 w-7 items-center justify-center rounded-full border border-white/[0.08] bg-[#080e16]"
+                          className="flex h-7 w-7 items-center justify-center rounded-full border border-white/[0.08] bg-[#0d141d]"
                         >
                           <img
                             src={tool.icon}
                             alt=""
                             className="block h-4 w-4 object-contain"
-                            loading="lazy"
+                            loading="eager"
                             decoding="async"
                             width={20}
                             height={20}
@@ -1007,7 +1021,7 @@ const Index = () => {
                           src={tool.icon}
                           alt=""
                           className="block h-full w-full max-h-full max-w-full object-contain opacity-95"
-                          loading="lazy"
+                          loading="eager"
                           decoding="async"
                           width={20}
                           height={20}
@@ -1049,7 +1063,7 @@ const Index = () => {
                             src={tool.icon}
                             alt=""
                             className="block h-full w-full max-h-full max-w-full object-contain opacity-95"
-                            loading="lazy"
+                            loading="eager"
                             decoding="async"
                             width={20}
                             height={20}
@@ -1069,11 +1083,12 @@ const Index = () => {
 
       <section
         data-testid="testimonial-section"
-        className="relative overflow-hidden border-t border-white/10 py-8 md:py-16"
+        className="relative overflow-hidden border-t border-white/10 bg-[#06090f] py-16 md:py-14"
       >
         <div className="pointer-events-none absolute inset-0">
-          <div className="absolute left-[12%] top-12 h-44 w-44 rounded-full bg-secondary/[0.03] blur-[100px]" />
-          <div className="absolute right-[10%] bottom-8 h-40 w-40 rounded-full bg-primary/[0.03] blur-[100px]" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(51,204,153,0.045),transparent_52%)]" />
+          <div className="absolute left-[12%] top-12 h-44 w-44 rounded-full bg-secondary/[0.035] blur-[100px]" />
+          <div className="absolute right-[10%] bottom-8 h-40 w-40 rounded-full bg-primary/[0.035] blur-[100px]" />
         </div>
         <div className="container relative mx-auto px-4 lg:px-8">
           <SectionIntro
@@ -1087,7 +1102,7 @@ const Index = () => {
 
           <motion.div
             {...revealMotion(18, 0, 0.45)}
-            className="mx-auto max-w-[36rem] rounded-[22px] border border-primary/35 bg-[linear-gradient(180deg,rgba(255,255,255,0.022)_0%,rgba(255,255,255,0.01)_100%)] p-3.5 shadow-[0_14px_36px_rgba(0,8,22,0.12)] md:max-w-[50rem] md:rounded-[24px] md:p-7"
+            className="mx-auto max-w-[36rem] rounded-2xl border border-primary/35 bg-[linear-gradient(180deg,rgba(11,17,24,0.96)_0%,rgba(8,13,20,0.96)_100%)] p-3.5 shadow-[0_14px_36px_rgba(0,8,22,0.18)] md:max-w-[50rem] md:rounded-[18px] md:p-7"
           >
             <div className="flex justify-end">
               <Quote className="h-6 w-6 text-primary/20 md:h-8 md:w-8" />
@@ -1110,12 +1125,13 @@ const Index = () => {
         </div>
       </section>
 
-      <section className="relative overflow-hidden border-t border-white/10 py-12 md:py-20">
+      <section className="relative overflow-hidden border-t border-white/10 bg-[#090e15] py-16 md:py-16">
         <div className="pointer-events-none absolute inset-0">
+          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(9,14,21,1)_0%,rgba(10,16,24,0.96)_48%,rgba(9,14,21,1)_100%)]" />
           <div className="absolute left-[8%] top-16 h-48 w-48 rounded-full bg-atd-blue/[0.08] blur-[100px]" />
           <div className="absolute right-[6%] bottom-8 h-44 w-44 rounded-full bg-primary/[0.035] blur-[105px]" />
         </div>
-        <div className="container mx-auto px-6 lg:px-8">
+        <div className="container relative mx-auto px-6 lg:px-8">
           <div className="mx-auto max-w-5xl">
             <motion.div
               {...revealMotion(20, 0, 0.5)}
@@ -1143,7 +1159,7 @@ const Index = () => {
                 >
                   <Link
                     to={`/blog/${featuredBlogPosts[0].slug}`}
-                    className="group block overflow-hidden rounded-[20px] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.02)_0%,rgba(255,255,255,0.008)_100%)] p-4"
+                    className="group block overflow-hidden rounded-2xl border border-white/10 bg-[linear-gradient(180deg,rgba(14,19,32,0.96)_0%,rgba(10,16,24,0.96)_100%)] p-4"
                   >
                     <div className="relative mb-3 overflow-hidden rounded-[16px] border border-white/10 bg-black/20">
                       <div className="pointer-events-none absolute inset-0 z-10 bg-gradient-to-t from-background/60 via-transparent to-transparent" />
@@ -1174,7 +1190,7 @@ const Index = () => {
                   >
                     <Link
                       to={`/blog/${post.slug}`}
-                      className="group flex items-start gap-3 rounded-[18px] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.02)_0%,rgba(255,255,255,0.008)_100%)] p-3"
+                      className="group flex items-start gap-3 rounded-[18px] border border-white/10 bg-[linear-gradient(180deg,rgba(14,19,32,0.96)_0%,rgba(10,16,24,0.96)_100%)] p-3"
                     >
                       <div className="relative h-16 w-20 shrink-0 overflow-hidden rounded-[12px] border border-white/10 bg-black/20">
                         <div className="pointer-events-none absolute inset-0 z-10 bg-gradient-to-t from-background/60 via-transparent to-transparent" />
@@ -1196,7 +1212,7 @@ const Index = () => {
               </div>
             </div>
 
-            <div className="hidden overflow-hidden rounded-[22px] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.02)_0%,rgba(255,255,255,0.008)_100%)] shadow-[0_16px_44px_rgba(0,0,0,0.11)] md:block">
+            <div className="hidden overflow-hidden rounded-2xl border border-white/10 bg-[linear-gradient(180deg,rgba(14,19,32,0.96)_0%,rgba(10,16,24,0.96)_100%)] shadow-[0_16px_44px_rgba(0,0,0,0.16)] md:block">
               <div className="md:grid md:grid-cols-3 md:divide-x md:divide-y-0">
                 {featuredBlogPosts.map((post, i) => (
                   <motion.div
@@ -1245,6 +1261,8 @@ const Index = () => {
         density="compact"
         defaultOpenItem={0}
         contentClassName="max-w-[46rem]"
+        sectionClassName="border-t border-white/10 bg-[#070a10]"
+        sectionSpacingClassName="py-16 md:py-20"
       />
 
       <CTASection
@@ -1258,7 +1276,7 @@ const Index = () => {
         description="Book a free 15-minute strategy call. We will review your setup, share what we see, and give you a clear next step."
         secondaryCta={null}
         variant="hero-close"
-        className="!border-t-0 px-6 pb-12 pt-0 md:px-8 md:pb-16"
+        className="!border-t-0 bg-[#05070d] px-6 pb-16 pt-2 md:px-8 md:pb-16 md:pt-0"
       />
     </>
   );
