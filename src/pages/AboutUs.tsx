@@ -352,24 +352,25 @@ const AboutUs = () => {
       </PageSection>
 
       {/* How We Think */}
-      <section className="border-t border-white/10 py-12 md:py-20">
+      <section className="border-t border-white/10 py-16 md:py-16">
         <div className="container mx-auto px-6 lg:px-8">
           <SectionIntro
             eyebrow="How We Think"
             mode="content"
             title="Three principles we don't compromise on."
             description="These ideas shape every brief, every build, and every client relationship."
+            align="center"
             maxWidth="lg"
-            className="mb-5 md:mb-10"
+            className="mb-5 md:mb-7"
             titleClassName="text-[1.65rem] leading-[1.12] md:text-4xl"
             descriptionClassName="hidden max-w-2xl text-sm leading-6 sm:block md:text-base md:leading-7"
           />
 
           {/* Desktop diagram */}
-          <div className="relative hidden lg:block" style={{ height: "360px" }}>
+          <div className="relative mx-auto hidden max-w-6xl lg:block" style={{ height: "260px" }}>
             <svg
               className="pointer-events-none absolute inset-0 h-full w-full"
-              viewBox="0 0 1100 360"
+              viewBox="0 0 1100 260"
               preserveAspectRatio="none"
               fill="none"
             >
@@ -388,19 +389,19 @@ const AboutUs = () => {
                   <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
                 </filter>
               </defs>
-              <path d="M 72 46 C 220 46, 270 66, 390 66" stroke="url(#hwt-g1)" strokeWidth="2" strokeDasharray="10 7" filter="url(#hwt-glow)" />
-              <path d="M 462 66 C 610 66, 660 46, 781 46" stroke="url(#hwt-g2)" strokeWidth="2" strokeDasharray="10 7" filter="url(#hwt-glow)" />
-              <circle cx="72"  cy="46" r="3.5" fill="#003399" opacity="0.7" />
-              <circle cx="390" cy="66" r="3.5" fill="#00AFEF" opacity="0.7" />
-              <circle cx="462" cy="66" r="3.5" fill="#00AFEF" opacity="0.7" />
-              <circle cx="781" cy="46" r="3.5" fill="#33CC99" opacity="0.7" />
+              <path d="M 190 36 C 320 36, 380 52, 508 36" stroke="url(#hwt-g1)" strokeWidth="2" strokeDasharray="10 7" filter="url(#hwt-glow)" />
+              <path d="M 581 36 C 710 52, 770 36, 899 36" stroke="url(#hwt-g2)" strokeWidth="2" strokeDasharray="10 7" filter="url(#hwt-glow)" />
+              <circle cx="190" cy="36" r="3.5" fill="#003399" opacity="0.7" />
+              <circle cx="508" cy="36" r="3.5" fill="#00AFEF" opacity="0.7" />
+              <circle cx="581" cy="36" r="3.5" fill="#00AFEF" opacity="0.7" />
+              <circle cx="899" cy="36" r="3.5" fill="#33CC99" opacity="0.7" />
             </svg>
 
             {whyChoosePoints.map((item, i) => {
               const nodeStyles = [
-                { left: "0%", top: "10px" },
-                { left: "35.5%", top: "30px" },
-                { left: "71%", top: "10px" },
+                { left: "0%", top: "0" },
+                { left: "35.5%", top: "18px" },
+                { left: "71%", top: "0" },
               ] as const;
               const NodeIcon = [Target, TrendingUp, Filter][i];
               return (
@@ -411,6 +412,7 @@ const AboutUs = () => {
                   whileInView={shouldReduceMotion ? undefined : "visible"}
                   viewport={{ once: true, margin: "-40px" }}
                   variants={fadeUp}
+                  className="text-center"
                   style={{ position: "absolute", width: "28%", ...nodeStyles[i] }}
                 >
                   <motion.div
@@ -420,7 +422,9 @@ const AboutUs = () => {
                       borderRadius: "50%",
                       width: "72px",
                       height: "72px",
-                      marginBottom: "18px",
+                      marginBottom: "12px",
+                      marginLeft: "auto",
+                      marginRight: "auto",
                     }}
                     animate={shouldReduceMotion ? {} : {
                       boxShadow: [
@@ -625,7 +629,9 @@ const AboutUs = () => {
       <CTASection
         title={
           <>
-            Need a clearer path to <span className="text-gradient">growth?</span>
+            Need a clearer path to
+            <br />
+            <span className="text-gradient">growth?</span>
           </>
         }
         primaryCta={{ label: "Get in Touch", to: "/contact-us" }}

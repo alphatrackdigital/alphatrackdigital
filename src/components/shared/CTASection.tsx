@@ -23,7 +23,9 @@ interface CTASectionProps {
 const CTASection = ({
   title = (
     <>
-      Ready to Accelerate Your <span className="text-gradient">Growth</span>?
+      Ready to Accelerate Your
+      <br />
+      <span className="text-gradient">Growth</span>?
     </>
   ),
   description = "Book a free 15-minute strategy call and walk away with at least one clear insight, even if we never work together.",

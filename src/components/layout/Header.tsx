@@ -1,13 +1,13 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, useLocation, type To } from "react-router-dom";
-import { Menu, X, ChevronDown, ArrowRight } from "lucide-react";
+import { Menu, X, ChevronDown, ArrowRight, BriefcaseBusiness, GraduationCap, ShoppingCart, Building2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { BOOK_A_FREE_STRATEGY_CALL_CTA } from "@/config/cta";
 import { withCampaignSearch } from "@/lib/campaignAttribution";
 import { cn } from "@/lib/utils";
 import { prefetchRoute } from "@/lib/routePrefetch";
 import { motion, AnimatePresence } from "framer-motion";
-import { primaryServices, supportingServices } from "@/data/services";
+import { primaryServices } from "@/data/services";
 import { expertisePages } from "@/data/expertise";
 
 const navLinks = [
@@ -17,6 +17,14 @@ const navLinks = [
   { label: "About Us", path: "/about-us", menuType: undefined as string | undefined, hash: undefined as string | undefined },
   { label: "Blog", path: "/blog", menuType: undefined as string | undefined, hash: undefined as string | undefined },
 ];
+
+const featuredExpertiseSlugs = ["saas", "ecommerce-retail", "education", "real-estate"];
+const expertiseMenuIcons = {
+  saas: BriefcaseBusiness,
+  "ecommerce-retail": ShoppingCart,
+  education: GraduationCap,
+  "real-estate": Building2,
+};
 
 const Header = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -108,6 +116,7 @@ const Header = () => {
 
   const headerElevated = scrolled || desktopServicesOpen || desktopExpertiseOpen || mobileOpen;
   const strategyCallTo = withCampaignSearch(BOOK_A_FREE_STRATEGY_CALL_CTA.to, location.search);
+  const featuredExpertisePages = expertisePages.filter((item) => featuredExpertiseSlugs.includes(item.slug));
 
   return (
     <header className="fixed left-0 right-0 top-0 z-50 transition-all duration-300">
@@ -144,70 +153,164 @@ const Header = () => {
                 setDesktopExpertiseOpen(false);
               }}
             >
-              {navLinks.map((link) =>
-                link.disabled ? (
-                  <span
-                    key={link.label}
-                    className="relative py-2 text-sm font-medium text-muted-foreground/90"
-                  >
-                    {link.label}
-                  </span>
-                ) : link.menuType ? (
-                  <button
-                    key={link.path}
-                    type="button"
-                    data-testid={`desktop-${link.menuType}-trigger`}
-                    aria-expanded={link.menuType === "services" ? desktopServicesOpen : desktopExpertiseOpen}
-                    aria-controls={`desktop-${link.menuType}-menu`}
-                    aria-haspopup="true"
-                    className={cn(
-                      "relative flex items-center gap-1.5 py-2 text-sm font-medium transition-colors duration-200 hover:text-foreground",
-                      isActive(link.path, link.hash) ||
-                        (link.menuType === "services" ? desktopServicesOpen : desktopExpertiseOpen)
-                        ? "text-primary after:absolute after:-bottom-0.5 after:left-0 after:right-0 after:h-px after:bg-primary"
-                        : "text-muted-foreground/90",
-                    )}
-                    onMouseEnter={() => {
-                      prefetchRoute(link.path);
-                      if (link.menuType === "services") {
-                        setDesktopServicesOpen(true);
-                        setDesktopExpertiseOpen(false);
-                      } else {
-                        setDesktopExpertiseOpen(true);
-                        setDesktopServicesOpen(false);
-                      }
-                    }}
-                    onClick={() => {
-                      prefetchRoute(link.path);
-                      if (link.menuType === "services") {
-                        setDesktopServicesOpen((prev) => !prev);
-                        setDesktopExpertiseOpen(false);
-                      } else {
-                        setDesktopExpertiseOpen((prev) => !prev);
-                        setDesktopServicesOpen(false);
-                      }
-                    }}
-                    onFocus={() => {
-                      prefetchRoute(link.path);
-                      if (link.menuType === "services") {
-                        setDesktopServicesOpen(true);
-                        setDesktopExpertiseOpen(false);
-                      } else {
-                        setDesktopExpertiseOpen(true);
-                        setDesktopServicesOpen(false);
-                      }
-                    }}
-                  >
-                    {link.label}
-                    <ChevronDown
-                      className={cn(
-                        "h-4 w-4 transition-transform duration-200",
-                        (link.menuType === "services" ? desktopServicesOpen : desktopExpertiseOpen) &&
-                          "rotate-180",
-                      )}
-                    />
-                  </button>
-                ) : (
+              {navLinks.map((link) => {
+                if (link.disabled) {
+                  return (
+                    <span
+                      key={link.label}
+                      className="relative py-2 text-sm font-medium text-muted-foreground/90"
+                    >
+                      {link.label}
+                    </span>
+                  );
+                }
+
+                if (link.menuType) {
+                  const isServicesMenu = link.menuType === "services";
+                  const menuOpen = isServicesMenu ? desktopServicesOpen : desktopExpertiseOpen;
+
+                  return (
+                    <div key={link.path} className="relative">
+                      <button
+                        type="button"
+                        data-testid={`desktop-${link.menuType}-trigger`}
+                        aria-expanded={menuOpen}
+                        aria-controls={`desktop-${link.menuType}-menu`}
+                        aria-haspopup="true"
+                        className={cn(
+                          "relative flex items-center gap-1.5 py-2 text-sm font-medium transition-colors duration-200 hover:text-foreground",
+                          isActive(link.path, link.hash) || menuOpen
+                            ? "text-primary after:absolute after:-bottom-0.5 after:left-0 after:right-0 after:h-px after:bg-primary"
+                            : "text-muted-foreground/90",
+                        )}
+                        onMouseEnter={() => {
+                          prefetchRoute(link.path);
+                          setDesktopServicesOpen(isServicesMenu);
+                          setDesktopExpertiseOpen(!isServicesMenu);
+                        }}
+                        onClick={() => {
+                          prefetchRoute(link.path);
+                          if (isServicesMenu) {
+                            setDesktopServicesOpen((prev) => !prev);
+                            setDesktopExpertiseOpen(false);
+                          } else {
+                            setDesktopExpertiseOpen((prev) => !prev);
+                            setDesktopServicesOpen(false);
+                          }
+                        }}
+                        onFocus={() => {
+                          prefetchRoute(link.path);
+                          setDesktopServicesOpen(isServicesMenu);
+                          setDesktopExpertiseOpen(!isServicesMenu);
+                        }}
+                      >
+                        {link.label}
+                        <ChevronDown className={cn("h-4 w-4 transition-transform duration-200", menuOpen && "rotate-180")} />
+                      </button>
+
+                      <AnimatePresence>
+                        {isServicesMenu && desktopServicesOpen && (
+                          <div className="absolute left-1/2 top-full z-50 w-[min(360px,calc(100vw-3rem))] -translate-x-1/2 pt-3">
+                            <motion.div
+                              id="desktop-services-menu"
+                              data-testid="desktop-services-menu"
+                              initial={{ opacity: 0, y: 8, scale: 0.99 }}
+                              animate={{ opacity: 1, y: 0, scale: 1 }}
+                              exit={{ opacity: 0, y: 8, scale: 0.99 }}
+                              transition={{ duration: 0.18, ease: "easeOut" }}
+                              className="relative overflow-hidden rounded-xl border border-white/[0.08] bg-[#070a10] p-4 shadow-[0_12px_28px_rgba(0,8,22,0.28)]"
+                            >
+                              <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/35 to-transparent" />
+                              <section className="relative">
+                                <p className="px-1 pb-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-primary/80">
+                                  Core Services
+                                </p>
+                                <div className="space-y-1">
+                                  {primaryServices.map((service) => (
+                                    <Link
+                                      key={service.path}
+                                      to={service.path}
+                                      {...getPrefetchHandlers(service.path)}
+                                      className="group flex min-h-11 items-center gap-3 rounded-lg px-2 py-2 transition-colors hover:bg-white/[0.045]"
+                                    >
+                                      <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md border border-white/[0.07] bg-white/[0.025]">
+                                        <service.icon className="h-3.5 w-3.5 text-primary" />
+                                      </span>
+                                      <span className="min-w-0 flex-1 text-sm font-semibold leading-snug text-foreground">
+                                        {service.title}
+                                      </span>
+                                    </Link>
+                                  ))}
+                                </div>
+                              </section>
+                              <div className="relative mt-3 border-t border-white/[0.07] pt-3">
+                                <Link
+                                  to="/service"
+                                  {...getPrefetchHandlers("/service")}
+                                  className="group flex min-h-11 items-center justify-between rounded-lg border border-primary/15 bg-primary/[0.08] px-3 text-sm font-bold text-primary shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] transition-colors hover:border-primary/25 hover:bg-primary/[0.12]"
+                                >
+                                  <span>View all services</span>
+                                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+                                </Link>
+                              </div>
+                            </motion.div>
+                          </div>
+                        )}
+
+                        {!isServicesMenu && desktopExpertiseOpen && (
+                          <div className="absolute left-1/2 top-full z-50 w-[min(292px,calc(100vw-3rem))] -translate-x-1/2 pt-3">
+                            <motion.div
+                              id="desktop-expertise-menu"
+                              data-testid="desktop-expertise-menu"
+                              initial={{ opacity: 0, y: 8, scale: 0.99 }}
+                              animate={{ opacity: 1, y: 0, scale: 1 }}
+                              exit={{ opacity: 0, y: 8, scale: 0.99 }}
+                              transition={{ duration: 0.18, ease: "easeOut" }}
+                              className="relative overflow-hidden rounded-xl border border-white/[0.08] bg-[#070a10] p-4 shadow-[0_12px_28px_rgba(0,8,22,0.28)]"
+                            >
+                              <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/35 to-transparent" />
+                              <p className="px-1 pb-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-primary/80">
+                                Expertise
+                              </p>
+                              <div className="grid gap-1">
+                                {featuredExpertisePages.map((item) => {
+                                  const ExpertiseIcon = expertiseMenuIcons[item.slug as keyof typeof expertiseMenuIcons] ?? BriefcaseBusiness;
+
+                                  return (
+                                    <Link
+                                      key={item.slug}
+                                      to={`/expertise/${item.slug}`}
+                                      onMouseEnter={() => prefetchRoute(`/expertise/${item.slug}`)}
+                                      onFocus={() => prefetchRoute(`/expertise/${item.slug}`)}
+                                      className="group flex min-h-11 items-center gap-3 rounded-lg px-2 py-2 text-sm font-semibold leading-snug text-foreground transition-colors hover:bg-white/[0.045] hover:text-primary"
+                                    >
+                                      <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md border border-white/[0.07] bg-white/[0.025]">
+                                        <ExpertiseIcon className="h-3.5 w-3.5 text-primary" />
+                                      </span>
+                                      <span>{item.name}</span>
+                                    </Link>
+                                  );
+                                })}
+                              </div>
+                              <div className="relative mt-3 border-t border-white/[0.07] pt-3">
+                                <Link
+                                  to="/expertise"
+                                  {...getPrefetchHandlers("/expertise")}
+                                  className="group flex min-h-11 items-center justify-between rounded-lg border border-primary/15 bg-primary/[0.08] px-3 text-sm font-bold text-primary shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] transition-colors hover:border-primary/25 hover:bg-primary/[0.12]"
+                                >
+                                  <span>View all expertise</span>
+                                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+                                </Link>
+                              </div>
+                            </motion.div>
+                          </div>
+                        )}
+                      </AnimatePresence>
+                    </div>
+                  );
+                }
+
+                return (
                   <Link
                     key={link.path}
                     to={getLinkTarget(link.path, link.hash)}
@@ -221,127 +324,8 @@ const Header = () => {
                   >
                     {link.label}
                   </Link>
-                ),
-              )}
-
-              <AnimatePresence>
-                {desktopServicesOpen && (
-                  <div className="absolute left-1/2 top-full z-50 w-[min(580px,calc(100vw-3rem))] -translate-x-1/2 pt-3">
-                    <motion.div
-                      id="desktop-services-menu"
-                      data-testid="desktop-services-menu"
-                      initial={{ opacity: 0, y: 8, scale: 0.99 }}
-                      animate={{ opacity: 1, y: 0, scale: 1 }}
-                      exit={{ opacity: 0, y: 8, scale: 0.99 }}
-                      transition={{ duration: 0.18, ease: "easeOut" }}
-                      className="relative overflow-hidden rounded-xl border border-white/[0.08] bg-[#070a10] p-4 shadow-[0_12px_28px_rgba(0,8,22,0.28)]"
-                    >
-                      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/35 to-transparent" />
-                      <div className="relative grid gap-5 md:grid-cols-2">
-                        <section>
-                          <p className="px-1 pb-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-primary/80">
-                            Core Services
-                          </p>
-                          <div className="space-y-1">
-                            {primaryServices.map((service) => (
-                              <Link
-                                key={service.path}
-                                to={service.path}
-                                {...getPrefetchHandlers(service.path)}
-                                className="group flex min-h-11 items-center gap-3 rounded-lg px-2 py-2 transition-colors hover:bg-white/[0.045]"
-                              >
-                                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md border border-white/[0.07] bg-white/[0.025]">
-                                  <service.icon className="h-3.5 w-3.5 text-primary" />
-                                </span>
-                                <span className="min-w-0 flex-1 text-sm font-semibold leading-snug text-foreground">
-                                  {service.title}
-                                </span>
-                              </Link>
-                            ))}
-                          </div>
-                        </section>
-
-                        <section>
-                          <p className="px-1 pb-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-primary/80">
-                            More Services
-                          </p>
-                          <div className="grid gap-1">
-                            {supportingServices.map((service) => (
-                              <Link
-                                key={service.path}
-                                to={service.path}
-                                {...getPrefetchHandlers(service.path)}
-                                className="group flex min-h-11 items-center gap-3 rounded-lg px-2 py-2 transition-colors hover:bg-white/[0.045]"
-                              >
-                                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md border border-white/[0.07] bg-white/[0.025]">
-                                  <service.icon className="h-3.5 w-3.5 text-primary" />
-                                </span>
-                                <span className="min-w-0 flex-1 text-sm font-semibold leading-snug text-foreground">
-                                  {service.title}
-                                </span>
-                              </Link>
-                            ))}
-                          </div>
-                        </section>
-                      </div>
-                      <div className="relative mt-3 border-t border-white/[0.07] pt-2.5">
-                        <Link
-                          to="/service"
-                          {...getPrefetchHandlers("/service")}
-                          className="group flex items-center justify-between rounded-md px-1 py-1.5 text-sm font-semibold text-primary transition-colors hover:text-primary/80"
-                        >
-                          <span>View all services</span>
-                          <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-                        </Link>
-                      </div>
-                    </motion.div>
-                  </div>
-                )}
-              </AnimatePresence>
-
-              <AnimatePresence>
-                {desktopExpertiseOpen && (
-                  <div className="absolute left-1/2 top-full z-50 w-[min(430px,calc(100vw-3rem))] -translate-x-1/2 pt-3">
-                    <motion.div
-                      id="desktop-expertise-menu"
-                      data-testid="desktop-expertise-menu"
-                      initial={{ opacity: 0, y: 8, scale: 0.99 }}
-                      animate={{ opacity: 1, y: 0, scale: 1 }}
-                      exit={{ opacity: 0, y: 8, scale: 0.99 }}
-                      transition={{ duration: 0.18, ease: "easeOut" }}
-                      className="relative overflow-hidden rounded-xl border border-white/[0.08] bg-[#070a10] p-4 shadow-[0_12px_28px_rgba(0,8,22,0.28)]"
-                    >
-                      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/35 to-transparent" />
-                      <p className="px-1 pb-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-primary/80">
-                        Expertise
-                      </p>
-                      <div className="grid gap-1 sm:grid-cols-2">
-                        {expertisePages.map((item) => (
-                          <Link
-                            key={item.slug}
-                            to={`/expertise/${item.slug}`}
-                            onMouseEnter={() => prefetchRoute(`/expertise/${item.slug}`)}
-                            onFocus={() => prefetchRoute(`/expertise/${item.slug}`)}
-                            className="flex min-h-11 items-center rounded-lg px-2 py-2 text-sm font-semibold leading-snug text-foreground transition-colors hover:bg-white/[0.045] hover:text-primary"
-                          >
-                            {item.name}
-                          </Link>
-                        ))}
-                      </div>
-                      <div className="relative mt-3 border-t border-white/[0.07] pt-2.5">
-                        <Link
-                          to="/expertise"
-                          {...getPrefetchHandlers("/expertise")}
-                          className="group flex items-center justify-between rounded-md px-1 py-1.5 text-sm font-semibold text-primary transition-colors hover:text-primary/80"
-                        >
-                          <span>View all expertise</span>
-                          <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-                        </Link>
-                      </div>
-                    </motion.div>
-                  </div>
-                )}
-              </AnimatePresence>
+                );
+              })}
             </nav>
 
             <div className="hidden justify-self-end md:block">
@@ -440,9 +424,10 @@ const Header = () => {
                                   onClick={closeMobileMenu}
                                   onTouchStart={() => prefetchRoute("/service")}
                                   onFocus={() => prefetchRoute("/service")}
-                                  className="inline-flex rounded-md px-2 py-1.5 text-sm font-semibold text-primary transition-colors hover:bg-primary/[0.08]"
+                                  className="mb-3 flex min-h-11 items-center justify-between rounded-lg border border-primary/15 bg-primary/[0.08] px-3 text-sm font-bold text-primary transition-colors hover:bg-primary/[0.12]"
                                 >
-                                  All Services
+                                  <span>View all services</span>
+                                  <ArrowRight className="h-4 w-4" />
                                 </Link>
 
                                 <div>
@@ -464,26 +449,6 @@ const Header = () => {
                                     ))}
                                   </div>
                                 </div>
-
-                                <div>
-                                  <p className="px-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-primary/75">
-                                    More Services
-                                  </p>
-                                  <div className="mt-2">
-                                    {supportingServices.map((service) => (
-                                      <Link
-                                        key={service.path}
-                                        to={service.path}
-                                        onClick={closeMobileMenu}
-                                        onTouchStart={() => prefetchRoute(service.path)}
-                                        onFocus={() => prefetchRoute(service.path)}
-                                        className="block rounded-md border-t border-white/[0.045] px-2 py-2.5 text-sm font-medium text-muted-foreground transition-colors first:border-t-0 hover:bg-white/[0.035] hover:text-foreground"
-                                      >
-                                        {service.title}
-                                      </Link>
-                                    ))}
-                                  </div>
-                                </div>
                               </>
                             ) : (
                               <div>
@@ -492,22 +457,30 @@ const Header = () => {
                                   onClick={closeMobileMenu}
                                   onTouchStart={() => prefetchRoute("/expertise")}
                                   onFocus={() => prefetchRoute("/expertise")}
-                                  className="mb-2 inline-flex rounded-md px-2 py-1.5 text-sm font-semibold text-primary transition-colors hover:bg-primary/[0.08]"
+                                  className="mb-3 flex min-h-11 items-center justify-between rounded-lg border border-primary/15 bg-primary/[0.08] px-3 text-sm font-bold text-primary transition-colors hover:bg-primary/[0.12]"
                                 >
-                                  All Expertise
+                                  <span>View all expertise</span>
+                                  <ArrowRight className="h-4 w-4" />
                                 </Link>
-                                {expertisePages.map((item) => (
-                                  <Link
-                                    key={item.slug}
-                                    to={`/expertise/${item.slug}`}
-                                    onClick={closeMobileMenu}
-                                    onTouchStart={() => prefetchRoute(`/expertise/${item.slug}`)}
-                                    onFocus={() => prefetchRoute(`/expertise/${item.slug}`)}
-                                    className="block rounded-md border-t border-white/[0.045] px-2 py-2.5 text-sm font-medium text-muted-foreground transition-colors first:border-t-0 hover:bg-white/[0.035] hover:text-foreground"
-                                  >
-                                    {item.name}
-                                  </Link>
-                                ))}
+                                {featuredExpertisePages.map((item) => {
+                                  const ExpertiseIcon = expertiseMenuIcons[item.slug as keyof typeof expertiseMenuIcons] ?? BriefcaseBusiness;
+
+                                  return (
+                                    <Link
+                                      key={item.slug}
+                                      to={`/expertise/${item.slug}`}
+                                      onClick={closeMobileMenu}
+                                      onTouchStart={() => prefetchRoute(`/expertise/${item.slug}`)}
+                                      onFocus={() => prefetchRoute(`/expertise/${item.slug}`)}
+                                      className="flex items-center gap-3 rounded-md border-t border-white/[0.045] px-2 py-2.5 text-sm font-medium text-muted-foreground transition-colors first:border-t-0 hover:bg-white/[0.035] hover:text-foreground"
+                                    >
+                                      <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md border border-white/[0.07] bg-white/[0.025]">
+                                        <ExpertiseIcon className="h-3.5 w-3.5 text-primary" />
+                                      </span>
+                                      <span>{item.name}</span>
+                                    </Link>
+                                  );
+                                })}
                               </div>
                             )}
                           </div>

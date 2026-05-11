@@ -134,7 +134,7 @@ const PaidMedia = () => {
       </Helmet>
 
       {/* Hero */}
-      <section className="relative min-h-[36rem] overflow-hidden bg-[#05070d] pb-24 pt-6 text-center md:min-h-[42.5rem] md:pb-36 md:pt-10">
+      <section className="relative overflow-hidden bg-[#05070d] pb-20 pt-6 text-center md:min-h-[42.5rem] md:pb-36 md:pt-10">
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_55%_at_50%_-5%,rgba(0,175,239,0.14)_0%,rgba(0,51,153,0.08)_46%,transparent_72%)]" />
         </div>
@@ -148,7 +148,7 @@ const PaidMedia = () => {
           />
           <div className="mx-auto max-w-[62rem]">
             <motion.div
-              className="mt-14 md:mt-24"
+              className="mt-12 md:mt-24"
               initial={{ opacity: 0, y: 22 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.55 }}
@@ -174,7 +174,7 @@ const PaidMedia = () => {
       </section>
 
       {/* Problem / Fix */}
-      <section className="relative overflow-hidden bg-[radial-gradient(ellipse_70%_42%_at_50%_0%,rgba(255,255,255,0.018),transparent_72%),linear-gradient(180deg,rgba(255,255,255,0.008)_0%,rgba(255,255,255,0)_62%)] pb-8 pt-14 lg:pb-12 lg:pt-20">
+      <section className="relative overflow-hidden bg-[radial-gradient(ellipse_70%_42%_at_50%_0%,rgba(255,255,255,0.018),transparent_72%),linear-gradient(180deg,rgba(255,255,255,0.008)_0%,rgba(255,255,255,0)_62%)] pb-8 pt-8 lg:pb-12 lg:pt-20">
         <div className="container mx-auto max-w-6xl px-6 sm:px-6 lg:px-8">
           <div className="mb-8 lg:mb-10">
             <span className="mb-4 inline-block text-[10px] font-semibold uppercase tracking-[0.16em] text-primary md:text-xs md:tracking-[0.22em]">

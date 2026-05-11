@@ -4,6 +4,14 @@ import { CheckCircle2, Loader2 } from "lucide-react";
 import { companyProfile } from "@/data/companyProfile";
 import { submitLead } from "@/lib/leads";
 
+const FooterTopDivider = () => (
+  <div aria-hidden="true" className="pointer-events-none relative h-px overflow-hidden">
+    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+    <div className="absolute left-1/2 top-0 h-px w-[min(46rem,82vw)] -translate-x-1/2 bg-gradient-to-r from-transparent via-primary/55 to-transparent" />
+    <div className="absolute left-1/2 top-0 h-12 w-[min(42rem,78vw)] -translate-x-1/2 -translate-y-1/2 bg-primary/[0.08] blur-2xl" />
+  </div>
+);
+
 const FooterNewsletter = () => {
   const [email, setEmail] = useState("");
   const [optIn, setOptIn] = useState(false);
@@ -37,10 +45,7 @@ const FooterNewsletter = () => {
 
   return (
     <div className="relative mb-12">
-      {/* Top glow line */}
-      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
-      {/* Bottom divider */}
-      <div className="absolute inset-x-0 bottom-0 h-px bg-white/10" />
+      <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
 
       <div className="py-10">
         {status === "success" ? (
@@ -144,7 +149,8 @@ const FooterNewsletter = () => {
 
 const Footer = () => {
   return (
-    <footer className="border-t border-white/10 bg-[#070a10]">
+    <footer className="relative bg-[#070a10]">
+      <FooterTopDivider />
       <div className="container mx-auto px-4 pb-10 pt-10 md:pb-16 md:pt-8 lg:px-8">
         <div className="hidden lg:block">
           <FooterNewsletter />

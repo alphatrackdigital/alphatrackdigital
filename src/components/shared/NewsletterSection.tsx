@@ -51,7 +51,7 @@ const NewsletterSection = ({ className }: NewsletterSectionProps) => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.4 }}
-          className="relative overflow-hidden rounded-[22px] border border-primary/15 bg-[radial-gradient(circle_at_top_left,rgba(51,204,153,0.07),transparent_34%),linear-gradient(180deg,rgba(255,255,255,0.025)_0%,rgba(255,255,255,0.01)_100%)] px-5 py-7 shadow-[0_14px_40px_rgba(0,0,0,0.12)] sm:px-6 md:rounded-[24px] md:px-10 md:py-10"
+          className="relative overflow-hidden rounded-[22px] border border-primary/15 bg-[radial-gradient(circle_at_top_left,rgba(51,204,153,0.07),transparent_34%),linear-gradient(180deg,rgba(255,255,255,0.025)_0%,rgba(255,255,255,0.01)_100%)] px-5 py-5 shadow-[0_14px_40px_rgba(0,0,0,0.12)] sm:px-6 md:rounded-[24px] md:px-10 md:py-10"
         >
           <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
 
@@ -68,16 +68,16 @@ const NewsletterSection = ({ className }: NewsletterSectionProps) => {
               </p>
             </div>
           ) : (
-            <div className="flex min-w-0 flex-col gap-5 md:flex-row md:items-center md:justify-between md:gap-6">
+            <div className="flex min-w-0 flex-col gap-4 md:flex-row md:items-center md:justify-between md:gap-6">
               <div className="flex min-w-0 items-start gap-4">
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary/10">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 md:h-11 md:w-11">
                   <Mail className="h-5 w-5 text-primary" />
                 </div>
                 <div className="min-w-0">
-                  <p className="text-base font-semibold leading-snug">
+                  <p className="text-[15px] font-semibold leading-snug md:text-base">
                     Get insights straight to your inbox
                   </p>
-                  <p className="mt-1 max-w-sm text-sm text-muted-foreground">
+                  <p className="mt-1 max-w-sm text-[13px] leading-5 text-muted-foreground md:text-sm md:leading-6">
                     Actionable strategies on tracking, paid media, and automation. Fortnightly. No fluff.
                   </p>
                 </div>
@@ -88,7 +88,7 @@ const NewsletterSection = ({ className }: NewsletterSectionProps) => {
                 noValidate
                 className="flex w-full min-w-0 flex-col gap-2.5 md:max-w-[26rem]"
               >
-                <div className="flex min-w-0 flex-col gap-2.5 lg:flex-row">
+                <div className="flex min-w-0 flex-col gap-2 lg:flex-row lg:gap-2.5">
                   <input
                     type="email"
                     value={email}
@@ -99,12 +99,12 @@ const NewsletterSection = ({ className }: NewsletterSectionProps) => {
                     placeholder="your@email.com"
                     required
                     aria-label="Email address"
-                    className="block h-12 w-full min-w-0 flex-none appearance-none rounded-xl border border-white/[0.12] bg-background/70 px-4 py-3 text-[15px] leading-6 text-foreground shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] placeholder:text-muted-foreground/60 focus:border-primary/45 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/35 lg:flex-1"
+                    className="block h-11 w-full min-w-0 flex-none appearance-none rounded-xl border border-white/[0.12] bg-background/70 px-4 py-2.5 text-[15px] leading-6 text-foreground shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] placeholder:text-muted-foreground/60 focus:border-primary/45 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/35 md:h-12 md:py-3 lg:flex-1"
                   />
                   <button
                     type="submit"
                     disabled={status === "loading"}
-                    className="inline-flex h-12 w-full shrink-0 items-center justify-center rounded-xl bg-primary px-5 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90 disabled:opacity-60 lg:w-auto"
+                    className="inline-flex h-11 w-full shrink-0 items-center justify-center rounded-xl bg-primary px-5 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90 disabled:opacity-60 md:h-12 lg:w-auto"
                   >
                     {status === "loading" ? (
                       <Loader2 className="h-4 w-4 animate-spin" />
@@ -118,7 +118,7 @@ const NewsletterSection = ({ className }: NewsletterSectionProps) => {
                     {errorMsg || "Something went wrong. Please try again."}
                   </p>
                 )}
-                <label className="flex items-start gap-2 text-[11px] text-muted-foreground/70 lg:text-xs">
+                <label className="flex items-start gap-2 pl-1 text-left text-[11px] text-muted-foreground/70 lg:pl-3 lg:text-xs">
                   <input
                     type="checkbox"
                     checked={optIn}
@@ -128,11 +128,8 @@ const NewsletterSection = ({ className }: NewsletterSectionProps) => {
                     }}
                     className="mt-0.5 h-4 w-4 shrink-0 rounded border border-white/20 bg-background/70 accent-primary"
                   />
-                  <span>I want to receive newsletter emails and product updates from AlphaTrack Digital.</span>
+                  <span>I agree to receive AlphaTrack Digital emails.</span>
                 </label>
-                <p className="text-center text-[11px] text-muted-foreground/60 lg:text-left">
-                  No spam. Unsubscribe any time.
-                </p>
               </form>
             </div>
           )}

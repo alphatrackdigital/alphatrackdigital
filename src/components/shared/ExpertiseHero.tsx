@@ -444,14 +444,14 @@ const sectorVisuals = {
 } as const;
 
 const heroBackgrounds = {
-  saas: "radial-gradient(circle_at_72%_40%,rgba(0,175,239,0.11),transparent_32%),radial-gradient(circle_at_28%_22%,rgba(255,255,255,0.045),transparent_22%),linear-gradient(180deg,rgba(15,20,34,0.76)_0%,rgba(7,10,16,0)_72%)",
-  education: "radial-gradient(ellipse_52%_46%_at_78%_42%,rgba(0,175,239,0.14),transparent_62%),radial-gradient(circle_at_22%_28%,rgba(51,204,153,0.055),transparent_24%),linear-gradient(135deg,rgba(7,10,16,0.98)_0%,rgba(8,18,30,0.92)_48%,rgba(6,20,24,0.88)_100%)",
-  ecommerce: "radial-gradient(ellipse_50%_44%_at_76%_46%,rgba(51,204,153,0.15),transparent_62%),linear-gradient(120deg,rgba(7,10,16,0.98)_0%,rgba(7,22,20,0.92)_48%,rgba(5,14,24,0.9)_100%)",
-  fmcg: "radial-gradient(ellipse_54%_46%_at_76%_42%,rgba(0,51,153,0.20),transparent_62%),radial-gradient(circle_at_18%_24%,rgba(0,175,239,0.06),transparent_26%),linear-gradient(135deg,rgba(7,10,16,0.98)_0%,rgba(8,13,32,0.94)_52%,rgba(6,17,28,0.9)_100%)",
-  hospitality: "radial-gradient(ellipse_52%_46%_at_76%_44%,rgba(51,204,153,0.14),transparent_62%),radial-gradient(circle_at_20%_28%,rgba(0,175,239,0.06),transparent_26%),linear-gradient(135deg,rgba(7,10,16,0.98)_0%,rgba(6,22,22,0.92)_50%,rgba(6,13,22,0.9)_100%)",
-  "real-estate": "radial-gradient(ellipse_50%_44%_at_78%_42%,rgba(0,175,239,0.12),transparent_62%),radial-gradient(circle_at_20%_30%,rgba(0,51,153,0.11),transparent_28%),linear-gradient(135deg,rgba(7,10,16,0.98)_0%,rgba(7,16,29,0.94)_54%,rgba(5,12,22,0.9)_100%)",
-  fashion: "radial-gradient(ellipse_52%_44%_at_76%_43%,rgba(51,204,153,0.13),transparent_62%),radial-gradient(circle_at_22%_26%,rgba(0,51,153,0.14),transparent_28%),linear-gradient(135deg,rgba(7,10,16,0.98)_0%,rgba(11,18,31,0.94)_50%,rgba(6,18,24,0.9)_100%)",
-  gaming: "radial-gradient(ellipse_54%_46%_at_76%_42%,rgba(0,51,153,0.24),transparent_62%),radial-gradient(circle_at_23%_26%,rgba(0,175,239,0.09),transparent_28%),linear-gradient(135deg,rgba(7,10,16,0.98)_0%,rgba(6,11,31,0.95)_48%,rgba(5,17,27,0.9)_100%)",
+  saas: "radial-gradient(circle at 18% 28%, rgba(51,204,153,0.10), transparent 29%), radial-gradient(circle at 76% 35%, rgba(0,175,239,0.12), transparent 30%), radial-gradient(circle at 50% 82%, rgba(0,51,153,0.16), transparent 36%), linear-gradient(180deg, #05070d 0%, #061017 54%, #05070d 100%)",
+  education: "radial-gradient(circle at 20% 26%, rgba(51,204,153,0.10), transparent 30%), radial-gradient(circle at 74% 32%, rgba(0,175,239,0.17), transparent 32%), radial-gradient(circle at 52% 84%, rgba(0,51,153,0.13), transparent 35%), linear-gradient(180deg, #05070d 0%, #06111a 54%, #05070d 100%)",
+  ecommerce: "radial-gradient(circle at 18% 34%, rgba(51,204,153,0.16), transparent 30%), radial-gradient(circle at 78% 35%, rgba(0,175,239,0.09), transparent 30%), radial-gradient(circle at 48% 84%, rgba(0,51,153,0.12), transparent 34%), linear-gradient(180deg, #05070d 0%, #061311 54%, #05070d 100%)",
+  fmcg: "radial-gradient(circle at 18% 26%, rgba(0,175,239,0.10), transparent 30%), radial-gradient(circle at 78% 35%, rgba(0,51,153,0.22), transparent 33%), radial-gradient(circle at 50% 82%, rgba(51,204,153,0.08), transparent 34%), linear-gradient(180deg, #05070d 0%, #071020 54%, #05070d 100%)",
+  hospitality: "radial-gradient(circle at 20% 30%, rgba(0,175,239,0.09), transparent 29%), radial-gradient(circle at 76% 35%, rgba(51,204,153,0.15), transparent 31%), radial-gradient(circle at 52% 82%, rgba(0,51,153,0.13), transparent 35%), linear-gradient(180deg, #05070d 0%, #061412 54%, #05070d 100%)",
+  "real-estate": "radial-gradient(circle at 17% 31%, rgba(0,51,153,0.18), transparent 31%), radial-gradient(circle at 78% 34%, rgba(0,175,239,0.13), transparent 31%), radial-gradient(circle at 50% 82%, rgba(51,204,153,0.07), transparent 34%), linear-gradient(180deg, #05070d 0%, #07111d 54%, #05070d 100%)",
+  fashion: "radial-gradient(circle at 18% 30%, rgba(0,51,153,0.17), transparent 30%), radial-gradient(circle at 76% 34%, rgba(51,204,153,0.13), transparent 31%), radial-gradient(circle at 50% 84%, rgba(0,175,239,0.08), transparent 34%), linear-gradient(180deg, #05070d 0%, #07101a 54%, #05070d 100%)",
+  gaming: "radial-gradient(circle at 18% 29%, rgba(0,175,239,0.12), transparent 30%), radial-gradient(circle at 78% 34%, rgba(0,51,153,0.25), transparent 34%), radial-gradient(circle at 50% 84%, rgba(51,204,153,0.08), transparent 35%), linear-gradient(180deg, #05070d 0%, #070f21 54%, #05070d 100%)",
 } as const;
 
 const sectorAccentClasses = {
@@ -546,26 +546,37 @@ const SectorSignalVisual = ({ visual }: { visual: SectorVisualKey }) => {
 
 const ExpertiseHero = ({ content, expertiseName, search }: ExpertiseHeroProps) => {
   const primaryTo = withCampaignSearch(content.primaryCtaTo, search);
-  const background = heroBackgrounds[content.background ?? "saas"];
+  const backgroundKey = content.background ?? "saas";
+  const background = heroBackgrounds[backgroundKey];
+  const usesResultsHeroTreatment = backgroundKey === "saas";
 
   return (
-    <section className="relative overflow-hidden bg-[#070a10] pb-20 pt-6 text-center md:pb-24 md:pt-14 lg:text-left">
+    <section className="relative overflow-hidden bg-[#05070d] pb-20 pt-6 text-center md:pb-24 md:pt-14 lg:text-left">
       <div className="pointer-events-none absolute inset-0" style={{ background }} />
-      <div className="pointer-events-none absolute inset-0 hidden opacity-[0.14] lg:block bg-[radial-gradient(circle,rgba(0,175,239,0.45)_1px,transparent_1.5px)] bg-[size:28px_28px] [mask-image:radial-gradient(ellipse_at_72%_42%,black_0%,transparent_64%)]" />
-      <svg className="pointer-events-none absolute inset-y-0 right-0 hidden h-full w-[62%] opacity-70 lg:block" viewBox="0 0 860 640" fill="none" aria-hidden="true">
-        <defs>
-          <linearGradient id={`heroSignal-${content.background ?? "saas"}`} x1="70" x2="800" y1="320" y2="320">
-            <stop stopColor="#00afef" stopOpacity="0" />
-            <stop offset="0.42" stopColor="#00afef" stopOpacity="0.22" />
-            <stop offset="1" stopColor="#33cc99" stopOpacity="0.14" />
-          </linearGradient>
-        </defs>
-        <path d="M40 170C170 122 266 162 374 250C496 350 614 364 820 286" stroke={`url(#heroSignal-${content.background ?? "saas"})`} strokeWidth="1.5" />
-        <path d="M80 450C236 388 310 418 434 344C548 276 666 258 828 326" stroke={`url(#heroSignal-${content.background ?? "saas"})`} strokeWidth="1.5" />
-        <path d="M216 80V558M512 48V592M710 126V508" stroke="rgba(255,255,255,0.035)" />
-      </svg>
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-48 bg-gradient-to-b from-black/60 to-transparent" />
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-b from-transparent via-[#070a10]/55 to-[#070a10]" />
+      <div
+        className={cn(
+          "pointer-events-none absolute inset-0 hidden bg-[radial-gradient(circle,rgba(0,175,239,0.75)_1px,transparent_1.5px)] bg-[size:38px_38px] lg:block",
+          usesResultsHeroTreatment
+            ? "opacity-[0.055] [mask-image:radial-gradient(ellipse_at_50%_42%,black_0%,transparent_68%)]"
+            : "opacity-[0.065] [mask-image:radial-gradient(ellipse_at_68%_42%,black_0%,transparent_66%)]",
+        )}
+      />
+      {!usesResultsHeroTreatment && (
+        <svg className="pointer-events-none absolute inset-y-0 right-0 hidden h-full w-[62%] opacity-70 lg:block" viewBox="0 0 860 640" fill="none" aria-hidden="true">
+          <defs>
+            <linearGradient id={`heroSignal-${backgroundKey}`} x1="70" x2="800" y1="320" y2="320">
+              <stop stopColor="#00afef" stopOpacity="0" />
+              <stop offset="0.42" stopColor="#00afef" stopOpacity="0.22" />
+              <stop offset="1" stopColor="#33cc99" stopOpacity="0.14" />
+            </linearGradient>
+          </defs>
+          <path d="M40 170C170 122 266 162 374 250C496 350 614 364 820 286" stroke={`url(#heroSignal-${backgroundKey})`} strokeWidth="1.5" />
+          <path d="M80 450C236 388 310 418 434 344C548 276 666 258 828 326" stroke={`url(#heroSignal-${backgroundKey})`} strokeWidth="1.5" />
+          <path d="M216 80V558M512 48V592M710 126V508" stroke="rgba(255,255,255,0.035)" />
+        </svg>
+      )}
+      <div className={cn("pointer-events-none absolute inset-x-0 top-0 bg-gradient-to-b from-[#05070d] to-transparent", usesResultsHeroTreatment ? "h-28" : "h-48")} />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-b from-transparent via-[#05070d]/55 to-[#05070d]" />
       <div className="container relative mx-auto px-4 lg:px-8">
         <Breadcrumbs
           items={[

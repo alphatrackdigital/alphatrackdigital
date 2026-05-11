@@ -2,13 +2,11 @@ import { useParams, Link, Navigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import SEO from "@/components/shared/SEO";
 import CTASection from "@/components/shared/CTASection";
-import Breadcrumbs from "@/components/shared/Breadcrumbs";
 import SafeImage from "@/components/shared/SafeImage";
-import SectionIntro from "@/components/shared/SectionIntro";
-import { BOOK_A_FREE_STRATEGY_CALL_CTA, EXPLORE_SERVICES_CTA } from "@/config/cta";
+import { BOOK_A_FREE_STRATEGY_CALL_CTA } from "@/config/cta";
 import { getBlogPostBySlug, getRelatedBlogPosts } from "@/data/blogPosts";
 import { buildCanonicalUrl } from "@/config/seo";
-import { ArrowLeft, Clock, Calendar, Twitter, Linkedin, Link2 } from "lucide-react";
+import { ArrowLeft, ArrowRight, Calendar, Clock, Linkedin, Link2, Mail, MessageCircle, Twitter } from "lucide-react";
 import NewsletterSection from "@/components/shared/NewsletterSection";
 
 // Image with fallback
@@ -22,7 +20,6 @@ const HeroImage = ({ src, alt }: { src: string; alt: string }) => {
         wrapperClassName="h-72 w-full rounded-xl md:h-96"
         fallbackClassName="rounded-xl"
         loading="eager"
-        fetchPriority="high"
       />
     </div>
   );
@@ -48,6 +45,8 @@ const useReadingProgress = () => {
 const ShareBar = ({ title, slug }: { title: string; slug: string }) => {
   const [copied, setCopied] = useState(false);
   const url = `https://alphatrack.digital/blog/${slug}`;
+  const encodedTitle = encodeURIComponent(title);
+  const encodedUrl = encodeURIComponent(url);
 
   const copyLink = () => {
     navigator.clipboard.writeText(url).then(() => {
@@ -57,34 +56,62 @@ const ShareBar = ({ title, slug }: { title: string; slug: string }) => {
   };
 
   return (
-    <div className="mt-10 flex items-center gap-3 border-t border-white/10 pt-8">
-      <span className="text-sm font-medium text-muted-foreground">Share:</span>
-      <a
-        href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(url)}`}
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="Share on X (Twitter)"
-        className="flex h-8 w-8 items-center justify-center rounded-lg border border-white/10 bg-card text-muted-foreground transition-colors hover:border-primary/30 hover:text-primary"
-      >
-        <Twitter className="h-3.5 w-3.5" />
-      </a>
-      <a
-        href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`}
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="Share on LinkedIn"
-        className="flex h-8 w-8 items-center justify-center rounded-lg border border-white/10 bg-card text-muted-foreground transition-colors hover:border-primary/30 hover:text-primary"
-      >
-        <Linkedin className="h-3.5 w-3.5" />
-      </a>
-      <button
-        onClick={copyLink}
-        aria-label="Copy link"
-        className="flex h-8 w-8 items-center justify-center rounded-lg border border-white/10 bg-card text-muted-foreground transition-colors hover:border-primary/30 hover:text-primary"
-      >
-        <Link2 className="h-3.5 w-3.5" />
-      </button>
-      {copied && <span className="text-xs text-primary">Copied!</span>}
+    <div className="mt-14 rounded-xl border border-primary/15 bg-[radial-gradient(circle_at_top_left,rgba(51,204,153,0.07),transparent_34%),linear-gradient(180deg,rgba(255,255,255,0.026)_0%,rgba(255,255,255,0.012)_100%)] p-4 shadow-[0_16px_44px_rgba(0,0,0,0.16),inset_0_1px_0_rgba(255,255,255,0.045)] md:p-5">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-primary">
+            Share This Article
+          </p>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Send it to your team or save it for your next strategy review.
+          </p>
+        </div>
+
+        <div className="flex flex-wrap gap-2">
+          <a
+            href={`https://twitter.com/intent/tweet?text=${encodedTitle}&url=${encodedUrl}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Share on X"
+            className="flex h-10 w-10 items-center justify-center rounded-lg border border-white/10 bg-background/70 text-muted-foreground transition-colors hover:border-primary/35 hover:text-primary"
+          >
+            <Twitter className="h-4 w-4" />
+          </a>
+          <a
+            href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Share on LinkedIn"
+            className="flex h-10 w-10 items-center justify-center rounded-lg border border-white/10 bg-background/70 text-muted-foreground transition-colors hover:border-primary/35 hover:text-primary"
+          >
+            <Linkedin className="h-4 w-4" />
+          </a>
+          <a
+            href={`https://wa.me/?text=${encodedTitle}%20${encodedUrl}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Share on WhatsApp"
+            className="flex h-10 w-10 items-center justify-center rounded-lg border border-white/10 bg-background/70 text-muted-foreground transition-colors hover:border-primary/35 hover:text-primary"
+          >
+            <MessageCircle className="h-4 w-4" />
+          </a>
+          <a
+            href={`mailto:?subject=${encodedTitle}&body=${encodedUrl}`}
+            aria-label="Share by email"
+            className="flex h-10 w-10 items-center justify-center rounded-lg border border-white/10 bg-background/70 text-muted-foreground transition-colors hover:border-primary/35 hover:text-primary"
+          >
+            <Mail className="h-4 w-4" />
+          </a>
+          <button
+            onClick={copyLink}
+            aria-label="Copy link"
+            className="flex h-10 items-center justify-center gap-2 rounded-lg border border-white/10 bg-background/70 px-3 text-sm font-semibold text-muted-foreground transition-colors hover:border-primary/35 hover:text-primary"
+          >
+            <Link2 className="h-4 w-4" />
+            <span>{copied ? "Copied" : "Copy"}</span>
+          </button>
+        </div>
+      </div>
     </div>
   );
 };
@@ -393,62 +420,123 @@ const BlogPost = () => {
         ogImage={post.image}
         schema={articleSchema}
       />
-      <section className="relative overflow-hidden py-24 md:py-28" style={{ background: "linear-gradient(180deg, rgba(0,51,153,0.03) 0%, rgba(0,175,239,0.015) 48%, transparent 100%)" }}>
-        <div className="container relative mx-auto px-4 lg:px-8">
-          <Breadcrumbs items={[{ label: "Home", path: "/" }, { label: "Blog", path: "/blog" }, { label: post.title }]} />
-        </div>
-      </section>
-      <article className="py-12">
-        <div className="container mx-auto px-6 md:px-4 lg:px-8">
+      <article className="relative overflow-hidden bg-[#05070d] pb-12 pt-[5.75rem] md:pb-16 md:pt-24">
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-[34rem] bg-[radial-gradient(circle_at_18%_18%,rgba(51,204,153,0.10),transparent_28%),radial-gradient(circle_at_82%_18%,rgba(0,175,239,0.09),transparent_30%),linear-gradient(180deg,#05070d_0%,#071017_58%,#05070d_100%)]" />
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-[34rem] opacity-[0.04] [background-image:linear-gradient(rgba(255,255,255,0.46)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.46)_1px,transparent_1px)] [background-size:52px_52px] [mask-image:linear-gradient(180deg,black,transparent_76%)]" />
+
+        <div className="container relative mx-auto px-6 md:px-4 lg:px-8">
           <div className="mx-auto max-w-4xl">
-            <Link to="/blog" className="mb-6 inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-primary">
+            <Link
+              to="/blog"
+              className="inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-primary"
+            >
               <ArrowLeft className="h-4 w-4" /> Back to blog
             </Link>
-            <div className="mb-5 flex flex-wrap items-center gap-4 text-[11px] uppercase tracking-[0.18em] text-muted-foreground/70">
-              <span className="rounded-full border border-primary/20 bg-primary/10 px-2.5 py-1 font-semibold text-primary">{post.category}</span>
-              <span className="flex items-center gap-1"><Clock className="h-3 w-3" /> {post.readTime}</span>
-              <span className="flex items-center gap-1"><Calendar className="h-3 w-3" /> {new Date(post.date).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })}</span>
-            </div>
-            <SectionIntro
-              title={post.title}
-              description={post.excerpt}
-              width="wide"
-              titleClassName="text-3xl font-bold leading-tight md:text-4xl lg:text-5xl"
-              descriptionClassName="max-w-3xl text-lg leading-8"
-            />
 
-            {/* Author line */}
-            <div className="mt-5 flex items-center gap-3">
-              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10 text-xs font-bold text-primary">
-                AT
+            <header className="pt-8 md:pt-10">
+              <div className="mb-5 flex flex-wrap items-center gap-4 text-[11px] uppercase tracking-[0.18em] text-muted-foreground/70">
+                <span className="rounded-full border border-primary/20 bg-primary/10 px-2.5 py-1 font-semibold text-primary">
+                  {post.category}
+                </span>
+                <span className="flex items-center gap-1">
+                  <Clock className="h-3 w-3" /> {post.readTime}
+                </span>
+                <span className="flex items-center gap-1">
+                  <Calendar className="h-3 w-3" />{" "}
+                  {new Date(post.date).toLocaleDateString("en-GB", {
+                    day: "numeric",
+                    month: "long",
+                    year: "numeric",
+                  })}
+                </span>
               </div>
-              <span className="text-sm text-muted-foreground">
-                By <span className="font-medium text-foreground">AlphaTrack Digital Team</span>
-              </span>
-            </div>
+
+              <h1 className="title-safe max-w-4xl text-4xl font-bold leading-tight tracking-normal text-foreground md:text-5xl lg:text-6xl">
+                {post.title}
+              </h1>
+              <p className="mt-5 max-w-3xl text-base leading-8 text-muted-foreground md:text-lg">
+                {post.excerpt}
+              </p>
+
+              <div className="mt-6 flex items-center gap-3">
+                <div className="flex h-9 w-9 items-center justify-center rounded-full border border-primary/20 bg-primary/10 text-xs font-bold text-primary">
+                  AT
+                </div>
+                <span className="text-sm text-muted-foreground">
+                  By <span className="font-medium text-foreground">AlphaTrack Digital Team</span>
+                </span>
+              </div>
+            </header>
 
             <HeroImage src={post.image} alt={post.title} />
-            <div className="mt-10">
-              <div className="mx-auto max-w-3xl space-y-5 text-[16px] leading-8 text-muted-foreground [&_h2]:mt-12 [&_h2]:mb-4 [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:text-foreground [&_h3]:mt-7 [&_h3]:mb-2 [&_h3]:text-lg [&_h3]:font-semibold [&_h3]:text-foreground [&_p]:mb-4">
+          </div>
+
+          <div className="mx-auto mt-10 max-w-4xl">
+            <div>
+              <div className="max-w-none text-[17px] leading-8 text-muted-foreground md:text-[18px] md:leading-9 [&>p:first-child]:text-[18px] [&>p:first-child]:leading-9 [&>p:first-child]:text-foreground/90 [&_h2]:mt-14 [&_h2]:border-t [&_h2]:border-white/10 [&_h2]:pt-9 [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:leading-tight [&_h2]:tracking-normal [&_h2]:text-foreground md:[&_h2]:text-[1.85rem] [&_h3]:mt-8 [&_h3]:text-xl [&_h3]:font-semibold [&_h3]:leading-snug [&_h3]:text-foreground [&_p]:mb-6 [&_p]:max-w-[68ch] [&_p]:text-pretty [&_div.my-8]:my-10 [&_div.my-8]:overflow-hidden [&_div.my-8]:rounded-xl [&_div.my-8]:border [&_div.my-8]:border-white/10">
                 {articleContent[slug]}
               </div>
-            </div>
 
-            <div className="mx-auto max-w-3xl">
-              <ShareBar title={post.title} slug={slug} />
+              <div>
+                <ShareBar title={post.title} slug={slug} />
+              </div>
             </div>
           </div>
         </div>
       </article>
 
       {/* Related Posts */}
-      <section className="border-t border-white/10 py-16">
+      <section className="border-t border-white/10 py-16 md:py-20">
         <div className="container mx-auto px-6 md:px-4 lg:px-8">
-          <h2 className="mb-8 text-2xl font-bold">More Articles</h2>
-          <div className="grid gap-6 md:grid-cols-3">
+          <div className="mb-7 flex flex-col justify-between gap-3 border-b border-white/10 pb-5 md:flex-row md:items-end">
+            <div>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-primary/90">
+                Continue Reading
+              </p>
+              <h2 className="mt-2 text-2xl font-bold md:text-3xl">More articles</h2>
+            </div>
+          </div>
+          <div className="grid gap-3 md:hidden">
             {relatedPosts.map((rp) => (
-              <Link key={rp.slug} to={`/blog/${rp.slug}`} className="group overflow-hidden rounded-xl border border-white/10 bg-card transition-all duration-300 hover:-translate-y-1 hover:border-white/20">
-                <div className="h-40 overflow-hidden">
+              <Link
+                key={rp.slug}
+                to={`/blog/${rp.slug}`}
+                className="group grid grid-cols-[5.75rem_minmax(0,1fr)] gap-3 rounded-lg border border-white/10 bg-white/[0.025] p-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.035)] transition-colors hover:border-primary/30"
+              >
+                <div className="h-[4.75rem] overflow-hidden rounded-md">
+                  <SafeImage
+                    src={rp.image}
+                    alt={rp.title}
+                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    wrapperClassName="h-full w-full"
+                  />
+                </div>
+                <div className="min-w-0">
+                  <div className="flex flex-wrap items-center gap-2 text-[10px] uppercase tracking-[0.16em] text-muted-foreground/70">
+                    <span className="font-semibold text-primary">{rp.category}</span>
+                    <span className="flex items-center gap-1">
+                      <Clock className="h-3 w-3" /> {rp.readTime}
+                    </span>
+                  </div>
+                  <div className="mt-2 flex items-start gap-3">
+                    <h3 className="line-clamp-2 flex-1 text-sm font-semibold leading-snug transition-colors group-hover:text-primary">
+                      {rp.title}
+                    </h3>
+                    <ArrowRight className="mt-0.5 h-3.5 w-3.5 shrink-0 text-primary transition-transform group-hover:translate-x-1" />
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+
+          <div className="hidden gap-4 md:grid md:grid-cols-3">
+            {relatedPosts.map((rp) => (
+              <Link
+                key={rp.slug}
+                to={`/blog/${rp.slug}`}
+                className="group h-full overflow-hidden rounded-lg border border-white/10 bg-white/[0.025] shadow-[inset_0_1px_0_rgba(255,255,255,0.035)] transition-colors hover:border-primary/30 hover:bg-white/[0.04]"
+              >
+                <div className="aspect-[16/9] overflow-hidden border-b border-white/10">
                   <SafeImage
                     src={rp.image}
                     alt={rp.title}
@@ -457,8 +545,18 @@ const BlogPost = () => {
                   />
                 </div>
                 <div className="p-5">
-                  <span className="text-[11px] font-semibold uppercase tracking-wide text-primary">{rp.category}</span>
-                  <h3 className="mt-2 text-sm font-semibold leading-snug">{rp.title}</h3>
+                  <div className="flex flex-wrap items-center gap-3 text-[11px] uppercase tracking-[0.18em] text-muted-foreground/70">
+                    <span className="font-semibold text-primary">{rp.category}</span>
+                    <span className="flex items-center gap-1">
+                      <Clock className="h-3 w-3" /> {rp.readTime}
+                    </span>
+                  </div>
+                  <h3 className="mt-3 text-lg font-semibold leading-snug transition-colors group-hover:text-primary">
+                    {rp.title}
+                  </h3>
+                  <p className="mt-3 line-clamp-2 text-sm leading-6 text-muted-foreground">
+                    {rp.excerpt}
+                  </p>
                 </div>
               </Link>
             ))}
@@ -466,15 +564,21 @@ const BlogPost = () => {
         </div>
       </section>
 
-      <NewsletterSection className="py-8 border-t border-white/10" />
+      <NewsletterSection className="border-t border-white/10 py-8 md:py-10" />
 
       <CTASection
-        title="Ready to Apply These Strategies?"
+        title={
+          <>
+            Ready to Apply These
+            <br />
+            <span className="text-gradient">Strategies?</span>
+          </>
+        }
         description="Book a free strategy call and let's build a plan tailored to your business."
         primaryCta={BOOK_A_FREE_STRATEGY_CALL_CTA}
-        secondaryCta={EXPLORE_SERVICES_CTA}
-        variant="inline-proof"
-        proofChips={["Measurement-first advice", "Strategy tailored to your stack", "No-pressure call"]}
+        secondaryCta={null}
+        variant="service-close"
+        titleClassName="text-[1.74rem] leading-[1.08] md:text-[1.95rem]"
       />
     </>
   );
