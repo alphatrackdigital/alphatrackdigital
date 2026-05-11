@@ -603,7 +603,7 @@ const Index = () => {
                   className={cn(
                     "group relative flex h-full items-start gap-3 overflow-hidden rounded-[18px] border px-4 py-3.5 transition-all duration-200 hover:-translate-y-0.5",
                     service.flagship
-                      ? "border-primary/25 bg-[radial-gradient(ellipse_100%_65%_at_0%_0%,rgba(0,51,153,0.24),transparent_58%),radial-gradient(ellipse_70%_55%_at_100%_100%,rgba(51,204,153,0.1),transparent_60%),linear-gradient(180deg,rgba(255,255,255,0.03)_0%,rgba(255,255,255,0.008)_100%)] shadow-[0_14px_40px_rgba(0,51,153,0.14),inset_0_1px_0_rgba(255,255,255,0.05)]"
+                      ? "border-primary/30 bg-[radial-gradient(ellipse_82%_52%_at_0%_0%,rgba(51,204,153,0.09),transparent_58%),linear-gradient(180deg,rgba(13,20,29,1)_0%,rgba(10,16,24,0.98)_100%)] shadow-[0_14px_40px_rgba(0,8,22,0.22),inset_0_1px_0_rgba(255,255,255,0.05)]"
                       : "border-white/[0.08] bg-[#0d141d] shadow-[0_8px_24px_rgba(0,0,0,0.2)]",
                   )}
                 >
@@ -625,7 +625,7 @@ const Index = () => {
                       className={cn(
                         "inline-flex rounded-full px-2 py-0.5 text-[9px] font-semibold uppercase tracking-[0.18em]",
                         service.flagship
-                          ? "bg-primary text-primary-foreground shadow-[0_0_12px_rgba(51,204,153,0.25)]"
+                          ? "border border-primary/30 bg-primary/[0.09] text-primary shadow-[0_0_12px_rgba(51,204,153,0.12)]"
                           : "border border-white/[0.12] bg-white/[0.06] text-muted-foreground",
                       )}
                     >
@@ -658,7 +658,7 @@ const Index = () => {
                   className={cn(
                     "group relative flex h-full flex-col overflow-hidden rounded-2xl border p-6 transition-all duration-300 hover:-translate-y-1 md:p-7",
                     service.flagship
-                      ? "border-primary/25 bg-[radial-gradient(ellipse_100%_65%_at_0%_0%,rgba(0,51,153,0.24),transparent_58%),radial-gradient(ellipse_70%_55%_at_100%_100%,rgba(51,204,153,0.1),transparent_60%),linear-gradient(180deg,rgba(255,255,255,0.03)_0%,rgba(255,255,255,0.008)_100%)] shadow-[0_20px_60px_rgba(0,51,153,0.16),inset_0_1px_0_rgba(255,255,255,0.05)]"
+                      ? "border-primary/30 bg-[radial-gradient(ellipse_82%_52%_at_0%_0%,rgba(51,204,153,0.09),transparent_58%),linear-gradient(180deg,rgba(13,20,29,1)_0%,rgba(10,16,24,0.98)_100%)] shadow-[0_20px_60px_rgba(0,8,22,0.24),inset_0_1px_0_rgba(255,255,255,0.05)]"
                       : "border-white/[0.08] bg-[#0d141d] shadow-[0_12px_36px_rgba(0,0,0,0.22)] hover:border-white/[0.15] hover:shadow-[0_16px_44px_rgba(0,0,0,0.28)]",
                   )}
                 >
@@ -670,7 +670,7 @@ const Index = () => {
                       className={cn(
                         "inline-flex rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em]",
                         service.flagship
-                          ? "bg-primary text-primary-foreground shadow-[0_0_14px_rgba(51,204,153,0.28)]"
+                          ? "border border-primary/30 bg-primary/[0.09] text-primary shadow-[0_0_14px_rgba(51,204,153,0.12)]"
                           : "border border-white/[0.12] bg-white/[0.06] text-muted-foreground",
                       )}
                     >

@@ -213,7 +213,7 @@ const ExitIntentPopup = () => {
       onClick={closePopup}
     >
       <div
-        className="relative max-h-[calc(100dvh-1.5rem)] w-full max-w-[26rem] overflow-y-auto rounded-2xl border border-white/[0.09] bg-[#070a10] shadow-[0_24px_72px_rgba(0,0,0,0.48)] sm:max-h-[calc(100dvh-4rem)] sm:max-w-[29rem]"
+        className="relative max-h-[calc(100dvh-1.5rem)] w-full max-w-[26rem] overflow-x-hidden overflow-y-auto rounded-2xl border border-white/[0.09] bg-[#070a10] shadow-[0_24px_72px_rgba(0,0,0,0.48)] sm:max-h-[calc(100dvh-4rem)] sm:max-w-[29rem]"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/70 to-transparent" />
@@ -331,12 +331,8 @@ const ExitIntentPopup = () => {
                     onChange={(event) => setOptIn(event.target.checked)}
                     className="mt-0.5 h-4 w-4 shrink-0 rounded border border-white/20 bg-white/[0.04] accent-primary"
                   />
-                  <span>Yes, you can also send me occasional growth insights and service updates by email.</span>
+                  <span className="whitespace-nowrap">Send me occasional growth insights by email.</span>
                 </label>
-
-                <p className="text-center text-xs text-muted-foreground">
-                  No spam. Practical growth insights only.
-                </p>
               </form>
             </>
           )}

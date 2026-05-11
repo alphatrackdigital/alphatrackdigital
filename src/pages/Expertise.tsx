@@ -47,18 +47,9 @@ const Expertise = () => (
     />
 
     <section className="relative min-h-[27rem] overflow-hidden border-t border-white/10 bg-[#05070d] pb-8 pt-20 text-center md:min-h-[31rem] md:pb-10 md:pt-20">
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(5,7,13,1)_0%,rgba(7,10,16,0.94)_54%,rgba(5,7,13,1)_100%)]" />
-        <div
-          className="absolute inset-0 hidden opacity-[0.026] sm:block"
-          style={{
-            backgroundImage:
-              "linear-gradient(rgba(255,255,255,0.9) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.9) 1px, transparent 1px)",
-            backgroundSize: "84px 84px",
-          }}
-        />
-        <div className="absolute left-1/2 top-[28%] h-[18rem] w-[24rem] -translate-x-1/2 rounded-full bg-[radial-gradient(circle_at_center,rgba(0,175,239,0.12)_0%,rgba(51,204,153,0.07)_42%,transparent_74%)] blur-[76px] md:h-[25rem] md:w-[42rem] md:blur-[124px]" />
-      </div>
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_18%_28%,rgba(51,204,153,0.10),transparent_29%),radial-gradient(circle_at_76%_35%,rgba(0,175,239,0.12),transparent_30%),radial-gradient(circle_at_50%_82%,rgba(0,51,153,0.16),transparent_36%),linear-gradient(180deg,#05070d_0%,#061017_54%,#05070d_100%)]" />
+      <div className="pointer-events-none absolute inset-0 opacity-[0.055] [background-image:radial-gradient(circle,rgba(0,175,239,0.75)_1px,transparent_1.5px)] [background-size:38px_38px] [mask-image:radial-gradient(ellipse_at_50%_42%,black_0%,transparent_68%)]" />
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-[#05070d] to-transparent" />
 
       <div className="container relative mx-auto px-6 lg:px-8">
         <div className="mx-auto max-w-4xl pt-3 md:pt-8">

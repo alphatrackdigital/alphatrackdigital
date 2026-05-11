@@ -607,7 +607,7 @@ const ServiceDetail = () => {
       </Helmet>
 
       {/* Hero */}
-      <section className="relative min-h-[36rem] overflow-hidden bg-[#05070d] pb-24 pt-6 text-center md:min-h-[42.5rem] md:pb-36 md:pt-10">
+      <section className="relative overflow-hidden bg-[#05070d] pb-20 pt-6 text-center md:min-h-[42.5rem] md:pb-36 md:pt-10">
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(5,7,13,1)_0%,rgba(7,10,16,0.94)_56%,rgba(5,7,13,1)_100%)]" />
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_55%_at_50%_0%,rgba(0,175,239,0.12)_0%,rgba(0,51,153,0.07)_50%,transparent_72%)]" />
@@ -623,7 +623,7 @@ const ServiceDetail = () => {
           />
           <div className="mx-auto max-w-[62rem]">
             <motion.div
-              className="mt-14 md:mt-24"
+              className="mt-12 md:mt-24"
               initial={{ opacity: 0, y: 22 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.55 }}

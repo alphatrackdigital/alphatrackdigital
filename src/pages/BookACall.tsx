@@ -86,7 +86,7 @@ const BookACall = () => {
         </script>
       </Helmet>
 
-      <section className="relative overflow-hidden border-b border-white/[0.05] pt-8 pb-16 md:pt-10 md:pb-28">
+      <section className="relative overflow-hidden border-b border-white/[0.05] pt-8 pb-10 md:pt-10 md:pb-20">
         <div aria-hidden="true" className="pointer-events-none absolute inset-0">
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_78%_54%_at_50%_-6%,rgba(0,51,153,0.12)_0%,rgba(0,175,239,0.05)_42%,transparent_72%)]" />
           <div className="absolute left-1/2 top-0 h-64 w-64 -translate-x-1/2 rounded-full bg-primary/6 blur-[130px]" />
@@ -182,8 +182,8 @@ const BookACall = () => {
                         width="100%"
                         src={schedulerUrl}
                         title="Book a Strategy Call"
-                        className="block h-[560px] w-full bg-white min-[380px]:h-[620px] sm:h-[880px]"
-                        style={{ border: "none" }}
+                        className="block w-full bg-white"
+                        style={{ border: "none", height: "calc(100svh - 60px)", minHeight: "860px", maxHeight: "980px" }}
                         scrolling="no"
                         onLoad={() => setIframeLoadCount((count) => count + 1)}
                       />

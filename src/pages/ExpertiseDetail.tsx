@@ -29,6 +29,39 @@ const fadeUp = {
   }),
 };
 
+const closeCtaHighlightPhrases = [
+  "SaaS growth",
+  "enrolment growth",
+  "ecommerce revenue",
+  "FMCG demand",
+  "booking growth",
+  "property lead",
+  "fashion growth",
+  "gaming growth",
+  "growth gaps",
+];
+
+const renderCloseCtaTitle = (title: string) => {
+  const lowerTitle = title.toLowerCase();
+  const phrase = closeCtaHighlightPhrases.find((item) => lowerTitle.includes(item.toLowerCase()));
+
+  if (!phrase) {
+    return title;
+  }
+
+  const start = lowerTitle.indexOf(phrase.toLowerCase());
+  const end = start + phrase.length;
+
+  return (
+    <>
+      {title.slice(0, start).trimEnd()}
+      <br />
+      <span className="text-gradient">{title.slice(start, end)}</span>
+      {title.slice(end)}
+    </>
+  );
+};
+
 const staggerContainer = {
   hidden: {},
   visible: { transition: { staggerChildren: 0.09 } },
@@ -127,20 +160,20 @@ const makeHero = (
 type ExpertiseBackgroundKey = NonNullable<ExpertiseHeroContent["background"]>;
 
 const expertisePageBackgrounds: Record<ExpertiseBackgroundKey, string> = {
-  saas: "radial-gradient(circle at 76% 18%, rgba(0,175,239,0.055), transparent 28%), radial-gradient(circle at 18% 44%, rgba(51,204,153,0.028), transparent 26%), linear-gradient(180deg, #070a10 0%, #060b12 48%, #070a10 100%)",
+  saas: "radial-gradient(circle at 18% 28%, rgba(51,204,153,0.10), transparent 29%), radial-gradient(circle at 76% 35%, rgba(0,175,239,0.12), transparent 30%), radial-gradient(circle at 50% 82%, rgba(0,51,153,0.16), transparent 36%), linear-gradient(180deg, #05070d 0%, #061017 54%, #05070d 100%)",
   education:
-    "radial-gradient(circle at 22% 18%, rgba(51,204,153,0.034), transparent 24%), radial-gradient(circle at 78% 38%, rgba(0,175,239,0.06), transparent 30%), linear-gradient(180deg, #070a10 0%, #060d14 44%, #060b10 100%)",
+    "radial-gradient(circle at 20% 18%, rgba(51,204,153,0.055), transparent 30%), radial-gradient(circle at 76% 20%, rgba(0,175,239,0.075), transparent 32%), radial-gradient(circle at 52% 82%, rgba(0,51,153,0.065), transparent 36%), linear-gradient(180deg, #05070d 0%, #06111a 42%, #05070d 100%)",
   ecommerce:
-    "radial-gradient(circle at 72% 22%, rgba(51,204,153,0.064), transparent 28%), radial-gradient(circle at 20% 55%, rgba(0,175,239,0.028), transparent 26%), linear-gradient(180deg, #070a10 0%, #06100e 45%, #070b10 100%)",
-  fmcg: "radial-gradient(circle at 74% 20%, rgba(0,51,153,0.075), transparent 30%), radial-gradient(circle at 18% 48%, rgba(0,175,239,0.035), transparent 28%), linear-gradient(180deg, #070a10 0%, #070d18 46%, #070a10 100%)",
+    "radial-gradient(circle at 18% 24%, rgba(51,204,153,0.075), transparent 30%), radial-gradient(circle at 78% 20%, rgba(0,175,239,0.045), transparent 31%), radial-gradient(circle at 50% 84%, rgba(0,51,153,0.06), transparent 35%), linear-gradient(180deg, #05070d 0%, #061311 42%, #05070d 100%)",
+  fmcg: "radial-gradient(circle at 18% 20%, rgba(0,175,239,0.05), transparent 30%), radial-gradient(circle at 78% 20%, rgba(0,51,153,0.11), transparent 33%), radial-gradient(circle at 50% 82%, rgba(51,204,153,0.045), transparent 34%), linear-gradient(180deg, #05070d 0%, #071020 42%, #05070d 100%)",
   hospitality:
-    "radial-gradient(circle at 24% 18%, rgba(0,175,239,0.035), transparent 24%), radial-gradient(circle at 78% 42%, rgba(51,204,153,0.058), transparent 30%), linear-gradient(180deg, #070a10 0%, #06100f 45%, #070b10 100%)",
+    "radial-gradient(circle at 20% 22%, rgba(0,175,239,0.045), transparent 29%), radial-gradient(circle at 76% 20%, rgba(51,204,153,0.075), transparent 31%), radial-gradient(circle at 52% 82%, rgba(0,51,153,0.065), transparent 35%), linear-gradient(180deg, #05070d 0%, #061412 42%, #05070d 100%)",
   "real-estate":
-    "radial-gradient(circle at 78% 20%, rgba(0,175,239,0.045), transparent 30%), radial-gradient(circle at 16% 46%, rgba(0,51,153,0.065), transparent 28%), linear-gradient(180deg, #070a10 0%, #070d17 44%, #070a10 100%)",
+    "radial-gradient(circle at 17% 24%, rgba(0,51,153,0.09), transparent 31%), radial-gradient(circle at 78% 20%, rgba(0,175,239,0.065), transparent 31%), radial-gradient(circle at 50% 82%, rgba(51,204,153,0.035), transparent 34%), linear-gradient(180deg, #05070d 0%, #07111d 42%, #05070d 100%)",
   fashion:
-    "radial-gradient(circle at 72% 22%, rgba(51,204,153,0.05), transparent 28%), radial-gradient(circle at 18% 50%, rgba(0,51,153,0.07), transparent 30%), linear-gradient(180deg, #070a10 0%, #080d15 44%, #060d10 100%)",
+    "radial-gradient(circle at 18% 22%, rgba(0,51,153,0.085), transparent 30%), radial-gradient(circle at 76% 20%, rgba(51,204,153,0.065), transparent 31%), radial-gradient(circle at 50% 84%, rgba(0,175,239,0.04), transparent 34%), linear-gradient(180deg, #05070d 0%, #07101a 42%, #05070d 100%)",
   gaming:
-    "radial-gradient(circle at 76% 20%, rgba(0,51,153,0.09), transparent 32%), radial-gradient(circle at 18% 46%, rgba(0,175,239,0.048), transparent 28%), linear-gradient(180deg, #070a10 0%, #070b18 44%, #060b12 100%)",
+    "radial-gradient(circle at 18% 22%, rgba(0,175,239,0.06), transparent 30%), radial-gradient(circle at 78% 20%, rgba(0,51,153,0.13), transparent 34%), radial-gradient(circle at 50% 84%, rgba(51,204,153,0.04), transparent 35%), linear-gradient(180deg, #05070d 0%, #070f21 42%, #05070d 100%)",
 };
 
 const expertiseProfiles: Record<string, ExpertiseProfile> = {
@@ -1003,7 +1036,7 @@ const ExpertiseCloseCta = ({
             <div>
               <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-primary">Expertise check</p>
               <h2 className="mx-auto mt-3 max-w-[15ch] text-[2.1rem] font-extrabold leading-[1.12] tracking-normal text-foreground md:text-[2.65rem] lg:mx-0 lg:text-[3rem]">
-                {profile?.closeCtaTitle ?? `Talk through your ${expertiseName} growth gaps.`}
+                {renderCloseCtaTitle(profile?.closeCtaTitle ?? `Talk through your ${expertiseName} growth gaps.`)}
               </h2>
             </div>
 
