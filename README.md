@@ -1,143 +1,57 @@
-# AlphaTrack Digital Website
+# AlphaTrack Digital Full-Stack Reference
 
-Official frontend website for AlphaTrack Digital — a measurement-first digital growth agency focused on conversion tracking, analytics, paid media, automation, and measurable marketing performance.
+This branch preserves the combined frontend + backend setup for AlphaTrack Digital.
 
-## Project Role
+It is a safe-keeping and integration reference branch, not the normal day-to-day development branch.
 
-`main` is the production frontend website branch.
+## Branch Role
 
-Use this branch for:
+`deploy` contains:
 
-- Public website pages
-- Blog frontend
-- Landing pages
-- Header, footer, navigation, and shared frontend components
-- SEO, copy, styling, and responsive design
+- Frontend website
+- Netlify Functions
+- Blog API
+- Blog admin
+- Auth
+- Leads/contact function
+- Contacts admin
+- Full Netlify routing setup
 
-Backend/API work belongs on the `backend` branch.
-
-## Tech Stack
-
-- Vite
-- React
-- TypeScript
-- React Router
-- Tailwind CSS
-- shadcn-ui / Radix UI
-- Framer Motion
-- Netlify
-
-## Branches
+## Related Branches
 
 | Branch | Purpose |
 | --- | --- |
 | `main` | Production frontend website |
-| `backend` | Backend/API functions for blog, auth, leads, and admin tools |
-| `deploy` | Full-stack safe-keeping and integration reference |
+| `backend` | Backend/API functions |
+| `deploy` | Full-stack reference and safe-keeping branch |
 
-Short-lived branches should use:
+## When to Use This Branch
 
-```text
-feature/*
-fix/*
-content/*
-backend/*
-hotfix/*
-chore/*
-experiment/*
-```
+Use `deploy` when you need to:
 
-## Local Development
+- Compare frontend/backend integration
+- Preserve or recover full-stack setup
+- Test a full-stack Netlify build intentionally
+
+Do not use it for normal frontend page edits or backend-only fixes.
+
+## Setup
 
 ```sh
 git clone https://github.com/alphatrackdigital/alphatrackdigital.git
 cd alphatrackdigital
+git checkout deploy
 npm install
 npm run dev
 ```
 
-Local URL:
-
-```text
-http://127.0.0.1:8080
-```
-
-## Commands
-
-```sh
-npm run dev          # Start local dev server
-npm run build        # Production build
-npm run lint         # Run ESLint
-npm run test         # Run unit tests
-npm run test:e2e     # Run Playwright tests
-npm run preview      # Preview production build
-```
-
-## Development Workflow
-
-Do not edit `main` directly.
-
-```sh
-git checkout main
-git pull origin main
-git checkout -b feature/task-name
-```
-
-Before pushing changes:
+## Build
 
 ```sh
 npm run lint
 npm run build
-git status
-git diff
 ```
 
-Then commit and open a pull request into `main`. Review the Netlify deploy preview before merging.
+## Netlify Note
 
-## Netlify
-
-Production frontend project:
-
-```text
-alphatrackdigital
-```
-
-Build command:
-
-```sh
-npm run build
-```
-
-Publish directory:
-
-```text
-dist
-```
-
-## Current Product Direction
-
-Primary CTA:
-
-```text
-Book A Free Strategy Call
-```
-
-The site should feel modern, premium, clean, conversion-focused, and measurement-first.
-
-## High-Risk Files
-
-Edit these only when necessary:
-
-```text
-vite.config.ts
-netlify.toml
-src/App.tsx
-src/main.tsx
-src/entry-server.tsx
-scripts/prerender-homepage.mjs
-netlify/functions/*
-```
-
-## Additional Documentation
-
-- `docs/playwright-ui-targeting.md` — Playwright locator workflow for Codex and UI QA.
+Do not connect the public domain to this branch unless ATD intentionally moves to a single full-stack Netlify deployment.
