@@ -52,6 +52,11 @@
   to = "/.netlify/functions/contacts-admin"
   status = 200
 
+[[redirects]]
+  from = "/api/brevo-subscribe"
+  to = "/.netlify/functions/brevo-subscribe"
+  status = 200
+
 # CORS headers
 [[headers]]
   for = "/api/*"
