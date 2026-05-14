@@ -1,6 +1,7 @@
 import { Outlet } from "react-router-dom";
 import Header from "./Header";
 import Footer from "./Footer";
+import ExitIntentPopup from "@/components/shared/ExitIntentPopup";
 
 const Layout = () => {
   return (
@@ -16,6 +17,7 @@ const Layout = () => {
         <Outlet />
       </main>
       <Footer />
+      <ExitIntentPopup />
     </div>
   );
 };

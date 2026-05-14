@@ -20,10 +20,54 @@ const FeaturedTestimonialSection = ({
   return (
     <section
       data-testid="featured-testimonial-section"
-      className={cn("border-t border-white/10 py-14 md:py-16", className)}
+      className={cn("border-t border-white/10 py-12 md:py-16", className)}
     >
-      <div className="container mx-auto px-4 lg:px-8">
-        <div className="grid gap-4 lg:grid-cols-[248px_minmax(0,1fr)] lg:items-stretch">
+      <div className="container mx-auto px-6 lg:px-8">
+        <motion.div
+          initial={shouldReduceMotion ? false : { opacity: 0, y: 18 }}
+          whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: shouldReduceMotion ? 0 : 0.45 }}
+          className="relative overflow-hidden rounded-2xl border border-white/[0.08] bg-[radial-gradient(circle_at_top_left,rgba(51,204,153,0.06),transparent_28%),radial-gradient(circle_at_bottom_right,rgba(0,175,239,0.05),transparent_26%),linear-gradient(180deg,rgba(255,255,255,0.024)_0%,rgba(255,255,255,0.008)_100%)] p-5 shadow-[0_18px_48px_rgba(0,0,0,0.12)] lg:hidden"
+        >
+          <div
+            className="pointer-events-none absolute inset-0 opacity-[0.04]"
+            style={{
+              backgroundImage:
+                "linear-gradient(rgba(255,255,255,0.12) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.12) 1px, transparent 1px)",
+              backgroundSize: "72px 72px",
+            }}
+          />
+          <div className="relative flex items-center gap-3">
+            <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border border-white/[0.08] bg-[radial-gradient(circle_at_top_left,rgba(0,175,239,0.14),transparent_34%),radial-gradient(circle_at_bottom_right,rgba(51,204,153,0.10),transparent_40%),linear-gradient(180deg,rgba(255,255,255,0.03)_0%,rgba(255,255,255,0.012)_100%)]">
+              <img
+                src="/pearlhouse-ghana-logo.png"
+                alt="Pearl House Ghana"
+                className="h-10 w-10 object-contain"
+                loading="lazy"
+              />
+            </div>
+            <div className="min-w-0">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-primary/86">
+                {eyebrow}
+              </p>
+              <h2 className="mt-1 text-[1.22rem] font-bold leading-tight tracking-tight text-foreground">
+                {title}
+              </h2>
+            </div>
+          </div>
+
+          <blockquote className="relative mt-5 text-[0.88rem] leading-[1.72] text-foreground">
+            {featuredTestimonial.quote}
+          </blockquote>
+
+          <div className="relative mt-5 border-t border-white/10 pt-4">
+            <p className="text-sm font-semibold text-foreground">{featuredTestimonial.name}</p>
+            <p className="mt-1 text-xs text-muted-foreground/88">{featuredTestimonial.title}</p>
+          </div>
+        </motion.div>
+
+        <div className="mx-auto hidden max-w-4xl gap-4 lg:grid lg:grid-cols-[248px_minmax(0,1fr)] lg:items-stretch">
           <motion.div
             initial={shouldReduceMotion ? false : { opacity: 0, y: 18 }}
             whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
@@ -74,11 +118,11 @@ const FeaturedTestimonialSection = ({
           >
             <Quote className="relative mb-5 h-7 w-7 text-primary/35" />
             <blockquote className="relative max-w-[60ch] text-base leading-[1.8] text-foreground md:text-[1.14rem] md:leading-[1.72]">
-              "{featuredTestimonial.quote}"
+              {featuredTestimonial.quote}
             </blockquote>
-            <div className="relative mt-6 flex flex-wrap items-start gap-x-3 gap-y-1 border-t border-white/10 pt-5">
+            <div className="relative mt-6 border-t border-white/10 pt-5">
               <p className="text-sm font-semibold text-foreground">{featuredTestimonial.name}</p>
-              <p className="text-xs text-muted-foreground/88">{featuredTestimonial.title}</p>
+              <p className="mt-0.5 text-xs text-muted-foreground/88">{featuredTestimonial.title}</p>
             </div>
           </motion.div>
         </div>

@@ -1,10 +1,10 @@
 import type { ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowUpRight } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { BOOK_A_FREE_STRATEGY_CALL_CTA } from "@/config/cta";
 import Breadcrumbs from "@/components/shared/Breadcrumbs";
+import HeroEyebrow from "@/components/shared/HeroEyebrow";
 import SectionIntro from "@/components/shared/SectionIntro";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -83,7 +83,7 @@ const ServiceHero = ({
 
   return (
     <section
-      className="relative overflow-hidden pt-10 pb-20 md:pt-14 md:pb-24"
+      className="relative overflow-hidden pb-14 pt-6 md:pb-24 md:pt-14"
       style={{ background: toneBackgrounds.section }}
     >
       <div className="pointer-events-none absolute inset-0">
@@ -104,12 +104,12 @@ const ServiceHero = ({
       <div className="container relative mx-auto px-4 lg:px-8">
         <Breadcrumbs items={breadcrumbs} />
 
-        <div className="mt-8 grid gap-12 lg:grid-cols-2 lg:items-center">
+        <div className="mt-6 grid gap-8 md:mt-8 lg:grid-cols-2 lg:items-center lg:gap-12">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
-            <div className="mb-6 inline-flex items-center gap-2 rounded-md border border-primary/15 bg-primary/[0.07] px-4 py-2 text-xs font-semibold uppercase tracking-widest text-primary">
+            <HeroEyebrow className="mb-4 gap-2 md:mb-6">
               {BadgeIcon && <BadgeIcon className="h-4 w-4" />}
               {badgeLabel}
-            </div>
+            </HeroEyebrow>
 
             <SectionIntro
               title={title}
@@ -117,20 +117,18 @@ const ServiceHero = ({
               width={bodyWidth === "wide" ? "wide" : "default"}
               titleClassName="text-4xl font-extrabold leading-[1.12] md:text-5xl lg:text-6xl"
               descriptionClassName={cn(
-                "mt-6 text-lg leading-relaxed",
+                "mt-4 text-base leading-relaxed md:mt-6 md:text-lg",
                 bodyWidth === "wide" ? "max-w-2xl" : "max-w-xl",
               )}
             />
 
-            <div className="mt-10 flex flex-wrap items-center gap-4">
+            <div className="mt-8 flex flex-wrap items-center gap-4 md:mt-10">
               <Button
                 asChild
                 size="lg"
-                className="gap-2 rounded-xl bg-primary px-9 font-semibold text-primary-foreground hover:bg-primary/90"
+                className="rounded-xl bg-primary px-9 font-semibold text-primary-foreground hover:bg-primary/90"
               >
-                <Link to={primaryCta.to}>
-                  {primaryCta.label} <ArrowUpRight className="h-4 w-4" />
-                </Link>
+                <Link to={primaryCta.to}>{primaryCta.label}</Link>
               </Button>
 
               {secondaryCta?.style === "outline" && (
@@ -138,11 +136,9 @@ const ServiceHero = ({
                   asChild
                   variant="outline"
                   size="lg"
-                  className="gap-2 rounded-xl border-white/20 hover:bg-white/5"
+                  className="rounded-xl border-white/20 hover:bg-white/5"
                 >
-                  <Link to={secondaryCta.to}>
-                    {secondaryCta.label} <ArrowUpRight className="h-4 w-4" />
-                  </Link>
+                  <Link to={secondaryCta.to}>{secondaryCta.label}</Link>
                 </Button>
               )}
 

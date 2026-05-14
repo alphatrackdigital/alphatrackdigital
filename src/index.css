@@ -102,6 +102,8 @@
       hsl(var(--atd-cyan)) 52%,
       hsl(var(--atd-green)) 100%
     );
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
   }
 
   .text-gradient-atd-hero {
@@ -113,46 +115,65 @@
       hsl(var(--atd-cyan)) 64%,
       hsl(var(--atd-green)) 100%
     );
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
   }
 
   .title-safe {
     padding-bottom: 0.1em;
     overflow: visible;
+    overflow-wrap: break-word;
   }
 
   .title-safe-inline {
-    display: inline-block;
+    display: inline;
     padding-bottom: 0.08em;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
   }
 
   .grain-overlay {
     position: relative;
   }
   .grain-overlay::before {
-    content: '';
+    content: none;
     position: absolute;
     inset: 0;
-    opacity: 0.03;
+    opacity: 0;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
     pointer-events: none;
     z-index: 1;
   }
 
   .accordion-content {
-    overflow: hidden;
-    max-height: 0;
+    display: grid;
+    grid-template-rows: 0fr;
     opacity: 0;
+    overflow: hidden;
+    visibility: hidden;
     transition:
-      max-height 0.16s cubic-bezier(0.16, 1, 0.3, 1),
-      opacity 0.1s ease-out;
+      grid-template-rows 0.42s cubic-bezier(0.16, 1, 0.3, 1),
+      opacity 0.24s ease-out,
+      visibility 0s linear 0.42s;
   }
 
   .accordion-content[data-state="open"] {
-    max-height: 24rem;
+    grid-template-rows: 1fr;
     opacity: 1;
+    visibility: visible;
+    transition:
+      grid-template-rows 0.42s cubic-bezier(0.16, 1, 0.3, 1),
+      opacity 0.22s ease-out;
+  }
+
+  .accordion-content[data-state="closed"] {
+    grid-template-rows: 0fr;
+    opacity: 0;
+    visibility: hidden;
   }
 
   .accordion-content-inner {
+    min-height: 0;
     overflow: hidden;
   }
 }
@@ -181,6 +202,26 @@
 
   .border-white\/\[0\.06\] {
     border-color: rgb(255 255 255 / 0.04) !important;
+  }
+}
+
+@media (max-width: 640px) {
+  #contact-form :is(input, select, textarea, button),
+  #tracking-audit-form :is(input, textarea, button, [role="combobox"]) {
+    scroll-margin-bottom: 7rem;
+  }
+
+  .brevo-conversations:not(.brevo-conversations--expanded) {
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 14px) !important;
+    right: 14px !important;
+    height: 52px !important;
+    width: 52px !important;
+  }
+
+  .chat-widget-form-focus .brevo-conversations:not(.brevo-conversations--expanded) {
+    opacity: 0 !important;
+    pointer-events: none !important;
+    transform: translateY(calc(100% + 1rem)) !important;
   }
 }
 

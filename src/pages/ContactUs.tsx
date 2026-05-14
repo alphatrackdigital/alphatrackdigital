@@ -8,6 +8,7 @@ import { z } from "zod";
 import { toast } from "sonner";
 
 import PageSection from "@/components/shared/PageSection";
+import HeroEyebrow from "@/components/shared/HeroEyebrow";
 import SEO from "@/components/shared/SEO";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -22,9 +23,7 @@ const contactSchema = z.object({
   serviceInterest: z.string().min(1, "Please select a service"),
   monthlyBudget: z.string().optional(),
   message: z.string().trim().max(2000).optional().or(z.literal("")),
-  optIn: z.boolean().refine((val) => val === true, {
-    message: "Please confirm we can contact you about this enquiry",
-  }),
+  marketingOptIn: z.boolean().optional().default(false),
 });
 
 type ContactFormData = z.infer<typeof contactSchema>;
@@ -146,6 +145,7 @@ const ContactUs = () => {
     formState: { errors },
   } = useForm<ContactFormData>({
     resolver: zodResolver(contactSchema),
+    defaultValues: { marketingOptIn: false },
   });
 
   const onSubmit = async (data: ContactFormData) => {
@@ -169,7 +169,7 @@ const ContactUs = () => {
         firstName: data.firstName,
         lastName: data.lastName,
         email: data.email,
-        optIn: data.optIn,
+        optIn: data.marketingOptIn === true,
         serviceInterest: [data.serviceInterest],
         monthlyBudget: data.monthlyBudget || "",
         message: data.message || "",
@@ -215,9 +215,7 @@ const ContactUs = () => {
               className="pointer-events-none absolute right-6 top-28 h-24 w-24 rounded-full bg-atd-blue/10 blur-[72px] lg:left-24 lg:right-auto lg:top-40 lg:h-28 lg:w-28"
             />
             <div className="space-y-6 sm:space-y-7 md:space-y-8">
-              <span className="inline-flex w-fit items-center self-center rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.22em] text-primary/90 lg:self-start">
-                Contact Us
-              </span>
+              <HeroEyebrow className="self-center lg:self-start">Contact Us</HeroEyebrow>
 
               <h1 className="mx-auto max-w-[20rem] text-[2.35rem] font-bold leading-[0.96] tracking-tight sm:max-w-[26rem] sm:text-[3rem] md:max-w-[31rem] md:text-[3.55rem] lg:mx-0 lg:max-w-[34rem] lg:text-[2.65rem] xl:text-[2.95rem]">
                 <span className="block text-foreground">Talk to a Team That</span>
@@ -411,29 +409,26 @@ const ContactUs = () => {
                 )}
               </div>
 
-              {/* Consent */}
+              <div className="rounded-[18px] border border-white/10 bg-white/[0.03] px-4 py-3 text-[13px] leading-6 text-muted-foreground">
+                By submitting this form, you agree that we can review your enquiry and reply
+                directly about it. Marketing updates remain optional.
+              </div>
+
               <div>
                 <div className="flex items-start gap-3">
                   <input
                     type="checkbox"
-                    id="opt-in"
+                    id="marketing-opt-in"
                     className="mt-0.5 h-4 w-4 shrink-0 rounded border border-white/20 bg-white/5 accent-primary"
-                    aria-invalid={!!errors.optIn}
-                    aria-describedby={errors.optIn ? "opt-in-error" : undefined}
-                    {...register("optIn")}
+                    {...register("marketingOptIn")}
                   />
                   <label
-                    htmlFor="opt-in"
+                    htmlFor="marketing-opt-in"
                     className="cursor-pointer text-[13.5px] leading-6 text-muted-foreground sm:text-sm"
                   >
-                    I agree to be contacted about my enquiry.
+                    Yes, you can also send me occasional insights and service updates by email.
                   </label>
                 </div>
-                {errors.optIn && (
-                  <p id="opt-in-error" className="mt-1 text-xs text-red-500">
-                    {errors.optIn.message}
-                  </p>
-                )}
               </div>
 
               <Button

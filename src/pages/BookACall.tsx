@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import {
-  ArrowUpRight,
   Clock,
   Handshake,
   Lightbulb,
@@ -9,6 +8,7 @@ import {
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import Breadcrumbs from "@/components/shared/Breadcrumbs";
+import HeroEyebrow from "@/components/shared/HeroEyebrow";
 import SEO from "@/components/shared/SEO";
 import { Button } from "@/components/ui/button";
 import { companyProfile, featuredTestimonial } from "@/data/companyProfile";
@@ -86,7 +86,7 @@ const BookACall = () => {
         </script>
       </Helmet>
 
-      <section className="relative overflow-hidden border-b border-white/[0.05] pt-8 pb-16 md:pt-10 md:pb-28">
+      <section className="relative overflow-hidden border-b border-white/[0.05] pt-8 pb-10 md:pt-10 md:pb-20">
         <div aria-hidden="true" className="pointer-events-none absolute inset-0">
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_78%_54%_at_50%_-6%,rgba(0,51,153,0.12)_0%,rgba(0,175,239,0.05)_42%,transparent_72%)]" />
           <div className="absolute left-1/2 top-0 h-64 w-64 -translate-x-1/2 rounded-full bg-primary/6 blur-[130px]" />
@@ -105,9 +105,7 @@ const BookACall = () => {
             <div className="mt-12 grid gap-4 md:mt-20 md:grid-cols-[minmax(0,34rem)_minmax(0,420px)] md:justify-center md:items-stretch lg:grid-cols-[minmax(0,36rem)_minmax(0,460px)] lg:gap-6">
               <div className="flex h-full w-full flex-col">
                 <div>
-                  <div className="inline-flex items-center gap-2 rounded-md border border-primary/15 bg-primary/[0.07] px-3 py-1.5 text-[11px] font-semibold uppercase tracking-widest text-primary md:px-4 md:py-2 md:text-xs">
-                    Free Strategy Call
-                  </div>
+                  <HeroEyebrow className="mb-5">Free Strategy Call</HeroEyebrow>
 
                   <h1 className="title-safe mt-6 pb-2 text-[2.55rem] font-extrabold leading-[1.04] tracking-[-0.045em] md:mt-8 md:pb-3 md:whitespace-nowrap md:text-[3.35rem] lg:text-[3.6rem]">
                     Book a <span className="title-safe-inline text-gradient">Strategy</span> Call
@@ -184,8 +182,8 @@ const BookACall = () => {
                         width="100%"
                         src={schedulerUrl}
                         title="Book a Strategy Call"
-                        className="block h-[560px] w-full bg-white min-[380px]:h-[620px] sm:h-[880px]"
-                        style={{ border: "none" }}
+                        className="block w-full bg-white"
+                        style={{ border: "none", height: "calc(100svh - 60px)", minHeight: "860px", maxHeight: "980px" }}
                         scrolling="no"
                         onLoad={() => setIframeLoadCount((count) => count + 1)}
                       />
@@ -201,21 +199,17 @@ const BookACall = () => {
                     <div className="flex flex-wrap gap-3">
                       <Button
                         asChild
-                        className="gap-1.5 rounded-xl bg-primary text-primary-foreground hover:bg-primary/90"
+                        className="rounded-xl bg-primary text-primary-foreground hover:bg-primary/90"
                       >
-                        <a href={schedulerUrl} target="_blank" rel="noopener noreferrer">
-                          Open scheduler
-                          <ArrowUpRight className="h-4 w-4" />
-                        </a>
+                        <a href={schedulerUrl} target="_blank" rel="noopener noreferrer">Open scheduler</a>
                       </Button>
                       <Button
                         asChild
                         variant="outline"
-                        className="gap-1.5 rounded-xl border-white/20 hover:bg-white/5"
+                        className="rounded-xl border-white/20 hover:bg-white/5"
                       >
                         <a href={`mailto:${companyProfile.contact.email}?subject=Strategy%20Call%20Request`}>
                           Email us instead
-                          <ArrowUpRight className="h-4 w-4" />
                         </a>
                       </Button>
                     </div>
@@ -228,7 +222,7 @@ const BookACall = () => {
       </section>
 
       <section className="border-t border-white/[0.05] py-10 md:py-20">
-        <div className="container mx-auto px-4 lg:px-8">
+        <div className="container mx-auto px-6 md:px-4 lg:px-8">
           <div className="mx-auto max-w-4xl rounded-[24px] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.045)_0%,rgba(255,255,255,0.015)_100%)] px-5 py-6 shadow-[0_20px_60px_rgba(0,0,0,0.18)] md:rounded-[30px] md:px-8 md:py-10">
             <div className="flex items-start justify-between gap-4">
               <div>

@@ -1,3 +1,4 @@
 {
-  "playwright.pickLocatorCopyToClipboard": true
+  "playwright.pickLocatorCopyToClipboard": true,
+  "claudeCode.allowDangerouslySkipPermissions": true
 }

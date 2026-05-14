@@ -1,4 +1,5 @@
 import type { FAQItem } from "@/components/shared/FAQAccordion";
+import type { ExpertiseHeroContent } from "@/components/shared/ExpertiseHero";
 
 export interface HeroSnapshotItem {
   label: string;
@@ -11,9 +12,48 @@ export interface ExpertiseServiceFocus {
   path: string;
 }
 
+export interface ExpertiseAudienceFit {
+  label: string;
+  description: string;
+}
+
+export interface ExpertiseProblemCard {
+  title: string;
+  description: string;
+}
+
+export interface ExpertiseApproachStep {
+  label: string;
+  title: string;
+  description: string;
+}
+
+export interface ExpertiseDeliverable {
+  title: string;
+  description: string;
+  servicePath?: string;
+}
+
+export interface ExpertiseTool {
+  name: string;
+  icon: string;
+}
+
+export interface ExpertiseDiagramStep {
+  label: string;
+  detail: string;
+}
+
+export interface ExpertisePositioning {
+  eyebrow: string;
+  summary: string;
+  note: string;
+}
+
 export interface ExpertisePage {
   slug: string;
   name: string;
+  expertiseHero?: ExpertiseHeroContent;
   heroTitle: string;
   heroDescription: string;
   heroSnapshot: HeroSnapshotItem[];
@@ -21,6 +61,18 @@ export interface ExpertisePage {
   serviceFocus: ExpertiseServiceFocus[];
   outcomes: string[];
   idealFor: string[];
+  positioning?: ExpertisePositioning;
+  audienceFit?: ExpertiseAudienceFit[];
+  problemCards?: ExpertiseProblemCard[];
+  approachSteps?: ExpertiseApproachStep[];
+  deliverables?: ExpertiseDeliverable[];
+  toolStack?: ExpertiseTool[];
+  diagram?: {
+    title: string;
+    description: string;
+    steps: ExpertiseDiagramStep[];
+  };
+  proofNotes?: string[];
   faqs: FAQItem[];
 }
 
@@ -28,84 +80,259 @@ export const expertisePages: ExpertisePage[] = [
   {
     slug: "saas",
     name: "SaaS",
-    heroTitle: "SaaS marketing that turns interest into qualified pipeline.",
+    expertiseHero: {
+      eyebrow: "SaaS Growth Expertise",
+      title: "Turn your data into a predictable pipeline",
+      highlightedText: "predictable",
+      description:
+        "Most SaaS teams are spending on ads without knowing what converts, which channels create pipeline, or where revenue leaks after signup. We fix the measurement layer first, then scale what works.",
+      primaryCtaLabel: "Book A Free Strategy Call",
+      primaryCtaTo: "/book-a-call",
+      secondaryCtaLabel: "See how we work",
+      secondaryCtaTo: "/expertise/saas#how-we-work",
+      visual: "saas-pipeline",
+      background: "saas",
+      dashboard: {
+        title: "AlphaTrack Analytics - SaaS Dashboard",
+        statusLabel: "Live",
+        metrics: [
+          { label: "MRR", value: "$48.2K", delta: "+23% vs last month", accent: "green" },
+          { label: "CAC", value: "$184", delta: "-18% this quarter", accent: "green" },
+          { label: "Churn Rate", value: "2.1%", delta: "down from 4.6%", accent: "green" },
+          { label: "LTV:CAC", value: "4.8x", delta: "Target: 3x+", accent: "cyan" },
+        ],
+        chart: {
+          title: "MRR Growth (6 months)",
+          valueLabel: "$48.2K",
+          labels: ["Jul", "Aug", "Sep", "Oct", "Nov", "Dec", "Jan"],
+        },
+        channels: {
+          title: "Top Channels",
+          rows: [
+            { label: "Google Ads", value: "4.2%" },
+            { label: "LinkedIn Ads", value: "3.7%" },
+            { label: "Organic Search", value: "2.9%" },
+            { label: "Email nurture", value: "1.8%", muted: true },
+            { label: "Direct", value: "1.2%", muted: true },
+          ],
+        },
+        conversion: {
+          title: "Trial -> Paid Conversion",
+          rows: [
+            { label: "Trials started", value: "1,240", width: 100, accent: "blue" },
+            { label: "Activated", value: "868 (70%)", width: 70, accent: "cyan" },
+            { label: "Converted to paid", value: "372 (30%)", width: 30, accent: "green" },
+          ],
+        },
+        performance: {
+          title: "Paid Media Performance",
+          spend: "$12,400",
+          roas: "3.9x",
+          note: "Efficiency trend",
+        },
+      },
+    },
+    heroTitle: "SaaS marketing that turns interest into paying customers.",
     heroDescription:
-      "We help SaaS teams improve tracking, paid acquisition, landing journeys, and lead follow-up so growth is easier to measure and scale.",
+      "We help SaaS businesses track where their leads come from, run ads that attract the right buyers, and build follow-up systems that move prospects from first visit to closed deal.",
+    positioning: {
+      eyebrow: "SaaS Growth Systems",
+      summary:
+        "ATD helps SaaS teams connect the parts of growth that usually get treated separately: tracking, paid acquisition, CRM visibility, and lead follow-up.",
+      note:
+        "The aim is not more activity. It is a cleaner system for seeing what creates qualified demand and what needs to happen next.",
+    },
     heroSnapshot: [
       {
         label: "Pipeline Clarity",
-        value: "Connect signups, demos, and trials to the campaigns that generated them — no more guessing what's driving pipeline.",
+        value: "See exactly which campaigns bring in signups, demo requests, and paying customers. No more guessing what is working.",
       },
       {
         label: "Paid Acquisition",
-        value: "Search, social, and retargeting built to bring in qualified demand, not just traffic volume.",
+        value: "Search, social, and retargeting campaigns built to attract serious buyers, not just clicks and traffic.",
       },
       {
         label: "Lead Follow-Up",
-        value: "Lifecycle emails and CRM automations that keep prospects warm from first click to closed deal.",
+        value: "Automated emails and CRM workflows that keep prospects warm from first visit to closed deal.",
+      },
+    ],
+    audienceFit: [
+      {
+        label: "Paid acquisition is active",
+        description: "You are already spending on Google, LinkedIn, Meta, or retargeting and need clearer insight into lead quality.",
+      },
+      {
+        label: "Attribution is unclear",
+        description: "Your team can see traffic and signups, but struggles to connect them to demos, opportunities, or closed deals.",
+      },
+      {
+        label: "Follow-up is inconsistent",
+        description: "Leads enter the funnel but handoff, nurture, or sales reminders depend too much on manual effort.",
+      },
+      {
+        label: "Scaling needs better data",
+        description: "You want to increase budget or expand channels, but need to trust the measurement layer first.",
       },
     ],
     challenges: [
-      "It is hard to see which channels are driving demos, trials, and pipeline.",
-      "Paid campaigns bring traffic, but not enough qualified leads.",
-      "Good leads drop off between the first click, the form, and sales follow-up.",
+      "You can see traffic and signups, but not which campaigns are bringing in people who actually convert.",
+      "Paid ads bring visitors, but most of them are not the right fit and conversion rates stay low.",
+      "Interested prospects go cold between the first click and a conversation with your sales team.",
+    ],
+    problemCards: [
+      {
+        title: "Campaigns create activity, not qualified pipeline",
+        description:
+          "Ad platforms may report conversions, but those conversions do not always become serious trials, demos, or opportunities. Without lead-quality feedback, budget decisions stay shallow.",
+      },
+      {
+        title: "Tracking stops before revenue visibility",
+        description:
+          "Many SaaS teams measure visits and signups, then lose the thread once leads enter the product or CRM. That makes it hard to know which channel is producing real commercial progress.",
+      },
+      {
+        title: "Follow-up slows down after the first conversion",
+        description:
+          "A signup, form fill, or demo request is only the start. If reminders, nurture, and sales handoff are inconsistent, warm prospects lose momentum before a buying conversation happens.",
+      },
     ],
     serviceFocus: [
       {
-        title: "Tracking that connects signups to revenue",
+        title: "Tracking that connects signups to sales",
         description:
-          "Clear tracking across signups, demos, trials, and CRM stages so the team can see what is really driving growth.",
+          "Clear tracking across signups, demo requests, and CRM stages so your team can see which marketing activity is actually driving growth.",
         path: "/service/conversion-tracking",
       },
       {
-        title: "Paid acquisition built for qualified demand",
+        title: "Paid ads built to bring in the right buyers",
         description:
-          "Search, social, and retargeting campaigns focused on bringing in the right traffic instead of vanity volume.",
+          "Search, social, and retargeting campaigns focused on attracting people who are a real fit for your product, not just ad clicks.",
         path: "/service/paid-media",
       },
       {
-        title: "Follow-up that keeps pipeline moving",
+        title: "Follow-up that keeps leads moving",
         description:
-          "Lifecycle emails, CRM automations, and nurture flows that keep leads engaged after the first touch.",
+          "Lifecycle emails, CRM automations, and nurture flows that keep leads engaged from the first touch until they are ready to buy.",
         path: "/service/marketing-automation",
       },
     ],
+    approachSteps: [
+      {
+        label: "Capture",
+        title: "Track the right product and lead events",
+        description:
+          "We map the SaaS funnel around visits, signups, demo requests, trial actions, CRM stages, and conversion events before changing campaigns.",
+      },
+      {
+        label: "Target",
+        title: "Structure acquisition around buyer intent",
+        description:
+          "Campaigns are organised by search intent, audience quality, funnel stage, and retargeting purpose so spend is easier to evaluate.",
+      },
+      {
+        label: "Measure",
+        title: "Connect ads, analytics, and CRM reporting",
+        description:
+          "GA4, ad platforms, and CRM data are brought into a clearer reporting view so the team can see where useful demand is coming from.",
+      },
+      {
+        label: "Automate",
+        title: "Keep leads moving after the first touch",
+        description:
+          "Lifecycle email, lead routing, reminders, and CRM workflows help prospects get the right follow-up without relying on manual checks.",
+      },
+    ],
+    deliverables: [
+      {
+        title: "Conversion tracking and attribution setup",
+        description:
+          "GA4, GTM, campaign parameters, CRM events, and key conversion actions configured around the way your SaaS funnel actually works.",
+        servicePath: "/service/conversion-tracking",
+      },
+      {
+        title: "Paid media campaign structure",
+        description:
+          "Google, LinkedIn, Meta, and retargeting campaigns organised around intent, audience fit, message stage, and reporting clarity.",
+        servicePath: "/service/paid-media",
+      },
+      {
+        title: "CRM and lifecycle follow-up workflows",
+        description:
+          "Email sequences, lead alerts, handoff rules, nurture steps, and re-engagement flows for trials, demos, and sales-led journeys.",
+        servicePath: "/service/marketing-automation",
+      },
+      {
+        title: "Reporting dashboard and decision view",
+        description:
+          "A practical dashboard that helps founders, marketers, and sales teams compare channel performance against the pipeline actions that matter.",
+      },
+    ],
+    toolStack: [
+      { name: "Google Analytics 4", icon: "google-analytics.svg" },
+      { name: "Google Tag Manager", icon: "google-tag-manager.svg" },
+      { name: "Google Ads", icon: "google-ads.svg" },
+      { name: "LinkedIn Ads", icon: "linkedin-ads.svg" },
+      { name: "Meta Ads", icon: "meta-ads.svg" },
+      { name: "HubSpot", icon: "hubspot.svg" },
+      { name: "Brevo", icon: "brevo.svg" },
+      { name: "Looker Studio", icon: "looker-studio.svg" },
+      { name: "Zapier", icon: "zapier.svg" },
+      { name: "Make", icon: "make.svg" },
+    ],
+    diagram: {
+      title: "A cleaner SaaS growth loop",
+      description:
+        "The page and campaigns are only useful when they connect to what happens after the conversion. This is the operating view we build toward.",
+      steps: [
+        { label: "Traffic", detail: "Search, social, retargeting, referrals" },
+        { label: "Signup or demo", detail: "Forms, trials, bookings, key product actions" },
+        { label: "CRM visibility", detail: "Source, fit, stage, owner, next action" },
+        { label: "Nurture", detail: "Email, reminders, retargeting, sales handoff" },
+        { label: "Revenue signal", detail: "Qualified pipeline, closed deals, expansion insight" },
+      ],
+    },
     outcomes: [
-      "Clearer demo and trial attribution",
-      "Better lead quality from paid campaigns",
-      "Stronger follow-up between marketing and sales",
+      "Know which campaigns bring in your best leads",
+      "Attract real buyers from paid ads, not just browsers",
+      "Leads get a timely, consistent follow-up every time",
+    ],
+    proofNotes: [
+      "Clearer lead-source reporting across signups, demos, and CRM stages.",
+      "Better acquisition decisions because campaigns can be judged by lead quality, not just volume.",
+      "Faster follow-up through automated routing, reminders, and nurture.",
+      "More confident scaling conversations because the measurement layer is easier to trust.",
     ],
     idealFor: [
-      "You're running paid media but can't trace which campaigns drive demos or trials",
-      "Your MQL-to-SQL conversion is weak and follow-up is inconsistent",
-      "You want to scale paid spend but need cleaner data before increasing budget",
-      "Your team is growing and needs a measurement foundation before the next round",
+      "You are running ads but cannot tell which campaigns lead to signups, demos, or paying customers",
+      "You get leads but conversion is low and your sales team's follow-up is inconsistent",
+      "You want to increase your ad budget but need to trust your data first",
+      "Your team is growing and you need solid tracking in place before you scale",
     ],
     faqs: [
       {
         question: "How quickly can you get tracking in place for a SaaS product?",
         answer:
-          "For most SaaS setups we can complete a full GA4 and GTM implementation with CRM event tracking within two to three weeks. More complex multi-product environments take longer, but we start with a clear measurement plan so you know exactly what gets built and when.",
+          "Most SaaS tracking rebuilds take two to three weeks once access and event requirements are clear. More complex products with multiple tools, domains, or CRM stages can take longer, but we start with a clear tracking map before implementation.",
       },
       {
         question: "Do you work with early-stage SaaS teams or only established products?",
         answer:
-          "Both. Early-stage teams benefit most from getting tracking right from the start — it prevents the painful retroactive cleanup many fast-growing companies face. Established products often come to us to fix attribution gaps or rebuild paid acquisition efficiency after plateau periods.",
+          "Both. Early-stage teams often need clean tracking before spend increases. Established products usually come to us when reporting gaps, weak paid performance, or inconsistent lead follow-up are making growth harder to manage.",
       },
       {
-        question: "Can you help with both product-led and sales-led growth models?",
+        question: "Can you help if our growth model is product-led, sales-led, or somewhere in between?",
         answer:
-          "Yes. For PLG, we focus on product event tracking, trial conversion flows, and lifecycle automation. For sales-led, the emphasis is on CRM integration, lead scoring, and handoff automation between marketing and sales. Many SaaS teams operate in a hybrid model and we support that too.",
+          "Yes. For product-led teams, we focus more on product events, trial actions, and lifecycle automation. For sales-led teams, we focus more on CRM stages, lead scoring, and handoff. Many SaaS teams sit between the two, so the setup is shaped around your actual funnel.",
       },
       {
-        question: "What paid channels do you run for SaaS companies?",
+        question: "What paid channels do you use for SaaS companies?",
         answer:
-          "Primarily Google Search for high-intent demand capture, LinkedIn for enterprise and B2B SaaS audience targeting, and Meta or retargeting for nurturing prospects already in your funnel. Channel mix depends on your ICP, ACV, and where your buyers actually research solutions.",
+          "Usually Google Search for high-intent demand, LinkedIn for specific B2B audiences, and Meta or retargeting for nurturing people already in the funnel. The right mix depends on your buyer, price point, market, and sales cycle.",
       },
       {
-        question: "How do you handle attribution across long SaaS sales cycles?",
+        question: "How do you handle attribution when the sales cycle takes weeks or months?",
         answer:
-          "We set up multi-touch attribution using GA4 and your CRM so you can see the full journey from first ad click to closed deal, even when the cycle spans weeks or months. We also build reporting dashboards that give both marketing and sales a shared view of pipeline by source.",
+          "We connect campaign, analytics, and CRM data so the team can see the journey from first touch to later pipeline stages. For longer cycles, we focus on useful visibility rather than pretending every deal can be reduced to a single click.",
       },
     ],
   },
@@ -169,7 +396,7 @@ export const expertisePages: ExpertisePage[] = [
       {
         question: "Do you work with schools, universities, or private training providers?",
         answer:
-          "All three. Our tracking and campaign work applies across K-12 schools, higher education institutions, vocational training providers, and ed-tech platforms. The fundamentals — clear attribution, efficient paid acquisition, and consistent follow-up — are the same across these contexts.",
+          "All three. Our tracking and campaign work applies across K-12 schools, higher education institutions, vocational training providers, and ed-tech platforms. The fundamentals, clear attribution, efficient paid acquisition, and consistent follow-up, are the same across these contexts.",
       },
       {
         question: "How do you handle the seasonal nature of education marketing?",
@@ -202,7 +429,7 @@ export const expertisePages: ExpertisePage[] = [
     heroSnapshot: [
       {
         label: "Purchase Attribution",
-        value: "See exactly which channels and campaigns are driving revenue — not just clicks and sessions.",
+        value: "See exactly which channels and campaigns are driving revenue, not just clicks and sessions.",
       },
       {
         label: "Paid Performance",
@@ -263,7 +490,7 @@ export const expertisePages: ExpertisePage[] = [
       {
         question: "How do you approach abandoned cart and post-purchase automation?",
         answer:
-          "We build multi-step email sequences triggered by cart abandonment, browse behaviour, and purchase events. Abandoned cart flows typically run three emails over 24-72 hours. Post-purchase flows focus on onboarding, cross-sell timing, and review requests — the touchpoints that most brands skip but that significantly affect repeat purchase rates.",
+          "We build multi-step email sequences triggered by cart abandonment, browse behaviour, and purchase events. Abandoned cart flows typically run three emails over 24-72 hours. Post-purchase flows focus on onboarding, cross-sell timing, and review requests, the touchpoints that most brands skip but that significantly affect repeat purchase rates.",
       },
       {
         question: "Do you manage paid media on an ongoing retainer or project basis?",
@@ -337,12 +564,12 @@ export const expertisePages: ExpertisePage[] = [
       {
         question: "How do you measure FMCG campaign effectiveness when most purchases happen in-store?",
         answer:
-          "We focus on the digital signals that correlate with demand — website visits to stockist pages, retailer click-throughs, coupon or sample redemption rates, and social engagement quality. Where direct e-commerce tracking is possible, we implement it. For purely in-store products, we help build measurement frameworks that give you the best available proxies for commercial impact.",
+          "We focus on the digital signals that correlate with demand, website visits to stockist pages, retailer click-throughs, coupon or sample redemption rates, and social engagement quality. Where direct e-commerce tracking is possible, we implement it. For purely in-store products, we help build measurement frameworks that give you the best available proxies for commercial impact.",
       },
       {
         question: "Can you help coordinate media across a product launch?",
         answer:
-          "Yes. We structure launch campaigns across awareness, consideration, and conversion phases — typically covering social video, display, search, and influencer-adjacent targeting — with a shared reporting setup so you can see performance across the full launch window in one place.",
+          "Yes. We structure launch campaigns across awareness, consideration, and conversion phases, typically covering social video, display, search, and influencer-adjacent targeting, with a shared reporting setup so you can see performance across the full launch window in one place.",
       },
       {
         question: "Do you help with D2C ecommerce for FMCG brands?",
@@ -352,7 +579,7 @@ export const expertisePages: ExpertisePage[] = [
       {
         question: "How do you help FMCG brands build first-party data?",
         answer:
-          "We design lead capture mechanisms appropriate to FMCG — competition mechanics, product registration, sample request forms, and newsletter sign-ups tied to recipe content or lifestyle campaigns. These are paired with email automation sequences that maintain engagement and create a direct channel to consumers outside of paid media.",
+          "We design lead capture mechanisms appropriate to FMCG, competition mechanics, product registration, sample request forms, and newsletter sign-ups tied to recipe content or lifestyle campaigns. These are paired with email automation sequences that maintain engagement and create a direct channel to consumers outside of paid media.",
       },
       {
         question: "What's a realistic timeline for seeing clearer campaign reporting?",
@@ -370,7 +597,7 @@ export const expertisePages: ExpertisePage[] = [
     heroSnapshot: [
       {
         label: "Booking Visibility",
-        value: "Track which campaigns drive actual bookings and visits — not just page views and form submissions.",
+        value: "Track which campaigns drive actual bookings and visits, not just page views and form submissions.",
       },
       {
         label: "Event & Seasonal Campaigns",
@@ -426,12 +653,12 @@ export const expertisePages: ExpertisePage[] = [
       {
         question: "What channels work best for hospitality and entertainment brands?",
         answer:
-          "Meta and Instagram tend to work well for visually-driven venues — restaurants, hotels, and experience brands. Google Search captures high-intent bookings. YouTube and programmatic display suit awareness pushes for events or seasonal campaigns. The right mix depends on your venue type, booking lead time, and whether you're targeting local or destination audiences.",
+          "Meta and Instagram tend to work well for visually-driven venues, restaurants, hotels, and experience brands. Google Search captures high-intent bookings. YouTube and programmatic display suit awareness pushes for events or seasonal campaigns. The right mix depends on your venue type, booking lead time, and whether you're targeting local or destination audiences.",
       },
       {
         question: "Can you help with both B2C guest marketing and B2B corporate bookings?",
         answer:
-          "Yes. Many hospitality brands serve both audiences. We structure campaigns and CRM automation separately for each — typically LinkedIn and email sequences for corporate and events clients, and social plus search for leisure guests. Measurement and reporting are kept separate so you can evaluate each segment independently.",
+          "Yes. Many hospitality brands serve both audiences. We structure campaigns and CRM automation separately for each, typically LinkedIn and email sequences for corporate and events clients, and social plus search for leisure guests. Measurement and reporting are kept separate so you can evaluate each segment independently.",
       },
       {
         question: "How do you re-engage past guests?",
@@ -454,7 +681,7 @@ export const expertisePages: ExpertisePage[] = [
     heroSnapshot: [
       {
         label: "Lead Source Clarity",
-        value: "Know which portals, campaigns, and channels are generating your best-quality enquiries — not just the most volume.",
+        value: "Know which portals, campaigns, and channels are generating your best-quality enquiries, not just the most volume.",
       },
       {
         label: "Paid Lead Generation",
@@ -515,17 +742,165 @@ export const expertisePages: ExpertisePage[] = [
       {
         question: "We use Rightmove and Zoopla. Can you add value beyond portal listings?",
         answer:
-          "Yes. Portal listings generate passive demand. We build complementary paid campaigns that target buyers or tenants earlier in their research process — before they're comparison shopping on portals — giving your listings a better chance of converting when prospects do arrive. We also help build re-marketing audiences from portal traffic where technically possible.",
+          "Yes. Portal listings generate passive demand. We build complementary paid campaigns that target buyers or tenants earlier in their research process, before they're comparison shopping on portals, giving your listings a better chance of converting when prospects do arrive. We also help build re-marketing audiences from portal traffic where technically possible.",
       },
       {
         question: "How quickly can you help us set up follow-up automation?",
         answer:
-          "A basic automated follow-up sequence — instant confirmation email, 24-hour follow-up, and a 7-day re-engagement touch — can typically be live within one to two weeks. More complex workflows involving agent routing, lead scoring, and multi-stage nurture campaigns take three to four weeks, depending on CRM complexity.",
+          "A basic automated follow-up sequence, instant confirmation email, 24-hour follow-up, and a 7-day re-engagement touch, can typically be live within one to two weeks. More complex workflows involving agent routing, lead scoring, and multi-stage nurture campaigns take three to four weeks, depending on CRM complexity.",
       },
       {
         question: "Do you work with residential, commercial, or both?",
         answer:
-          "Both. The tracking and automation principles are the same. Commercial real estate campaigns typically involve longer sales cycles and smaller audience sizes, which changes how we structure paid media — LinkedIn becomes more relevant, and lead nurture sequences run over longer periods. We adjust the approach to fit the asset type and buyer profile.",
+          "Both. The tracking and automation principles are the same. Commercial real estate campaigns typically involve longer sales cycles and smaller audience sizes, which changes how we structure paid media, LinkedIn becomes more relevant, and lead nurture sequences run over longer periods. We adjust the approach to fit the asset type and buyer profile.",
+      },
+    ],
+  },
+  {
+    slug: "fashion",
+    name: "Fashion",
+    heroTitle: "Fashion marketing that connects launch demand to measurable growth.",
+    heroDescription:
+      "We help fashion and apparel brands improve campaign tracking, paid media performance, and retention journeys so launches and always-on growth are easier to measure.",
+    heroSnapshot: [
+      {
+        label: "Launch Visibility",
+        value: "Track which channels, creators, ads, and landing pages drive product interest, sales, and repeat demand.",
+      },
+      {
+        label: "Paid Demand",
+        value: "Campaigns across search, social, and retargeting built around seasonal drops, collections, and best sellers.",
+      },
+      {
+        label: "Retention Journeys",
+        value: "Email and automation flows that bring shoppers back after first purchase, cart abandon, or product interest.",
+      },
+    ],
+    challenges: [
+      "Launches create attention, but it is unclear which activity drives sales.",
+      "Paid media can scale quickly but wasted spend is hard to spot without clean tracking.",
+      "Customer retention often depends on manual campaigns instead of structured journeys.",
+    ],
+    serviceFocus: [
+      {
+        title: "Tracking that connects launches to sales",
+        description:
+          "Measurement across campaigns, product pages, carts, and purchase events so teams can see what is driving demand.",
+        path: "/service/conversion-tracking",
+      },
+      {
+        title: "Paid campaigns for seasonal and always-on growth",
+        description:
+          "Search, social, and retargeting campaigns built around collections, launches, and high-intent shopping behavior.",
+        path: "/service/paid-media",
+      },
+      {
+        title: "Retention flows that increase repeat purchase",
+        description:
+          "Email and automation journeys for cart recovery, product interest, post-purchase, and win-back campaigns.",
+        path: "/service/marketing-automation",
+      },
+    ],
+    outcomes: [
+      "Clearer launch and collection reporting",
+      "Better visibility into paid media performance",
+      "Stronger repeat purchase and retention journeys",
+    ],
+    idealFor: [
+      "You are launching collections but cannot clearly see which channels drive sales",
+      "You want to scale paid media without losing track of profitability",
+      "Your email and retention flows need to work harder after first purchase",
+      "You need cleaner reporting across ecommerce, ads, and CRM activity",
+    ],
+    faqs: [
+      {
+        question: "Do you work with ecommerce fashion brands?",
+        answer:
+          "Yes. We support fashion brands selling through ecommerce stores, marketplaces, or hybrid retail models. The work usually starts with clearer tracking across product views, carts, purchases, and campaign sources.",
+      },
+      {
+        question: "Can you support product launches and seasonal drops?",
+        answer:
+          "Yes. We plan campaign tracking, paid media, retargeting, and email journeys around the launch window so the team can see what created demand and what converted.",
+      },
+      {
+        question: "Do you help with retention and repeat purchases?",
+        answer:
+          "Yes. We build email and automation flows for cart abandonment, post-purchase education, replenishment, cross-sell, and win-back campaigns.",
+      },
+    ],
+  },
+  {
+    slug: "gaming",
+    name: "Gaming",
+    heroTitle: "Gaming marketing that turns attention into trackable community growth.",
+    heroDescription:
+      "We help gaming, esports, and interactive entertainment teams improve campaign tracking, paid acquisition, and community funnels around launches, events, and ongoing growth.",
+    heroSnapshot: [
+      {
+        label: "Launch Tracking",
+        value: "Connect ads, creators, landing pages, wishlists, signups, and community actions to the campaigns that generated them.",
+      },
+      {
+        label: "Audience Growth",
+        value: "Paid and organic campaign systems built to grow players, viewers, signups, and engaged communities.",
+      },
+      {
+        label: "Community Funnels",
+        value: "Follow-up journeys that move interested audiences from first touch into Discord, email, waitlists, or event participation.",
+      },
+    ],
+    challenges: [
+      "Campaign buzz is visible, but it is hard to connect attention to signups or player actions.",
+      "Launches and events need fast measurement across many channels.",
+      "Community growth often lacks structured follow-up after the first interaction.",
+    ],
+    serviceFocus: [
+      {
+        title: "Tracking for launches, signups, and community actions",
+        description:
+          "Measurement across campaign clicks, landing pages, waitlists, Discord joins, email signups, and event actions.",
+        path: "/service/conversion-tracking",
+      },
+      {
+        title: "Paid acquisition for high-intent audiences",
+        description:
+          "Paid campaigns structured around audience segments, launch moments, retargeting, and measurable player or community growth.",
+        path: "/service/paid-media",
+      },
+      {
+        title: "Automation that keeps audiences engaged",
+        description:
+          "Email and CRM journeys that support launch updates, event reminders, community onboarding, and re-engagement.",
+        path: "/service/marketing-automation",
+      },
+    ],
+    outcomes: [
+      "Clearer launch and campaign attribution",
+      "Better audience growth reporting",
+      "Stronger follow-up into community and retention channels",
+    ],
+    idealFor: [
+      "You are promoting a launch, event, title, or community and need clearer reporting",
+      "You want to connect paid media to signups, wishlists, or community actions",
+      "Your audience growth depends on multiple platforms and needs a cleaner funnel",
+      "You need practical tracking before scaling campaign spend",
+    ],
+    faqs: [
+      {
+        question: "Do you work with gaming and esports teams?",
+        answer:
+          "Yes. We support teams that need clearer tracking and campaign systems around game launches, esports events, communities, and interactive entertainment campaigns.",
+      },
+      {
+        question: "Can you track community growth actions?",
+        answer:
+          "Yes. Depending on the platform, we can track landing page actions, waitlists, email signups, Discord entry points, event registrations, and retargeting audiences.",
+      },
+      {
+        question: "What channels work for gaming campaigns?",
+        answer:
+          "The right mix depends on the audience and objective, but campaigns often combine paid social, search, creator landing pages, retargeting, email, and community channels.",
       },
     ],
   },

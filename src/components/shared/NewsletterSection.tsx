@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Mail, ArrowRight, CheckCircle2, Loader2 } from "lucide-react";
+import { Mail, CheckCircle2, Loader2 } from "lucide-react";
 import { motion } from "framer-motion";
 import { submitLead } from "@/lib/leads";
 
@@ -9,7 +9,9 @@ interface NewsletterSectionProps {
 
 const NewsletterSection = ({ className }: NewsletterSectionProps) => {
   const [email, setEmail] = useState("");
+  const [optIn, setOptIn] = useState(false);
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [pendingConfirmation, setPendingConfirmation] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -19,16 +21,21 @@ const NewsletterSection = ({ className }: NewsletterSectionProps) => {
       setErrorMsg("Please enter a valid email address.");
       return;
     }
+    if (!optIn) {
+      setErrorMsg("Please confirm you want to receive newsletter emails.");
+      return;
+    }
     setErrorMsg("");
     setStatus("loading");
     try {
-      await submitLead({
+      const result = await submitLead({
         source: "newsletter",
         firstName: "",
         lastName: "",
         email: trimmed,
-        optIn: true,
+        optIn,
       });
+      setPendingConfirmation(result.pendingConfirmation === true);
       setStatus("success");
     } catch {
       setStatus("error");
@@ -44,29 +51,33 @@ const NewsletterSection = ({ className }: NewsletterSectionProps) => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.4 }}
-          className="relative overflow-hidden rounded-[24px] border border-primary/15 bg-[radial-gradient(circle_at_top_left,rgba(51,204,153,0.07),transparent_34%),linear-gradient(180deg,rgba(255,255,255,0.025)_0%,rgba(255,255,255,0.01)_100%)] px-6 py-8 shadow-[0_14px_40px_rgba(0,0,0,0.12)] md:px-10 md:py-10"
+          className="relative overflow-hidden rounded-[22px] border border-primary/15 bg-[radial-gradient(circle_at_top_left,rgba(51,204,153,0.07),transparent_34%),linear-gradient(180deg,rgba(255,255,255,0.025)_0%,rgba(255,255,255,0.01)_100%)] px-5 py-5 shadow-[0_14px_40px_rgba(0,0,0,0.12)] sm:px-6 md:rounded-[24px] md:px-10 md:py-10"
         >
           <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
 
           {status === "success" ? (
             <div className="flex flex-col items-center gap-3 py-2 text-center">
               <CheckCircle2 className="h-8 w-8 text-primary" />
-              <p className="text-lg font-semibold">You're subscribed!</p>
+              <p className="text-lg font-semibold">
+                {pendingConfirmation ? "Check your email to confirm." : "You're subscribed!"}
+              </p>
               <p className="text-sm text-muted-foreground">
-                Expect actionable insights in your inbox every fortnight. No fluff.
+                {pendingConfirmation
+                  ? "Open the confirmation email we just sent, then confirm your subscription."
+                  : "Expect actionable insights in your inbox every fortnight. No fluff."}
               </p>
             </div>
           ) : (
-            <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
-              <div className="flex items-start gap-4">
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary/10">
+            <div className="flex min-w-0 flex-col gap-4 md:flex-row md:items-center md:justify-between md:gap-6">
+              <div className="flex min-w-0 items-start gap-4">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 md:h-11 md:w-11">
                   <Mail className="h-5 w-5 text-primary" />
                 </div>
-                <div>
-                  <p className="text-base font-semibold leading-snug">
+                <div className="min-w-0">
+                  <p className="text-[15px] font-semibold leading-snug md:text-base">
                     Get insights straight to your inbox
                   </p>
-                  <p className="mt-1 max-w-sm text-sm text-muted-foreground">
+                  <p className="mt-1 max-w-sm text-[13px] leading-5 text-muted-foreground md:text-sm md:leading-6">
                     Actionable strategies on tracking, paid media, and automation. Fortnightly. No fluff.
                   </p>
                 </div>
@@ -75,9 +86,9 @@ const NewsletterSection = ({ className }: NewsletterSectionProps) => {
               <form
                 onSubmit={handleSubmit}
                 noValidate
-                className="flex w-full flex-col gap-2 md:max-w-sm"
+                className="flex w-full min-w-0 flex-col gap-2.5 md:max-w-[26rem]"
               >
-                <div className="flex gap-2">
+                <div className="flex min-w-0 flex-col gap-2 lg:flex-row lg:gap-2.5">
                   <input
                     type="email"
                     value={email}
@@ -88,19 +99,17 @@ const NewsletterSection = ({ className }: NewsletterSectionProps) => {
                     placeholder="your@email.com"
                     required
                     aria-label="Email address"
-                    className="h-10 flex-1 rounded-lg border border-white/10 bg-white/[0.05] px-3 text-sm text-foreground placeholder:text-muted-foreground/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
+                    className="block h-11 w-full min-w-0 flex-none appearance-none rounded-xl border border-white/[0.12] bg-background/70 px-4 py-2.5 text-[15px] leading-6 text-foreground shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] placeholder:text-muted-foreground/60 focus:border-primary/45 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/35 md:h-12 md:py-3 lg:flex-1"
                   />
                   <button
                     type="submit"
                     disabled={status === "loading"}
-                    className="inline-flex h-10 shrink-0 items-center gap-1.5 rounded-lg bg-primary px-4 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90 disabled:opacity-60"
+                    className="inline-flex h-11 w-full shrink-0 items-center justify-center rounded-xl bg-primary px-5 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90 disabled:opacity-60 md:h-12 lg:w-auto"
                   >
                     {status === "loading" ? (
                       <Loader2 className="h-4 w-4 animate-spin" />
                     ) : (
-                      <>
-                        Subscribe <ArrowRight className="h-3.5 w-3.5" />
-                      </>
+                      "Subscribe"
                     )}
                   </button>
                 </div>
@@ -109,9 +118,18 @@ const NewsletterSection = ({ className }: NewsletterSectionProps) => {
                     {errorMsg || "Something went wrong. Please try again."}
                   </p>
                 )}
-                <p className="text-[11px] text-muted-foreground/60">
-                  No spam. Unsubscribe any time.
-                </p>
+                <label className="flex items-start gap-2 pl-1 text-left text-[11px] text-muted-foreground/70 lg:pl-3 lg:text-xs">
+                  <input
+                    type="checkbox"
+                    checked={optIn}
+                    onChange={(e) => {
+                      setOptIn(e.target.checked);
+                      if (errorMsg) setErrorMsg("");
+                    }}
+                    className="mt-0.5 h-4 w-4 shrink-0 rounded border border-white/20 bg-background/70 accent-primary"
+                  />
+                  <span>I agree to receive AlphaTrack Digital emails.</span>
+                </label>
               </form>
             </div>
           )}

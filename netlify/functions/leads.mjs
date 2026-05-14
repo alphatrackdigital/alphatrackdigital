@@ -42,6 +42,9 @@ const isValidLeadPayload = (payload) => {
 
   if (data.source === "contact_form") {
     if (!Array.isArray(data.serviceInterest) || data.serviceInterest.length === 0) return false;
+  }
+
+  if (data.source === "newsletter") {
     if (data.optIn !== true) return false;
   }
 
@@ -82,20 +85,15 @@ const isRateLimited = (key) => {
 };
 
 const buildMessageAttribute = (data) => {
-  const baseMessage = data.message?.trim() || "";
-
-  if (data.source !== "contact_form") {
-    return baseMessage;
-  }
-
-  const consentNote = `Contact consent confirmed on ${new Date().toISOString()}`;
-  return baseMessage ? `${baseMessage}\n\n${consentNote}` : consentNote;
+  return data.message?.trim() || "";
 };
 
 const withConsentAttributes = (attributes, data) => {
-  if (data.source !== "contact_form") {
+  if (data.optIn !== true) {
     return attributes;
   }
+
+  attributes.OPT_IN = true;
 
   const consentAttribute = getEnv("BREVO_CONSENT_ATTRIBUTE")?.trim();
   const consentTimestampAttribute = getEnv("BREVO_CONSENT_TIMESTAMP_ATTRIBUTE")?.trim();
@@ -131,6 +129,16 @@ const toBrevoPayload = (data, listId) => ({
   }, data),
   listIds: [listId],
   updateEnabled: true,
+});
+
+const toBrevoDoiPayload = (data, listId, templateId, redirectUrl) => ({
+  email: data.email,
+  includeListIds: [listId],
+  templateId,
+  redirectionUrl: redirectUrl,
+  attributes: withConsentAttributes({
+    SOURCE: "Newsletter",
+  }, data),
 });
 
 export default async (request) => {
@@ -177,6 +185,8 @@ export default async (request) => {
   const contactListId = Number(getEnv("BREVO_CONTACT_LIST_ID") || "2");
   const auditListId = Number(getEnv("BREVO_AUDIT_LIST_ID") || "3");
   const newsletterListId = Number(getEnv("BREVO_NEWSLETTER_LIST_ID") || "4");
+  const newsletterDoiTemplateId = Number(getEnv("BREVO_DOI_TEMPLATE_ID") || "0");
+  const newsletterDoiRedirectUrl = getEnv("BREVO_DOI_REDIRECT_URL")?.trim() || "";
 
   if (!brevoApiKey) {
     return json({ ok: false, message: "Lead service is not configured." }, { status: 500 });
@@ -190,14 +200,29 @@ export default async (request) => {
         : auditListId;
 
   try {
-    const brevoResponse = await fetch("https://api.brevo.com/v3/contacts", {
+    const isNewsletterDoiEnabled =
+      payload.source === "newsletter" &&
+      Number.isInteger(newsletterDoiTemplateId) &&
+      newsletterDoiTemplateId > 0 &&
+      newsletterDoiRedirectUrl.length > 0;
+
+    const brevoResponse = await fetch(
+      isNewsletterDoiEnabled
+        ? "https://api.brevo.com/v3/contacts/doubleOptinConfirmation"
+        : "https://api.brevo.com/v3/contacts",
+      {
       method: "POST",
       headers: {
         "content-type": "application/json",
         "api-key": brevoApiKey,
       },
-      body: JSON.stringify(toBrevoPayload(payload, listId)),
-    });
+        body: JSON.stringify(
+          isNewsletterDoiEnabled
+            ? toBrevoDoiPayload(payload, listId, newsletterDoiTemplateId, newsletterDoiRedirectUrl)
+            : toBrevoPayload(payload, listId),
+        ),
+      },
+    );
 
     if (!brevoResponse.ok) {
       const errorText = await brevoResponse.text();
@@ -210,7 +235,7 @@ export default async (request) => {
       );
     }
 
-    return json({ ok: true });
+    return json({ ok: true, pendingConfirmation: isNewsletterDoiEnabled });
   } catch {
     return json({ ok: false, message: "Unable to submit lead right now." }, { status: 500 });
   }

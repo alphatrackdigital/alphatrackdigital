@@ -1,11 +1,161 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import { CheckCircle2, Loader2 } from "lucide-react";
 import { companyProfile } from "@/data/companyProfile";
+import { submitLead } from "@/lib/leads";
+
+const FooterTopDivider = () => (
+  <div aria-hidden="true" className="pointer-events-none relative h-px overflow-hidden">
+    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+    <div className="absolute left-1/2 top-0 h-px w-[min(46rem,82vw)] -translate-x-1/2 bg-gradient-to-r from-transparent via-primary/55 to-transparent" />
+    <div className="absolute left-1/2 top-0 h-12 w-[min(42rem,78vw)] -translate-x-1/2 -translate-y-1/2 bg-primary/[0.08] blur-2xl" />
+  </div>
+);
+
+const FooterNewsletter = () => {
+  const [email, setEmail] = useState("");
+  const [optIn, setOptIn] = useState(false);
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [pendingConfirmation, setPendingConfirmation] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
+  const emailErrorId = "footer-newsletter-email-error";
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const trimmed = email.trim();
+    if (!trimmed || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed)) {
+      setErrorMsg("Please enter a valid email address.");
+      return;
+    }
+    if (!optIn) {
+      setErrorMsg("Please confirm you'd like to receive emails before subscribing.");
+      return;
+    }
+    setErrorMsg("");
+    setStatus("loading");
+    try {
+      const result = await submitLead({ source: "newsletter", firstName: "", lastName: "", email: trimmed, optIn });
+      setPendingConfirmation(result.pendingConfirmation === true);
+      setStatus("success");
+    } catch {
+      setStatus("error");
+      setErrorMsg("Something went wrong. Please try again.");
+    }
+  };
+
+  return (
+    <div className="relative mb-12">
+      <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+
+      <div className="py-10">
+        {status === "success" ? (
+          <div
+            className="mx-auto flex max-w-[28rem] items-center justify-center gap-3 py-1 text-left"
+            role="status"
+            aria-live="polite"
+          >
+            <CheckCircle2 className="h-5 w-5 shrink-0 text-primary" />
+            <div>
+              <p className="text-sm font-semibold text-foreground">
+                {pendingConfirmation ? "Check your inbox to confirm." : "You're subscribed!"}
+              </p>
+              <p className="text-[13px] text-muted-foreground">
+                {pendingConfirmation
+                  ? "Click the link we sent you to complete your subscription."
+                  : "Actionable insights every fortnight. No noise, no fluff."}
+              </p>
+            </div>
+          </div>
+        ) : (
+          <div className="mx-auto flex max-w-5xl items-center justify-center gap-10 xl:gap-14">
+
+            {/* Heading block */}
+            <div className="max-w-[28rem] shrink-0 text-left">
+              <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.22em] text-primary/70">
+                Free Newsletter
+              </p>
+              <p className="text-[1.28rem] font-bold leading-snug tracking-tight text-foreground">
+                Practical insights for performance marketers.
+              </p>
+              <p className="mt-2 max-w-[25rem] text-[13px] leading-relaxed text-muted-foreground/85">
+                Tracking, paid media, and automation. Every two weeks.
+              </p>
+            </div>
+
+            {/* Form block */}
+            <form
+              onSubmit={handleSubmit}
+              noValidate
+              className="flex w-full max-w-[28rem] flex-col gap-3 text-left"
+            >
+              <div
+                className={`flex min-h-14 items-center rounded-full border bg-white/[0.06] p-1.5 transition-shadow duration-200 focus-within:shadow-[0_0_0_3px_rgba(51,204,153,0.14)] ${
+                  errorMsg ? "border-destructive/50" : "border-white/[0.12] focus-within:border-primary/35"
+                }`}
+              >
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => { setEmail(e.target.value); if (errorMsg) setErrorMsg(""); }}
+                  placeholder="Enter your email address"
+                  required
+                  aria-label="Email address"
+                  aria-invalid={Boolean(errorMsg)}
+                  aria-describedby={errorMsg ? emailErrorId : undefined}
+                  className="h-11 min-w-0 flex-1 bg-transparent px-5 text-[14px] text-foreground placeholder:text-muted-foreground/65 focus-visible:outline-none"
+                />
+                <button
+                  type="submit"
+                  disabled={status === "loading"}
+                  className="inline-flex h-11 shrink-0 items-center justify-center rounded-full bg-primary px-6 text-[13px] font-semibold text-primary-foreground shadow-[0_0_18px_rgba(51,204,153,0.22)] transition hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[#070a10] disabled:opacity-60"
+                >
+                  {status === "loading" ? (
+                    <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                  ) : (
+                    "Subscribe"
+                  )}
+                </button>
+              </div>
+
+              {(errorMsg || status === "error") && (
+                <p id={emailErrorId} className="px-1 text-[11px] text-destructive" role="alert">
+                  {errorMsg || "Something went wrong. Please try again."}
+                </p>
+              )}
+
+              <label className="mx-auto flex w-full cursor-pointer items-start justify-center gap-2.5 px-1 text-center">
+                <input
+                  type="checkbox"
+                  checked={optIn}
+                  onChange={(e) => { setOptIn(e.target.checked); if (errorMsg) setErrorMsg(""); }}
+                  aria-required="true"
+                  className="mt-[3px] h-3.5 w-3.5 shrink-0 rounded-sm border border-white/20 bg-white/[0.06] accent-primary"
+                />
+                <span className="text-[11px] leading-relaxed text-muted-foreground/70">
+                  I agree to receive emails from AlphaTrack Digital.{" "}
+                  <Link to="/privacy-policy" className="underline underline-offset-2 transition-colors hover:text-muted-foreground">
+                    Privacy Policy
+                  </Link>
+                  .
+                </span>
+              </label>
+            </form>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
 
 const Footer = () => {
   return (
-    <footer className="border-t border-white/10 bg-[#070a10]">
-      <div className="container mx-auto px-4 py-8 md:py-16 lg:px-8">
-        <div className="grid grid-cols-2 gap-x-6 gap-y-6 md:grid-cols-2 md:gap-12 lg:grid-cols-4">
+    <footer className="relative bg-[#070a10]">
+      <FooterTopDivider />
+      <div className="container mx-auto px-4 pb-10 pt-10 md:pb-16 md:pt-8 lg:px-8">
+        <div className="hidden lg:block">
+          <FooterNewsletter />
+        </div>
+        <div className="grid grid-cols-2 gap-x-6 gap-y-7 md:grid-cols-2 md:gap-12 lg:grid-cols-4">
           <div className="col-span-2 space-y-2.5 md:col-span-2 lg:col-span-1 lg:space-y-4">
             <Link to="/" aria-label="AlphaTrack Digital Home" className="inline-flex items-center">
               <img
@@ -21,7 +171,7 @@ const Footer = () => {
               Measurement-first digital growth agency. We build the tracking, automation, and paid
               media systems that turn your marketing spend into measurable revenue.
             </p>
-            <div className="mt-2.5 flex gap-2 md:mt-4 md:gap-3">
+            <div className="mt-2 flex gap-2 md:mt-4 md:gap-3">
               <a
                 href="https://web.facebook.com/AlphaTrack.Digital"
                 target="_blank"
@@ -111,7 +261,7 @@ const Footer = () => {
             </nav>
           </div>
 
-          <div className="col-span-2 space-y-2.5 md:col-span-2 md:space-y-4 lg:col-span-1">
+          <div className="col-span-2 mt-1 space-y-2.5 md:col-span-2 md:mt-2 md:space-y-4 lg:col-span-1 lg:mt-0">
             <h3 className="text-sm font-semibold text-foreground">Contact</h3>
             <div className="flex flex-col gap-1.5 text-[13px] text-muted-foreground md:gap-2 md:text-sm">
               <a href={companyProfile.contact.phoneHref} className="transition-colors hover:text-primary">
@@ -127,7 +277,7 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="mt-6 flex flex-col gap-2 border-t border-white/10 pt-4 text-[11px] text-muted-foreground sm:flex-row sm:items-center sm:justify-between sm:text-xs md:mt-12 md:gap-3 md:pt-6">
+        <div className="mt-8 flex flex-col gap-2 border-t border-white/10 pt-5 text-[11px] text-muted-foreground sm:flex-row sm:items-center sm:justify-between sm:text-xs md:mt-12 md:gap-3 md:pt-6">
           <p>Copyright AlphaTrack Digital {new Date().getFullYear()}. All rights reserved.</p>
           <div className="flex items-center gap-3 md:gap-4">
             <Link to="/privacy-policy" className="transition-colors hover:text-foreground">
@@ -144,3 +294,4 @@ const Footer = () => {
 };
 
 export default Footer;
+

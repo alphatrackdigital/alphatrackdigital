@@ -7,7 +7,6 @@ import { motion } from "framer-motion";
 import { z } from "zod";
 import { toast } from "sonner";
 import {
-  ArrowRight,
   BarChart3,
   CheckCircle2,
   Flame,
@@ -26,6 +25,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import HeroEyebrow from "@/components/shared/HeroEyebrow";
 import { BOOK_A_FREE_STRATEGY_CALL_CTA, REQUEST_A_FREE_TRACKING_AUDIT_CTA } from "@/config/cta";
 import { companyProfile } from "@/data/companyProfile";
 import { submitLead } from "@/lib/leads";
@@ -37,6 +37,7 @@ const auditSchema = z.object({
   websiteUrl: z.string().trim().url("Enter a valid URL").max(500),
   monthlyAdSpend: z.string().min(1, "Select your spend level"),
   adPlatforms: z.array(z.string()).min(1, "Select at least one platform"),
+  marketingOptIn: z.boolean().optional().default(false),
 });
 
 type AuditFormData = z.infer<typeof auditSchema>;
@@ -258,7 +259,7 @@ const TrackingLandingPage = () => {
     formState: { errors },
   } = useForm<AuditFormData>({
     resolver: zodResolver(auditSchema),
-    defaultValues: { monthlyAdSpend: "", adPlatforms: [] },
+    defaultValues: { monthlyAdSpend: "", adPlatforms: [], marketingOptIn: false },
   });
 
   const handleFirstInteraction = () => {
@@ -292,6 +293,7 @@ const TrackingLandingPage = () => {
         websiteUrl: data.websiteUrl,
         monthlyAdSpend: data.monthlyAdSpend,
         adPlatforms: data.adPlatforms.join(", "),
+        optIn: data.marketingOptIn === true,
       });
       setSubmittedEmail(data.email);
       setIsSubmitted(true);
@@ -340,7 +342,6 @@ const TrackingLandingPage = () => {
               >
                 <a href="#claim">
                   {REQUEST_A_FREE_TRACKING_AUDIT_CTA.label}
-                  <ArrowRight className="ml-2 h-4 w-4" />
                 </a>
               </Button>
             </div>
@@ -359,7 +360,7 @@ const TrackingLandingPage = () => {
       </section>
 
       <section className="border-t border-white/[0.06] bg-white/[0.01] py-16 md:py-20">
-        <div className="container mx-auto px-4 lg:px-8">
+        <div className="container mx-auto px-6 md:px-4 lg:px-8">
           <h2 className="mb-10 text-center text-sm font-semibold text-muted-foreground">
             If any of these sound familiar, the tracking needs attention
           </h2>
@@ -420,7 +421,7 @@ const TrackingLandingPage = () => {
       </section>
 
       <section className="border-t border-white/[0.06] bg-white/[0.01] py-12 md:py-16">
-        <div className="container mx-auto px-4 lg:px-8">
+        <div className="container mx-auto px-6 md:px-4 lg:px-8">
           <div className="mx-auto max-w-3xl text-center">
             <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
               How we keep it useful
@@ -453,7 +454,7 @@ const TrackingLandingPage = () => {
       </section>
 
       <section id="claim" className="border-t border-white/[0.06] py-16 md:py-20">
-        <div className="container mx-auto px-4 lg:px-8">
+        <div className="container mx-auto px-6 md:px-4 lg:px-8">
           <div className="grid gap-6 md:gap-10 lg:grid-cols-[minmax(0,1.16fr)_minmax(420px,500px)] lg:items-start lg:gap-6 xl:gap-10">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -472,9 +473,7 @@ const TrackingLandingPage = () => {
               />
 
               <div className="space-y-6 sm:space-y-7 md:space-y-8">
-                <span className="inline-flex w-fit items-center self-center rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.22em] text-primary/90 lg:self-start">
-                  Request your audit
-                </span>
+                <HeroEyebrow className="self-center lg:self-start">Request your audit</HeroEyebrow>
 
                 <h2 className="mx-auto max-w-[20rem] text-[2.35rem] font-bold leading-[0.96] tracking-tight sm:max-w-[26rem] sm:text-[3rem] md:max-w-[31rem] md:text-[3.55rem] lg:mx-0 lg:max-w-[34rem] lg:text-[2.65rem] xl:text-[2.95rem]">
                   <span className="block text-foreground">Share the setup.</span>
@@ -677,6 +676,21 @@ const TrackingLandingPage = () => {
                       We use these details only to review your request and reply. If we need deeper
                       access before we can verify something, we will say so before making
                       assumptions.
+                    </div>
+
+                    <div className="flex items-start gap-3">
+                      <input
+                        type="checkbox"
+                        id="f-marketing-opt-in"
+                        className="mt-0.5 h-4 w-4 shrink-0 rounded border border-white/20 bg-white/5 accent-primary"
+                        {...register("marketingOptIn")}
+                      />
+                      <label
+                        htmlFor="f-marketing-opt-in"
+                        className="cursor-pointer text-[13.5px] leading-6 text-muted-foreground sm:text-sm"
+                      >
+                        Yes, you can also send me occasional insights and service updates by email.
+                      </label>
                     </div>
 
                     <Button

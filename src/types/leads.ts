@@ -18,4 +18,5 @@ export interface LeadCapturePayload {
 export interface LeadSubmissionResult {
   ok: boolean;
   message?: string;
+  pendingConfirmation?: boolean;
 }

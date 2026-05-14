@@ -36,3 +36,11 @@ playwright-cli-check.png
 
 # Local Netlify folder
 .netlify
+
+devserver-*.out
+devserver-*.err
+.tmp-backend-deploy/
+
+.playwright-mcp/
+devserver.*.err
+devserver.*.out

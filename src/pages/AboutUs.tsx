@@ -1,34 +1,24 @@
 import { useState } from "react";
-import {
-  BriefcaseBusiness,
-  Building2,
-  Check,
-  GraduationCap,
-  Package2,
-  Plane,
-  ShoppingCart,
-  type LucideIcon,
-} from "lucide-react";
-import {
-  motion,
-  useReducedMotion,
-} from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
+import { BadgeCheck, Eye, Filter, Handshake, Lightbulb, Sparkles, Target, TrendingUp } from "lucide-react";
 
 import CTASection from "@/components/shared/CTASection";
-import NewsletterSection from "@/components/shared/NewsletterSection";
+import HeroEyebrow from "@/components/shared/HeroEyebrow";
 import PageSection from "@/components/shared/PageSection";
-import SectionIntro from "@/components/shared/SectionIntro";
 import SEO from "@/components/shared/SEO";
-import {
-  companyProfile,
-  ctmaFramework,
-  engagementModels,
-  primarySectors,
-  whyChoosePoints,
-} from "@/data/companyProfile";
-import { cn } from "@/lib/utils";
+import SectionIntro from "@/components/shared/SectionIntro";
+import { companyProfile, whyChoosePoints } from "@/data/companyProfile";
 
-// ─── Animation variants ────────────────────────────────────────────────────
+const founderStory = {
+  lead:
+    "AlphaTrack Digital was built on a simple standard: marketing should be measurable before it is scaled, and every growth decision should be easier to explain.",
+  support:
+    "That belief shapes how we work with clients: we clean up the signal, clarify what is working, and build campaigns and automation around decisions the team can trust.",
+  approach:
+    "Clean tracking first. Clear reporting next. Smarter growth decisions after that.",
+};
+
+// ─── Page ──────────────────────────────────────────────────────────────────
 
 const fadeUp = {
   hidden: { opacity: 0, y: 22 },
@@ -39,95 +29,63 @@ const fadeUp = {
   }),
 };
 
-type SectorName = (typeof primarySectors)[number];
-
-const sectorVisuals: Record<
-  SectorName,
+const focusAreas = [
   {
-    icon: LucideIcon;
-    accentClassName: string;
-  }
-> = {
-  "Ecommerce & Retail": {
-    icon: ShoppingCart,
-    accentClassName: "bg-secondary/14 text-secondary",
+    title: "Conversion Tracking",
+    eyebrow: "Track",
+    description: "Set up cleaner attribution so campaign and funnel decisions are based on reliable signal.",
   },
-  FMCG: {
-    icon: Package2,
-    accentClassName: "bg-primary/14 text-primary",
+  {
+    title: "Paid Media",
+    eyebrow: "Acquire",
+    description: "Plan, launch, and improve campaigns around business outcomes, not vanity metrics.",
   },
-  Education: {
-    icon: GraduationCap,
-    accentClassName: "bg-secondary/14 text-secondary",
+  {
+    title: "Marketing Automation",
+    eyebrow: "Nurture",
+    description: "Build follow-up systems that move leads, customers, and retention journeys forward.",
   },
-  SaaS: {
-    icon: BriefcaseBusiness,
-    accentClassName: "bg-primary/14 text-primary",
+] as const;
+
+const heroPath = [
+  { label: "Track", description: "Clean signal" },
+  { label: "Acquire", description: "Qualified demand" },
+  { label: "Nurture", description: "Better follow-up" },
+] as const;
+
+const valueDetails = [
+  {
+    title: "Integrity",
+    icon: BadgeCheck,
+    colorClassName: "border-primary/30 bg-primary/10 text-primary",
   },
-  "Entertainment & Hospitality": {
-    icon: Plane,
-    accentClassName: "bg-secondary/14 text-secondary",
+  {
+    title: "Transparency",
+    icon: Eye,
+    colorClassName: "border-atd-blue/35 bg-atd-blue/10 text-atd-blue",
   },
-  "Real Estate": {
-    icon: Building2,
-    accentClassName: "bg-primary/14 text-primary",
+  {
+    title: "Innovation",
+    icon: Lightbulb,
+    colorClassName: "border-cyan-400/35 bg-cyan-400/10 text-cyan-300",
   },
-};
-
-const sectorSummaries: Record<SectorName, string> = {
-  "Ecommerce & Retail":
-    "Clearer ROAS visibility across campaigns, landing pages, and retention.",
-  FMCG:
-    "Awareness, traffic, and sell-through reporting tied back to one decision view.",
-  Education:
-    "Lead generation built around intent, qualification, and faster follow-up.",
-  SaaS:
-    "Measurement, nurture, and paid acquisition aligned to pipeline quality.",
-  "Entertainment & Hospitality":
-    "Creative campaigns paired with practical reporting for launches and bookings.",
-  "Real Estate":
-    "Lead capture and remarketing systems that keep demand moving through the funnel.",
-};
-
-const mobileCtmaSummaries: Record<string, string> = {
-  "Conversion Tracking": "Attribution before bigger bets.",
-  "Traffic & Paid Media": "Efficient channel execution.",
-  "Marketing Automation": "Follow-up that keeps pace.",
-  "Analytics & Insights": "Reporting leaders can act on.",
-};
-
-const mobileEngagementSummaries: Record<string, string> = {
-  Starter: "Clarity first, before a bigger commitment.",
-  Growth: "Steady, compounding execution for active growth.",
-  Project: "Focused execution for launches and short pushes.",
-};
-
-const founderStory = {
-  lead:
-    "Most agencies start with channels. We start with measurement, because scaling weak data only multiplies waste.",
-  support:
-    "That belief shaped AlphaTrack Digital. We clean the signal first, then build the media and automation that compound.",
-  approach:
-    "Start with clean signal, read the numbers honestly, then build growth on top of that truth.",
-};
-
-// ─── Gradient chapter separator ────────────────────────────────────────────
-
-function ChapterSeparator() {
-  return (
-    <div className="pointer-events-none relative py-3">
-      <div className="mx-auto h-px max-w-[54%] bg-gradient-to-r from-transparent via-primary/22 to-transparent" />
-      <div className="absolute left-1/2 top-1/2 h-2 w-2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-primary/30 bg-background shadow-[0_0_0_6px_rgba(7,10,16,0.9)]" />
-    </div>
-  );
-}
-
-// ─── Page ──────────────────────────────────────────────────────────────────
+  {
+    title: "Excellence",
+    icon: Sparkles,
+    colorClassName: "border-secondary/30 bg-secondary/10 text-secondary",
+  },
+  {
+    title: "Client-Centric Service",
+    icon: Handshake,
+    colorClassName: "border-sky-300/35 bg-sky-300/10 text-sky-200",
+  },
+] as const;
 
 const AboutUs = () => {
   const shouldReduceMotion = useReducedMotion();
   const [heroImgError, setHeroImgError] = useState(false);
   const [imgError, setImgError] = useState(false);
+  const founderDisplayTitle = "Founder & CEO";
 
   return (
     <>
@@ -140,64 +98,93 @@ const AboutUs = () => {
       {/* ─── Hero ──────────────────────────────────────────────────────── */}
       <section
         data-testid="about-hero-section"
-        className="relative overflow-hidden border-b border-white/10 bg-[#111214] py-12 md:py-20 lg:py-24"
+        className="relative overflow-hidden border-b border-white/10 bg-[#05070d] py-10 md:py-20 lg:py-24"
       >
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_16%_20%,rgba(51,204,153,0.11)_0%,transparent_30%),radial-gradient(circle_at_78%_28%,rgba(0,175,239,0.13)_0%,transparent_32%),radial-gradient(circle_at_74%_86%,rgba(0,51,153,0.16)_0%,transparent_34%),linear-gradient(180deg,#05070d_0%,#071016_48%,#05070d_100%)]" />
         <div
-          className="pointer-events-none absolute inset-0 opacity-[0.10]"
+          className="pointer-events-none absolute inset-0 opacity-[0.045]"
           style={{
             backgroundImage:
-              "linear-gradient(rgba(255,255,255,0.32) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.32) 1px, transparent 1px)",
-            backgroundSize: "76px 76px",
+              "linear-gradient(rgba(255,255,255,0.55) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.55) 1px, transparent 1px)",
+            backgroundSize: "84px 84px",
             maskImage:
-              "linear-gradient(180deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.55) 58%, rgba(0,0,0,0.1) 100%)",
+              "radial-gradient(ellipse at 42% 38%, rgba(0,0,0,0.78) 0%, rgba(0,0,0,0.38) 46%, rgba(0,0,0,0) 78%)",
           }}
         />
+        <div className="pointer-events-none absolute inset-0 opacity-[0.055] [background-image:radial-gradient(circle,rgba(0,175,239,0.75)_1px,transparent_1.5px)] [background-size:36px_36px] [mask-image:radial-gradient(ellipse_at_74%_44%,black_0%,transparent_62%)]" />
+        <svg
+          className="pointer-events-none absolute inset-y-0 right-0 hidden h-full w-[58%] opacity-70 lg:block"
+          viewBox="0 0 760 620"
+          fill="none"
+          aria-hidden="true"
+        >
+          <defs>
+            <linearGradient id="aboutHeroSignal" x1="30" x2="730" y1="310" y2="310">
+              <stop stopColor="#00AFEF" stopOpacity="0" />
+              <stop offset="0.48" stopColor="#00AFEF" stopOpacity="0.26" />
+              <stop offset="1" stopColor="#33CC99" stopOpacity="0.18" />
+            </linearGradient>
+          </defs>
+          <path d="M40 180C174 132 276 166 386 246C504 332 616 356 734 288" stroke="url(#aboutHeroSignal)" strokeWidth="1.4" />
+          <path d="M88 440C226 372 322 404 444 334C558 268 640 260 738 318" stroke="url(#aboutHeroSignal)" strokeWidth="1.4" />
+          <path d="M246 98V532M526 74V574M674 132V512" stroke="rgba(255,255,255,0.04)" />
+        </svg>
         <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/12 to-transparent" />
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(51,204,153,0.08)_0%,transparent_32%),radial-gradient(circle_at_bottom_right,rgba(0,175,239,0.08)_0%,transparent_30%)]" />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-[#05070d] to-transparent" />
 
-        <div className="container relative mx-auto px-4 lg:px-8">
-          <div className="mx-auto grid max-w-6xl items-stretch gap-4 md:gap-6 lg:grid-cols-[minmax(0,1.02fr)_minmax(360px,0.88fr)]">
+        <div className="container relative mx-auto px-6 sm:px-6 lg:px-8">
+          <div className="mx-auto grid max-w-6xl items-stretch gap-6 md:gap-6 lg:grid-cols-[minmax(0,1.02fr)_minmax(360px,0.88fr)]">
             <motion.div
               initial={shouldReduceMotion ? false : { opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: shouldReduceMotion ? 0 : 0.45 }}
-              className="relative flex h-full flex-col justify-between overflow-hidden rounded-[28px] border border-white/[0.08] bg-[#121315]/88 p-6 shadow-[0_24px_60px_rgba(0,0,0,0.16)] backdrop-blur-[2px] sm:p-7 md:rounded-[32px] md:p-10 lg:p-12"
+              className="flex h-full flex-col justify-between"
             >
-              <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(51,204,153,0.06)_0%,transparent_28%),radial-gradient(circle_at_78%_18%,rgba(255,255,255,0.08)_0%,transparent_26%),radial-gradient(circle_at_bottom_right,rgba(0,175,239,0.05)_0%,transparent_28%),linear-gradient(180deg,rgba(255,255,255,0.025)_0%,rgba(255,255,255,0.01)_100%)]" />
-              <div className="pointer-events-none absolute inset-y-0 right-[-12%] w-[48%] bg-[radial-gradient(circle,rgba(255,255,255,0.12)_0%,rgba(255,255,255,0.03)_24%,transparent_62%)] opacity-50 blur-3xl" />
-              <div
-                className="pointer-events-none absolute inset-0 opacity-[0.06]"
-                style={{
-                  backgroundImage:
-                    "linear-gradient(rgba(255,255,255,0.14) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.14) 1px, transparent 1px)",
-                  backgroundSize: "88px 88px",
-                }}
-              />
-              <div className="relative">
-                <span className="inline-flex items-center rounded-full border border-white/[0.10] bg-white/[0.03] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-primary/90">
-                  About Us
-                </span>
-                <p className="mt-6 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/32 md:mt-8 md:text-[12px]">
+              <div className="flex h-full flex-col">
+                <HeroEyebrow>About Us</HeroEyebrow>
+                <p className="mt-9 text-[10px] font-semibold uppercase tracking-[0.16em] text-white/36 md:mt-8 md:text-[12px] md:tracking-[0.18em]">
                   We are
                 </p>
-                <h1 className="mt-2 max-w-xl text-[2.65rem] font-bold tracking-[-0.04em] text-foreground sm:text-[3.3rem] lg:text-[4.35rem]">
-                  <span className="block leading-[0.94]">AlphaTrack</span>
-                  <span className="mt-1 block w-fit pb-[0.14em] leading-[0.9] text-gradient">
+                <h1 className="mt-2 max-w-xl whitespace-nowrap text-[2.08rem] font-bold tracking-tight text-foreground sm:text-[3.3rem] lg:text-[4.35rem] lg:tracking-[-0.04em]">
+                  <span className="inline leading-[0.94] sm:block">AlphaTrack</span>
+                  <span className="ml-2 inline w-fit pb-[0.14em] leading-[0.9] text-gradient sm:ml-0 sm:mt-1 sm:block">
                     Digital
                   </span>
                 </h1>
-                <p className="mt-6 max-w-2xl text-[0.98rem] leading-7 text-muted-foreground md:mt-8 md:text-lg md:leading-[1.8]">
-                  We are a measurement-first growth agency helping brands fix the
-                  parts of marketing that create the most confusion: tracking,
-                  paid media, reporting, and follow-through. If the foundation
-                  is unclear, we make it clear before scale happens.
+                <p className="mt-5 max-w-xl text-[0.95rem] leading-7 text-muted-foreground md:mt-8 md:text-lg md:leading-[1.8]">
+                  We are a measurement-first growth agency helping brands improve
+                  tracking, paid media, reporting, and follow-up systems. Our
+                  work gives teams a clearer foundation before they scale.
+                </p>
+                <p className="mt-4 max-w-xl text-[0.95rem] leading-7 text-muted-foreground md:text-base md:leading-7">
+                  We partner with growing teams that need marketing execution to
+                  connect back to clean attribution, faster decisions, and
+                  practical customer journeys.
                 </p>
 
-                <div className="relative mt-6 md:hidden">
-                  <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,175,239,0.08)_0%,transparent_68%)] blur-2xl" />
-                  <div className="relative overflow-hidden rounded-[24px] border border-white/[0.08] bg-[#0f1115] shadow-[0_18px_46px_rgba(0,0,0,0.18)]">
+                <div className="mt-auto hidden border-t border-white/[0.08] pt-5 md:block md:pt-6">
+                  <div className="grid max-w-xl grid-cols-3 gap-2">
+                    {heroPath.map((step, index) => (
+                      <div key={step.label} className="relative min-w-0">
+                        {index < heroPath.length - 1 && (
+                          <div className="absolute right-[-0.25rem] top-3 hidden h-px w-4 bg-white/14 sm:block" />
+                        )}
+                        <p className="text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-primary/82">
+                          {step.label}
+                        </p>
+                        <p className="mt-1 text-sm leading-5 text-foreground/78">
+                          {step.description}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="relative mt-7 md:hidden">
+                  <div className="absolute -inset-3 rounded-[24px] bg-[radial-gradient(circle_at_70%_24%,rgba(0,175,239,0.18),transparent_42%),radial-gradient(circle_at_18%_80%,rgba(51,204,153,0.13),transparent_42%)] blur-xl" />
+                  <div className="relative overflow-hidden rounded-[18px] border border-white/[0.08] bg-[#0f1115] shadow-[0_14px_34px_rgba(0,0,0,0.16)]">
                     {heroImgError ? (
-                      <div className="flex h-[188px] items-center justify-center bg-[radial-gradient(circle_at_top,rgba(0,175,239,0.16)_0%,rgba(17,17,20,0.92)_62%)]">
+                      <div className="flex h-[330px] items-center justify-center bg-[radial-gradient(circle_at_top,rgba(0,175,239,0.12)_0%,rgba(17,17,20,0.92)_62%)]">
                         <span className="text-center text-sm uppercase tracking-[0.22em] text-white/55">
                           Team Visual
                         </span>
@@ -206,7 +193,7 @@ const AboutUs = () => {
                       <img
                         src="/about-hero-team-2026.png"
                         alt="AlphaTrack Digital team reviewing performance dashboards"
-                        className="h-[188px] w-full object-contain object-center"
+                        className="h-[330px] w-full object-cover object-[center_12%]"
                         loading="eager"
                         width={900}
                         height={1122}
@@ -214,225 +201,210 @@ const AboutUs = () => {
                       />
                     )}
                     <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(12,14,18,0.02)_0%,rgba(12,14,18,0.06)_100%)]" />
+                    <div className="pointer-events-none absolute inset-0 ring-1 ring-inset ring-primary/[0.08]" />
                   </div>
                 </div>
               </div>
 
-              <div className="relative mt-6 border-t border-white/[0.08] pt-4 md:mt-10 md:pt-5">
-                <p className="text-[13px] leading-6 text-muted-foreground md:text-sm md:whitespace-nowrap">
-                  {companyProfile.established}
-                </p>
-              </div>
             </motion.div>
 
             <motion.div
               initial={shouldReduceMotion ? false : { opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: shouldReduceMotion ? 0 : 0.5, delay: shouldReduceMotion ? 0 : 0.08 }}
-              className="relative hidden h-full min-h-[280px] overflow-hidden rounded-[28px] border border-white/[0.08] bg-[#0f1115] shadow-[0_24px_60px_rgba(0,0,0,0.18)] sm:min-h-[320px] md:block md:rounded-[32px] lg:min-h-[420px]"
+              className="relative hidden h-full min-h-0 md:block"
             >
-              {heroImgError ? (
-                <div className="flex h-full min-h-[280px] items-center justify-center bg-[radial-gradient(circle_at_top,rgba(0,175,239,0.16)_0%,rgba(17,17,20,0.92)_62%)] sm:min-h-[320px] lg:min-h-[420px]">
-                  <span className="text-center text-sm uppercase tracking-[0.22em] text-white/55">
-                    Team Visual
-                  </span>
-                </div>
-              ) : (
-                <img
-                  src="/about-hero-team-2026.png"
-                  alt="AlphaTrack Digital team reviewing performance dashboards"
-                  className="h-full w-full object-cover object-[center_12%]"
-                  loading="eager"
-                  width={900}
-                  height={1122}
-                  onError={() => setHeroImgError(true)}
-                />
-              )}
-              <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(12,14,18,0.04)_0%,rgba(12,14,18,0.05)_36%,rgba(12,14,18,0.34)_100%)]" />
-              <div className="pointer-events-none absolute inset-0 ring-1 ring-inset ring-white/[0.04]" />
+              <div className="pointer-events-none absolute -inset-5 rounded-[38px] bg-[radial-gradient(circle_at_72%_20%,rgba(0,175,239,0.20),transparent_42%),radial-gradient(circle_at_12%_78%,rgba(51,204,153,0.13),transparent_46%)] blur-2xl" />
+              <div className="relative h-full min-h-0 overflow-hidden rounded-[28px] border border-white/[0.09] bg-[#0f1115] shadow-[0_24px_70px_rgba(0,0,0,0.26)] md:rounded-[32px]">
+                {heroImgError ? (
+                  <div className="flex h-full min-h-[280px] items-center justify-center bg-[radial-gradient(circle_at_top,rgba(0,175,239,0.16)_0%,rgba(17,17,20,0.92)_62%)] sm:min-h-[320px] lg:min-h-[420px]">
+                    <span className="text-center text-sm uppercase tracking-[0.22em] text-white/55">
+                      Team Visual
+                    </span>
+                  </div>
+                ) : (
+                  <img
+                    src="/about-hero-team-2026.png"
+                    alt="AlphaTrack Digital team reviewing performance dashboards"
+                    className="h-full w-full object-cover object-[center_12%]"
+                    loading="eager"
+                    width={900}
+                    height={1122}
+                    onError={() => setHeroImgError(true)}
+                  />
+                )}
+                <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(12,14,18,0.02)_0%,rgba(12,14,18,0.06)_36%,rgba(12,14,18,0.36)_100%)]" />
+                <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_78%_12%,rgba(0,175,239,0.10)_0%,transparent_30%)]" />
+                <div className="pointer-events-none absolute inset-0 ring-1 ring-inset ring-primary/[0.08]" />
+              </div>
             </motion.div>
           </div>
         </div>
       </section>
 
-      {/* ─── Manifesto ─────────────────────────────────────────────────── */}
-      <PageSection mode="content" spacing="compact" border="top" surface="quiet">
-        <div className="relative overflow-hidden rounded-[34px] border border-white/[0.08] bg-[#101214]/88 p-6 shadow-[0_24px_64px_rgba(0,0,0,0.14)] md:p-8 lg:p-10">
-          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(51,204,153,0.05)_0%,transparent_26%),radial-gradient(circle_at_82%_20%,rgba(255,255,255,0.06)_0%,transparent_24%),radial-gradient(circle_at_bottom_right,rgba(0,175,239,0.05)_0%,transparent_26%),linear-gradient(180deg,rgba(255,255,255,0.028)_0%,rgba(255,255,255,0.01)_100%)]" />
-          <div
-            className="pointer-events-none absolute inset-0 opacity-[0.05]"
-            style={{
-              backgroundImage:
-                "linear-gradient(rgba(255,255,255,0.12) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.12) 1px, transparent 1px)",
-              backgroundSize: "96px 96px",
-            }}
-          />
+      {/* ─── Founder ───────────────────────────────────────────────────── */}
+      <PageSection mode="content" border="top" spacing="default" surface="glow" containerClassName="px-6 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-6xl">
+          <motion.div
+            initial={shouldReduceMotion ? false : { opacity: 0, y: 16 }}
+            whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: shouldReduceMotion ? 0 : 0.45 }}
+            className="mx-auto max-w-3xl text-center"
+          >
+            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-primary/85">
+              What We Do
+            </p>
+            <h2 className="mx-auto mt-4 max-w-4xl text-[2rem] font-bold leading-[1.08] tracking-tight text-foreground md:text-[2.8rem]">
+              <span className="block">The growth work that makes</span>
+              <span className="block">scaling easier to trust.</span>
+            </h2>
+            <p className="mx-auto mt-4 max-w-2xl text-sm leading-6 text-muted-foreground md:text-base md:leading-7">
+              ATD connects the core parts of a modern growth system: clean
+              measurement, qualified traffic, and follow-up journeys that keep
+              momentum moving after the first click.
+            </p>
+          </motion.div>
 
-          <div className="relative mx-auto max-w-4xl text-center">
-            <motion.p
-              initial={shouldReduceMotion ? false : { opacity: 0, y: 12 }}
-              whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: shouldReduceMotion ? 0 : 0.45 }}
-              className="text-[11px] font-semibold uppercase tracking-[0.22em] text-primary/85"
-            >
-              Why We Exist
-            </motion.p>
-            <motion.h2
-              initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
-              whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: shouldReduceMotion ? 0 : 0.55, delay: shouldReduceMotion ? 0 : 0.04 }}
-              className="mx-auto mt-5 max-w-4xl text-[1.58rem] leading-[1.22] tracking-[-0.03em] text-foreground sm:text-[1.78rem] md:text-[2.45rem] md:leading-[1.34]"
-            >
-              Too many brands run campaigns without reliable tracking, automate
-              without a clear view of the pipeline, and make budget calls on
-              incomplete data.
-            </motion.h2>
-          </div>
+          <motion.div
+            initial={shouldReduceMotion ? false : { opacity: 0, y: 16 }}
+            whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: shouldReduceMotion ? 0 : 0.45, delay: shouldReduceMotion ? 0 : 0.08 }}
+            className="mx-auto mt-9 grid max-w-5xl gap-3 md:grid-cols-3"
+          >
+            {focusAreas.map((area, index) => (
+              <article
+                key={area.title}
+                className="group relative overflow-hidden rounded-[16px] border border-white/[0.08] bg-[linear-gradient(180deg,rgba(255,255,255,0.035)_0%,rgba(255,255,255,0.014)_100%)] p-4 transition-colors hover:border-primary/25 md:min-h-[170px] md:p-5"
+              >
+                <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/14 to-transparent" />
+                <div className="flex items-center justify-between gap-3">
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-primary/82">
+                    {area.eyebrow}
+                  </p>
+                  <span className="text-xs font-semibold text-white/22">
+                    0{index + 1}
+                  </span>
+                </div>
+                <h3 className="mt-5 text-base font-semibold leading-tight text-foreground md:text-lg">
+                  {area.title}
+                </h3>
+                <p className="mt-3 text-sm leading-6 text-muted-foreground">
+                  {area.description}
+                </p>
+              </article>
+            ))}
+          </motion.div>
         </div>
       </PageSection>
 
-      <PageSection
-        mode="content"
-        spacing="compact"
-        surface="quiet"
-        className="pt-0 md:pt-0"
-        containerClassName="px-4 lg:px-8"
-      >
+      {/* ─── Manifesto + Core Values ───────────────────────────────────── */}
+      <PageSection mode="content" spacing="default" border="top" surface="quiet" containerClassName="px-6 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-4xl text-center">
+          <motion.p
+            initial={shouldReduceMotion ? false : { opacity: 0, y: 12 }}
+            whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: shouldReduceMotion ? 0 : 0.45 }}
+            className="text-[11px] font-semibold uppercase tracking-[0.22em] text-primary/85"
+          >
+            Why We Exist
+          </motion.p>
+          <motion.h2
+            initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
+            whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: shouldReduceMotion ? 0 : 0.55, delay: shouldReduceMotion ? 0 : 0.04 }}
+            className="mx-auto mt-4 max-w-4xl text-[1.65rem] leading-[1.18] tracking-tight text-foreground sm:text-[1.95rem] md:mt-5 md:text-[2.8rem] md:leading-[1.22] md:tracking-[-0.03em]"
+          >
+            We help teams replace unclear campaign data with tracking, reporting,
+            and follow-up systems they can trust.
+          </motion.h2>
+        </div>
+
         <motion.div
-          initial={shouldReduceMotion ? false : { opacity: 0, y: 18 }}
+          initial={shouldReduceMotion ? false : { opacity: 0, y: 16 }}
           whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-50px" }}
-          transition={{ duration: shouldReduceMotion ? 0 : 0.45 }}
-          className="relative overflow-hidden rounded-[34px] border border-white/[0.08] bg-[#0f1216]/92 p-6 shadow-[0_24px_64px_rgba(0,0,0,0.14)] md:p-7 lg:p-8"
+          transition={{ duration: shouldReduceMotion ? 0 : 0.45, delay: shouldReduceMotion ? 0 : 0.1 }}
+          className="mx-auto mt-9 max-w-5xl border-t border-white/[0.08] pt-8 text-center md:mt-12 md:pt-10"
         >
-          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(51,204,153,0.05)_0%,transparent_24%),radial-gradient(circle_at_82%_22%,rgba(255,255,255,0.05)_0%,transparent_22%),linear-gradient(180deg,rgba(255,255,255,0.02)_0%,rgba(255,255,255,0.008)_100%)]" />
-          <div className="pointer-events-none absolute inset-x-12 top-0 h-px bg-gradient-to-r from-transparent via-white/16 to-transparent" />
-
-          <div className="relative grid gap-5 lg:grid-cols-[0.34fr_0.66fr] lg:items-center">
-            <div className="text-center lg:text-left">
-              <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-primary/82">
-                Built On
-              </p>
-              <p className="mx-auto mt-3 max-w-sm text-sm leading-6 text-foreground/88 lg:mx-0 lg:mt-4 lg:text-[1.05rem] lg:leading-8">
-                The standards we bring into every engagement, every recommendation, and every build.
-              </p>
-            </div>
-            <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 lg:flex lg:flex-wrap lg:gap-3">
-              {companyProfile.coreValues.map((value, index) => (
-                <span
-                  key={value}
-                  className={cn(
-                    "relative overflow-hidden rounded-[18px] border border-white/[0.08] bg-[radial-gradient(circle_at_top_left,rgba(51,204,153,0.08)_0%,transparent_34%),linear-gradient(180deg,rgba(255,255,255,0.04)_0%,rgba(255,255,255,0.012)_100%)] px-3.5 py-3 text-center text-[11px] font-semibold tracking-[0.1em] text-foreground/84 shadow-[inset_0_1px_0_rgba(255,255,255,0.03)]",
-                    index === companyProfile.coreValues.length - 1 && "col-span-2 sm:col-span-3 lg:col-span-1",
-                  )}
-                >
-                  <span className="pointer-events-none absolute inset-x-4 top-0 h-px bg-gradient-to-r from-transparent via-primary/45 to-transparent" />
-                  {value}
-                </span>
-              ))}
-            </div>
+          <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-primary/82">
+            Built On
+          </p>
+          <div className="mt-5 flex flex-wrap justify-center gap-3">
+            {valueDetails.map((value) => (
+              <div
+                key={value.title}
+                className="inline-flex min-h-0 items-center gap-3 rounded-full border border-white/[0.08] bg-white/[0.025] px-4 py-3 text-left transition-colors hover:border-primary/25"
+              >
+                <div className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full border ${value.colorClassName}`}>
+                  <value.icon className="h-4 w-4" aria-hidden="true" />
+                </div>
+                <h3 className="text-sm font-semibold leading-tight text-foreground">
+                  {value.title}
+                </h3>
+              </div>
+            ))}
           </div>
         </motion.div>
       </PageSection>
 
-      <ChapterSeparator />
-
-      {/* ─── How We Think ──────────────────────────────────────────────── */}
-      <PageSection mode="content" border="top" spacing="compact">
-        <SectionIntro
-          eyebrow="How We Think"
-          mode="content"
-          title="Three principles we don't compromise on."
-          description="These ideas shape every brief, every build, and every client relationship."
-          maxWidth="lg"
-          className="mb-12"
-          titleClassName="text-[2rem] leading-[1.08] md:text-4xl"
-          descriptionClassName="max-w-2xl text-sm leading-6 md:text-base md:leading-7"
-        />
-
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {whyChoosePoints.map((item, i) => (
-            <motion.div
-              key={item.title}
-              custom={i}
-              initial={shouldReduceMotion ? false : "hidden"}
-              whileInView={shouldReduceMotion ? undefined : "visible"}
-              viewport={{ once: true, margin: "-40px" }}
-              variants={fadeUp}
-              className="glass-card flex flex-col p-6 lg:p-8"
-            >
-              <div className="mb-5 text-[11px] font-semibold uppercase tracking-[0.22em] text-primary/80">
-                0{i + 1}
-              </div>
-              <h3 className="mb-3 text-lg font-semibold leading-snug text-foreground">
-                {item.title}
-              </h3>
-              <p className="text-sm leading-7 text-muted-foreground">{item.description}</p>
-            </motion.div>
-          ))}
-        </div>
-      </PageSection>
-
-      {/* ─── Operating Model ───────────────────────────────────────────── */}
-      <PageSection mode="content" border="top" surface="quiet" spacing="compact">
-        <SectionIntro
-          eyebrow="Operating System"
-          mode="content"
-          title="One connected operating system."
-          description="Tracking, media, automation, and reporting work together as a single commercial system."
-          maxWidth="lg"
-          className="mb-7 md:mb-10"
-          titleClassName="text-[2rem] leading-[1.08] md:text-4xl"
-          descriptionClassName="max-w-2xl text-sm leading-6 md:text-base md:leading-7"
-        />
-
-        <div className="relative overflow-hidden rounded-[28px] border border-white/[0.08] bg-[radial-gradient(circle_at_top_left,rgba(51,204,153,0.05),transparent_24%),radial-gradient(circle_at_82%_14%,rgba(0,175,239,0.05),transparent_22%),linear-gradient(180deg,rgba(255,255,255,0.024)_0%,rgba(255,255,255,0.01)_100%)] p-4 shadow-[0_22px_54px_rgba(0,0,0,0.14)] md:rounded-[32px] md:p-6 lg:p-7">
-          <div
-            className="pointer-events-none absolute inset-0 opacity-[0.05]"
-            style={{
-              backgroundImage:
-                "linear-gradient(rgba(255,255,255,0.12) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.12) 1px, transparent 1px)",
-              backgroundSize: "84px 84px",
-            }}
+      {/* How We Think */}
+      <section className="border-t border-white/10 py-16 md:py-16">
+        <div className="container mx-auto px-6 lg:px-8">
+          <SectionIntro
+            eyebrow="How We Think"
+            mode="content"
+            title="Three principles we don't compromise on."
+            description="These ideas shape every brief, every build, and every client relationship."
+            align="center"
+            maxWidth="lg"
+            className="mb-5 md:mb-7"
+            titleClassName="text-[1.65rem] leading-[1.12] md:text-4xl"
+            descriptionClassName="hidden max-w-2xl text-sm leading-6 sm:block md:text-base md:leading-7"
           />
-          <div className="pointer-events-none absolute inset-x-12 top-0 h-px bg-gradient-to-r from-transparent via-white/16 to-transparent" />
 
-          <div className="relative grid gap-5 lg:grid-cols-[0.66fr_1.34fr] lg:gap-8">
-            <motion.div
-              initial={shouldReduceMotion ? false : { opacity: 0, y: 16 }}
-              whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-40px" }}
-              transition={{ duration: shouldReduceMotion ? 0 : 0.45 }}
-              className="flex h-full flex-col"
+          {/* Desktop diagram */}
+          <div className="relative mx-auto hidden max-w-6xl lg:block" style={{ height: "260px" }}>
+            <svg
+              className="pointer-events-none absolute inset-0 h-full w-full"
+              viewBox="0 0 1100 260"
+              preserveAspectRatio="none"
+              fill="none"
             >
-              <div>
-                <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-primary/82">
-                  System Logic
-                </p>
-                <h3 className="mt-3 max-w-sm text-[1.72rem] font-semibold tracking-tight text-foreground md:mt-4 md:text-[2rem] md:leading-[1.18]">
-                  Every layer hands cleaner signal to the next.
-                </h3>
-              </div>
-              <div className="relative mt-5 flex items-center justify-center lg:mt-6 lg:justify-start">
-                <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,175,239,0.08)_0%,transparent_55%)] blur-3xl" />
-                <div className="relative w-full max-w-[300px] overflow-hidden rounded-[22px] border border-white/[0.08] bg-[radial-gradient(circle_at_top_left,rgba(0,175,239,0.08),transparent_30%),linear-gradient(180deg,rgba(255,255,255,0.025)_0%,rgba(255,255,255,0.01)_100%)] p-2 shadow-[0_20px_44px_rgba(0,0,0,0.16)] sm:max-w-[340px] md:max-w-[360px] md:rounded-[24px] md:p-2.5">
-                  <div className="pointer-events-none absolute inset-0 rounded-[28px] bg-[radial-gradient(circle_at_80%_20%,rgba(51,204,153,0.08)_0%,transparent_36%)]" />
-                  <img
-                    src="/ctma-operating-system-optimized.jpg"
-                    alt="AlphaTrack Digital connected operating system flow"
-                    className="relative w-full rounded-[22px] object-contain"
-                    loading="lazy"
-                    width={1100}
-                    height={604}
-                  />
-                </div>
-              </div>
-            </motion.div>
+              <defs>
+                <linearGradient id="hwt-g1" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#003399" stopOpacity="0.55" />
+                  <stop offset="55%" stopColor="#00AFEF" stopOpacity="0.5" />
+                  <stop offset="100%" stopColor="#33CC99" stopOpacity="0.4" />
+                </linearGradient>
+                <linearGradient id="hwt-g2" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#00AFEF" stopOpacity="0.5" />
+                  <stop offset="100%" stopColor="#33CC99" stopOpacity="0.55" />
+                </linearGradient>
+                <filter id="hwt-glow" x="-20%" y="-80%" width="140%" height="260%">
+                  <feGaussianBlur in="SourceGraphic" stdDeviation="2.5" result="blur" />
+                  <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+                </filter>
+              </defs>
+              <path d="M 190 36 C 320 36, 380 52, 508 36" stroke="url(#hwt-g1)" strokeWidth="2" strokeDasharray="10 7" filter="url(#hwt-glow)" />
+              <path d="M 581 36 C 710 52, 770 36, 899 36" stroke="url(#hwt-g2)" strokeWidth="2" strokeDasharray="10 7" filter="url(#hwt-glow)" />
+              <circle cx="190" cy="36" r="3.5" fill="#003399" opacity="0.7" />
+              <circle cx="508" cy="36" r="3.5" fill="#00AFEF" opacity="0.7" />
+              <circle cx="581" cy="36" r="3.5" fill="#00AFEF" opacity="0.7" />
+              <circle cx="899" cy="36" r="3.5" fill="#33CC99" opacity="0.7" />
+            </svg>
 
-            <div className="grid grid-cols-1 gap-2.5 overflow-hidden rounded-[24px] border border-white/[0.08] bg-black/10 p-1.5 md:gap-0 md:rounded-[28px] md:p-0">
-              {ctmaFramework.map((item, i) => (
+            {whyChoosePoints.map((item, i) => {
+              const nodeStyles = [
+                { left: "0%", top: "0" },
+                { left: "35.5%", top: "18px" },
+                { left: "71%", top: "0" },
+              ] as const;
+              const NodeIcon = [Target, TrendingUp, Filter][i];
+              return (
                 <motion.div
                   key={item.title}
                   custom={i}
@@ -440,296 +412,112 @@ const AboutUs = () => {
                   whileInView={shouldReduceMotion ? undefined : "visible"}
                   viewport={{ once: true, margin: "-40px" }}
                   variants={fadeUp}
-                  className={cn(
-                    "grid grid-cols-[42px_minmax(0,1fr)] items-center gap-3 rounded-[18px] border border-white/[0.08] bg-white/[0.02] px-3.5 py-3 transition-colors duration-300 hover:bg-white/[0.03] md:min-h-0 md:rounded-none md:border-0 md:bg-transparent md:grid-cols-[74px_minmax(0,1fr)] md:items-start md:gap-4 md:px-5 md:py-[1.125rem]",
-                    i !== 0 && "md:border-t md:border-white/[0.08]",
-                  )}
+                  className="text-center"
+                  style={{ position: "absolute", width: "28%", ...nodeStyles[i] }}
                 >
-                  <div className="flex h-10 w-10 items-center justify-center rounded-[16px] border border-white/[0.08] bg-[radial-gradient(circle_at_top_left,rgba(51,204,153,0.14),transparent_34%),radial-gradient(circle_at_bottom_right,rgba(0,175,239,0.12),transparent_42%),linear-gradient(180deg,rgba(255,255,255,0.035)_0%,rgba(255,255,255,0.012)_100%)] shadow-[inset_0_1px_0_rgba(255,255,255,0.04),0_14px_26px_rgba(0,0,0,0.14)] md:h-11 md:w-11 md:rounded-[18px]">
-                    <span className="bg-[linear-gradient(135deg,#ffffff_0%,#33cc99_48%,#00afef_100%)] bg-clip-text text-[0.88rem] font-black tracking-[0.18em] text-transparent md:text-[0.98rem]">
-                      {item.title.charAt(0)}
-                    </span>
+                  <motion.div
+                    style={{
+                      background: "linear-gradient(135deg, #003399, #00AFEF, #33CC99)",
+                      padding: "2px",
+                      borderRadius: "50%",
+                      width: "72px",
+                      height: "72px",
+                      marginBottom: "12px",
+                      marginLeft: "auto",
+                      marginRight: "auto",
+                    }}
+                    animate={shouldReduceMotion ? {} : {
+                      boxShadow: [
+                        "0 0 0 0 rgba(0,175,239,0.18)",
+                        "0 0 0 10px rgba(0,175,239,0)",
+                        "0 0 0 0 rgba(0,175,239,0.18)",
+                      ],
+                    }}
+                    transition={{ duration: 3.2, repeat: Infinity, delay: i * 1, ease: "easeInOut" }}
+                  >
+                    <div className="flex h-full w-full items-center justify-center rounded-full" style={{ background: "rgba(8,13,26,0.85)" }}>
+                      <NodeIcon className="h-7 w-7 text-primary" />
+                    </div>
+                  </motion.div>
+                  <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.22em] text-primary/75">0{i + 1}</p>
+                  <h3 className="mb-2.5 text-[1.2rem] font-semibold leading-snug text-foreground">{item.title}</h3>
+                  <p className="text-[13.5px] leading-[1.7] text-muted-foreground">{item.description}</p>
+                </motion.div>
+              );
+            })}
+          </div>
+
+          {/* Mobile / tablet editorial list */}
+          <div className="border-y border-white/[0.08] divide-y divide-white/[0.08] lg:hidden">
+            {whyChoosePoints.map((item, i) => {
+              const MobileIcon = [Target, TrendingUp, Filter][i];
+              return (
+                <motion.div
+                  key={item.title}
+                  custom={i}
+                  initial={shouldReduceMotion ? false : "hidden"}
+                  whileInView={shouldReduceMotion ? undefined : "visible"}
+                  viewport={{ once: true, margin: "-40px" }}
+                  variants={fadeUp}
+                  className="grid grid-cols-[42px_minmax(0,1fr)] items-start gap-4 py-5 sm:grid-cols-[64px_minmax(0,1fr)] sm:py-6"
+                >
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full border border-primary/30 bg-primary/[0.04] sm:h-12 sm:w-12">
+                    <MobileIcon className="h-5 w-5 text-primary" />
                   </div>
-                  <div>
-                    <h3 className="text-[0.95rem] font-semibold tracking-tight text-foreground md:text-[1.06rem]">
-                      {item.title}
-                    </h3>
-                    <p className="mt-1 max-w-xl text-[11px] leading-5 text-muted-foreground whitespace-nowrap md:mt-1.5 md:text-sm md:leading-6 md:whitespace-normal">
-                      <span className="md:hidden">
-                        {mobileCtmaSummaries[item.title] ?? item.summary}
-                      </span>
-                      <span className="hidden md:inline">{item.summary}</span>
-                    </p>
+                  <div className="min-w-0">
+                    <div className="mb-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-primary/80 sm:mb-2 sm:text-[11px] sm:tracking-[0.22em]">0{i + 1}</div>
+                    <h3 className="text-base font-semibold leading-snug text-foreground sm:text-lg">{item.title}</h3>
+                    <p className="mt-1.5 text-[13px] leading-6 text-muted-foreground sm:text-sm sm:leading-7">{item.description}</p>
                   </div>
                 </motion.div>
-              ))}
-            </div>
+              );
+            })}
           </div>
         </div>
-      </PageSection>
+      </section>
 
-      {/* ─── Engagement Models ─────────────────────────────────────────── */}
-      <PageSection mode="content" border="top">
-        <SectionIntro
-          eyebrow="How We Engage"
-          mode="content"
-          title="Three ways to work with us."
-          description="Choose the shape of engagement that fits the stage you are in now, not a bloated retainer by default."
-          maxWidth="lg"
-          className="mb-7 md:mb-10"
-          titleClassName="text-[2rem] leading-[1.08] md:text-4xl"
-          descriptionClassName="max-w-2xl text-sm leading-6 md:text-base md:leading-7"
-        />
-
-        <div className="md:hidden">
-          <div className="relative overflow-hidden rounded-[28px] border border-white/[0.08] bg-[radial-gradient(circle_at_top_left,rgba(0,175,239,0.05),transparent_24%),radial-gradient(circle_at_bottom_right,rgba(51,204,153,0.05),transparent_24%),linear-gradient(180deg,rgba(255,255,255,0.024)_0%,rgba(255,255,255,0.008)_100%)] shadow-[0_18px_46px_rgba(0,0,0,0.12)]">
-            <div className="pointer-events-none absolute inset-x-10 top-0 h-px bg-gradient-to-r from-transparent via-white/18 to-transparent" />
-            {engagementModels.map((model, i) => (
-              <motion.article
-                key={`${model.label}-mobile`}
-                custom={i}
-                initial={shouldReduceMotion ? false : "hidden"}
-                whileInView={shouldReduceMotion ? undefined : "visible"}
-                viewport={{ once: true, margin: "-40px" }}
-                variants={fadeUp}
-                className={cn(
-                  "relative px-4 py-4",
-                  i !== 0 && "border-t border-white/[0.08]",
-                  model.label === "Growth" &&
-                    "bg-[radial-gradient(circle_at_right,rgba(51,204,153,0.06)_0%,transparent_34%)]",
-                )}
-              >
-                <div className="flex items-start justify-between gap-3">
-                  <span
-                    className={cn(
-                      "rounded-full px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em]",
-                      model.label === "Growth"
-                        ? "bg-primary/16 text-primary"
-                        : "bg-white/[0.05] text-primary/90",
-                    )}
-                  >
-                    {model.label}
-                  </span>
-                  <span className="text-[11px] text-muted-foreground">{model.timeframe}</span>
-                </div>
-                <h3 className="mt-3 text-[1rem] font-semibold tracking-tight text-foreground">
-                  {model.title}
-                </h3>
-                <p className="mt-2 text-[13px] leading-6 text-muted-foreground">
-                  {mobileEngagementSummaries[model.label] ?? model.idealFor}
-                </p>
-              </motion.article>
-            ))}
-          </div>
-        </div>
-
-        <div className="hidden gap-4 md:grid md:gap-5 lg:grid-cols-[0.92fr_1.16fr_0.92fr] lg:items-stretch">
-          {engagementModels.map((model, i) => (
-            <motion.div
-              key={model.label}
-              custom={i}
-              initial={shouldReduceMotion ? false : "hidden"}
-              whileInView={shouldReduceMotion ? undefined : "visible"}
-              viewport={{ once: true, margin: "-40px" }}
-              variants={fadeUp}
-              className={cn(
-                "relative flex h-full flex-col overflow-hidden rounded-[24px] border p-5 shadow-[0_18px_46px_rgba(0,0,0,0.10)] md:rounded-[30px] md:p-6 lg:p-7",
-                model.label === "Growth"
-                  ? "order-first border-primary/18 bg-[radial-gradient(circle_at_top,rgba(0,175,239,0.09)_0%,transparent_28%),radial-gradient(circle_at_bottom_right,rgba(51,204,153,0.08)_0%,transparent_26%),linear-gradient(180deg,rgba(255,255,255,0.028)_0%,rgba(255,255,255,0.01)_100%)] lg:order-none lg:-translate-y-4"
-                  : "border-white/[0.08] bg-[linear-gradient(180deg,rgba(255,255,255,0.024)_0%,rgba(255,255,255,0.008)_100%)]",
-              )}
-            >
-              <div className="pointer-events-none absolute inset-0 opacity-[0.05]">
-                <div className="absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
-              </div>
-
-              <div className="relative flex h-full flex-col">
-                <div className="mb-5 flex items-start justify-between gap-3 md:mb-6">
-                  <div className="flex flex-wrap items-center gap-2.5">
-                    <span
-                      className={cn(
-                        "rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em]",
-                        model.label === "Growth"
-                          ? "bg-primary/16 text-primary"
-                          : "bg-white/[0.05] text-primary/90",
-                      )}
-                    >
-                      {model.label}
-                    </span>
-                  </div>
-                  <span className="text-[11px] text-muted-foreground">{model.timeframe}</span>
-                </div>
-
-                <h3 className="text-[1.08rem] font-semibold tracking-tight text-foreground md:text-[1.2rem]">
-                  {model.title}
-                </h3>
-                <p className="mt-3 max-w-[32ch] text-sm leading-6 text-muted-foreground md:leading-7">
-                  {model.idealFor}
-                </p>
-
-                <ul className="mt-5 space-y-2 border-t border-white/[0.07] pt-4 md:mt-6 md:space-y-2.5 md:pt-5">
-                {model.includes.map((item, itemIndex) => (
-                  <li
-                    key={item}
-                    className={cn(
-                      "flex items-start gap-2.5",
-                      itemIndex >= 3 && "hidden md:flex",
-                    )}
-                  >
-                    <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-primary/70" />
-                    <span className="text-xs leading-5 text-muted-foreground">{item}</span>
-                  </li>
-                ))}
-                </ul>
-
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </PageSection>
-
-      {/* ─── Industries ────────────────────────────────────────────────── */}
-      <PageSection mode="content" border="top" spacing="compact">
-        <div data-testid="industries-section">
-          <SectionIntro
-            eyebrow="Industries"
-            mode="content"
-            title="Where we do our strongest work."
-            maxWidth="lg"
-            className="mb-6 md:mb-8"
-            titleClassName="text-[2rem] leading-[1.08] md:text-4xl"
-          />
-
-          <div className="relative overflow-hidden rounded-[30px] border border-white/[0.08] bg-[radial-gradient(circle_at_top_left,rgba(0,175,239,0.05),transparent_22%),radial-gradient(circle_at_82%_16%,rgba(51,204,153,0.05),transparent_20%),linear-gradient(180deg,rgba(255,255,255,0.022)_0%,rgba(255,255,255,0.008)_100%)] shadow-[0_18px_50px_rgba(0,0,0,0.12)]">
-            <div
-              className="pointer-events-none absolute inset-0 opacity-[0.05]"
-              style={{
-                backgroundImage:
-                  "linear-gradient(rgba(255,255,255,0.14) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.14) 1px, transparent 1px)",
-                backgroundSize: "84px 84px",
-              }}
-            />
-            <div className="grid grid-cols-2 md:hidden">
-              {primarySectors.map((sector, index) => {
-                const visual = sectorVisuals[sector];
-                const Icon = visual.icon;
-
-                return (
-                  <motion.article
-                    key={`${sector}-mobile`}
-                    custom={index}
-                    initial={shouldReduceMotion ? false : "hidden"}
-                    whileInView={shouldReduceMotion ? undefined : "visible"}
-                    viewport={{ once: true, margin: "-40px" }}
-                  variants={fadeUp}
-                  className={cn(
-                      "group relative min-h-[78px] border-white/[0.08] p-3 transition-colors duration-300 hover:bg-white/[0.02]",
-                      index >= 2 && "border-t",
-                      index % 2 === 1 && "border-l",
-                    )}
-                  >
-                    <div className="flex h-full items-start gap-3">
-                      <div
-                        className={cn(
-                          "flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-white/[0.08] shadow-[inset_0_1px_0_rgba(255,255,255,0.03)]",
-                          visual.accentClassName,
-                        )}
-                      >
-                        <Icon className="h-3.5 w-3.5" />
-                      </div>
-                      <h3 className="pt-0.5 text-[0.92rem] font-semibold leading-[1.18] tracking-tight text-foreground">
-                        {sector}
-                      </h3>
-                    </div>
-                  </motion.article>
-                );
-              })}
-            </div>
-
-            <div className="hidden md:grid md:grid-cols-2 xl:grid-cols-3">
-              {primarySectors.map((sector, index) => {
-                const visual = sectorVisuals[sector];
-                const Icon = visual.icon;
-
-                return (
-                  <motion.article
-                    key={sector}
-                    data-testid="industry-card"
-                    custom={index}
-                    initial={shouldReduceMotion ? false : "hidden"}
-                    whileInView={shouldReduceMotion ? undefined : "visible"}
-                    viewport={{ once: true, margin: "-40px" }}
-                    variants={fadeUp}
-                    className={cn(
-                      "group relative min-h-[108px] border-white/[0.08] p-4 transition-colors duration-300 hover:bg-white/[0.02] md:min-h-[160px] md:p-7",
-                      index >= 1 && "border-t md:border-t-0",
-                      index % 2 === 1 && "md:border-l xl:border-l-0",
-                      index >= 3 && "xl:border-t",
-                      index % 3 !== 0 && "xl:border-l",
-                    )}
-                  >
-                    <div className="pointer-events-none absolute inset-x-6 top-0 h-px bg-gradient-to-r from-transparent via-white/14 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-                    <div className="flex items-start gap-3 md:gap-4">
-                      <div
-                        className={cn(
-                          "flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-white/[0.08] shadow-[inset_0_1px_0_rgba(255,255,255,0.03)] md:h-12 md:w-12 md:rounded-2xl",
-                          visual.accentClassName,
-                        )}
-                      >
-                        <Icon className="h-4.5 w-4.5 md:h-5.5 md:w-5.5" />
-                      </div>
-                      <div className="min-w-0">
-                        <h3 className="text-[1rem] font-semibold leading-snug tracking-tight text-foreground md:text-[1.26rem]">
-                          {sector}
-                        </h3>
-                        <p className="mt-2.5 hidden max-w-[28rem] text-sm leading-6 text-muted-foreground md:block">
-                          {sectorSummaries[sector]}
-                        </p>
-                      </div>
-                    </div>
-                  </motion.article>
-                );
-              })}
-            </div>
-          </div>
-        </div>
-      </PageSection>
-
-      <ChapterSeparator />
-
-      {/* ─── Testimonial ───────────────────────────────────────────────── */}
-
-      {/* ─── Founder ───────────────────────────────────────────────────── */}
-      <PageSection mode="content" border="top" spacing="compact">
+      {/* Founder */}
+      <PageSection mode="content" border="top" spacing="compact" containerClassName="px-6 sm:px-6 lg:px-8">
         <motion.div
           initial={shouldReduceMotion ? false : { opacity: 0, y: 18 }}
           whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-60px" }}
           transition={{ duration: shouldReduceMotion ? 0 : 0.55 }}
-          className="relative overflow-hidden rounded-[28px] border border-white/[0.08] bg-[radial-gradient(circle_at_top_left,rgba(0,175,239,0.05),transparent_22%),radial-gradient(circle_at_80%_18%,rgba(51,204,153,0.05),transparent_22%),linear-gradient(180deg,rgba(255,255,255,0.022)_0%,rgba(255,255,255,0.008)_100%)] p-4 shadow-[0_18px_48px_rgba(0,0,0,0.12)] md:hidden"
+          className="md:hidden"
         >
-          <div className="pointer-events-none absolute inset-x-10 top-0 h-px bg-gradient-to-r from-transparent via-white/16 to-transparent" />
-          <div className="relative aspect-[5/4] overflow-hidden rounded-[22px] border border-white/[0.09] bg-[#0a0d12]">
+          {/* Photo */}
+          <div className="relative h-[240px] overflow-hidden rounded-[16px] border border-white/[0.09] bg-black mx-2">
             {imgError ? (
               <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-atd-blue/20 via-background to-primary/10">
-                <span className="text-5xl font-bold text-primary/40">
+                <span className="text-3xl font-bold text-primary/40">
                   {companyProfile.founder.name.split(" ").map((n) => n[0]).join("")}
                 </span>
               </div>
             ) : (
               <img
-                src="/founder-portrait-optimized.jpg"
+                src="/founder-portrait-2026.jpg"
                 alt={`${companyProfile.founder.name}, ${companyProfile.founder.title}`}
-                className="h-full w-full object-contain object-center brightness-90"
+                className="h-full w-full object-cover object-top brightness-90"
                 loading="lazy"
                 width={760}
                 height={1140}
                 onError={() => setImgError(true)}
               />
             )}
-            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_48%,hsl(226_38%_7%/0.58)_100%)]" />
-            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-background/82 via-background/20 to-transparent" />
-            <div className="absolute bottom-3 left-3 right-3 flex items-center gap-3 rounded-xl border border-white/[0.08] bg-background/82 px-4 py-3 backdrop-blur-md">
+          </div>
+
+          {/* Text */}
+          <div className="mt-5 px-2">
+            <p className="mb-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-primary/90">
+              The Founder
+            </p>
+            <h2 className="whitespace-nowrap text-[clamp(0.95rem,4.8vw,1.5rem)] font-bold leading-[1.15] tracking-tight text-foreground">
+              Founder-led. Measurement-first.
+            </h2>
+            <p className="mt-3 text-sm leading-6 text-muted-foreground">
+              {founderStory.lead}
+            </p>
+            <div className="mt-5 flex items-center gap-3 border-t border-white/[0.07] pt-4">
               <div className="flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden rounded-full ring-1 ring-white/10">
                 <img
                   src="/atd-circle-logo.png"
@@ -743,57 +531,24 @@ const AboutUs = () => {
                   {companyProfile.founder.name}
                 </p>
                 <p className="mt-0.5 text-xs text-muted-foreground">
-                  {companyProfile.founder.title}
+                  {founderDisplayTitle}
                 </p>
               </div>
             </div>
           </div>
-
-          <div className="relative mt-5">
-            <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.22em] text-primary/90">
-              The Founder
-            </p>
-            <h2 className="max-w-[11ch] text-[2rem] font-bold leading-[1.04] tracking-tight text-foreground">
-              Built from a <span className="text-gradient">clear</span> belief.
-            </h2>
-
-            <div className="mt-4 space-y-3.5">
-              <p className="text-[0.98rem] leading-7 text-foreground">
-                {founderStory.lead}
-              </p>
-              <p className="text-sm leading-6 text-muted-foreground">
-                {founderStory.support}
-              </p>
-            </div>
-
-            <div className="mt-4 border-t border-white/[0.08] pt-3.5">
-              <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-primary/78">
-                Approach
-              </p>
-              <p className="mt-2 text-sm leading-6 text-muted-foreground">
-                {founderStory.approach}
-              </p>
-            </div>
-          </div>
         </motion.div>
 
-        <div className="hidden gap-7 md:grid md:gap-10 lg:grid-cols-[360px_1fr] lg:items-center xl:grid-cols-[390px_1fr]">
-
-          {/* Portrait */}
+        <div className="mx-auto hidden max-w-5xl gap-7 md:grid md:gap-8 lg:grid-cols-[220px_minmax(0,1fr)] lg:items-center xl:grid-cols-[240px_minmax(0,1fr)]">
           <motion.div
             initial={shouldReduceMotion ? false : { opacity: 0, x: -18 }}
             whileInView={shouldReduceMotion ? undefined : { opacity: 1, x: 0 }}
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: shouldReduceMotion ? 0 : 0.6, ease: [0.22, 1, 0.36, 1] }}
-            className="order-1 relative w-full max-w-[300px] self-start md:max-w-[340px] lg:order-1 lg:max-w-[360px] lg:self-end"
+            className="order-1 relative w-full max-w-[220px] self-start md:max-w-[230px] lg:order-1 lg:max-w-[240px] lg:self-center"
           >
-            {/* Glow halo */}
-            <div className="absolute -inset-6 rounded-[36px] bg-gradient-to-br from-atd-blue/20 via-secondary/10 to-primary/[0.06] blur-3xl" />
-
-            {/* Image frame */}
-            <div className="relative aspect-[4/5] overflow-hidden rounded-[22px] border border-white/[0.09] bg-[#0a0d12]">
+            <div className="absolute -inset-4 rounded-[28px] bg-gradient-to-br from-atd-blue/12 via-secondary/[0.06] to-primary/[0.04] blur-2xl" />
+            <div className="relative aspect-[4/5] overflow-hidden rounded-[18px] border border-white/[0.08] bg-[#0a0d12]">
               {imgError ? (
-                /* Fallback initials avatar */
                 <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-atd-blue/20 via-background to-primary/10">
                   <span className="text-6xl font-bold text-primary/40">
                     {companyProfile.founder.name.split(" ").map((n) => n[0]).join("")}
@@ -801,7 +556,7 @@ const AboutUs = () => {
                 </div>
               ) : (
                 <img
-                  src="/founder-portrait-optimized.jpg"
+                  src="/founder-portrait-2026.jpg"
                   alt={`${companyProfile.founder.name}, ${companyProfile.founder.title}`}
                   className="h-full w-full object-cover object-[center_10%] brightness-90"
                   loading="lazy"
@@ -810,15 +565,12 @@ const AboutUs = () => {
                   onError={() => setImgError(true)}
                 />
               )}
-              {/* Edge vignette to blend white photo bg into dark site */}
               <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_50%,hsl(226_38%_7%/0.6)_100%)]" />
-              {/* Bottom fade */}
               <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-background/75 to-transparent" />
             </div>
 
-            {/* Attribution chip overlaid at bottom */}
-            <div className="absolute bottom-3 left-3 right-3 flex items-center gap-3 rounded-xl border border-white/[0.08] bg-background/80 px-4 py-3 backdrop-blur-md md:bottom-4 md:left-4 md:right-4">
-              <div className="flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden rounded-full ring-1 ring-white/10">
+            <div className="absolute bottom-3 left-3 right-3 flex items-center gap-2.5 rounded-xl border border-white/[0.08] bg-background/80 px-3 py-2.5 backdrop-blur-md">
+              <div className="flex h-7 w-7 shrink-0 items-center justify-center overflow-hidden rounded-full ring-1 ring-white/10">
                 <img
                   src="/atd-circle-logo.png"
                   alt="AlphaTrack Digital logo"
@@ -827,17 +579,16 @@ const AboutUs = () => {
                 />
               </div>
               <div>
-                <p className="text-sm font-semibold leading-tight text-foreground">
+                <p className="text-xs font-semibold leading-tight text-foreground">
                   {companyProfile.founder.name}
                 </p>
-                <p className="mt-0.5 text-xs text-muted-foreground">
-                  {companyProfile.founder.title}
+                <p className="mt-0.5 whitespace-nowrap text-[11px] leading-tight text-muted-foreground">
+                  {founderDisplayTitle}
                 </p>
               </div>
             </div>
           </motion.div>
 
-          {/* Content */}
           <motion.div
             initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
             whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
@@ -849,40 +600,38 @@ const AboutUs = () => {
               <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.22em] text-primary/90">
                 The Founder
               </p>
-              <h2 className="max-w-none text-[2.2rem] font-bold tracking-tight text-foreground md:whitespace-nowrap md:text-[3.05rem] md:leading-[1.02]">
-                Built from a <span className="text-gradient">clear</span> belief.
+              <h2 className="max-w-2xl text-[1.75rem] font-bold tracking-tight text-foreground md:text-[2.15rem] md:leading-[1.08]">
+                Founder-led, measurement-first.
               </h2>
             </div>
 
-            <div className="mt-6 space-y-4 md:mt-8">
-              <p className="text-[1rem] leading-[1.72] text-foreground md:text-lg md:leading-[1.85]">
+            <div className="mt-4 max-w-[44rem] space-y-3 md:mt-5">
+              <p className="text-[0.98rem] leading-7 text-foreground">
                 {founderStory.lead}
               </p>
-              <p className="text-sm leading-6 text-muted-foreground md:text-base md:leading-7">
+              <p className="text-sm leading-6 text-muted-foreground md:text-[0.95rem] md:leading-7">
                 {founderStory.support}
               </p>
             </div>
 
-            <div className="mt-7 border-t border-white/[0.08] pt-5 md:mt-10">
+            <div className="mt-5 max-w-[44rem] border-t border-white/[0.08] pt-4 md:mt-6">
               <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-primary/78">
                 Approach
               </p>
-              <p className="mt-3 max-w-3xl text-sm leading-6 text-muted-foreground md:leading-7">
+              <p className="mt-2.5 text-sm leading-6 text-muted-foreground">
                 {founderStory.approach}
               </p>
             </div>
-
           </motion.div>
         </div>
       </PageSection>
 
-      {/* ─── CTA ───────────────────────────────────────────────────────── */}
-      <NewsletterSection className="py-10 border-t border-white/10" />
-
       <CTASection
         title={
           <>
-            Need a clearer path to <span className="text-gradient">growth?</span>
+            Need a clearer path to
+            <br />
+            <span className="text-gradient">growth?</span>
           </>
         }
         primaryCta={{ label: "Get in Touch", to: "/contact-us" }}
