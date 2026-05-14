@@ -4,6 +4,7 @@ import { useAdminAuth } from "@/context/AdminAuthContext";
 import { createPost, fetchAdminPost, updatePost, type BlogPostInput } from "@/lib/adminApi";
 import { Loader2, ArrowLeft, Eye } from "lucide-react";
 import { cn } from "@/lib/utils";
+import RichTextEditor from "@/components/admin/RichTextEditor";
 
 const CATEGORIES = [
   "Paid Media", "Paid Social", "Tracking", "Analytics", "Automation",
@@ -205,16 +206,11 @@ export default function AdminBlogEdit() {
             </Field>
           </div>
 
-          <Field label="Content (HTML) *">
-            <p className="mb-1.5 text-xs text-muted-foreground">
-              Write in HTML. Use &lt;h2&gt;, &lt;h3&gt;, &lt;p&gt;, &lt;ul&gt;, &lt;li&gt; tags. Toggle Preview to see it rendered.
-            </p>
-            <textarea
+          <Field label="Content *">
+            <RichTextEditor
               value={form.content}
-              onChange={(e) => set("content", e.target.value)}
-              placeholder="<p>Start writing your post...</p>"
-              rows={20}
-              className={cn(inputCls, "font-mono text-xs")}
+              onChange={(html) => set("content", html)}
+              placeholder="Start writing your post..."
             />
           </Field>
         </div>

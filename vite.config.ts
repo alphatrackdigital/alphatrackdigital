@@ -183,6 +183,23 @@ export default defineConfig(({ mode }) => {
       hmr: {
         overlay: false,
       },
+      proxy: {
+        "/api": {
+          target: "http://localhost:9000",
+          changeOrigin: true,
+        },
+        "/.netlify/functions": {
+          target: "http://localhost:9000",
+          changeOrigin: true,
+        },
+      },
+    },
+    optimizeDeps: {
+      include: [
+        "@tiptap/react",
+        "@tiptap/starter-kit",
+        "@tiptap/extension-link",
+      ],
     },
     ssr: {
       noExternal: ["react-helmet-async"],

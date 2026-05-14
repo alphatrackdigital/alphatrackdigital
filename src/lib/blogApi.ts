@@ -22,16 +22,18 @@ export interface BlogListResponse {
   limit: number;
 }
 
+const API_BASE = (import.meta.env.VITE_API_BASE_URL || "").replace(/\/$/, "");
+
 export async function fetchBlogPosts(page = 1, limit = 20, category?: string): Promise<BlogListResponse> {
   const params = new URLSearchParams({ page: String(page), limit: String(limit) });
   if (category && category !== "All") params.set("category", category);
-  const res = await fetch(`/api/blog?${params}`);
+  const res = await fetch(`${API_BASE}/api/blog?${params}`);
   if (!res.ok) throw new Error("Failed to fetch posts");
   return res.json();
 }
 
 export async function fetchBlogPost(slug: string): Promise<ApiBlogPost> {
-  const res = await fetch(`/api/blog/${slug}`);
+  const res = await fetch(`${API_BASE}/api/blog/${slug}`);
   if (!res.ok) throw new Error("Post not found");
   const data = await res.json();
   return data.post;

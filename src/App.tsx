@@ -13,7 +13,7 @@ import ProtectedRoute from "@/components/admin/ProtectedRoute";
 import AdminLogin from "@/pages/admin/AdminLogin";
 import AdminContacts from "@/pages/admin/AdminContacts";
 import AdminBlog from "@/pages/admin/AdminBlog";
-import AdminBlogEdit from "@/pages/admin/AdminBlogEdit";
+const AdminBlogEdit = lazy(() => import("@/pages/admin/AdminBlogEdit"));
 
 const AboutUs = lazy(routeImporters.aboutUs);
 const Expertise = lazy(routeImporters.expertise);
@@ -95,8 +95,8 @@ export const AppRouter = () => (
       >
         <Route path="/admin/contacts" element={<AdminContacts />} />
         <Route path="/admin/blog" element={<AdminBlog />} />
-        <Route path="/admin/blog/new" element={<AdminBlogEdit />} />
-        <Route path="/admin/blog/edit/:slug" element={<AdminBlogEdit />} />
+        <Route path="/admin/blog/new" element={<Suspense fallback={null}><AdminBlogEdit /></Suspense>} />
+        <Route path="/admin/blog/edit/:slug" element={<Suspense fallback={null}><AdminBlogEdit /></Suspense>} />
       </Route>
     </Routes>
   </ErrorBoundary>

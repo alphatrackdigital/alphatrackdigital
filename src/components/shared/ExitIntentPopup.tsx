@@ -175,7 +175,7 @@ const ExitIntentPopup = () => {
     pushDataLayer("exit_popup_submit");
 
     try {
-      const response = await fetch("/api/brevo-subscribe", {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/brevo-subscribe`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
