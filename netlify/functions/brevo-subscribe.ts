@@ -126,7 +126,7 @@ export const handler: Handler = async (event: HandlerEvent) => {
   }
 
   const brevoApiKey = process.env.BREVO_API_KEY?.trim();
-  const brevoListId = Number(process.env.BREVO_AUDIT_LIST_ID);
+  const brevoListId = Number(process.env.BREVO_LIST_ID ?? 10);
 
   if (!brevoApiKey || !Number.isInteger(brevoListId) || brevoListId <= 0) {
     return jsonResponse(
