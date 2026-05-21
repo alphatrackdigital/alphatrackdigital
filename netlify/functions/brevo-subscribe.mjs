@@ -15,6 +15,28 @@ const json = (payload, init = {}) =>
     },
   });
 
+const allowedOrigins = new Set([
+  "https://alphatrack.digital",
+  "https://www.alphatrack.digital",
+  "https://alphatra-serv.netlify.app",
+  "https://backend--alphatra-serv.netlify.app",
+]);
+
+const getCorsHeaders = (request) => {
+  const origin = request.headers.get("origin");
+  const headers = {
+    "access-control-allow-methods": "POST, OPTIONS",
+    "access-control-allow-headers": "Content-Type, Authorization",
+  };
+
+  if (origin && allowedOrigins.has(origin)) {
+    headers["access-control-allow-origin"] = origin;
+    headers.vary = "Origin";
+  }
+
+  return headers;
+};
+
 const getEnv = (name) => {
   if (globalThis.Netlify?.env?.get) {
     return globalThis.Netlify.env.get(name);
@@ -114,12 +136,15 @@ const withConsentAttributes = (attributes, lead) => {
 };
 
 export default async (request) => {
+  const corsHeaders = getCorsHeaders(request);
+
   if (request.method === "OPTIONS") {
     return new Response(null, {
       status: 204,
       headers: {
         allow: "POST, OPTIONS",
         "cache-control": "no-store",
+        ...corsHeaders,
       },
     });
   }
@@ -129,7 +154,7 @@ export default async (request) => {
       { ok: false, message: "Method not allowed" },
       {
         status: 405,
-        headers: { allow: "POST, OPTIONS" },
+        headers: { allow: "POST, OPTIONS", ...corsHeaders },
       },
     );
   }
@@ -138,7 +163,7 @@ export default async (request) => {
   if (isRateLimited(clientIp)) {
     return json(
       { ok: false, message: "Too many requests. Please try again shortly." },
-      { status: 429 },
+      { status: 429, headers: corsHeaders },
     );
   }
 
@@ -146,19 +171,19 @@ export default async (request) => {
   try {
     payload = await request.json();
   } catch {
-    return json({ ok: false, message: "Invalid JSON payload." }, { status: 400 });
+    return json({ ok: false, message: "Invalid JSON payload." }, { status: 400, headers: corsHeaders });
   }
 
   const lead = validatePayload(payload);
   if (!lead) {
-    return json({ ok: false, message: "Please check your details and try again." }, { status: 400 });
+    return json({ ok: false, message: "Please check your details and try again." }, { status: 400, headers: corsHeaders });
   }
 
   const brevoApiKey = getEnv("BREVO_API_KEY");
-  const brevoListId = Number(getEnv("BREVO_LIST_ID"));
+  const brevoListId = Number(getEnv("BREVO_LIST_ID") || "10");
 
   if (!brevoApiKey || !Number.isInteger(brevoListId) || brevoListId <= 0) {
-    return json({ ok: false, message: "Lead service is not configured." }, { status: 500 });
+    return json({ ok: false, message: "Lead service is not configured." }, { status: 500, headers: corsHeaders });
   }
 
   try {
@@ -183,13 +208,13 @@ export default async (request) => {
     if (!brevoResponse.ok) {
       return json(
         { ok: false, message: "Unable to submit lead right now." },
-        { status: 502 },
+        { status: 502, headers: corsHeaders },
       );
     }
 
-    return json({ ok: true });
+    return json({ ok: true }, { headers: corsHeaders });
   } catch {
-    return json({ ok: false, message: "Unable to submit lead right now." }, { status: 500 });
+    return json({ ok: false, message: "Unable to submit lead right now." }, { status: 500, headers: corsHeaders });
   }
 };
 

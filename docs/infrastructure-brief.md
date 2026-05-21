@@ -138,8 +138,11 @@ If serverless API routes become a production requirement, choose one path delibe
 2. If API routes are deployed separately, set these environment variables on that API runtime:
    - `BREVO_API_KEY`
    - `BREVO_CONTACT_LIST_ID=8`
+     - Current list name: `Website - Contact Form Enquiries`
    - `BREVO_AUDIT_LIST_ID=11`
+     - Current list name: `Tracking Audit Leads`
    - `BREVO_NEWSLETTER_LIST_ID=9`
+     - Current list name: `ATD | Newsletter`
    - `BREVO_LIST_ID=10`
 3. Keep the live route map aligned with the React app:
    - `/service/conversion-tracking`

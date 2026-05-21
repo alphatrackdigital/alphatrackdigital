@@ -14,6 +14,28 @@ const json = (payload, init = {}) =>
     },
   });
 
+const allowedOrigins = new Set([
+  "https://alphatrack.digital",
+  "https://www.alphatrack.digital",
+  "https://alphatra-serv.netlify.app",
+  "https://backend--alphatra-serv.netlify.app",
+]);
+
+const getCorsHeaders = (request) => {
+  const origin = request.headers.get("origin");
+  const headers = {
+    "access-control-allow-methods": "POST, OPTIONS",
+    "access-control-allow-headers": "Content-Type, Authorization",
+  };
+
+  if (origin && allowedOrigins.has(origin)) {
+    headers["access-control-allow-origin"] = origin;
+    headers.vary = "Origin";
+  }
+
+  return headers;
+};
+
 const getEnv = (name) => {
   if (globalThis.Netlify?.env?.get) {
     return globalThis.Netlify.env.get(name);
@@ -88,6 +110,100 @@ const buildMessageAttribute = (data) => {
   return data.message?.trim() || "";
 };
 
+const leadNotificationConfig = {
+  contact_form: {
+    senderEmail: "info@alphatrack.digital",
+    recipients: ["info@alphatrack.digital"],
+    subject: "New website contact form enquiry",
+    label: "Website contact form enquiry",
+  },
+  tracking_audit_offer: {
+    senderEmail: "audit@alphatrack.digital",
+    recipients: ["audit@alphatrack.digital", "martech@alphatrack.digital"],
+    subject: "New tracking audit request",
+    label: "Tracking audit request",
+  },
+};
+
+const escapeHtml = (value) =>
+  String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+
+const buildNotificationRows = (data) => [
+  ["Source", data.source === "contact_form" ? "Contact Form" : "Tracking Audit Landing Page"],
+  ["Name", `${data.firstName} ${data.lastName}`.trim()],
+  ["Email", data.email],
+  ["Company", data.company || ""],
+  ["Website", data.websiteUrl || ""],
+  ["Service Interest", Array.isArray(data.serviceInterest) ? data.serviceInterest.join(", ") : ""],
+  ["Monthly Budget", data.monthlyBudget || ""],
+  ["Monthly Ad Spend", data.monthlyAdSpend || ""],
+  ["Ad Platforms", data.adPlatforms || ""],
+  ["Marketing Opt-in", data.optIn === true ? "Yes" : "No"],
+  ["Message", buildMessageAttribute(data)],
+].filter(([, value]) => String(value).trim().length > 0);
+
+const buildNotificationEmail = (data, config) => {
+  const rows = buildNotificationRows(data);
+  const textContent = [
+    config.label,
+    "",
+    ...rows.map(([label, value]) => `${label}: ${value}`),
+  ].join("\n");
+
+  const htmlRows = rows
+    .map(
+      ([label, value]) => `
+        <tr>
+          <td style="padding: 8px 12px; border-bottom: 1px solid #e5e7eb; font-weight: 700;">${escapeHtml(label)}</td>
+          <td style="padding: 8px 12px; border-bottom: 1px solid #e5e7eb;">${escapeHtml(value).replace(/\n/g, "<br />")}</td>
+        </tr>`,
+    )
+    .join("");
+
+  const htmlContent = `
+    <div style="font-family: Arial, Helvetica, sans-serif; color: #111827; line-height: 1.5;">
+      <h1 style="font-size: 20px; margin: 0 0 16px;">${escapeHtml(config.label)}</h1>
+      <table role="presentation" cellpadding="0" cellspacing="0" style="border-collapse: collapse; width: 100%; max-width: 720px; border: 1px solid #e5e7eb;">
+        ${htmlRows}
+      </table>
+    </div>`;
+
+  return { textContent, htmlContent };
+};
+
+const sendInternalNotification = async (data, brevoApiKey) => {
+  const config = leadNotificationConfig[data.source];
+  if (!config) return;
+
+  const { textContent, htmlContent } = buildNotificationEmail(data, config);
+
+  const response = await fetch("https://api.brevo.com/v3/smtp/email", {
+    method: "POST",
+    headers: {
+      "content-type": "application/json",
+      "api-key": brevoApiKey,
+    },
+    body: JSON.stringify({
+      sender: { name: "AlphaTrack Digital", email: config.senderEmail },
+      to: config.recipients.map((email) => ({ email })),
+      replyTo: { email: config.senderEmail, name: "AlphaTrack Digital" },
+      subject: config.subject,
+      htmlContent,
+      textContent,
+      tags: [data.source],
+    }),
+  });
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(`Failed to send internal notification. ${errorText.slice(0, 180)}`);
+  }
+};
+
 const withConsentAttributes = (attributes, data) => {
   if (data.optIn !== true) {
     return attributes;
@@ -142,12 +258,15 @@ const toBrevoDoiPayload = (data, listId, templateId, redirectUrl) => ({
 });
 
 export default async (request) => {
+  const corsHeaders = getCorsHeaders(request);
+
   if (request.method === "OPTIONS") {
     return new Response(null, {
       status: 204,
       headers: {
         allow: "POST, OPTIONS",
         "cache-control": "no-store",
+        ...corsHeaders,
       },
     });
   }
@@ -157,7 +276,7 @@ export default async (request) => {
       { ok: false, message: "Method not allowed" },
       {
         status: 405,
-        headers: { allow: "POST, OPTIONS" },
+        headers: { allow: "POST, OPTIONS", ...corsHeaders },
       },
     );
   }
@@ -166,7 +285,7 @@ export default async (request) => {
   if (isRateLimited(clientIp)) {
     return json(
       { ok: false, message: "Too many requests. Please try again shortly." },
-      { status: 429 },
+      { status: 429, headers: corsHeaders },
     );
   }
 
@@ -174,11 +293,11 @@ export default async (request) => {
   try {
     payload = await request.json();
   } catch {
-    return json({ ok: false, message: "Invalid JSON payload." }, { status: 400 });
+    return json({ ok: false, message: "Invalid JSON payload." }, { status: 400, headers: corsHeaders });
   }
 
   if (!isValidLeadPayload(payload)) {
-    return json({ ok: false, message: "Invalid submission payload." }, { status: 400 });
+    return json({ ok: false, message: "Invalid submission payload." }, { status: 400, headers: corsHeaders });
   }
 
   const brevoApiKey = getEnv("BREVO_API_KEY");
@@ -189,7 +308,7 @@ export default async (request) => {
   const newsletterDoiRedirectUrl = getEnv("BREVO_DOI_REDIRECT_URL")?.trim() || "";
 
   if (!brevoApiKey) {
-    return json({ ok: false, message: "Lead service is not configured." }, { status: 500 });
+    return json({ ok: false, message: "Lead service is not configured." }, { status: 500, headers: corsHeaders });
   }
 
   const listId =
@@ -231,12 +350,14 @@ export default async (request) => {
           ok: false,
           message: `Failed to submit lead to provider. ${errorText.slice(0, 180)}`,
         },
-        { status: 502 },
+        { status: 502, headers: corsHeaders },
       );
     }
 
-    return json({ ok: true, pendingConfirmation: isNewsletterDoiEnabled });
+    await sendInternalNotification(payload, brevoApiKey);
+
+    return json({ ok: true, pendingConfirmation: isNewsletterDoiEnabled }, { headers: corsHeaders });
   } catch {
-    return json({ ok: false, message: "Unable to submit lead right now." }, { status: 500 });
+    return json({ ok: false, message: "Unable to submit lead right now." }, { status: 500, headers: corsHeaders });
   }
 };

@@ -80,6 +80,108 @@ const buildMessageAttribute = (data: LeadPayload) => {
   return data.message?.trim() || "";
 };
 
+const leadNotificationConfig: Partial<Record<LeadSource, {
+  senderEmail: string;
+  recipients: string[];
+  subject: string;
+  label: string;
+}>> = {
+  contact_form: {
+    senderEmail: "info@alphatrack.digital",
+    recipients: ["info@alphatrack.digital"],
+    subject: "New website contact form enquiry",
+    label: "Website contact form enquiry",
+  },
+  tracking_audit_offer: {
+    senderEmail: "audit@alphatrack.digital",
+    recipients: ["audit@alphatrack.digital", "martech@alphatrack.digital"],
+    subject: "New tracking audit request",
+    label: "Tracking audit request",
+  },
+};
+
+const escapeHtml = (value: unknown) =>
+  String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+
+const buildNotificationRows = (data: LeadPayload) => [
+  ["Source", data.source === "contact_form" ? "Contact Form" : "Tracking Audit Landing Page"],
+  ["Name", `${data.firstName} ${data.lastName}`.trim()],
+  ["Email", data.email],
+  ["Company", data.company || ""],
+  ["Website", data.websiteUrl || ""],
+  ["Service Interest", Array.isArray(data.serviceInterest) ? data.serviceInterest.join(", ") : ""],
+  ["Monthly Budget", data.monthlyBudget || ""],
+  ["Monthly Ad Spend", data.monthlyAdSpend || ""],
+  ["Ad Platforms", data.adPlatforms || ""],
+  ["Marketing Opt-in", data.optIn === true ? "Yes" : "No"],
+  ["Message", buildMessageAttribute(data)],
+].filter(([, value]) => String(value).trim().length > 0);
+
+const buildNotificationEmail = (
+  data: LeadPayload,
+  config: NonNullable<typeof leadNotificationConfig[LeadSource]>,
+) => {
+  const rows = buildNotificationRows(data);
+  const textContent = [
+    config.label,
+    "",
+    ...rows.map(([label, value]) => `${label}: ${value}`),
+  ].join("\n");
+
+  const htmlRows = rows
+    .map(
+      ([label, value]) => `
+        <tr>
+          <td style="padding: 8px 12px; border-bottom: 1px solid #e5e7eb; font-weight: 700;">${escapeHtml(label)}</td>
+          <td style="padding: 8px 12px; border-bottom: 1px solid #e5e7eb;">${escapeHtml(value).replace(/\n/g, "<br />")}</td>
+        </tr>`,
+    )
+    .join("");
+
+  const htmlContent = `
+    <div style="font-family: Arial, Helvetica, sans-serif; color: #111827; line-height: 1.5;">
+      <h1 style="font-size: 20px; margin: 0 0 16px;">${escapeHtml(config.label)}</h1>
+      <table role="presentation" cellpadding="0" cellspacing="0" style="border-collapse: collapse; width: 100%; max-width: 720px; border: 1px solid #e5e7eb;">
+        ${htmlRows}
+      </table>
+    </div>`;
+
+  return { textContent, htmlContent };
+};
+
+const sendInternalNotification = async (data: LeadPayload, brevoApiKey: string) => {
+  const config = leadNotificationConfig[data.source];
+  if (!config) return;
+
+  const { textContent, htmlContent } = buildNotificationEmail(data, config);
+
+  const response = await fetch("https://api.brevo.com/v3/smtp/email", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "api-key": brevoApiKey,
+    },
+    body: JSON.stringify({
+      sender: { name: "AlphaTrack Digital", email: config.senderEmail },
+      to: config.recipients.map((email) => ({ email })),
+      replyTo: { email: config.senderEmail, name: "AlphaTrack Digital" },
+      subject: config.subject,
+      htmlContent,
+      textContent,
+      tags: [data.source],
+    }),
+  });
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(`Failed to send internal notification. ${errorText.slice(0, 180)}`);
+  }
+};
+
 const withConsentAttributes = (
   attributes: Record<string, string | boolean>,
   data: LeadPayload,
@@ -204,6 +306,8 @@ const handler = async (req: Req, res: Res) => {
         message: `Failed to submit lead to provider. ${errorText.slice(0, 180)}`,
       });
     }
+
+    await sendInternalNotification(payload, brevoApiKey);
 
     return res.status(200).json({ ok: true, pendingConfirmation: isNewsletterDoiEnabled });
   } catch {

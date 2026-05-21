@@ -5,6 +5,7 @@ import Layout from "@/components/layout/Layout";
 import ScrollToTop from "@/components/shared/ScrollToTop";
 import ErrorBoundary from "@/components/shared/ErrorBoundary";
 import WhatsAppWidget from "@/components/shared/WhatsAppWidget";
+import TrackingEvents from "@/components/shared/TrackingEvents";
 import { routeImporters } from "@/lib/routePrefetch";
 import Index from "./pages/Index";
 
@@ -53,6 +54,7 @@ export const AppShell = ({ children }: { children: ReactNode }) => (
 export const AppRouter = () => (
   <ErrorBoundary>
     <ScrollToTop />
+    <TrackingEvents />
     <Routes>
       <Route element={<Layout />}>
         <Route path="/" element={<Index />} />
