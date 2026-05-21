@@ -155,9 +155,9 @@ const handler = async (req: Req, res: Res) => {
   }
 
   const brevoApiKey = process.env.BREVO_API_KEY;
-  const contactListId = Number(process.env.BREVO_CONTACT_LIST_ID || "2");
-  const auditListId = Number(process.env.BREVO_AUDIT_LIST_ID || "3");
-  const newsletterListId = Number(process.env.BREVO_NEWSLETTER_LIST_ID || "4");
+  const contactListId = Number(process.env.BREVO_CONTACT_LIST_ID || "8");
+  const auditListId = Number(process.env.BREVO_AUDIT_LIST_ID || "11");
+  const newsletterListId = Number(process.env.BREVO_NEWSLETTER_LIST_ID || "9");
   const newsletterDoiTemplateId = Number(process.env.BREVO_DOI_TEMPLATE_ID || "0");
   const newsletterDoiRedirectUrl = process.env.BREVO_DOI_REDIRECT_URL?.trim() || "";
 

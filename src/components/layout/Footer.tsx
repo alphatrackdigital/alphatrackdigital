@@ -133,7 +133,7 @@ const FooterNewsletter = () => {
                 />
                 <span className="text-[11px] leading-relaxed text-muted-foreground/70">
                   I agree to receive emails from AlphaTrack Digital.{" "}
-                  <Link to="/privacy-policy" className="underline underline-offset-2 transition-colors hover:text-muted-foreground">
+                  <Link to="/privacy-policy/" className="underline underline-offset-2 transition-colors hover:text-muted-foreground">
                     Privacy Policy
                   </Link>
                   .
@@ -279,11 +279,14 @@ const Footer = () => {
 
         <div className="mt-8 flex flex-col gap-2 border-t border-white/10 pt-5 text-[11px] text-muted-foreground sm:flex-row sm:items-center sm:justify-between sm:text-xs md:mt-12 md:gap-3 md:pt-6">
           <p>Copyright AlphaTrack Digital {new Date().getFullYear()}. All rights reserved.</p>
-          <div className="flex items-center gap-3 md:gap-4">
-            <Link to="/privacy-policy" className="transition-colors hover:text-foreground">
+          <div className="flex flex-wrap items-center gap-3 md:gap-4">
+            <Link to="/privacy-policy/" className="transition-colors hover:text-foreground">
               Privacy Policy
             </Link>
-            <Link to="/terms-of-service" className="transition-colors hover:text-foreground">
+            <Link to="/cookie-policy/" className="transition-colors hover:text-foreground">
+              Cookie Policy
+            </Link>
+            <Link to="/terms-of-service/" className="transition-colors hover:text-foreground">
               Terms of Service
             </Link>
           </div>

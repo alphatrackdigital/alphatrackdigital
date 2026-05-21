@@ -1,17 +1,19 @@
 # AlphaTrack Digital — Infrastructure Brief
-*For internal team review. Last updated: March 2026.*
+*For internal team review. Last updated: May 21, 2026.*
 
 ---
 
 ## The Problem We're Solving
 
-AlphaTrack Digital's website is a **React SPA** (single-page app) built with Vite + TypeScript. It needs three things to function properly:
+AlphaTrack Digital's website is a **React SPA** (single-page app) built with Vite + TypeScript. The current production decision is to keep the live website on the existing Namecheap/cPanel LiteSpeed hosting.
+
+The site has three infrastructure concerns:
 
 1. **Hosting** — serve the static React files fast and reliably
 2. **Serverless functions** — run the contact/audit form backend (already coded in `api/leads.ts`) so leads go to Brevo
 3. **CMS** — let non-developers publish and edit blog posts without touching code
 
-Our current Namecheap shared hosting handles static files fine, but **cannot run Node.js serverless functions**, which is why the contact forms don't send to Brevo yet.
+Current production hosting handles static files, but it does not run the Node/serverless functions in this repository. Brevo API submission routes therefore need a separate API deployment, PHP equivalent, or a future hosting migration before they can be treated as live production backend routes.
 
 ---
 
@@ -21,7 +23,7 @@ Our current Namecheap shared hosting handles static files fine, but **cannot run
 - `src/lib/leads.ts` — the frontend helper that calls the API
 - Contact form and Tracking Audit form — both wired up and ready
 
-**The only missing piece is a platform that can actually run the backend function.**
+**Current decision:** keep the public website on Namecheap/cPanel. Do not assume Netlify or Vercel is production unless this decision is changed explicitly.
 
 ---
 
@@ -122,22 +124,30 @@ Regardless of which hosting option you choose (A, B, or C), Sanity is the recomm
 
 ## Recommendation
 
-> **Netlify Free + Sanity** to start. Migrate to **Vercel Pro** when the $20/month is trivially justified by revenue.
+> **Keep Namecheap/cPanel LiteSpeed as the current production website host.** Use the repository build output for the public frontend. Treat Netlify/Vercel as future migration options only.
 
-This gets the contact forms working, gives the team a proper CMS, keeps commercial use legitimate, and costs nothing upfront.
+This keeps the live website aligned with the current production setup. It does not, by itself, run the Node/serverless Brevo submission code.
 
-If budget allows immediately, skip straight to **Vercel Pro** — it's the lower-friction option and the codebase is already built for it.
+If serverless API routes become a production requirement, choose one path deliberately: deploy a separate API runtime, port the Brevo submission handlers to the production host's supported backend runtime, or migrate hosting to Netlify/Vercel and update DNS/deploy docs at the same time.
 
 ---
 
 ## Action Items (Technical)
 
-1. Choose hosting platform (Netlify Free or Vercel Pro)
-2. Set environment variables on the chosen platform:
+1. Keep frontend publishing pointed at the current Namecheap/cPanel production host.
+2. If API routes are deployed separately, set these environment variables on that API runtime:
    - `BREVO_API_KEY`
-   - `BREVO_CONTACT_LIST_ID`
-   - `BREVO_AUDIT_LIST_ID`
-3. Set up Sanity project, create blog schema, migrate existing blog posts
-4. Update site to fetch blog posts from Sanity API
+   - `BREVO_CONTACT_LIST_ID=8`
+   - `BREVO_AUDIT_LIST_ID=11`
+   - `BREVO_NEWSLETTER_LIST_ID=9`
+   - `BREVO_LIST_ID=10`
+3. Keep the live route map aligned with the React app:
+   - `/service/conversion-tracking`
+   - `/offer/tracking-audit`
+   - `/privacy-policy`
+   - `/cookie-policy`
+   - `/terms-of-service`
+4. Set up Sanity project, create blog schema, migrate existing blog posts when CMS work resumes.
+5. Update site to fetch blog posts from Sanity API when CMS work resumes.
 
-Items 1–2 unlock the contact forms. Items 3–4 unlock the CMS.
+Current note: the Brevo API routes are unlocked only after a runtime capable of executing them is available.

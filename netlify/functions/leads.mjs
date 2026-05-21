@@ -182,9 +182,9 @@ export default async (request) => {
   }
 
   const brevoApiKey = getEnv("BREVO_API_KEY");
-  const contactListId = Number(getEnv("BREVO_CONTACT_LIST_ID") || "2");
-  const auditListId = Number(getEnv("BREVO_AUDIT_LIST_ID") || "3");
-  const newsletterListId = Number(getEnv("BREVO_NEWSLETTER_LIST_ID") || "4");
+  const contactListId = Number(getEnv("BREVO_CONTACT_LIST_ID") || "8");
+  const auditListId = Number(getEnv("BREVO_AUDIT_LIST_ID") || "11");
+  const newsletterListId = Number(getEnv("BREVO_NEWSLETTER_LIST_ID") || "9");
   const newsletterDoiTemplateId = Number(getEnv("BREVO_DOI_TEMPLATE_ID") || "0");
   const newsletterDoiRedirectUrl = getEnv("BREVO_DOI_REDIRECT_URL")?.trim() || "";
 

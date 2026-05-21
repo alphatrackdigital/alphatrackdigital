@@ -29,6 +29,8 @@ const EXCLUDED_PATHS = [
   "/book-a-call",
   "/expertise",
   "/privacy-policy",
+  "/cookie-policy",
+  "/terms-of-service",
 ];
 
 const pushDataLayer = (event: DataLayerEvent) => {

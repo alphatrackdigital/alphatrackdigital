@@ -195,14 +195,20 @@
 
   <!-- Legal -->
   <url>
-    <loc>https://alphatrack.digital/privacy-policy</loc>
-    <lastmod>2026-04-08</lastmod>
+    <loc>https://alphatrack.digital/privacy-policy/</loc>
+    <lastmod>2026-05-20</lastmod>
     <priority>0.3</priority>
     <changefreq>yearly</changefreq>
   </url>
   <url>
-    <loc>https://alphatrack.digital/terms-of-service</loc>
-    <lastmod>2026-04-08</lastmod>
+    <loc>https://alphatrack.digital/cookie-policy/</loc>
+    <lastmod>2026-05-20</lastmod>
+    <priority>0.3</priority>
+    <changefreq>yearly</changefreq>
+  </url>
+  <url>
+    <loc>https://alphatrack.digital/terms-of-service/</loc>
+    <lastmod>2026-05-20</lastmod>
     <priority>0.3</priority>
     <changefreq>yearly</changefreq>
   </url>

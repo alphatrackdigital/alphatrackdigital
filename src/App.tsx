@@ -26,6 +26,7 @@ const BookACall = lazy(routeImporters.bookACall);
 const ThankYou = lazy(routeImporters.thankYou);
 const TrackingLandingPage = lazy(routeImporters.trackingLandingPage);
 const PrivacyPolicy = lazy(routeImporters.privacyPolicy);
+const CookiePolicy = lazy(routeImporters.cookiePolicy);
 const TermsOfService = lazy(routeImporters.termsOfService);
 const NotFound = lazy(routeImporters.notFound);
 
@@ -72,6 +73,7 @@ export const AppRouter = () => (
         <Route path="/book-a-call" element={withRouteSuspense(BookACall)} />
         <Route path="/book-a-call/thank-you" element={withRouteSuspense(ThankYou)} />
         <Route path="/privacy-policy" element={withRouteSuspense(PrivacyPolicy)} />
+        <Route path="/cookie-policy" element={withRouteSuspense(CookiePolicy)} />
         <Route path="/terms-of-service" element={withRouteSuspense(TermsOfService)} />
         <Route path="/offer/tracking-audit" element={withRouteSuspense(TrackingLandingPage)} />
         <Route path="*" element={withRouteSuspense(NotFound)} />

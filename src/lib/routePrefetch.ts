@@ -22,6 +22,7 @@ const routeImporters = {
   thankYou: () => import("../pages/ThankYou"),
   trackingLandingPage: () => import("../pages/TrackingLandingPage"),
   privacyPolicy: () => import("../pages/PrivacyPolicy"),
+  cookiePolicy: () => import("../pages/CookiePolicy"),
   termsOfService: () => import("../pages/TermsOfService"),
   notFound: () => import("../pages/NotFound"),
 } as const;
@@ -42,7 +43,11 @@ const routePrefetchMap: Record<string, RouteImporter[]> = {
   "/book-a-call": [routeImporters.bookACall],
   "/offer/tracking-audit": [routeImporters.trackingLandingPage],
   "/privacy-policy": [routeImporters.privacyPolicy],
+  "/privacy-policy/": [routeImporters.privacyPolicy],
+  "/cookie-policy": [routeImporters.cookiePolicy],
+  "/cookie-policy/": [routeImporters.cookiePolicy],
   "/terms-of-service": [routeImporters.termsOfService],
+  "/terms-of-service/": [routeImporters.termsOfService],
 };
 
 expertisePages.forEach((item) => {

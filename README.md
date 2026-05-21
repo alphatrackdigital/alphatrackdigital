@@ -25,7 +25,7 @@ Backend/API work belongs on the `backend` branch.
 - Tailwind CSS
 - shadcn-ui / Radix UI
 - Framer Motion
-- Netlify
+- Namecheap/cPanel LiteSpeed production hosting
 
 ## Branches
 
@@ -92,27 +92,31 @@ git status
 git diff
 ```
 
-Then commit and open a pull request into `main`. Review the Netlify deploy preview before merging.
+Then commit and open a pull request into `main`. Review the built output before publishing to the production host.
 
-## Netlify
+## Production Hosting
 
-Production frontend project:
-
-```text
-alphatrackdigital
-```
-
-Build command:
-
-```sh
-npm run build
-```
-
-Publish directory:
+Current production host:
 
 ```text
-dist
+Namecheap/cPanel LiteSpeed
 ```
+
+Production domain:
+
+```text
+https://alphatrack.digital
+```
+
+Current publishing model:
+
+```text
+Static React build output from `dist` is served by the production host.
+```
+
+The repository still contains Netlify-compatible function code and `netlify.toml`, but Netlify is not the current production host. Treat those files as a future migration path unless the hosting decision changes.
+
+Brevo API routes such as `/api/leads` and `/api/brevo-subscribe` require a Node/serverless runtime. They will not run on static-only cPanel hosting without a separate API deployment or hosting migration.
 
 ## Current Product Direction
 
