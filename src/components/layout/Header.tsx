@@ -10,12 +10,18 @@ import { motion, AnimatePresence } from "framer-motion";
 import { primaryServices } from "@/data/services";
 import { expertisePages } from "@/data/expertise";
 
-const navLinks = [
-  { label: "Services", path: "/service", menuType: "services" as const, hash: undefined as string | undefined },
-  { label: "Expertise", path: "/expertise", menuType: "expertise" as const, hash: undefined as string | undefined },
-  { label: "Results", path: "/results", menuType: undefined as string | undefined, hash: undefined as string | undefined },
-  { label: "About Us", path: "/about-us", menuType: undefined as string | undefined, hash: undefined as string | undefined },
-  { label: "Blog", path: "/blog", menuType: undefined as string | undefined, hash: undefined as string | undefined },
+const navLinks: Array<{
+  label: string;
+  path: string;
+  menuType: string | undefined;
+  hash: string | undefined;
+  disabled?: boolean;
+}> = [
+  { label: "Services", path: "/service", menuType: "services", hash: undefined },
+  { label: "Expertise", path: "/expertise", menuType: "expertise", hash: undefined },
+  { label: "Results", path: "/results", menuType: undefined, hash: undefined },
+  { label: "About Us", path: "/about-us", menuType: undefined, hash: undefined },
+  { label: "Blog", path: "/blog", menuType: undefined, hash: undefined },
 ];
 
 const featuredExpertiseSlugs = ["saas", "ecommerce-retail", "education", "real-estate"];
