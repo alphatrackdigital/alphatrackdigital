@@ -44,9 +44,8 @@ describe("Header mobile nav", () => {
     const menu = await screen.findByTestId("desktop-services-menu");
 
     expect(within(menu).getByText("Core Services")).toBeInTheDocument();
-    expect(within(menu).getByText("More Services")).toBeInTheDocument();
     expect(within(menu).getByText("Conversion Tracking & Measurement")).toBeInTheDocument();
-    expect(within(menu).getByText("Email Marketing")).toBeInTheDocument();
+    expect(within(menu).getByText("Marketing Automation & CRM")).toBeInTheDocument();
     expect(within(menu).getByRole("link", { name: /view all services/i })).toBeInTheDocument();
   });
 
@@ -87,10 +86,9 @@ describe("Header mobile nav", () => {
       expect(screen.getByText("Core Services")).toBeInTheDocument();
     });
 
-    expect(screen.getByText("More Services")).toBeInTheDocument();
     expect(screen.getByRole("link", { name: /all services/i })).toBeInTheDocument();
     expect(screen.getByText("Marketing Automation & CRM")).toBeInTheDocument();
-    expect(screen.getByText("Website Development")).toBeInTheDocument();
+    expect(screen.getByText("Paid Media Management")).toBeInTheDocument();
   });
 
   it("expands expertise links inside the mobile menu", async () => {

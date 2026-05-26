@@ -20,9 +20,31 @@ Current source of truth for AlphaTrack Digital website lead capture.
 - Brevo list: `7` (`Website - Strategy Call Bookings`)
 - Sender/reply-to: `sales@alphatrack.digital`
 - Internal recipient: `sales@alphatrack.digital`
+- Server-side tracking endpoint: `/api/brevo-meeting-webhook`
+- GA4 server event: `meeting_booked_confirmed`
 
-The repo does not currently receive booking submissions from Brevo Meetings. Booking capture,
-confirmation, and redirect behavior are controlled in Brevo Meetings.
+Brevo Meetings should call `/api/brevo-meeting-webhook?token=<BREVO_MEETING_WEBHOOK_SECRET>` on
+meeting-booked events. This covers confirmed bookings even when the visitor does not click Brevo's
+post-booking "Proceed" button and never reaches `/book-a-call/thank-you/`.
+
+The webhook sends a server-side GA4 Measurement Protocol event and intentionally does not forward
+participant email or name values into GA4. Required runtime variables:
+
+- `BREVO_MEETING_WEBHOOK_SECRET`
+- `GA4_MEASUREMENT_ID`
+- `GA4_MEASUREMENT_PROTOCOL_API_SECRET`
+- `GA4_MEETING_BOOKED_EVENT_NAME` (defaults to `meeting_booked_confirmed`)
+- `GA4_MEASUREMENT_PROTOCOL_DEBUG_MODE` (`true` only while checking DebugView)
+
+Current Brevo account limitation: the `Meeting booked` automation trigger requires Sales Essentials
+or Sales Advanced. Until that package is available, booking tracking uses the fallback client-side
+events below:
+
+- `booking_cta_click`: visitor clicks an internal `/book-a-call` CTA.
+- `booking_widget_loaded`: embedded Brevo Meetings widget loads on `/book-a-call`.
+- `booking_scheduler_open`: visitor opens the external `meet.brevo.com` scheduler fallback.
+- `generate_lead` and `meeting_booking_redirect`: visitor reaches `/book-a-call/thank-you` after
+  clicking Brevo's post-booking "Proceed" button.
 
 ### Request a Free Tracking Audit
 

@@ -22,6 +22,7 @@ import {
 import { REQUEST_A_FREE_TRACKING_AUDIT_CTA } from "@/config/cta";
 import { companyProfile } from "@/data/companyProfile";
 import { submitLead } from "@/lib/leads";
+import { pushLeadSubmissionEvent } from "@/lib/tracking";
 
 const auditSchema = z.object({
   firstName: z.string().trim().min(1, "Required").max(100),
@@ -133,6 +134,11 @@ const TrackingLandingPage = () => {
         monthlyAdSpend: data.monthlyAdSpend,
         adPlatforms: data.adPlatforms.join(", "),
         optIn: data.marketingOptIn === true,
+      });
+      pushLeadSubmissionEvent("tracking_audit_submit", {
+        form_id: "tracking-audit-form",
+        lead_source: "tracking_audit_offer",
+        opt_in: data.marketingOptIn === true,
       });
       setSubmittedEmail(data.email);
       setIsSubmitted(true);

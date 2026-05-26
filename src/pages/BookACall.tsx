@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import {
   Clock,
@@ -12,6 +12,7 @@ import HeroEyebrow from "@/components/shared/HeroEyebrow";
 import SEO from "@/components/shared/SEO";
 import { Button } from "@/components/ui/button";
 import { companyProfile, featuredTestimonial } from "@/data/companyProfile";
+import { pushDataLayerEvent } from "@/lib/tracking";
 
 const schedulerUrl = "https://meet.brevo.com/meet-atd/borderless?l=discovery";
 
@@ -43,7 +44,23 @@ const BookACall = () => {
   const [iframeLoadCount, setIframeLoadCount] = useState(0);
   const [schedulerVisible, setSchedulerVisible] = useState(false);
   const [showFallback, setShowFallback] = useState(false);
+  const trackedSchedulerLoad = useRef(false);
   const iframeHasLoaded = iframeLoadCount > 0;
+
+  const handleSchedulerLoad = () => {
+    setIframeLoadCount((count) => count + 1);
+
+    if (trackedSchedulerLoad.current) return;
+
+    trackedSchedulerLoad.current = true;
+    pushDataLayerEvent("booking_widget_loaded", {
+      page_path: window.location.pathname,
+      page_location: window.location.href,
+      booking_provider: "brevo_meetings",
+      booking_stage: "scheduler_loaded",
+      scheduler_url: schedulerUrl,
+    });
+  };
 
   useEffect(() => {
     const id = window.setTimeout(() => {
@@ -185,7 +202,7 @@ const BookACall = () => {
                         className="block w-full bg-white"
                         style={{ border: "none", height: "calc(100svh - 60px)", minHeight: "860px", maxHeight: "980px" }}
                         scrolling="no"
-                        onLoad={() => setIframeLoadCount((count) => count + 1)}
+                        onLoad={handleSchedulerLoad}
                       />
                     </div>
                   </div>
