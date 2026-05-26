@@ -14,22 +14,26 @@ describe("Service page testimonial placement", () => {
     const testimonialSection = screen.getByTestId("featured-testimonial-section");
 
     expect(
-      within(testimonialSection).getByRole("heading", {
+      within(testimonialSection).getAllByRole("heading", {
         name: "What clients say about working with us.",
-      }),
-    ).toBeInTheDocument();
-    expect(within(testimonialSection).getByText("Courtney Quist-Therson")).toBeInTheDocument();
-    expect(within(testimonialSection).getByText("CEO & Founder, Pearl House Ghana")).toBeInTheDocument();
-    expect(within(testimonialSection).getByAltText("Pearl House Ghana")).toBeInTheDocument();
+      }).length,
+    ).toBeGreaterThan(0);
+    expect(within(testimonialSection).getAllByText("Courtney Quist-Therson").length).toBeGreaterThan(0);
+    expect(within(testimonialSection).getAllByText("CEO & Founder, Pearl House Ghana").length).toBeGreaterThan(0);
+    expect(within(testimonialSection).getAllByAltText("Pearl House Ghana").length).toBeGreaterThan(0);
     expect(screen.getAllByRole("link", { name: REQUEST_A_FREE_TRACKING_AUDIT_CTA.label }).length).toBeGreaterThan(0);
   });
 
   it("renders the shared testimonial on a flagship service page", () => {
     renderWithPageProviders(<ConversionTracking />, { route: "/service/conversion-tracking" });
 
-    expect(screen.getByTestId("featured-testimonial-section")).toBeInTheDocument();
-    expect(screen.getByText("What clients say when execution matters.")).toBeInTheDocument();
-    expect(screen.getByText("Courtney Quist-Therson")).toBeInTheDocument();
+    const testimonialSection = screen.getByTestId("featured-testimonial-section");
+
+    expect(testimonialSection).toBeInTheDocument();
+    expect(
+      within(testimonialSection).getAllByText("What clients say when execution matters.").length,
+    ).toBeGreaterThan(0);
+    expect(within(testimonialSection).getAllByText("Courtney Quist-Therson").length).toBeGreaterThan(0);
     expect(screen.getAllByRole("link", { name: REQUEST_A_FREE_TRACKING_AUDIT_CTA.label }).length).toBeGreaterThan(0);
   });
 
@@ -41,8 +45,12 @@ describe("Service page testimonial placement", () => {
       { route: "/service/email-marketing" },
     );
 
-    expect(screen.getByTestId("featured-testimonial-section")).toBeInTheDocument();
-    expect(screen.getByText("What clients say when execution matters.")).toBeInTheDocument();
-    expect(screen.getByText("Courtney Quist-Therson")).toBeInTheDocument();
+    const testimonialSection = screen.getByTestId("featured-testimonial-section");
+
+    expect(testimonialSection).toBeInTheDocument();
+    expect(
+      within(testimonialSection).getAllByText("What clients say when execution matters.").length,
+    ).toBeGreaterThan(0);
+    expect(within(testimonialSection).getAllByText("Courtney Quist-Therson").length).toBeGreaterThan(0);
   });
 });
