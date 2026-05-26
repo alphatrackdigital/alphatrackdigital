@@ -65,7 +65,11 @@ describe("ExitIntentPopup", () => {
     expect(await screen.findByText("Your audit request is in.")).toBeInTheDocument();
     expect(window.localStorage.getItem("atd_exit_popup_submitted")).toBe("true");
     expect(window.dataLayer).toContainEqual({ event: "exit_popup_submit" });
-    expect(window.dataLayer).toContainEqual({ event: "exit_popup_success" });
+    expect(window.dataLayer).toContainEqual(expect.objectContaining({
+      event: "exit_popup_success",
+      form_id: "exit-intent-popup-form",
+      lead_source: "exit_popup",
+    }));
   });
 
   it("suppresses the popup for 7 days after close", async () => {

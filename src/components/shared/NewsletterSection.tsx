@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Mail, CheckCircle2, Loader2 } from "lucide-react";
 import { motion } from "framer-motion";
 import { submitLead } from "@/lib/leads";
+import { pushLeadSubmissionEvent } from "@/lib/tracking";
 
 interface NewsletterSectionProps {
   className?: string;
@@ -34,6 +35,11 @@ const NewsletterSection = ({ className }: NewsletterSectionProps) => {
         lastName: "",
         email: trimmed,
         optIn,
+      });
+      pushLeadSubmissionEvent("newsletter_subscribe", {
+        form_id: "newsletter-section-form",
+        lead_source: "newsletter",
+        pending_confirmation: result.pendingConfirmation === true,
       });
       setPendingConfirmation(result.pendingConfirmation === true);
       setStatus("success");

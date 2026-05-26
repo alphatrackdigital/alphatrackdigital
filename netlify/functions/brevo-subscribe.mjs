@@ -20,6 +20,9 @@ const allowedOrigins = new Set([
   "https://www.alphatrack.digital",
   "https://alphatra-serv.netlify.app",
   "https://backend--alphatra-serv.netlify.app",
+  "https://website-internal-test.vercel.app",
+  "https://atd-website-test.vercel.app",
+  "https://atd-website-test-alphatrackdigitals-projects.vercel.app",
 ]);
 
 const getCorsHeaders = (request) => {

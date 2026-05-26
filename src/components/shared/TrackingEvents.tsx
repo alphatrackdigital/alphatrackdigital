@@ -1,11 +1,27 @@
 import { useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
 
-import { getConversionEventForPath, pushDataLayerEvent } from "@/lib/tracking";
+import { getConversionEventsForPath, pushBookingClickEvent, pushDataLayerEvent } from "@/lib/tracking";
 
 const TrackingEvents = () => {
   const location = useLocation();
   const firedConversions = useRef(new Set<string>());
+
+  useEffect(() => {
+    const handleDocumentClick = (event: MouseEvent) => {
+      const target = event.target instanceof Element ? event.target : null;
+      const anchor = target?.closest("a");
+      if (!(anchor instanceof HTMLAnchorElement)) return;
+
+      pushBookingClickEvent(anchor);
+    };
+
+    document.addEventListener("click", handleDocumentClick, { capture: true });
+
+    return () => {
+      document.removeEventListener("click", handleDocumentClick, { capture: true });
+    };
+  }, []);
 
   useEffect(() => {
     const pagePath = `${location.pathname}${location.search}${location.hash}`;
@@ -18,16 +34,18 @@ const TrackingEvents = () => {
       page_hash: location.hash || undefined,
     });
 
-    const conversionEvent = getConversionEventForPath(location.pathname);
-    if (!conversionEvent) return;
+    const conversionEvents = getConversionEventsForPath(location.pathname);
+    if (conversionEvents.length === 0) return;
 
-    const conversionKey = `${conversionEvent}:${location.pathname}`;
-    if (firedConversions.current.has(conversionKey)) return;
+    conversionEvents.forEach((conversionEvent) => {
+      const conversionKey = `${conversionEvent}:${location.pathname}`;
+      if (firedConversions.current.has(conversionKey)) return;
 
-    firedConversions.current.add(conversionKey);
-    pushDataLayerEvent(conversionEvent, {
-      page_path: location.pathname,
-      page_location: pageLocation,
+      firedConversions.current.add(conversionKey);
+      pushDataLayerEvent(conversionEvent, {
+        page_path: location.pathname,
+        page_location: pageLocation,
+      });
     });
   }, [location.hash, location.pathname, location.search]);
 

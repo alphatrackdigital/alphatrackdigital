@@ -19,6 +19,9 @@ const allowedOrigins = new Set([
   "https://www.alphatrack.digital",
   "https://alphatra-serv.netlify.app",
   "https://backend--alphatra-serv.netlify.app",
+  "https://website-internal-test.vercel.app",
+  "https://atd-website-test.vercel.app",
+  "https://atd-website-test-alphatrackdigitals-projects.vercel.app",
 ]);
 
 const getCorsHeaders = (request) => {
@@ -123,6 +126,12 @@ const leadNotificationConfig = {
     subject: "New tracking audit request",
     label: "Tracking audit request",
   },
+  newsletter: {
+    senderEmail: "info@alphatrack.digital",
+    recipients: ["info@alphatrack.digital"],
+    subject: "New newsletter signup",
+    label: "Newsletter signup",
+  },
 };
 
 const escapeHtml = (value) =>
@@ -133,7 +142,7 @@ const escapeHtml = (value) =>
     .replace(/"/g, "&quot;");
 
 const buildNotificationRows = (data) => [
-  ["Source", data.source === "contact_form" ? "Contact Form" : "Tracking Audit Landing Page"],
+  ["Source", data.source === "contact_form" ? "Contact Form" : data.source === "newsletter" ? "Newsletter" : "Tracking Audit Landing Page"],
   ["Name", `${data.firstName} ${data.lastName}`.trim()],
   ["Email", data.email],
   ["Company", data.company || ""],

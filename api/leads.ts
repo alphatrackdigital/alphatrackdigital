@@ -32,6 +32,28 @@ const RATE_LIMIT_WINDOW_MS = 60_000;
 const RATE_LIMIT_MAX_REQUESTS = 8;
 const requestBuckets = new Map<string, { count: number; windowStart: number }>();
 
+const allowedOrigins = new Set([
+  "https://alphatrack.digital",
+  "https://www.alphatrack.digital",
+  "https://alphatra-serv.netlify.app",
+  "https://backend--alphatra-serv.netlify.app",
+  "https://website-internal-test.vercel.app",
+  "https://atd-website-test.vercel.app",
+  "https://atd-website-test-alphatrackdigitals-projects.vercel.app",
+]);
+
+const setCorsHeaders = (req: Req, res: Res) => {
+  const origin = Array.isArray(req.headers.origin)
+    ? req.headers.origin[0]
+    : req.headers.origin;
+  res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  if (origin && allowedOrigins.has(origin)) {
+    res.setHeader("Access-Control-Allow-Origin", origin);
+    res.setHeader("Vary", "Origin");
+  }
+};
+
 const isValidLeadPayload = (payload: unknown): payload is LeadPayload => {
   if (!payload || typeof payload !== "object") return false;
   const data = payload as Record<string, unknown>;
@@ -98,6 +120,12 @@ const leadNotificationConfig: Partial<Record<LeadSource, {
     subject: "New tracking audit request",
     label: "Tracking audit request",
   },
+  newsletter: {
+    senderEmail: "info@alphatrack.digital",
+    recipients: ["info@alphatrack.digital"],
+    subject: "New newsletter signup",
+    label: "Newsletter signup",
+  },
 };
 
 const escapeHtml = (value: unknown) =>
@@ -108,7 +136,7 @@ const escapeHtml = (value: unknown) =>
     .replace(/"/g, "&quot;");
 
 const buildNotificationRows = (data: LeadPayload) => [
-  ["Source", data.source === "contact_form" ? "Contact Form" : "Tracking Audit Landing Page"],
+  ["Source", data.source === "contact_form" ? "Contact Form" : data.source === "newsletter" ? "Newsletter" : "Tracking Audit Landing Page"],
   ["Name", `${data.firstName} ${data.lastName}`.trim()],
   ["Email", data.email],
   ["Company", data.company || ""],
@@ -241,8 +269,15 @@ const toBrevoDoiPayload = (data: LeadPayload, listId: number, templateId: number
 const handler = async (req: Req, res: Res) => {
   res.setHeader("Content-Type", "application/json");
   res.setHeader("Cache-Control", "no-store");
+  setCorsHeaders(req, res);
+
+  if (req.method === "OPTIONS") {
+    res.setHeader("Allow", "POST, OPTIONS");
+    return res.status(204).json({});
+  }
 
   if (req.method !== "POST") {
+    res.setHeader("Allow", "POST, OPTIONS");
     return res.status(405).json({ ok: false, message: "Method not allowed" });
   }
 

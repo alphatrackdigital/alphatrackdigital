@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { CheckCircle2, Loader2 } from "lucide-react";
 import { companyProfile } from "@/data/companyProfile";
 import { submitLead } from "@/lib/leads";
+import { pushLeadSubmissionEvent } from "@/lib/tracking";
 
 const FooterTopDivider = () => (
   <div aria-hidden="true" className="pointer-events-none relative h-px overflow-hidden">
@@ -35,6 +36,11 @@ const FooterNewsletter = () => {
     setStatus("loading");
     try {
       const result = await submitLead({ source: "newsletter", firstName: "", lastName: "", email: trimmed, optIn });
+      pushLeadSubmissionEvent("newsletter_subscribe", {
+        form_id: "footer-newsletter-form",
+        lead_source: "newsletter",
+        pending_confirmation: result.pendingConfirmation === true,
+      });
       setPendingConfirmation(result.pendingConfirmation === true);
       setStatus("success");
     } catch {

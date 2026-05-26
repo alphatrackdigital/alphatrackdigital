@@ -2,6 +2,8 @@ import { useCallback, useEffect, useMemo, useState, type FormEvent } from "react
 import { CheckCircle2, Loader2, X } from "lucide-react";
 import { useLocation } from "react-router-dom";
 
+import { pushLeadSubmissionEvent } from "@/lib/tracking";
+
 type PopupStatus = "idle" | "loading" | "success" | "error";
 
 type DataLayerEvent =
@@ -196,7 +198,11 @@ const ExitIntentPopup = () => {
 
       window.localStorage.setItem(SUBMITTED_KEY, "true");
       setStatus("success");
-      pushDataLayer("exit_popup_success");
+      pushLeadSubmissionEvent("exit_popup_success", {
+        form_id: "exit-intent-popup-form",
+        lead_source: "exit_popup",
+        opt_in: optIn,
+      });
     } catch {
       setStatus("error");
       setFormMessage("Something went wrong. Please try again.");
