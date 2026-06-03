@@ -1,13 +1,11 @@
 [build]
   command = "npm run build"
+  ignore = "node scripts/netlify-ignore-build.mjs"
   publish = "dist"
 
 [functions]
   directory = "netlify/functions"
   node_bundler = "esbuild"
-
-[edge_functions]
-  directory = "netlify/edge-functions"
 
 # API requests → Netlify functions
 [[redirects]]

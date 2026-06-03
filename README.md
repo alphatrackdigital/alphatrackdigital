@@ -118,6 +118,22 @@ The repository still contains Netlify-compatible function code and `netlify.toml
 
 Brevo API routes such as `/api/leads` and `/api/brevo-subscribe` require a Node/serverless runtime. They will not run on static-only cPanel hosting without a separate API deployment or hosting migration.
 
+## Frontend Staging
+
+Primary frontend test/staging environment:
+
+```text
+https://alphatrackdigital.netlify.app
+```
+
+Use Netlify Deploy Previews and the optional `staging` branch for routine frontend review. Keep Vercel as fallback/comparison infrastructure only, not the normal review path.
+
+Live backend/API service used by the public Namecheap/cPanel website:
+
+```text
+https://alphatra-serv.netlify.app
+```
+
 ## Current Product Direction
 
 Primary CTA:
@@ -145,3 +161,4 @@ netlify/functions/*
 ## Additional Documentation
 
 - `docs/playwright-ui-targeting.md` — Playwright locator workflow for Codex and UI QA.
+- `docs/netlify-credit-control.md` — Netlify project roles, staging workflow, and credit-control rules.

@@ -42,3 +42,6 @@ devserver-*.err
 .playwright-mcp/
 devserver.*.err
 devserver.*.out
+
+# Local Netlify folder
+.netlify
