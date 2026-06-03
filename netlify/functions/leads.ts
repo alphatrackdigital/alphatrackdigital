@@ -77,6 +77,12 @@ const leadNotificationConfig: Partial<Record<LeadSource, {
     subject: "New tracking audit request",
     label: "Tracking audit request",
   },
+  newsletter: {
+    senderEmail: "info@alphatrack.digital",
+    recipients: ["info@alphatrack.digital"],
+    subject: "New newsletter signup",
+    label: "Newsletter signup",
+  },
 };
 
 function escapeHtml(value: unknown): string {
@@ -91,9 +97,15 @@ function buildMessageAttribute(payload: LeadPayload): string {
   return payload.message?.trim() || "";
 }
 
+function getSourceLabel(source: LeadSource): string {
+  if (source === "contact_form") return "Contact Form";
+  if (source === "newsletter") return "Newsletter";
+  return "Tracking Audit Landing Page";
+}
+
 function buildNotificationRows(payload: LeadPayload) {
   return [
-    ["Source", payload.source === "contact_form" ? "Contact Form" : "Tracking Audit Landing Page"],
+    ["Source", getSourceLabel(payload.source)],
     ["Name", `${payload.firstName} ${payload.lastName}`.trim()],
     ["Email", payload.email],
     ["Company", payload.company || ""],
