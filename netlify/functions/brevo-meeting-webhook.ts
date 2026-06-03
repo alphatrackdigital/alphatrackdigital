@@ -103,10 +103,15 @@ function authenticate(event: HandlerEvent): boolean {
   const secret = getEnv("BREVO_MEETING_WEBHOOK_SECRET");
   if (!secret) return false;
 
+  const headers = Object.fromEntries(
+    Object.entries(event.headers).map(([key, value]) => [key.toLowerCase(), value]),
+  );
+  const rawQueryToken = new URLSearchParams(event.rawQuery || "").get("token") || undefined;
   const providedSecret =
-    event.headers["x-atd-webhook-secret"] ||
-    event.headers["x-brevo-webhook-secret"] ||
-    event.queryStringParameters?.token;
+    headers["x-atd-webhook-secret"] ||
+    headers["x-brevo-webhook-secret"] ||
+    event.queryStringParameters?.token ||
+    rawQueryToken;
 
   return providedSecret === secret;
 }
