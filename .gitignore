@@ -1,0 +1,34 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+build/
+.netlify/
+.vercel/
+
+# Local environment files
+.env
+.env.*
+!.env.example
+
+# Local tool state
+.claude/
+.playwright-mcp/
+.tmp-audit/
+test-results/
+
+# Logs
+*.log
+*.out
+*.err
+devserver*.out
+devserver*.err
+
+# Local screenshots and visual-review artifacts
+tmp-*.png
+tmp--*.png
+*-review.png
+playwright-cli-check.png
+conversion-tracking-review.png
+paid-media-review.png
