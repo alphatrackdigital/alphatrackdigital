@@ -266,6 +266,22 @@ const toBrevoDoiPayload = (data, listId, templateId, redirectUrl) => ({
   }, data),
 });
 
+const ensureContactInList = async (email, listId, brevoApiKey) => {
+  const response = await fetch(`https://api.brevo.com/v3/contacts/lists/${listId}/contacts/add`, {
+    method: "POST",
+    headers: {
+      "content-type": "application/json",
+      "api-key": brevoApiKey,
+    },
+    body: JSON.stringify({ emails: [email] }),
+  });
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(`Failed to add contact to Brevo list ${listId}. ${errorText.slice(0, 180)}`);
+  }
+};
+
 export default async (request) => {
   const corsHeaders = getCorsHeaders(request);
 
@@ -361,6 +377,10 @@ export default async (request) => {
         },
         { status: 502, headers: corsHeaders },
       );
+    }
+
+    if (!isNewsletterDoiEnabled) {
+      await ensureContactInList(payload.email, listId, brevoApiKey);
     }
 
     await sendInternalNotification(payload, brevoApiKey);

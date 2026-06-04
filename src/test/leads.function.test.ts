@@ -31,6 +31,7 @@ describe("leads function", () => {
     const fetchMock = vi
       .fn()
       .mockResolvedValueOnce(new Response(JSON.stringify({ id: 123 }), { status: 201 }))
+      .mockResolvedValueOnce(new Response(JSON.stringify({ contacts: { success: ["ada@example.com"], failure: [] } }), { status: 201 }))
       .mockResolvedValueOnce(new Response(JSON.stringify({ messageId: "message-1" }), { status: 201 }));
     vi.stubGlobal("fetch", fetchMock);
 
@@ -47,7 +48,7 @@ describe("leads function", () => {
     expect(response.status).toBe(200);
     await expect(response.json()).resolves.toEqual({ ok: true, pendingConfirmation: false });
 
-    expect(fetchMock).toHaveBeenCalledTimes(2);
+    expect(fetchMock).toHaveBeenCalledTimes(3);
     const [, contactInit] = fetchMock.mock.calls[0];
     expect(JSON.parse(contactInit.body)).toMatchObject({
       email: "ada@example.com",
@@ -60,7 +61,11 @@ describe("leads function", () => {
       },
     });
 
-    const [notificationUrl, notificationInit] = fetchMock.mock.calls[1];
+    const [listUrl, listInit] = fetchMock.mock.calls[1];
+    expect(listUrl).toBe("https://api.brevo.com/v3/contacts/lists/8/contacts/add");
+    expect(JSON.parse(listInit.body)).toEqual({ emails: ["ada@example.com"] });
+
+    const [notificationUrl, notificationInit] = fetchMock.mock.calls[2];
     expect(notificationUrl).toBe("https://api.brevo.com/v3/smtp/email");
     expect(JSON.parse(notificationInit.body)).toMatchObject({
       sender: { name: "AlphaTrack Digital", email: "info@alphatrack.digital" },
@@ -75,6 +80,7 @@ describe("leads function", () => {
     const fetchMock = vi
       .fn()
       .mockResolvedValueOnce(new Response(JSON.stringify({ id: 456 }), { status: 201 }))
+      .mockResolvedValueOnce(new Response(JSON.stringify({ contacts: { success: ["grace@example.com"], failure: [] } }), { status: 201 }))
       .mockResolvedValueOnce(new Response(JSON.stringify({ messageId: "message-2" }), { status: 201 }));
     vi.stubGlobal("fetch", fetchMock);
 
@@ -106,7 +112,11 @@ describe("leads function", () => {
       },
     });
 
-    const [notificationUrl, notificationInit] = fetchMock.mock.calls[1];
+    const [listUrl, listInit] = fetchMock.mock.calls[1];
+    expect(listUrl).toBe("https://api.brevo.com/v3/contacts/lists/11/contacts/add");
+    expect(JSON.parse(listInit.body)).toEqual({ emails: ["grace@example.com"] });
+
+    const [notificationUrl, notificationInit] = fetchMock.mock.calls[2];
     expect(notificationUrl).toBe("https://api.brevo.com/v3/smtp/email");
     expect(JSON.parse(notificationInit.body)).toMatchObject({
       sender: { name: "AlphaTrack Digital", email: "audit@alphatrack.digital" },
