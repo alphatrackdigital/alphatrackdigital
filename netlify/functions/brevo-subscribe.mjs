@@ -1,4 +1,4 @@
-import { buildExitPopupDedupeKey, getIdempotencyRecord, markIdempotencyKey } from "./idempotency.mjs";
+import { buildExitPopupDedupeKey, getIdempotencyRecord, markIdempotencyKey } from "./lib/idempotency.mjs";
 
 const RATE_LIMIT_WINDOW_MS = 60_000;
 const RATE_LIMIT_MAX_REQUESTS = 5;

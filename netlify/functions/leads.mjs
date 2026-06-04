@@ -1,4 +1,4 @@
-import { buildLeadDedupeKey, getIdempotencyRecord, markIdempotencyKey } from "./idempotency.mjs";
+import { buildLeadDedupeKey, getIdempotencyRecord, markIdempotencyKey } from "./lib/idempotency.mjs";
 
 const RATE_LIMIT_WINDOW_MS = 60_000;
 const RATE_LIMIT_MAX_REQUESTS = 8;

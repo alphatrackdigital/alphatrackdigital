@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import handler from "../../netlify/functions/leads.mjs";
-import { resetIdempotencyForTests } from "../../netlify/functions/idempotency.mjs";
+import { resetIdempotencyForTests } from "../../netlify/functions/lib/idempotency.mjs";
 
 const buildRequest = (body: Record<string, unknown>) =>
   new Request("https://alphatrack.digital/api/leads", {

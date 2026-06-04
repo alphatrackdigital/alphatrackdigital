@@ -1,4 +1,4 @@
-import { buildBookingDedupeKey, getIdempotencyRecord, markIdempotencyKey } from "./idempotency.mjs";
+import { buildBookingDedupeKey, getIdempotencyRecord, markIdempotencyKey } from "./lib/idempotency.mjs";
 
 const GA4_COLLECT_ENDPOINT = "https://www.google-analytics.com/mp/collect";
 const DEFAULT_EVENT_NAME = "meeting_booked_confirmed";

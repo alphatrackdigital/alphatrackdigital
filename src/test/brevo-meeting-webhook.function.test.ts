@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import handler from "../../netlify/functions/brevo-meeting-webhook.mjs";
-import { resetIdempotencyForTests } from "../../netlify/functions/idempotency.mjs";
+import { resetIdempotencyForTests } from "../../netlify/functions/lib/idempotency.mjs";
 
 const webhookUrl = "https://alphatrack.digital/api/brevo-meeting-webhook?token=test-webhook-secret";
 
