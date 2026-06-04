@@ -1,18 +1,33 @@
-import type { Handler, HandlerEvent } from "@netlify/functions";
-import { corsHeaders, jsonResponse } from "./lib/http";
+import { buildBookingDedupeKey, getIdempotencyRecord, markIdempotencyKey } from "./lib/idempotency.mjs";
 
 const GA4_COLLECT_ENDPOINT = "https://www.google-analytics.com/mp/collect";
 const DEFAULT_EVENT_NAME = "meeting_booked_confirmed";
 
-function getEnv(name: string): string | undefined {
-  return process.env[name]?.trim() || undefined;
-}
+const json = (payload, init = {}) =>
+  new Response(JSON.stringify(payload), {
+    status: init.status ?? 200,
+    headers: {
+      "content-type": "application/json",
+      "cache-control": "no-store",
+      ...(init.headers ?? {}),
+    },
+  });
 
-function safeString(value: unknown): string {
-  return typeof value === "string" ? value.trim() : "";
-}
+const getEnv = (name) => {
+  if (globalThis.Netlify?.env?.get) {
+    return globalThis.Netlify.env.get(name)?.trim();
+  }
 
-function findFirstString(value: unknown, keys: string[]): string {
+  if (typeof process !== "undefined") {
+    return process.env[name]?.trim();
+  }
+
+  return undefined;
+};
+
+const safeString = (value) => (typeof value === "string" ? value.trim() : "");
+
+const findFirstString = (value, keys) => {
   if (!value || typeof value !== "object") return "";
 
   if (Array.isArray(value)) {
@@ -24,22 +39,20 @@ function findFirstString(value: unknown, keys: string[]): string {
     return "";
   }
 
-  const record = value as Record<string, unknown>;
-
   for (const key of keys) {
-    const direct = safeString(record[key]);
+    const direct = safeString(value[key]);
     if (direct) return direct;
   }
 
-  for (const nested of Object.values(record)) {
+  for (const nested of Object.values(value)) {
     const found = findFirstString(nested, keys);
     if (found) return found;
   }
 
   return "";
-}
+};
 
-function toNumericHash(value: string): string {
+const toNumericHash = (value) => {
   let hash = 2166136261;
   for (let index = 0; index < value.length; index += 1) {
     hash ^= value.charCodeAt(index);
@@ -47,9 +60,9 @@ function toNumericHash(value: string): string {
   }
 
   return Math.abs(hash >>> 0).toString();
-}
+};
 
-function getClientId(payload: unknown): string {
+const getClientId = (payload) => {
   const explicitClientId = findFirstString(payload, ["client_id", "clientId", "ga_client_id", "gaClientId"]);
   if (explicitClientId) return explicitClientId;
 
@@ -66,15 +79,32 @@ function getClientId(payload: unknown): string {
   ]);
   const hash = toNumericHash(stableBookingValue || `${Date.now()}`);
   return `${hash.slice(0, 10) || "1"}.${hash.slice(10, 20) || "1"}`;
-}
+};
 
-function getMeetingParams(payload: unknown) {
+const getSessionId = (payload) => {
+  const explicitSessionId = findFirstString(payload, ["session_id", "sessionId", "ga_session_id", "gaSessionId"]);
+  if (/^\d+$/.test(explicitSessionId)) return explicitSessionId;
+
+  const meetingStart = findFirstString(payload, ["meeting_start_timestamp", "meetingStartTimestamp", "startTime"]);
+  const startTimestamp = Date.parse(meetingStart);
+  if (Number.isFinite(startTimestamp)) {
+    return Math.floor(startTimestamp / 1000).toString();
+  }
+
+  return Math.floor(Date.now() / 1000).toString();
+};
+
+const getMeetingParams = (payload) => {
   const meetingName = findFirstString(payload, ["meeting_name", "meetingName", "name"]);
   const meetingStart = findFirstString(payload, ["meeting_start_timestamp", "meetingStartTimestamp", "startTime"]);
   const meetingEnd = findFirstString(payload, ["meeting_end_timestamp", "meetingEndTimestamp", "endTime"]);
   const meetingLocation = findFirstString(payload, ["meeting_location", "meetingLocation", "location"]);
   const meetingId = findFirstString(payload, ["meeting_id", "meetingId", "booking_id", "bookingId", "id"]);
   const participantEmail = findFirstString(payload, ["EMAIL", "email"]);
+  const pageLocation =
+    findFirstString(payload, ["page_location", "pageLocation"]) ||
+    getEnv("GA4_BOOKING_PAGE_LOCATION") ||
+    "https://alphatrack.digital/book-a-call";
 
   return {
     booking_id: meetingId || toNumericHash(`${meetingName}:${meetingStart}`),
@@ -84,11 +114,14 @@ function getMeetingParams(payload: unknown) {
     meeting_end_timestamp: meetingEnd,
     meeting_location: meetingLocation,
     source: "brevo_meetings_webhook",
+    page_location: pageLocation,
+    page_title: "Book A Free Strategy Call | AlphaTrack Digital",
+    session_id: getSessionId(payload),
     engagement_time_msec: 1,
   };
-}
+};
 
-function shouldIgnorePayload(payload: unknown): boolean {
+const shouldIgnorePayload = (payload) => {
   const eventText = [
     findFirstString(payload, ["event", "event_name", "eventName", "type", "status", "action"]),
     findFirstString(payload, ["meeting_status", "meetingStatus"]),
@@ -97,26 +130,22 @@ function shouldIgnorePayload(payload: unknown): boolean {
     .toLowerCase();
 
   return /\bcancel|cancelled|canceled|deleted\b/.test(eventText);
-}
+};
 
-function authenticate(event: HandlerEvent): boolean {
+const authenticate = (request) => {
   const secret = getEnv("BREVO_MEETING_WEBHOOK_SECRET");
   if (!secret) return false;
 
-  const headers = Object.fromEntries(
-    Object.entries(event.headers).map(([key, value]) => [key.toLowerCase(), value]),
-  );
-  const rawQueryToken = new URLSearchParams(event.rawQuery || "").get("token") || undefined;
+  const url = new URL(request.url);
   const providedSecret =
-    headers["x-atd-webhook-secret"] ||
-    headers["x-brevo-webhook-secret"] ||
-    event.queryStringParameters?.token ||
-    rawQueryToken;
+    request.headers.get("x-atd-webhook-secret") ||
+    request.headers.get("x-brevo-webhook-secret") ||
+    url.searchParams.get("token");
 
   return providedSecret === secret;
-}
+};
 
-async function createBrevoContact(payload: unknown) {
+const createBrevoContact = async (payload) => {
   const brevoApiKey = getEnv("BREVO_API_KEY");
   if (!brevoApiKey) return;
 
@@ -128,15 +157,16 @@ async function createBrevoContact(payload: unknown) {
 
   const firstName = findFirstString(payload, ["firstName", "first_name", "FIRSTNAME", "attendee_first_name"]);
   const lastName = findFirstString(payload, ["lastName", "last_name", "LASTNAME", "attendee_last_name"]);
+  const normalizedEmail = email.trim().toLowerCase();
 
-  await fetch("https://api.brevo.com/v3/contacts", {
+  const response = await fetch("https://api.brevo.com/v3/contacts", {
     method: "POST",
     headers: {
-      "Content-Type": "application/json",
+      "content-type": "application/json",
       "api-key": brevoApiKey,
     },
     body: JSON.stringify({
-      email: email.trim().toLowerCase(),
+      email: normalizedEmail,
       attributes: {
         ...(firstName ? { FIRSTNAME: firstName } : {}),
         ...(lastName ? { LASTNAME: lastName } : {}),
@@ -146,9 +176,26 @@ async function createBrevoContact(payload: unknown) {
       updateEnabled: true,
     }),
   });
-}
 
-async function sendGa4Event(payload: unknown) {
+  if (!response.ok) {
+    throw new Error("Brevo rejected the booking contact.");
+  }
+
+  const listResponse = await fetch(`https://api.brevo.com/v3/contacts/lists/${listId}/contacts/add`, {
+    method: "POST",
+    headers: {
+      "content-type": "application/json",
+      "api-key": brevoApiKey,
+    },
+    body: JSON.stringify({ emails: [normalizedEmail] }),
+  });
+
+  if (!listResponse.ok) {
+    throw new Error("Brevo rejected the booking list membership.");
+  }
+};
+
+const sendGa4Event = async (payload, meetingParams) => {
   const measurementId = getEnv("GA4_MEASUREMENT_ID");
   const apiSecret = getEnv("GA4_MEASUREMENT_PROTOCOL_API_SECRET");
 
@@ -157,14 +204,14 @@ async function sendGa4Event(payload: unknown) {
   }
 
   const eventName = getEnv("GA4_MEETING_BOOKED_EVENT_NAME") || DEFAULT_EVENT_NAME;
-  const params = getMeetingParams(payload);
+  const params = meetingParams || getMeetingParams(payload);
   const debugMode = getEnv("GA4_MEASUREMENT_PROTOCOL_DEBUG_MODE") === "true";
 
   const response = await fetch(
     `${GA4_COLLECT_ENDPOINT}?measurement_id=${encodeURIComponent(measurementId)}&api_secret=${encodeURIComponent(apiSecret)}`,
     {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "content-type": "application/json" },
       body: JSON.stringify({
         client_id: getClientId(payload),
         non_personalized_ads: true,
@@ -184,52 +231,72 @@ async function sendGa4Event(payload: unknown) {
   if (!response.ok) {
     throw new Error("GA4 rejected the booking event.");
   }
-}
 
-export const handler: Handler = async (event: HandlerEvent) => {
-  const headers = corsHeaders(event.headers["origin"]);
+  console.info("Brevo meeting booking sent to GA4.", {
+    event_name: eventName,
+    booking_id: params.booking_id,
+    session_id: params.session_id,
+    debug_mode: debugMode,
+  });
+};
 
-  if (event.httpMethod === "OPTIONS") {
-    return { statusCode: 204, headers, body: "" };
-  }
-
-  if (event.httpMethod !== "POST") {
-    return jsonResponse(
-      { ok: false, message: "Method not allowed." },
-      405,
-      { ...headers, Allow: "POST" },
+export default async (request) => {
+  if (request.method !== "POST") {
+    return json(
+      { ok: false, message: "Method not allowed" },
+      { status: 405, headers: { allow: "POST" } },
     );
   }
 
-  if (!authenticate(event)) {
-    return jsonResponse({ ok: false, message: "Unauthorized webhook request." }, 401, headers);
+  if (!authenticate(request)) {
+    return json({ ok: false, message: "Unauthorized webhook request." }, { status: 401 });
   }
 
-  let payload: unknown;
+  let payload;
   try {
-    payload = JSON.parse(event.body || "{}");
+    payload = await request.json();
   } catch {
-    return jsonResponse({ ok: false, message: "Invalid JSON payload." }, 400, headers);
+    return json({ ok: false, message: "Invalid JSON payload." }, { status: 400 });
   }
 
   if (!payload || typeof payload !== "object") {
-    return jsonResponse({ ok: false, message: "Invalid JSON payload." }, 400, headers);
+    return json({ ok: false, message: "Invalid JSON payload." }, { status: 400 });
   }
 
   if (shouldIgnorePayload(payload)) {
-    return jsonResponse({ ok: true, ignored: true }, 200, headers);
+    return json({ ok: true, ignored: true });
   }
 
+  const meetingParams = getMeetingParams(payload);
+  const dedupeKey = buildBookingDedupeKey(meetingParams);
+  const existingBooking = await getIdempotencyRecord(dedupeKey);
+  const isDuplicate = Boolean(existingBooking);
+
+  // Run GA4 tracking and Brevo contact creation in parallel.
+  // Each is independently error-handled so a failure in one does not affect the other.
   const [ga4Result, brevoResult] = await Promise.allSettled([
-    sendGa4Event(payload),
-    createBrevoContact(payload).catch(() => null),
+    isDuplicate ? Promise.resolve() : sendGa4Event(payload, meetingParams),
+    createBrevoContact(payload).catch(() => null), // silent — CRM write is best-effort
   ]);
 
   if (ga4Result.status === "rejected") {
     const message =
       ga4Result.reason instanceof Error ? ga4Result.reason.message : "Unable to track booking.";
-    return jsonResponse({ ok: false, message }, 500, headers);
+    console.error("Brevo meeting booking GA4 tracking failed.", { message });
+    return json({ ok: false, message }, { status: 500 });
   }
 
-  return jsonResponse({ ok: true, crm: brevoResult.status === "fulfilled" }, 200, headers);
+  if (!isDuplicate) {
+    await markIdempotencyKey(dedupeKey, {
+      source: "brevo_meetings_webhook",
+      bookingId: meetingParams.booking_id,
+    });
+  }
+
+  const brevoOk = brevoResult.status === "fulfilled";
+  return json({ ok: true, crm: brevoOk, duplicate: isDuplicate });
+};
+
+export const config = {
+  path: "/api/brevo-meeting-webhook",
 };
