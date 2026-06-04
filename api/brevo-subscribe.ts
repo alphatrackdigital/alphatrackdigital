@@ -1,3 +1,5 @@
+import { buildExitPopupDedupeKey, getIdempotencyRecord, markIdempotencyKey } from "./idempotency";
+
 interface SubscribePayload {
   firstName: string;
   email: string;
@@ -132,6 +134,21 @@ const withConsentAttributes = (
   return attributes;
 };
 
+const ensureContactInList = async (email: string, listId: number, brevoApiKey: string) => {
+  const response = await fetch(`https://api.brevo.com/v3/contacts/lists/${listId}/contacts/add`, {
+    method: "POST",
+    headers: {
+      "content-type": "application/json",
+      "api-key": brevoApiKey,
+    },
+    body: JSON.stringify({ emails: [email] }),
+  });
+
+  if (!response.ok) {
+    throw new Error("Unable to add contact to Brevo list.");
+  }
+};
+
 const handler = async (req: Req, res: Res) => {
   res.setHeader("Content-Type", "application/json");
   res.setHeader("Cache-Control", "no-store");
@@ -164,6 +181,10 @@ const handler = async (req: Req, res: Res) => {
     return res.status(500).json({ ok: false, message: "Lead service is not configured." });
   }
 
+  const dedupeKey = buildExitPopupDedupeKey(lead);
+  const existingSubmission = await getIdempotencyRecord(dedupeKey);
+  const isDuplicate = Boolean(existingSubmission);
+
   try {
     const brevoResponse = await fetch("https://api.brevo.com/v3/contacts", {
       method: "POST",
@@ -187,7 +208,17 @@ const handler = async (req: Req, res: Res) => {
       return res.status(502).json({ ok: false, message: "Unable to submit lead right now." });
     }
 
-    return res.status(200).json({ ok: true });
+    await ensureContactInList(lead.email, brevoListId, brevoApiKey);
+
+    if (!isDuplicate) {
+      await markIdempotencyKey(dedupeKey, {
+        source: "exit_popup",
+        emailHash: dedupeKey.split("/").at(-1),
+        listId: brevoListId,
+      });
+    }
+
+    return res.status(200).json({ ok: true, duplicate: isDuplicate });
   } catch {
     return res.status(500).json({ ok: false, message: "Unable to submit lead right now." });
   }

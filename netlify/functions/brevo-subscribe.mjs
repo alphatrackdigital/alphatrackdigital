@@ -1,3 +1,5 @@
+import { buildExitPopupDedupeKey, getIdempotencyRecord, markIdempotencyKey } from "./idempotency.mjs";
+
 const RATE_LIMIT_WINDOW_MS = 60_000;
 const RATE_LIMIT_MAX_REQUESTS = 5;
 const SOURCE = "ATD Website Exit Popup";
@@ -138,6 +140,21 @@ const withConsentAttributes = (attributes, lead) => {
   return attributes;
 };
 
+const ensureContactInList = async (email, listId, brevoApiKey) => {
+  const response = await fetch(`https://api.brevo.com/v3/contacts/lists/${listId}/contacts/add`, {
+    method: "POST",
+    headers: {
+      "content-type": "application/json",
+      "api-key": brevoApiKey,
+    },
+    body: JSON.stringify({ emails: [email] }),
+  });
+
+  if (!response.ok) {
+    throw new Error("Unable to add contact to Brevo list.");
+  }
+};
+
 export default async (request) => {
   const corsHeaders = getCorsHeaders(request);
 
@@ -189,6 +206,10 @@ export default async (request) => {
     return json({ ok: false, message: "Lead service is not configured." }, { status: 500, headers: corsHeaders });
   }
 
+  const dedupeKey = buildExitPopupDedupeKey(lead);
+  const existingSubmission = await getIdempotencyRecord(dedupeKey);
+  const isDuplicate = Boolean(existingSubmission);
+
   try {
     const brevoResponse = await fetch("https://api.brevo.com/v3/contacts", {
       method: "POST",
@@ -215,7 +236,17 @@ export default async (request) => {
       );
     }
 
-    return json({ ok: true }, { headers: corsHeaders });
+    await ensureContactInList(lead.email, brevoListId, brevoApiKey);
+
+    if (!isDuplicate) {
+      await markIdempotencyKey(dedupeKey, {
+        source: "exit_popup",
+        emailHash: dedupeKey.split("/").at(-1),
+        listId: brevoListId,
+      });
+    }
+
+    return json({ ok: true, duplicate: isDuplicate }, { headers: corsHeaders });
   } catch {
     return json({ ok: false, message: "Unable to submit lead right now." }, { status: 500, headers: corsHeaders });
   }

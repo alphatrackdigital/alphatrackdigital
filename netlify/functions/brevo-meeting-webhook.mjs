@@ -1,3 +1,5 @@
+import { buildBookingDedupeKey, getIdempotencyRecord, markIdempotencyKey } from "./idempotency.mjs";
+
 const GA4_COLLECT_ENDPOINT = "https://www.google-analytics.com/mp/collect";
 const DEFAULT_EVENT_NAME = "meeting_booked_confirmed";
 
@@ -155,15 +157,16 @@ const createBrevoContact = async (payload) => {
 
   const firstName = findFirstString(payload, ["firstName", "first_name", "FIRSTNAME", "attendee_first_name"]);
   const lastName = findFirstString(payload, ["lastName", "last_name", "LASTNAME", "attendee_last_name"]);
+  const normalizedEmail = email.trim().toLowerCase();
 
-  await fetch("https://api.brevo.com/v3/contacts", {
+  const response = await fetch("https://api.brevo.com/v3/contacts", {
     method: "POST",
     headers: {
       "content-type": "application/json",
       "api-key": brevoApiKey,
     },
     body: JSON.stringify({
-      email: email.trim().toLowerCase(),
+      email: normalizedEmail,
       attributes: {
         ...(firstName ? { FIRSTNAME: firstName } : {}),
         ...(lastName ? { LASTNAME: lastName } : {}),
@@ -173,9 +176,26 @@ const createBrevoContact = async (payload) => {
       updateEnabled: true,
     }),
   });
+
+  if (!response.ok) {
+    throw new Error("Brevo rejected the booking contact.");
+  }
+
+  const listResponse = await fetch(`https://api.brevo.com/v3/contacts/lists/${listId}/contacts/add`, {
+    method: "POST",
+    headers: {
+      "content-type": "application/json",
+      "api-key": brevoApiKey,
+    },
+    body: JSON.stringify({ emails: [normalizedEmail] }),
+  });
+
+  if (!listResponse.ok) {
+    throw new Error("Brevo rejected the booking list membership.");
+  }
 };
 
-const sendGa4Event = async (payload) => {
+const sendGa4Event = async (payload, meetingParams) => {
   const measurementId = getEnv("GA4_MEASUREMENT_ID");
   const apiSecret = getEnv("GA4_MEASUREMENT_PROTOCOL_API_SECRET");
 
@@ -184,7 +204,7 @@ const sendGa4Event = async (payload) => {
   }
 
   const eventName = getEnv("GA4_MEETING_BOOKED_EVENT_NAME") || DEFAULT_EVENT_NAME;
-  const params = getMeetingParams(payload);
+  const params = meetingParams || getMeetingParams(payload);
   const debugMode = getEnv("GA4_MEASUREMENT_PROTOCOL_DEBUG_MODE") === "true";
 
   const response = await fetch(
@@ -247,10 +267,15 @@ export default async (request) => {
     return json({ ok: true, ignored: true });
   }
 
+  const meetingParams = getMeetingParams(payload);
+  const dedupeKey = buildBookingDedupeKey(meetingParams);
+  const existingBooking = await getIdempotencyRecord(dedupeKey);
+  const isDuplicate = Boolean(existingBooking);
+
   // Run GA4 tracking and Brevo contact creation in parallel.
   // Each is independently error-handled so a failure in one does not affect the other.
   const [ga4Result, brevoResult] = await Promise.allSettled([
-    sendGa4Event(payload),
+    isDuplicate ? Promise.resolve() : sendGa4Event(payload, meetingParams),
     createBrevoContact(payload).catch(() => null), // silent — CRM write is best-effort
   ]);
 
@@ -261,8 +286,15 @@ export default async (request) => {
     return json({ ok: false, message }, { status: 500 });
   }
 
+  if (!isDuplicate) {
+    await markIdempotencyKey(dedupeKey, {
+      source: "brevo_meetings_webhook",
+      bookingId: meetingParams.booking_id,
+    });
+  }
+
   const brevoOk = brevoResult.status === "fulfilled";
-  return json({ ok: true, crm: brevoOk });
+  return json({ ok: true, crm: brevoOk, duplicate: isDuplicate });
 };
 
 export const config = {

@@ -125,7 +125,7 @@ const TrackingLandingPage = () => {
 
     setIsSubmitting(true);
     try {
-      await submitLead({
+      const result = await submitLead({
         source: "tracking_audit_offer",
         firstName: data.firstName,
         lastName: data.lastName,
@@ -135,11 +135,13 @@ const TrackingLandingPage = () => {
         adPlatforms: data.adPlatforms.join(", "),
         optIn: data.marketingOptIn === true,
       });
-      pushLeadSubmissionEvent("tracking_audit_submit", {
-        form_id: "tracking-audit-form",
-        lead_source: "tracking_audit_offer",
-        opt_in: data.marketingOptIn === true,
-      });
+      if (!result.duplicate) {
+        pushLeadSubmissionEvent("tracking_audit_submit", {
+          form_id: "tracking-audit-form",
+          lead_source: "tracking_audit_offer",
+          opt_in: data.marketingOptIn === true,
+        });
+      }
       setSubmittedEmail(data.email);
       setIsSubmitted(true);
     } catch {

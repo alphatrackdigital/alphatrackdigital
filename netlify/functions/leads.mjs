@@ -1,3 +1,5 @@
+import { buildLeadDedupeKey, getIdempotencyRecord, markIdempotencyKey } from "./idempotency.mjs";
+
 const RATE_LIMIT_WINDOW_MS = 60_000;
 const RATE_LIMIT_MAX_REQUESTS = 8;
 
@@ -342,6 +344,9 @@ export default async (request) => {
       : payload.source === "newsletter"
         ? newsletterListId
         : auditListId;
+  const dedupeKey = buildLeadDedupeKey(payload);
+  const existingSubmission = await getIdempotencyRecord(dedupeKey);
+  const isDuplicate = Boolean(existingSubmission);
 
   try {
     const isNewsletterDoiEnabled =
@@ -349,6 +354,10 @@ export default async (request) => {
       Number.isInteger(newsletterDoiTemplateId) &&
       newsletterDoiTemplateId > 0 &&
       newsletterDoiRedirectUrl.length > 0;
+
+    if (isDuplicate && isNewsletterDoiEnabled) {
+      return json({ ok: true, pendingConfirmation: true, duplicate: true }, { headers: corsHeaders });
+    }
 
     const brevoResponse = await fetch(
       isNewsletterDoiEnabled
@@ -383,9 +392,16 @@ export default async (request) => {
       await ensureContactInList(payload.email, listId, brevoApiKey);
     }
 
-    await sendInternalNotification(payload, brevoApiKey);
+    if (!isDuplicate) {
+      await markIdempotencyKey(dedupeKey, {
+        source: payload.source,
+        emailHash: dedupeKey.split("/").at(-1),
+        listId,
+      });
+      await sendInternalNotification(payload, brevoApiKey);
+    }
 
-    return json({ ok: true, pendingConfirmation: isNewsletterDoiEnabled }, { headers: corsHeaders });
+    return json({ ok: true, pendingConfirmation: isNewsletterDoiEnabled, duplicate: isDuplicate }, { headers: corsHeaders });
   } catch {
     return json({ ok: false, message: "Unable to submit lead right now." }, { status: 500, headers: corsHeaders });
   }

@@ -19,4 +19,5 @@ export interface LeadSubmissionResult {
   ok: boolean;
   message?: string;
   pendingConfirmation?: boolean;
+  duplicate?: boolean;
 }

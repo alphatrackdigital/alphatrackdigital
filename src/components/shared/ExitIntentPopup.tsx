@@ -198,11 +198,13 @@ const ExitIntentPopup = () => {
 
       window.localStorage.setItem(SUBMITTED_KEY, "true");
       setStatus("success");
-      pushLeadSubmissionEvent("exit_popup_success", {
-        form_id: "exit-intent-popup-form",
-        lead_source: "exit_popup",
-        opt_in: optIn,
-      });
+      if (!result.duplicate) {
+        pushLeadSubmissionEvent("exit_popup_success", {
+          form_id: "exit-intent-popup-form",
+          lead_source: "exit_popup",
+          opt_in: optIn,
+        });
+      }
     } catch {
       setStatus("error");
       setFormMessage("Something went wrong. Please try again.");

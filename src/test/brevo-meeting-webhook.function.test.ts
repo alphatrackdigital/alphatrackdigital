@@ -1,5 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import handler from "../../netlify/functions/brevo-meeting-webhook.mjs";
+import { resetIdempotencyForTests } from "../../netlify/functions/idempotency.mjs";
 
 const webhookUrl = "https://alphatrack.digital/api/brevo-meeting-webhook?token=test-webhook-secret";
 
@@ -29,6 +30,7 @@ const bookedPayload = {
 
 describe("brevo meeting webhook function", () => {
   beforeEach(() => {
+    resetIdempotencyForTests();
     process.env.BREVO_MEETING_WEBHOOK_SECRET = "test-webhook-secret";
     process.env.GA4_MEASUREMENT_ID = "G-TEST1234";
     process.env.GA4_MEASUREMENT_PROTOCOL_API_SECRET = "ga4-secret";
@@ -63,7 +65,7 @@ describe("brevo meeting webhook function", () => {
     const response = await handler(buildRequest(bookedPayload));
 
     expect(response.status).toBe(200);
-    await expect(response.json()).resolves.toEqual({ ok: true, crm: true });
+    await expect(response.json()).resolves.toEqual({ ok: true, crm: true, duplicate: false });
     expect(fetchMock).toHaveBeenCalledWith(
       "https://www.google-analytics.com/mp/collect?measurement_id=G-TEST1234&api_secret=ga4-secret",
       expect.objectContaining({
@@ -111,6 +113,22 @@ describe("brevo meeting webhook function", () => {
     const [, init] = fetchMock.mock.calls[0];
     const body = JSON.parse(init.body);
     expect(body.events[0].params.debug_mode).toBe(true);
+  });
+
+  it("does not send duplicate booking conversions to GA4", async () => {
+    const fetchMock = vi.fn().mockResolvedValue(new Response(null, { status: 204 }));
+    vi.stubGlobal("fetch", fetchMock);
+
+    const firstResponse = await handler(buildRequest(bookedPayload));
+    await expect(firstResponse.json()).resolves.toMatchObject({ ok: true, duplicate: false });
+
+    const secondResponse = await handler(buildRequest(bookedPayload));
+    await expect(secondResponse.json()).resolves.toMatchObject({ ok: true, duplicate: true });
+
+    const ga4Calls = fetchMock.mock.calls.filter(([url]) =>
+      String(url).startsWith("https://www.google-analytics.com/mp/collect"),
+    );
+    expect(ga4Calls).toHaveLength(1);
   });
 
   it("ignores cancel-style payloads", async () => {

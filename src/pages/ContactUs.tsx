@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { companyProfile, featuredTestimonial } from "@/data/companyProfile";
+import { markConversionIntent } from "@/lib/conversionSession";
 import { submitLead } from "@/lib/leads";
 
 const contactSchema = z.object({
@@ -164,7 +165,7 @@ const ContactUs = () => {
 
     setIsSubmitting(true);
     try {
-      await submitLead({
+      const result = await submitLead({
         source: "contact_form",
         firstName: data.firstName,
         lastName: data.lastName,
@@ -174,6 +175,9 @@ const ContactUs = () => {
         monthlyBudget: data.monthlyBudget || "",
         message: data.message || "",
       });
+      if (!result.duplicate) {
+        markConversionIntent("contact_form_submit", "/contact-us/thank-you");
+      }
       navigate("/contact-us/thank-you");
     } catch {
       toast.error(

@@ -1,3 +1,5 @@
+import { buildBookingDedupeKey, getIdempotencyRecord, markIdempotencyKey } from "./idempotency";
+
 interface Req {
   method?: string;
   body?: unknown;
@@ -147,7 +149,7 @@ const authenticate = (req: Req) => {
   return providedSecret === secret;
 };
 
-const sendGa4Event = async (payload: unknown) => {
+const sendGa4Event = async (payload: unknown, meetingParams?: ReturnType<typeof getMeetingParams>) => {
   const measurementId = getEnv("GA4_MEASUREMENT_ID");
   const apiSecret = getEnv("GA4_MEASUREMENT_PROTOCOL_API_SECRET");
 
@@ -156,7 +158,7 @@ const sendGa4Event = async (payload: unknown) => {
   }
 
   const eventName = getEnv("GA4_MEETING_BOOKED_EVENT_NAME") || DEFAULT_EVENT_NAME;
-  const params = getMeetingParams(payload);
+  const params = meetingParams || getMeetingParams(payload);
   const debugMode = getEnv("GA4_MEASUREMENT_PROTOCOL_DEBUG_MODE") === "true";
 
   const response = await fetch(
@@ -213,9 +215,21 @@ const handler = async (req: Req, res: Res) => {
     return res.status(200).json({ ok: true, ignored: true });
   }
 
+  const meetingParams = getMeetingParams(req.body);
+  const dedupeKey = buildBookingDedupeKey(meetingParams);
+  const existingBooking = await getIdempotencyRecord(dedupeKey);
+  const isDuplicate = Boolean(existingBooking);
+
   try {
-    await sendGa4Event(req.body);
-    return res.status(200).json({ ok: true });
+    if (!isDuplicate) {
+      await sendGa4Event(req.body, meetingParams);
+      await markIdempotencyKey(dedupeKey, {
+        source: "brevo_meetings_webhook",
+        bookingId: meetingParams.booking_id,
+      });
+    }
+
+    return res.status(200).json({ ok: true, duplicate: isDuplicate });
   } catch (error) {
     const message = error instanceof Error ? error.message : "Unable to track booking.";
     console.error("Brevo meeting booking GA4 tracking failed.", { message });

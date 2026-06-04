@@ -1,3 +1,5 @@
+import { buildLeadDedupeKey, getIdempotencyRecord, markIdempotencyKey } from "./idempotency";
+
 type LeadSource = "contact_form" | "tracking_audit_offer" | "newsletter";
 
 interface LeadPayload {
@@ -324,6 +326,9 @@ const handler = async (req: Req, res: Res) => {
       : payload.source === "newsletter"
         ? newsletterListId
         : auditListId;
+  const dedupeKey = buildLeadDedupeKey(payload as unknown as Record<string, unknown>);
+  const existingSubmission = await getIdempotencyRecord(dedupeKey);
+  const isDuplicate = Boolean(existingSubmission);
 
   try {
     const isNewsletterDoiEnabled =
@@ -331,6 +336,10 @@ const handler = async (req: Req, res: Res) => {
       Number.isInteger(newsletterDoiTemplateId) &&
       newsletterDoiTemplateId > 0 &&
       newsletterDoiRedirectUrl.length > 0;
+
+    if (isDuplicate && isNewsletterDoiEnabled) {
+      return res.status(200).json({ ok: true, pendingConfirmation: true, duplicate: true });
+    }
 
     const brevoResponse = await fetch(
       isNewsletterDoiEnabled
@@ -362,9 +371,16 @@ const handler = async (req: Req, res: Res) => {
       await ensureContactInList(payload.email, listId, brevoApiKey);
     }
 
-    await sendInternalNotification(payload, brevoApiKey);
+    if (!isDuplicate) {
+      await markIdempotencyKey(dedupeKey, {
+        source: payload.source,
+        emailHash: dedupeKey.split("/").at(-1),
+        listId,
+      });
+      await sendInternalNotification(payload, brevoApiKey);
+    }
 
-    return res.status(200).json({ ok: true, pendingConfirmation: isNewsletterDoiEnabled });
+    return res.status(200).json({ ok: true, pendingConfirmation: isNewsletterDoiEnabled, duplicate: isDuplicate });
   } catch {
     return res.status(500).json({ ok: false, message: "Unable to submit lead right now." });
   }

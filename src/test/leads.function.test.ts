@@ -1,5 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import handler from "../../netlify/functions/leads.mjs";
+import { resetIdempotencyForTests } from "../../netlify/functions/idempotency.mjs";
 
 const buildRequest = (body: Record<string, unknown>) =>
   new Request("https://alphatrack.digital/api/leads", {
@@ -13,6 +14,7 @@ const buildRequest = (body: Record<string, unknown>) =>
 
 describe("leads function", () => {
   beforeEach(() => {
+    resetIdempotencyForTests();
     process.env.BREVO_API_KEY = "test-api-key";
     process.env.BREVO_CONTACT_LIST_ID = "8";
     process.env.BREVO_AUDIT_LIST_ID = "11";
@@ -46,7 +48,7 @@ describe("leads function", () => {
     }));
 
     expect(response.status).toBe(200);
-    await expect(response.json()).resolves.toEqual({ ok: true, pendingConfirmation: false });
+    await expect(response.json()).resolves.toEqual({ ok: true, pendingConfirmation: false, duplicate: false });
 
     expect(fetchMock).toHaveBeenCalledTimes(3);
     const [, contactInit] = fetchMock.mock.calls[0];
@@ -125,5 +127,32 @@ describe("leads function", () => {
       subject: "New tracking audit request",
       tags: ["tracking_audit_offer"],
     });
+  });
+
+  it("does not resend notifications for duplicate tracking audit submissions", async () => {
+    const fetchMock = vi
+      .fn()
+      .mockResolvedValue(new Response(JSON.stringify({ id: 456 }), { status: 201 }));
+    vi.stubGlobal("fetch", fetchMock);
+
+    const payload = {
+      source: "tracking_audit_offer",
+      firstName: "Grace",
+      lastName: "Hopper",
+      email: "grace@example.com",
+      websiteUrl: "https://example.com",
+      monthlyAdSpend: "5k to 20k per month",
+      adPlatforms: "Google Ads, Meta Ads",
+      optIn: true,
+    };
+
+    const firstResponse = await handler(buildRequest(payload));
+    await expect(firstResponse.json()).resolves.toMatchObject({ ok: true, duplicate: false });
+
+    const secondResponse = await handler(buildRequest(payload));
+    await expect(secondResponse.json()).resolves.toMatchObject({ ok: true, duplicate: true });
+
+    expect(fetchMock).toHaveBeenCalledTimes(5);
+    expect(fetchMock.mock.calls.filter(([url]) => url === "https://api.brevo.com/v3/smtp/email")).toHaveLength(1);
   });
 });

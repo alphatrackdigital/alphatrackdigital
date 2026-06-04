@@ -36,11 +36,13 @@ const NewsletterSection = ({ className }: NewsletterSectionProps) => {
         email: trimmed,
         optIn,
       });
-      pushLeadSubmissionEvent("newsletter_subscribe", {
-        form_id: "newsletter-section-form",
-        lead_source: "newsletter",
-        pending_confirmation: result.pendingConfirmation === true,
-      });
+      if (!result.duplicate) {
+        pushLeadSubmissionEvent("newsletter_subscribe", {
+          form_id: "newsletter-section-form",
+          lead_source: "newsletter",
+          pending_confirmation: result.pendingConfirmation === true,
+        });
+      }
       setPendingConfirmation(result.pendingConfirmation === true);
       setStatus("success");
     } catch {
