@@ -35,6 +35,11 @@ participant email or name values into GA4. Required runtime variables:
 - `GA4_MEASUREMENT_PROTOCOL_API_SECRET`
 - `GA4_MEETING_BOOKED_EVENT_NAME` (defaults to `meeting_booked_confirmed`)
 - `GA4_MEASUREMENT_PROTOCOL_DEBUG_MODE` (`true` only while checking DebugView)
+- `GA4_BOOKING_PAGE_LOCATION` (optional; defaults to `https://alphatrack.digital/book-a-call`)
+
+The server event includes `engagement_time_msec`, `session_id`, `page_location`, and `page_title`.
+GA4 Measurement Protocol can accept events without `session_id`, but Google requires both
+`engagement_time_msec` and `session_id` for user activity to appear reliably in Realtime reports.
 
 Current Brevo account limitation: the `Meeting booked` automation trigger requires Sales Essentials
 or Sales Advanced. Until that package is available, booking tracking uses the fallback client-side

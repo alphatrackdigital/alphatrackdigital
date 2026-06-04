@@ -79,6 +79,19 @@ const getClientId = (payload) => {
   return `${hash.slice(0, 10) || "1"}.${hash.slice(10, 20) || "1"}`;
 };
 
+const getSessionId = (payload) => {
+  const explicitSessionId = findFirstString(payload, ["session_id", "sessionId", "ga_session_id", "gaSessionId"]);
+  if (/^\d+$/.test(explicitSessionId)) return explicitSessionId;
+
+  const meetingStart = findFirstString(payload, ["meeting_start_timestamp", "meetingStartTimestamp", "startTime"]);
+  const startTimestamp = Date.parse(meetingStart);
+  if (Number.isFinite(startTimestamp)) {
+    return Math.floor(startTimestamp / 1000).toString();
+  }
+
+  return Math.floor(Date.now() / 1000).toString();
+};
+
 const getMeetingParams = (payload) => {
   const meetingName = findFirstString(payload, ["meeting_name", "meetingName", "name"]);
   const meetingStart = findFirstString(payload, ["meeting_start_timestamp", "meetingStartTimestamp", "startTime"]);
@@ -86,6 +99,10 @@ const getMeetingParams = (payload) => {
   const meetingLocation = findFirstString(payload, ["meeting_location", "meetingLocation", "location"]);
   const meetingId = findFirstString(payload, ["meeting_id", "meetingId", "booking_id", "bookingId", "id"]);
   const participantEmail = findFirstString(payload, ["EMAIL", "email"]);
+  const pageLocation =
+    findFirstString(payload, ["page_location", "pageLocation"]) ||
+    getEnv("GA4_BOOKING_PAGE_LOCATION") ||
+    "https://alphatrack.digital/book-a-call";
 
   return {
     booking_id: meetingId || toNumericHash(`${meetingName}:${meetingStart}`),
@@ -95,6 +112,9 @@ const getMeetingParams = (payload) => {
     meeting_end_timestamp: meetingEnd,
     meeting_location: meetingLocation,
     source: "brevo_meetings_webhook",
+    page_location: pageLocation,
+    page_title: "Book A Free Strategy Call | AlphaTrack Digital",
+    session_id: getSessionId(payload),
     engagement_time_msec: 1,
   };
 };
@@ -191,6 +211,13 @@ const sendGa4Event = async (payload) => {
   if (!response.ok) {
     throw new Error("GA4 rejected the booking event.");
   }
+
+  console.info("Brevo meeting booking sent to GA4.", {
+    event_name: eventName,
+    booking_id: params.booking_id,
+    session_id: params.session_id,
+    debug_mode: debugMode,
+  });
 };
 
 export default async (request) => {
@@ -230,6 +257,7 @@ export default async (request) => {
   if (ga4Result.status === "rejected") {
     const message =
       ga4Result.reason instanceof Error ? ga4Result.reason.message : "Unable to track booking.";
+    console.error("Brevo meeting booking GA4 tracking failed.", { message });
     return json({ ok: false, message }, { status: 500 });
   }
 
