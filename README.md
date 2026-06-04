@@ -134,6 +134,13 @@ Live backend/API service used by the public Namecheap/cPanel website:
 https://alphatra-serv.netlify.app
 ```
 
+For Namecheap/cPanel frontend builds, point browser form calls at the backend service:
+
+```text
+VITE_LEADS_ENDPOINT=https://alphatra-serv.netlify.app/api/leads
+VITE_BREVO_SUBSCRIBE_ENDPOINT=https://alphatra-serv.netlify.app/api/brevo-subscribe
+```
+
 ## Current Product Direction
 
 Primary CTA:

@@ -50,6 +50,13 @@ https://alphatra-serv.netlify.app/api/leads
 https://alphatra-serv.netlify.app/api/brevo-subscribe
 ```
 
+Namecheap/cPanel frontend builds should set:
+
+```text
+VITE_LEADS_ENDPOINT=https://alphatra-serv.netlify.app/api/leads
+VITE_BREVO_SUBSCRIBE_ENDPOINT=https://alphatra-serv.netlify.app/api/brevo-subscribe
+```
+
 1. Validate the `backend` branch locally before triggering Netlify:
    - `npm install --no-package-lock`
    - `npm run type-check`
