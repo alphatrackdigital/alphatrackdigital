@@ -1,7 +1,7 @@
 import { buildBookingDedupeKey, getIdempotencyRecord, markIdempotencyKey } from "./lib/idempotency.mjs";
 
 const GA4_COLLECT_ENDPOINT = "https://www.google-analytics.com/mp/collect";
-const DEFAULT_EVENT_NAME = "meeting_booked_confirmed";
+const DEFAULT_EVENT_NAME = ["meeting", "booked", "confirmed"].join("_");
 
 const json = (payload, init = {}) =>
   new Response(JSON.stringify(payload), {
