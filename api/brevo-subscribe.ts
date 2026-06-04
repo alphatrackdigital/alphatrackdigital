@@ -134,21 +134,6 @@ const withConsentAttributes = (
   return attributes;
 };
 
-const ensureContactInList = async (email: string, listId: number, brevoApiKey: string) => {
-  const response = await fetch(`https://api.brevo.com/v3/contacts/lists/${listId}/contacts/add`, {
-    method: "POST",
-    headers: {
-      "content-type": "application/json",
-      "api-key": brevoApiKey,
-    },
-    body: JSON.stringify({ emails: [email] }),
-  });
-
-  if (!response.ok) {
-    throw new Error("Unable to add contact to Brevo list.");
-  }
-};
-
 const handler = async (req: Req, res: Res) => {
   res.setHeader("Content-Type", "application/json");
   res.setHeader("Cache-Control", "no-store");
@@ -205,10 +190,15 @@ const handler = async (req: Req, res: Res) => {
     });
 
     if (!brevoResponse.ok) {
+      const errorText = await brevoResponse.text().catch(() => "");
+      console.error("Brevo exit popup contact upsert failed", {
+        status: brevoResponse.status,
+        listId: brevoListId,
+        message: errorText.slice(0, 300),
+      });
+
       return res.status(502).json({ ok: false, message: "Unable to submit lead right now." });
     }
-
-    await ensureContactInList(lead.email, brevoListId, brevoApiKey);
 
     if (!isDuplicate) {
       await markIdempotencyKey(dedupeKey, {
@@ -219,7 +209,12 @@ const handler = async (req: Req, res: Res) => {
     }
 
     return res.status(200).json({ ok: true, duplicate: isDuplicate });
-  } catch {
+  } catch (error) {
+    console.error("Brevo exit popup submission failed", {
+      listId: brevoListId,
+      message: error instanceof Error ? error.message : String(error),
+    });
+
     return res.status(500).json({ ok: false, message: "Unable to submit lead right now." });
   }
 };

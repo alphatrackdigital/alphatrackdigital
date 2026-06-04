@@ -26,10 +26,7 @@ describe("brevo-subscribe function", () => {
   });
 
   it("sends exit popup contacts to Brevo with updateEnabled", async () => {
-    const fetchMock = vi
-      .fn()
-      .mockResolvedValueOnce(new Response(JSON.stringify({ id: 123 }), { status: 201 }))
-      .mockResolvedValueOnce(new Response(JSON.stringify({ contacts: { success: ["ada@example.com"], failure: [] } }), { status: 201 }));
+    const fetchMock = vi.fn().mockResolvedValueOnce(new Response(JSON.stringify({ id: 123 }), { status: 201 }));
     vi.stubGlobal("fetch", fetchMock);
 
     const response = await handler(buildRequest({
@@ -59,10 +56,7 @@ describe("brevo-subscribe function", () => {
       listIds: [7],
       updateEnabled: true,
     });
-
-    const [listUrl, listInit] = fetchMock.mock.calls[1];
-    expect(listUrl).toBe("https://api.brevo.com/v3/contacts/lists/7/contacts/add");
-    expect(JSON.parse(listInit.body)).toEqual({ emails: ["ada@example.com"] });
+    expect(fetchMock).toHaveBeenCalledTimes(1);
   });
 
   it("returns a clean error when Brevo rejects the request", async () => {
