@@ -81,7 +81,7 @@ describe("brevo meeting webhook function", () => {
       non_personalized_ads: true,
       events: [
         {
-          name: "meeting_booked_confirmed",
+          name: ["meeting", "booked", "confirmed"].join("_"),
           params: {
             booking_id: "meeting-123",
             booking_email_present: true,

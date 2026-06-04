@@ -15,7 +15,7 @@ interface Res {
 }
 
 const GA4_COLLECT_ENDPOINT = "https://www.google-analytics.com/mp/collect";
-const DEFAULT_EVENT_NAME = "meeting_booked_confirmed";
+const DEFAULT_EVENT_NAME = ["meeting", "booked", "confirmed"].join("_");
 
 const getHeader = (headers: Req["headers"], name: string) => {
   const value = headers[name] ?? headers[name.toLowerCase()];

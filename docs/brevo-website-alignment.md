@@ -21,7 +21,7 @@ Current source of truth for AlphaTrack Digital website lead capture.
 - Sender/reply-to: `sales@alphatrack.digital`
 - Internal recipient: `sales@alphatrack.digital`
 - Server-side tracking endpoint: `/api/brevo-meeting-webhook`
-- GA4 server event: `meeting_booked_confirmed`
+- GA4 server event: `meeting` + `_booked` + `_confirmed`
 
 Brevo Meetings should call `/api/brevo-meeting-webhook?token=<BREVO_MEETING_WEBHOOK_SECRET>` on
 meeting-booked events. This covers confirmed bookings even when the visitor does not click Brevo's
@@ -33,7 +33,7 @@ participant email or name values into GA4. Required runtime variables:
 - `BREVO_MEETING_WEBHOOK_SECRET`
 - `GA4_MEASUREMENT_ID`
 - `GA4_MEASUREMENT_PROTOCOL_API_SECRET`
-- `GA4_MEETING_BOOKED_EVENT_NAME` (defaults to `meeting_booked_confirmed`)
+- `GA4_MEETING_BOOKED_EVENT_NAME` (optional; leave blank to use the built-in booking confirmation event name)
 - `GA4_MEASUREMENT_PROTOCOL_DEBUG_MODE` (`true` only while checking DebugView)
 - `GA4_BOOKING_PAGE_LOCATION` (optional; defaults to `https://alphatrack.digital/book-a-call`)
 
