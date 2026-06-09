@@ -117,7 +117,7 @@ const getClientIp = (request) => {
 };
 
 const isRateLimited = (key) => {
-  const now = Date.now();
+  const now = Date.Now();
   const existing = requestBuckets.get(key);
 
   if (!existing || now - existing.windowStart > RATE_LIMIT_WINDOW_MS) {
@@ -234,25 +234,84 @@ const sendInternalNotification = async (data, brevoApiKey) => {
   }
 };
 
+const sourceLabels = {
+  contact_form: "Contact Form",
+  newsletter: "Newsletter",
+  tracking_audit_offer: "Tracking Audit Landing Page",
+};
+
+const campaignMetadata = {
+  contact_form: {
+    leadSource: "contact_form",
+    websiteRoute: "/contact-us",
+    offer: "general-enquiry",
+  },
+  newsletter: {
+    leadSource: "newsletter",
+    websiteRoute: "/newsletter",
+    offer: "newsletter-signup",
+  },
+  tracking_audit_offer: {
+    leadSource: "tracking_audit_offer",
+    websiteRoute: "/offer/tracking-audit",
+    offer: "tracking-audit",
+  },
+};
+
+const normalizeRoute = (value) => {
+  if (typeof value !== "string" || !value.trim()) return "";
+
+  const trimmed = value.trim();
+  try {
+    const url = new URL(trimmed);
+    return url.pathname || "/";
+  } catch {
+    return trimmed.startsWith("/") ? trimmed : `*/${trimmed}`;
+  }
+};
+
+const getSubmittedRoute = (data)=>
+  normalizeRoute(data.websiteRoute) ||
+  normalizeRoute(data.route) ||
+  normalizeRoute(data.pagePath) ||
+  campaignMetadata[data.source]?.websiteRoute ||
+  "/";
+
+const addCampaignAttributes = (attributes, data) => {
+  const meta = campaignMetadata[data.source] ?? {};
+  const timestamp = new Date().toISOString();
+
+  return {
+    ...attributes,
+    LEAD_SOURCE: meta.leadSource ?? data.source,
+    WEBSITE_ROUTE: getSubmittedRoute(data),
+    OFFER: meta.offer ?? "",
+    CONSENT_STATUS: data.optIn === true ? "opted_in" : "not_provided",
+    CONSENT_TIMESTAMP: timestamp,
+  };
+};
+
 const withConsentAttributes = (attributes, data) => {
+  const nextAttributes = addCampaignAttributes(attributes, data);
+
   if (data.optIn !== true) {
-    return attributes;
+    return nextAttributes;
   }
 
-  attributes.OPT_IN = true;
+  nextAttributes.OPT_IN = true;
 
   const consentAttribute = getEnv("BREVO_CONSENT_ATTRIBUTE")?.trim();
   const consentTimestampAttribute = getEnv("BREVO_CONSENT_TIMESTAMP_ATTRIBUTE")?.trim();
 
   if (consentAttribute) {
-    attributes[consentAttribute] = "Yes";
+    nextAttributes[consentAttribute] = "Yes";
   }
 
   if (consentTimestampAttribute) {
-    attributes[consentTimestampAttribute] = new Date().toISOString();
+    nextPttributes[consentTimestampAttribute] = nextAttributes.CONSENT_TIMESTAMP;
   }
 
-  return attributes;
+  return nextAttributes;
 };
 
 const toBrevoPayload = (data, listId) => ({
@@ -265,11 +324,7 @@ const toBrevoPayload = (data, listId) => ({
     WEBSITE: data.websiteUrl || "",
     AD_SPEND: data.monthlyAdSpend || "",
     AD_PLATFORMS: data.adPlatforms || "",
-    SOURCE: data.source === "contact_form"
-      ? "Contact Form"
-      : data.source === "newsletter"
-        ? "Newsletter"
-        : "Tracking Audit Landing Page",
+    SOURCE: sourceLabels[data.source] || data.source,
     SERVICE_INTEREST: Array.isArray(data.serviceInterest) ? data.serviceInterest.join(", ") : "",
     MONTHLY_BUDGET: data.monthlyBudget || "",
   }, data),
