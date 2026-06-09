@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState, type FormEvent } from "react
 import { CheckCircle2, Loader2, X } from "lucide-react";
 import { useLocation } from "react-router-dom";
 
+import { getBrevoSubscribeEndpoint } from "@/lib/apiEndpoints";
 import { pushLeadSubmissionEvent } from "@/lib/tracking";
 
 type PopupStatus = "idle" | "loading" | "success" | "error";
@@ -26,7 +27,6 @@ const DISMISS_MS = 7 * 24 * 60 * 60 * 1000;
 const MOBILE_DELAY_MS = 60_000;
 const MOBILE_SCROLL_DEPTH = 70;
 const MOBILE_QUERY = "(pointer: coarse), (max-width: 767px)";
-const BREVO_SUBSCRIBE_ENDPOINT = import.meta.env.VITE_BREVO_SUBSCRIBE_ENDPOINT || "/api/brevo-subscribe";
 const EXCLUDED_PATHS = [
   "/contact-us",
   "/book-a-call",
@@ -180,7 +180,7 @@ const ExitIntentPopup = () => {
     pushDataLayer("exit_popup_submit");
 
     try {
-      const response = await fetch(BREVO_SUBSCRIBE_ENDPOINT, {
+      const response = await fetch(getBrevoSubscribeEndpoint(), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

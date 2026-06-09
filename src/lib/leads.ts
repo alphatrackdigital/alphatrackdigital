@@ -1,9 +1,8 @@
 import type { LeadCapturePayload, LeadSubmissionResult } from "@/types/leads";
-
-const LEADS_ENDPOINT = import.meta.env.VITE_LEADS_ENDPOINT || "/api/leads";
+import { getLeadsEndpoint } from "@/lib/apiEndpoints";
 
 export const submitLead = async (payload: LeadCapturePayload): Promise<LeadSubmissionResult> => {
-  const response = await fetch(LEADS_ENDPOINT, {
+  const response = await fetch(getLeadsEndpoint(), {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload),
