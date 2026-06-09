@@ -297,6 +297,18 @@ const ensureContactInList = async (email, listId, brevoApiKey) => {
   }
 };
 
+const tryEnsureContactInList = async (email, listId, brevoApiKey, source) => {
+  try {
+    await ensureContactInList(email, listId, brevoApiKey);
+  } catch (error) {
+    console.error("Secondary Brevo list membership call failed after contact upsert", {
+      source,
+      listId,
+      message: error instanceof Error ? error.message : String(error),
+    });
+  }
+};
+
 export default async (request) => {
   const corsHeaders = getCorsHeaders(request);
 
@@ -402,7 +414,7 @@ export default async (request) => {
     }
 
     if (!isNewsletterDoiEnabled) {
-      await ensureContactInList(payload.email, listId, brevoApiKey);
+      await tryEnsureContactInList(payload.email, listId, brevoApiKey, payload.source);
     }
 
     if (!isDuplicate) {
