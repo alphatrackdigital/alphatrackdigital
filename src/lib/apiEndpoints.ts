@@ -1,9 +1,9 @@
 const BACKEND_ORIGIN = "https://alphatra-serv.netlify.app";
 
-const PRODUCTION_STATIC_HOSTS = new Set([
-  "alphatrack.digital",
-  "www.alphatrack.digital",
-]);
+const LOCAL_HOSTS = new Set(["", "localhost", "127.0.0.1", "::1"]);
+
+const isLocalHostname = (hostname: string) =>
+  LOCAL_HOSTS.has(hostname) || hostname.endsWith(".localhost");
 
 export const resolveApiEndpoint = (
   path: string,
@@ -12,11 +12,11 @@ export const resolveApiEndpoint = (
 ) => {
   if (configuredEndpoint) return configuredEndpoint;
 
-  if (PRODUCTION_STATIC_HOSTS.has(hostname)) {
-    return `${BACKEND_ORIGIN}${path}`;
+  if (isLocalHostname(hostname)) {
+    return path;
   }
 
-  return path;
+  return `${BACKEND_ORIGIN}${path}`;
 };
 
 export const getLeadsEndpoint = () =>

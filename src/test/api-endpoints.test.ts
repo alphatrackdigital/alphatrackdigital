@@ -13,9 +13,19 @@ describe("API endpoint resolution", () => {
     );
   });
 
-  it("keeps same-origin API routes for local and staging hosts", () => {
+  it("keeps same-origin API routes for local hosts", () => {
     expect(resolveApiEndpoint("/api/leads", undefined, "localhost")).toBe("/api/leads");
-    expect(resolveApiEndpoint("/api/leads", undefined, "alphatrackdigital.netlify.app")).toBe("/api/leads");
+    expect(resolveApiEndpoint("/api/leads", undefined, "127.0.0.1")).toBe("/api/leads");
+    expect(resolveApiEndpoint("/api/leads", undefined, "dev.localhost")).toBe("/api/leads");
+  });
+
+  it("uses the live backend for static staging and preview hostnames", () => {
+    expect(resolveApiEndpoint("/api/leads", undefined, "alphatrackdigital.netlify.app")).toBe(
+      "https://alphatra-serv.netlify.app/api/leads",
+    );
+    expect(resolveApiEndpoint("/api/leads", undefined, "temporary-namecheap-preview.example")).toBe(
+      "https://alphatra-serv.netlify.app/api/leads",
+    );
   });
 
   it("uses explicitly configured endpoints first", () => {
