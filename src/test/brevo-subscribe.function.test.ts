@@ -25,7 +25,7 @@ describe("brevo-subscribe function", () => {
     delete process.env.BREVO_LIST_ID;
   });
 
-  it("sends exit popup contacts to Brevo with updateEnabled", async () => {
+  it("sends exit popup contacts to Brevo with campaign attributes and updateEnabled", async () => {
     const fetchMock = vi.fn().mockResolvedValueOnce(new Response(JSON.stringify({ id: 123 }), { status: 201 }));
     vi.stubGlobal("fetch", fetchMock);
 
@@ -33,6 +33,7 @@ describe("brevo-subscribe function", () => {
       firstName: "Ada",
       email: "ADA@Example.com",
       website: "alphatrack.digital",
+      route: "/",
     }));
 
     expect(response.status).toBe(200);
@@ -46,16 +47,22 @@ describe("brevo-subscribe function", () => {
     }));
 
     const [, init] = fetchMock.mock.calls[0];
-    expect(JSON.parse(init.body)).toEqual({
+    const body = JSON.parse(init.body);
+    expect(body).toMatchObject({
       email: "ada@example.com",
       attributes: {
         FIRSTNAME: "Ada",
         WEBSITE: "https://alphatrack.digital",
         SOURCE: "ATD Website Exit Popup",
+        LEAD_SOURCE: "exit_popup",
+        WEBSITE_ROUTE: "/",
+        OFFER: "newsletter-signup",
+        CONSENT_STATUS: "not_provided",
       },
       listIds: [7],
       updateEnabled: true,
     });
+    expect(body.attributes.CONSENT_TIMESTAMP).toEqual(expect.any(String));
     expect(fetchMock).toHaveBeenCalledTimes(1);
   });
 
