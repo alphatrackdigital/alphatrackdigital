@@ -2,12 +2,27 @@
 
 Current source of truth for AlphaTrack Digital website lead capture.
 
+### Campaign-readiness attributes
+
+All website and Brevo Meetings lead capture paths should preserve the legacy `SOURCE` attribute and also populate the campaign-readiness attributes below:
+
+| Attribute | Purpose |
+| --- | --- |
+| `LEAD_SOURCE` | Machine-readable lead source for segmentation and reporting |
+| `WEBSITE_ROUTE` | Website route that produced the lead |
+| `OFFER` | Offer or conversion intent attached to the submission |
+| `CONSENT_STATUS` | `opted_in` when explicit marketing consent is supplied; otherwise `not_provided` |
+| `CONSENT_TIMESTAMP` | ISO timestamp for the submission/consent state written to Brevo |
+
 ### Contact Us
 
 - Website route: `/contact-us`
 - Thank-you route: `/contact-us/thank-you/`
 - Lead source value: `contact_form`
 - Brevo `SOURCE` attribute: `Contact Form`
+- Brevo `LEAD_SOURCE`: `contact_form`
+- Brevo `WEBSITE_ROUTE`: `/contact-us`
+- Brevo `OFFER`: `general-enquiry`
 - Brevo list: `8` (`Website - Contact Form Enquiries`)
 - Sender/reply-to for internal notification: `info@alphatrack.digital`
 - Internal recipient: `info@alphatrack.digital`
@@ -17,6 +32,10 @@ Current source of truth for AlphaTrack Digital website lead capture.
 - Website route: `/book-a-call`
 - Thank-you route: `/book-a-call/thank-you/`
 - Lead capture system: Brevo Meetings embed
+- Brevo `SOURCE` attribute: `Strategy Call Booking`
+- Brevo `LEAD_SOURCE`: `brevo_meetings_webhook`
+- Brevo `WEBSITE_ROUTE`: `/book-a-call`
+- Brevo `OFFER`: `strategy-call`
 - Brevo list: `7` (`Website - Strategy Call Bookings`)
 - Sender/reply-to: `sales@alphatrack.digital`
 - Internal recipient: `sales@alphatrack.digital`
@@ -56,9 +75,23 @@ events below:
 - Website route: `/offer/tracking-audit`
 - Lead source value: `tracking_audit_offer`
 - Brevo `SOURCE` attribute: `Tracking Audit Landing Page`
+- Brevo `LEAD_SOURCE`: `tracking_audit_offer`
+- Brevo `WEBSITE_ROUTE`: `/offer/tracking-audit`
+- Brevo `OFFER`: `tracking-audit`
 - Brevo list: `11` (`Tracking Audit Leads`)
 - Sender/reply-to for internal notification: `audit@alphatrack.digital`
 - Internal recipients: `audit@alphatrack.digital`, `martech@alphatrack.digital`
+
+### Newsletter and exit popup
+
+- Newsletter source value: `newsletter`
+- Newsletter `LEAD_SOURCE`: `newsletter`
+- Newsletter `WEBSITE_ROUTE`: `/newsletter` unless the frontend supplies a more specific route
+- Newsletter `OFFER`: `newsletter-signup`
+- Exit popup `SOURCE` attribute: `ATD Website Exit Popup`
+- Exit popup `LEAD_SOURCE`: `exit_popup`
+- Exit popup `WEBSITE_ROUTE`: submitted route or `/`
+- Exit popup `OFFER`: `newsletter-signup`
 
 ### Backend requirement
 
