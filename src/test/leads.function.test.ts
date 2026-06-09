@@ -27,6 +27,8 @@ describe("leads function", () => {
     delete process.env.BREVO_CONTACT_LIST_ID;
     delete process.env.BREVO_AUDIT_LIST_ID;
     delete process.env.BREVO_NEWSLETTER_LIST_ID;
+    delete process.env.BREVO_DOI_TEMPLATE_ID;
+    delete process.env.BREVO_DOI_REDIRECT_URL;
   });
 
   it("routes contact enquiries to the contact list and info inbox", async () => {
@@ -154,5 +156,45 @@ describe("leads function", () => {
 
     expect(fetchMock).toHaveBeenCalledTimes(5);
     expect(fetchMock.mock.calls.filter(([url]) => url === "https://api.brevo.com/v3/smtp/email")).toHaveLength(1);
+  });
+
+  it("falls back to direct newsletter capture when Brevo DOI is not active", async () => {
+    process.env.BREVO_DOI_TEMPLATE_ID = "42";
+    process.env.BREVO_DOI_REDIRECT_URL = "https://alphatrack.digital/newsletter/confirmed";
+
+    const fetchMock = vi
+      .fn()
+      .mockResolvedValueOnce(
+        new Response(JSON.stringify({ code: "invalid_parameter", message: "An active DOI template does not exist" }), {
+          status: 400,
+        }),
+      )
+      .mockResolvedValueOnce(new Response(JSON.stringify({ id: 789 }), { status: 201 }))
+      .mockResolvedValueOnce(new Response(JSON.stringify({ contacts: { success: ["reader@example.com"], failure: [] } }), { status: 201 }))
+      .mockResolvedValueOnce(new Response(JSON.stringify({ messageId: "message-3" }), { status: 201 }));
+    vi.stubGlobal("fetch", fetchMock);
+
+    const response = await handler(buildRequest({
+      source: "newsletter",
+      firstName: "",
+      lastName: "",
+      email: "reader@example.com",
+      optIn: true,
+    }));
+
+    expect(response.status).toBe(200);
+    await expect(response.json()).resolves.toEqual({ ok: true, pendingConfirmation: false, duplicate: false });
+
+    expect(fetchMock.mock.calls[0][0]).toBe("https://api.brevo.com/v3/contacts/doubleOptinConfirmation");
+    expect(fetchMock.mock.calls[1][0]).toBe("https://api.brevo.com/v3/contacts");
+    expect(JSON.parse(fetchMock.mock.calls[1][1].body)).toMatchObject({
+      email: "reader@example.com",
+      listIds: [9],
+      attributes: {
+        SOURCE: "Newsletter",
+        OPT_IN: true,
+      },
+    });
+    expect(fetchMock.mock.calls[2][0]).toBe("https://api.brevo.com/v3/contacts/lists/9/contacts/add");
   });
 });

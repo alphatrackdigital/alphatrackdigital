@@ -378,16 +378,17 @@ export default async (request) => {
       return json({ ok: true, pendingConfirmation: true, duplicate: true }, { headers: corsHeaders });
     }
 
-    const brevoResponse = await fetch(
+    let pendingConfirmation = isNewsletterDoiEnabled;
+    let brevoResponse = await fetch(
       isNewsletterDoiEnabled
         ? "https://api.brevo.com/v3/contacts/doubleOptinConfirmation"
         : "https://api.brevo.com/v3/contacts",
       {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-        "api-key": brevoApiKey,
-      },
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          "api-key": brevoApiKey,
+        },
         body: JSON.stringify(
           isNewsletterDoiEnabled
             ? toBrevoDoiPayload(payload, listId, newsletterDoiTemplateId, newsletterDoiRedirectUrl)
@@ -395,6 +396,29 @@ export default async (request) => {
         ),
       },
     );
+
+    if (!brevoResponse.ok && isNewsletterDoiEnabled) {
+      const errorText = await brevoResponse.text();
+      if (errorText.includes("active DOI template") || errorText.includes("invalid_parameter")) {
+        pendingConfirmation = false;
+        brevoResponse = await fetch("https://api.brevo.com/v3/contacts", {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+            "api-key": brevoApiKey,
+          },
+          body: JSON.stringify(toBrevoPayload(payload, listId)),
+        });
+      } else {
+        return json(
+          {
+            ok: false,
+            message: `Failed to submit lead to provider. ${errorText.slice(0, 180)}`,
+          },
+          { status: 502, headers: corsHeaders },
+        );
+      }
+    }
 
     if (!brevoResponse.ok) {
       const errorText = await brevoResponse.text();
@@ -407,7 +431,7 @@ export default async (request) => {
       );
     }
 
-    if (!isNewsletterDoiEnabled) {
+    if (!pendingConfirmation) {
       await ensureContactInList(payload.email, listId, brevoApiKey);
     }
 
@@ -420,7 +444,7 @@ export default async (request) => {
       await sendInternalNotification(payload, brevoApiKey);
     }
 
-    return json({ ok: true, pendingConfirmation: isNewsletterDoiEnabled, duplicate: isDuplicate }, { headers: corsHeaders });
+    return json({ ok: true, pendingConfirmation, duplicate: isDuplicate }, { headers: corsHeaders });
   } catch {
     return json({ ok: false, message: "Unable to submit lead right now." }, { status: 500, headers: corsHeaders });
   }
