@@ -19,6 +19,7 @@ const json = (payload, init = {}) =>
 const allowedOrigins = new Set([
   "https://alphatrack.digital",
   "https://www.alphatrack.digital",
+  "https://alphatrackdigital.netlify.app",
   "https://alphatra-serv.netlify.app",
   "https://backend--alphatra-serv.netlify.app",
   "https://website-internal-test.vercel.app",
@@ -215,6 +216,18 @@ const sendInternalNotification = async (data, brevoApiKey) => {
   }
 };
 
+const trySendInternalNotification = async (payload, brevoApiKey, listId) => {
+  try {
+    await sendInternalNotification(payload, brevoApiKey);
+  } catch (error) {
+    console.error("Lead notification email failed after Brevo contact capture", {
+      source: payload.source,
+      listId,
+      message: error instanceof Error ? error.message : String(error),
+    });
+  }
+};
+
 const withConsentAttributes = (attributes, data) => {
   if (data.optIn !== true) {
     return attributes;
@@ -398,7 +411,7 @@ export default async (request) => {
         emailHash: dedupeKey.split("/").at(-1),
         listId,
       });
-      await sendInternalNotification(payload, brevoApiKey);
+      await trySendInternalNotification(payload, brevoApiKey, listId);
     }
 
     return json({ ok: true, pendingConfirmation: isNewsletterDoiEnabled, duplicate: isDuplicate }, { headers: corsHeaders });
