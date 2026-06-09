@@ -158,6 +158,7 @@ const createBrevoContact = async (payload) => {
   const firstName = findFirstString(payload, ["firstName", "first_name", "FIRSTNAME", "attendee_first_name"]);
   const lastName = findFirstString(payload, ["lastName", "last_name", "LASTNAME", "attendee_last_name"]);
   const normalizedEmail = email.trim().toLowerCase();
+  const timestamp = new Date().toISOString();
 
   const response = await fetch("https://api.brevo.com/v3/contacts", {
     method: "POST",
@@ -171,6 +172,11 @@ const createBrevoContact = async (payload) => {
         ...(firstName ? { FIRSTNAME: firstName } : {}),
         ...(lastName ? { LASTNAME: lastName } : {}),
         SOURCE: "Strategy Call Booking",
+        LEAD_SOURCE: "brevo_meetings_webhook",
+        WEBSITE_ROUTE: "/book-a-call",
+        OFFER: "strategy-call",
+        CONSENT_STATUS: "not_provided",
+        CONSENT_TIMESTAMP: timestamp,
       },
       listIds: [listId],
       updateEnabled: true,
