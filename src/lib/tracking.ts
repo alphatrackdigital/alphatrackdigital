@@ -11,8 +11,15 @@ declare global {
 export const pushDataLayerEvent = (event: string, payload: DataLayerPayload = {}) => {
   if (typeof window === "undefined") return;
 
-  window.dataLayer = window.dataLayer || [];
-  window.dataLayer.push({ event, ...payload });
+  try {
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({ event, ...payload });
+  } catch (error) {
+    console.warn("Tracking event push failed", {
+      event,
+      message: error instanceof Error ? error.message : String(error),
+    });
+  }
 };
 
 export const pushLeadSubmissionEvent = (

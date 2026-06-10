@@ -36,6 +36,8 @@ const NewsletterSection = ({ className }: NewsletterSectionProps) => {
         email: trimmed,
         optIn,
       });
+      setPendingConfirmation(result.pendingConfirmation === true);
+      setStatus("success");
       if (!result.duplicate) {
         pushLeadSubmissionEvent("newsletter_subscribe", {
           form_id: "newsletter-section-form",
@@ -43,8 +45,6 @@ const NewsletterSection = ({ className }: NewsletterSectionProps) => {
           pending_confirmation: result.pendingConfirmation === true,
         });
       }
-      setPendingConfirmation(result.pendingConfirmation === true);
-      setStatus("success");
     } catch {
       setStatus("error");
       setErrorMsg("Something went wrong. Please try again.");

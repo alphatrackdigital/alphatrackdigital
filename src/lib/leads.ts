@@ -15,6 +15,10 @@ export const submitLead = async (payload: LeadCapturePayload): Promise<LeadSubmi
     data = null;
   }
 
+  if (response.ok && !data) {
+    return { ok: true };
+  }
+
   if (!response.ok || !data?.ok) {
     throw new Error(data?.message || "Lead submission failed");
   }

@@ -36,6 +36,8 @@ const FooterNewsletter = () => {
     setStatus("loading");
     try {
       const result = await submitLead({ source: "newsletter", firstName: "", lastName: "", email: trimmed, optIn });
+      setPendingConfirmation(result.pendingConfirmation === true);
+      setStatus("success");
       if (!result.duplicate) {
         pushLeadSubmissionEvent("newsletter_subscribe", {
           form_id: "footer-newsletter-form",
@@ -43,8 +45,6 @@ const FooterNewsletter = () => {
           pending_confirmation: result.pendingConfirmation === true,
         });
       }
-      setPendingConfirmation(result.pendingConfirmation === true);
-      setStatus("success");
     } catch {
       setStatus("error");
       setErrorMsg("Something went wrong. Please try again.");
