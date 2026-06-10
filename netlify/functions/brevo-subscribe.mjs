@@ -124,6 +124,7 @@ const validatePayload = (payload) => {
   const firstName = typeof payload.firstName === "string" ? payload.firstName.trim() : "";
   const email = typeof payload.email === "string" ? payload.email.trim().toLowerCase() : "";
   const website = typeof payload.website === "string" ? payload.website.trim() : "";
+  const route = typeof payload.route === "string" ? payload.route.trim() : "";
   const optIn = payload.optIn === true;
 
   if (!firstName || !isValidEmail(email) || !isValidOptionalWebsite(website)) {
@@ -134,29 +135,55 @@ const validatePayload = (payload) => {
     firstName,
     email,
     website: normalizeWebsite(website),
+    route,
     optIn,
   };
 };
 
+const getSubmittedRoute = (lead) => {
+  if (!lead.route) return "/";
+  try {
+    const url = new URL(lead.route);
+    return url.pathname || "/";
+  } catch {
+    return lead.route.startsWith("/") ? lead.route : `/${lead.route}`;
+  }
+};
+
+const addCampaignAttributes = (attributes, lead) => {
+  const timestamp = new Date().toISOString();
+
+  return {
+    ...attributes,
+    LEAD_SOURCE: "exit_popup",
+    WEBSITE_ROUTE: getSubmittedRoute(lead),
+    OFFER: "newsletter-signup",
+    CONSENT_STATUS: lead.optIn === true ? "opted_in" : "not_provided",
+    CONSENT_TIMESTAMP: timestamp,
+  };
+};
+
 const withConsentAttributes = (attributes, lead) => {
+  const nextAttributes = addCampaignAttributes(attributes, lead);
+
   if (lead.optIn !== true) {
-    return attributes;
+    return nextAttributes;
   }
 
-  attributes.OPT_IN = true;
+  nextAttributes.OPT_IN = true;
 
   const consentAttribute = getEnv("BREVO_CONSENT_ATTRIBUTE")?.trim();
   const consentTimestampAttribute = getEnv("BREVO_CONSENT_TIMESTAMP_ATTRIBUTE")?.trim();
 
   if (consentAttribute) {
-    attributes[consentAttribute] = "Yes";
+    nextAttributes[consentAttribute] = "Yes";
   }
 
   if (consentTimestampAttribute) {
-    attributes[consentTimestampAttribute] = new Date().toISOString();
+    nextAttributes[consentTimestampAttribute] = nextAttributes.CONSENT_TIMESTAMP;
   }
 
-  return attributes;
+  return nextAttributes;
 };
 
 export default async (request) => {
