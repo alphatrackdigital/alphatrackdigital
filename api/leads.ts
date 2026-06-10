@@ -299,7 +299,10 @@ const ensureContactInList = async (email: string, listId: number, brevoApiKey: s
 
   if (!response.ok) {
     const errorText = await response.text();
-    throw new Error(`Failed to add contact to Brevo list ${listId}. ${errorText.slice(0, 180)}`);
+    console.warn("Brevo list add failed after contact upsert", {
+      listId,
+      message: errorText.slice(0, 180),
+    });
   }
 };
 
