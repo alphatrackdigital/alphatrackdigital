@@ -417,11 +417,23 @@ const handler = async (req: Req, res: Res) => {
         emailHash: dedupeKey.split("/").at(-1),
         listId,
       });
-      await sendInternalNotification(payload, brevoApiKey);
+      await sendInternalNotification(payload, brevoApiKey).catch((error) => {
+        console.error("Lead notification email failed after successful capture", {
+          source: payload.source,
+          listId,
+          message: error instanceof Error ? error.message : String(error),
+        });
+      });
     }
 
     return res.status(200).json({ ok: true, pendingConfirmation, duplicate: isDuplicate });
-  } catch {
+  } catch (error) {
+    console.error("Lead submission failed", {
+      source: payload.source,
+      listId,
+      message: error instanceof Error ? error.message : String(error),
+    });
+
     return res.status(500).json({ ok: false, message: "Unable to submit lead right now." });
   }
 };
