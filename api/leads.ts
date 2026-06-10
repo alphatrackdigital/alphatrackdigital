@@ -341,7 +341,8 @@ const handler = async (req: Req, res: Res) => {
       return res.status(200).json({ ok: true, pendingConfirmation: true, duplicate: true });
     }
 
-    const brevoResponse = await fetch(
+    let pendingConfirmation = isNewsletterDoiEnabled;
+    let brevoResponse = await fetch(
       isNewsletterDoiEnabled
         ? "https://api.brevo.com/v3/contacts/doubleOptinConfirmation"
         : "https://api.brevo.com/v3/contacts",
@@ -359,6 +360,26 @@ const handler = async (req: Req, res: Res) => {
       },
     );
 
+    if (!brevoResponse.ok && isNewsletterDoiEnabled) {
+      const errorText = await brevoResponse.text();
+      if (errorText.includes("active DOI template") || errorText.includes("invalid_parameter")) {
+        pendingConfirmation = false;
+        brevoResponse = await fetch("https://api.brevo.com/v3/contacts", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "api-key": brevoApiKey,
+          },
+          body: JSON.stringify(toBrevoPayload(payload, listId)),
+        });
+      } else {
+        return res.status(502).json({
+          ok: false,
+          message: `Failed to submit lead to provider. ${errorText.slice(0, 180)}`,
+        });
+      }
+    }
+
     if (!brevoResponse.ok) {
       const errorText = await brevoResponse.text();
       return res.status(502).json({
@@ -367,7 +388,7 @@ const handler = async (req: Req, res: Res) => {
       });
     }
 
-    if (!isNewsletterDoiEnabled) {
+    if (!pendingConfirmation) {
       await ensureContactInList(payload.email, listId, brevoApiKey);
     }
 
@@ -377,11 +398,23 @@ const handler = async (req: Req, res: Res) => {
         emailHash: dedupeKey.split("/").at(-1),
         listId,
       });
-      await sendInternalNotification(payload, brevoApiKey);
+      await sendInternalNotification(payload, brevoApiKey).catch((error) => {
+        console.error("Lead notification email failed after successful capture", {
+          source: payload.source,
+          listId,
+          message: error instanceof Error ? error.message : String(error),
+        });
+      });
     }
 
-    return res.status(200).json({ ok: true, pendingConfirmation: isNewsletterDoiEnabled, duplicate: isDuplicate });
-  } catch {
+    return res.status(200).json({ ok: true, pendingConfirmation, duplicate: isDuplicate });
+  } catch (error) {
+    console.error("Lead submission failed", {
+      source: payload.source,
+      listId,
+      message: error instanceof Error ? error.message : String(error),
+    });
+
     return res.status(500).json({ ok: false, message: "Unable to submit lead right now." });
   }
 };

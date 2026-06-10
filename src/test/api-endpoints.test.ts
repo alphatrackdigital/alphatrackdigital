@@ -19,6 +19,19 @@ describe("API endpoint resolution", () => {
     expect(resolveApiEndpoint("/api/leads", undefined, "dev.localhost")).toBe("/api/leads");
   });
 
+  it("keeps same-origin API routes for Vercel test hosts", () => {
+    expect(resolveApiEndpoint("/api/leads", undefined, "website-internal-test.vercel.app")).toBe(
+      "/api/leads",
+    );
+    expect(
+      resolveApiEndpoint(
+        "/api/brevo-subscribe",
+        undefined,
+        "atd-website-test-9pb572koc-alphatrackdigitals-projects.vercel.app",
+      ),
+    ).toBe("/api/brevo-subscribe");
+  });
+
   it("uses the live backend for static staging and preview hostnames", () => {
     expect(resolveApiEndpoint("/api/leads", undefined, "alphatrackdigital.netlify.app")).toBe(
       "https://alphatra-serv.netlify.app/api/leads",

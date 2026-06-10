@@ -5,6 +5,12 @@ const LOCAL_HOSTS = new Set(["", "localhost", "127.0.0.1", "::1"]);
 const isLocalHostname = (hostname: string) =>
   LOCAL_HOSTS.has(hostname) || hostname.endsWith(".localhost");
 
+const isVercelHostname = (hostname: string) =>
+  hostname === "website-internal-test.vercel.app" ||
+  hostname === "atd-website-test.vercel.app" ||
+  hostname === "atd-website-test-alphatrackdigitals-projects.vercel.app" ||
+  hostname.endsWith("-alphatrackdigitals-projects.vercel.app");
+
 export const resolveApiEndpoint = (
   path: string,
   configuredEndpoint?: string,
@@ -12,7 +18,7 @@ export const resolveApiEndpoint = (
 ) => {
   if (configuredEndpoint) return configuredEndpoint;
 
-  if (isLocalHostname(hostname)) {
+  if (isLocalHostname(hostname) || isVercelHostname(hostname)) {
     return path;
   }
 
