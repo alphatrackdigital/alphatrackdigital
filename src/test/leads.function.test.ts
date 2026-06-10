@@ -196,5 +196,15 @@ describe("leads function", () => {
       },
     });
     expect(fetchMock.mock.calls[2][0]).toBe("https://api.brevo.com/v3/contacts/lists/9/contacts/add");
+
+    const [notificationUrl, notificationInit] = fetchMock.mock.calls[3];
+    expect(notificationUrl).toBe("https://api.brevo.com/v3/smtp/email");
+    expect(JSON.parse(notificationInit.body)).toMatchObject({
+      sender: { name: "AlphaTrack Digital", email: "marketing@alphatrack.digital" },
+      replyTo: { email: "marketing@alphatrack.digital", name: "AlphaTrack Digital" },
+      to: [{ email: "marketing@alphatrack.digital" }],
+      subject: "New newsletter signup",
+      tags: ["newsletter"],
+    });
   });
 });

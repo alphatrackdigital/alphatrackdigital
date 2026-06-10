@@ -142,8 +142,8 @@ const leadNotificationConfig: Partial<Record<LeadSource, {
     label: "Tracking audit request",
   },
   newsletter: {
-    senderEmail: "info@alphatrack.digital",
-    recipients: ["info@alphatrack.digital"],
+    senderEmail: "marketing@alphatrack.digital",
+    recipients: ["marketing@alphatrack.digital"],
     subject: "New newsletter signup",
     label: "Newsletter signup",
   },

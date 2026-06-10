@@ -42,6 +42,7 @@ describe("brevo meeting webhook function", () => {
     delete process.env.GA4_MEASUREMENT_ID;
     delete process.env.GA4_MEASUREMENT_PROTOCOL_API_SECRET;
     delete process.env.GA4_MEASUREMENT_PROTOCOL_DEBUG_MODE;
+    delete process.env.BREVO_API_KEY;
   });
 
   it("rejects unsigned webhook requests", async () => {
@@ -101,6 +102,28 @@ describe("brevo meeting webhook function", () => {
     expect(JSON.stringify(body)).not.toContain("visitor@example.com");
     expect(JSON.stringify(body)).not.toContain("Ada");
     expect(JSON.stringify(body)).not.toContain("Lovelace");
+  });
+
+  it("sends an internal sales alert for real strategy call bookings", async () => {
+    process.env.BREVO_API_KEY = "test-api-key";
+    const fetchMock = vi.fn().mockResolvedValue(new Response(null, { status: 204 }));
+    vi.stubGlobal("fetch", fetchMock);
+
+    const response = await handler(buildRequest(bookedPayload));
+
+    expect(response.status).toBe(200);
+    await expect(response.json()).resolves.toMatchObject({ ok: true, duplicate: false });
+
+    const notificationCall = fetchMock.mock.calls.find(([url]) => url === "https://api.brevo.com/v3/smtp/email");
+    expect(notificationCall).toBeTruthy();
+    const [, notificationInit] = notificationCall!;
+    expect(JSON.parse(notificationInit.body)).toMatchObject({
+      sender: { name: "AlphaTrack Digital", email: "sales@alphatrack.digital" },
+      replyTo: { email: "sales@alphatrack.digital", name: "AlphaTrack Digital" },
+      to: [{ email: "sales@alphatrack.digital" }, { email: "martech@alphatrack.digital" }],
+      subject: "New strategy call booking",
+      tags: ["brevo_meetings_webhook"],
+    });
   });
 
   it("adds debug_mode only when explicitly enabled", async () => {

@@ -201,6 +201,63 @@ const createBrevoContact = async (payload) => {
   }
 };
 
+const buildBookingNotificationRows = (payload, meetingParams) => {
+  const firstName = findFirstString(payload, ["firstName", "first_name", "FIRSTNAME", "attendee_first_name"]);
+  const lastName = findFirstString(payload, ["lastName", "last_name", "LASTNAME", "attendee_last_name"]);
+
+  return [
+    ["Source", "Strategy Call Booking"],
+    ["Name", `${firstName || ""} ${lastName || ""}`.trim()],
+    ["Email", findFirstString(payload, ["EMAIL", "email"])],
+    ["Meeting", meetingParams.meeting_name],
+    ["Booking ID", meetingParams.booking_id],
+    ["Start", meetingParams.meeting_start_timestamp],
+    ["End", meetingParams.meeting_end_timestamp],
+    ["Location", meetingParams.meeting_location],
+    ["Page", meetingParams.page_location],
+  ].filter(([, value]) => String(value || "").trim().length > 0);
+};
+
+const escapeHtml = (value) =>
+  String(value ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+
+const sendBookingInternalNotification = async (payload, meetingParams) => {
+  const brevoApiKey = getEnv("BREVO_API_KEY");
+  if (!brevoApiKey) return;
+
+  const rows = buildBookingNotificationRows(payload, meetingParams);
+  const textContent = ["Strategy call booking", "", ...rows.map(([label, value]) => `${label}: ${value}`)].join("\n");
+  const htmlRows = rows.map(([label, value]) => `
+    <tr>
+      <td style="padding: 8px 12px; border-bottom: 1px solid #e5e7eb; font-weight: 700;">${escapeHtml(label)}</td>
+      <td style="padding: 8px 12px; border-bottom: 1px solid #e5e7eb;">${escapeHtml(value)}</td>
+    </tr>`).join("");
+
+  const response = await fetch("https://api.brevo.com/v3/smtp/email", {
+    method: "POST",
+    headers: { "content-type": "application/json", "api-key": brevoApiKey },
+    body: JSON.stringify({
+      sender: { name: "AlphaTrack Digital", email: "sales@alphatrack.digital" },
+      to: [{ email: "sales@alphatrack.digital" }, { email: "martech@alphatrack.digital" }],
+      replyTo: { email: "sales@alphatrack.digital", name: "AlphaTrack Digital" },
+      subject: "New strategy call booking",
+      htmlContent: `
+        <div style="font-family: Arial, Helvetica, sans-serif; color: #111827; line-height: 1.5;">
+          <h1 style="font-size: 20px; margin: 0 0 16px;">Strategy call booking</h1>
+          <table role="presentation" cellpadding="0" cellspacing="0" style="border-collapse: collapse; width: 100%; max-width: 720px; border: 1px solid #e5e7eb;">
+            ${htmlRows}
+          </table>
+        </div>`,
+      textContent,
+      tags: ["brevo_meetings_webhook"],
+    }),
+  });
+
+  if (!response.ok) {
+    throw new Error("Brevo rejected the booking notification email.");
+  }
+};
+
 const sendGa4Event = async (payload, meetingParams) => {
   const measurementId = getEnv("GA4_MEASUREMENT_ID");
   const apiSecret = getEnv("GA4_MEASUREMENT_PROTOCOL_API_SECRET");
@@ -278,11 +335,12 @@ export default async (request) => {
   const existingBooking = await getIdempotencyRecord(dedupeKey);
   const isDuplicate = Boolean(existingBooking);
 
-  // Run GA4 tracking and Brevo contact creation in parallel.
+  // Run tracking, CRM write, and internal alert in parallel.
   // Each is independently error-handled so a failure in one does not affect the other.
-  const [ga4Result, brevoResult] = await Promise.allSettled([
+  const [ga4Result, brevoResult, notificationResult] = await Promise.allSettled([
     isDuplicate ? Promise.resolve() : sendGa4Event(payload, meetingParams),
     createBrevoContact(payload).catch(() => null), // silent — CRM write is best-effort
+    isDuplicate ? Promise.resolve() : sendBookingInternalNotification(payload, meetingParams),
   ]);
 
   if (ga4Result.status === "rejected") {
@@ -297,6 +355,12 @@ export default async (request) => {
       source: "brevo_meetings_webhook",
       bookingId: meetingParams.booking_id,
     });
+  }
+
+  if (notificationResult.status === "rejected") {
+    const message =
+      notificationResult.reason instanceof Error ? notificationResult.reason.message : "Unable to send booking notification.";
+    console.error("Brevo meeting booking notification failed.", { message });
   }
 
   const brevoOk = brevoResult.status === "fulfilled";
