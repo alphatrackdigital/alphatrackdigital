@@ -120,9 +120,6 @@ export const handler: Handler = async (event: HandlerEvent) => {
   }
 
   const brevoApiKey = process.env.BREVO_API_KEY;
-  if (!brevoApiKey) {
-    return jsonResponse({ ok: false, message: "Server configuration error." }, 500, headers);
-  }
 
   let payload: unknown;
   try {
@@ -153,7 +150,7 @@ export const handler: Handler = async (event: HandlerEvent) => {
     : "";
 
   try {
-    // Save to MongoDB (non-blocking — don't fail the request if DB is down)
+    // Save to MongoDB — primary store, always attempted
     try {
       await connectDB();
       await Contact.create({
@@ -172,6 +169,11 @@ export const handler: Handler = async (event: HandlerEvent) => {
       });
     } catch (dbErr) {
       console.error("[leads] DB save error (non-fatal):", dbErr);
+    }
+
+    // Sync to Brevo if API key is configured
+    if (!brevoApiKey) {
+      return jsonResponse({ ok: true, pendingConfirmation: false }, 200, headers);
     }
 
     const isNewsletterDoiEnabled =
