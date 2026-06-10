@@ -66,8 +66,6 @@ const getEnv = (name) => {
 
 // --- MongoDB ---
 
-let dbConnected = false;
-
 const ContactSchema = new mongoose.Schema(
   {
     source: String,
@@ -92,11 +90,13 @@ const Contact =
 
 const saveToMongoDB = async (payload, ip) => {
   const uri = getEnv("MONGODB_URI");
-  if (!uri) return;
+  if (!uri) {
+    console.warn("[leads] MONGODB_URI is not set — skipping DB save");
+    return;
+  }
   try {
-    if (!dbConnected) {
+    if (mongoose.connection.readyState === 0) {
       await mongoose.connect(uri, { dbName: "alphatrack" });
-      dbConnected = true;
     }
     await Contact.create({
       source: payload.source,
