@@ -61,6 +61,11 @@
   to = "/.netlify/functions/brevo-subscribe"
   status = 200
 
+[[redirects]]
+  from = "/api/brevo-meeting-webhook"
+  to = "/.netlify/functions/brevo-meeting-webhook"
+  status = 200
+
 # CORS headers
 [[headers]]
   for = "/api/*"
