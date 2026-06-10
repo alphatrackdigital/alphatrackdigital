@@ -3,7 +3,7 @@
 Newsletter subscriptions can use Brevo's DOI contact endpoint when both of these environment variables are set:
 
 ```env
-BREVO_DOI_TEMPLATE_ID=
+BREVO_DOI_TEMPLATE_ID=6
 BREVO_DOI_REDIRECT_URL=
 BREVO_NEWSLETTER_LIST_ID=9
 ```
@@ -15,7 +15,7 @@ Behavior:
 
 Required Brevo-side setup:
 
-1. Create an active Double Opt-In email template in Brevo.
+1. Use the active Brevo template `6` (`ATD | Newsletter DOI Confirmation`).
 2. Use the template ID as `BREVO_DOI_TEMPLATE_ID`.
 3. Set `BREVO_DOI_REDIRECT_URL` to the page users should land on after confirming.
 4. Keep `BREVO_NEWSLETTER_LIST_ID` pointed at the final newsletter list. Current Brevo newsletter list: `9` (`ATD | Newsletter`).
