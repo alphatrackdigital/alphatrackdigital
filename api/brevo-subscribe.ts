@@ -1,4 +1,4 @@
-import { buildExitPopupDedupeKey, getIdempotencyRecord, markIdempotencyKey } from "./idempotency";
+import { buildExitPopupDedupeKey, getIdempotencyRecord, markIdempotencyKey } from "./idempotency.js";
 
 interface SubscribePayload {
   firstName: string;
@@ -27,15 +27,34 @@ const SOURCE = "ATD Website Exit Popup";
 
 const requestBuckets = new Map<string, { count: number; windowStart: number }>();
 
-const allowedOrigins = new Set([
-  "https://alphatrack.digital",
-  "https://www.alphatrack.digital",
-  "https://alphatra-serv.netlify.app",
-  "https://backend--alphatra-serv.netlify.app",
-  "https://website-internal-test.vercel.app",
-  "https://atd-website-test.vercel.app",
-  "https://atd-website-test-alphatrackdigitals-projects.vercel.app",
+const allowedHostnames = new Set([
+  "alphatrack.digital",
+  "www.alphatrack.digital",
+  "alphatrackdigital.com",
+  "www.alphatrackdigital.com",
+  "alphatrackdigital.netlify.app",
+  "alphatra-serv.netlify.app",
+  "backend--alphatra-serv.netlify.app",
+  "website-internal-test.vercel.app",
+  "atd-website-test.vercel.app",
+  "atd-website-test-alphatrackdigitals-projects.vercel.app",
 ]);
+
+const isAllowedOrigin = (origin?: string) => {
+  if (!origin) return false;
+
+  try {
+    const url = new URL(origin);
+    if (url.protocol !== "https:") return false;
+    if (allowedHostnames.has(url.hostname)) return true;
+    return (
+      url.hostname.endsWith("-alphatrackdigitals-projects.vercel.app") ||
+      url.hostname.endsWith("--alphatrackdigital.netlify.app")
+    );
+  } catch {
+    return false;
+  }
+};
 
 const getHeader = (headers: Req["headers"], name: string) => {
   const value = headers[name] ?? headers[name.toLowerCase()];
@@ -47,7 +66,7 @@ const setCorsHeaders = (req: Req, res: Res) => {
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
 
-  if (origin && allowedOrigins.has(origin)) {
+  if (isAllowedOrigin(origin)) {
     res.setHeader("Access-Control-Allow-Origin", origin);
     res.setHeader("Vary", "Origin");
   }

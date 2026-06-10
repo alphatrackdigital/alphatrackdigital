@@ -1,4 +1,4 @@
-import { buildBookingDedupeKey, getIdempotencyRecord, markIdempotencyKey } from "./idempotency";
+import { buildBookingDedupeKey, getIdempotencyRecord, markIdempotencyKey } from "./idempotency.js";
 
 interface Req {
   method?: string;

@@ -1,4 +1,4 @@
-import { buildLeadDedupeKey, getIdempotencyRecord, markIdempotencyKey } from "./idempotency";
+import { buildLeadDedupeKey, getIdempotencyRecord, markIdempotencyKey } from "./idempotency.js";
 
 type LeadSource = "contact_form" | "tracking_audit_offer" | "newsletter";
 
@@ -34,15 +34,34 @@ const RATE_LIMIT_WINDOW_MS = 60_000;
 const RATE_LIMIT_MAX_REQUESTS = 8;
 const requestBuckets = new Map<string, { count: number; windowStart: number }>();
 
-const allowedOrigins = new Set([
-  "https://alphatrack.digital",
-  "https://www.alphatrack.digital",
-  "https://alphatra-serv.netlify.app",
-  "https://backend--alphatra-serv.netlify.app",
-  "https://website-internal-test.vercel.app",
-  "https://atd-website-test.vercel.app",
-  "https://atd-website-test-alphatrackdigitals-projects.vercel.app",
+const allowedHostnames = new Set([
+  "alphatrack.digital",
+  "www.alphatrack.digital",
+  "alphatrackdigital.com",
+  "www.alphatrackdigital.com",
+  "alphatrackdigital.netlify.app",
+  "alphatra-serv.netlify.app",
+  "backend--alphatra-serv.netlify.app",
+  "website-internal-test.vercel.app",
+  "atd-website-test.vercel.app",
+  "atd-website-test-alphatrackdigitals-projects.vercel.app",
 ]);
+
+const isAllowedOrigin = (origin?: string) => {
+  if (!origin) return false;
+
+  try {
+    const url = new URL(origin);
+    if (url.protocol !== "https:") return false;
+    if (allowedHostnames.has(url.hostname)) return true;
+    return (
+      url.hostname.endsWith("-alphatrackdigitals-projects.vercel.app") ||
+      url.hostname.endsWith("--alphatrackdigital.netlify.app")
+    );
+  } catch {
+    return false;
+  }
+};
 
 const setCorsHeaders = (req: Req, res: Res) => {
   const origin = Array.isArray(req.headers.origin)
@@ -50,7 +69,7 @@ const setCorsHeaders = (req: Req, res: Res) => {
     : req.headers.origin;
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
-  if (origin && allowedOrigins.has(origin)) {
+  if (isAllowedOrigin(origin)) {
     res.setHeader("Access-Control-Allow-Origin", origin);
     res.setHeader("Vary", "Origin");
   }
@@ -341,7 +360,8 @@ const handler = async (req: Req, res: Res) => {
       return res.status(200).json({ ok: true, pendingConfirmation: true, duplicate: true });
     }
 
-    const brevoResponse = await fetch(
+    let pendingConfirmation = isNewsletterDoiEnabled;
+    let brevoResponse = await fetch(
       isNewsletterDoiEnabled
         ? "https://api.brevo.com/v3/contacts/doubleOptinConfirmation"
         : "https://api.brevo.com/v3/contacts",
@@ -359,6 +379,26 @@ const handler = async (req: Req, res: Res) => {
       },
     );
 
+    if (!brevoResponse.ok && isNewsletterDoiEnabled) {
+      const errorText = await brevoResponse.text();
+      if (errorText.includes("active DOI template") || errorText.includes("invalid_parameter")) {
+        pendingConfirmation = false;
+        brevoResponse = await fetch("https://api.brevo.com/v3/contacts", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "api-key": brevoApiKey,
+          },
+          body: JSON.stringify(toBrevoPayload(payload, listId)),
+        });
+      } else {
+        return res.status(502).json({
+          ok: false,
+          message: `Failed to submit lead to provider. ${errorText.slice(0, 180)}`,
+        });
+      }
+    }
+
     if (!brevoResponse.ok) {
       const errorText = await brevoResponse.text();
       return res.status(502).json({
@@ -367,7 +407,7 @@ const handler = async (req: Req, res: Res) => {
       });
     }
 
-    if (!isNewsletterDoiEnabled) {
+    if (!pendingConfirmation) {
       await ensureContactInList(payload.email, listId, brevoApiKey);
     }
 
@@ -380,7 +420,7 @@ const handler = async (req: Req, res: Res) => {
       await sendInternalNotification(payload, brevoApiKey);
     }
 
-    return res.status(200).json({ ok: true, pendingConfirmation: isNewsletterDoiEnabled, duplicate: isDuplicate });
+    return res.status(200).json({ ok: true, pendingConfirmation, duplicate: isDuplicate });
   } catch {
     return res.status(500).json({ ok: false, message: "Unable to submit lead right now." });
   }
