@@ -2,6 +2,9 @@
 
 Current source of truth for AlphaTrack Digital website lead capture.
 
+CRM handoff rules for deals, tasks, pipeline stages, and suppression are maintained in
+[`docs/brevo-crm-handoff.md`](./brevo-crm-handoff.md).
+
 ### Campaign-readiness attributes
 
 All website and Brevo Meetings lead capture paths should preserve the legacy `SOURCE` attribute and also populate the campaign-readiness attributes below:
