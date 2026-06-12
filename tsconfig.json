@@ -9,6 +9,6 @@
     "outDir": ".build",
     "rootDir": "."
   },
-  "include": ["netlify/functions/**/*"],
+  "include": ["api/**/*"],
   "exclude": ["node_modules"]
 }

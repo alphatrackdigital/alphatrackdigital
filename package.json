@@ -3,12 +3,10 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "netlify dev",
+    "dev": "vercel dev",
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
-    "@netlify/blobs": "^10.7.9",
-    "@netlify/functions": "^2.7.0",
     "bcryptjs": "^2.4.3",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.4.0"
@@ -17,6 +15,7 @@
     "@types/bcryptjs": "^2.4.6",
     "@types/jsonwebtoken": "^9.0.6",
     "@types/node": "^20.14.0",
+    "@vercel/node": "^3.0.0",
     "typescript": "^5.4.5"
   }
 }
