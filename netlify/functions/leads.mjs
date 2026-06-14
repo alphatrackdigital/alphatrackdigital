@@ -440,6 +440,17 @@ const toBrevoDoiPayload = (data, listId, templateId, redirectUrl) => ({
   attributes: withCampaignAndConsentAttributes({ SOURCE: "Newsletter" }, data),
 });
 
+const getBrevoContactIdByEmail = async (email, brevoApiKey) => {
+  const response = await fetch(`https://api.brevo.com/v3/contacts/${encodeURIComponent(email)}`, {
+    headers: { "api-key": brevoApiKey },
+  });
+
+  if (!response.ok) return undefined;
+
+  const contact = await response.json().catch(() => ({}));
+  return contact.id;
+};
+
 const ensureContactInList = async (email, listId, brevoApiKey) => {
   const response = await fetch(`https://api.brevo.com/v3/contacts/lists/${listId}/contacts/add`, {
     method: "POST",
@@ -571,6 +582,7 @@ export default async (request) => {
     }
 
     const brevoContact = await brevoResponse.clone().json().catch(() => ({}));
+    const brevoContactId = brevoContact.id || await getBrevoContactIdByEmail(payload.email, brevoApiKey);
 
     if (!pendingConfirmation) {
       await tryEnsureContactInList(payload.email, listId, brevoApiKey, payload.source);
@@ -578,7 +590,7 @@ export default async (request) => {
 
     if (!isDuplicate) {
       await markIdempotencyKey(dedupeKey, { source: payload.source, emailHash: dedupeKey.split("/").at(-1), listId });
-      await createCrmDealAndTask(payload, brevoContact.id, brevoApiKey).catch((error) => {
+      await createCrmDealAndTask(payload, brevoContactId, brevoApiKey).catch((error) => {
         console.error("Brevo CRM handoff failed after successful capture", {
           source: payload.source,
           listId,

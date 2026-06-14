@@ -159,6 +159,17 @@ const authenticate = (request) => {
   return providedSecret === secret;
 };
 
+const getBrevoContactIdByEmail = async (email, brevoApiKey) => {
+  const response = await fetch(`https://api.brevo.com/v3/contacts/${encodeURIComponent(email)}`, {
+    headers: { "api-key": brevoApiKey },
+  });
+
+  if (!response.ok) return undefined;
+
+  const contact = await response.json().catch(() => ({}));
+  return contact.id;
+};
+
 const createBrevoContact = async (payload) => {
   const brevoApiKey = getEnv("BREVO_API_KEY");
   if (!brevoApiKey) return;
@@ -213,10 +224,14 @@ const createBrevoContact = async (payload) => {
   });
 
   if (!listResponse.ok) {
-    throw new Error("Brevo rejected the booking list membership.");
+    const errorText = await listResponse.text();
+    console.warn("Brevo booking list membership call failed after contact upsert", {
+      listId,
+      message: errorText.slice(0, 180),
+    });
   }
 
-  return contact.id;
+  return contact.id || getBrevoContactIdByEmail(normalizedEmail, brevoApiKey);
 };
 
 const buildBookingNotificationRows = (payload, meetingParams) => {
