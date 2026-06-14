@@ -3,6 +3,13 @@ import { buildBookingDedupeKey, getIdempotencyRecord, markIdempotencyKey } from 
 const GA4_COLLECT_ENDPOINT = "https://www.google-analytics.com/mp/collect";
 const DEFAULT_EVENT_NAME = ["meeting", "booked", "confirmed"].join("_");
 
+const crmConfig = {
+  ownerId: "68bf7b64faf0e9c68b0ccdb4",
+  pipelineId: "68bf7ba1f6e11688cf7a2164",
+  demoScheduledStageId: "bc2f86a0-8374-479f-bd43-27675c04e31a",
+  taskTypeId: "68bf7ba1f6e11688cf7a215e",
+};
+
 const json = (payload, init = {}) =>
   new Response(JSON.stringify(payload), {
     status: init.status ?? 200,
@@ -121,6 +128,13 @@ const getMeetingParams = (payload) => {
   };
 };
 
+const getCallPrepDueDateIso = (meetingParams) => {
+  const meetingStart = Date.parse(meetingParams.meeting_start_timestamp);
+  const dueDate = Number.isFinite(meetingStart) ? new Date(meetingStart) : new Date();
+  dueDate.setUTCHours(Math.max(8, dueDate.getUTCHours() - 1), 0, 0, 0);
+  return dueDate.toISOString();
+};
+
 const shouldIgnorePayload = (payload) => {
   const eventText = [
     findFirstString(payload, ["event", "event_name", "eventName", "type", "status", "action"]),
@@ -158,6 +172,7 @@ const createBrevoContact = async (payload) => {
   const firstName = findFirstString(payload, ["firstName", "first_name", "FIRSTNAME", "attendee_first_name"]);
   const lastName = findFirstString(payload, ["lastName", "last_name", "LASTNAME", "attendee_last_name"]);
   const normalizedEmail = email.trim().toLowerCase();
+  const timestamp = new Date().toISOString();
 
   const response = await fetch("https://api.brevo.com/v3/contacts", {
     method: "POST",
@@ -171,6 +186,11 @@ const createBrevoContact = async (payload) => {
         ...(firstName ? { FIRSTNAME: firstName } : {}),
         ...(lastName ? { LASTNAME: lastName } : {}),
         SOURCE: "Strategy Call Booking",
+        LEAD_SOURCE: "brevo_meetings_webhook",
+        WEBSITE_ROUTE: "/book-a-call",
+        OFFER: "strategy-call",
+        CONSENT_STATUS: "not_provided",
+        CONSENT_TIMESTAMP: timestamp,
       },
       listIds: [listId],
       updateEnabled: true,
@@ -180,6 +200,8 @@ const createBrevoContact = async (payload) => {
   if (!response.ok) {
     throw new Error("Brevo rejected the booking contact.");
   }
+
+  const contact = await response.clone().json().catch(() => ({}));
 
   const listResponse = await fetch(`https://api.brevo.com/v3/contacts/lists/${listId}/contacts/add`, {
     method: "POST",
@@ -192,6 +214,123 @@ const createBrevoContact = async (payload) => {
 
   if (!listResponse.ok) {
     throw new Error("Brevo rejected the booking list membership.");
+  }
+
+  return contact.id;
+};
+
+const buildBookingNotificationRows = (payload, meetingParams) => {
+  const firstName = findFirstString(payload, ["firstName", "first_name", "FIRSTNAME", "attendee_first_name"]);
+  const lastName = findFirstString(payload, ["lastName", "last_name", "LASTNAME", "attendee_last_name"]);
+
+  return [
+    ["Source", "Strategy Call Booking"],
+    ["Name", `${firstName || ""} ${lastName || ""}`.trim()],
+    ["Email", findFirstString(payload, ["EMAIL", "email"])],
+    ["Meeting", meetingParams.meeting_name],
+    ["Booking ID", meetingParams.booking_id],
+    ["Start", meetingParams.meeting_start_timestamp],
+    ["End", meetingParams.meeting_end_timestamp],
+    ["Location", meetingParams.meeting_location],
+    ["Page", meetingParams.page_location],
+  ].filter(([, value]) => String(value || "").trim().length > 0);
+};
+
+const createBookingCrmHandoff = async (payload, meetingParams, contactId) => {
+  const brevoApiKey = getEnv("BREVO_API_KEY");
+  if (!brevoApiKey || !contactId) return;
+
+  const firstName = findFirstString(payload, ["firstName", "first_name", "FIRSTNAME", "attendee_first_name"]);
+  const lastName = findFirstString(payload, ["lastName", "last_name", "LASTNAME", "attendee_last_name"]);
+  const email = findFirstString(payload, ["EMAIL", "email"]);
+  const displayName = `${firstName || ""} ${lastName || ""}`.trim() || email || "Strategy call lead";
+  const descriptionRows = buildBookingNotificationRows(payload, meetingParams)
+    .map(([label, value]) => `${label}: ${value}`)
+    .join("\n");
+
+  const dealResponse = await fetch("https://api.brevo.com/v3/crm/deals", {
+    method: "POST",
+    headers: { "content-type": "application/json", "api-key": brevoApiKey },
+    body: JSON.stringify({
+      name: `${displayName} - Strategy call`,
+      attributes: {
+        deal_owner: crmConfig.ownerId,
+        pipeline: crmConfig.pipelineId,
+        deal_stage: crmConfig.demoScheduledStageId,
+        deal_description: descriptionRows,
+      },
+      linkedContactsIds: [Number(contactId)],
+    }),
+  });
+
+  if (!dealResponse.ok) {
+    const errorText = await dealResponse.text();
+    throw new Error(`Brevo CRM booking deal creation failed. ${errorText.slice(0, 180)}`);
+  }
+
+  const deal = await dealResponse.json().catch(() => ({}));
+  const taskResponse = await fetch("https://api.brevo.com/v3/crm/tasks", {
+    method: "POST",
+    headers: { "content-type": "application/json", "api-key": brevoApiKey },
+    body: JSON.stringify({
+      name: `Prepare for strategy call - ${displayName}`,
+      date: getCallPrepDueDateIso(meetingParams),
+      taskTypeId: crmConfig.taskTypeId,
+      assignToId: crmConfig.ownerId,
+      contactsIds: [Number(contactId)],
+      dealsIds: deal.id ? [deal.id] : [],
+      notes: "Review booking context before the strategy call.",
+      done: false,
+    }),
+  });
+
+  if (!taskResponse.ok) {
+    const errorText = await taskResponse.text();
+    throw new Error(`Brevo CRM booking task creation failed. ${errorText.slice(0, 180)}`);
+  }
+};
+
+const escapeHtml = (value) =>
+  String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+
+const sendBookingInternalNotification = async (payload, meetingParams) => {
+  const brevoApiKey = getEnv("BREVO_API_KEY");
+  if (!brevoApiKey) return;
+
+  const rows = buildBookingNotificationRows(payload, meetingParams);
+  const textContent = ["Strategy call booking", "", ...rows.map(([label, value]) => `${label}: ${value}`)].join("\n");
+  const htmlRows = rows.map(([label, value]) => `
+    <tr>
+      <td style="padding: 8px 12px; border-bottom: 1px solid #e5e7eb; font-weight: 700;">${escapeHtml(label)}</td>
+      <td style="padding: 8px 12px; border-bottom: 1px solid #e5e7eb;">${escapeHtml(value)}</td>
+    </tr>`).join("");
+
+  const response = await fetch("https://api.brevo.com/v3/smtp/email", {
+    method: "POST",
+    headers: { "content-type": "application/json", "api-key": brevoApiKey },
+    body: JSON.stringify({
+      sender: { name: "AlphaTrack Digital", email: "sales@alphatrack.digital" },
+      to: [{ email: "sales@alphatrack.digital" }, { email: "martech@alphatrack.digital" }],
+      replyTo: { email: "sales@alphatrack.digital", name: "AlphaTrack Digital" },
+      subject: "New strategy call booking",
+      htmlContent: `
+        <div style="font-family: Arial, Helvetica, sans-serif; color: #111827; line-height: 1.5;">
+          <h1 style="font-size: 20px; margin: 0 0 16px;">Strategy call booking</h1>
+          <table role="presentation" cellpadding="0" cellspacing="0" style="border-collapse: collapse; width: 100%; max-width: 720px; border: 1px solid #e5e7eb;">
+            ${htmlRows}
+          </table>
+        </div>`,
+      textContent,
+      tags: ["brevo_meetings_webhook"],
+    }),
+  });
+
+  if (!response.ok) {
+    throw new Error("Brevo rejected the booking notification email.");
   }
 };
 
@@ -272,11 +411,12 @@ export default async (request) => {
   const existingBooking = await getIdempotencyRecord(dedupeKey);
   const isDuplicate = Boolean(existingBooking);
 
-  // Run GA4 tracking and Brevo contact creation in parallel.
-  // Each is independently error-handled so a failure in one does not affect the other.
-  const [ga4Result, brevoResult] = await Promise.allSettled([
+  const [ga4Result, brevoResult, notificationResult] = await Promise.allSettled([
     isDuplicate ? Promise.resolve() : sendGa4Event(payload, meetingParams),
-    createBrevoContact(payload).catch(() => null), // silent — CRM write is best-effort
+    createBrevoContact(payload)
+      .then((contactId) => (isDuplicate ? undefined : createBookingCrmHandoff(payload, meetingParams, contactId)))
+      .catch(() => null),
+    isDuplicate ? Promise.resolve() : sendBookingInternalNotification(payload, meetingParams),
   ]);
 
   if (ga4Result.status === "rejected") {
@@ -291,6 +431,12 @@ export default async (request) => {
       source: "brevo_meetings_webhook",
       bookingId: meetingParams.booking_id,
     });
+  }
+
+  if (notificationResult.status === "rejected") {
+    const message =
+      notificationResult.reason instanceof Error ? notificationResult.reason.message : "Unable to send booking notification.";
+    console.error("Brevo meeting booking notification failed.", { message });
   }
 
   const brevoOk = brevoResult.status === "fulfilled";
