@@ -3,6 +3,13 @@ import { buildBookingDedupeKey, getIdempotencyRecord, markIdempotencyKey } from 
 const GA4_COLLECT_ENDPOINT = "https://www.google-analytics.com/mp/collect";
 const DEFAULT_EVENT_NAME = ["meeting", "booked", "confirmed"].join("_");
 
+const crmConfig = {
+  ownerId: "68bf7b64faf0e9c68b0ccdb4",
+  pipelineId: "68bf7ba1f6e11688cf7a2164",
+  demoScheduledStageId: "bc2f86a0-8374-479f-bd43-27675c04e31a",
+  taskTypeId: "68bf7ba1f6e11688cf7a215e",
+};
+
 const json = (payload, init = {}) =>
   new Response(JSON.stringify(payload), {
     status: init.status ?? 200,
@@ -121,6 +128,13 @@ const getMeetingParams = (payload) => {
   };
 };
 
+const getCallPrepDueDateIso = (meetingParams) => {
+  const meetingStart = Date.parse(meetingParams.meeting_start_timestamp);
+  const dueDate = Number.isFinite(meetingStart) ? new Date(meetingStart) : new Date();
+  dueDate.setUTCHours(Math.max(8, dueDate.getUTCHours() - 1), 0, 0, 0);
+  return dueDate.toISOString();
+};
+
 const shouldIgnorePayload = (payload) => {
   const eventText = [
     findFirstString(payload, ["event", "event_name", "eventName", "type", "status", "action"]),
@@ -187,6 +201,8 @@ const createBrevoContact = async (payload) => {
     throw new Error("Brevo rejected the booking contact.");
   }
 
+  const contact = await response.clone().json().catch(() => ({}));
+
   const listResponse = await fetch(`https://api.brevo.com/v3/contacts/lists/${listId}/contacts/add`, {
     method: "POST",
     headers: {
@@ -199,6 +215,8 @@ const createBrevoContact = async (payload) => {
   if (!listResponse.ok) {
     throw new Error("Brevo rejected the booking list membership.");
   }
+
+  return contact.id;
 };
 
 const buildBookingNotificationRows = (payload, meetingParams) => {
@@ -216,6 +234,60 @@ const buildBookingNotificationRows = (payload, meetingParams) => {
     ["Location", meetingParams.meeting_location],
     ["Page", meetingParams.page_location],
   ].filter(([, value]) => String(value || "").trim().length > 0);
+};
+
+const createBookingCrmHandoff = async (payload, meetingParams, contactId) => {
+  const brevoApiKey = getEnv("BREVO_API_KEY");
+  if (!brevoApiKey || !contactId) return;
+
+  const firstName = findFirstString(payload, ["firstName", "first_name", "FIRSTNAME", "attendee_first_name"]);
+  const lastName = findFirstString(payload, ["lastName", "last_name", "LASTNAME", "attendee_last_name"]);
+  const email = findFirstString(payload, ["EMAIL", "email"]);
+  const displayName = `${firstName || ""} ${lastName || ""}`.trim() || email || "Strategy call lead";
+  const descriptionRows = buildBookingNotificationRows(payload, meetingParams)
+    .map(([label, value]) => `${label}: ${value}`)
+    .join("\n");
+
+  const dealResponse = await fetch("https://api.brevo.com/v3/crm/deals", {
+    method: "POST",
+    headers: { "content-type": "application/json", "api-key": brevoApiKey },
+    body: JSON.stringify({
+      name: `${displayName} - Strategy call`,
+      attributes: {
+        deal_owner: crmConfig.ownerId,
+        pipeline: crmConfig.pipelineId,
+        deal_stage: crmConfig.demoScheduledStageId,
+        deal_description: descriptionRows,
+      },
+      linkedContactsIds: [Number(contactId)],
+    }),
+  });
+
+  if (!dealResponse.ok) {
+    const errorText = await dealResponse.text();
+    throw new Error(`Brevo CRM booking deal creation failed. ${errorText.slice(0, 180)}`);
+  }
+
+  const deal = await dealResponse.json().catch(() => ({}));
+  const taskResponse = await fetch("https://api.brevo.com/v3/crm/tasks", {
+    method: "POST",
+    headers: { "content-type": "application/json", "api-key": brevoApiKey },
+    body: JSON.stringify({
+      name: `Prepare for strategy call - ${displayName}`,
+      date: getCallPrepDueDateIso(meetingParams),
+      taskTypeId: crmConfig.taskTypeId,
+      assignToId: crmConfig.ownerId,
+      contactsIds: [Number(contactId)],
+      dealsIds: deal.id ? [deal.id] : [],
+      notes: "Review booking context before the strategy call.",
+      done: false,
+    }),
+  });
+
+  if (!taskResponse.ok) {
+    const errorText = await taskResponse.text();
+    throw new Error(`Brevo CRM booking task creation failed. ${errorText.slice(0, 180)}`);
+  }
 };
 
 const escapeHtml = (value) =>
@@ -339,7 +411,9 @@ export default async (request) => {
   // Each is independently error-handled so a failure in one does not affect the other.
   const [ga4Result, brevoResult, notificationResult] = await Promise.allSettled([
     isDuplicate ? Promise.resolve() : sendGa4Event(payload, meetingParams),
-    createBrevoContact(payload).catch(() => null), // silent — CRM write is best-effort
+    createBrevoContact(payload)
+      .then((contactId) => (isDuplicate ? undefined : createBookingCrmHandoff(payload, meetingParams, contactId)))
+      .catch(() => null), // silent — CRM write is best-effort
     isDuplicate ? Promise.resolve() : sendBookingInternalNotification(payload, meetingParams),
   ]);
 

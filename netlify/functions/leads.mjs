@@ -212,6 +212,102 @@ const leadNotificationConfig = {
   },
 };
 
+const crmConfig = {
+  ownerId: "68bf7b64faf0e9c68b0ccdb4",
+  pipelineId: "68bf7ba1f6e11688cf7a2164",
+  taskTypeId: "68bf7ba1f6e11688cf7a215e",
+  stages: {
+    new: "8dae99f7-6de0-4c1f-9ca6-b5ee72a40d85",
+    qualifying: "089c5fc7-da86-489a-a3b5-503bc5d4bd54",
+  },
+};
+
+const getNextBusinessDayIso = () => {
+  const dueDate = new Date();
+  dueDate.setUTCDate(dueDate.getUTCDate() + 1);
+  dueDate.setUTCHours(10, 0, 0, 0);
+
+  const day = dueDate.getUTCDay();
+  if (day === 6) dueDate.setUTCDate(dueDate.getUTCDate() + 2);
+  if (day === 0) dueDate.setUTCDate(dueDate.getUTCDate() + 1);
+
+  return dueDate.toISOString();
+};
+
+const getLeadDisplayName = (data) => `${data.firstName || ""} ${data.lastName || ""}`.trim() || data.email;
+
+const getCrmHandoff = (data) => {
+  if (data.source === "contact_form") {
+    return {
+      dealStage: crmConfig.stages.qualifying,
+      dealName: `${data.company || getLeadDisplayName(data)} - General enquiry`,
+      taskName: `Reply to contact enquiry - ${data.company || getLeadDisplayName(data)}`,
+      taskNotes: "Website contact form enquiry. Review service interest and reply within 1 business day.",
+    };
+  }
+
+  if (data.source === "tracking_audit_offer") {
+    return {
+      dealStage: crmConfig.stages.new,
+      dealName: `${data.websiteUrl || data.company || getLeadDisplayName(data)} - Tracking audit`,
+      taskName: `Review tracking audit request - ${data.websiteUrl || getLeadDisplayName(data)}`,
+      taskNotes: "Tracking audit request. Review website, ad platforms, and monthly ad spend within 1 business day.",
+    };
+  }
+
+  return null;
+};
+
+const createCrmDealAndTask = async (data, contactId, apiKey) => {
+  const handoff = getCrmHandoff(data);
+  if (!handoff || !contactId) return;
+
+  const descriptionRows = buildNotificationRows(data)
+    .map(([label, value]) => `${label}: ${value}`)
+    .join("\n");
+
+  const dealResponse = await fetch("https://api.brevo.com/v3/crm/deals", {
+    method: "POST",
+    headers: { "content-type": "application/json", "api-key": apiKey },
+    body: JSON.stringify({
+      name: handoff.dealName,
+      attributes: {
+        deal_owner: crmConfig.ownerId,
+        pipeline: crmConfig.pipelineId,
+        deal_stage: handoff.dealStage,
+        deal_description: descriptionRows,
+      },
+      linkedContactsIds: [Number(contactId)],
+    }),
+  });
+
+  if (!dealResponse.ok) {
+    const errorText = await dealResponse.text();
+    throw new Error(`Brevo CRM deal creation failed. ${errorText.slice(0, 180)}`);
+  }
+
+  const deal = await dealResponse.json().catch(() => ({}));
+  const taskResponse = await fetch("https://api.brevo.com/v3/crm/tasks", {
+    method: "POST",
+    headers: { "content-type": "application/json", "api-key": apiKey },
+    body: JSON.stringify({
+      name: handoff.taskName,
+      date: getNextBusinessDayIso(),
+      taskTypeId: crmConfig.taskTypeId,
+      assignToId: crmConfig.ownerId,
+      contactsIds: [Number(contactId)],
+      dealsIds: deal.id ? [deal.id] : [],
+      notes: handoff.taskNotes,
+      done: false,
+    }),
+  });
+
+  if (!taskResponse.ok) {
+    const errorText = await taskResponse.text();
+    throw new Error(`Brevo CRM task creation failed. ${errorText.slice(0, 180)}`);
+  }
+};
+
 const escapeHtml = (value) =>
   String(value ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 
@@ -360,6 +456,7 @@ export default async (request) => {
       return json({ ok: false, message: `Failed to submit lead to provider. ${errorText.slice(0, 180)}` }, { status: 502, headers: corsHeaders });
     }
 
+    const brevoContact = await brevoResponse.clone().json().catch(() => ({}));
     if (!pendingConfirmation) await ensureContactInList(payload.email, listId, brevoApiKey);
 
     if (!isDuplicate) {
@@ -367,6 +464,13 @@ export default async (request) => {
         source: payload.source,
         emailHash: dedupeKey.split("/").at(-1),
         listId,
+      });
+      await createCrmDealAndTask(payload, brevoContact.id, brevoApiKey).catch((error) => {
+        console.error("Brevo CRM handoff failed after successful capture", {
+          source: payload.source,
+          listId,
+          message: error instanceof Error ? error.message : String(error),
+        });
       });
       await sendInternalNotification(payload, brevoApiKey);
     }

@@ -16,6 +16,18 @@ Last audited: 2026-06-10.
 | Companies | Available through `/companies`; the `/crm/companies` route is not supported |
 | Account timezone | `Africa/Accra`; review against operating timezone `Africa/Lagos` before relying on timed sends/tasks |
 
+## Implementation status
+
+Brevo's visual automation builder exposes `Create a deal` and `Create a task`, but the account
+currently gates those cards behind Sales Essentials or Sales Advanced. The campaign workflows
+therefore use email/list automations in Brevo, while CRM handoff is implemented as a best-effort
+Brevo API fallback in the production Netlify functions:
+
+- `netlify/functions/leads.mjs` creates a deal and follow-up task for new contact-form and tracking-audit submissions.
+- `netlify/functions/brevo-meeting-webhook.mjs` creates a `Demo scheduled` deal and prep task for new Brevo Meetings bookings.
+- Newsletter and exit-popup leads remain nurture-only unless they become qualified elsewhere.
+- CRM API failures are logged but do not block contact capture, email notifications, or GA4 booking tracking.
+
 ## Pipeline stages
 
 | Stage | Brevo stage ID | Recommended probability |

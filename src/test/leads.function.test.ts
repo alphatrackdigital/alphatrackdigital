@@ -36,6 +36,8 @@ describe("leads function", () => {
       .fn()
       .mockResolvedValueOnce(new Response(JSON.stringify({ id: 123 }), { status: 201 }))
       .mockResolvedValueOnce(new Response(JSON.stringify({ contacts: { success: ["ada@example.com"], failure: [] } }), { status: 201 }))
+      .mockResolvedValueOnce(new Response(JSON.stringify({ id: "deal-1" }), { status: 201 }))
+      .mockResolvedValueOnce(new Response(JSON.stringify({ id: "task-1" }), { status: 201 }))
       .mockResolvedValueOnce(new Response(JSON.stringify({ messageId: "message-1" }), { status: 201 }));
     vi.stubGlobal("fetch", fetchMock);
 
@@ -52,7 +54,7 @@ describe("leads function", () => {
     expect(response.status).toBe(200);
     await expect(response.json()).resolves.toEqual({ ok: true, pendingConfirmation: false, duplicate: false });
 
-    expect(fetchMock).toHaveBeenCalledTimes(3);
+    expect(fetchMock).toHaveBeenCalledTimes(5);
     const [, contactInit] = fetchMock.mock.calls[0];
     expect(JSON.parse(contactInit.body)).toMatchObject({
       email: "ada@example.com",
@@ -69,7 +71,30 @@ describe("leads function", () => {
     expect(listUrl).toBe("https://api.brevo.com/v3/contacts/lists/8/contacts/add");
     expect(JSON.parse(listInit.body)).toEqual({ emails: ["ada@example.com"] });
 
-    const [notificationUrl, notificationInit] = fetchMock.mock.calls[2];
+    const [dealUrl, dealInit] = fetchMock.mock.calls[2];
+    expect(dealUrl).toBe("https://api.brevo.com/v3/crm/deals");
+    expect(JSON.parse(dealInit.body)).toMatchObject({
+      name: "Ada Lovelace - General enquiry",
+      attributes: {
+        deal_owner: "68bf7b64faf0e9c68b0ccdb4",
+        pipeline: "68bf7ba1f6e11688cf7a2164",
+        deal_stage: "089c5fc7-da86-489a-a3b5-503bc5d4bd54",
+      },
+      linkedContactsIds: [123],
+    });
+
+    const [taskUrl, taskInit] = fetchMock.mock.calls[3];
+    expect(taskUrl).toBe("https://api.brevo.com/v3/crm/tasks");
+    expect(JSON.parse(taskInit.body)).toMatchObject({
+      name: "Reply to contact enquiry - Ada Lovelace",
+      taskTypeId: "68bf7ba1f6e11688cf7a215e",
+      assignToId: "68bf7b64faf0e9c68b0ccdb4",
+      contactsIds: [123],
+      dealsIds: ["deal-1"],
+      done: false,
+    });
+
+    const [notificationUrl, notificationInit] = fetchMock.mock.calls[4];
     expect(notificationUrl).toBe("https://api.brevo.com/v3/smtp/email");
     expect(JSON.parse(notificationInit.body)).toMatchObject({
       sender: { name: "AlphaTrack Digital", email: "info@alphatrack.digital" },
@@ -85,6 +110,8 @@ describe("leads function", () => {
       .fn()
       .mockResolvedValueOnce(new Response(JSON.stringify({ id: 456 }), { status: 201 }))
       .mockResolvedValueOnce(new Response(JSON.stringify({ contacts: { success: ["grace@example.com"], failure: [] } }), { status: 201 }))
+      .mockResolvedValueOnce(new Response(JSON.stringify({ id: "deal-2" }), { status: 201 }))
+      .mockResolvedValueOnce(new Response(JSON.stringify({ id: "task-2" }), { status: 201 }))
       .mockResolvedValueOnce(new Response(JSON.stringify({ messageId: "message-2" }), { status: 201 }));
     vi.stubGlobal("fetch", fetchMock);
 
@@ -120,7 +147,30 @@ describe("leads function", () => {
     expect(listUrl).toBe("https://api.brevo.com/v3/contacts/lists/11/contacts/add");
     expect(JSON.parse(listInit.body)).toEqual({ emails: ["grace@example.com"] });
 
-    const [notificationUrl, notificationInit] = fetchMock.mock.calls[2];
+    const [dealUrl, dealInit] = fetchMock.mock.calls[2];
+    expect(dealUrl).toBe("https://api.brevo.com/v3/crm/deals");
+    expect(JSON.parse(dealInit.body)).toMatchObject({
+      name: "https://example.com - Tracking audit",
+      attributes: {
+        deal_owner: "68bf7b64faf0e9c68b0ccdb4",
+        pipeline: "68bf7ba1f6e11688cf7a2164",
+        deal_stage: "8dae99f7-6de0-4c1f-9ca6-b5ee72a40d85",
+      },
+      linkedContactsIds: [456],
+    });
+
+    const [taskUrl, taskInit] = fetchMock.mock.calls[3];
+    expect(taskUrl).toBe("https://api.brevo.com/v3/crm/tasks");
+    expect(JSON.parse(taskInit.body)).toMatchObject({
+      name: "Review tracking audit request - https://example.com",
+      taskTypeId: "68bf7ba1f6e11688cf7a215e",
+      assignToId: "68bf7b64faf0e9c68b0ccdb4",
+      contactsIds: [456],
+      dealsIds: ["deal-2"],
+      done: false,
+    });
+
+    const [notificationUrl, notificationInit] = fetchMock.mock.calls[4];
     expect(notificationUrl).toBe("https://api.brevo.com/v3/smtp/email");
     expect(JSON.parse(notificationInit.body)).toMatchObject({
       sender: { name: "AlphaTrack Digital", email: "audit@alphatrack.digital" },
@@ -134,7 +184,7 @@ describe("leads function", () => {
   it("does not resend notifications for duplicate tracking audit submissions", async () => {
     const fetchMock = vi
       .fn()
-      .mockResolvedValue(new Response(JSON.stringify({ id: 456 }), { status: 201 }));
+      .mockImplementation(() => Promise.resolve(new Response(JSON.stringify({ id: 456 }), { status: 201 })));
     vi.stubGlobal("fetch", fetchMock);
 
     const payload = {
@@ -154,7 +204,7 @@ describe("leads function", () => {
     const secondResponse = await handler(buildRequest(payload));
     await expect(secondResponse.json()).resolves.toMatchObject({ ok: true, duplicate: true });
 
-    expect(fetchMock).toHaveBeenCalledTimes(5);
+    expect(fetchMock).toHaveBeenCalledTimes(7);
     expect(fetchMock.mock.calls.filter(([url]) => url === "https://api.brevo.com/v3/smtp/email")).toHaveLength(1);
   });
 
