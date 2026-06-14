@@ -4,6 +4,10 @@ Current source of truth for turning AlphaTrack Digital campaign leads into Brevo
 
 Last audited: 2026-06-10.
 
+Automation activation status: workflows #4-#8 were verified active in Brevo on 2026-06-14 after
+the redundant incomplete Automation #3 was deleted and Exit Popup Workflow #8 was completed with
+template #30.
+
 ## Live Brevo CRM state
 
 | Area | Current state |
