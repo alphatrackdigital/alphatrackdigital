@@ -15,6 +15,9 @@ interface LeadPayload {
   adPlatforms?: string;
   serviceInterest?: string[];
   monthlyBudget?: string;
+  websiteRoute?: string;
+  route?: string;
+  pagePath?: string;
 }
 
 interface Req {
@@ -123,6 +126,42 @@ const buildMessageAttribute = (data: LeadPayload) => {
   return data.message?.trim() || "";
 };
 
+const sourceLabels: Record<LeadSource, string> = {
+  contact_form: "Contact Form",
+  newsletter: "Newsletter",
+  tracking_audit_offer: "Tracking Audit Landing Page",
+};
+
+const campaignMetadata: Record<LeadSource, { leadSource: string; websiteRoute: string; offer: string }> = {
+  contact_form: { leadSource: "contact_form", websiteRoute: "/contact-us", offer: "general-enquiry" },
+  newsletter: { leadSource: "newsletter", websiteRoute: "/newsletter", offer: "newsletter-signup" },
+  tracking_audit_offer: { leadSource: "tracking_audit_offer", websiteRoute: "/offer/tracking-audit", offer: "tracking-audit" },
+};
+
+const crmConfig = {
+  ownerId: "68bf7b64faf0e9c68b0ccdb4",
+  pipelineId: "68bf7ba1f6e11688cf7a2164",
+  taskTypeId: "68bf7ba1f6e11688cf7a215e",
+  stages: {
+    new: "8dae99f7-6de0-4c1f-9ca6-b5ee72a40d85",
+    qualifying: "089c5fc7-da86-489a-a3b5-503bc5d4bd54",
+  },
+};
+
+const getNextBusinessDayIso = () => {
+  const dueDate = new Date();
+  dueDate.setUTCDate(dueDate.getUTCDate() + 1);
+  dueDate.setUTCHours(10, 0, 0, 0);
+
+  const day = dueDate.getUTCDay();
+  if (day === 6) dueDate.setUTCDate(dueDate.getUTCDate() + 2);
+  if (day === 0) dueDate.setUTCDate(dueDate.getUTCDate() + 1);
+
+  return dueDate.toISOString();
+};
+
+const getLeadDisplayName = (data: LeadPayload) => `${data.firstName || ""} ${data.lastName || ""}`.trim() || data.email;
+
 const leadNotificationConfig: Partial<Record<LeadSource, {
   senderEmail: string;
   recipients: string[];
@@ -157,7 +196,7 @@ const escapeHtml = (value: unknown) =>
     .replace(/"/g, "&quot;");
 
 const buildNotificationRows = (data: LeadPayload) => [
-  ["Source", data.source === "contact_form" ? "Contact Form" : data.source === "newsletter" ? "Newsletter" : "Tracking Audit Landing Page"],
+  ["Source", sourceLabels[data.source]],
   ["Name", `${data.firstName} ${data.lastName}`.trim()],
   ["Email", data.email],
   ["Company", data.company || ""],
@@ -202,6 +241,78 @@ const buildNotificationEmail = (
   return { textContent, htmlContent };
 };
 
+const getCrmHandoff = (data: LeadPayload) => {
+  if (data.source === "contact_form") {
+    return {
+      dealStage: crmConfig.stages.qualifying,
+      dealName: `${data.company || getLeadDisplayName(data)} - General enquiry`,
+      taskName: `Reply to contact enquiry - ${data.company || getLeadDisplayName(data)}`,
+      taskNotes: "Website contact form enquiry. Review service interest and reply within 1 business day.",
+    };
+  }
+
+  if (data.source === "tracking_audit_offer") {
+    return {
+      dealStage: crmConfig.stages.new,
+      dealName: `${data.websiteUrl || data.company || getLeadDisplayName(data)} - Tracking audit`,
+      taskName: `Review tracking audit request - ${data.websiteUrl || getLeadDisplayName(data)}`,
+      taskNotes: "Tracking audit request. Review website, ad platforms, and monthly ad spend within 1 business day.",
+    };
+  }
+
+  return null;
+};
+
+const createCrmDealAndTask = async (data: LeadPayload, contactId: number | string | undefined, apiKey: string) => {
+  const handoff = getCrmHandoff(data);
+  if (!handoff || !contactId) return;
+
+  const descriptionRows = buildNotificationRows(data)
+    .map(([label, value]) => `${label}: ${value}`)
+    .join("\n");
+
+  const dealResponse = await fetch("https://api.brevo.com/v3/crm/deals", {
+    method: "POST",
+    headers: { "content-type": "application/json", "api-key": apiKey },
+    body: JSON.stringify({
+      name: handoff.dealName,
+      attributes: {
+        deal_owner: crmConfig.ownerId,
+        pipeline: crmConfig.pipelineId,
+        deal_stage: handoff.dealStage,
+        deal_description: descriptionRows,
+      },
+      linkedContactsIds: [Number(contactId)],
+    }),
+  });
+
+  if (!dealResponse.ok) {
+    const errorText = await dealResponse.text();
+    throw new Error(`Brevo CRM deal creation failed. ${errorText.slice(0, 180)}`);
+  }
+
+  const deal = await dealResponse.json().catch(() => ({}));
+  const taskResponse = await fetch("https://api.brevo.com/v3/crm/tasks", {
+    method: "POST",
+    headers: { "content-type": "application/json", "api-key": apiKey },
+    body: JSON.stringify({
+      name: handoff.taskName,
+      date: getNextBusinessDayIso(),
+      taskTypeId: crmConfig.taskTypeId,
+      assignToId: crmConfig.ownerId,
+      contactsIds: [Number(contactId)],
+      dealsIds: deal.id ? [deal.id] : [],
+      notes: handoff.taskNotes,
+      done: false,
+    }),
+  });
+
+  if (!taskResponse.ok) {
+    const errorText = await taskResponse.text();
+    throw new Error(`Brevo CRM task creation failed. ${errorText.slice(0, 180)}`);
+  }
+};
+
 const sendInternalNotification = async (data: LeadPayload, brevoApiKey: string) => {
   const config = leadNotificationConfig[data.source];
   if (!config) return;
@@ -231,33 +342,62 @@ const sendInternalNotification = async (data: LeadPayload, brevoApiKey: string) 
   }
 };
 
-const withConsentAttributes = (
+const normalizeRoute = (value?: string) => {
+  if (typeof value !== "string" || !value.trim()) return "";
+  const trimmed = value.trim();
+  try {
+    const url = new URL(trimmed);
+    return url.pathname || "/";
+  } catch {
+    return trimmed.startsWith("/") ? trimmed : `/${trimmed}`;
+  }
+};
+
+const getSubmittedRoute = (data: LeadPayload) =>
+  normalizeRoute(data.websiteRoute) ||
+  normalizeRoute(data.route) ||
+  normalizeRoute(data.pagePath) ||
+  campaignMetadata[data.source].websiteRoute ||
+  "/";
+
+const withCampaignAndConsentAttributes = (
   attributes: Record<string, string | boolean>,
   data: LeadPayload,
 ) => {
+  const meta = campaignMetadata[data.source];
+  const timestamp = new Date().toISOString();
+  const nextAttributes: Record<string, string | boolean> = {
+    ...attributes,
+    LEAD_SOURCE: meta.leadSource,
+    WEBSITE_ROUTE: getSubmittedRoute(data),
+    OFFER: meta.offer,
+    CONSENT_STATUS: data.optIn === true ? "opted_in" : "not_provided",
+    CONSENT_TIMESTAMP: timestamp,
+  };
+
   if (data.optIn !== true) {
-    return attributes;
+    return nextAttributes;
   }
 
-  attributes.OPT_IN = true;
+  nextAttributes.OPT_IN = true;
 
   const consentAttribute = process.env.BREVO_CONSENT_ATTRIBUTE?.trim();
   const consentTimestampAttribute = process.env.BREVO_CONSENT_TIMESTAMP_ATTRIBUTE?.trim();
 
   if (consentAttribute) {
-    attributes[consentAttribute] = "Yes";
+    nextAttributes[consentAttribute] = "Yes";
   }
 
   if (consentTimestampAttribute) {
-    attributes[consentTimestampAttribute] = new Date().toISOString();
+    nextAttributes[consentTimestampAttribute] = timestamp;
   }
 
-  return attributes;
+  return nextAttributes;
 };
 
 const toBrevoPayload = (data: LeadPayload, listId: number) => ({
   email: data.email,
-  attributes: withConsentAttributes({
+  attributes: withCampaignAndConsentAttributes({
     FIRSTNAME: data.firstName,
     LASTNAME: data.lastName,
     COMPANY: data.company || "",
@@ -265,11 +405,7 @@ const toBrevoPayload = (data: LeadPayload, listId: number) => ({
     WEBSITE: data.websiteUrl || "",
     AD_SPEND: data.monthlyAdSpend || "",
     AD_PLATFORMS: data.adPlatforms || "",
-    SOURCE: data.source === "contact_form"
-      ? "Contact Form"
-      : data.source === "newsletter"
-        ? "Newsletter"
-        : "Tracking Audit Landing Page",
+    SOURCE: sourceLabels[data.source],
     SERVICE_INTEREST: Array.isArray(data.serviceInterest) ? data.serviceInterest.join(", ") : "",
     MONTHLY_BUDGET: data.monthlyBudget || "",
   }, data),
@@ -282,10 +418,21 @@ const toBrevoDoiPayload = (data: LeadPayload, listId: number, templateId: number
   includeListIds: [listId],
   templateId,
   redirectionUrl: redirectUrl,
-  attributes: withConsentAttributes({
+  attributes: withCampaignAndConsentAttributes({
     SOURCE: "Newsletter",
   }, data),
 });
+
+const getBrevoContactIdByEmail = async (email: string, brevoApiKey: string) => {
+  const response = await fetch(`https://api.brevo.com/v3/contacts/${encodeURIComponent(email)}`, {
+    headers: { "api-key": brevoApiKey },
+  });
+
+  if (!response.ok) return undefined;
+
+  const contact = await response.json().catch(() => ({}));
+  return contact.id as number | undefined;
+};
 
 const ensureContactInList = async (email: string, listId: number, brevoApiKey: string) => {
   const response = await fetch(`https://api.brevo.com/v3/contacts/lists/${listId}/contacts/add`, {
@@ -410,6 +557,9 @@ const handler = async (req: Req, res: Res) => {
       });
     }
 
+    const brevoContact = await brevoResponse.clone().json().catch(() => ({}));
+    const brevoContactId = brevoContact.id || await getBrevoContactIdByEmail(payload.email, brevoApiKey);
+
     if (!pendingConfirmation) {
       await ensureContactInList(payload.email, listId, brevoApiKey);
     }
@@ -419,6 +569,13 @@ const handler = async (req: Req, res: Res) => {
         source: payload.source,
         emailHash: dedupeKey.split("/").at(-1),
         listId,
+      });
+      await createCrmDealAndTask(payload, brevoContactId, brevoApiKey).catch((error) => {
+        console.error("Brevo CRM handoff failed after successful capture", {
+          source: payload.source,
+          listId,
+          message: error instanceof Error ? error.message : String(error),
+        });
       });
       await sendInternalNotification(payload, brevoApiKey).catch((error) => {
         console.error("Lead notification email failed after successful capture", {

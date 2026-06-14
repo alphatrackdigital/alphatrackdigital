@@ -115,6 +115,17 @@ const normalizeWebsite = (value: string) => {
   return trimmed.startsWith("http") ? trimmed : `https://${trimmed}`;
 };
 
+const normalizeRoute = (value?: string) => {
+  if (typeof value !== "string" || !value.trim()) return "";
+  const trimmed = value.trim();
+  try {
+    const url = new URL(trimmed);
+    return url.pathname || "/";
+  } catch {
+    return trimmed.startsWith("/") ? trimmed : `/${trimmed}`;
+  }
+};
+
 const validatePayload = (payload: unknown) => {
   if (!payload || typeof payload !== "object") return null;
 
@@ -122,6 +133,7 @@ const validatePayload = (payload: unknown) => {
   const firstName = typeof data.firstName === "string" ? data.firstName.trim() : "";
   const email = typeof data.email === "string" ? data.email.trim().toLowerCase() : "";
   const website = typeof data.website === "string" ? data.website.trim() : "";
+  const websiteRoute = normalizeRoute(typeof data.websiteRoute === "string" ? data.websiteRoute : "");
   const optIn = data.optIn === true;
 
   if (!firstName || !isValidEmail(email) || !isValidOptionalWebsite(website)) {
@@ -132,6 +144,7 @@ const validatePayload = (payload: unknown) => {
     firstName,
     email,
     website: normalizeWebsite(website),
+    websiteRoute: websiteRoute || "/",
     optIn,
   };
 };
@@ -140,17 +153,27 @@ const withConsentAttributes = (
   attributes: Record<string, string | boolean>,
   lead: ReturnType<typeof validatePayload> extends infer T ? NonNullable<T> : never,
 ) => {
-  if (lead.optIn !== true) return attributes;
+  const timestamp = new Date().toISOString();
+  const nextAttributes: Record<string, string | boolean> = {
+    ...attributes,
+    LEAD_SOURCE: "exit_popup",
+    WEBSITE_ROUTE: lead.websiteRoute,
+    OFFER: "exit-popup",
+    CONSENT_STATUS: lead.optIn === true ? "opted_in" : "not_provided",
+    CONSENT_TIMESTAMP: timestamp,
+  };
 
-  attributes.OPT_IN = true;
+  if (lead.optIn !== true) return nextAttributes;
+
+  nextAttributes.OPT_IN = true;
 
   const consentAttribute = process.env.BREVO_CONSENT_ATTRIBUTE?.trim();
   const consentTimestampAttribute = process.env.BREVO_CONSENT_TIMESTAMP_ATTRIBUTE?.trim();
 
-  if (consentAttribute) attributes[consentAttribute] = "Yes";
-  if (consentTimestampAttribute) attributes[consentTimestampAttribute] = new Date().toISOString();
+  if (consentAttribute) nextAttributes[consentAttribute] = "Yes";
+  if (consentTimestampAttribute) nextAttributes[consentTimestampAttribute] = timestamp;
 
-  return attributes;
+  return nextAttributes;
 };
 
 const handler = async (req: Req, res: Res) => {
