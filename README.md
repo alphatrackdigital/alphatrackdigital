@@ -22,6 +22,7 @@ Frontend website work belongs on `main`.
 ## Tech Stack
 
 - Netlify Functions
+- Vercel Functions adapters for temporary test deployment
 - TypeScript
 - Mongoose
 - MongoDB
@@ -43,6 +44,7 @@ npm run type-check
 | Path | Purpose |
 | --- | --- |
 | `netlify/functions/` | Serverless functions |
+| `api/` | Thin Vercel adapters for selected backend functions |
 | `netlify/functions/auth.ts` | Admin auth |
 | `netlify/functions/blog.ts` | Blog API |
 | `netlify/functions/blog-admin.ts` | Blog admin API |
@@ -91,3 +93,20 @@ alphatrackdigital-services
 ```
 
 This project should be treated as the backend/API service, not the public marketing website.
+
+## Temporary Vercel Test Split
+
+As of June 16, 2026, Vercel is configured as a test ground with two separate projects so the team can mirror the frontend/backend separation used on Netlify without treating Vercel Hobby as the long-term campaign production host.
+
+| Vercel project | Production branch | Purpose |
+| --- | --- | --- |
+| `atd-website-test` | `main` | Test frontend website deployment |
+| `atd-backend-test` | `backend` | Test API runtime for Brevo/CRM routes |
+
+The backend Vercel project serves only these API routes through thin adapters over the existing Netlify function handlers:
+
+- `/api/leads`
+- `/api/brevo-subscribe`
+- `/api/brevo-meeting-webhook`
+
+Required Brevo and GA4 backend environment variables are set on the `atd-backend-test` production environment. Keep those values aligned when this working setup is mirrored back to Netlify after the Netlify plan upgrade.
