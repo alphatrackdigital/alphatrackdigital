@@ -32,3 +32,4 @@ tmp--*.png
 playwright-cli-check.png
 conversion-tracking-review.png
 paid-media-review.png
+.vercel
