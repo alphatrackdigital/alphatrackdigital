@@ -5,6 +5,22 @@ interface SubscribePayload {
   email: string;
   website?: string;
   optIn?: boolean;
+  websiteRoute?: string;
+  route?: string;
+  pagePath?: string;
+  attribution?: LeadAttribution;
+}
+
+interface LeadAttribution {
+  utmSource?: string;
+  utmMedium?: string;
+  utmCampaign?: string;
+  utmContent?: string;
+  utmTerm?: string;
+  gclid?: string;
+  fbclid?: string;
+  landingPage?: string;
+  referrer?: string;
 }
 
 interface Req {
@@ -126,6 +142,26 @@ const normalizeRoute = (value?: string) => {
   }
 };
 
+const truncateAttribute = (value: unknown, maxLength = 500) =>
+  typeof value === "string" ? value.trim().slice(0, maxLength) : "";
+
+const getAttributionAttributes = (attribution: LeadAttribution | undefined): Record<string, string> => {
+  const safeAttribution = attribution && typeof attribution === "object" ? attribution : {};
+  return Object.fromEntries(
+    [
+      ["UTM_SOURCE", truncateAttribute(safeAttribution.utmSource)],
+      ["UTM_MEDIUM", truncateAttribute(safeAttribution.utmMedium)],
+      ["UTM_CAMPAIGN", truncateAttribute(safeAttribution.utmCampaign)],
+      ["UTM_CONTENT", truncateAttribute(safeAttribution.utmContent)],
+      ["UTM_TERM", truncateAttribute(safeAttribution.utmTerm)],
+      ["GCLID", truncateAttribute(safeAttribution.gclid)],
+      ["FBCLID", truncateAttribute(safeAttribution.fbclid)],
+      ["LANDING_PAGE", truncateAttribute(safeAttribution.landingPage)],
+      ["REFERRER", truncateAttribute(safeAttribution.referrer)],
+    ].filter(([, value]) => value.length > 0),
+  );
+};
+
 const validatePayload = (payload: unknown) => {
   if (!payload || typeof payload !== "object") return null;
 
@@ -133,8 +169,14 @@ const validatePayload = (payload: unknown) => {
   const firstName = typeof data.firstName === "string" ? data.firstName.trim() : "";
   const email = typeof data.email === "string" ? data.email.trim().toLowerCase() : "";
   const website = typeof data.website === "string" ? data.website.trim() : "";
-  const websiteRoute = normalizeRoute(typeof data.websiteRoute === "string" ? data.websiteRoute : "");
+  const websiteRoute =
+    normalizeRoute(typeof data.websiteRoute === "string" ? data.websiteRoute : "") ||
+    normalizeRoute(typeof data.route === "string" ? data.route : "") ||
+    normalizeRoute(typeof data.pagePath === "string" ? data.pagePath : "");
   const optIn = data.optIn === true;
+  const attribution = data.attribution && typeof data.attribution === "object"
+    ? data.attribution as LeadAttribution
+    : undefined;
 
   if (!firstName || !isValidEmail(email) || !isValidOptionalWebsite(website)) {
     return null;
@@ -146,6 +188,7 @@ const validatePayload = (payload: unknown) => {
     website: normalizeWebsite(website),
     websiteRoute: websiteRoute || "/",
     optIn,
+    attribution,
   };
 };
 
@@ -161,6 +204,7 @@ const withConsentAttributes = (
     OFFER: "exit-popup",
     CONSENT_STATUS: lead.optIn === true ? "opted_in" : "not_provided",
     CONSENT_TIMESTAMP: timestamp,
+    ...getAttributionAttributes(lead.attribution),
   };
 
   if (lead.optIn !== true) return nextAttributes;

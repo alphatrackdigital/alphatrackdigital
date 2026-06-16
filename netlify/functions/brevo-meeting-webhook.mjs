@@ -135,6 +135,14 @@ const getCallPrepDueDateIso = (meetingParams) => {
   return dueDate.toISOString();
 };
 
+const getBookingDealReportingAttributes = () => ({
+  atd_lead_source: "brevo_meetings_webhook",
+  atd_offer: "strategy-call",
+  atd_website_route: "/book-a-call",
+  atd_utm_source: "",
+  atd_utm_campaign: "",
+});
+
 const shouldIgnorePayload = (payload) => {
   const eventText = [
     findFirstString(payload, ["event", "event_name", "eventName", "type", "status", "action"]),
@@ -157,6 +165,17 @@ const authenticate = (request) => {
     url.searchParams.get("token");
 
   return providedSecret === secret;
+};
+
+const getBrevoContactIdByEmail = async (email, brevoApiKey) => {
+  const response = await fetch(`https://api.brevo.com/v3/contacts/${encodeURIComponent(email)}`, {
+    headers: { "api-key": brevoApiKey },
+  });
+
+  if (!response.ok) return undefined;
+
+  const contact = await response.json().catch(() => ({}));
+  return contact.id;
 };
 
 const createBrevoContact = async (payload) => {
@@ -213,10 +232,14 @@ const createBrevoContact = async (payload) => {
   });
 
   if (!listResponse.ok) {
-    throw new Error("Brevo rejected the booking list membership.");
+    const errorText = await listResponse.text();
+    console.warn("Brevo booking list membership call failed after contact upsert", {
+      listId,
+      message: errorText.slice(0, 180),
+    });
   }
 
-  return contact.id;
+  return contact.id || getBrevoContactIdByEmail(normalizedEmail, brevoApiKey);
 };
 
 const buildBookingNotificationRows = (payload, meetingParams) => {
@@ -258,6 +281,7 @@ const createBookingCrmHandoff = async (payload, meetingParams, contactId) => {
         pipeline: crmConfig.pipelineId,
         deal_stage: crmConfig.demoScheduledStageId,
         deal_description: descriptionRows,
+        ...getBookingDealReportingAttributes(),
       },
       linkedContactsIds: [Number(contactId)],
     }),
@@ -413,7 +437,7 @@ export default async (request) => {
     isDuplicate ? Promise.resolve() : sendGa4Event(payload, meetingParams),
     createBrevoContact(payload)
       .then((contactId) => (isDuplicate ? undefined : createBookingCrmHandoff(payload, meetingParams, contactId)))
-      .catch(() => null), // silent — CRM write is best-effort
+      .catch(() => null), // CRM write is best-effort.
     isDuplicate ? Promise.resolve() : sendBookingInternalNotification(payload, meetingParams),
   ]);
 

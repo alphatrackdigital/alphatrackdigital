@@ -18,6 +18,19 @@ interface LeadPayload {
   websiteRoute?: string;
   route?: string;
   pagePath?: string;
+  attribution?: LeadAttribution;
+}
+
+interface LeadAttribution {
+  utmSource?: string;
+  utmMedium?: string;
+  utmCampaign?: string;
+  utmContent?: string;
+  utmTerm?: string;
+  gclid?: string;
+  fbclid?: string;
+  landingPage?: string;
+  referrer?: string;
 }
 
 interface Req {
@@ -126,6 +139,39 @@ const buildMessageAttribute = (data: LeadPayload) => {
   return data.message?.trim() || "";
 };
 
+const truncateAttribute = (value: unknown, maxLength = 500) =>
+  typeof value === "string" ? value.trim().slice(0, maxLength) : "";
+
+const getAttributionAttributes = (data: LeadPayload): Record<string, string> => {
+  const attribution = data.attribution && typeof data.attribution === "object" ? data.attribution : {};
+  return Object.fromEntries(
+    [
+      ["UTM_SOURCE", truncateAttribute(attribution.utmSource)],
+      ["UTM_MEDIUM", truncateAttribute(attribution.utmMedium)],
+      ["UTM_CAMPAIGN", truncateAttribute(attribution.utmCampaign)],
+      ["UTM_CONTENT", truncateAttribute(attribution.utmContent)],
+      ["UTM_TERM", truncateAttribute(attribution.utmTerm)],
+      ["GCLID", truncateAttribute(attribution.gclid)],
+      ["FBCLID", truncateAttribute(attribution.fbclid)],
+      ["LANDING_PAGE", truncateAttribute(attribution.landingPage)],
+      ["REFERRER", truncateAttribute(attribution.referrer)],
+    ].filter(([, value]) => value.length > 0),
+  );
+};
+
+const getDealReportingAttributes = (data: LeadPayload): Record<string, string> => {
+  const meta = campaignMetadata[data.source];
+  return Object.fromEntries(
+    [
+      ["atd_lead_source", meta.leadSource],
+      ["atd_offer", meta.offer],
+      ["atd_website_route", getSubmittedRoute(data)],
+      ["atd_utm_source", truncateAttribute(data.attribution?.utmSource)],
+      ["atd_utm_campaign", truncateAttribute(data.attribution?.utmCampaign)],
+    ].filter(([, value]) => value.length > 0),
+  );
+};
+
 const sourceLabels: Record<LeadSource, string> = {
   contact_form: "Contact Form",
   newsletter: "Newsletter",
@@ -205,6 +251,11 @@ const buildNotificationRows = (data: LeadPayload) => [
   ["Monthly Budget", data.monthlyBudget || ""],
   ["Monthly Ad Spend", data.monthlyAdSpend || ""],
   ["Ad Platforms", data.adPlatforms || ""],
+  ["UTM Source", data.attribution?.utmSource || ""],
+  ["UTM Medium", data.attribution?.utmMedium || ""],
+  ["UTM Campaign", data.attribution?.utmCampaign || ""],
+  ["Landing Page", data.attribution?.landingPage || ""],
+  ["Referrer", data.attribution?.referrer || ""],
   ["Marketing Opt-in", data.optIn === true ? "Yes" : "No"],
   ["Message", buildMessageAttribute(data)],
 ].filter(([, value]) => String(value).trim().length > 0);
@@ -281,6 +332,7 @@ const createCrmDealAndTask = async (data: LeadPayload, contactId: number | strin
         pipeline: crmConfig.pipelineId,
         deal_stage: handoff.dealStage,
         deal_description: descriptionRows,
+        ...getDealReportingAttributes(data),
       },
       linkedContactsIds: [Number(contactId)],
     }),
@@ -373,6 +425,7 @@ const withCampaignAndConsentAttributes = (
     OFFER: meta.offer,
     CONSENT_STATUS: data.optIn === true ? "opted_in" : "not_provided",
     CONSENT_TIMESTAMP: timestamp,
+    ...getAttributionAttributes(data),
   };
 
   if (data.optIn !== true) {

@@ -116,6 +116,35 @@ const normalizeWebsite = (value) => {
   return trimmed.startsWith("http") ? trimmed : `https://${trimmed}`;
 };
 
+const normalizeRoute = (value) => {
+  if (typeof value !== "string" || !value.trim()) return "";
+  const trimmed = value.trim();
+  try {
+    const url = new URL(trimmed);
+    return url.pathname || "/";
+  } catch {
+    return trimmed.startsWith("/") ? trimmed : `/${trimmed}`;
+  }
+};
+
+const truncateAttribute = (value, maxLength = 500) =>
+  typeof value === "string" ? value.trim().slice(0, maxLength) : "";
+
+const getAttributionAttributes = (attribution) => {
+  const safeAttribution = attribution && typeof attribution === "object" ? attribution : {};
+  return Object.fromEntries([
+    ["UTM_SOURCE", truncateAttribute(safeAttribution.utmSource)],
+    ["UTM_MEDIUM", truncateAttribute(safeAttribution.utmMedium)],
+    ["UTM_CAMPAIGN", truncateAttribute(safeAttribution.utmCampaign)],
+    ["UTM_CONTENT", truncateAttribute(safeAttribution.utmContent)],
+    ["UTM_TERM", truncateAttribute(safeAttribution.utmTerm)],
+    ["GCLID", truncateAttribute(safeAttribution.gclid)],
+    ["FBCLID", truncateAttribute(safeAttribution.fbclid)],
+    ["LANDING_PAGE", truncateAttribute(safeAttribution.landingPage)],
+    ["REFERRER", truncateAttribute(safeAttribution.referrer)],
+  ].filter(([, value]) => value.length > 0));
+};
+
 const validatePayload = (payload) => {
   if (!payload || typeof payload !== "object") {
     return null;
@@ -124,7 +153,12 @@ const validatePayload = (payload) => {
   const firstName = typeof payload.firstName === "string" ? payload.firstName.trim() : "";
   const email = typeof payload.email === "string" ? payload.email.trim().toLowerCase() : "";
   const website = typeof payload.website === "string" ? payload.website.trim() : "";
-  const route = typeof payload.route === "string" ? payload.route.trim() : "";
+  const route =
+    normalizeRoute(payload.websiteRoute) ||
+    normalizeRoute(payload.route) ||
+    normalizeRoute(payload.pagePath) ||
+    "/";
+  const attribution = payload.attribution && typeof payload.attribution === "object" ? payload.attribution : undefined;
   const optIn = payload.optIn === true;
 
   if (!firstName || !isValidEmail(email) || !isValidOptionalWebsite(website)) {
@@ -136,6 +170,7 @@ const validatePayload = (payload) => {
     email,
     website: normalizeWebsite(website),
     route,
+    attribution,
     optIn,
   };
 };
@@ -160,6 +195,7 @@ const addCampaignAttributes = (attributes, lead) => {
     OFFER: "newsletter-signup",
     CONSENT_STATUS: lead.optIn === true ? "opted_in" : "not_provided",
     CONSENT_TIMESTAMP: timestamp,
+    ...getAttributionAttributes(lead.attribution),
   };
 };
 

@@ -2,7 +2,7 @@
 
 Current source of truth for turning AlphaTrack Digital campaign leads into Brevo CRM follow-up.
 
-Last audited: 2026-06-10.
+Last audited: 2026-06-15.
 
 Automation activation status: workflows #4-#8 were verified active in Brevo on 2026-06-14 after
 the redundant incomplete Automation #3 was deleted and Exit Popup Workflow #8 was completed with
@@ -13,11 +13,11 @@ template #30.
 | Area | Current state |
 | --- | --- |
 | CRM owner | `kenny@alphatrack.digital` / owner ID `68bf7b64faf0e9c68b0ccdb4` |
-| Pipeline | `Deals Pipeline` / pipeline ID `68bf7ba1f6e11688cf7a2164` |
-| Deals | 0 existing deals at audit time |
-| Tasks | 0 existing tasks at audit time |
-| Notes/files | 0 existing notes/files at audit time |
-| Companies | Available through `/companies`; the `/crm/companies` route is not supported |
+| Pipeline | `ATD Sales Pipeline` / pipeline ID `68bf7ba1f6e11688cf7a2164` |
+| Deals | QA deals exist and are prefixed `[QA TEST]`; production deals are created by backend handoff |
+| Tasks | QA tasks exist and are marked done; production tasks are created by backend handoff |
+| Notes/files | No launch dependency identified |
+| Companies | Available through `/companies`; company attributes are mostly Brevo defaults |
 | Account timezone | `Africa/Accra`; review against operating timezone `Africa/Lagos` before relying on timed sends/tasks |
 
 ## Implementation status
@@ -31,6 +31,7 @@ Brevo API fallback in the production Netlify functions:
 - `netlify/functions/brevo-meeting-webhook.mjs` creates a `Demo scheduled` deal and prep task for new Brevo Meetings bookings.
 - Newsletter and exit-popup leads remain nurture-only unless they become qualified elsewhere.
 - CRM API failures are logged but do not block contact capture, email notifications, or GA4 booking tracking.
+- The Brevo Meetings Netlify function now tolerates noisy list-membership responses after contact upsert and resolves existing contacts by email before CRM handoff when Brevo does not return a contact ID.
 
 ## Pipeline stages
 
@@ -44,7 +45,8 @@ Brevo API fallback in the production Netlify functions:
 | Won | `ba4b582b-b96e-40b6-b024-d4527c60d657` | 100% |
 | Lost | `1021864c-0cd0-44d7-9388-66e31123b54e` | 0% |
 
-Audit note: Brevo currently reports every non-lost stage at `100%`. Update the pipeline probabilities before using CRM forecast reporting.
+Audit note: Brevo created the launch pipeline with default stages. Review forecast probabilities before
+using CRM revenue forecasting.
 
 ## Lead-to-CRM handoff rules
 
@@ -65,9 +67,10 @@ Use these values when adding CRM actions in Brevo visual workflows or an API-bac
 | Field | Value |
 | --- | --- |
 | `deal_owner` | `68bf7b64faf0e9c68b0ccdb4` |
-| Pipeline | `68bf7ba1f6e11688cf7a2164` |
+| Pipeline | `ATD Sales Pipeline` / `68bf7ba1f6e11688cf7a2164` |
 | Deal name | `[Company/Website or Contact Name] - [Offer]` |
 | Deal description | Include `LEAD_SOURCE`, `WEBSITE_ROUTE`, `OFFER`, message/context, consent timestamp, and original list |
+| Structured ATD fields | Populate `atd_lead_source`, `atd_offer`, `atd_website_route`, `atd_utm_source`, and `atd_utm_campaign` where available |
 | Amount | Leave blank unless the lead has a qualified scope/value |
 | Close date | Leave blank at creation; update during qualification |
 
@@ -95,12 +98,13 @@ Run these after ChatGPT Agent mode finishes the Brevo visual workflows.
 3. Book a Brevo Meetings test call and confirm list `7`, deal creation in `Demo scheduled`, and a prep task.
 4. Add a test contact to list `12` and confirm a deal/task is created or updated without duplicating existing deals.
 5. Add a test contact to list `14` and confirm all nurture paths stop or skip remaining promotional sends.
-6. Confirm the pipeline stage probabilities are no longer all `100%`.
+6. Confirm the pipeline stage probabilities are usable for ATD forecasting.
 7. Confirm owner assignment routes to `kenny@alphatrack.digital`.
 8. Confirm timezone-sensitive waits and task dates behave correctly for Nigeria operating hours.
 
-## Deferred until automation builder is idle
+## Deferred until backend deployment
 
-- Do not edit active/in-progress Brevo visual workflows while another agent is arranging cards.
-- Add CRM deal/task actions after the nurture workflows are saved and stable.
-- Activate only after the QA checklist passes with test contacts.
+- Validate backend-created deals/tasks against the new `ATD Sales Pipeline`.
+- Confirm the backend is not still targeting an older Brevo pipeline ID before campaign activation.
+- Confirm Brevo Meetings existing-contact bookings create CRM deals/tasks after the upgraded Netlify backend deploys.
+- Activate campaign traffic only after the QA checklist passes with test contacts.

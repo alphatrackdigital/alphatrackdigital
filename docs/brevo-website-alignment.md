@@ -16,6 +16,19 @@ All website and Brevo Meetings lead capture paths should preserve the legacy `SO
 | `OFFER` | Offer or conversion intent attached to the submission |
 | `CONSENT_STATUS` | `opted_in` when explicit marketing consent is supplied; otherwise `not_provided` |
 | `CONSENT_TIMESTAMP` | ISO timestamp for the submission/consent state written to Brevo |
+| `UTM_SOURCE` | First captured inbound UTM source |
+| `UTM_MEDIUM` | First captured inbound UTM medium |
+| `UTM_CAMPAIGN` | First captured inbound UTM campaign |
+| `UTM_CONTENT` | First captured inbound UTM content/creative |
+| `UTM_TERM` | First captured inbound UTM term |
+| `GCLID` | Google click ID when present |
+| `FBCLID` | Meta/Facebook click ID when present |
+| `LANDING_PAGE` | First captured landing page path/query for the session |
+| `REFERRER` | Browser referrer when supplied |
+
+Attribution capture is implemented in `src/lib/attribution.ts` and attached to lead submissions by
+`src/lib/leads.ts` and the exit-intent popup. Backend handlers sanitize these values before writing
+them to Brevo.
 
 ### Contact Us
 

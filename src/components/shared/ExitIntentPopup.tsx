@@ -3,6 +3,7 @@ import { CheckCircle2, Loader2, X } from "lucide-react";
 import { useLocation } from "react-router-dom";
 
 import { getBrevoSubscribeEndpoint } from "@/lib/apiEndpoints";
+import { getLeadAttribution } from "@/lib/attribution";
 import { pushLeadSubmissionEvent } from "@/lib/tracking";
 
 type PopupStatus = "idle" | "loading" | "success" | "error";
@@ -187,7 +188,9 @@ const ExitIntentPopup = () => {
           firstName: firstName.trim(),
           email: email.trim(),
           website: website.trim(),
+          websiteRoute: pathname,
           optIn,
+          attribution: getLeadAttribution(),
         }),
       });
 

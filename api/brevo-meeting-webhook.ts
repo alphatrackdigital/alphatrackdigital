@@ -140,6 +140,14 @@ const getCallPrepDueDateIso = (meetingParams: ReturnType<typeof getMeetingParams
   return dueDate.toISOString();
 };
 
+const getBookingDealReportingAttributes = (meetingParams: ReturnType<typeof getMeetingParams>) => ({
+  atd_lead_source: "brevo_meetings_webhook",
+  atd_offer: "strategy-call",
+  atd_website_route: "/book-a-call",
+  atd_utm_source: "",
+  atd_utm_campaign: "",
+});
+
 const shouldIgnorePayload = (payload: unknown) => {
   const eventText = [
     findFirstString(payload, ["event", "event_name", "eventName", "type", "status", "action"]),
@@ -281,6 +289,7 @@ const createBookingCrmHandoff = async (
         pipeline: crmConfig.pipelineId,
         deal_stage: crmConfig.demoScheduledStageId,
         deal_description: descriptionRows,
+        ...getBookingDealReportingAttributes(meetingParams),
       },
       linkedContactsIds: [Number(contactId)],
     }),
