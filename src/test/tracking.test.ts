@@ -1,4 +1,4 @@
-import { describe, expect, it, beforeEach } from "vitest";
+import { describe, expect, it, beforeEach, vi } from "vitest";
 
 import {
   getBookingClickEventForUrl,
@@ -12,6 +12,8 @@ import {
 describe("tracking helpers", () => {
   beforeEach(() => {
     window.dataLayer = [];
+    window.fbq = undefined;
+    window.__atdMetaEventIds = undefined;
   });
 
   it("maps thank-you routes to canonical conversion events", () => {
@@ -69,6 +71,27 @@ describe("tracking helpers", () => {
         lead_source: "tracking_audit_offer",
       }),
     ]);
+  });
+
+  it("injects the active event ID into Meta Pixel standard events", () => {
+    const fbq = vi.fn();
+    window.fbq = fbq as typeof window.fbq;
+
+    pushDataLayerEvent("contact_form_submit", {
+      event_id: "atd-browser-dedupe-id",
+      eventID: "atd-browser-dedupe-id",
+      page_path: "/contact-us/thank-you",
+      page_location: "https://alphatrack.digital/contact-us/thank-you",
+    });
+
+    window.fbq?.("track", "Lead", { content_name: "Contact Form Submission" });
+
+    expect(fbq).toHaveBeenLastCalledWith(
+      "track",
+      "Lead",
+      { content_name: "Contact Form Submission" },
+      { eventID: "atd-browser-dedupe-id" },
+    );
   });
 
   it("adds current page context to booking click events", () => {

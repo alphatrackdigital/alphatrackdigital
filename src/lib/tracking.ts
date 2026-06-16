@@ -2,16 +2,109 @@ type DataLayerValue = string | number | boolean | null | undefined;
 
 export type DataLayerPayload = Record<string, DataLayerValue>;
 
+type FbqFunction = ((...args: unknown[]) => unknown) & {
+  _atdEventIdWrapped?: boolean;
+  _atdOriginalFbq?: FbqFunction;
+  [key: string]: unknown;
+};
+
 declare global {
   interface Window {
     dataLayer?: Array<Record<string, unknown>>;
+    fbq?: FbqFunction;
+    __atdMetaEventIds?: Record<string, string>;
   }
 }
+
+const metaStandardEventsByDataLayerEvent: Record<string, string> = {
+  contact_form_submit: "Lead",
+  generate_lead: "Lead",
+  tracking_audit_submit: "Lead",
+  newsletter_subscribe: "Subscribe",
+};
+
+const getPayloadEventId = (payload: DataLayerPayload) => {
+  const eventId = payload.eventID || payload.event_id;
+  return typeof eventId === "string" && eventId.trim() ? eventId.trim() : "";
+};
+
+const objectHasEventId = (value: unknown) =>
+  Boolean(
+    value &&
+      typeof value === "object" &&
+      "eventID" in value &&
+      typeof (value as { eventID?: unknown }).eventID === "string" &&
+      (value as { eventID: string }).eventID.trim(),
+  );
+
+const setMetaPixelEventIdOption = (args: unknown[], optionIndex: number, eventId: string) => {
+  const nextArgs = [...args];
+  const existingOptions = nextArgs[optionIndex];
+
+  if (objectHasEventId(existingOptions)) {
+    return nextArgs;
+  }
+
+  nextArgs[optionIndex] = {
+    ...(existingOptions && typeof existingOptions === "object" ? existingOptions : {}),
+    eventID: eventId,
+  };
+
+  return nextArgs;
+};
+
+const installMetaPixelEventIdPatch = () => {
+  if (typeof window === "undefined" || typeof window.fbq !== "function") return;
+  if (window.fbq._atdEventIdWrapped) return;
+
+  const originalFbq = window.fbq;
+  const wrappedFbq: FbqFunction = (...args: unknown[]) => {
+    const command = args[0];
+
+    if (command === "track" && typeof args[1] === "string") {
+      const eventName = args[1];
+      const eventId = window.__atdMetaEventIds?.[eventName];
+      if (eventId) {
+        const nextArgs = args.length >= 3 ? args : [args[0], args[1], {}];
+        return originalFbq(...setMetaPixelEventIdOption(nextArgs, 3, eventId));
+      }
+    }
+
+    if (command === "trackSingle" && typeof args[2] === "string") {
+      const eventName = args[2];
+      const eventId = window.__atdMetaEventIds?.[eventName];
+      if (eventId) {
+        const nextArgs = args.length >= 4 ? args : [args[0], args[1], args[2], {}];
+        return originalFbq(...setMetaPixelEventIdOption(nextArgs, 4, eventId));
+      }
+    }
+
+    return originalFbq(...args);
+  };
+
+  Object.assign(wrappedFbq, originalFbq);
+  wrappedFbq._atdEventIdWrapped = true;
+  wrappedFbq._atdOriginalFbq = originalFbq;
+  window.fbq = wrappedFbq;
+};
+
+const rememberMetaPixelEventId = (event: string, payload: DataLayerPayload) => {
+  if (typeof window === "undefined") return;
+
+  const metaEventName = metaStandardEventsByDataLayerEvent[event];
+  const eventId = getPayloadEventId(payload);
+  if (!metaEventName || !eventId) return;
+
+  window.__atdMetaEventIds = window.__atdMetaEventIds || {};
+  window.__atdMetaEventIds[metaEventName] = eventId;
+  installMetaPixelEventIdPatch();
+};
 
 export const pushDataLayerEvent = (event: string, payload: DataLayerPayload = {}) => {
   if (typeof window === "undefined") return;
 
   try {
+    rememberMetaPixelEventId(event, payload);
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({ event, ...payload });
   } catch (error) {
