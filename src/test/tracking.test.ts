@@ -52,6 +52,8 @@ describe("tracking helpers", () => {
     window.history.pushState({}, "", "/offer/tracking-audit");
 
     pushLeadSubmissionEvent("tracking_audit_submit", {
+      event_id: "atd-test-event",
+      eventID: "atd-test-event",
       form_id: "tracking-audit-form",
       lead_source: "tracking_audit_offer",
     });
@@ -59,6 +61,8 @@ describe("tracking helpers", () => {
     expect(window.dataLayer).toEqual([
       expect.objectContaining({
         event: "tracking_audit_submit",
+        event_id: "atd-test-event",
+        eventID: "atd-test-event",
         page_path: "/offer/tracking-audit",
         page_location: expect.stringContaining("/offer/tracking-audit"),
         form_id: "tracking-audit-form",

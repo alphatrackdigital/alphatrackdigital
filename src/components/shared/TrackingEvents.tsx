@@ -56,8 +56,10 @@ const TrackingEvents = () => {
 
       firedConversions.current.add(conversionKey);
       markConversionFired(conversionEvent, location.pathname);
+      const eventId = getConversionEventId(conversionEvent, location.pathname);
       pushDataLayerEvent(conversionEvent, {
-        event_id: getConversionEventId(conversionEvent, location.pathname),
+        event_id: eventId,
+        eventID: eventId,
         page_path: location.pathname,
         page_location: pageLocation,
       });

@@ -41,6 +41,7 @@ const NewsletterSection = ({ className }: NewsletterSectionProps) => {
       if (!result.duplicate) {
         pushLeadSubmissionEvent("newsletter_subscribe", {
           event_id: result.metaEventId,
+          eventID: result.metaEventId,
           form_id: "newsletter-section-form",
           lead_source: "newsletter",
           pending_confirmation: result.pendingConfirmation === true,

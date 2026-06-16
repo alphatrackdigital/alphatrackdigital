@@ -138,6 +138,7 @@ const TrackingLandingPage = () => {
       if (!result.duplicate) {
         pushLeadSubmissionEvent("tracking_audit_submit", {
           event_id: result.metaEventId,
+          eventID: result.metaEventId,
           form_id: "tracking-audit-form",
           lead_source: "tracking_audit_offer",
           opt_in: data.marketingOptIn === true,

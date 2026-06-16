@@ -50,6 +50,8 @@ describe("leads function", () => {
       firstName: "Ada",
       lastName: "Lovelace",
       email: "ada@example.com",
+      company: "Analytical Engines Ltd",
+      websiteUrl: "https://example.com",
       serviceInterest: ["Growth Strategy"],
       monthlyBudget: "$5,000+",
       message: "Need help with attribution.",
@@ -66,8 +68,16 @@ describe("leads function", () => {
       attributes: {
         FIRSTNAME: "Ada",
         LASTNAME: "Lovelace",
+        COMPANY: "Analytical Engines Ltd",
+        WEBSITE: "https://example.com",
+        MESSAGE: "Need help with attribution.",
         SOURCE: "Contact Form",
-        SERVICE_INTEREST: "Growth Strategy",
+        SERVICE_INTEREST: ["Growth Strategy"],
+        MONTHLY_BUDGET: "4",
+        LEAD_SOURCE: "contact_form",
+        WEBSITE_ROUTE: "/contact-us",
+        OFFER: "general-enquiry",
+        CONSENT_STATUS: "not_provided",
       },
     });
 
@@ -78,7 +88,7 @@ describe("leads function", () => {
     const [dealUrl, dealInit] = fetchMock.mock.calls[2];
     expect(dealUrl).toBe("https://api.brevo.com/v3/crm/deals");
     expect(JSON.parse(dealInit.body)).toMatchObject({
-      name: "Ada Lovelace - General enquiry",
+      name: "Analytical Engines Ltd - General enquiry",
       attributes: {
         deal_owner: "68bf7b64faf0e9c68b0ccdb4",
         pipeline: "68bf7ba1f6e11688cf7a2164",
@@ -90,7 +100,7 @@ describe("leads function", () => {
     const [taskUrl, taskInit] = fetchMock.mock.calls[3];
     expect(taskUrl).toBe("https://api.brevo.com/v3/crm/tasks");
     expect(JSON.parse(taskInit.body)).toMatchObject({
-      name: "Reply to contact enquiry - Ada Lovelace",
+      name: "Reply to contact enquiry - Analytical Engines Ltd",
       taskTypeId: "68bf7ba1f6e11688cf7a215e",
       assignToId: "68bf7b64faf0e9c68b0ccdb4",
       contactsIds: [123],
