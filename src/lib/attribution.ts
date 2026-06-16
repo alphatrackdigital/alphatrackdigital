@@ -16,6 +16,12 @@ type AttributionParam = keyof typeof attributionParamMap;
 
 const truncate = (value: string) => value.trim().slice(0, 500);
 
+const getCookieValue = (name: string) => {
+  const escapedName = name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const match = document.cookie.match(new RegExp(`(?:^|; )${escapedName}=([^;]*)`));
+  return match ? decodeURIComponent(match[1]) : undefined;
+};
+
 const readStoredAttribution = (): LeadAttribution => {
   if (typeof window === "undefined") return {};
 
@@ -54,6 +60,8 @@ export const getLeadAttribution = (): LeadAttribution => {
   const next: LeadAttribution = {
     ...stored,
     ...current,
+    fbp: stored.fbp || getCookieValue("_fbp"),
+    fbc: stored.fbc || getCookieValue("_fbc"),
     landingPage: stored.landingPage || truncate(`${window.location.pathname}${window.location.search}`),
     referrer: stored.referrer || (document.referrer ? truncate(document.referrer) : undefined),
   };

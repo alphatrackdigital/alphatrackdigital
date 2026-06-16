@@ -8,6 +8,8 @@ export interface LeadAttribution {
   utmTerm?: string;
   gclid?: string;
   fbclid?: string;
+  fbp?: string;
+  fbc?: string;
   landingPage?: string;
   referrer?: string;
 }
@@ -26,6 +28,7 @@ export interface LeadCapturePayload {
   serviceInterest?: string[];
   monthlyBudget?: string;
   attribution?: LeadAttribution;
+  metaEventId?: string;
 }
 
 export interface LeadSubmissionResult {
@@ -33,4 +36,5 @@ export interface LeadSubmissionResult {
   message?: string;
   pendingConfirmation?: boolean;
   duplicate?: boolean;
+  metaEventId?: string;
 }

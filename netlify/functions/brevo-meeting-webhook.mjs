@@ -1,4 +1,5 @@
 import { buildBookingDedupeKey, getIdempotencyRecord, markIdempotencyKey } from "./lib/idempotency.mjs";
+import { createHash } from "node:crypto";
 
 const GA4_COLLECT_ENDPOINT = "https://www.google-analytics.com/mp/collect";
 const DEFAULT_EVENT_NAME = ["meeting", "booked", "confirmed"].join("_");
@@ -33,6 +34,9 @@ const getEnv = (name) => {
 };
 
 const safeString = (value) => (typeof value === "string" ? value.trim() : "");
+
+const sha256 = (value) =>
+  createHash("sha256").update(String(value || "").trim().toLowerCase()).digest("hex");
 
 const findFirstString = (value, keys) => {
   if (!value || typeof value !== "object") return "";
@@ -399,6 +403,66 @@ const sendGa4Event = async (payload, meetingParams) => {
   });
 };
 
+const sendMetaBookingEvent = async (payload, request, meetingParams) => {
+  const pixelId = getEnv("META_PIXEL_ID");
+  const accessToken = getEnv("META_CAPI_ACCESS_TOKEN");
+
+  if (!pixelId || !accessToken) {
+    console.info("Meta CAPI is not configured; skipping booking event.", {
+      booking_id: meetingParams.booking_id,
+    });
+    return;
+  }
+
+  const graphVersion = getEnv("META_GRAPH_API_VERSION") || "v23.0";
+  const testEventCode = getEnv("META_CAPI_TEST_EVENT_CODE");
+  const email = findFirstString(payload, ["EMAIL", "email"]);
+  const firstName = findFirstString(payload, ["firstName", "first_name", "FIRSTNAME", "attendee_first_name"]);
+  const lastName = findFirstString(payload, ["lastName", "last_name", "LASTNAME", "attendee_last_name"]);
+  const clientIp =
+    request.headers.get("x-nf-client-connection-ip") ||
+    request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+    "";
+  const userAgent = request.headers.get("user-agent") || "";
+
+  const response = await fetch(
+    `https://graph.facebook.com/${encodeURIComponent(graphVersion)}/${encodeURIComponent(pixelId)}/events?access_token=${encodeURIComponent(accessToken)}`,
+    {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({
+        data: [
+          {
+            event_name: "Schedule",
+            event_time: Math.floor(Date.now() / 1000),
+            event_id: `booking-${meetingParams.booking_id}`,
+            action_source: "website",
+            event_source_url: meetingParams.page_location,
+            user_data: {
+              ...(email ? { em: [sha256(email)] } : {}),
+              ...(firstName ? { fn: [sha256(firstName)] } : {}),
+              ...(lastName ? { ln: [sha256(lastName)] } : {}),
+              ...(clientIp ? { client_ip_address: clientIp } : {}),
+              ...(userAgent ? { client_user_agent: userAgent } : {}),
+            },
+            custom_data: {
+              lead_source: "brevo_meetings_webhook",
+              content_name: "Strategy call booking",
+              booking_id: meetingParams.booking_id,
+            },
+          },
+        ],
+        ...(testEventCode ? { test_event_code: testEventCode } : {}),
+      }),
+    },
+  );
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(`Meta CAPI rejected the booking event. ${errorText.slice(0, 180)}`);
+  }
+};
+
 export default async (request) => {
   if (request.method !== "POST") {
     return json(
@@ -433,8 +497,9 @@ export default async (request) => {
 
   // Run tracking, CRM write, and internal alert in parallel.
   // Each is independently error-handled so a failure in one does not affect the other.
-  const [ga4Result, brevoResult, notificationResult] = await Promise.allSettled([
+  const [ga4Result, metaResult, brevoResult, notificationResult] = await Promise.allSettled([
     isDuplicate ? Promise.resolve() : sendGa4Event(payload, meetingParams),
+    isDuplicate ? Promise.resolve() : sendMetaBookingEvent(payload, request, meetingParams),
     createBrevoContact(payload)
       .then((contactId) => (isDuplicate ? undefined : createBookingCrmHandoff(payload, meetingParams, contactId)))
       .catch(() => null), // CRM write is best-effort.
@@ -446,6 +511,12 @@ export default async (request) => {
       ga4Result.reason instanceof Error ? ga4Result.reason.message : "Unable to track booking.";
     console.error("Brevo meeting booking GA4 tracking failed.", { message });
     return json({ ok: false, message }, { status: 500 });
+  }
+
+  if (metaResult.status === "rejected") {
+    const message =
+      metaResult.reason instanceof Error ? metaResult.reason.message : "Unable to track booking in Meta.";
+    console.error("Brevo meeting booking Meta CAPI tracking failed.", { message });
   }
 
   if (!isDuplicate) {

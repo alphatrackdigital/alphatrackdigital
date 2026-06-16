@@ -176,7 +176,7 @@ const ContactUs = () => {
         message: data.message || "",
       });
       if (!result.duplicate) {
-        markConversionIntent("contact_form_submit", "/contact-us/thank-you");
+        markConversionIntent("contact_form_submit", "/contact-us/thank-you", result.metaEventId);
       }
       navigate("/contact-us/thank-you");
     } catch {

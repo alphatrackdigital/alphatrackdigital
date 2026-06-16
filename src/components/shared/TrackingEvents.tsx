@@ -4,6 +4,7 @@ import { useLocation } from "react-router-dom";
 import {
   hasConversionFired,
   hasConversionIntent,
+  getConversionEventId,
   markConversionFired,
 } from "@/lib/conversionSession";
 import { getConversionEventsForPath, pushBookingClickEvent, pushDataLayerEvent } from "@/lib/tracking";
@@ -56,6 +57,7 @@ const TrackingEvents = () => {
       firedConversions.current.add(conversionKey);
       markConversionFired(conversionEvent, location.pathname);
       pushDataLayerEvent(conversionEvent, {
+        event_id: getConversionEventId(conversionEvent, location.pathname),
         page_path: location.pathname,
         page_location: pageLocation,
       });

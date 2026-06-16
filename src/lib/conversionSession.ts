@@ -11,8 +11,14 @@ const intentKey = (event: string, path: string) =>
 const firedKey = (event: string, path: string) =>
   `atd_conversion_fired:${event}:${normalizePath(path)}`;
 
-export const markConversionIntent = (event: string, path: string) => {
+const eventIdKey = (event: string, path: string) =>
+  `atd_conversion_event_id:${event}:${normalizePath(path)}`;
+
+export const markConversionIntent = (event: string, path: string, eventId?: string) => {
   getStorage()?.setItem(intentKey(event, path), "true");
+  if (eventId) {
+    getStorage()?.setItem(eventIdKey(event, path), eventId);
+  }
 };
 
 export const hasConversionIntent = (event: string, path: string) => {
@@ -25,4 +31,8 @@ export const hasConversionFired = (event: string, path: string) => {
 
 export const markConversionFired = (event: string, path: string) => {
   getStorage()?.setItem(firedKey(event, path), "true");
+};
+
+export const getConversionEventId = (event: string, path: string) => {
+  return getStorage()?.getItem(eventIdKey(event, path)) || undefined;
 };

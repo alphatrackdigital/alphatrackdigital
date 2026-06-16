@@ -2,12 +2,21 @@ import type { LeadCapturePayload, LeadSubmissionResult } from "@/types/leads";
 import { getLeadsEndpoint } from "@/lib/apiEndpoints";
 import { getLeadAttribution } from "@/lib/attribution";
 
+const createMetaEventId = () => {
+  const randomValue = typeof crypto !== "undefined" && "randomUUID" in crypto
+    ? crypto.randomUUID()
+    : `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+
+  return `atd-${randomValue}`;
+};
+
 export const submitLead = async (payload: LeadCapturePayload): Promise<LeadSubmissionResult> => {
   const attribution = payload.attribution || getLeadAttribution();
+  const metaEventId = payload.metaEventId || createMetaEventId();
   const response = await fetch(getLeadsEndpoint(), {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ ...payload, attribution }),
+    body: JSON.stringify({ ...payload, attribution, metaEventId }),
   });
 
   let data: LeadSubmissionResult | null = null;
@@ -18,12 +27,12 @@ export const submitLead = async (payload: LeadCapturePayload): Promise<LeadSubmi
   }
 
   if (response.ok && !data) {
-    return { ok: true };
+    return { ok: true, metaEventId };
   }
 
   if (!response.ok || !data?.ok) {
     throw new Error(data?.message || "Lead submission failed");
   }
 
-  return data;
+  return { ...data, metaEventId: data.metaEventId || metaEventId };
 };

@@ -40,6 +40,7 @@ const FooterNewsletter = () => {
       setStatus("success");
       if (!result.duplicate) {
         pushLeadSubmissionEvent("newsletter_subscribe", {
+          event_id: result.metaEventId,
           form_id: "footer-newsletter-form",
           lead_source: "newsletter",
           pending_confirmation: result.pendingConfirmation === true,

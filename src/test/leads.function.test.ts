@@ -29,6 +29,10 @@ describe("leads function", () => {
     delete process.env.BREVO_NEWSLETTER_LIST_ID;
     delete process.env.BREVO_DOI_TEMPLATE_ID;
     delete process.env.BREVO_DOI_REDIRECT_URL;
+    delete process.env.META_PIXEL_ID;
+    delete process.env.META_CAPI_ACCESS_TOKEN;
+    delete process.env.META_CAPI_TEST_EVENT_CODE;
+    delete process.env.META_GRAPH_API_VERSION;
   });
 
   it("routes contact enquiries to the contact list and info inbox", async () => {
@@ -179,6 +183,107 @@ describe("leads function", () => {
       subject: "New tracking audit request",
       tags: ["tracking_audit_offer"],
     });
+  });
+
+  it("sends configured lead captures to Meta Conversions API", async () => {
+    process.env.META_PIXEL_ID = "123456789";
+    process.env.META_CAPI_ACCESS_TOKEN = "meta-token";
+    process.env.META_CAPI_TEST_EVENT_CODE = "TEST123";
+    process.env.META_GRAPH_API_VERSION = "v23.0";
+
+    const fetchMock = vi
+      .fn()
+      .mockResolvedValueOnce(new Response(JSON.stringify({ id: 123 }), { status: 201 }))
+      .mockResolvedValueOnce(new Response(JSON.stringify({ contacts: { success: ["ada@example.com"], failure: [] } }), { status: 201 }))
+      .mockResolvedValueOnce(new Response(JSON.stringify({ id: "deal-1" }), { status: 201 }))
+      .mockResolvedValueOnce(new Response(JSON.stringify({ id: "task-1" }), { status: 201 }))
+      .mockResolvedValueOnce(new Response(JSON.stringify({ messageId: "message-1" }), { status: 201 }))
+      .mockResolvedValueOnce(new Response(JSON.stringify({ events_received: 1 }), { status: 200 }));
+    vi.stubGlobal("fetch", fetchMock);
+
+    const response = await handler(buildRequest({
+      source: "contact_form",
+      firstName: "Ada",
+      lastName: "Lovelace",
+      email: "ada@example.com",
+      serviceInterest: ["Growth Strategy"],
+      metaEventId: "atd-test-event-1",
+      attribution: {
+        fbp: "fb.1.123.456",
+        fbc: "fb.1.123.click",
+        landingPage: "/contact-us?utm_source=meta&utm_campaign=launch",
+        utmSource: "meta",
+        utmCampaign: "launch",
+      },
+    }));
+
+    expect(response.status).toBe(200);
+    await expect(response.json()).resolves.toMatchObject({
+      ok: true,
+      duplicate: false,
+      metaEventId: "atd-test-event-1",
+    });
+
+    const [metaUrl, metaInit] = fetchMock.mock.calls[5];
+    expect(metaUrl).toBe("https://graph.facebook.com/v23.0/123456789/events?access_token=meta-token");
+
+    const metaPayload = JSON.parse(metaInit.body);
+    expect(metaPayload).toMatchObject({
+      test_event_code: "TEST123",
+      data: [
+        {
+          event_name: "Lead",
+          event_id: "atd-test-event-1",
+          action_source: "website",
+          event_source_url: "https://alphatrack.digital/contact-us?utm_source=meta&utm_campaign=launch",
+          user_data: {
+            fbp: "fb.1.123.456",
+            fbc: "fb.1.123.click",
+          },
+          custom_data: {
+            lead_source: "contact_form",
+            content_name: "Contact Form",
+            website_route: "/contact-us",
+            utm_source: "meta",
+            utm_campaign: "launch",
+          },
+        },
+      ],
+    });
+    expect(metaPayload.data[0].user_data.em[0]).toMatch(/^[a-f0-9]{64}$/);
+  });
+
+  it("does not fail lead capture when Meta Conversions API rejects the event", async () => {
+    process.env.META_PIXEL_ID = "123456789";
+    process.env.META_CAPI_ACCESS_TOKEN = "meta-token";
+
+    const fetchMock = vi
+      .fn()
+      .mockResolvedValueOnce(new Response(JSON.stringify({ id: 123 }), { status: 201 }))
+      .mockResolvedValueOnce(new Response(JSON.stringify({ contacts: { success: ["ada@example.com"], failure: [] } }), { status: 201 }))
+      .mockResolvedValueOnce(new Response(JSON.stringify({ id: "deal-1" }), { status: 201 }))
+      .mockResolvedValueOnce(new Response(JSON.stringify({ id: "task-1" }), { status: 201 }))
+      .mockResolvedValueOnce(new Response(JSON.stringify({ messageId: "message-1" }), { status: 201 }))
+      .mockResolvedValueOnce(new Response(JSON.stringify({ error: { message: "Bad token" } }), { status: 400 }));
+    vi.stubGlobal("fetch", fetchMock);
+    vi.spyOn(console, "error").mockImplementation(() => undefined);
+
+    const response = await handler(buildRequest({
+      source: "contact_form",
+      firstName: "Ada",
+      lastName: "Lovelace",
+      email: "ada@example.com",
+      serviceInterest: ["Growth Strategy"],
+      metaEventId: "atd-test-event-2",
+    }));
+
+    expect(response.status).toBe(200);
+    await expect(response.json()).resolves.toMatchObject({
+      ok: true,
+      duplicate: false,
+      metaEventId: "atd-test-event-2",
+    });
+    expect(fetchMock).toHaveBeenCalledTimes(6);
   });
 
   it("does not resend notifications for duplicate tracking audit submissions", async () => {

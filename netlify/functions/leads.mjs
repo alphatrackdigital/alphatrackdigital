@@ -1,4 +1,5 @@
 import { buildLeadDedupeKey, getIdempotencyRecord, markIdempotencyKey } from "./lib/idempotency.mjs";
+import { createHash } from "node:crypto";
 
 const RATE_LIMIT_WINDOW_MS = 60_000;
 const RATE_LIMIT_MAX_REQUESTS = 8;
@@ -62,6 +63,9 @@ const getClientIp = (request) =>
   request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
   request.headers.get("client-ip") ||
   "unknown";
+
+const sha256 = (value) =>
+  createHash("sha256").update(String(value || "").trim().toLowerCase()).digest("hex");
 
 const isRateLimited = (key) => {
   const now = Date.now();
@@ -155,6 +159,77 @@ const getSubmittedRoute = (data) =>
   normalizeRoute(data.pagePath) ||
   campaignMetadata[data.source]?.websiteRoute ||
   "/";
+
+const getMetaEventName = (source) => source === "newsletter" ? "Subscribe" : "Lead";
+
+const getMetaEventSourceUrl = (data) => {
+  const route = getSubmittedRoute(data);
+  try {
+    return new URL(data.attribution?.landingPage || route, "https://alphatrack.digital").toString();
+  } catch {
+    return `https://alphatrack.digital${route}`;
+  }
+};
+
+const sendMetaConversionEvent = async (data, request) => {
+  const pixelId = getEnv("META_PIXEL_ID")?.trim();
+  const accessToken = getEnv("META_CAPI_ACCESS_TOKEN")?.trim();
+
+  if (!pixelId || !accessToken) {
+    console.info("Meta CAPI is not configured; skipping lead event.", { source: data.source });
+    return;
+  }
+
+  const graphVersion = getEnv("META_GRAPH_API_VERSION")?.trim() || "v23.0";
+  const testEventCode = getEnv("META_CAPI_TEST_EVENT_CODE")?.trim();
+  const clientIp = getClientIp(request);
+  const userAgent = request.headers.get("user-agent") || "";
+  const eventId = data.metaEventId || buildLeadDedupeKey(data);
+
+  const body = {
+    data: [
+      {
+        event_name: getMetaEventName(data.source),
+        event_time: Math.floor(Date.now() / 1000),
+        event_id: eventId,
+        action_source: "website",
+        event_source_url: getMetaEventSourceUrl(data),
+        user_data: {
+          em: [sha256(data.email)],
+          ...(data.firstName ? { fn: [sha256(data.firstName)] } : {}),
+          ...(data.lastName ? { ln: [sha256(data.lastName)] } : {}),
+          ...(data.attribution?.fbp ? { fbp: data.attribution.fbp } : {}),
+          ...(data.attribution?.fbc ? { fbc: data.attribution.fbc } : {}),
+          ...(clientIp !== "unknown" ? { client_ip_address: clientIp } : {}),
+          ...(userAgent ? { client_user_agent: userAgent } : {}),
+        },
+        custom_data: {
+          lead_source: data.source,
+          content_name: sourceLabels[data.source] || data.source,
+          website_route: getSubmittedRoute(data),
+          ...(data.attribution?.utmSource ? { utm_source: data.attribution.utmSource } : {}),
+          ...(data.attribution?.utmCampaign ? { utm_campaign: data.attribution.utmCampaign } : {}),
+          ...(data.attribution?.fbclid ? { fbclid: data.attribution.fbclid } : {}),
+        },
+      },
+    ],
+    ...(testEventCode ? { test_event_code: testEventCode } : {}),
+  };
+
+  const response = await fetch(
+    `https://graph.facebook.com/${encodeURIComponent(graphVersion)}/${encodeURIComponent(pixelId)}/events?access_token=${encodeURIComponent(accessToken)}`,
+    {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(body),
+    },
+  );
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(`Meta CAPI rejected the lead event. ${errorText.slice(0, 180)}`);
+  }
+};
 
 const withCampaignAndConsentAttributes = (attributes, data) => {
   const meta = campaignMetadata[data.source] ?? {};
@@ -509,9 +584,16 @@ export default async (request) => {
         });
       });
       await sendInternalNotification(payload, brevoApiKey);
+      await sendMetaConversionEvent(payload, request).catch((error) => {
+        console.error("Meta CAPI lead tracking failed after successful capture", {
+          source: payload.source,
+          listId,
+          message: error instanceof Error ? error.message : String(error),
+        });
+      });
     }
 
-    return json({ ok: true, pendingConfirmation, duplicate: isDuplicate }, { headers: corsHeaders });
+    return json({ ok: true, pendingConfirmation, duplicate: isDuplicate, metaEventId: payload.metaEventId }, { headers: corsHeaders });
   } catch {
     return json({ ok: false, message: "Unable to submit lead right now." }, { status: 500, headers: corsHeaders });
   }

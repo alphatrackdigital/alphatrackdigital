@@ -1,4 +1,5 @@
 import { buildLeadDedupeKey, getIdempotencyRecord, markIdempotencyKey } from "./idempotency.js";
+import { createHash } from "node:crypto";
 
 type LeadSource = "contact_form" | "tracking_audit_offer" | "newsletter";
 
@@ -19,6 +20,7 @@ interface LeadPayload {
   route?: string;
   pagePath?: string;
   attribution?: LeadAttribution;
+  metaEventId?: string;
 }
 
 interface LeadAttribution {
@@ -29,6 +31,8 @@ interface LeadAttribution {
   utmTerm?: string;
   gclid?: string;
   fbclid?: string;
+  fbp?: string;
+  fbc?: string;
   landingPage?: string;
   referrer?: string;
 }
@@ -137,6 +141,11 @@ const isRateLimited = (key: string) => {
 
 const buildMessageAttribute = (data: LeadPayload) => {
   return data.message?.trim() || "";
+};
+
+const getHeader = (headers: Req["headers"], name: string) => {
+  const value = headers[name] ?? headers[name.toLowerCase()];
+  return Array.isArray(value) ? value[0] : value;
 };
 
 const truncateAttribute = (value: unknown, maxLength = 500) =>
@@ -412,6 +421,82 @@ const getSubmittedRoute = (data: LeadPayload) =>
   campaignMetadata[data.source].websiteRoute ||
   "/";
 
+const sha256 = (value: string) =>
+  createHash("sha256").update(value.trim().toLowerCase()).digest("hex");
+
+const getMetaEventName = (source: LeadSource) => {
+  if (source === "newsletter") return "Subscribe";
+  return "Lead";
+};
+
+const getMetaEventSourceUrl = (data: LeadPayload) => {
+  const route = getSubmittedRoute(data);
+  try {
+    return new URL(data.attribution?.landingPage || route, "https://alphatrack.digital").toString();
+  } catch {
+    return `https://alphatrack.digital${route}`;
+  }
+};
+
+const sendMetaConversionEvent = async (data: LeadPayload, req: Req) => {
+  const pixelId = process.env.META_PIXEL_ID?.trim();
+  const accessToken = process.env.META_CAPI_ACCESS_TOKEN?.trim();
+
+  if (!pixelId || !accessToken) {
+    console.info("Meta CAPI is not configured; skipping lead event.", { source: data.source });
+    return;
+  }
+
+  const graphVersion = process.env.META_GRAPH_API_VERSION?.trim() || "v23.0";
+  const testEventCode = process.env.META_CAPI_TEST_EVENT_CODE?.trim();
+  const eventId = data.metaEventId || buildLeadDedupeKey(data as unknown as Record<string, unknown>);
+  const userAgent = getHeader(req.headers, "user-agent") || "";
+
+  const body = {
+    data: [
+      {
+        event_name: getMetaEventName(data.source),
+        event_time: Math.floor(Date.now() / 1000),
+        event_id: eventId,
+        action_source: "website",
+        event_source_url: getMetaEventSourceUrl(data),
+        user_data: {
+          em: [sha256(data.email)],
+          ...(data.firstName ? { fn: [sha256(data.firstName)] } : {}),
+          ...(data.lastName ? { ln: [sha256(data.lastName)] } : {}),
+          ...(data.attribution?.fbp ? { fbp: data.attribution.fbp } : {}),
+          ...(data.attribution?.fbc ? { fbc: data.attribution.fbc } : {}),
+          ...(getClientIp(req) !== "unknown" ? { client_ip_address: getClientIp(req) } : {}),
+          ...(userAgent ? { client_user_agent: userAgent } : {}),
+        },
+        custom_data: {
+          lead_source: data.source,
+          content_name: sourceLabels[data.source],
+          website_route: getSubmittedRoute(data),
+          ...(data.attribution?.utmSource ? { utm_source: data.attribution.utmSource } : {}),
+          ...(data.attribution?.utmCampaign ? { utm_campaign: data.attribution.utmCampaign } : {}),
+          ...(data.attribution?.fbclid ? { fbclid: data.attribution.fbclid } : {}),
+        },
+      },
+    ],
+    ...(testEventCode ? { test_event_code: testEventCode } : {}),
+  };
+
+  const response = await fetch(
+    `https://graph.facebook.com/${encodeURIComponent(graphVersion)}/${encodeURIComponent(pixelId)}/events?access_token=${encodeURIComponent(accessToken)}`,
+    {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(body),
+    },
+  );
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(`Meta CAPI rejected the lead event. ${errorText.slice(0, 180)}`);
+  }
+};
+
 const withCampaignAndConsentAttributes = (
   attributes: Record<string, string | boolean>,
   data: LeadPayload,
@@ -637,9 +722,16 @@ const handler = async (req: Req, res: Res) => {
           message: error instanceof Error ? error.message : String(error),
         });
       });
+      await sendMetaConversionEvent(payload, req).catch((error) => {
+        console.error("Meta CAPI lead tracking failed after successful capture", {
+          source: payload.source,
+          listId,
+          message: error instanceof Error ? error.message : String(error),
+        });
+      });
     }
 
-    return res.status(200).json({ ok: true, pendingConfirmation, duplicate: isDuplicate });
+    return res.status(200).json({ ok: true, pendingConfirmation, duplicate: isDuplicate, metaEventId: payload.metaEventId });
   } catch (error) {
     console.error("Lead submission failed", {
       source: payload.source,
