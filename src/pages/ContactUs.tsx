@@ -21,7 +21,7 @@ const contactSchema = z.object({
   firstName: z.string().trim().min(1, "First name is required").max(200),
   lastName: z.string().trim().min(1, "Last name is required").max(200),
   email: z.string().trim().email("Please enter a valid email"),
-  serviceInterest: z.string().min(1, "Please select a service"),
+  serviceInterest: z.array(z.string()).min(1, "Please select at least one service"),
   monthlyBudget: z.string().optional(),
   message: z.string().trim().max(2000).optional().or(z.literal("")),
   marketingOptIn: z.boolean().optional().default(false),
@@ -42,10 +42,10 @@ const serviceOptions = [
 ] as const;
 
 const budgetOptions = [
-  { label: "Under $500", value: "<$500" },
-  { label: "$500 - $1,500", value: "$500-$1,500" },
-  { label: "$1,500 - $5,000", value: "$1,500-$5,000" },
-  { label: "$5,000+", value: "$5,000+" },
+  { label: "Under $500", value: "1" },
+  { label: "$500 - $1,500", value: "2" },
+  { label: "$1,500 - $5,000", value: "3" },
+  { label: "$5,000+", value: "4" },
 ] as const;
 
 const focusAreas = [
@@ -146,7 +146,7 @@ const ContactUs = () => {
     formState: { errors },
   } = useForm<ContactFormData>({
     resolver: zodResolver(contactSchema),
-    defaultValues: { marketingOptIn: false },
+    defaultValues: { marketingOptIn: false, serviceInterest: [] },
   });
 
   const onSubmit = async (data: ContactFormData) => {
@@ -171,7 +171,7 @@ const ContactUs = () => {
         lastName: data.lastName,
         email: data.email,
         optIn: data.marketingOptIn === true,
-        serviceInterest: [data.serviceInterest],
+        serviceInterest: data.serviceInterest,
         monthlyBudget: data.monthlyBudget || "",
         message: data.message || "",
       });
@@ -334,36 +334,34 @@ const ContactUs = () => {
                 )}
               </div>
 
-              {/* Service Interest - dropdown */}
-              <div>
-                <label htmlFor="service-interest" className="mb-1.5 block text-sm font-medium">
-                  Service Interest
-                </label>
-                <div className="relative">
-                  <select
-                    id="service-interest"
-                    className={selectClassName}
-                    aria-invalid={!!errors.serviceInterest}
-                    aria-describedby={errors.serviceInterest ? "service-interest-error" : undefined}
-                    {...register("serviceInterest")}
-                  >
-                    <option value="" className="bg-background text-muted-foreground">
-                      Select a service...
-                    </option>
-                    {serviceOptions.map((opt) => (
-                      <option key={opt.value} value={opt.value} className="bg-background">
-                        {opt.label}
-                      </option>
-                    ))}
-                  </select>
-                  <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground/50" />
+              {/* Service Interest */}
+              <fieldset
+                aria-invalid={!!errors.serviceInterest}
+                aria-describedby={errors.serviceInterest ? "service-interest-error" : undefined}
+              >
+                <legend className="mb-2 block text-sm font-medium">Service Interest</legend>
+                <div className="grid gap-2 sm:grid-cols-2">
+                  {serviceOptions.map((opt) => (
+                    <label
+                      key={opt.value}
+                      className="flex min-h-11 cursor-pointer items-center gap-2 rounded-md border border-white/10 bg-white/5 px-3 py-2 text-sm text-foreground transition-colors hover:border-primary/40 hover:bg-primary/5 has-[:checked]:border-primary/50 has-[:checked]:bg-primary/10"
+                    >
+                      <input
+                        type="checkbox"
+                        value={opt.value}
+                        className="h-4 w-4 shrink-0 rounded border-white/20 bg-background text-primary accent-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                        {...register("serviceInterest")}
+                      />
+                      <span>{opt.label}</span>
+                    </label>
+                  ))}
                 </div>
                 {errors.serviceInterest && (
                   <p id="service-interest-error" className="mt-1 text-xs text-red-500">
                     {errors.serviceInterest.message}
                   </p>
                 )}
-              </div>
+              </fieldset>
 
               {/* Monthly Media Budget */}
               <div>

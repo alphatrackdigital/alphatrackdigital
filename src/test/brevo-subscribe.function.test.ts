@@ -34,6 +34,13 @@ describe("brevo-subscribe function", () => {
       email: "ADA@Example.com",
       website: "alphatrack.digital",
       route: "/",
+      optIn: true,
+      attribution: {
+        utmSource: "linkedin",
+        utmCampaign: "exit-audit",
+        landingPage: "/services?utm_source=linkedin",
+        referrer: "https://www.linkedin.com/",
+      },
     }));
 
     expect(response.status).toBe(200);
@@ -56,8 +63,13 @@ describe("brevo-subscribe function", () => {
         SOURCE: "ATD Website Exit Popup",
         LEAD_SOURCE: "exit_popup",
         WEBSITE_ROUTE: "/",
-        OFFER: "newsletter-signup",
-        CONSENT_STATUS: "not_provided",
+        OFFER: "exit-popup",
+        CONSENT_STATUS: "opted_in",
+        OPT_IN: true,
+        UTM_SOURCE: "linkedin",
+        UTM_CAMPAIGN: "exit-audit",
+        LANDING_PAGE: "/services?utm_source=linkedin",
+        REFERRER: "https://www.linkedin.com/",
       },
       listIds: [7],
       updateEnabled: true,

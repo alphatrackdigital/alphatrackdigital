@@ -192,7 +192,7 @@ const addCampaignAttributes = (attributes, lead) => {
     ...attributes,
     LEAD_SOURCE: "exit_popup",
     WEBSITE_ROUTE: getSubmittedRoute(lead),
-    OFFER: "newsletter-signup",
+    OFFER: "exit-popup",
     CONSENT_STATUS: lead.optIn === true ? "opted_in" : "not_provided",
     CONSENT_TIMESTAMP: timestamp,
     ...getAttributionAttributes(lead.attribution),

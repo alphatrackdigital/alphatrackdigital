@@ -255,6 +255,30 @@ const withCampaignAndConsentAttributes = (attributes, data) => {
   return nextAttributes;
 };
 
+const toServiceInterestAttribute = (serviceInterest) =>
+  Array.isArray(serviceInterest)
+    ? serviceInterest.map((item) => String(item).trim()).filter(Boolean)
+    : [];
+
+const monthlyBudgetValues = {
+  "1": "1",
+  "2": "2",
+  "3": "3",
+  "4": "4",
+  "<$500": "1",
+  "Under $500": "1",
+  "$500-$1,500": "2",
+  "$500–$1,500": "2",
+  "$1,500-$5,000": "3",
+  "$1,500–$5,000": "3",
+  "$5,000+": "4",
+};
+
+const toMonthlyBudgetAttribute = (monthlyBudget) => {
+  const value = monthlyBudget?.trim();
+  return value ? monthlyBudgetValues[value] ?? value : "";
+};
+
 const toBrevoPayload = (data, listId) => ({
   email: data.email,
   attributes: withCampaignAndConsentAttributes({
@@ -266,8 +290,8 @@ const toBrevoPayload = (data, listId) => ({
     AD_SPEND: data.monthlyAdSpend || "",
     AD_PLATFORMS: data.adPlatforms || "",
     SOURCE: sourceLabels[data.source] || data.source,
-    SERVICE_INTEREST: Array.isArray(data.serviceInterest) ? data.serviceInterest.join(", ") : "",
-    MONTHLY_BUDGET: data.monthlyBudget || "",
+    SERVICE_INTEREST: toServiceInterestAttribute(data.serviceInterest),
+    MONTHLY_BUDGET: toMonthlyBudgetAttribute(data.monthlyBudget),
   }, data),
   listIds: [listId],
   updateEnabled: true,

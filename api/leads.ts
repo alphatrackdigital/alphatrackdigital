@@ -497,13 +497,39 @@ const sendMetaConversionEvent = async (data: LeadPayload, req: Req) => {
   }
 };
 
+type BrevoAttributeValue = string | boolean | string[];
+
+const toServiceInterestAttribute = (serviceInterest?: string[]) =>
+  Array.isArray(serviceInterest)
+    ? serviceInterest.map((item) => item.trim()).filter(Boolean)
+    : [];
+
+const monthlyBudgetValues: Record<string, string> = {
+  "1": "1",
+  "2": "2",
+  "3": "3",
+  "4": "4",
+  "<$500": "1",
+  "Under $500": "1",
+  "$500-$1,500": "2",
+  "$500–$1,500": "2",
+  "$1,500-$5,000": "3",
+  "$1,500–$5,000": "3",
+  "$5,000+": "4",
+};
+
+const toMonthlyBudgetAttribute = (monthlyBudget?: string) => {
+  const value = monthlyBudget?.trim();
+  return value ? monthlyBudgetValues[value] ?? value : "";
+};
+
 const withCampaignAndConsentAttributes = (
-  attributes: Record<string, string | boolean>,
+  attributes: Record<string, BrevoAttributeValue>,
   data: LeadPayload,
 ) => {
   const meta = campaignMetadata[data.source];
   const timestamp = new Date().toISOString();
-  const nextAttributes: Record<string, string | boolean> = {
+  const nextAttributes: Record<string, BrevoAttributeValue> = {
     ...attributes,
     LEAD_SOURCE: meta.leadSource,
     WEBSITE_ROUTE: getSubmittedRoute(data),
@@ -544,8 +570,8 @@ const toBrevoPayload = (data: LeadPayload, listId: number) => ({
     AD_SPEND: data.monthlyAdSpend || "",
     AD_PLATFORMS: data.adPlatforms || "",
     SOURCE: sourceLabels[data.source],
-    SERVICE_INTEREST: Array.isArray(data.serviceInterest) ? data.serviceInterest.join(", ") : "",
-    MONTHLY_BUDGET: data.monthlyBudget || "",
+    SERVICE_INTEREST: toServiceInterestAttribute(data.serviceInterest),
+    MONTHLY_BUDGET: toMonthlyBudgetAttribute(data.monthlyBudget),
   }, data),
   listIds: [listId],
   updateEnabled: true,

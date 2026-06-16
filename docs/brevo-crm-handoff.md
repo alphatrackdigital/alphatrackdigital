@@ -2,7 +2,7 @@
 
 Current source of truth for turning AlphaTrack Digital campaign leads into Brevo CRM follow-up.
 
-Last audited: 2026-06-15.
+Last audited: 2026-06-16.
 
 Automation activation status: workflows #4-#8 were verified active in Brevo on 2026-06-14 after
 the redundant incomplete Automation #3 was deleted and Exit Popup Workflow #8 was completed with
@@ -32,6 +32,8 @@ Brevo API fallback in the production Netlify functions:
 - Newsletter and exit-popup leads remain nurture-only unless they become qualified elsewhere.
 - CRM API failures are logged but do not block contact capture, email notifications, or GA4 booking tracking.
 - The Brevo Meetings Netlify function now tolerates noisy list-membership responses after contact upsert and resolves existing contacts by email before CRM handoff when Brevo does not return a contact ID.
+
+Deployment audit on 2026-06-16: the upgraded backend is built and test-passing locally, but production deployment is blocked by Netlify account credits. The deploy command for `alphatra-serv` returned `Account credit usage exceeded - new deploys are blocked until credits are added`. Until that is resolved, use the current production state only for read-only checks; do not treat CRM/Meetings webhook behavior as launch-validated.
 
 ## Pipeline stages
 
@@ -107,4 +109,5 @@ Run these after ChatGPT Agent mode finishes the Brevo visual workflows.
 - Validate backend-created deals/tasks against the new `ATD Sales Pipeline`.
 - Confirm the backend is not still targeting an older Brevo pipeline ID before campaign activation.
 - Confirm Brevo Meetings existing-contact bookings create CRM deals/tasks after the upgraded Netlify backend deploys.
+- Register and verify the Brevo transactional webhook after the production `/api/brevo-transactional-webhook` endpoint is deployed.
 - Activate campaign traffic only after the QA checklist passes with test contacts.

@@ -3,7 +3,7 @@
 Current source of truth for the post-plumbing Brevo setup: segmentation, campaign settings, CRM
 polish, premium email templates, workflow upgrades, UTM handling, transactional settings, and SMS.
 
-Last updated: 2026-06-15.
+Last updated: 2026-06-16.
 
 ## Current status
 
@@ -16,8 +16,8 @@ Last updated: 2026-06-15.
 | Saved segments | Done | Created and verified in Brevo on 2026-06-15. Segment IDs `1`-`10` are listed below. |
 | Premium email design | Done | Templates 19-30 were upgraded on 2026-06-15 with branded HTML, CTA hierarchy, template tags, and UTM-tagged links. |
 | Workflow message polish | Done in templates | Automation steps still use the same template IDs, now with upgraded copy/design. |
-| Campaign settings | Mostly done | Global UTM/Google Analytics tracking is active; test list includes `martech@alphatrack.digital` and `kenny@alphatrack.digital`; unsubscribe/profile pages still need brand/design review. |
-| Transactional email settings | Receiver implemented | Transactional email tracking is set to non-anonymous tracking; `/api/brevo-transactional-webhook` is ready for registration after the upgraded Netlify backend deploys. |
+| Campaign settings | Mostly done | Global UTM/Google Analytics tracking is active; test list includes `martech@alphatrack.digital` and `kenny@alphatrack.digital`; the default profile update form exists; unsubscribe/profile pages still need final brand/design review. |
+| Transactional email settings | Receiver implemented, deploy blocked | Transactional email tracking is set to non-anonymous tracking; `/api/brevo-transactional-webhook` is ready for registration after the upgraded Netlify backend deploys, but Netlify currently blocks new deploys because account credit usage is exceeded. |
 | SMS | Deferred | Account has 0 SMS credits; do not add SMS to launch until use case, consent, sender, and credits are confirmed. |
 
 ## Attribution fields
@@ -148,7 +148,8 @@ Current Brevo UI status:
 - Settings > Campaigns > Google Analytics/UTM: active.
 - Settings > Campaigns > Test List: `martech@alphatrack.digital` and `kenny@alphatrack.digital`.
 - Settings > Campaigns > Unsubscribe Pages: default page exists; needs brand/design review before launch.
-- Forms > Profile update: create or configure a profile/preferences update page.
+- Forms > Profile update: default profile update form exists, ID `68d3850363458815293f7017`; needs final brand/design review before use in live campaigns.
+- Forms > Unsubscribe: no standalone unsubscribe form was listed in the Forms app on 2026-06-16. This is separate from the campaign unsubscribe page and is not required unless ATD wants a separate hosted form.
 - Campaign defaults: confirm physical/business details and default footer in the final pre-launch pass.
 - Email campaign drafts: archive/delete the 12 setup draft campaigns after templates are finalized if they clutter reporting.
 
@@ -166,6 +167,34 @@ Implemented in repo:
 - Accepted authentication: `Authorization: Bearer <secret>`, `x-atd-webhook-secret`, `x-brevo-webhook-secret`, or `?token=<secret>`.
 - Current behavior: validates the request, accepts single events or batched/wrapped events, logs non-email event/tag counts for launch QA, and returns a JSON summary.
 
+Deployment check on 2026-06-16:
+
+- Local repo is clean against `origin/main` at commit `53e4490874fc0d850bf42b6340dadd4e1188906c` except for an unrelated untracked `deno.lock`.
+- `npm run lint`, `npm test -- --run`, and `npm run build` all passed before deployment retry.
+- Production deploy to Netlify site `alphatra-serv` was blocked with: `Account credit usage exceeded - new deploys are blocked until credits are added`.
+- Current production `https://alphatra-serv.netlify.app/api/brevo-transactional-webhook` returns `404`, so do not register it in Brevo yet.
+- Current production `https://alphatra-serv.netlify.app/api/brevo-meeting-webhook` returns `405` on GET, which confirms the older meeting receiver path exists, but the upgraded backend still needs deployment.
+- `https://alphatrackdigital.netlify.app/api/brevo-transactional-webhook` also returns `404`.
+
+Contact form field audit on 2026-06-16:
+
+- Live contact `kenny@ait.edu.gh` was created in Brevo list `8` from the contact form and stored: `FIRSTNAME`, `LASTNAME`, `MESSAGE`, `MONTHLY_BUDGET`, `LEAD_SOURCE`, `SOURCE`, `WEBSITE_ROUTE`, `OFFER`, `CONSENT_STATUS`, `CONSENT_TIMESTAMP`, `OPT_IN`, `LANDING_PAGE`, and `REFERRER`.
+- Brevo schema confirms `SERVICE_INTEREST` is a normal `multiple-choice` attribute with options `Paid Ads`, `Marketing Automation`, `Analytics/Tracking`, `Website/CRO`, `SEO`, `Other`, `Growth Strategy`, and `CRM & Lifecycle`.
+- The existing production submission did not store `SERVICE_INTEREST` because the backend sent a text string while Brevo expects an array for a multiple-choice attribute.
+- Repo fix: `api/leads.ts` and `netlify/functions/leads.mjs` now send `SERVICE_INTEREST` as an array and normalize `MONTHLY_BUDGET` to Brevo category values `1`-`4`; `src/pages/ContactUs.tsx` now submits budget enum values directly.
+- Test coverage: `src/test/leads.function.test.ts` now asserts contact form storage for name, company, website, message, service interest, budget, source, route, offer, and consent fields.
+- UI alignment fix: `src/pages/ContactUs.tsx` now renders service interest as a checkbox group so visitors can select multiple Brevo-supported service interests. `src/test/contact-us.accessibility.test.tsx` asserts the group is accessible and that multiple service interests can be selected at once.
+
+Site-wide Brevo form audit on 2026-06-16:
+
+- Contact form: covered by `/api/leads`; uses text fields plus `SERVICE_INTEREST` multiple-choice array and `MONTHLY_BUDGET` category value.
+- Tracking audit form: covered by `/api/leads`; `AD_SPEND` and `AD_PLATFORMS` are text attributes, and campaign/consent fields are asserted in tests.
+- Newsletter forms: covered by `/api/leads`; stores `SOURCE`, `LEAD_SOURCE`, `WEBSITE_ROUTE`, `OFFER`, `CONSENT_STATUS`, `CONSENT_TIMESTAMP`, and `OPT_IN` when consent is present.
+- Exit popup form: covered by `/api/brevo-subscribe`; stores `FIRSTNAME`, `WEBSITE`, `SOURCE`, `LEAD_SOURCE`, `WEBSITE_ROUTE`, `OFFER`, consent fields, and attribution fields.
+- Brevo Meetings webhook is not a site form, but its contact upsert attributes were reviewed; mapped fields are text/boolean and match the current Brevo schema.
+- Repo fix: `netlify/functions/brevo-subscribe.mjs` now matches `api/brevo-subscribe.ts` for exit popup `OFFER=exit-popup`.
+- Test coverage: `src/test/leads.function.test.ts` and `src/test/brevo-subscribe.function.test.ts` now assert contact, tracking audit, newsletter, and exit popup Brevo payload fields that are most likely to break due to schema/type drift.
+
 Still deferred until the upgraded backend is deployed:
 
 - Configuration: confirm SMTP/API identity and sender behavior after Netlify upgrade/deployment.
@@ -177,11 +206,12 @@ Still deferred until the upgraded backend is deployed:
 - Retention rules: keep enough logs for launch QA and incident diagnosis.
 - Blocked/unsubscribed contacts: review before campaign activation.
 
-Live connector check on 2026-06-15:
+Live connector checks:
 
 - Transactional webhook listing returned `document_not_found`, which indicates no transactional webhook record exists.
 - Marketing webhook listing returned `document_not_found`, which indicates no marketing webhook record exists.
 - Do not create the webhook in Brevo until the upgraded Netlify endpoint is deployed and `BREVO_TRANSACTIONAL_WEBHOOK_SECRET` is set.
+- 2026-06-16 repeat check returned the same no-webhook state for both transactional and marketing webhooks.
 
 ## SMS position
 
@@ -197,7 +227,7 @@ Do first if SMS becomes required:
 
 ## Remaining launch blockers
 
-1. Netlify plan/credit upgrade and backend deployment.
+1. Add Netlify credits or upgrade the plan, then deploy the prepared backend to `alphatra-serv`.
 2. Brevo Meetings webhook validation against the upgraded Netlify backend.
 3. Unsubscribe/profile-update page brand review.
 4. Transactional webhook registration and log verification against the upgraded Netlify backend.

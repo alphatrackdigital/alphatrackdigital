@@ -154,8 +154,13 @@ describe("leads function", () => {
         AD_SPEND: "5k to 20k per month",
         AD_PLATFORMS: "Google Ads, Meta Ads",
         OPT_IN: true,
+        LEAD_SOURCE: "tracking_audit_offer",
+        WEBSITE_ROUTE: "/offer/tracking-audit",
+        OFFER: "tracking-audit",
+        CONSENT_STATUS: "opted_in",
       },
     });
+    expect(JSON.parse(contactInit.body).attributes.CONSENT_TIMESTAMP).toEqual(expect.any(String));
 
     const [listUrl, listInit] = fetchMock.mock.calls[1];
     expect(listUrl).toBe("https://api.brevo.com/v3/contacts/lists/11/contacts/add");
@@ -358,8 +363,13 @@ describe("leads function", () => {
       attributes: {
         SOURCE: "Newsletter",
         OPT_IN: true,
+        LEAD_SOURCE: "newsletter",
+        WEBSITE_ROUTE: "/newsletter",
+        OFFER: "newsletter-signup",
+        CONSENT_STATUS: "opted_in",
       },
     });
+    expect(JSON.parse(fetchMock.mock.calls[1][1].body).attributes.CONSENT_TIMESTAMP).toEqual(expect.any(String));
     expect(fetchMock.mock.calls[2][0]).toBe("https://api.brevo.com/v3/contacts/lists/9/contacts/add");
 
     const [notificationUrl, notificationInit] = fetchMock.mock.calls[3];
