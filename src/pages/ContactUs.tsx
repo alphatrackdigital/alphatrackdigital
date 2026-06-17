@@ -22,9 +22,18 @@ const contactSchema = z.object({
   lastName: z.string().trim().min(1, "Last name is required").max(200),
   email: z.string().trim().email("Please enter a valid email"),
   serviceInterest: z.array(z.string()).min(1, "Please select at least one service"),
+  otherServiceInterest: z.string().trim().max(200, "Please keep this under 200 characters").optional(),
   monthlyBudget: z.string().optional(),
   message: z.string().trim().max(2000).optional().or(z.literal("")),
   marketingOptIn: z.boolean().optional().default(false),
+}).superRefine((data, ctx) => {
+  if (data.serviceInterest.includes("Other") && !data.otherServiceInterest?.trim()) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: "Please tell us what service you need.",
+      path: ["otherServiceInterest"],
+    });
+  }
 });
 
 type ContactFormData = z.infer<typeof contactSchema>;
@@ -143,11 +152,14 @@ const ContactUs = () => {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm<ContactFormData>({
     resolver: zodResolver(contactSchema),
-    defaultValues: { marketingOptIn: false, serviceInterest: [] },
+    defaultValues: { marketingOptIn: false, serviceInterest: [], otherServiceInterest: "" },
   });
+  const selectedServiceInterests = watch("serviceInterest") || [];
+  const showOtherServiceInterest = selectedServiceInterests.includes("Other");
 
   const onSubmit = async (data: ContactFormData) => {
     if (honeypotValue.trim()) return;
@@ -165,6 +177,13 @@ const ContactUs = () => {
 
     setIsSubmitting(true);
     try {
+      const otherServiceInterest = data.serviceInterest.includes("Other")
+        ? data.otherServiceInterest?.trim()
+        : "";
+      const messageParts = [
+        data.message?.trim(),
+        otherServiceInterest ? `Other service interest: ${otherServiceInterest}` : "",
+      ].filter(Boolean);
       const result = await submitLead({
         source: "contact_form",
         firstName: data.firstName,
@@ -173,7 +192,7 @@ const ContactUs = () => {
         optIn: data.marketingOptIn === true,
         serviceInterest: data.serviceInterest,
         monthlyBudget: data.monthlyBudget || "",
-        message: data.message || "",
+        message: messageParts.join("\n\n"),
       });
       if (!result.duplicate) {
         markConversionIntent("contact_form_submit", "/contact-us/thank-you", result.metaEventId);
@@ -363,6 +382,26 @@ const ContactUs = () => {
                   <p id="service-interest-error" className="mt-1 text-xs text-red-500">
                     {errors.serviceInterest.message}
                   </p>
+                )}
+                {showOtherServiceInterest && (
+                  <div className="mt-3">
+                    <label htmlFor="other-service-interest" className="mb-1.5 block text-xs font-medium text-foreground/90">
+                      Tell us what you need
+                    </label>
+                    <Input
+                      id="other-service-interest"
+                      placeholder="e.g. CRM cleanup, landing page audit, reporting setup"
+                      className="h-10 border-white/10 bg-white/5 text-sm aria-[invalid=true]:border-red-500/40"
+                      aria-invalid={!!errors.otherServiceInterest}
+                      aria-describedby={errors.otherServiceInterest ? "other-service-interest-error" : undefined}
+                      {...register("otherServiceInterest")}
+                    />
+                    {errors.otherServiceInterest && (
+                      <p id="other-service-interest-error" className="mt-1 text-xs text-red-500">
+                        {errors.otherServiceInterest.message}
+                      </p>
+                    )}
+                  </div>
                 )}
               </fieldset>
 

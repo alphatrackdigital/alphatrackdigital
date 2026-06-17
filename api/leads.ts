@@ -498,6 +498,10 @@ const sendMetaConversionEvent = async (data: LeadPayload, req: Req) => {
 };
 
 type BrevoAttributeValue = string | boolean | string[];
+type BrevoContact = {
+  id?: number;
+  attributes?: Record<string, unknown>;
+};
 
 const toServiceInterestAttribute = (serviceInterest?: string[]) =>
   Array.isArray(serviceInterest)
@@ -526,12 +530,14 @@ const toMonthlyBudgetAttribute = (monthlyBudget?: string) => {
 const withCampaignAndConsentAttributes = (
   attributes: Record<string, BrevoAttributeValue>,
   data: LeadPayload,
+  existingContact?: BrevoContact,
 ) => {
   const meta = campaignMetadata[data.source];
   const timestamp = new Date().toISOString();
   const nextAttributes: Record<string, BrevoAttributeValue> = {
     ...attributes,
     LEAD_SOURCE: meta.leadSource,
+    ...getSourceLifecycleAttributes(data, existingContact, timestamp),
     WEBSITE_ROUTE: getSubmittedRoute(data),
     OFFER: meta.offer,
     CONSENT_STATUS: data.optIn === true ? "opted_in" : "not_provided",
@@ -559,7 +565,41 @@ const withCampaignAndConsentAttributes = (
   return nextAttributes;
 };
 
-const toBrevoPayload = (data: LeadPayload, listId: number) => ({
+const getStringAttribute = (contact: BrevoContact | undefined, name: string) => {
+  const value = contact?.attributes?.[name];
+  return typeof value === "string" ? value.trim() : "";
+};
+
+const getSourceLifecycleAttributes = (
+  data: LeadPayload,
+  existingContact: BrevoContact | undefined,
+  timestamp: string,
+): Record<string, string> => {
+  const meta = campaignMetadata[data.source];
+  const currentSource = sourceLabels[data.source];
+  const currentLeadSource = meta.leadSource;
+  const existingSource = getStringAttribute(existingContact, "SOURCE");
+  const existingLeadSource = getStringAttribute(existingContact, "LEAD_SOURCE");
+  const previousHistory = getStringAttribute(existingContact, "SOURCE_HISTORY");
+  const historyEntry = `${timestamp} | ${currentSource} | ${currentLeadSource} | ${getSubmittedRoute(data)}`;
+  const sourceHistory = [previousHistory, historyEntry].filter(Boolean).join("\n").slice(-2000);
+
+  return {
+    SOURCE: currentSource,
+    LAST_SOURCE: currentSource,
+    LAST_LEAD_SOURCE: currentLeadSource,
+    LAST_SOURCE_TIMESTAMP: timestamp,
+    FIRST_SOURCE: getStringAttribute(existingContact, "FIRST_SOURCE") || existingSource || currentSource,
+    FIRST_LEAD_SOURCE:
+      getStringAttribute(existingContact, "FIRST_LEAD_SOURCE") ||
+      existingLeadSource ||
+      currentLeadSource,
+    FIRST_SOURCE_TIMESTAMP: getStringAttribute(existingContact, "FIRST_SOURCE_TIMESTAMP") || timestamp,
+    SOURCE_HISTORY: sourceHistory,
+  };
+};
+
+const toBrevoPayload = (data: LeadPayload, listId: number, existingContact?: BrevoContact) => ({
   email: data.email,
   attributes: withCampaignAndConsentAttributes({
     FIRSTNAME: data.firstName,
@@ -569,25 +609,29 @@ const toBrevoPayload = (data: LeadPayload, listId: number) => ({
     WEBSITE: data.websiteUrl || "",
     AD_SPEND: data.monthlyAdSpend || "",
     AD_PLATFORMS: data.adPlatforms || "",
-    SOURCE: sourceLabels[data.source],
     SERVICE_INTEREST: toServiceInterestAttribute(data.serviceInterest),
     MONTHLY_BUDGET: toMonthlyBudgetAttribute(data.monthlyBudget),
-  }, data),
+  }, data, existingContact),
   listIds: [listId],
   updateEnabled: true,
 });
 
-const toBrevoDoiPayload = (data: LeadPayload, listId: number, templateId: number, redirectUrl: string) => ({
+const toBrevoDoiPayload = (
+  data: LeadPayload,
+  listId: number,
+  templateId: number,
+  redirectUrl: string,
+  existingContact?: BrevoContact,
+) => ({
   email: data.email,
   includeListIds: [listId],
   templateId,
   redirectionUrl: redirectUrl,
   attributes: withCampaignAndConsentAttributes({
-    SOURCE: "Newsletter",
-  }, data),
+  }, data, existingContact),
 });
 
-const getBrevoContactIdByEmail = async (email: string, brevoApiKey: string) => {
+const getBrevoContactByEmail = async (email: string, brevoApiKey: string): Promise<BrevoContact | undefined> => {
   const response = await fetch(`https://api.brevo.com/v3/contacts/${encodeURIComponent(email)}`, {
     headers: { "api-key": brevoApiKey },
   });
@@ -595,7 +639,7 @@ const getBrevoContactIdByEmail = async (email: string, brevoApiKey: string) => {
   if (!response.ok) return undefined;
 
   const contact = await response.json().catch(() => ({}));
-  return contact.id as number | undefined;
+  return contact as BrevoContact;
 };
 
 const ensureContactInList = async (email: string, listId: number, brevoApiKey: string) => {
@@ -674,6 +718,7 @@ const handler = async (req: Req, res: Res) => {
       return res.status(200).json({ ok: true, pendingConfirmation: true, duplicate: true });
     }
 
+    const existingBrevoContact = await getBrevoContactByEmail(payload.email, brevoApiKey);
     let pendingConfirmation = isNewsletterDoiEnabled;
     let brevoResponse = await fetch(
       isNewsletterDoiEnabled
@@ -687,8 +732,8 @@ const handler = async (req: Req, res: Res) => {
       },
         body: JSON.stringify(
           isNewsletterDoiEnabled
-            ? toBrevoDoiPayload(payload, listId, newsletterDoiTemplateId, newsletterDoiRedirectUrl)
-            : toBrevoPayload(payload, listId),
+            ? toBrevoDoiPayload(payload, listId, newsletterDoiTemplateId, newsletterDoiRedirectUrl, existingBrevoContact)
+            : toBrevoPayload(payload, listId, existingBrevoContact),
         ),
       },
     );
@@ -703,7 +748,7 @@ const handler = async (req: Req, res: Res) => {
             "Content-Type": "application/json",
             "api-key": brevoApiKey,
           },
-          body: JSON.stringify(toBrevoPayload(payload, listId)),
+          body: JSON.stringify(toBrevoPayload(payload, listId, existingBrevoContact)),
         });
       } else {
         return res.status(502).json({
@@ -722,7 +767,7 @@ const handler = async (req: Req, res: Res) => {
     }
 
     const brevoContact = await brevoResponse.clone().json().catch(() => ({}));
-    const brevoContactId = brevoContact.id || await getBrevoContactIdByEmail(payload.email, brevoApiKey);
+    const brevoContactId = brevoContact.id || existingBrevoContact?.id || (await getBrevoContactByEmail(payload.email, brevoApiKey))?.id;
 
     if (!pendingConfirmation) {
       await ensureContactInList(payload.email, listId, brevoApiKey);

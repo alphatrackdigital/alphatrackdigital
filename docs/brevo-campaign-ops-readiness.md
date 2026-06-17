@@ -179,6 +179,7 @@ Deployment check on 2026-06-16:
 Contact form field audit on 2026-06-16:
 
 - Live contact `kenny@ait.edu.gh` was created in Brevo list `8` from the contact form and stored: `FIRSTNAME`, `LASTNAME`, `MESSAGE`, `MONTHLY_BUDGET`, `LEAD_SOURCE`, `SOURCE`, `WEBSITE_ROUTE`, `OFFER`, `CONSENT_STATUS`, `CONSENT_TIMESTAMP`, `OPT_IN`, `LANDING_PAGE`, and `REFERRER`.
+- Source lifecycle update is implemented for website lead handlers: `FIRST_SOURCE`, `FIRST_LEAD_SOURCE`, `FIRST_SOURCE_TIMESTAMP`, `LAST_SOURCE`, `LAST_LEAD_SOURCE`, `LAST_SOURCE_TIMESTAMP`, and `SOURCE_HISTORY`. Confirm these Brevo custom attributes exist before production QA; otherwise Brevo may reject contact upserts that include them.
 - Brevo schema confirms `SERVICE_INTEREST` is a normal `multiple-choice` attribute with options `Paid Ads`, `Marketing Automation`, `Analytics/Tracking`, `Website/CRO`, `SEO`, `Other`, `Growth Strategy`, and `CRM & Lifecycle`.
 - The existing production submission did not store `SERVICE_INTEREST` because the backend sent a text string while Brevo expects an array for a multiple-choice attribute.
 - Repo fix: `api/leads.ts` and `netlify/functions/leads.mjs` now send `SERVICE_INTEREST` as an array and normalize `MONTHLY_BUDGET` to Brevo category values `1`-`4`; `src/pages/ContactUs.tsx` now submits budget enum values directly.
@@ -189,8 +190,8 @@ Site-wide Brevo form audit on 2026-06-16:
 
 - Contact form: covered by `/api/leads`; uses text fields plus `SERVICE_INTEREST` multiple-choice array and `MONTHLY_BUDGET` category value.
 - Tracking audit form: covered by `/api/leads`; `AD_SPEND` and `AD_PLATFORMS` are text attributes, and campaign/consent fields are asserted in tests.
-- Newsletter forms: covered by `/api/leads`; stores `SOURCE`, `LEAD_SOURCE`, `WEBSITE_ROUTE`, `OFFER`, `CONSENT_STATUS`, `CONSENT_TIMESTAMP`, and `OPT_IN` when consent is present.
-- Exit popup form: covered by `/api/brevo-subscribe`; stores `FIRSTNAME`, `WEBSITE`, `SOURCE`, `LEAD_SOURCE`, `WEBSITE_ROUTE`, `OFFER`, consent fields, and attribution fields.
+- Newsletter forms: covered by `/api/leads`; stores `SOURCE`, first/latest source lifecycle fields, `LEAD_SOURCE`, `WEBSITE_ROUTE`, `OFFER`, `CONSENT_STATUS`, `CONSENT_TIMESTAMP`, and `OPT_IN` when consent is present.
+- Exit popup form: covered by `/api/brevo-subscribe`; stores `FIRSTNAME`, `WEBSITE`, `SOURCE`, first/latest source lifecycle fields, `LEAD_SOURCE`, `WEBSITE_ROUTE`, `OFFER`, consent fields, and attribution fields.
 - Brevo Meetings webhook is not a site form, but its contact upsert attributes were reviewed; mapped fields are text/boolean and match the current Brevo schema.
 - Repo fix: `netlify/functions/brevo-subscribe.mjs` now matches `api/brevo-subscribe.ts` for exit popup `OFFER=exit-popup`.
 - Test coverage: `src/test/leads.function.test.ts` and `src/test/brevo-subscribe.function.test.ts` now assert contact, tracking audit, newsletter, and exit popup Brevo payload fields that are most likely to break due to schema/type drift.

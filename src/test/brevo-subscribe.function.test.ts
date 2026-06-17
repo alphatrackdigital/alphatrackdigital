@@ -29,7 +29,10 @@ describe("brevo-subscribe function", () => {
   });
 
   it("sends exit popup contacts to Brevo with campaign attributes and updateEnabled", async () => {
-    const fetchMock = vi.fn().mockResolvedValueOnce(new Response(JSON.stringify({ id: 123 }), { status: 201 }));
+    const fetchMock = vi
+      .fn()
+      .mockResolvedValueOnce(new Response("", { status: 404 }))
+      .mockResolvedValueOnce(new Response(JSON.stringify({ id: 123 }), { status: 201 }));
     vi.stubGlobal("fetch", fetchMock);
 
     const response = await handler(buildRequest({
@@ -61,7 +64,7 @@ describe("brevo-subscribe function", () => {
       },
     }));
 
-    const [, init] = fetchMock.mock.calls[0];
+    const [, init] = fetchMock.mock.calls[1];
     const body = JSON.parse(init.body);
     expect(body).toMatchObject({
       email: "ada@example.com",
@@ -70,6 +73,10 @@ describe("brevo-subscribe function", () => {
         WEBSITE: "https://alphatrack.digital",
         SOURCE: "ATD Website Exit Popup",
         LEAD_SOURCE: "exit_popup",
+        FIRST_SOURCE: "ATD Website Exit Popup",
+        LAST_SOURCE: "ATD Website Exit Popup",
+        FIRST_LEAD_SOURCE: "exit_popup",
+        LAST_LEAD_SOURCE: "exit_popup",
         WEBSITE_ROUTE: "/",
         OFFER: "exit-popup",
         CONSENT_STATUS: "opted_in",
@@ -83,7 +90,7 @@ describe("brevo-subscribe function", () => {
       updateEnabled: true,
     });
     expect(body.attributes.CONSENT_TIMESTAMP).toEqual(expect.any(String));
-    expect(fetchMock).toHaveBeenCalledTimes(1);
+    expect(fetchMock).toHaveBeenCalledTimes(2);
   });
 
   it("sends exit popup leads to Meta CAPI with the browser event id", async () => {
@@ -92,6 +99,7 @@ describe("brevo-subscribe function", () => {
     process.env.META_CAPI_TEST_EVENT_CODE = "TEST123";
     const fetchMock = vi
       .fn()
+      .mockResolvedValueOnce(new Response("", { status: 404 }))
       .mockResolvedValueOnce(new Response(JSON.stringify({ id: 123 }), { status: 201 }))
       .mockResolvedValueOnce(new Response(JSON.stringify({ events_received: 1 }), { status: 200 }));
     vi.stubGlobal("fetch", fetchMock);
@@ -115,11 +123,11 @@ describe("brevo-subscribe function", () => {
       duplicate: false,
       metaEventId: "atd-exit-popup-test-2",
     });
-    expect(fetchMock).toHaveBeenCalledTimes(2);
-    expect(fetchMock.mock.calls[1][0]).toBe(
+    expect(fetchMock).toHaveBeenCalledTimes(3);
+    expect(fetchMock.mock.calls[2][0]).toBe(
       "https://graph.facebook.com/v23.0/955663116586662/events?access_token=meta-token",
     );
-    expect(JSON.parse(fetchMock.mock.calls[1][1].body)).toMatchObject({
+    expect(JSON.parse(fetchMock.mock.calls[2][1].body)).toMatchObject({
       test_event_code: "TEST123",
       data: [
         {

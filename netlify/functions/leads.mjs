@@ -231,12 +231,43 @@ const sendMetaConversionEvent = async (data, request) => {
   }
 };
 
-const withCampaignAndConsentAttributes = (attributes, data) => {
+const getStringAttribute = (contact, name) => {
+  const value = contact?.attributes?.[name];
+  return typeof value === "string" ? value.trim() : "";
+};
+
+const getSourceLifecycleAttributes = (data, existingContact, timestamp) => {
+  const meta = campaignMetadata[data.source] ?? {};
+  const currentSource = sourceLabels[data.source] || data.source;
+  const currentLeadSource = meta.leadSource ?? data.source;
+  const existingSource = getStringAttribute(existingContact, "SOURCE");
+  const existingLeadSource = getStringAttribute(existingContact, "LEAD_SOURCE");
+  const previousHistory = getStringAttribute(existingContact, "SOURCE_HISTORY");
+  const historyEntry = `${timestamp} | ${currentSource} | ${currentLeadSource} | ${getSubmittedRoute(data)}`;
+  const sourceHistory = [previousHistory, historyEntry].filter(Boolean).join("\n").slice(-2000);
+
+  return {
+    SOURCE: currentSource,
+    LAST_SOURCE: currentSource,
+    LAST_LEAD_SOURCE: currentLeadSource,
+    LAST_SOURCE_TIMESTAMP: timestamp,
+    FIRST_SOURCE: getStringAttribute(existingContact, "FIRST_SOURCE") || existingSource || currentSource,
+    FIRST_LEAD_SOURCE:
+      getStringAttribute(existingContact, "FIRST_LEAD_SOURCE") ||
+      existingLeadSource ||
+      currentLeadSource,
+    FIRST_SOURCE_TIMESTAMP: getStringAttribute(existingContact, "FIRST_SOURCE_TIMESTAMP") || timestamp,
+    SOURCE_HISTORY: sourceHistory,
+  };
+};
+
+const withCampaignAndConsentAttributes = (attributes, data, existingContact) => {
   const meta = campaignMetadata[data.source] ?? {};
   const timestamp = new Date().toISOString();
   const nextAttributes = {
     ...attributes,
     LEAD_SOURCE: meta.leadSource ?? data.source,
+    ...getSourceLifecycleAttributes(data, existingContact, timestamp),
     WEBSITE_ROUTE: getSubmittedRoute(data),
     OFFER: meta.offer ?? "",
     CONSENT_STATUS: data.optIn === true ? "opted_in" : "not_provided",
@@ -279,7 +310,7 @@ const toMonthlyBudgetAttribute = (monthlyBudget) => {
   return value ? monthlyBudgetValues[value] ?? value : "";
 };
 
-const toBrevoPayload = (data, listId) => ({
+const toBrevoPayload = (data, listId, existingContact) => ({
   email: data.email,
   attributes: withCampaignAndConsentAttributes({
     FIRSTNAME: data.firstName,
@@ -289,21 +320,29 @@ const toBrevoPayload = (data, listId) => ({
     WEBSITE: data.websiteUrl || "",
     AD_SPEND: data.monthlyAdSpend || "",
     AD_PLATFORMS: data.adPlatforms || "",
-    SOURCE: sourceLabels[data.source] || data.source,
     SERVICE_INTEREST: toServiceInterestAttribute(data.serviceInterest),
     MONTHLY_BUDGET: toMonthlyBudgetAttribute(data.monthlyBudget),
-  }, data),
+  }, data, existingContact),
   listIds: [listId],
   updateEnabled: true,
 });
 
-const toBrevoDoiPayload = (data, listId, templateId, redirectionUrl) => ({
+const toBrevoDoiPayload = (data, listId, templateId, redirectionUrl, existingContact) => ({
   email: data.email,
   includeListIds: [listId],
   templateId,
   redirectionUrl,
-  attributes: withCampaignAndConsentAttributes({ SOURCE: "Newsletter" }, data),
+  attributes: withCampaignAndConsentAttributes({}, data, existingContact),
 });
+
+const getBrevoContactByEmail = async (email, apiKey) => {
+  const response = await fetch(`https://api.brevo.com/v3/contacts/${encodeURIComponent(email)}`, {
+    headers: { "api-key": apiKey },
+  });
+
+  if (!response.ok) return undefined;
+  return response.json().catch(() => undefined);
+};
 
 const ensureContactInList = async (email, listId, apiKey) => {
   const response = await fetch(`https://api.brevo.com/v3/contacts/lists/${listId}/contacts/add`, {
@@ -556,6 +595,7 @@ export default async (request) => {
       return json({ ok: true, pendingConfirmation: true, duplicate: true }, { headers: corsHeaders });
     }
 
+    const existingBrevoContact = await getBrevoContactByEmail(payload.email, brevoApiKey);
     let pendingConfirmation = isNewsletterDoiEnabled;
     let brevoResponse = await fetch(
       isNewsletterDoiEnabled
@@ -566,8 +606,8 @@ export default async (request) => {
         headers: { "content-type": "application/json", "api-key": brevoApiKey },
         body: JSON.stringify(
           isNewsletterDoiEnabled
-            ? toBrevoDoiPayload(payload, listId, newsletterDoiTemplateId, newsletterDoiRedirectUrl)
-            : toBrevoPayload(payload, listId),
+            ? toBrevoDoiPayload(payload, listId, newsletterDoiTemplateId, newsletterDoiRedirectUrl, existingBrevoContact)
+            : toBrevoPayload(payload, listId, existingBrevoContact),
         ),
       },
     );
@@ -579,7 +619,7 @@ export default async (request) => {
         brevoResponse = await fetch("https://api.brevo.com/v3/contacts", {
           method: "POST",
           headers: { "content-type": "application/json", "api-key": brevoApiKey },
-          body: JSON.stringify(toBrevoPayload(payload, listId)),
+          body: JSON.stringify(toBrevoPayload(payload, listId, existingBrevoContact)),
         });
       } else {
         return json({ ok: false, message: `Failed to submit lead to provider. ${errorText.slice(0, 180)}` }, { status: 502, headers: corsHeaders });
@@ -592,6 +632,7 @@ export default async (request) => {
     }
 
     const brevoContact = await brevoResponse.clone().json().catch(() => ({}));
+    const brevoContactId = brevoContact.id || existingBrevoContact?.id || (await getBrevoContactByEmail(payload.email, brevoApiKey))?.id;
     if (!pendingConfirmation) await ensureContactInList(payload.email, listId, brevoApiKey);
 
     if (!isDuplicate) {
@@ -600,7 +641,7 @@ export default async (request) => {
         emailHash: dedupeKey.split("/").at(-1),
         listId,
       });
-      await createCrmDealAndTask(payload, brevoContact.id, brevoApiKey).catch((error) => {
+      await createCrmDealAndTask(payload, brevoContactId, brevoApiKey).catch((error) => {
         console.error("Brevo CRM handoff failed after successful capture", {
           source: payload.source,
           listId,

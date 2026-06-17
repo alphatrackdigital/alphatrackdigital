@@ -4,6 +4,7 @@ import { buildExitPopupDedupeKey, getIdempotencyRecord, markIdempotencyKey } fro
 const RATE_LIMIT_WINDOW_MS = 60_000;
 const RATE_LIMIT_MAX_REQUESTS = 5;
 const SOURCE = "ATD Website Exit Popup";
+const LEAD_SOURCE = "exit_popup";
 
 const requestBuckets = globalThis.__atdExitPopupRequestBuckets ?? new Map();
 globalThis.__atdExitPopupRequestBuckets = requestBuckets;
@@ -148,6 +149,20 @@ const getAttributionAttributes = (attribution) => {
   ].filter(([, value]) => value.length > 0));
 };
 
+const getStringAttribute = (contact, name) => {
+  const value = contact?.attributes?.[name];
+  return typeof value === "string" ? value.trim() : "";
+};
+
+const getBrevoContactByEmail = async (email, apiKey) => {
+  const response = await fetch(`https://api.brevo.com/v3/contacts/${encodeURIComponent(email)}`, {
+    headers: { "api-key": apiKey },
+  });
+
+  if (!response.ok) return undefined;
+  return response.json().catch(() => undefined);
+};
+
 const validatePayload = (payload) => {
   if (!payload || typeof payload !== "object") {
     return null;
@@ -190,13 +205,29 @@ const getSubmittedRoute = (lead) => {
   }
 };
 
-const addCampaignAttributes = (attributes, lead) => {
+const addCampaignAttributes = (attributes, lead, existingContact) => {
   const timestamp = new Date().toISOString();
+  const route = getSubmittedRoute(lead);
+  const existingSource = getStringAttribute(existingContact, "SOURCE");
+  const existingLeadSource = getStringAttribute(existingContact, "LEAD_SOURCE");
+  const previousHistory = getStringAttribute(existingContact, "SOURCE_HISTORY");
+  const historyEntry = `${timestamp} | ${SOURCE} | ${LEAD_SOURCE} | ${route}`;
 
   return {
     ...attributes,
-    LEAD_SOURCE: "exit_popup",
-    WEBSITE_ROUTE: getSubmittedRoute(lead),
+    SOURCE,
+    LEAD_SOURCE,
+    FIRST_SOURCE: getStringAttribute(existingContact, "FIRST_SOURCE") || existingSource || SOURCE,
+    FIRST_LEAD_SOURCE:
+      getStringAttribute(existingContact, "FIRST_LEAD_SOURCE") ||
+      existingLeadSource ||
+      LEAD_SOURCE,
+    FIRST_SOURCE_TIMESTAMP: getStringAttribute(existingContact, "FIRST_SOURCE_TIMESTAMP") || timestamp,
+    LAST_SOURCE: SOURCE,
+    LAST_LEAD_SOURCE: LEAD_SOURCE,
+    LAST_SOURCE_TIMESTAMP: timestamp,
+    SOURCE_HISTORY: [previousHistory, historyEntry].filter(Boolean).join("\n").slice(-2000),
+    WEBSITE_ROUTE: route,
     OFFER: "exit-popup",
     CONSENT_STATUS: lead.optIn === true ? "opted_in" : "not_provided",
     CONSENT_TIMESTAMP: timestamp,
@@ -204,8 +235,8 @@ const addCampaignAttributes = (attributes, lead) => {
   };
 };
 
-const withConsentAttributes = (attributes, lead) => {
-  const nextAttributes = addCampaignAttributes(attributes, lead);
+const withConsentAttributes = (attributes, lead, existingContact) => {
+  const nextAttributes = addCampaignAttributes(attributes, lead, existingContact);
 
   if (lead.optIn !== true) {
     return nextAttributes;
@@ -345,6 +376,7 @@ export default async (request) => {
   const isDuplicate = Boolean(existingSubmission);
 
   try {
+    const existingBrevoContact = await getBrevoContactByEmail(lead.email, brevoApiKey);
     const brevoResponse = await fetch("https://api.brevo.com/v3/contacts", {
       method: "POST",
       headers: {
@@ -356,8 +388,7 @@ export default async (request) => {
         attributes: withConsentAttributes({
           FIRSTNAME: lead.firstName,
           WEBSITE: lead.website,
-          SOURCE,
-        }, lead),
+        }, lead, existingBrevoContact),
         listIds: [brevoListId],
         updateEnabled: true,
       }),

@@ -171,15 +171,19 @@ const authenticate = (request) => {
   return providedSecret === secret;
 };
 
-const getBrevoContactIdByEmail = async (email, brevoApiKey) => {
+const getBrevoContactByEmail = async (email, brevoApiKey) => {
   const response = await fetch(`https://api.brevo.com/v3/contacts/${encodeURIComponent(email)}`, {
     headers: { "api-key": brevoApiKey },
   });
 
   if (!response.ok) return undefined;
 
-  const contact = await response.json().catch(() => ({}));
-  return contact.id;
+  return response.json().catch(() => undefined);
+};
+
+const getStringAttribute = (contact, name) => {
+  const value = contact?.attributes?.[name];
+  return typeof value === "string" ? value.trim() : "";
 };
 
 const createBrevoContact = async (payload) => {
@@ -196,6 +200,13 @@ const createBrevoContact = async (payload) => {
   const lastName = findFirstString(payload, ["lastName", "last_name", "LASTNAME", "attendee_last_name"]);
   const normalizedEmail = email.trim().toLowerCase();
   const timestamp = new Date().toISOString();
+  const existingContact = await getBrevoContactByEmail(normalizedEmail, brevoApiKey);
+  const source = "Strategy Call Booking";
+  const leadSource = "brevo_meetings_webhook";
+  const existingSource = getStringAttribute(existingContact, "SOURCE");
+  const existingLeadSource = getStringAttribute(existingContact, "LEAD_SOURCE");
+  const previousHistory = getStringAttribute(existingContact, "SOURCE_HISTORY");
+  const historyEntry = `${timestamp} | ${source} | ${leadSource} | /book-a-call`;
 
   const response = await fetch("https://api.brevo.com/v3/contacts", {
     method: "POST",
@@ -208,8 +219,18 @@ const createBrevoContact = async (payload) => {
       attributes: {
         ...(firstName ? { FIRSTNAME: firstName } : {}),
         ...(lastName ? { LASTNAME: lastName } : {}),
-        SOURCE: "Strategy Call Booking",
-        LEAD_SOURCE: "brevo_meetings_webhook",
+        SOURCE: source,
+        LEAD_SOURCE: leadSource,
+        FIRST_SOURCE: getStringAttribute(existingContact, "FIRST_SOURCE") || existingSource || source,
+        FIRST_LEAD_SOURCE:
+          getStringAttribute(existingContact, "FIRST_LEAD_SOURCE") ||
+          existingLeadSource ||
+          leadSource,
+        FIRST_SOURCE_TIMESTAMP: getStringAttribute(existingContact, "FIRST_SOURCE_TIMESTAMP") || timestamp,
+        LAST_SOURCE: source,
+        LAST_LEAD_SOURCE: leadSource,
+        LAST_SOURCE_TIMESTAMP: timestamp,
+        SOURCE_HISTORY: [previousHistory, historyEntry].filter(Boolean).join("\n").slice(-2000),
         WEBSITE_ROUTE: "/book-a-call",
         OFFER: "strategy-call",
         CONSENT_STATUS: "not_provided",
@@ -243,7 +264,7 @@ const createBrevoContact = async (payload) => {
     });
   }
 
-  return contact.id || getBrevoContactIdByEmail(normalizedEmail, brevoApiKey);
+  return contact.id || existingContact?.id || (await getBrevoContactByEmail(normalizedEmail, brevoApiKey))?.id;
 };
 
 const buildBookingNotificationRows = (payload, meetingParams) => {

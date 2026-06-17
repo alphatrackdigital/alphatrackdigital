@@ -7,11 +7,18 @@ CRM handoff rules for deals, tasks, pipeline stages, and suppression are maintai
 
 ### Campaign-readiness attributes
 
-All website and Brevo Meetings lead capture paths should preserve the legacy `SOURCE` attribute and also populate the campaign-readiness attributes below:
+All website and Brevo Meetings lead capture paths should preserve the legacy `SOURCE` attribute and also populate the campaign-readiness attributes below. `SOURCE` remains a backwards-compatible latest-source display field; reporting and automation should prefer the explicit first/latest fields where available.
 
 | Attribute | Purpose |
 | --- | --- |
-| `LEAD_SOURCE` | Machine-readable lead source for segmentation and reporting |
+| `LEAD_SOURCE` | Machine-readable latest lead source for existing segments and compatibility |
+| `FIRST_SOURCE` | Human-readable first website form/source captured for the contact |
+| `FIRST_LEAD_SOURCE` | Machine-readable first website form/source captured for the contact |
+| `FIRST_SOURCE_TIMESTAMP` | ISO timestamp when the first source was captured by the website pipeline |
+| `LAST_SOURCE` | Human-readable most recent website form/source |
+| `LAST_LEAD_SOURCE` | Machine-readable most recent website form/source |
+| `LAST_SOURCE_TIMESTAMP` | ISO timestamp for the most recent website form/source |
+| `SOURCE_HISTORY` | Compact newline-delimited source timeline for recent website submissions |
 | `WEBSITE_ROUTE` | Website route that produced the lead |
 | `OFFER` | Offer or conversion intent attached to the submission |
 | `CONSENT_STATUS` | `opted_in` when explicit marketing consent is supplied; otherwise `not_provided` |
@@ -37,6 +44,7 @@ them to Brevo.
 - Lead source value: `contact_form`
 - Brevo `SOURCE` attribute: `Contact Form`
 - Brevo `LEAD_SOURCE`: `contact_form`
+- Brevo source lifecycle: preserve `FIRST_SOURCE` / `FIRST_LEAD_SOURCE`; update `LAST_SOURCE` / `LAST_LEAD_SOURCE` and append `SOURCE_HISTORY`
 - Brevo `WEBSITE_ROUTE`: `/contact-us`
 - Brevo `OFFER`: `general-enquiry`
 - Brevo list: `8` (`Website - Contact Form Enquiries`)
@@ -50,6 +58,7 @@ them to Brevo.
 - Lead capture system: Brevo Meetings embed
 - Brevo `SOURCE` attribute: `Strategy Call Booking`
 - Brevo `LEAD_SOURCE`: `brevo_meetings_webhook`
+- Brevo source lifecycle: preserve `FIRST_SOURCE` / `FIRST_LEAD_SOURCE`; update `LAST_SOURCE` / `LAST_LEAD_SOURCE` and append `SOURCE_HISTORY`
 - Brevo `WEBSITE_ROUTE`: `/book-a-call`
 - Brevo `OFFER`: `strategy-call`
 - Brevo list: `7` (`Website - Strategy Call Bookings`)
@@ -92,6 +101,7 @@ events below:
 - Lead source value: `tracking_audit_offer`
 - Brevo `SOURCE` attribute: `Tracking Audit Landing Page`
 - Brevo `LEAD_SOURCE`: `tracking_audit_offer`
+- Brevo source lifecycle: preserve `FIRST_SOURCE` / `FIRST_LEAD_SOURCE`; update `LAST_SOURCE` / `LAST_LEAD_SOURCE` and append `SOURCE_HISTORY`
 - Brevo `WEBSITE_ROUTE`: `/offer/tracking-audit`
 - Brevo `OFFER`: `tracking-audit`
 - Brevo list: `11` (`Tracking Audit Leads`)
@@ -102,12 +112,14 @@ events below:
 
 - Newsletter source value: `newsletter`
 - Newsletter `LEAD_SOURCE`: `newsletter`
+- Newsletter source lifecycle: preserve first source; update latest source/history
 - Newsletter `WEBSITE_ROUTE`: `/newsletter` unless the frontend supplies a more specific route
 - Newsletter `OFFER`: `newsletter-signup`
 - Exit popup `SOURCE` attribute: `ATD Website Exit Popup`
 - Exit popup `LEAD_SOURCE`: `exit_popup`
+- Exit popup source lifecycle: preserve first source; update latest source/history so the popup does not overwrite the original acquisition source
 - Exit popup `WEBSITE_ROUTE`: submitted route or `/`
-- Exit popup `OFFER`: `newsletter-signup`
+- Exit popup `OFFER`: `exit-popup`
 
 ### Backend requirement
 
