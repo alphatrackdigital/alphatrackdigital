@@ -337,19 +337,22 @@ const ContactUs = () => {
               {/* Service Interest */}
               <fieldset
                 aria-invalid={!!errors.serviceInterest}
-                aria-describedby={errors.serviceInterest ? "service-interest-error" : undefined}
+                aria-describedby={errors.serviceInterest ? "service-interest-error" : "service-interest-help"}
               >
-                <legend className="mb-2 block text-sm font-medium">Service Interest</legend>
-                <div className="grid gap-2 sm:grid-cols-2">
+                <legend className="block text-sm font-medium">Service Interest</legend>
+                <p id="service-interest-help" className="mt-1 text-xs leading-5 text-muted-foreground">
+                  Select all that apply.
+                </p>
+                <div className="mt-2 grid gap-1.5 sm:grid-cols-2">
                   {serviceOptions.map((opt) => (
                     <label
                       key={opt.value}
-                      className="flex min-h-11 cursor-pointer items-center gap-2 rounded-md border border-white/10 bg-white/5 px-3 py-2 text-sm text-foreground transition-colors hover:border-primary/40 hover:bg-primary/5 has-[:checked]:border-primary/50 has-[:checked]:bg-primary/10"
+                      className="flex min-h-9 cursor-pointer items-center gap-2 rounded-md border border-white/10 bg-white/5 px-2.5 py-1.5 text-[12px] font-medium leading-tight text-foreground transition-colors hover:border-primary/40 hover:bg-primary/5 has-[:checked]:border-primary/50 has-[:checked]:bg-primary/10"
                     >
                       <input
                         type="checkbox"
                         value={opt.value}
-                        className="h-4 w-4 shrink-0 rounded border-white/20 bg-background text-primary accent-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                        className="h-3.5 w-3.5 shrink-0 rounded border-white/20 bg-background text-primary accent-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                         {...register("serviceInterest")}
                       />
                       <span>{opt.label}</span>
@@ -365,9 +368,9 @@ const ContactUs = () => {
 
               {/* Monthly Media Budget */}
               <div>
-                <label htmlFor="monthly-budget" className="mb-1.5 block text-sm font-medium">
-                  Monthly Media Budget{" "}
-                  <span className="text-[10px] font-medium uppercase tracking-[0.15em] text-muted-foreground/50">
+                <label htmlFor="monthly-budget" className="mb-1.5 flex items-center gap-2 text-sm font-medium">
+                  <span>Monthly Media Budget</span>
+                  <span className="rounded-full border border-white/10 bg-white/5 px-2 py-0.5 text-[9px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/70">
                     optional
                   </span>
                 </label>
@@ -398,8 +401,12 @@ const ContactUs = () => {
                 <Textarea
                   id="message"
                   placeholder="Share a little context about what you need help with."
-                  rows={5}
-                  className="min-h-[128px] border-white/10 bg-white/5"
+                  rows={3}
+                  className="min-h-[88px] resize-y border-white/10 bg-white/5"
+                  onInput={(event) => {
+                    event.currentTarget.style.height = "auto";
+                    event.currentTarget.style.height = `${event.currentTarget.scrollHeight}px`;
+                  }}
                   aria-invalid={!!errors.message}
                   aria-describedby={errors.message ? "message-error" : undefined}
                   {...register("message")}
@@ -409,11 +416,6 @@ const ContactUs = () => {
                     {errors.message.message}
                   </p>
                 )}
-              </div>
-
-              <div className="rounded-[18px] border border-white/10 bg-white/[0.03] px-4 py-3 text-[13px] leading-6 text-muted-foreground">
-                By submitting this form, you agree that we can review your enquiry and reply
-                directly about it. Marketing updates remain optional.
               </div>
 
               <div>
