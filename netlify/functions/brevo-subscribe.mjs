@@ -1,3 +1,4 @@
+import { createHash } from "node:crypto";
 import { buildExitPopupDedupeKey, getIdempotencyRecord, markIdempotencyKey } from "./lib/idempotency.mjs";
 
 const RATE_LIMIT_WINDOW_MS = 60_000;
@@ -130,6 +131,8 @@ const normalizeRoute = (value) => {
 const truncateAttribute = (value, maxLength = 500) =>
   typeof value === "string" ? value.trim().slice(0, maxLength) : "";
 
+const sha256 = (value) => createHash("sha256").update(value.trim().toLowerCase()).digest("hex");
+
 const getAttributionAttributes = (attribution) => {
   const safeAttribution = attribution && typeof attribution === "object" ? attribution : {};
   return Object.fromEntries([
@@ -160,6 +163,7 @@ const validatePayload = (payload) => {
     "/";
   const attribution = payload.attribution && typeof payload.attribution === "object" ? payload.attribution : undefined;
   const optIn = payload.optIn === true;
+  const metaEventId = typeof payload.metaEventId === "string" ? payload.metaEventId.trim().slice(0, 128) : "";
 
   if (!firstName || !isValidEmail(email) || !isValidOptionalWebsite(website)) {
     return null;
@@ -172,6 +176,7 @@ const validatePayload = (payload) => {
     route,
     attribution,
     optIn,
+    metaEventId,
   };
 };
 
@@ -220,6 +225,68 @@ const withConsentAttributes = (attributes, lead) => {
   }
 
   return nextAttributes;
+};
+
+const getMetaEventSourceUrl = (lead) => {
+  try {
+    return new URL(lead.attribution?.landingPage || getSubmittedRoute(lead), "https://alphatrack.digital").toString();
+  } catch {
+    return `https://alphatrack.digital${getSubmittedRoute(lead)}`;
+  }
+};
+
+const sendMetaConversionEvent = async (lead, request) => {
+  const pixelId = getEnv("META_PIXEL_ID")?.trim();
+  const accessToken = getEnv("META_CAPI_ACCESS_TOKEN")?.trim();
+
+  if (!pixelId || !accessToken) {
+    console.info("Meta CAPI is not configured; skipping exit popup event.");
+    return;
+  }
+
+  const graphVersion = getEnv("META_GRAPH_API_VERSION")?.trim() || "v23.0";
+  const testEventCode = getEnv("META_CAPI_TEST_EVENT_CODE")?.trim();
+  const eventId = lead.metaEventId || buildExitPopupDedupeKey(lead);
+  const clientIp = getClientIp(request);
+  const userAgent = request.headers.get("user-agent") || "";
+
+  const response = await fetch(
+    `https://graph.facebook.com/${encodeURIComponent(graphVersion)}/${encodeURIComponent(pixelId)}/events?access_token=${encodeURIComponent(accessToken)}`,
+    {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({
+        data: [
+          {
+            event_name: "Lead",
+            event_time: Math.floor(Date.now() / 1000),
+            event_id: eventId,
+            action_source: "website",
+            event_source_url: getMetaEventSourceUrl(lead),
+            user_data: {
+              em: [sha256(lead.email)],
+              fn: [sha256(lead.firstName)],
+              ...(lead.attribution?.fbp ? { fbp: lead.attribution.fbp } : {}),
+              ...(lead.attribution?.fbc ? { fbc: lead.attribution.fbc } : {}),
+              ...(clientIp !== "unknown" ? { client_ip_address: clientIp } : {}),
+              ...(userAgent ? { client_user_agent: userAgent } : {}),
+            },
+            custom_data: {
+              lead_source: "exit_popup",
+              content_name: "Exit Popup Growth Audit",
+              website_route: getSubmittedRoute(lead),
+            },
+          },
+        ],
+        ...(testEventCode ? { test_event_code: testEventCode } : {}),
+      }),
+    },
+  );
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(`Meta CAPI rejected the exit popup event. ${errorText.slice(0, 180)}`);
+  }
 };
 
 export default async (request) => {
@@ -316,9 +383,15 @@ export default async (request) => {
         emailHash: dedupeKey.split("/").at(-1),
         listId: brevoListId,
       });
+
+      await sendMetaConversionEvent(lead, request).catch((error) => {
+        console.error("Meta CAPI exit popup event failed", {
+          message: error instanceof Error ? error.message : String(error),
+        });
+      });
     }
 
-    return json({ ok: true, duplicate: isDuplicate }, { headers: corsHeaders });
+    return json({ ok: true, duplicate: isDuplicate, metaEventId: lead.metaEventId }, { headers: corsHeaders });
   } catch (error) {
     console.error("Brevo exit popup submission failed", {
       listId: brevoListId,

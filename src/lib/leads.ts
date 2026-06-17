@@ -2,7 +2,7 @@ import type { LeadCapturePayload, LeadSubmissionResult } from "@/types/leads";
 import { getLeadsEndpoint } from "@/lib/apiEndpoints";
 import { getLeadAttribution } from "@/lib/attribution";
 
-const createMetaEventId = () => {
+export const createMetaEventId = () => {
   const randomValue = typeof crypto !== "undefined" && "randomUUID" in crypto
     ? crypto.randomUUID()
     : `${Date.now()}-${Math.random().toString(16).slice(2)}`;

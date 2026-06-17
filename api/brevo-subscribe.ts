@@ -1,3 +1,4 @@
+import { createHash } from "node:crypto";
 import { buildExitPopupDedupeKey, getIdempotencyRecord, markIdempotencyKey } from "./idempotency.js";
 
 interface SubscribePayload {
@@ -9,6 +10,7 @@ interface SubscribePayload {
   route?: string;
   pagePath?: string;
   attribution?: LeadAttribution;
+  metaEventId?: string;
 }
 
 interface LeadAttribution {
@@ -21,6 +23,8 @@ interface LeadAttribution {
   fbclid?: string;
   landingPage?: string;
   referrer?: string;
+  fbp?: string;
+  fbc?: string;
 }
 
 interface Req {
@@ -145,6 +149,9 @@ const normalizeRoute = (value?: string) => {
 const truncateAttribute = (value: unknown, maxLength = 500) =>
   typeof value === "string" ? value.trim().slice(0, maxLength) : "";
 
+const sha256 = (value: string) =>
+  createHash("sha256").update(value.trim().toLowerCase()).digest("hex");
+
 const getAttributionAttributes = (attribution: LeadAttribution | undefined): Record<string, string> => {
   const safeAttribution = attribution && typeof attribution === "object" ? attribution : {};
   return Object.fromEntries(
@@ -174,6 +181,7 @@ const validatePayload = (payload: unknown) => {
     normalizeRoute(typeof data.route === "string" ? data.route : "") ||
     normalizeRoute(typeof data.pagePath === "string" ? data.pagePath : "");
   const optIn = data.optIn === true;
+  const metaEventId = typeof data.metaEventId === "string" ? data.metaEventId.trim().slice(0, 128) : "";
   const attribution = data.attribution && typeof data.attribution === "object"
     ? data.attribution as LeadAttribution
     : undefined;
@@ -189,7 +197,73 @@ const validatePayload = (payload: unknown) => {
     websiteRoute: websiteRoute || "/",
     optIn,
     attribution,
+    metaEventId,
   };
+};
+
+const getMetaEventSourceUrl = (lead: ReturnType<typeof validatePayload> extends infer T ? NonNullable<T> : never) => {
+  try {
+    return new URL(lead.attribution?.landingPage || lead.websiteRoute || "/", "https://alphatrack.digital").toString();
+  } catch {
+    return `https://alphatrack.digital${lead.websiteRoute || "/"}`;
+  }
+};
+
+const sendMetaConversionEvent = async (
+  lead: ReturnType<typeof validatePayload> extends infer T ? NonNullable<T> : never,
+  req: Req,
+) => {
+  const pixelId = process.env.META_PIXEL_ID?.trim();
+  const accessToken = process.env.META_CAPI_ACCESS_TOKEN?.trim();
+
+  if (!pixelId || !accessToken) {
+    console.info("Meta CAPI is not configured; skipping exit popup event.");
+    return;
+  }
+
+  const graphVersion = process.env.META_GRAPH_API_VERSION?.trim() || "v23.0";
+  const testEventCode = process.env.META_CAPI_TEST_EVENT_CODE?.trim();
+  const eventId = lead.metaEventId || buildExitPopupDedupeKey(lead);
+  const clientIp = getClientIp(req);
+  const userAgent = getHeader(req.headers, "user-agent") || "";
+
+  const response = await fetch(
+    `https://graph.facebook.com/${encodeURIComponent(graphVersion)}/${encodeURIComponent(pixelId)}/events?access_token=${encodeURIComponent(accessToken)}`,
+    {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({
+        data: [
+          {
+            event_name: "Lead",
+            event_time: Math.floor(Date.now() / 1000),
+            event_id: eventId,
+            action_source: "website",
+            event_source_url: getMetaEventSourceUrl(lead),
+            user_data: {
+              em: [sha256(lead.email)],
+              fn: [sha256(lead.firstName)],
+              ...(lead.attribution?.fbp ? { fbp: lead.attribution.fbp } : {}),
+              ...(lead.attribution?.fbc ? { fbc: lead.attribution.fbc } : {}),
+              ...(clientIp !== "unknown" ? { client_ip_address: clientIp } : {}),
+              ...(userAgent ? { client_user_agent: userAgent } : {}),
+            },
+            custom_data: {
+              lead_source: "exit_popup",
+              content_name: "Exit Popup Growth Audit",
+              website_route: lead.websiteRoute,
+            },
+          },
+        ],
+        ...(testEventCode ? { test_event_code: testEventCode } : {}),
+      }),
+    },
+  );
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(`Meta CAPI rejected the exit popup event. ${errorText.slice(0, 180)}`);
+  }
 };
 
 const withConsentAttributes = (
@@ -292,9 +366,15 @@ const handler = async (req: Req, res: Res) => {
         emailHash: dedupeKey.split("/").at(-1),
         listId: brevoListId,
       });
+
+      await sendMetaConversionEvent(lead, req).catch((error) => {
+        console.error("Meta CAPI exit popup event failed", {
+          message: error instanceof Error ? error.message : String(error),
+        });
+      });
     }
 
-    return res.status(200).json({ ok: true, duplicate: isDuplicate });
+    return res.status(200).json({ ok: true, duplicate: isDuplicate, metaEventId: lead.metaEventId });
   } catch (error) {
     console.error("Brevo exit popup submission failed", {
       listId: brevoListId,

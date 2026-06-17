@@ -4,6 +4,7 @@ import { useLocation } from "react-router-dom";
 
 import { getBrevoSubscribeEndpoint } from "@/lib/apiEndpoints";
 import { getLeadAttribution } from "@/lib/attribution";
+import { createMetaEventId } from "@/lib/leads";
 import { pushLeadSubmissionEvent } from "@/lib/tracking";
 
 type PopupStatus = "idle" | "loading" | "success" | "error";
@@ -179,6 +180,7 @@ const ExitIntentPopup = () => {
 
     setStatus("loading");
     pushDataLayer("exit_popup_submit");
+    const metaEventId = createMetaEventId();
 
     try {
       const response = await fetch(getBrevoSubscribeEndpoint(), {
@@ -191,6 +193,7 @@ const ExitIntentPopup = () => {
           websiteRoute: pathname,
           optIn,
           attribution: getLeadAttribution(),
+          metaEventId,
         }),
       });
 
@@ -206,6 +209,8 @@ const ExitIntentPopup = () => {
         pushLeadSubmissionEvent("exit_popup_success", {
           form_id: "exit-intent-popup-form",
           lead_source: "exit_popup",
+          event_id: result.metaEventId || metaEventId,
+          eventID: result.metaEventId || metaEventId,
           opt_in: optIn,
         });
       }

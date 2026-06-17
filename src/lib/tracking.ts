@@ -20,6 +20,7 @@ const metaStandardEventsByDataLayerEvent: Record<string, string> = {
   contact_form_submit: "Lead",
   generate_lead: "Lead",
   tracking_audit_submit: "Lead",
+  exit_popup_success: "Lead",
   newsletter_subscribe: "Subscribe",
 };
 

@@ -23,6 +23,9 @@ describe("brevo-subscribe function", () => {
     vi.restoreAllMocks();
     delete process.env.BREVO_API_KEY;
     delete process.env.BREVO_LIST_ID;
+    delete process.env.META_PIXEL_ID;
+    delete process.env.META_CAPI_ACCESS_TOKEN;
+    delete process.env.META_CAPI_TEST_EVENT_CODE;
   });
 
   it("sends exit popup contacts to Brevo with campaign attributes and updateEnabled", async () => {
@@ -35,6 +38,7 @@ describe("brevo-subscribe function", () => {
       website: "alphatrack.digital",
       route: "/",
       optIn: true,
+      metaEventId: "atd-exit-popup-test-1",
       attribution: {
         utmSource: "linkedin",
         utmCampaign: "exit-audit",
@@ -44,7 +48,11 @@ describe("brevo-subscribe function", () => {
     }));
 
     expect(response.status).toBe(200);
-    await expect(response.json()).resolves.toEqual({ ok: true, duplicate: false });
+    await expect(response.json()).resolves.toEqual({
+      ok: true,
+      duplicate: false,
+      metaEventId: "atd-exit-popup-test-1",
+    });
     expect(fetchMock).toHaveBeenCalledWith("https://api.brevo.com/v3/contacts", expect.objectContaining({
       method: "POST",
       headers: {
@@ -76,6 +84,61 @@ describe("brevo-subscribe function", () => {
     });
     expect(body.attributes.CONSENT_TIMESTAMP).toEqual(expect.any(String));
     expect(fetchMock).toHaveBeenCalledTimes(1);
+  });
+
+  it("sends exit popup leads to Meta CAPI with the browser event id", async () => {
+    process.env.META_PIXEL_ID = "955663116586662";
+    process.env.META_CAPI_ACCESS_TOKEN = "meta-token";
+    process.env.META_CAPI_TEST_EVENT_CODE = "TEST123";
+    const fetchMock = vi
+      .fn()
+      .mockResolvedValueOnce(new Response(JSON.stringify({ id: 123 }), { status: 201 }))
+      .mockResolvedValueOnce(new Response(JSON.stringify({ events_received: 1 }), { status: 200 }));
+    vi.stubGlobal("fetch", fetchMock);
+
+    const response = await handler(buildRequest({
+      firstName: "Ada",
+      email: "ADA@Example.com",
+      website: "alphatrack.digital",
+      route: "/",
+      metaEventId: "atd-exit-popup-test-2",
+      attribution: {
+        fbp: "fb.1.123.456",
+        fbc: "fb.1.123.abcdef",
+        landingPage: "/?utm_source=meta",
+      },
+    }));
+
+    expect(response.status).toBe(200);
+    await expect(response.json()).resolves.toEqual({
+      ok: true,
+      duplicate: false,
+      metaEventId: "atd-exit-popup-test-2",
+    });
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+    expect(fetchMock.mock.calls[1][0]).toBe(
+      "https://graph.facebook.com/v23.0/955663116586662/events?access_token=meta-token",
+    );
+    expect(JSON.parse(fetchMock.mock.calls[1][1].body)).toMatchObject({
+      test_event_code: "TEST123",
+      data: [
+        {
+          event_name: "Lead",
+          event_id: "atd-exit-popup-test-2",
+          action_source: "website",
+          event_source_url: "https://alphatrack.digital/?utm_source=meta",
+          user_data: {
+            fbp: "fb.1.123.456",
+            fbc: "fb.1.123.abcdef",
+          },
+          custom_data: {
+            lead_source: "exit_popup",
+            content_name: "Exit Popup Growth Audit",
+            website_route: "/",
+          },
+        },
+      ],
+    });
   });
 
   it("returns a clean error when Brevo rejects the request", async () => {

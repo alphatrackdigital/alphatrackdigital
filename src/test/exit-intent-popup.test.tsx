@@ -63,6 +63,7 @@ describe("ExitIntentPopup", () => {
       websiteRoute: "/",
       optIn: false,
       attribution: { landingPage: "/" },
+      metaEventId: expect.stringMatching(/^atd-/),
     });
     expect(await screen.findByText("Your audit request is in.")).toBeInTheDocument();
     expect(window.localStorage.getItem("atd_exit_popup_submitted")).toBe("true");
@@ -71,6 +72,8 @@ describe("ExitIntentPopup", () => {
       event: "exit_popup_success",
       form_id: "exit-intent-popup-form",
       lead_source: "exit_popup",
+      event_id: expect.stringMatching(/^atd-/),
+      eventID: expect.stringMatching(/^atd-/),
     }));
   });
 
