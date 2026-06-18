@@ -1,10 +1,18 @@
 # Website And Tracking State
 
-Last updated: 2026-06-17.
+Last updated: 2026-06-18.
 
 ## Website Stack
 
 Verified repo stack: Vite, React, TypeScript, React Router, Tailwind CSS, shadcn/Radix UI. The prompt's note that this is a Next.js project is unverified and conflicts with `package.json`, `README.md`, and repo structure.
+
+## Deployment / Testing Context
+
+- Vercel is the current development/testing environment for working site and server verification.
+- Netlify is the planned future live deployment target after ATD purchases/subscribes to the paid Netlify plan.
+- Working updates should later be mirrored to Netlify before final live deployment.
+- Do not claim Netlify production validation is possible until the paid Netlify plan/account is ready and an approved deployment has happened.
+- Current Vercel form/server validation was not performed in this documentation pass. Marked `Unverified`.
 
 ## Main Pages / Flows Touched
 
@@ -32,7 +40,7 @@ CTA config verified:
 | Exit popup | `/api/brevo-subscribe` | popup success state/event | 10 |
 | Strategy Call | `/api/brevo-meeting-webhook` | server webhook plus thank-you route fallback | 7 |
 
-`src/lib/apiEndpoints.ts` resolves local/Vercel-like hosts to same-origin API paths and nonlocal static hosts to `https://alphatra-serv.netlify.app`.
+`src/lib/apiEndpoints.ts` resolves local/Vercel-like hosts to same-origin API paths and nonlocal static hosts to `https://alphatra-serv.netlify.app`. Given the corrected deployment context, the next safe server verification should target the active Vercel development/testing setup if the user approves testing. Current Vercel runtime behavior is `Unverified` in this pass.
 
 ## Lead Source Capture
 
@@ -104,7 +112,8 @@ Consent/banner or Consently installation was not verified in the current repo pa
 
 ## Known Issues
 
-- Latest fixes may not be live due to Netlify deploy blocker.
+- Latest fixes are not current-test validated in this pass; verify on the active Vercel development/testing setup first.
+- Netlify is a future live deployment target after paid plan purchase, not the immediate environment for current testing.
 - 2026-06-14 QA found contact-page submit interference from footer newsletter validation; verify this after current contact form changes.
 - Suppression/blocklist behavior needs retest before live nurture confidence.
 - Newsletter notification routing should be confirmed against approved `marketing@` routing.
@@ -112,13 +121,15 @@ Consent/banner or Consently installation was not verified in the current repo pa
 
 ## Suggested Retest Checklist
 
-1. Confirm deployed frontend commit and backend commit.
-2. Submit controlled Contact Us test; verify redirect, Brevo list #8, attributes, notification, Meta/GTM event.
-3. Submit controlled Tracking Audit test; verify list #11, attributes, notification, Meta/GTM event.
-4. Submit controlled Newsletter opt-in; verify DOI or direct capture, list #9, Subscribe event.
-5. Submit controlled Exit Popup test; verify list #10 and Lead event.
-6. Create controlled Brevo Meetings booking; verify list #7, sales alert, GA4 MP, Meta CAPI if configured.
-7. Confirm matching browser/server Meta event IDs.
-8. Confirm test/suppression contacts do not receive live nurture.
-9. Confirm no PII is sent into GA4 event params.
-10. Confirm debug/test modes are off after QA.
+1. Confirm active Vercel development/testing URL and deployed commit.
+2. Confirm Vercel same-origin API/server behavior with safe checks before form submissions.
+3. Submit controlled Contact Us test only after approval; verify redirect, Brevo list #8, attributes, notification, Meta/GTM event.
+4. Submit controlled Tracking Audit test only after approval; verify list #11, attributes, notification, Meta/GTM event.
+5. Submit controlled Newsletter opt-in only after approval; verify DOI or direct capture, list #9, Subscribe event.
+6. Submit controlled Exit Popup test only after approval; verify list #10 and Lead event.
+7. Create controlled Brevo Meetings booking only after approval; verify list #7, sales alert, GA4 MP, Meta CAPI if configured.
+8. Confirm matching browser/server Meta event IDs.
+9. Confirm test/suppression contacts do not receive live nurture.
+10. Confirm no PII is sent into GA4 event params.
+11. Confirm debug/test modes are off after QA.
+12. After Netlify paid plan purchase and explicit approval, mirror working updates to Netlify and repeat deployment/live readiness checks.

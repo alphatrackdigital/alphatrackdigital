@@ -1,16 +1,24 @@
 # Open Items For Next Agent
 
-Last updated: 2026-06-17.
+Last updated: 2026-06-18.
+
+## Current Deployment Context
+
+- Vercel is the current development/testing environment for working site and server verification.
+- Netlify is the future live deployment target after ATD purchases/subscribes to the paid Netlify plan.
+- Working updates should later be mirrored to Netlify and deployed live only after the paid Netlify plan is ready and the user explicitly approves deployment.
+- Do not treat Netlify paid deployment as the immediate blocker for current testing. The next safe technical step is Vercel development/server verification unless the user explicitly decides to handle Netlify subscription and deployment readiness first.
 
 ## Priority 1: Urgent Blockers
 
 | Item | Next step | Verify before live changes |
 | --- | --- | --- |
-| Netlify backend deploy blocked | Ask user to approve adding credits/upgrading plan, then deploy only after approval | Current branch, target site `alphatra-serv`, env var names present |
-| Latest backend not production-validated | After deploy, verify deployed commit and API endpoints | Safe non-POST checks first |
-| Brevo transactional webhook not live | Register only after endpoint returns expected auth behavior | `BREVO_TRANSACTIONAL_WEBHOOK_SECRET` set, endpoint not `404` |
-| Brevo Meetings validation pending | Test controlled booking only after deploy approval | Webhook secret and endpoint configured |
+| Vercel development/server verification pending | Verify current Vercel test deployment and same-origin API behavior only after user approves testing | Current branch, deployed commit, Vercel test URL, env variable names only |
+| Latest backend/form behavior not current-test validated | Run safe Vercel checks before any live or Netlify claim | Safe non-POST checks first; controlled test submissions only with approval |
+| Brevo transactional webhook not live | Register only after the final live endpoint returns expected auth behavior | `BREVO_TRANSACTIONAL_WEBHOOK_SECRET` set by name only, endpoint not `404` |
+| Brevo Meetings validation pending | Test controlled booking only after active test/live server target is confirmed and approved | Webhook secret and endpoint configured by name only |
 | Suppression/blocklist uncertainty | Run controlled QA before live campaign traffic | Lists #13/#14 and workflow exclusions |
+| Netlify future deployment readiness | Keep as future live-deployment item until paid plan purchase | Paid Netlify plan, mirrored updates, approved deploy path |
 
 ## Priority 2: Important Cleanup
 
@@ -20,6 +28,7 @@ Last updated: 2026-06-17.
 - Confirm profile update and unsubscribe pages are acceptable for launch.
 - Confirm `GA4_MEASUREMENT_PROTOCOL_DEBUG_MODE=false` and Meta test-event code disabled outside tests.
 - Confirm `SERVICE_INTEREST` and `MONTHLY_BUDGET` schema fixes are deployed.
+- Review `EVIDENCE_ARCHIVE_INVENTORY.md` and `EVIDENCE_REVIEW_QUEUE.md` before adding new proof records.
 - Update Notion only after reviewing `NOTION_SYNC_SUMMARY.md`.
 
 ## Priority 3: Nice-To-Have Improvements
@@ -29,18 +38,20 @@ Last updated: 2026-06-17.
 - Add a clear "production deployment status" section to `README.md`.
 - Consider consolidating older Brevo docs once this handoff pack is accepted.
 - Add a scripted safe health check for deployed API paths without sending leads.
+- Add an `Evidence Update Log` entry when new evidence is created or verified.
 
 ## Exact Next Steps
 
 1. Read `ATD_MASTER_CODEX_WORKLOG.md`, `BREVO_CURRENT_STATE.md`, and `TECHNICAL_CHANGELOG.md`.
-2. Run `git status`.
-3. Confirm whether the user wants live connector/UI checks or repo-only work.
-4. If live checks are approved, inspect Brevo/Vercel/Netlify read-only first.
-5. Do not activate, send, deploy, commit, push, or update Notion without explicit approval.
-6. If deploy is approved, verify env variable names only; never print values.
-7. After any deploy, run controlled endpoint checks before test submissions.
-8. After test submissions, record evidence in repo docs first.
-9. Prepare a Notion sync proposal; wait for approval before updating Notion.
+2. Read `EVIDENCE_ARCHIVE_INVENTORY.md` and `EVIDENCE_REVIEW_QUEUE.md`.
+3. Run `git status`.
+4. Confirm whether the user wants Vercel development/server checks, evidence review, live connector/UI checks, or repo-only work.
+5. If live checks are approved, inspect Vercel/Brevo/Netlify read-only first and avoid mutations.
+6. Do not activate, send, deploy, commit, push, or update Notion without explicit approval.
+7. If Vercel testing is approved, verify env variable names only; never print values.
+8. After any approved deploy in the future, run controlled endpoint checks before test submissions.
+9. After test submissions, record evidence in repo docs first.
+10. Prepare a Notion sync proposal; wait for approval before updating Notion.
 
 ## What To Verify Before Any Live Change
 
@@ -57,9 +68,17 @@ Last updated: 2026-06-17.
 - Do not treat Codex transcripts as documentation source text; summarize only safe metadata and verified outcomes.
 - Do not rely on repo implementation as production behavior until deployed commit is verified.
 - Do not assume the prompt's Next.js note is correct; repo evidence shows Vite React.
+- Do not rebuild the evidence archive from scratch unless the user explicitly asks; update only relevant records.
+
+## Evidence Archive Status
+
+- Initial evidence archive inventory completed on 2026-06-18.
+- Initial evidence review queue completed on 2026-06-18.
+- No evidence files were copied during the archive pass.
+- Future evidence updates should be incremental and should add an `Evidence Update Log` entry.
 
 ## Suggested Prompt For Next Session
 
 ```text
-Continue the AlphaTrack Digital / ATD MarTech handoff from repo docs under docs/codex-handoffs/. Start by reading ATD_MASTER_CODEX_WORKLOG.md, BREVO_CURRENT_STATE.md, TECHNICAL_CHANGELOG.md, WEBSITE_AND_TRACKING_STATE.md, and OPEN_ITEMS_FOR_NEXT_AGENT.md. Do not make live changes unless I explicitly approve. Verify current git status, then help me decide the next safe step for Netlify deploy unblock, Brevo QA, Meta/GA4 verification, or Notion sync. Never expose secrets or copy raw transcripts.
+Continue the AlphaTrack Digital / ATD MarTech handoff from repo docs under docs/codex-handoffs/. Start by reading ATD_MASTER_CODEX_WORKLOG.md, BREVO_CURRENT_STATE.md, TECHNICAL_CHANGELOG.md, WEBSITE_AND_TRACKING_STATE.md, EVIDENCE_ARCHIVE_INVENTORY.md, EVIDENCE_REVIEW_QUEUE.md, and OPEN_ITEMS_FOR_NEXT_AGENT.md. Do not make live changes unless I explicitly approve. Verify current git status, then help me decide the next safe step for Vercel development/server verification, evidence review, Brevo QA, Meta/GA4 verification, future Netlify readiness, or Notion sync. Never expose secrets or copy raw transcripts.
 ```

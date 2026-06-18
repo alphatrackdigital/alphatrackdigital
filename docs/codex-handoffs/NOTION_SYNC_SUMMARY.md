@@ -1,6 +1,6 @@
 # Notion Sync Summary
 
-Last updated: 2026-06-17.
+Last updated: 2026-06-18.
 
 Do not update Notion from this file without user approval. This is a review-ready sync proposal only.
 
@@ -9,7 +9,8 @@ Do not update Notion from this file without user approval. This is a review-read
 - Repo handoff pack created under `docs/codex-handoffs/`.
 - Current repo evidence shows Vite React, not Next.js.
 - Latest confirmed repo work includes Brevo first/latest source lifecycle fields, Meta event ID/CAPI readiness, Brevo schema fixes, and source attribution.
-- Netlify backend deploy remains the main external blocker.
+- Vercel is the current development/testing environment for working site and server verification.
+- Netlify is the future live deployment target after paid plan purchase, not the immediate blocker for current testing.
 - Brevo transactional webhook should not be registered until deployed endpoint is verified.
 - Brevo live state needs read-only UI verification before any activation or campaign operations.
 
@@ -74,6 +75,55 @@ Do not update Notion from this file without user approval. This is a review-read
 - Any link to GitHub issues/PRs if the user wants private/internal cleanup first.
 - Any statement that a Brevo workflow is live-ready.
 - Any deployment or live QA claim.
+
+## Evidence Archive Sync Proposal
+
+Evidence records that should be added to Notion after approval:
+
+- Repo handoff pack commit `decfa5b6bbc8fd276d4a343919c3c164fc5b5790`.
+- `docs/codex-handoffs/EVIDENCE_ARCHIVE_INVENTORY.md` as the internal source of truth for evidence records.
+- `docs/codex-handoffs/EVIDENCE_REVIEW_QUEUE.md` as the evidence review workflow.
+- Historical Brevo QA note: `docs/brevo-qa-2026-06-14.md`, with clear caveat that live/current Vercel retest is still needed.
+- Historical Brevo readiness docs: `docs/brevo-campaign-ops-readiness.md`, `docs/brevo-crm-handoff.md`, and `docs/brevo-website-alignment.md`.
+
+Evidence records that should remain repo-only:
+
+- `docs/codex-handoffs/TECHNICAL_CHANGELOG.md`.
+- `docs/codex-handoffs/SESSION_INDEX_SUMMARY.md`.
+- Local session metadata references.
+- Environment variable inventories beyond variable names and high-level purpose.
+- Test source files and raw automation logs.
+
+Evidence records requiring sensitive review:
+
+- `test-results/brevo-account-audit-2026-06-15.json`.
+- `test-results/brevo-playwright-storage-state.json`.
+- `test-results/brevo-playwright-current.png`.
+- `brevo-contacts-before-filter.png`.
+- `.playwright-mcp/*`.
+- `.tmp-audit/brand-guide-text.txt` and brand-guide page captures.
+- Any screenshot that may show contact records, private UI state, auth/session state, or customer data.
+
+Case-study evidence now available:
+
+- Historical website page screenshots in root `tmp-*.png` files and `.tmp-audit/*.png`.
+- Root service-page screenshots such as `conversion-tracking-review.png`, `paid-media-review.png`, and `paid-media-desktop.png`.
+- Repo docs showing implementation of source lifecycle, consent mapping, Meta CAPI/event ID dedupe, GA4 Measurement Protocol, and Brevo lead flow mapping.
+- Git commit evidence for the implementation sequence.
+
+Missing evidence needed before a client-safe case-study draft:
+
+- Fresh Vercel testing screenshots for current Contact Us, Tracking Audit, Newsletter, Exit Popup, and Book A Free Strategy Call flows.
+- Approved proof that Vercel server/form handlers work in the current test setup.
+- Current Meta Events Manager and GA4 DebugView/Realtimes screenshots after approved test events.
+- Sanitized Brevo UI screenshots for attributes, lists, workflows, and suppression after explicit read-only approval.
+- Future Netlify deployment evidence after paid plan purchase and approved live deployment.
+
+Corrected deployment context for Notion:
+
+- Vercel = current development/testing environment.
+- Netlify = future live deployment target after paid plan purchase.
+- Do not record Netlify as the current live blocker unless specifically referring to future live deployment readiness.
 
 ## Hard Warning
 
