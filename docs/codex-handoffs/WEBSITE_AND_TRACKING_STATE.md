@@ -1,6 +1,6 @@
 # Website And Tracking State
 
-Last updated: 2026-06-18.
+Last updated: 2026-06-19.
 
 ## Website Stack
 
@@ -12,7 +12,7 @@ Verified repo stack: Vite, React, TypeScript, React Router, Tailwind CSS, shadcn
 - Netlify is the planned future live deployment target after ATD purchases/subscribes to the paid Netlify plan.
 - Working updates should later be mirrored to Netlify before final live deployment.
 - Do not claim Netlify production validation is possible until the paid Netlify plan/account is ready and an approved deployment has happened.
-- Current Vercel form/server validation was not performed in this documentation pass. Marked `Unverified`.
+- Vercel visual page-render evidence now exists for selected pages from `https://website-internal-test.vercel.app`; form/server validation remains `Unverified`.
 
 ## Main Pages / Flows Touched
 
@@ -41,6 +41,14 @@ CTA config verified:
 | Strategy Call | `/api/brevo-meeting-webhook` | server webhook plus thank-you route fallback | 7 |
 
 `src/lib/apiEndpoints.ts` resolves local/Vercel-like hosts to same-origin API paths and nonlocal static hosts to `https://alphatra-serv.netlify.app`. Given the corrected deployment context, the next safe server verification should target the active Vercel development/testing setup if the user approves testing. Current Vercel runtime behavior is `Unverified` in this pass.
+
+## Vercel Visual Page-Render Evidence
+
+Controlled browser screenshots were captured from `https://website-internal-test.vercel.app` under `docs/codex-handoffs/evidence/vercel-visual-pass-2026-06-19/` for homepage, Contact Us, Contact thank-you, Book A Free Strategy Call, booking thank-you, Tracking Audit, newsletter confirmed, Conversion Tracking service page, Privacy Policy, Cookie Policy, and Terms of Service.
+
+This evidence verifies visual page rendering only. During capture, external GTM/GA/Meta-style requests and non-GET/HEAD requests were blocked. No forms were submitted, no POST/webhook requests were sent, and no Brevo routing, Meta event, GA4 event, or webhook behavior is verified by these screenshots.
+
+Minor text/accessibility observation: styled headings may expose joined text in extracted text, such as `ThatMeasures` and `andStart`; review later during accessibility/content QA.
 
 ## Lead Source Capture
 
@@ -112,16 +120,17 @@ Consent/banner or Consently installation was not verified in the current repo pa
 
 ## Known Issues
 
-- Latest fixes are not current-test validated in this pass; verify on the active Vercel development/testing setup first.
+- Visual page rendering has current Vercel screenshot evidence for selected pages, but latest form/server/tracking behavior is not current-test validated; verify on the active Vercel development/testing setup first.
 - Netlify is a future live deployment target after paid plan purchase, not the immediate environment for current testing.
 - 2026-06-14 QA found contact-page submit interference from footer newsletter validation; verify this after current contact form changes.
+- Styled headings may expose joined text in extracted text, including `ThatMeasures` and `andStart`; review during accessibility/content QA.
 - Suppression/blocklist behavior needs retest before live nurture confidence.
 - Newsletter notification routing should be confirmed against approved `marketing@` routing.
 - Production transactional webhook endpoint should not be registered until deployed and verified.
 
 ## Suggested Retest Checklist
 
-1. Confirm active Vercel development/testing URL and deployed commit.
+1. Confirm active Vercel development/testing URL and deployed commit; visual-render screenshots exist for the 2026-06-19 Vercel pass.
 2. Confirm Vercel same-origin API/server behavior with safe checks before form submissions.
 3. Submit controlled Contact Us test only after approval; verify redirect, Brevo list #8, attributes, notification, Meta/GTM event.
 4. Submit controlled Tracking Audit test only after approval; verify list #11, attributes, notification, Meta/GTM event.

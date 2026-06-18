@@ -1,6 +1,6 @@
 # Evidence Review Queue
 
-Last updated: 2026-06-18.
+Last updated: 2026-06-19.
 
 This queue prioritizes evidence review without copying files, opening live tools, or updating Notion. Use it alongside `EVIDENCE_ARCHIVE_INVENTORY.md`.
 
@@ -14,6 +14,7 @@ This queue prioritizes evidence review without copying files, opening live tools
 | `docs/brevo-qa-2026-06-14.md` | Records workflow QA passes and known failures. | Use as retest checklist; do not treat as current launch proof. |
 | `docs/brevo-website-alignment.md` | Maps lead flows and attributes. | Verify against Vercel test submissions before live work. |
 | `docs/codex-handoffs/WEBSITE_AND_TRACKING_STATE.md` | Current website/tracking state summary. | Keep updated with Vercel testing and future Netlify target context. |
+| `docs/codex-handoffs/evidence/vercel-visual-pass-2026-06-19/*.png` | Current Vercel visual page-render evidence for key pages and legal routes. | Keep as internal visual QA evidence; do not treat as form, webhook, Brevo, Meta, or GA4 verification. |
 
 ## Priority 2 Evidence To Review Before Case-Study Drafting
 
@@ -36,12 +37,20 @@ This queue prioritizes evidence review without copying files, opening live tools
 
 ## Evidence Needing Screenshots Added
 
-- Current Vercel development/testing homepage, Contact Us, Tracking Audit, Newsletter, Exit Popup, and Book A Free Strategy Call screens.
-- Current Vercel form submission success states after safe controlled test submissions.
+- Current Vercel visual screenshots now exist for homepage, Contact Us, Contact thank-you, Book A Free Strategy Call, booking thank-you, Tracking Audit, newsletter confirmed, Conversion Tracking service page, Privacy Policy, Cookie Policy, and Terms of Service.
+- Current Vercel form submission success states after safe controlled test submissions. Existing visual thank-you/confirmed screenshots do not prove submissions occurred.
 - Current Meta Events Manager browser/server deduplication view after approved test events.
 - Current GA4 DebugView/Realtime event views after approved test events.
 - Current Brevo attribute grouping/source lifecycle UI after explicit read-only UI approval.
 - Future Netlify deployed frontend and backend endpoint proof after paid plan purchase and approved deployment.
+
+## Vercel Visual Screenshot Pass Notes
+
+- Base URL captured: `https://website-internal-test.vercel.app`.
+- Screenshot folder: `docs/codex-handoffs/evidence/vercel-visual-pass-2026-06-19/`.
+- Browser rendering was used, while external GTM/GA/Meta-style requests and non-GET/HEAD requests were blocked during capture.
+- This evidence proves only visual page rendering on the Vercel testing URL. It does not verify form submissions, Brevo routing, Meta events, GA4 events, or webhooks.
+- Minor text/accessibility observation: styled headings may expose joined text in extracted text, such as `ThatMeasures` and `andStart`; review later during accessibility/content QA.
 
 ## Evidence Needing Live Retest
 
@@ -66,7 +75,7 @@ This queue prioritizes evidence review without copying files, opening live tools
 
 ## Evidence That Can Later Support The ATD Internal Case Study
 
-- Sanitized Vercel testing screenshots showing the five lead flows.
+- Sanitized Vercel testing screenshots showing visual page rendering for lead-flow and legal pages.
 - Sanitized before/after website page screenshots from curated root or `.tmp-audit` assets.
 - Repo docs proving source lifecycle, consent mapping, and tracking implementation.
 - Git commits proving Meta CAPI/event ID and Brevo source lifecycle work.
@@ -111,3 +120,4 @@ This queue prioritizes evidence review without copying files, opening live tools
 | Date | Update | Files changed |
 | --- | --- | --- |
 | 2026-06-18 | Initial evidence review queue created. No screenshots or evidence files were copied. | `EVIDENCE_REVIEW_QUEUE.md` |
+| 2026-06-19 | Added Vercel visual screenshot pass to review queue. Screenshots are visual-render evidence only; no forms, POST/webhook requests, or live-service changes were made. | `EVIDENCE_REVIEW_QUEUE.md`, `EVIDENCE_ARCHIVE_INVENTORY.md`, `WEBSITE_AND_TRACKING_STATE.md` |

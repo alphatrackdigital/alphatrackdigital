@@ -1,6 +1,6 @@
 # Evidence Archive Inventory
 
-Last updated: 2026-06-18.
+Last updated: 2026-06-19.
 
 ## Purpose
 
@@ -76,12 +76,32 @@ Safe for client-facing case study:
 | E2E homepage smoke test | Test result | `e2e/homepage.smoke.spec.ts` | Website | Playwright smoke coverage for homepage. | Verified | Yes | Later | Rerun against Vercel testing environment when approved. |
 | Vercel local config | Deployment note | `vercel.json`, `.vercel/project.json` | Vercel | Shows Vercel project wiring and SPA rewrite. | Partial | No | No | Do not publish project IDs; use only high-level summary. |
 | Netlify local config | Deployment note | `netlify.toml`, `netlify/functions/*` | Netlify | Shows future Netlify-compatible functions and redirects. | Verified | Yes | No | Treat as future deployment readiness, not current live validation. |
+| Vercel visual pass - home | Screenshot | `docs/codex-handoffs/evidence/vercel-visual-pass-2026-06-19/2026-06-19_vercel_home.png` | Vercel, Website, Evidence Archive | Shows the homepage rendered in a controlled browser capture on `https://website-internal-test.vercel.app`. Does not prove form submission, tracking, or backend behavior. | Verified for visual page rendering only | Yes | Later | Keep as internal visual QA evidence; use for Notion evidence sync after commit. |
+| Vercel visual pass - Contact Us | Screenshot | `docs/codex-handoffs/evidence/vercel-visual-pass-2026-06-19/2026-06-19_vercel_contact-us.png` | Vercel, Website, Evidence Archive | Shows the Contact Us page rendered in a controlled browser capture on the Vercel testing URL. Does not prove form submission, Brevo routing, Meta, GA4, or webhook behavior. | Verified for visual page rendering only | Yes | Later | Keep as internal visual QA evidence; use for Notion evidence sync after commit. |
+| Vercel visual pass - Contact Us thank-you | Screenshot | `docs/codex-handoffs/evidence/vercel-visual-pass-2026-06-19/2026-06-19_vercel_contact-us-thank-you.png` | Vercel, Website, Evidence Archive | Shows the Contact Us thank-you route rendered in a controlled browser capture on the Vercel testing URL. Does not prove a successful form submission occurred. | Verified for visual page rendering only | Yes | Later | Keep as internal visual QA evidence; use for Notion evidence sync after commit. |
+| Vercel visual pass - Book A Free Strategy Call | Screenshot | `docs/codex-handoffs/evidence/vercel-visual-pass-2026-06-19/2026-06-19_vercel_book-a-call.png` | Vercel, Website, Evidence Archive | Shows the Book A Free Strategy Call page rendered in a controlled browser capture on the Vercel testing URL. Does not prove booking, webhook, or tracking behavior. | Verified for visual page rendering only | Yes | Later | Keep as internal visual QA evidence; use for Notion evidence sync after commit. |
+| Vercel visual pass - Book A Free Strategy Call thank-you | Screenshot | `docs/codex-handoffs/evidence/vercel-visual-pass-2026-06-19/2026-06-19_vercel_book-a-call-thank-you.png` | Vercel, Website, Evidence Archive | Shows the strategy-call thank-you route rendered in a controlled browser capture on the Vercel testing URL. Does not prove a meeting booking or webhook fired. | Verified for visual page rendering only | Yes | Later | Keep as internal visual QA evidence; use for Notion evidence sync after commit. |
+| Vercel visual pass - Tracking Audit | Screenshot | `docs/codex-handoffs/evidence/vercel-visual-pass-2026-06-19/2026-06-19_vercel_tracking-audit.png` | Vercel, Website, Evidence Archive | Shows the Tracking Audit page rendered in a controlled browser capture on the Vercel testing URL. Does not prove audit form submission, Brevo routing, Meta, or GA4 behavior. | Verified for visual page rendering only | Yes | Later | Keep as internal visual QA evidence; use for Notion evidence sync after commit. |
+| Vercel visual pass - Newsletter confirmed | Screenshot | `docs/codex-handoffs/evidence/vercel-visual-pass-2026-06-19/2026-06-19_vercel_newsletter-confirmed.png` | Vercel, Website, Evidence Archive | Shows the newsletter confirmed route rendered in a controlled browser capture on the Vercel testing URL. Does not prove newsletter submission, DOI, Brevo routing, or Subscribe event behavior. | Verified for visual page rendering only | Yes | Later | Keep as internal visual QA evidence; use for Notion evidence sync after commit. |
+| Vercel visual pass - Conversion Tracking service page | Screenshot | `docs/codex-handoffs/evidence/vercel-visual-pass-2026-06-19/2026-06-19_vercel_service-conversion-tracking.png` | Vercel, Website, Evidence Archive | Shows the Conversion Tracking service page rendered in a controlled browser capture on the Vercel testing URL. | Verified for visual page rendering only | Yes | Later | Keep as internal visual QA evidence; use for Notion evidence sync after commit. |
+| Vercel visual pass - Privacy Policy | Screenshot | `docs/codex-handoffs/evidence/vercel-visual-pass-2026-06-19/2026-06-19_vercel_privacy-policy.png` | Vercel, Website, Evidence Archive | Shows the Privacy Policy page rendered in a controlled browser capture on the Vercel testing URL. | Verified for visual page rendering only | Yes | Later | Keep as internal visual QA evidence; use for Notion evidence sync after commit. |
+| Vercel visual pass - Cookie Policy | Screenshot | `docs/codex-handoffs/evidence/vercel-visual-pass-2026-06-19/2026-06-19_vercel_cookie-policy.png` | Vercel, Website, Evidence Archive | Shows the Cookie Policy page rendered in a controlled browser capture on the Vercel testing URL. | Verified for visual page rendering only | Yes | Later | Keep as internal visual QA evidence; use for Notion evidence sync after commit. |
+| Vercel visual pass - Terms of Service | Screenshot | `docs/codex-handoffs/evidence/vercel-visual-pass-2026-06-19/2026-06-19_vercel_terms-of-service.png` | Vercel, Website, Evidence Archive | Shows the Terms of Service page rendered in a controlled browser capture on the Vercel testing URL. | Verified for visual page rendering only | Yes | Later | Keep as internal visual QA evidence; use for Notion evidence sync after commit. |
+
+## Vercel Visual Screenshot Pass Notes
+
+- Base URL captured: `https://website-internal-test.vercel.app`.
+- Screenshot folder: `docs/codex-handoffs/evidence/vercel-visual-pass-2026-06-19/`.
+- The capture pass used browser rendering only. External GTM/GA/Meta-style requests and non-GET/HEAD requests were blocked during capture.
+- No forms were submitted, no POST/webhook requests were sent, and no Brevo routing, Meta event, GA4 event, or webhook behavior is verified by this evidence.
+- Minor text/accessibility observation: styled headings may expose joined text in extracted text, such as `ThatMeasures` and `andStart`; review later during accessibility/content QA.
 
 ## Safe Evidence Ready For Notion
 
 - `docs/codex-handoffs/ATD_MASTER_CODEX_WORKLOG.md`
 - `docs/codex-handoffs/BREVO_CURRENT_STATE.md` as a summary, not live proof
 - `docs/codex-handoffs/WEBSITE_AND_TRACKING_STATE.md` after corrected Vercel/Netlify context
+- `docs/codex-handoffs/evidence/vercel-visual-pass-2026-06-19/*.png` as Vercel visual page-render evidence only
 - `docs/brevo-qa-2026-06-14.md` as historical QA with clear gaps
 - `docs/brevo-campaign-ops-readiness.md` as historical readiness documentation
 - Git commit `decfa5b6bbc8fd276d4a343919c3c164fc5b5790`
@@ -167,3 +187,4 @@ Safe for client-facing case study:
 | Date | Update | Files changed |
 | --- | --- | --- |
 | 2026-06-18 | Initial evidence archive inventory created from repo docs, safe file listings, existing handoff docs, and local project artifact references. No evidence files were copied. | `EVIDENCE_ARCHIVE_INVENTORY.md`, `EVIDENCE_REVIEW_QUEUE.md` |
+| 2026-06-19 | Added 11 Vercel visual page-render screenshots from `https://website-internal-test.vercel.app`. No form submissions, POST/webhook requests, tracking verification, or live-service changes were made. | `EVIDENCE_ARCHIVE_INVENTORY.md`, `EVIDENCE_REVIEW_QUEUE.md`, `WEBSITE_AND_TRACKING_STATE.md` |
