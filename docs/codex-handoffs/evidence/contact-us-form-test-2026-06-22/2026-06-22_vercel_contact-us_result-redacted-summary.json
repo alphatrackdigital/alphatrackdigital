@@ -1,0 +1,28 @@
+﻿{
+    "url":  "https://website-internal-test.vercel.app/contact-us/thank-you",
+    "title":  "Contact Us | AlphaTrack Digital",
+    "reachedThankYou":  true,
+    "thankYouEvidencePresent":  true,
+    "approvedSubmissionCount":  1,
+    "endpointExpectedByCode":  "/api/leads",
+    "baseUrl":  "https://website-internal-test.vercel.app",
+    "staleUrlAvoided":  "https://atd-website-test.vercel.app",
+    "testIdentity":  {
+                         "firstName":  "[REDACTED QA FIRST NAME]",
+                         "lastName":  "[REDACTED QA LAST NAME]",
+                         "email":  "[REDACTED QA EMAIL]",
+                         "serviceInterest":  "Analytics/Tracking",
+                         "marketingOptIn":  false
+                     },
+    "screenshot":  {
+                       "saved":  false,
+                       "error":  "Error: Timed out running CDP command \"Page.captureScreenshot\" for tab 2"
+                   },
+    "caveats":  [
+                    "This confirms the approved browser submission reached the Contact Us thank-you URL.",
+                    "No Brevo UI, Notion, Vercel settings, Netlify, GA4, GTM, Meta, Google Ads, GitHub issue, deploy, commit, or push action was performed.",
+                    "Brevo contact/list/CRM/email delivery and Meta/GA4 delivery remain unverified until separately approved read-only checks are performed."
+                ],
+    "thankYouHeading":  "Message Received!",
+    "visibleSuccessCopy":  "Thanks for reaching out. We have received your enquiry and a member of our team will be in touch."
+}

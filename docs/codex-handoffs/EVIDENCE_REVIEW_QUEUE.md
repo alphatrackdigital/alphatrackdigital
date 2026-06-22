@@ -1,6 +1,6 @@
 # Evidence Review Queue
 
-Last updated: 2026-06-19.
+Last updated: 2026-06-22.
 
 This queue prioritizes evidence review without copying files, opening live tools, or updating Notion. Use it alongside `EVIDENCE_ARCHIVE_INVENTORY.md`.
 
@@ -15,6 +15,7 @@ This queue prioritizes evidence review without copying files, opening live tools
 | `docs/brevo-website-alignment.md` | Maps lead flows and attributes. | Verify against Vercel test submissions before live work. |
 | `docs/codex-handoffs/WEBSITE_AND_TRACKING_STATE.md` | Current website/tracking state summary. | Keep updated with Vercel testing and future Netlify target context. |
 | `docs/codex-handoffs/evidence/vercel-visual-pass-2026-06-19/*.png` | Current Vercel visual page-render evidence for key pages and legal routes. | Keep as internal visual QA evidence; do not treat as form, webhook, Brevo, Meta, or GA4 verification. |
+| `docs/codex-handoffs/evidence/contact-us-form-test-2026-06-22/*` | Redacted evidence for one approved Contact Us frontend submission, redirect, and visible success state on the Vercel test URL. | Keep as partial internal QA evidence; verify Brevo/list #8/CRM/notification and Meta/GA4 separately after approval. |
 
 ## Priority 2 Evidence To Review Before Case-Study Drafting
 
@@ -34,11 +35,13 @@ This queue prioritizes evidence review without copying files, opening live tools
 | `.playwright-mcp/*.log` and `.playwright-mcp/*.yml` | Browser automation logs can be large and sensitive. | Keep out of Notion; archive or clean only with approval. |
 | Root `tmp-*.png` images | Many historical screenshots clutter root. | Later move curated safe files into a controlled evidence folder if approved. |
 | `test-results/.last-run.json` | Test runner state, not narrative evidence. | Keep internal only. |
+| Contact Us React console errors `#418` and `#423` | Observed in the redacted console summary after the approved Contact Us test. | Reproduce and scope in a later QA pass; do not treat as confirmed launch blocker yet. |
 
 ## Evidence Needing Screenshots Added
 
 - Current Vercel visual screenshots now exist for homepage, Contact Us, Contact thank-you, Book A Free Strategy Call, booking thank-you, Tracking Audit, newsletter confirmed, Conversion Tracking service page, Privacy Policy, Cookie Policy, and Terms of Service.
-- Current Vercel form submission success states after safe controlled test submissions. Existing visual thank-you/confirmed screenshots do not prove submissions occurred.
+- Current Vercel Contact Us frontend submission/redirect evidence now exists as redacted DOM/JSON evidence. No PNG screenshot was captured due to browser screenshot timeout.
+- Current Vercel form submission success states after safe controlled test submissions for Tracking Audit, Newsletter, Exit Popup, and Strategy Call. Existing visual thank-you/confirmed screenshots do not prove submissions occurred.
 - Current Meta Events Manager browser/server deduplication view after approved test events.
 - Current GA4 DebugView/Realtime event views after approved test events.
 - Current Brevo attribute grouping/source lifecycle UI after explicit read-only UI approval.
@@ -52,9 +55,20 @@ This queue prioritizes evidence review without copying files, opening live tools
 - This evidence proves only visual page rendering on the Vercel testing URL. It does not verify form submissions, Brevo routing, Meta events, GA4 events, or webhooks.
 - Minor text/accessibility observation: styled headings may expose joined text in extracted text, such as `ThatMeasures` and `andStart`; review later during accessibility/content QA.
 
+## Controlled Contact Us Form Test Notes
+
+- Evidence folder: `docs/codex-handoffs/evidence/contact-us-form-test-2026-06-22/`.
+- Verified: one approved Contact Us frontend submission on `https://website-internal-test.vercel.app`, redirect to `/contact-us/thank-you`, and visible success state `Message Received!`.
+- Not verified: Brevo contact creation/update, Brevo list #8 membership, CRM deal/task creation, internal notification email delivery, Meta CAPI delivery, or GA4 event delivery.
+- No screenshot PNG was captured due to browser screenshot timeout; redacted DOM/result/console evidence exists.
+- React console errors `#418` and `#423` need investigation in a later QA pass. Treat as a QA follow-up, not a confirmed launch blocker yet.
+
 ## Evidence Needing Live Retest
 
-- Contact Us form submission on the active Vercel testing setup.
+- Contact Us external effects after the approved Vercel submission: Brevo contact/list #8, CRM deal/task, internal notification, Meta CAPI, and GA4/GTM checks.
+- Contact Us React console errors `#418` and `#423` on the active Vercel testing setup.
+- Contact Us screenshot capture should be retried only if needed; current redacted DOM evidence exists but no PNG was captured.
+- Contact Us form submission itself should not be repeated unless the user explicitly approves another controlled test.
 - Tracking Audit form submission on the active Vercel testing setup.
 - Newsletter subscription behavior on the active Vercel testing setup.
 - Exit popup submission on the active Vercel testing setup.
@@ -76,6 +90,7 @@ This queue prioritizes evidence review without copying files, opening live tools
 ## Evidence That Can Later Support The ATD Internal Case Study
 
 - Sanitized Vercel testing screenshots showing visual page rendering for lead-flow and legal pages.
+- Redacted Contact Us frontend submission/redirect evidence from 2026-06-22, after Brevo/CRM/analytics effects are verified separately.
 - Sanitized before/after website page screenshots from curated root or `.tmp-audit` assets.
 - Repo docs proving source lifecycle, consent mapping, and tracking implementation.
 - Git commits proving Meta CAPI/event ID and Brevo source lifecycle work.
@@ -121,3 +136,4 @@ This queue prioritizes evidence review without copying files, opening live tools
 | --- | --- | --- |
 | 2026-06-18 | Initial evidence review queue created. No screenshots or evidence files were copied. | `EVIDENCE_REVIEW_QUEUE.md` |
 | 2026-06-19 | Added Vercel visual screenshot pass to review queue. Screenshots are visual-render evidence only; no forms, POST/webhook requests, or live-service changes were made. | `EVIDENCE_REVIEW_QUEUE.md`, `EVIDENCE_ARCHIVE_INVENTORY.md`, `WEBSITE_AND_TRACKING_STATE.md` |
+| 2026-06-22 | Added controlled Contact Us form-test evidence to review queue. Evidence verifies frontend submission, redirect, and visible success state only; Brevo, CRM, notifications, Meta, and GA4 remain unverified. | `EVIDENCE_REVIEW_QUEUE.md`, `EVIDENCE_ARCHIVE_INVENTORY.md`, `WEBSITE_AND_TRACKING_STATE.md`, `OPEN_ITEMS_FOR_NEXT_AGENT.md` |

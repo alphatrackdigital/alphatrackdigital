@@ -1,0 +1,91 @@
+- region "Notifications alt+T"
+- link "Skip to content":
+  - /url: "#main-content"
+- banner:
+  - link "AlphaTrack Digital Home":
+    - /url: /
+    - img "AlphaTrack Digital"
+  - navigation:
+    - button "Services":
+      - text: Services
+    - button "Expertise":
+      - text: Expertise
+    - link "Results":
+      - /url: /results
+    - link "About Us":
+      - /url: /about-us
+    - link "Blog":
+      - /url: /blog
+  - link "Book A Free Strategy Call":
+    - /url: /book-a-call
+- main:
+  - heading "Message Received!" [level=1]
+  - paragraph: Thanks for reaching out. We've received your enquiry and a member of our team will be in touch.
+  - paragraph:
+    - text: We review every enquiry personally. Expect a response within
+    - strong: 1 business day
+    - text: . We'll reach out via the email address you provided.
+  - paragraph: "Typical response: under 4 hours"
+  - heading "Want to speak sooner?" [level=3]
+  - paragraph: Skip the wait and book a free 15-minute strategy call right away.
+  - link "Book A Free Strategy Call":
+    - /url: /book-a-call
+  - link "Explore Services":
+    - /url: /service
+  - link "Back to Home":
+    - /url: /
+- contentinfo:
+  - paragraph: Free Newsletter
+  - paragraph: Practical insights for performance marketers.
+  - paragraph: Tracking, paid media, and automation. Every two weeks.
+  - textbox "Email address":
+    - /placeholder: Enter your email address
+  - button "Subscribe"
+  - checkbox "I agree to receive emails from AlphaTrack Digital. Privacy Policy."
+  - text: I agree to receive emails from AlphaTrack Digital.
+  - link "Privacy Policy":
+    - /url: /privacy-policy/
+  - text: .
+  - link "AlphaTrack Digital Home":
+    - /url: /
+    - img "AlphaTrack Digital"
+  - paragraph: Measurement-first digital growth agency. We build the tracking, automation, and paid media systems that turn your marketing spend into measurable revenue.
+  - link "Facebook":
+    - /url: https://web.facebook.com/AlphaTrack.Digital
+  - link "X":
+    - /url: https://x.com/AlphaT_digital
+  - link "Instagram":
+    - /url: https://www.instagram.com/alphatrack.digital
+  - link "LinkedIn":
+    - /url: https://www.linkedin.com/company/alphatrackdigital
+  - heading "Company" [level=3]
+  - navigation:
+    - link "About Us":
+      - /url: /about-us
+    - link "Services":
+      - /url: /service
+    - link "Blog":
+      - /url: /blog
+    - link "Contact Us":
+      - /url: /contact-us
+  - heading "Services" [level=3]
+  - navigation:
+    - link "Conversion Tracking & Measurement":
+      - /url: /service/conversion-tracking
+    - link "Paid Media Management":
+      - /url: /service/paid-media
+    - link "Marketing Automation & CRM":
+      - /url: /service/marketing-automation
+    - link "All Services":
+      - /url: /service
+  - heading "Contact" [level=3]
+  - link "+233 530 985 334 (Ghana)":
+    - /url: tel:+233530985334
+  - link "+234 806 199 2748 (Nigeria)":
+    - /url: tel:+2348061992748
+  - paragraph: Copyright AlphaTrack Digital 2026. All rights reserved.
+  - link "Privacy Policy":
+    - /url: /privacy-policy/
+  - link "Terms of Service":
+    - /url: /terms-of-service/
+- iframe

@@ -1,6 +1,6 @@
 # Evidence Archive Inventory
 
-Last updated: 2026-06-19.
+Last updated: 2026-06-22.
 
 ## Purpose
 
@@ -87,6 +87,10 @@ Safe for client-facing case study:
 | Vercel visual pass - Privacy Policy | Screenshot | `docs/codex-handoffs/evidence/vercel-visual-pass-2026-06-19/2026-06-19_vercel_privacy-policy.png` | Vercel, Website, Evidence Archive | Shows the Privacy Policy page rendered in a controlled browser capture on the Vercel testing URL. | Verified for visual page rendering only | Yes | Later | Keep as internal visual QA evidence; use for Notion evidence sync after commit. |
 | Vercel visual pass - Cookie Policy | Screenshot | `docs/codex-handoffs/evidence/vercel-visual-pass-2026-06-19/2026-06-19_vercel_cookie-policy.png` | Vercel, Website, Evidence Archive | Shows the Cookie Policy page rendered in a controlled browser capture on the Vercel testing URL. | Verified for visual page rendering only | Yes | Later | Keep as internal visual QA evidence; use for Notion evidence sync after commit. |
 | Vercel visual pass - Terms of Service | Screenshot | `docs/codex-handoffs/evidence/vercel-visual-pass-2026-06-19/2026-06-19_vercel_terms-of-service.png` | Vercel, Website, Evidence Archive | Shows the Terms of Service page rendered in a controlled browser capture on the Vercel testing URL. | Verified for visual page rendering only | Yes | Later | Keep as internal visual QA evidence; use for Notion evidence sync after commit. |
+| Controlled Contact Us form test - pre-submit summary | Form test / redacted JSON summary | `docs/codex-handoffs/evidence/contact-us-form-test-2026-06-22/2026-06-22_vercel_contact-us_pre-submit-redacted-summary.json` | Website, Vercel, Contact Us, Evidence Archive | Records redacted pre-submit state for one approved Contact Us QA submission on `https://website-internal-test.vercel.app`; confirms selected service interest and opt-in state without exposing the QA email. | Partial | Yes, if redacted | Later | Keep as internal QA evidence. Verify Brevo/list/CRM/internal notification separately through read-only checks after approval. Verify Meta/GA4 separately after approval. |
+| Controlled Contact Us form test - result summary | Form test / redacted JSON summary | `docs/codex-handoffs/evidence/contact-us-form-test-2026-06-22/2026-06-22_vercel_contact-us_result-redacted-summary.json` | Website, Vercel, Contact Us, Evidence Archive | Records that one approved Contact Us submission reached `/contact-us/thank-you` and visible success state `Message Received!`; does not verify Brevo, CRM, notification, Meta, or GA4 delivery. | Partial | Yes, if redacted | Later | Keep as internal QA evidence. Verify Brevo/list/CRM/internal notification separately through read-only checks after approval. Verify Meta/GA4 separately after approval. |
+| Controlled Contact Us form test - thank-you DOM | Form test / redacted DOM evidence | `docs/codex-handoffs/evidence/contact-us-form-test-2026-06-22/2026-06-22_vercel_contact-us_thank-you-redacted-dom.txt` | Website, Vercel, Contact Us, Evidence Archive | Redacted DOM evidence showing the Contact Us thank-you page and visible success copy after the approved submission. No screenshot PNG was captured due to browser screenshot timeout. | Partial | Yes, if redacted | Later | Keep as internal QA evidence. Capture a screenshot in a later pass if the browser capture issue is resolved. |
+| Controlled Contact Us form test - console summary | Form test / redacted JSON summary | `docs/codex-handoffs/evidence/contact-us-form-test-2026-06-22/2026-06-22_vercel_contact-us_console-redacted-summary.json` | Website, Vercel, Contact Us, Evidence Archive | Redacted console summary from the Contact Us test found repeated minified React errors `#418` and `#423`. This is a QA follow-up, not yet a confirmed launch blocker. | Partial | Yes, if redacted | Later | Investigate React console errors `#418` and `#423`; do not ignore, but do not treat as launch blocker until reproduced and scoped. |
 
 ## Vercel Visual Screenshot Pass Notes
 
@@ -96,12 +100,24 @@ Safe for client-facing case study:
 - No forms were submitted, no POST/webhook requests were sent, and no Brevo routing, Meta event, GA4 event, or webhook behavior is verified by this evidence.
 - Minor text/accessibility observation: styled headings may expose joined text in extracted text, such as `ThatMeasures` and `andStart`; review later during accessibility/content QA.
 
+## Controlled Contact Us Form Test Notes
+
+- Test date: 2026-06-22.
+- Base URL used: `https://website-internal-test.vercel.app`.
+- Flow tested: Contact Us form only.
+- Verified: one approved frontend submission, redirect to `/contact-us/thank-you`, and visible success state `Message Received!`.
+- Not verified: Brevo contact creation/update, Brevo list #8 membership, CRM deal/task creation, internal notification email delivery, Meta CAPI delivery, and GA4 event delivery.
+- The approved submission may have triggered live backend behavior configured in code.
+- Browser screenshot capture timed out, so no PNG screenshot was saved for this pass. Redacted DOM/result/console evidence exists in `docs/codex-handoffs/evidence/contact-us-form-test-2026-06-22/`.
+- Console follow-up: repeated minified React errors `#418` and `#423` were observed in the redacted console summary. Treat as a QA follow-up, not a confirmed launch blocker until reproduced and scoped.
+
 ## Safe Evidence Ready For Notion
 
 - `docs/codex-handoffs/ATD_MASTER_CODEX_WORKLOG.md`
 - `docs/codex-handoffs/BREVO_CURRENT_STATE.md` as a summary, not live proof
 - `docs/codex-handoffs/WEBSITE_AND_TRACKING_STATE.md` after corrected Vercel/Netlify context
 - `docs/codex-handoffs/evidence/vercel-visual-pass-2026-06-19/*.png` as Vercel visual page-render evidence only
+- `docs/codex-handoffs/evidence/contact-us-form-test-2026-06-22/*` as redacted Contact Us frontend submission/redirect evidence only
 - `docs/brevo-qa-2026-06-14.md` as historical QA with clear gaps
 - `docs/brevo-campaign-ops-readiness.md` as historical readiness documentation
 - Git commit `decfa5b6bbc8fd276d4a343919c3c164fc5b5790`
@@ -140,7 +156,8 @@ Safe for client-facing case study:
 ## Missing Evidence Needed For Launch Readiness
 
 - Current Vercel development/testing URL and commit verification.
-- Vercel form/server QA evidence for Contact Us, Tracking Audit, Newsletter, Exit Popup, and Strategy Call.
+- Vercel form/server QA evidence for Tracking Audit, Newsletter, Exit Popup, and Strategy Call.
+- Contact Us now has partial frontend submission/redirect evidence; Brevo list #8, CRM, notification, Meta, and GA4 verification remain missing.
 - Current Meta Events Manager proof of browser/server event ID matching.
 - Current GA4 DebugView/Realtime proof for key events and meeting webhook.
 - Current Brevo UI screenshots of source lifecycle attributes and attribute grouping after sensitive review.
@@ -188,3 +205,4 @@ Safe for client-facing case study:
 | --- | --- | --- |
 | 2026-06-18 | Initial evidence archive inventory created from repo docs, safe file listings, existing handoff docs, and local project artifact references. No evidence files were copied. | `EVIDENCE_ARCHIVE_INVENTORY.md`, `EVIDENCE_REVIEW_QUEUE.md` |
 | 2026-06-19 | Added 11 Vercel visual page-render screenshots from `https://website-internal-test.vercel.app`. No form submissions, POST/webhook requests, tracking verification, or live-service changes were made. | `EVIDENCE_ARCHIVE_INVENTORY.md`, `EVIDENCE_REVIEW_QUEUE.md`, `WEBSITE_AND_TRACKING_STATE.md` |
+| 2026-06-22 | Added redacted evidence for one approved Contact Us frontend submission on the Vercel test URL. Verified redirect and visible success state only; Brevo, CRM, notification, Meta, and GA4 remain unverified. | `EVIDENCE_ARCHIVE_INVENTORY.md`, `EVIDENCE_REVIEW_QUEUE.md`, `WEBSITE_AND_TRACKING_STATE.md`, `OPEN_ITEMS_FOR_NEXT_AGENT.md` |
