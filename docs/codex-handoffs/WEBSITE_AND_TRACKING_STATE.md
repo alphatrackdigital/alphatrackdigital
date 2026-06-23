@@ -204,6 +204,8 @@ Consent/banner or Consently installation was not verified in the current repo pa
 - Newsletter and Exit Popup have controlled submission evidence and Brevo downstream verification, but their visible frontend success text was not captured in saved DOM samples.
 - GA4/GTM/Meta delivery, human inbox review, and real booking behavior are still not verified.
 - Brevo workflow UI state is now verified from read-only Automations list visibility: Exit Popup Workflow, Newsletter Workflow, General Enquiry Workflow, Strategy Call Workflow, and Tracking Audit Nurture appeared active on 2026-06-23. Workflow internals, triggers, duplicate-enrollment rules, and suppression/exclusion behavior were not opened or verified. Tracking Audit Nurture being active conflicts with earlier inactive-until-approved expectations and should be reviewed before launch traffic.
+- On 2026-06-24, read-only Brevo workflow detail review found Tracking Audit Nurture active, triggered by list `Tracking Audit Leads - #11`, with five visible email steps and waits of `1 day`, `2 days`, `2 days`, and `2 days`. No configured exit/suppression condition was visible in settings. Logs showed a recent redacted contact received the first workflow email and entered a wait step. This is a high-priority risk before any more Tracking Audit testing or launch traffic.
+- Later on 2026-06-24, the user approved pausing only Tracking Audit Nurture. The workflow was paused; the other four visible lead-flow workflows remained active. Active contacts still appeared in Tracking Audit Nurture after the pause, and the user declined removing/stopping those already-active contacts.
 - Netlify is a future live deployment target after paid plan purchase, not the immediate environment for current testing.
 - 2026-06-14 QA found contact-page submit interference from footer newsletter validation; verify this after current contact form changes.
 - Styled headings may expose joined text in extracted text, including `ThatMeasures` and `andStart`; review during accessibility/content QA.
@@ -222,7 +224,7 @@ Consent/banner or Consently installation was not verified in the current repo pa
 7. Do not repeat Tracking Audit, Newsletter, or Exit Popup submissions unless explicitly approved; current redacted evidence exists.
 8. If needed, capture non-submitting UI screenshots for Newsletter/Exit Popup success states only after planning how to avoid duplicate submissions.
 9. Create controlled Brevo Meetings booking only after separate approval; verify list #7, sales alert, GA4 MP, Meta CAPI if configured.
-10. Review Brevo workflow internals only after explicit approval; visible UI state shows the five lead-flow workflows active, but triggers, steps, duplicate enrollment, and suppression/exclusion behavior remain unverified.
+10. Do not submit more Tracking Audit leads while workflow internals remain unreviewed. The user declined removing/stopping already-active Tracking Audit Nurture contacts; review workflow/template/suppression details before any future reactivation.
 11. Confirm matching browser/server Meta event IDs.
 12. Confirm test/suppression contacts do not receive live nurture.
 13. Confirm no PII is sent into GA4 event params.

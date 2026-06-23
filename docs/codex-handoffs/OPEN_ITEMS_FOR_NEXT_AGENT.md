@@ -15,7 +15,7 @@ Last updated: 2026-06-23.
 | Item | Next step | Verify before live changes |
 | --- | --- | --- |
 | Analytics delivery not verified | Verify GA4/GTM/Meta in read-only tools only after approval; form submissions may have generated events but were not confirmed in analytics UIs | Do not change tags, triggers, pixels, datasets, conversions, or settings |
-| Brevo workflows visible as active | Read-only Brevo UI showed Exit Popup Workflow, Newsletter Workflow, General Enquiry Workflow, Strategy Call Workflow, and Tracking Audit Nurture active; review whether this is intended, especially Tracking Audit Nurture | Do not pause, activate, edit, duplicate, or rebuild workflows without explicit approval |
+| Tracking Audit Nurture paused; active contacts still visible | User approved pausing only Tracking Audit Nurture on 2026-06-24; Brevo status showed `Paused`, but active contacts still appeared in workflow steps after the pause; user declined removing/stopping those active contacts | Do not reactivate or edit without approval; review workflow internals before any future reactivation |
 | Book-a-call real booking not tested | UI/iframe presence is verified, but no meeting was booked | Do not book a meeting or POST to webhook without separate approval |
 | Newsletter and Exit Popup frontend success text partial | Brevo downstream routing is verified, but saved DOM samples did not capture success text | Do not repeat submissions unless explicitly approved; consider non-submitting UI/screenshot review only |
 | Brevo transactional webhook not live | Register only after the final live endpoint returns expected auth behavior | `BREVO_TRANSACTIONAL_WEBHOOK_SECRET` set by name only, endpoint not `404` |
@@ -88,6 +88,8 @@ Last updated: 2026-06-23.
 - Contact Us evidence verifies frontend submission, redirect, visible success state, Brevo contact/list #8/source attributes, CRM deal/task, and internal notification log. GA4/GTM/Meta, automation/workflow behavior, and human inbox review remain unverified.
 - Remaining lead-flow QA evidence was added on 2026-06-23. Tracking Audit, Newsletter, and Exit Popup were submitted once; Book-a-call UI/iframe was inspected without booking; Brevo read-only verification confirmed list/source-history routing, Tracking Audit CRM deal/task, Tracking Audit and Newsletter notification delivery evidence, and templates `19`-`30`.
 - Brevo workflow UI state was verified read-only on 2026-06-23: five visible lead-flow workflows were active, including Tracking Audit Nurture. Workflow triggers/steps/suppression internals were not opened. GA4/GTM/Meta delivery, human inbox review, and real booking behavior remain unverified.
+- Brevo workflow detail review was added on 2026-06-24. Tracking Audit Nurture is the highest-risk item: it is active, starts from list `#11`, sends five visible emails with waits, no configured exit/suppression condition was visible, and recent logs showed first nurture email delivery plus wait-state entry for a redacted contact.
+- User approved pausing only Tracking Audit Nurture on 2026-06-24. It was paused successfully; Exit Popup Workflow, Newsletter Workflow, General Enquiry Workflow, and Strategy Call Workflow remained active. Active contacts still appeared in Tracking Audit Nurture after pause, consistent with Brevo's pause behavior, and the user declined removing/stopping those contacts.
 - Future evidence updates should be incremental and should add an `Evidence Update Log` entry.
 
 ## Suggested Prompt For Next Session

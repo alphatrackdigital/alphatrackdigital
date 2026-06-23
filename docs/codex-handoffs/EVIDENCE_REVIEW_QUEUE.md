@@ -108,6 +108,53 @@ This queue prioritizes evidence review without copying files, opening live tools
 - Brevo workflow API endpoints returned unavailable, but read-only Brevo Automations UI verification on 2026-06-23 showed five visible lead-flow workflow rows as active: Exit Popup Workflow, Newsletter Workflow, General Enquiry Workflow, Strategy Call Workflow, and Tracking Audit Nurture. This is a launch-readiness risk because earlier handoff notes expected Tracking Audit Nurture to remain inactive until approved.
 - GA4/GTM/Meta read-only event delivery remains unverified. Meta Events Manager was accessible in the ATD Chrome context, but event-row extraction did not produce usable Lead/Subscribe/browser-server deduplication evidence. GA4/GTM event evidence was not verified.
 
+## Brevo Workflow Detail Review Notes
+
+- Review date: 2026-06-24.
+- Review type: read-only Brevo workflow detail, settings, activity, workflow logs, and active contacts inspection.
+- Workflows reviewed: Tracking Audit Nurture, General Enquiry Workflow, Newsletter Workflow, Exit Popup Workflow, and Strategy Call Workflow.
+- All five visible lead-flow workflows were active.
+- Tracking Audit Nurture:
+  - Trigger visible: contact added to list `Tracking Audit Leads - #11`.
+  - Visible sequence: email `Your tracking audit request - next steps`, wait `1 day`, email `3 tracking issues that usually hide wasted spend`, wait `2 days`, email `Why attribution breaks before the campaign does`, wait `2 days`, email `Ready to review your tracking setup?`, wait `2 days`, email `Last reminder: send over your tracking details`, exit.
+  - Template IDs were not visible without opening edit panels. Templates `19`-`23` were previously verified as present, but this pass did not prove the workflow uses those exact template IDs.
+  - Contact re-entry after exit appeared unchecked in sampled settings controls.
+  - No configured exit/suppression condition was visible; only `Add exit condition` was visible.
+  - Logs showed a recent redacted contact added to list `#11`, first workflow email sent, and a `1 Day(s)` wait entered.
+  - Active contacts view showed one redacted contact in Tracking Audit Nurture at step 3 and one redacted contact in Tracking Audit Nurture at step 9.
+- General Enquiry Workflow:
+  - Trigger visible: contact added to list `Website - Contact Form Enquiries - #8`.
+  - Visible sequence: email `Thanks for contacting AlphaTrack Digital`, wait `2 days`, email `Can we point you to the right next step?`, exit.
+  - Logs showed a redacted Contact Us contact added to list `#8`, first workflow email sent, and a `2 Day(s)` wait entered.
+  - Active contacts view showed one redacted contact in General Enquiry Workflow at step 3.
+- Newsletter Workflow:
+  - Trigger visible: contact added to list `ATD | Newsletter - #9`.
+  - Visible sequence: email `Welcome to AlphaTrack Digital`, exit.
+  - Logs showed a redacted Newsletter contact added to list `#9`, welcome email sent, and the contact exited workflow.
+- Exit Popup Workflow:
+  - Trigger visible: contact added to list `ATD Website - Exit Popup Leads - #10`.
+  - Visible sequence: email `Before you go - one practical tracking tip`, exit.
+  - Recent Exit Popup log rows were not visible in the sampled unfiltered workflow logs.
+- Strategy Call Workflow:
+  - Trigger visible: contact added to list `Website - Strategy Call Bookings - #7`.
+  - Visible sequence: email `Your strategy call is booked - here's how to prepare`, wait `1 day`, email `Before our call: 3 things to review`, email `After your strategy call: next steps`, wait `1 day`, exit.
+  - No real booking test has been approved, so this workflow should be reviewed before any booking QA.
+- Highest risk: Tracking Audit Nurture is active, has already sent at least one nurture email to a recent redacted contact, and conflicts with earlier inactive-until-approved expectations.
+- Recommended next step: ask the user whether to approve pausing Tracking Audit Nurture or to run a deeper read-only review of workflow/template/suppression internals before any more lead-flow testing.
+
+## Tracking Audit Nurture Pause Notes
+
+- Pause date: 2026-06-24.
+- User approved pausing only `Tracking Audit Nurture`.
+- Pre-action confirmation: workflow was `Active`, named `Tracking Audit Nurture`, and triggered by contact added to `Tracking Audit Leads - #11`.
+- Action taken: selected Brevo `Pause automation`.
+- Rationale: Brevo's `Deactivate automation` option stated active contacts would be removed; the user declined removing or stopping already-active contacts from the workflow and asked to finalize documentation.
+- Post-action verification: `Tracking Audit Nurture` showed `Paused` in the Brevo Automations list.
+- Other workflows remained active: Exit Popup Workflow, Newsletter Workflow, General Enquiry Workflow, and Strategy Call Workflow.
+- Active contacts view still showed two redacted contacts in Tracking Audit Nurture and one redacted contact in General Enquiry Workflow.
+- Important limitation: Brevo's pause wording says no new contacts can enter the automation but active contacts will continue. Because the user declined removing or stopping already-active contacts, already-active Tracking Audit Nurture contacts may still continue.
+- No workflow internals, contacts, lists, templates, forms, CRM records, campaigns, sender settings, or attributes were edited.
+
 ## Contact Us Brevo Verification Notes
 
 - Verification type: read-only Brevo verification, CRM verification, and transactional log verification.
@@ -196,3 +243,5 @@ This queue prioritizes evidence review without copying files, opening live tools
 | 2026-06-23 | Added Vercel GET-only final sanity check evidence for 11 routes. All returned `200`, rendered visible content, attempted no non-GET/HEAD requests, and showed no `#418`, `#423`, or hydration-related errors. Remaining form tests require the private QA identity. | `EVIDENCE_REVIEW_QUEUE.md`, `EVIDENCE_ARCHIVE_INVENTORY.md`, `WEBSITE_AND_TRACKING_STATE.md`, `OPEN_ITEMS_FOR_NEXT_AGENT.md`, `NOTION_SYNC_SUMMARY.md`, `docs/codex-handoffs/evidence/vercel-get-sanity-2026-06-23/2026-06-23_vercel_get_sanity_redacted-summary.json` |
 | 2026-06-23 | Added remaining lead-flow QA evidence. Tracking Audit, Newsletter, and Exit Popup were submitted once; Book-a-call UI was inspected without booking; Brevo read-only verification confirmed list/source-history routing, Tracking Audit CRM deal/task, Tracking Audit and Newsletter notification delivery evidence, and templates `19`-`30`. | `EVIDENCE_REVIEW_QUEUE.md`, `EVIDENCE_ARCHIVE_INVENTORY.md`, `WEBSITE_AND_TRACKING_STATE.md`, `OPEN_ITEMS_FOR_NEXT_AGENT.md`, `NOTION_SYNC_SUMMARY.md`, `docs/codex-handoffs/evidence/*2026-06-23/` |
 | 2026-06-23 | Added read-only workflow and analytics status evidence. Brevo Automations UI showed Exit Popup Workflow, Newsletter Workflow, General Enquiry Workflow, Strategy Call Workflow, and Tracking Audit Nurture active; GA4/GTM/Meta event delivery remains unverified. | `EVIDENCE_REVIEW_QUEUE.md`, `EVIDENCE_ARCHIVE_INVENTORY.md`, `WEBSITE_AND_TRACKING_STATE.md`, `OPEN_ITEMS_FOR_NEXT_AGENT.md`, `NOTION_SYNC_SUMMARY.md`, `docs/codex-handoffs/evidence/read-only-workflow-analytics-status-2026-06-23/` |
+| 2026-06-24 | Added read-only Brevo workflow detail review evidence. Tracking Audit Nurture is active, starts from list `#11`, sends five visible emails with wait steps, has no visible configured exit/suppression condition, and recent logs show a redacted contact was sent the first workflow email and entered a wait step. | `EVIDENCE_REVIEW_QUEUE.md`, `EVIDENCE_ARCHIVE_INVENTORY.md`, `WEBSITE_AND_TRACKING_STATE.md`, `OPEN_ITEMS_FOR_NEXT_AGENT.md`, `NOTION_SYNC_SUMMARY.md`, `docs/codex-handoffs/evidence/brevo-workflow-detail-review-2026-06-24/` |
+| 2026-06-24 | Added approved pause evidence for Tracking Audit Nurture. Workflow status changed from active to paused; the other four visible lead-flow workflows remained active. Active contacts still appeared in Tracking Audit Nurture after pause, so already-active contact handling remains a separate decision. | `EVIDENCE_REVIEW_QUEUE.md`, `EVIDENCE_ARCHIVE_INVENTORY.md`, `WEBSITE_AND_TRACKING_STATE.md`, `OPEN_ITEMS_FOR_NEXT_AGENT.md`, `NOTION_SYNC_SUMMARY.md`, `docs/codex-handoffs/evidence/brevo-workflow-detail-review-2026-06-24/2026-06-24_brevo_tracking-audit-nurture-paused-redacted-summary.json` |

@@ -1,0 +1,68 @@
+{
+  "checkedAt": "2026-06-24",
+  "scope": "Approved pause action for Tracking Audit Nurture only.",
+  "userApproval": "User explicitly approved pausing only the Tracking Audit Nurture workflow.",
+  "safetyBoundaries": [
+    "Only Tracking Audit Nurture was paused.",
+    "No other workflow was paused, activated, edited, duplicated, deleted, renamed, or rebuilt.",
+    "No triggers, steps, delays, email templates, suppression rules, exit conditions, contacts, lists, CRM records, templates, campaigns, forms, sender settings, or attributes were edited.",
+    "No email was sent or resent.",
+    "No form was submitted.",
+    "No webhook test was run.",
+    "No GA4, GTM, Meta, Google Ads, Netlify, Vercel settings, GitHub issue, or Notion state was touched.",
+    "Sensitive identifiers are redacted or omitted."
+  ],
+  "beforeAction": {
+    "workflow": "Tracking Audit Nurture",
+    "status": "Active",
+    "confirmedTrigger": "Contact added to list",
+    "confirmedTriggerList": "Tracking Audit Leads - #11",
+    "visibleSequence": [
+      "Send email",
+      "Wait 1 day",
+      "Send email",
+      "Wait 2 days",
+      "Send email",
+      "Wait 2 days",
+      "Send email",
+      "Wait 2 days",
+      "Send email",
+      "Exit"
+    ]
+  },
+  "actionTaken": {
+    "selectedControl": "Pause automation",
+    "reason": "The alternative Deactivate automation option stated that active contacts would be removed. User instructions did not approve removing contacts from the workflow.",
+    "activeContactHandlingDecision": "User declined removing or stopping already-active contacts from the automation and asked to finalize documentation.",
+    "brevoUiConfirmation": "The automation has been paused."
+  },
+  "afterAction": {
+    "workflow": "Tracking Audit Nurture",
+    "status": "Paused",
+    "otherVisibleWorkflowStatuses": [
+      {
+        "workflow": "Exit Popup Workflow",
+        "status": "Active"
+      },
+      {
+        "workflow": "Newsletter Workflow",
+        "status": "Active"
+      },
+      {
+        "workflow": "General Enquiry Workflow",
+        "status": "Active"
+      },
+      {
+        "workflow": "Strategy Call Workflow",
+        "status": "Active"
+      }
+    ],
+    "activeContactsView": [
+      "Three redacted contacts were still visible in Contacts in workflow.",
+      "Two redacted contacts remained visible in Tracking Audit Nurture, at step 3 and step 9.",
+      "One redacted contact remained visible in General Enquiry Workflow at step 3."
+    ]
+  },
+  "importantLimitation": "Brevo's pause option stated that no new contacts can enter the automation but active contacts will continue. Because the user declined removing or stopping already-active contacts, this action prevents new Tracking Audit Nurture entries but may not stop already-active contacts from continuing.",
+  "recommendedNextAction": "Do not reactivate Tracking Audit Nurture before deeper workflow/template/suppression review and explicit approval. Do not submit more Tracking Audit leads while already-active contact behavior remains unresolved."
+}

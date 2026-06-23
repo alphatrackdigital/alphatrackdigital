@@ -1,0 +1,165 @@
+{
+  "checkedAt": "2026-06-24",
+  "scope": "Read-only Brevo workflow detail review for visible ATD lead-flow automations.",
+  "safetyBoundaries": [
+    "No workflow was activated, paused, deactivated, edited, duplicated, deleted, renamed, or published.",
+    "No workflow trigger, step, delay, condition, template, suppression rule, exit rule, or re-entry setting was changed.",
+    "No contact, list, attribute, CRM record, template, campaign, form, or sender setting was changed.",
+    "No email was sent or resent by this review.",
+    "No form was submitted.",
+    "No webhook test or analytics test event was sent.",
+    "No GA4, GTM, Meta, Google Ads, Netlify, Vercel settings, GitHub issue, or Notion state was touched.",
+    "QA identity details, contact IDs, CRM IDs, email addresses, transactional IDs, auth values, cookies, tokens, API keys, and environment values are not included."
+  ],
+  "workflowDetails": [
+    {
+      "workflow": "Tracking Audit Nurture",
+      "status": "Active",
+      "trigger": "Contact added to list",
+      "triggerList": "Tracking Audit Leads - #11",
+      "visibleSteps": [
+        "Send email: Your tracking audit request - next steps",
+        "Wait 1 day",
+        "Send email: 3 tracking issues that usually hide wasted spend",
+        "Wait 2 days",
+        "Send email: Why attribution breaks before the campaign does",
+        "Wait 2 days",
+        "Send email: Ready to review your tracking setup?",
+        "Wait 2 days",
+        "Send email: Last reminder: send over your tracking details",
+        "Exit"
+      ],
+      "templateIdsVisible": false,
+      "expectedTemplateRange": "Templates 19-23 were previously verified as present, but this UI pass did not expose template IDs used by the workflow.",
+      "settingsVisible": {
+        "contactReEntryAfterExit": "Visible switch appeared unchecked",
+        "exitConditions": "No configured exit condition was visible; only Add exit condition was visible",
+        "restartConditions": "No configured restart condition was visible; only Add restart condition was visible"
+      },
+      "activityVisible": {
+        "recentLogs": [
+          "A recent redacted contact was added to Tracking Audit Leads #11.",
+          "Tracking Audit Nurture step #2 email was sent.",
+          "The contact entered a 1-day wait at step #3."
+        ],
+        "activeContacts": [
+          "One redacted contact was active in Tracking Audit Nurture at step #3.",
+          "One additional redacted contact was active in Tracking Audit Nurture at step #9."
+        ]
+      },
+      "riskAssessment": "High. The workflow is active, has already sent at least one nurture email to a recent redacted contact, and appears to lack visible exit/suppression conditions. It conflicts with earlier expectations that Tracking Audit Nurture remain inactive until approved.",
+      "recommendedAction": "Immediate user decision recommended: approve pausing or a deeper read-only review of email/suppression internals before any further Tracking Audit form testing or campaign traffic."
+    },
+    {
+      "workflow": "General Enquiry Workflow",
+      "status": "Active",
+      "trigger": "Contact added to list",
+      "triggerList": "Website - Contact Form Enquiries - #8",
+      "visibleSteps": [
+        "Send email: Thanks for contacting AlphaTrack Digital",
+        "Wait 2 days",
+        "Send email: Can we point you to the right next step?",
+        "Exit"
+      ],
+      "templateIdsVisible": false,
+      "settingsVisible": {
+        "contactReEntryAfterExit": "Visible switch appeared unchecked",
+        "exitConditions": "No configured exit condition was visible; only Add exit condition was visible",
+        "restartConditions": "No configured restart condition was visible; only Add restart condition was visible"
+      },
+      "activityVisible": {
+        "recentLogs": [
+          "A redacted Contact Us contact was added to list #8.",
+          "General Enquiry Workflow step #2 email was sent.",
+          "The contact entered a 2-day wait at step #3."
+        ],
+        "activeContacts": [
+          "One redacted contact was active in General Enquiry Workflow at step #3."
+        ]
+      },
+      "riskAssessment": "Medium. The workflow is active and sending follow-up email for Contact Us leads. This may be expected if approved, but suppression/exit conditions were not visible."
+    },
+    {
+      "workflow": "Newsletter Workflow",
+      "status": "Active",
+      "trigger": "Contact added to list",
+      "triggerList": "ATD | Newsletter - #9",
+      "visibleSteps": [
+        "Send email: Welcome to AlphaTrack Digital",
+        "Exit"
+      ],
+      "templateIdsVisible": false,
+      "settingsVisible": {
+        "contactReEntryAfterExit": "Visible switch appeared unchecked",
+        "exitConditions": "No configured exit condition was visible; only Add exit condition was visible",
+        "restartConditions": "No configured restart condition was visible; only Add restart condition was visible"
+      },
+      "activityVisible": {
+        "recentLogs": [
+          "A redacted Newsletter contact was added to list #9.",
+          "Newsletter Workflow step #2 email was sent.",
+          "The contact exited the workflow."
+        ],
+        "activeContacts": []
+      },
+      "riskAssessment": "Low to medium. The one-step welcome workflow appears simple and completed for a recent redacted contact, but suppression and template details were not opened."
+    },
+    {
+      "workflow": "Exit Popup Workflow",
+      "status": "Active",
+      "trigger": "Contact added to list",
+      "triggerList": "ATD Website - Exit Popup Leads - #10",
+      "visibleSteps": [
+        "Send email: Before you go - one practical tracking tip",
+        "Exit"
+      ],
+      "templateIdsVisible": false,
+      "settingsVisible": {
+        "contactReEntryAfterExit": "Visible switch appeared unchecked",
+        "exitConditions": "No configured exit condition was visible; only Add exit condition was visible",
+        "restartConditions": "No configured restart condition was visible; only Add restart condition was visible"
+      },
+      "activityVisible": {
+        "recentLogs": "No Exit Popup recent log row was visible in the unfiltered log sample.",
+        "activeContacts": []
+      },
+      "riskAssessment": "Medium. The workflow is active and simple, but the recent QA exit-popup enrollment/send status was not visible in the log sample and suppression details were not visible."
+    },
+    {
+      "workflow": "Strategy Call Workflow",
+      "status": "Active",
+      "trigger": "Contact added to list",
+      "triggerList": "Website - Strategy Call Bookings - #7",
+      "visibleSteps": [
+        "Send email: Your strategy call is booked - here's how to prepare",
+        "Wait 1 day",
+        "Send email: Before our call: 3 things to review",
+        "Send email: After your strategy call: next steps",
+        "Wait 1 day",
+        "Exit"
+      ],
+      "templateIdsVisible": false,
+      "settingsVisible": {
+        "contactReEntryAfterExit": "Visible switch appeared unchecked",
+        "exitConditions": "No configured exit condition was visible; only Add exit condition was visible",
+        "restartConditions": "No configured restart condition was visible; only Add restart condition was visible"
+      },
+      "activityVisible": {
+        "recentLogs": "No recent Strategy Call log rows were visible in the unfiltered log sample.",
+        "activeContacts": []
+      },
+      "riskAssessment": "Medium. The workflow is active and linked to strategy call bookings, but no booking test has been approved; email timing should be reviewed before any real booking QA."
+    }
+  ],
+  "overallFindings": [
+    "All five visible lead-flow workflows were active.",
+    "No workflow editor controls were used to change state.",
+    "Template IDs were not visible in the builder without opening edit panels.",
+    "No configured exit/suppression condition was visible in the settings pages sampled; only Add exit condition controls were visible.",
+    "Contact re-entry after exit appeared unchecked in the sampled settings controls.",
+    "Recent logs confirmed sent email activity for Tracking Audit, Newsletter, and General Enquiry workflows.",
+    "The active contacts view showed three redacted active contacts: two in Tracking Audit Nurture and one in General Enquiry Workflow."
+  ],
+  "highestRisk": "Tracking Audit Nurture is active, has recent sent-email and active-wait evidence, and conflicts with earlier inactive-until-approved expectations.",
+  "recommendedNextStep": "Ask the user whether to approve pausing Tracking Audit Nurture or conducting a deeper read-only workflow/template/suppression review before any more lead-flow testing."
+}

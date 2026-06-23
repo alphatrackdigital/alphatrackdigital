@@ -49,7 +49,7 @@ Do not update Notion from this file without user approval. This is a review-read
 - Production frontend remains Namecheap/cPanel static hosting unless changed deliberately.
 - `alphatra-serv.netlify.app` is the backend API service for public forms.
 - Brevo visual CRM actions are plan-gated; API fallback is used.
-- Do not use `admin@alphatrack.digital` as sender.
+- Do not use the previously flagged internal admin sender address.
 - SMS remains deferred.
 - Raw transcripts and secrets must stay out of Notion.
 
@@ -147,6 +147,8 @@ Contact Us evidence sync proposal:
 - Keep QA identity, contact IDs, CRM IDs, recipient emails, internal record IDs, and transactional message IDs out of Notion.
 - Add redacted remaining lead-flow QA records for Tracking Audit, Newsletter, Exit Popup, Book-a-call UI inspection, and Brevo read-only verification.
 - Add a redacted workflow-risk record: Brevo Automations UI showed Exit Popup Workflow, Newsletter Workflow, General Enquiry Workflow, Strategy Call Workflow, and Tracking Audit Nurture active on 2026-06-23. Do not present this as approval or readiness; record it as a review item.
+- Add a redacted Brevo workflow-detail risk record from 2026-06-24: Tracking Audit Nurture is active, starts from list `#11`, has five visible email steps with waits, no visible configured exit/suppression condition, and recent logs showed a redacted contact received the first nurture email and entered a wait step.
+- Add a redacted pause-action record from 2026-06-24: user approved pausing only Tracking Audit Nurture; it was paused successfully; the other four visible lead-flow workflows remained active; active contacts still appeared in Tracking Audit Nurture after pause; user declined removing/stopping those active contacts.
 - Do not claim GA4/GTM/Meta delivery, real booking behavior, workflow internals/suppression correctness, or human inbox review is verified.
 
 ## Hard Warning
