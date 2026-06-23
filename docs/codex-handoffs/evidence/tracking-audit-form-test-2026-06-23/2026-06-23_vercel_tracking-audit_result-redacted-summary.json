@@ -1,0 +1,26 @@
+{
+  "route": "/offer/tracking-audit",
+  "finalPath": "/offer/tracking-audit",
+  "visibleSuccess": true,
+  "bodyTextSample": "Skip to content Services Expertise Results About Us Blog Book A Free Strategy Call FREE TRACKING AUDIT Check if your tracking is reliable. We check your website, ad platforms, and conversion setup, then show what is broken, missing, and worth fixing first. Request received We will review your setup and aim to reply within 48 hours. We will send the reply to [REDACTED_QA_EMAIL]. Back to site FREE NEWSLETTER Practical insights for performance marketers. Tracking, paid media, and automation. Every two weeks. Subscribe I agree to receive emails from AlphaTrack Digital. Privacy Policy. Measurement-first digital growth agency. We build the tracking, automation, and paid media systems that turn your marketing spend into measurable revenue. Company About Us Services Blog Contact Us Services Conversion Tracking & Measurement Paid Media Management Marketing Automation & CRM All Services Contact +233 530 985 334 (Ghana) +234 806 199 2748 (Nigeria) [REDACTED_EMAIL] Copyright AlphaTrack Digital 2026. All rights reserved. Privacy Policy Cookie Policy Terms of Service",
+  "responses": [],
+  "requestSummary": {
+    "GET website-internal-test.vercel.app/offer/tracking-audit": 1,
+    "GET website-internal-test.vercel.app/assets/index-DCNfQZ6f.js": 1,
+    "GET website-internal-test.vercel.app/assets/index-D3r9FGvI.css": 1,
+    "GET website-internal-test.vercel.app/logo-wordmark.png": 1,
+    "GET website-internal-test.vercel.app/assets/microsoft-clarity-kT2OK1-C.ico": 1,
+    "GET www.googletagmanager.com(external redacted path)": 2,
+    "GET website-internal-test.vercel.app/assets/TrackingLandingPage-GgZRRyV7.js": 1,
+    "GET website-internal-test.vercel.app/assets/input-COxLVHRm.js": 1,
+    "GET website-internal-test.vercel.app/assets/check-C0UZphGn.js": 1,
+    "GET connect.facebook.net(external redacted path)": 2,
+    "GET conversations-widget.brevo.com(external redacted path)": 3,
+    "GET fe-conversations-widget.brevo.com(external redacted path)": 2
+  },
+  "consoleErrorCount": 0,
+  "consoleWarningCount": 1,
+  "hydrationRelated": [],
+  "pageErrors": [],
+  "submittedOnce": true
+}

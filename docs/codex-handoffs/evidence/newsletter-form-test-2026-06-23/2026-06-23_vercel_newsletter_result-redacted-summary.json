@@ -1,0 +1,25 @@
+{
+  "route": "/",
+  "skipped": false,
+  "skipReason": "",
+  "finalPath": "/",
+  "visibleSuccessOrConfirmation": false,
+  "bodyTextSample": "Skip to content Services Expertise Results About Us Blog Book A Free Strategy Call MEASUREMENT-FIRST DIGITAL GROWTH AGENCY Growth should never be guesswork. We build the measurement, automation, and paid media systems that turn your marketing budget into measurable revenue. So you can see what's working, fix what isn't, and scale with confidence. Book A Free Strategy Call Explore Services RESULTS FROM SELECTED CAMPAIGNS 4.9M Education campaign impressions 3,151 Hospitality campaign website visits 129,862 Consumer brand teaser views SERVICES What We Do Tracking, paid ads, and automation that help your marketing perform better. FLAGSHIP Conversion Tracking & Measurement Tracking that shows what is driving leads, sales, and revenue. Learn more CORE Paid Media Management Paid campaigns built to bring in better traffic, stronger leads, and more efficient results. Learn more CORE Marketing Automation & CRM Follow-up systems that turn leads into customers and customers into repeat buyers. Learn more MORE SERVICES Other Ways We Help Website, content, email, and search services that help your marketing work better. View all services Website Development Fast, conversion-focused websites buil",
+  "responses": [],
+  "requestSummary": {
+    "GET website-internal-test.vercel.app/": 1,
+    "GET website-internal-test.vercel.app/assets/index-DCNfQZ6f.js": 1,
+    "GET website-internal-test.vercel.app/assets/index-D3r9FGvI.css": 1,
+    "GET website-internal-test.vercel.app/logo-wordmark.png": 1,
+    "GET website-internal-test.vercel.app/assets/microsoft-clarity-kT2OK1-C.ico": 1,
+    "GET www.googletagmanager.com(external redacted path)": 2,
+    "GET connect.facebook.net(external redacted path)": 2,
+    "GET conversations-widget.brevo.com(external redacted path)": 3,
+    "GET fe-conversations-widget.brevo.com(external redacted path)": 2
+  },
+  "consoleErrorCount": 0,
+  "consoleWarningCount": 3,
+  "hydrationRelated": [],
+  "pageErrors": [],
+  "submittedOnce": true
+}

@@ -1,0 +1,17 @@
+{
+  "route": "/offer/tracking-audit",
+  "startedAt": "2026-06-23T20:03:26.348Z",
+  "qaIdentity": "[REDACTED_QA_EMAIL]",
+  "values": {
+    "firstName": "QA",
+    "lastName": "LeadFlowTest",
+    "websiteUrl": "https://qa-example.alphatrack.digital",
+    "monthlyAdSpend": "1k to 5k per month",
+    "adPlatforms": [
+      "Google Ads",
+      "Meta Ads"
+    ],
+    "marketingOptIn": false
+  },
+  "note": "Evidence redacted. No QA email, contact IDs, tokens, cookies, or private values stored."
+}

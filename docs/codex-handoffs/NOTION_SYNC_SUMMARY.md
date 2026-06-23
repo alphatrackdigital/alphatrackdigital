@@ -16,6 +16,7 @@ Do not update Notion from this file without user approval. This is a review-read
 - Contact Us QA now has redacted proof of Vercel frontend success plus read-only Brevo contact/list #8/CRM task/internal notification-log verification.
 - Vercel hydration fix QA now has verified console evidence: deployed commit `6a623a1977d8cb34d891f7c073ac6871c5b03e07` shows no React `#418`/`#423`, no hydration errors, and no new application runtime errors on the checked test routes.
 - Vercel GET-only final sanity QA now has redacted evidence for 11 key routes on `https://website-internal-test.vercel.app`: all returned `200`, rendered visible content, attempted no non-GET/HEAD requests, and showed no hydration-related errors.
+- Remaining lead-flow QA now has redacted evidence: Tracking Audit frontend success and Brevo list/CRM/task/notification verification; Newsletter and Exit Popup controlled submissions with Brevo list/source verification; Book-a-call UI/iframe inspection without booking.
 
 ## SOPs To Create Or Update
 
@@ -57,13 +58,14 @@ Do not update Notion from this file without user approval. This is a review-read
 1. Resolve Netlify account credit/plan blocker and deploy backend after approval.
 2. Verify deployed backend commit and API endpoints.
 3. Register Brevo transactional webhook only after endpoint verification.
-4. Run controlled QA for five lead flows.
-5. Verify Brevo contact attribute grouping and source lifecycle attributes.
-6. Confirm Meta Events Manager deduplication for Lead/Subscribe events.
-7. Confirm GA4 DebugView/Realtime and turn off debug mode after testing.
-8. Review Brevo unsubscribe/profile pages and sender/domain compliance.
-9. Build first-week launch monitoring report.
-10. Review and approve this repo handoff pack before copying summaries into Notion.
+4. Do not repeat Contact Us, Tracking Audit, Newsletter, or Exit Popup submissions unless a new controlled retest is explicitly approved.
+5. Verify Brevo workflow active/inactive state and suppression rules through read-only UI.
+6. Verify Brevo contact attribute grouping and source lifecycle attributes through read-only UI.
+7. Confirm Meta Events Manager deduplication for Lead/Subscribe events.
+8. Confirm GA4 DebugView/Realtime and turn off debug mode after testing.
+9. Review Brevo unsubscribe/profile pages and sender/domain compliance.
+10. Build first-week launch monitoring report.
+11. Review and approve this repo handoff pack before copying summaries into Notion.
 
 ## Items To Keep Only In Repo Docs
 
@@ -90,6 +92,8 @@ Evidence records that should be added to Notion after approval:
 - Historical Brevo readiness docs: `docs/brevo-campaign-ops-readiness.md`, `docs/brevo-crm-handoff.md`, and `docs/brevo-website-alignment.md`.
 - Vercel hydration fix console verification from 2026-06-23: checked `https://website-internal-test.vercel.app` routes `/`, `/contact-us`, `/contact-us/thank-you`, `/book-a-call`, `/offer/tracking-audit`, and `/newsletter/confirmed`; React `#418`/`#423` did not appear.
 - Vercel GET-only final sanity verification from 2026-06-23: checked 11 key routes on `https://website-internal-test.vercel.app`; all returned `200`, rendered visible content, attempted no non-GET/HEAD requests, and showed no hydration-related errors.
+- Remaining lead-flow QA evidence from 2026-06-23: Tracking Audit submitted once with frontend success and Brevo verification; Newsletter submitted once with Brevo verification; Exit Popup submitted once with Brevo verification; Book-a-call UI/iframe inspected without booking.
+- Brevo read-only remaining-flow verification from 2026-06-23: list memberships `11`, `9`, and `10`; source history for Tracking Audit, Newsletter, and Exit Popup; Tracking Audit CRM deal/task; Tracking Audit and Newsletter notification delivery evidence; templates `19`-`30` present.
 
 Evidence records that should remain repo-only:
 
@@ -116,16 +120,16 @@ Case-study evidence now available:
 - Repo docs showing implementation of source lifecycle, consent mapping, Meta CAPI/event ID dedupe, GA4 Measurement Protocol, and Brevo lead flow mapping.
 - Vercel frontend QA evidence showing the hydration fix resolved React `#418`/`#423` on checked test routes.
 - Vercel GET-only final sanity evidence showing 11 key test routes render successfully without hydration-related errors.
+- Remaining lead-flow QA evidence showing Contact Us, Tracking Audit, Newsletter, and Exit Popup now have redacted internal proof, with analytics and workflow claims still withheld.
 - Git commit evidence for the implementation sequence.
 
 Missing evidence needed before a client-safe case-study draft:
 
-- Fresh Vercel testing screenshots for current Contact Us, Tracking Audit, Newsletter, Exit Popup, and Book A Free Strategy Call flows.
-- Approved proof that Vercel server/form handlers work in the current test setup.
-- Private QA identity for remaining controlled form submissions; local evidence is redacted and cannot be used to recover the QA email/contact identifier.
+- Optional fresh Vercel screenshots for Newsletter and Exit Popup success states if needed; current saved DOM samples did not capture visible success text.
+- Real Book-a-call booking/webhook evidence after a separately approved controlled booking test.
 - Redacted Contact Us QA evidence is now available for frontend success and Brevo routing/CRM/notification-log verification. GA4/GTM/Meta remain missing.
 - Current Meta Events Manager and GA4 DebugView/Realtimes screenshots after approved test events.
-- Sanitized Brevo UI screenshots for attributes, lists, workflows, and suppression after explicit read-only approval.
+- Sanitized Brevo UI screenshots for attributes, lists, workflows, and suppression after explicit read-only approval. Workflow API endpoints were unavailable in the 2026-06-23 read-only API check.
 - Future Netlify deployment evidence after paid plan purchase and approved live deployment.
 
 Corrected deployment context for Notion:
@@ -141,7 +145,8 @@ Contact Us evidence sync proposal:
 - Add a Vercel frontend QA evidence record for the 2026-06-23 hydration fix verification: deployed commit `6a623a1977d8cb34d891f7c073ac6871c5b03e07`, checked routes, no React `#418`/`#423`, no hydration errors, and no new application runtime errors.
 - Add a Vercel GET-only final sanity evidence record for the 2026-06-23 route check: 11 key routes checked, all `200`, no non-GET/HEAD requests attempted, no `#418`, no `#423`, and no hydration-related errors.
 - Keep QA identity, contact IDs, CRM IDs, recipient emails, internal record IDs, and transactional message IDs out of Notion.
-- Do not claim GA4/GTM/Meta delivery, form submissions beyond the approved Contact Us test, automation/workflow behavior, or human inbox review is verified. Remaining controlled lead-flow submissions were not run because the private QA identity is not available from redacted local evidence.
+- Add redacted remaining lead-flow QA records for Tracking Audit, Newsletter, Exit Popup, Book-a-call UI inspection, and Brevo read-only verification.
+- Do not claim GA4/GTM/Meta delivery, Brevo workflow active/inactive state, real booking behavior, or human inbox review is verified.
 
 ## Hard Warning
 

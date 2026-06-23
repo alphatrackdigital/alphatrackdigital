@@ -14,10 +14,10 @@ Last updated: 2026-06-23.
 
 | Item | Next step | Verify before live changes |
 | --- | --- | --- |
-| Vercel form/server verification pending | Hydration/frontend console verification and 11-route GET-only sanity check passed; next verify same-origin API/form behavior only after user approves testing and provides the private QA identity | Current branch, deployed commit, Vercel test URL, env variable names only |
-| Private QA identity unavailable in local evidence | Ask the user to provide the QA email/contact identifier privately before any remaining controlled form submissions | Do not guess, reconstruct, or extract identity details from redacted evidence |
-| Contact Us analytics effects not verified | Verify GA4/GTM/Meta only after approval; Brevo contact/list #8/CRM task/internal notification log were verified read-only on 2026-06-23 | Do not repeat the Contact Us submission unless explicitly approved |
-| Latest backend/form behavior not fully current-test validated | Run safe Vercel checks before any live or Netlify claim | Safe non-POST checks first; controlled test submissions only with approval |
+| Analytics delivery not verified | Verify GA4/GTM/Meta in read-only tools only after approval; form submissions may have generated events but were not confirmed in analytics UIs | Do not change tags, triggers, pixels, datasets, conversions, or settings |
+| Brevo workflow UI state not verified | Workflow API endpoints were unavailable; use read-only Brevo UI if approved to confirm active/inactive states and suppression rules | Do not activate or edit workflows |
+| Book-a-call real booking not tested | UI/iframe presence is verified, but no meeting was booked | Do not book a meeting or POST to webhook without separate approval |
+| Newsletter and Exit Popup frontend success text partial | Brevo downstream routing is verified, but saved DOM samples did not capture success text | Do not repeat submissions unless explicitly approved; consider non-submitting UI/screenshot review only |
 | Brevo transactional webhook not live | Register only after the final live endpoint returns expected auth behavior | `BREVO_TRANSACTIONAL_WEBHOOK_SECRET` set by name only, endpoint not `404` |
 | Brevo Meetings validation pending | Test controlled booking only after active test/live server target is confirmed and approved | Webhook secret and endpoint configured by name only |
 | Suppression/blocklist uncertainty | Run controlled QA before live campaign traffic | Lists #13/#14 and workflow exclusions |
@@ -27,12 +27,12 @@ Last updated: 2026-06-23.
 
 - Verify Brevo source lifecycle custom attributes exist and have correct types.
 - Verify contact attribute grouping in Brevo UI without deleting or renaming attributes.
-- Confirm newsletter internal notification routing uses `marketing@alphatrack.digital` where approved.
+- Newsletter internal notification delivery has Brevo SMTP log evidence; human inbox review remains out of scope.
 - Confirm profile update and unsubscribe pages are acceptable for launch.
 - Confirm `GA4_MEASUREMENT_PROTOCOL_DEBUG_MODE=false` and Meta test-event code disabled outside tests.
-- Confirm `SERVICE_INTEREST` and `MONTHLY_BUDGET` schema fixes are deployed.
+- Confirm `SERVICE_INTEREST` and `MONTHLY_BUDGET` schema fixes remain deployed after future code changes.
 - Review `EVIDENCE_ARCHIVE_INVENTORY.md` and `EVIDENCE_REVIEW_QUEUE.md` before adding new proof records.
-- Add or review evidence records for `docs/codex-handoffs/evidence/contact-us-form-test-2026-06-22/`; keep QA identity details redacted.
+- Add or review evidence records for the 2026-06-23 remaining lead-flow QA folders; keep QA identity details redacted.
 - Decide whether Contact Us CRM notes are required; none were found during read-only Brevo verification.
 - Update Notion only after reviewing `NOTION_SYNC_SUMMARY.md`.
 
@@ -54,7 +54,7 @@ Last updated: 2026-06-23.
 5. If live checks are approved, inspect Vercel/Brevo/Netlify read-only first and avoid mutations.
 6. Do not activate, send, deploy, commit, push, or update Notion without explicit approval.
 7. If Vercel testing is approved, verify env variable names only; never print values.
-8. Before any remaining controlled form submission, confirm the private QA identity is available from the user; local evidence is intentionally redacted and does not contain the QA email/contact identifier.
+8. Do not repeat Contact Us, Tracking Audit, Newsletter, or Exit Popup submissions unless the user explicitly approves another controlled test.
 9. After any approved deploy in the future, run controlled endpoint checks before test submissions.
 10. After test submissions, record evidence in repo docs first.
 11. Prepare a Notion sync proposal; wait for approval before updating Notion.
@@ -86,7 +86,8 @@ Last updated: 2026-06-23.
 - Vercel hydration fix console verification was added on 2026-06-23. Deployed commit `6a623a1977d8cb34d891f7c073ac6871c5b03e07` was verified on `https://website-internal-test.vercel.app`; React `#418`/`#423`, hydration errors, and new app runtime errors were absent on checked routes.
 - Vercel GET-only final sanity evidence was added on 2026-06-23 for 11 key routes on `https://website-internal-test.vercel.app`; all returned `200`, rendered visible content, attempted no non-GET/HEAD requests, and showed no hydration-related errors.
 - Contact Us evidence verifies frontend submission, redirect, visible success state, Brevo contact/list #8/source attributes, CRM deal/task, and internal notification log. GA4/GTM/Meta, automation/workflow behavior, and human inbox review remain unverified.
-- Remaining controlled lead-flow submissions were not run because the private QA identity is not recoverable from redacted local evidence.
+- Remaining lead-flow QA evidence was added on 2026-06-23. Tracking Audit, Newsletter, and Exit Popup were submitted once; Book-a-call UI/iframe was inspected without booking; Brevo read-only verification confirmed list/source-history routing, Tracking Audit CRM deal/task, Tracking Audit and Newsletter notification delivery evidence, and templates `19`-`30`.
+- GA4/GTM/Meta delivery, Brevo workflow active/inactive state, human inbox review, and real booking behavior remain unverified.
 - Future evidence updates should be incremental and should add an `Evidence Update Log` entry.
 
 ## Suggested Prompt For Next Session

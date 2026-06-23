@@ -1,0 +1,210 @@
+{
+  "generatedAt": "2026-06-23T20:01:58.129Z",
+  "baseUrl": "https://website-internal-test.vercel.app",
+  "routesChecked": [
+    "/",
+    "/contact-us",
+    "/contact-us/thank-you",
+    "/book-a-call",
+    "/book-a-call/thank-you",
+    "/offer/tracking-audit",
+    "/newsletter/confirmed",
+    "/service/conversion-tracking",
+    "/privacy-policy",
+    "/cookie-policy",
+    "/terms-of-service"
+  ],
+  "methodPolicy": "GET/HEAD only; non-GET/HEAD aborted",
+  "externalPolicy": "External third-party requests aborted during GET-only sanity check",
+  "results": [
+    {
+      "route": "/",
+      "status": 200,
+      "ok": true,
+      "finalPath": "/",
+      "title": "AlphaTrack Digital | Data-Driven Performance Marketing Agency",
+      "bodyTextSample": "Skip to content Services Expertise Results About Us Blog Book A Free Strategy Call MEASUREMENT-FIRST DIGITAL GROWTH AGENCY Growth should never be guesswork. We build the measurement, automation, and paid media systems th",
+      "consoleErrorCount": 12,
+      "consoleWarningCount": 0,
+      "hydrationRelated": [],
+      "pageErrors": [],
+      "sameOriginFailedRequests": [],
+      "navigationError": null
+    },
+    {
+      "route": "/contact-us",
+      "status": 200,
+      "ok": true,
+      "finalPath": "/contact-us",
+      "title": "Contact Us | AlphaTrack Digital",
+      "bodyTextSample": "Skip to content Services Expertise Results About Us Blog Book A Free Strategy Call CONTACT US Talk to a Team That Measures What Matters Tell us what you are trying to grow, fix, or understand, and share a little context ",
+      "consoleErrorCount": 6,
+      "consoleWarningCount": 0,
+      "hydrationRelated": [],
+      "pageErrors": [],
+      "sameOriginFailedRequests": [],
+      "navigationError": null
+    },
+    {
+      "route": "/contact-us/thank-you",
+      "status": 200,
+      "ok": true,
+      "finalPath": "/contact-us/thank-you",
+      "title": "Message Received | AlphaTrack Digital",
+      "bodyTextSample": "Skip to content Services Expertise Results About Us Blog Book A Free Strategy Call Message Received! Thanks for reaching out. We've received your enquiry and a member of our team will be in touch. We review every enquiry",
+      "consoleErrorCount": 6,
+      "consoleWarningCount": 0,
+      "hydrationRelated": [],
+      "pageErrors": [],
+      "sameOriginFailedRequests": [],
+      "navigationError": null
+    },
+    {
+      "route": "/book-a-call",
+      "status": 200,
+      "ok": true,
+      "finalPath": "/book-a-call",
+      "title": "Book a Free Strategy Call | AlphaTrack Digital",
+      "bodyTextSample": "Skip to content Services Expertise Results About Us Blog Book A Free Strategy Call Home Book a Free Strategy Call FREE STRATEGY CALL Book a Strategy Call A simple 15-minute conversation to understand your current setup, ",
+      "consoleErrorCount": 6,
+      "consoleWarningCount": 0,
+      "hydrationRelated": [],
+      "pageErrors": [],
+      "sameOriginFailedRequests": [],
+      "navigationError": null
+    },
+    {
+      "route": "/book-a-call/thank-you",
+      "status": 200,
+      "ok": true,
+      "finalPath": "/book-a-call/thank-you",
+      "title": "Call Booked | AlphaTrack Digital",
+      "bodyTextSample": "Skip to content Services Expertise Results About Us Blog Book A Free Strategy Call You're Booked! Your discovery call has been confirmed. Check your email for the calendar invite with the meeting link. What Happens Next ",
+      "consoleErrorCount": 6,
+      "consoleWarningCount": 0,
+      "hydrationRelated": [],
+      "pageErrors": [],
+      "sameOriginFailedRequests": [],
+      "navigationError": null
+    },
+    {
+      "route": "/offer/tracking-audit",
+      "status": 200,
+      "ok": true,
+      "finalPath": "/offer/tracking-audit",
+      "title": "Free Conversion Tracking Audit | AlphaTrack Digital",
+      "bodyTextSample": "Skip to content Services Expertise Results About Us Blog Book A Free Strategy Call FREE TRACKING AUDIT Check if your tracking is reliable. We check your website, ad platforms, and conversion setup, then show what is brok",
+      "consoleErrorCount": 6,
+      "consoleWarningCount": 0,
+      "hydrationRelated": [],
+      "pageErrors": [],
+      "sameOriginFailedRequests": [],
+      "navigationError": null
+    },
+    {
+      "route": "/newsletter/confirmed",
+      "status": 200,
+      "ok": true,
+      "finalPath": "/newsletter/confirmed",
+      "title": "Subscription Confirmed | AlphaTrack Digital",
+      "bodyTextSample": "Skip to content Services Expertise Results About Us Blog Book A Free Strategy Call Subscription Confirmed You're in. AlphaTrack Digital insights will now land in your inbox with practical thinking on tracking, paid media",
+      "consoleErrorCount": 6,
+      "consoleWarningCount": 0,
+      "hydrationRelated": [],
+      "pageErrors": [],
+      "sameOriginFailedRequests": [],
+      "navigationError": null
+    },
+    {
+      "route": "/service/conversion-tracking",
+      "status": 200,
+      "ok": true,
+      "finalPath": "/service/conversion-tracking",
+      "title": "Conversion Tracking Setup Services | AlphaTrack Digital",
+      "bodyTextSample": "Skip to content Services Expertise Results About Us Blog Book A Free Strategy Call Home Services Conversion Tracking CONVERSION TRACKING & MEASUREMENT Stop Guessing and Start Measuring. We set up the tracking that tells ",
+      "consoleErrorCount": 6,
+      "consoleWarningCount": 0,
+      "hydrationRelated": [],
+      "pageErrors": [],
+      "sameOriginFailedRequests": [],
+      "navigationError": null
+    },
+    {
+      "route": "/privacy-policy",
+      "status": 200,
+      "ok": true,
+      "finalPath": "/privacy-policy",
+      "title": "Privacy Policy | AlphaTrack Digital",
+      "bodyTextSample": "Skip to content Services Expertise Results About Us Blog Book A Free Strategy Call Home Privacy Policy Privacy Policy Last Updated: May 20, 2026 ON THIS PAGE 1. Information We Collect 2. How We Collect Information 3. How",
+      "consoleErrorCount": 6,
+      "consoleWarningCount": 0,
+      "hydrationRelated": [],
+      "pageErrors": [],
+      "sameOriginFailedRequests": [],
+      "navigationError": null
+    },
+    {
+      "route": "/cookie-policy",
+      "status": 200,
+      "ok": true,
+      "finalPath": "/cookie-policy",
+      "title": "Cookie Policy | AlphaTrack Digital",
+      "bodyTextSample": "Skip to content Services Expertise Results About Us Blog Book A Free Strategy Call Home Cookie Policy Cookie Policy Last Updated: May 20, 2026 ON THIS PAGE 1. What Are Cookies? 2. Why We Use Cookies 3. Types of Cookies W",
+      "consoleErrorCount": 6,
+      "consoleWarningCount": 0,
+      "hydrationRelated": [],
+      "pageErrors": [],
+      "sameOriginFailedRequests": [],
+      "navigationError": null
+    },
+    {
+      "route": "/terms-of-service",
+      "status": 200,
+      "ok": true,
+      "finalPath": "/terms-of-service",
+      "title": "Terms of Service | AlphaTrack Digital",
+      "bodyTextSample": "Skip to content Services Expertise Results About Us Blog Book A Free Strategy Call Home Terms of Service Terms of Service Last Updated: May 20, 2026 ON THIS PAGE 1. About AlphaTrack Digital 2. Eligibility 3. Use of Our W",
+      "consoleErrorCount": 6,
+      "consoleWarningCount": 0,
+      "hydrationRelated": [],
+      "pageErrors": [],
+      "sameOriginFailedRequests": [],
+      "navigationError": null
+    }
+  ],
+  "nonGetBlocked": [],
+  "externalBlockedSummary": [
+    {
+      "host": "cdn.gpteng.co",
+      "resourceType": "font",
+      "method": "GET",
+      "count": 11
+    },
+    {
+      "host": "fonts.googleapis.com",
+      "resourceType": "stylesheet",
+      "method": "GET",
+      "count": 11
+    },
+    {
+      "host": "images.unsplash.com",
+      "resourceType": "image",
+      "method": "GET",
+      "count": 39
+    },
+    {
+      "host": "meet.brevo.com",
+      "resourceType": "document",
+      "method": "GET",
+      "count": 1
+    },
+    {
+      "host": "www.googletagmanager.com",
+      "resourceType": "script",
+      "method": "GET",
+      "count": 11
+    }
+  ],
+  "hydrationErrorStatus": "No #418, #423, or hydration-related console/page errors found on checked routes.",
+  "liveActionBoundary": "No forms submitted; no submit buttons clicked; no POST/PUT/PATCH/DELETE requests allowed by this GET-only script."
+}

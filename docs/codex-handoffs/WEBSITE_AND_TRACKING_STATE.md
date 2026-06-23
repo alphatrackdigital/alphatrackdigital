@@ -17,6 +17,7 @@ Verified repo stack: Vite, React, TypeScript, React Router, Tailwind CSS, shadcn
 - Vercel GET-only final sanity evidence now exists for 11 key routes on `https://website-internal-test.vercel.app`; all checked routes returned `200`, rendered visible content, attempted no non-GET/HEAD requests, and showed no hydration-related errors.
 - Contact Us has Vercel frontend submission evidence from 2026-06-22: one approved QA submission redirected to `/contact-us/thank-you` and showed `Message Received!`.
 - Contact Us has redacted read-only Brevo verification from 2026-06-23: contact/list #8/source attributes/CRM deal/CRM task/internal notification log were verified for the existing QA submission. GA4/GTM/Meta, automation/workflow behavior, and human inbox review remain `Unverified`.
+- Remaining lead-flow QA on 2026-06-23 added: Tracking Audit frontend success plus Brevo list/CRM/task/notification verification; Newsletter and Exit Popup controlled submissions plus Brevo list/source verification; Book-a-call UI/iframe inspection without booking.
 - Continue using `https://website-internal-test.vercel.app` for active Vercel testing. Avoid stale URL `https://atd-website-test.vercel.app` unless separately fixed.
 
 ## Main Pages / Flows Touched
@@ -24,10 +25,10 @@ Verified repo stack: Vite, React, TypeScript, React Router, Tailwind CSS, shadcn
 | Flow / page | Route | Status | Verification |
 | --- | --- | --- | --- |
 | Contact Us | `/contact-us` -> `/contact-us/thank-you/` | Form posts to lead endpoint, marks conversion intent, redirects after success | Vercel frontend submission evidence; redacted Brevo contact/list #8/CRM task/notification-log verification; `src/pages/ContactUs.tsx`, tests |
-| Book A Free Strategy Call | `/book-a-call` -> `/book-a-call/thank-you/` | Brevo Meetings embed/webhook plus client fallback events | docs, `api/brevo-meeting-webhook.ts` |
-| Tracking Audit | `/offer/tracking-audit` | Form posts to lead endpoint and pushes tracking audit event | `src/pages/TrackingLandingPage.tsx` |
-| Newsletter | footer/shared section | DOI-ready; pushes Subscribe event | code/docs/tests |
-| Exit popup | site-wide popup | Posts to `/api/brevo-subscribe`; pushes Lead event | code/tests |
+| Book A Free Strategy Call | `/book-a-call` -> `/book-a-call/thank-you/` | Brevo Meetings embed/webhook plus client fallback events | UI/iframe presence verified 2026-06-23; no booking performed; docs, `api/brevo-meeting-webhook.ts` |
+| Tracking Audit | `/offer/tracking-audit` | Form posts to lead endpoint and pushes tracking audit event | Frontend visible success and Brevo list #11/source history/CRM deal/task/notification verified 2026-06-23 |
+| Newsletter | footer/shared section | DOI-ready; pushes Subscribe event | One controlled submission completed; Brevo list #9/source history/internal notification verified 2026-06-23; frontend success text not captured |
+| Exit popup | site-wide popup | Posts to `/api/brevo-subscribe`; pushes Lead event | One controlled submission completed; Brevo list #10/source history verified 2026-06-23; frontend success text not captured |
 | Services/About/Results/Expertise/Homepage | multiple routes | Significant visual/layout/content work across earlier sessions/PRs | session index, GitHub PRs |
 
 CTA config verified:
@@ -45,7 +46,7 @@ CTA config verified:
 | Exit popup | `/api/brevo-subscribe` | popup success state/event | 10 |
 | Strategy Call | `/api/brevo-meeting-webhook` | server webhook plus thank-you route fallback | 7 |
 
-`src/lib/apiEndpoints.ts` resolves local/Vercel-like hosts to same-origin API paths and nonlocal static hosts to `https://alphatra-serv.netlify.app`. Given the corrected deployment context, the next safe server verification should target the active Vercel development/testing setup if the user approves testing. Current Vercel runtime behavior is `Unverified` in this pass.
+`src/lib/apiEndpoints.ts` resolves local/Vercel-like hosts to same-origin API paths and nonlocal static hosts to `https://alphatra-serv.netlify.app`. Remaining-flow frontend evidence did not capture POST response details, likely because the deployed build/runtime may use configured endpoint values. Brevo read-only verification confirms downstream routing for the completed submissions where stated.
 
 ## Vercel Visual Page-Render Evidence
 
@@ -82,6 +83,26 @@ Expected console errors were caused by QA blocking rules for third-party request
 No forms were submitted, no submit buttons were clicked, no POST/PUT/PATCH/DELETE requests were sent, no webhook tests were run, and no live service settings were changed. This evidence does not verify form submission behavior, Brevo routing, CRM creation, transactional notifications, GA4/GTM/Meta delivery, or automation/workflow behavior.
 
 Remaining controlled lead-flow submissions were not run because the prior QA identity is intentionally redacted in local evidence and cannot be recovered safely.
+
+## Remaining Lead-Flow QA Evidence
+
+On 2026-06-23, remaining lead-flow QA was completed against `https://website-internal-test.vercel.app` using one redacted QA identity.
+
+GET-only sanity check: all 11 key routes returned `200`, rendered visible content, attempted no non-GET/HEAD requests, and showed no `#418`, no `#423`, and no hydration-related errors.
+
+Tracking Audit: one controlled submission was completed on `/offer/tracking-audit`. Redacted frontend evidence captured the same-page success state `Request received`. Read-only Brevo verification confirmed the QA contact was in list `11`, source history included Tracking Audit, a matching Tracking Audit CRM deal was found, a matching CRM task was found, and the internal notification had subject/tag plus delivered evidence.
+
+Newsletter: one controlled footer opt-in submission was completed. The saved frontend DOM sample did not capture the visible success/confirmation text, so frontend success remains partial. Read-only Brevo verification confirmed list `9`, newsletter source history, and internal notification subject/tag plus delivered evidence.
+
+Exit Popup: one controlled popup submission was completed after triggering the popup on `/service/conversion-tracking`. The saved frontend DOM sample did not capture the visible success text, so frontend success remains partial. Read-only Brevo verification confirmed list `10` and exit-popup source history.
+
+Book-a-call: `/book-a-call` was inspected only. The Brevo Meetings iframe was present with host `meet.brevo.com`. No real meeting was booked, no booking webhook was triggered directly, and no webhook test payload was sent.
+
+Brevo templates: read-only API verification confirmed templates `19`-`30` were present. Template content was not downloaded or stored.
+
+Workflow/automation state: Brevo workflow API endpoints returned unavailable, so workflow active/inactive state remains unverified pending read-only UI verification. No workflow was activated or edited.
+
+Analytics: GA4/GTM/Meta read-only verification was not safely available in this session. Do not mark analytics delivery or browser/server deduplication as verified.
 
 ## Controlled Contact Us Form Test Evidence
 
@@ -150,6 +171,8 @@ Browser events expose `event_id` and `eventID`; `src/lib/tracking.ts` patches `f
 
 Unverified: current Meta Events Manager matching/deduplication state and whether auto-logged events such as `SubscribedButtonClick` are appearing alongside primary conversion events.
 
+2026-06-23 note: Tracking Audit, Newsletter, and Exit Popup submissions may have generated browser/server analytics events depending on deployed configuration, but no GA4/GTM/Meta read-only verification was safely available in this session.
+
 ## GA4 / GTM State
 
 - GTM container documented: `GTM-MVXWCTZ8`.
@@ -176,27 +199,29 @@ Consent/banner or Consently installation was not verified in the current repo pa
 - Visual page rendering has current Vercel screenshot evidence for selected pages.
 - React hydration errors `#418` and `#423` are resolved on the Vercel test deployment for the checked routes after commit `6a623a1977d8cb34d891f7c073ac6871c5b03e07`.
 - The 2026-06-23 GET-only sanity pass confirmed 11 key Vercel routes returned `200` and showed no hydration-related errors.
-- Contact Us frontend submission/redirect and Brevo contact/list #8/CRM task/internal notification log now have current evidence. GA4/GTM/Meta delivery, automation/workflow behavior, human inbox review, and broader form coverage are still not current-test validated.
-- Remaining controlled form submissions require the private QA identity; do not guess, reconstruct, or extract it from redacted evidence.
+- Contact Us frontend submission/redirect and Brevo contact/list #8/CRM task/internal notification log now have current evidence.
+- Tracking Audit frontend success plus Brevo list #11/source history/CRM deal/task/internal notification evidence now exists.
+- Newsletter and Exit Popup have controlled submission evidence and Brevo downstream verification, but their visible frontend success text was not captured in saved DOM samples.
+- GA4/GTM/Meta delivery, automation/workflow behavior, human inbox review, and real booking behavior are still not verified.
 - Netlify is a future live deployment target after paid plan purchase, not the immediate environment for current testing.
 - 2026-06-14 QA found contact-page submit interference from footer newsletter validation; verify this after current contact form changes.
 - Styled headings may expose joined text in extracted text, including `ThatMeasures` and `andStart`; review during accessibility/content QA.
 - Suppression/blocklist behavior needs retest before live nurture confidence.
-- Newsletter notification routing should be confirmed against approved `marketing@` routing.
+- Newsletter internal notification delivery evidence exists in Brevo SMTP logs; human inbox review remains out of scope.
 - Production transactional webhook endpoint should not be registered until deployed and verified.
 
 ## Suggested Retest Checklist
 
 1. Use active Vercel development/testing URL `https://website-internal-test.vercel.app`; avoid stale URL `https://atd-website-test.vercel.app` unless separately fixed.
-2. GET-only Vercel page rendering is current for 11 key routes; confirm same-origin API/server behavior only with approved controlled submissions.
+2. GET-only Vercel page rendering is current for 11 key routes; Tracking Audit, Newsletter, and Exit Popup controlled submissions have current Brevo downstream evidence.
 3. Do not repeat Contact Us submission unless explicitly approved; current evidence verifies redirect/success state and Brevo contact/list #8/CRM task/internal notification log.
 4. After approval, verify Contact Us Meta/GA4/GTM effects from the existing QA submission if available, or plan a new controlled submission if event windows have expired.
 5. Decide whether CRM notes are required for Contact Us; none were found in the read-only Brevo check.
 6. Monitor for React console regressions after future frontend deployments; `#418`/`#423` are resolved on the current checked Vercel routes.
-7. Submit controlled Tracking Audit test only after approval and after the private QA identity is available; verify list #11, attributes, notification, Meta/GTM event.
-8. Submit controlled Newsletter opt-in only after approval; verify DOI or direct capture, list #9, Subscribe event.
-9. Submit controlled Exit Popup test only after approval; verify list #10 and Lead event.
-10. Create controlled Brevo Meetings booking only after approval; verify list #7, sales alert, GA4 MP, Meta CAPI if configured.
+7. Do not repeat Tracking Audit, Newsletter, or Exit Popup submissions unless explicitly approved; current redacted evidence exists.
+8. If needed, capture non-submitting UI screenshots for Newsletter/Exit Popup success states only after planning how to avoid duplicate submissions.
+9. Create controlled Brevo Meetings booking only after separate approval; verify list #7, sales alert, GA4 MP, Meta CAPI if configured.
+10. Verify Brevo workflow active/inactive state through read-only UI if approved; API workflow endpoints were unavailable.
 11. Confirm matching browser/server Meta event IDs.
 12. Confirm test/suppression contacts do not receive live nurture.
 13. Confirm no PII is sent into GA4 event params.

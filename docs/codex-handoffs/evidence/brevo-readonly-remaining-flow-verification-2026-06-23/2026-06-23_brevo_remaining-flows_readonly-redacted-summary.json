@@ -1,0 +1,121 @@
+{
+  "checkedAt": "2026-06-23T20:06:16.989Z",
+  "qaIdentity": "[REDACTED_QA_EMAIL]",
+  "verificationType": "Read-only Brevo API verification",
+  "contactSummary": {
+    "checkedAt": "2026-06-23T20:06:13.185Z",
+    "qaIdentity": "[REDACTED_QA_EMAIL]",
+    "contactFound": true,
+    "listMembership": {
+      "trackingAuditList11": true,
+      "newsletterList9": true,
+      "exitPopupList10": true
+    },
+    "currentSource": "ATD Website Exit Popup",
+    "currentLeadSource": "exit_popup",
+    "currentWebsiteRoute": "/service/conversion-tracking",
+    "currentOffer": "exit-popup",
+    "consentStatus": "not_provided",
+    "sourceLifecycleFieldsPresent": {
+      "FIRST_SOURCE": true,
+      "FIRST_LEAD_SOURCE": true,
+      "FIRST_SOURCE_TIMESTAMP": true,
+      "LAST_SOURCE": true,
+      "LAST_LEAD_SOURCE": true,
+      "LAST_SOURCE_TIMESTAMP": true,
+      "SOURCE_HISTORY": true
+    },
+    "trackingAuditFields": {
+      "adSpendPresent": false,
+      "adPlatformsPresent": false,
+      "websitePresent": true
+    },
+    "sourceHistoryChecks": {
+      "trackingAudit": true,
+      "newsletter": true,
+      "exitPopup": true
+    },
+    "redaction": "Contact IDs, email, and private values intentionally omitted."
+  },
+  "dealsSummary": {
+    "available": true,
+    "checked": true,
+    "matchingTrackingAuditDealFound": true,
+    "attempts": [
+      {
+        "endpoint": "/crm/deals?limit=100&offset=0",
+        "ok": true,
+        "status": 200
+      }
+    ],
+    "redaction": "Deal IDs and contact IDs omitted."
+  },
+  "tasksSummary": {
+    "available": true,
+    "checked": true,
+    "matchingTrackingAuditTaskFound": true,
+    "attempts": [
+      {
+        "endpoint": "/crm/tasks?limit=100&offset=0",
+        "ok": true,
+        "status": 200
+      }
+    ],
+    "redaction": "Task IDs and contact IDs omitted."
+  },
+  "transactionalSummary": {
+    "available": true,
+    "status": 200,
+    "queryScope": "Recent account-level SMTP events; recipients, emails, message IDs, and event IDs omitted.",
+    "trackingAuditNotification": {
+      "subjectSeen": true,
+      "tagSeen": true,
+      "requestOrSentSeen": true,
+      "deliveredSeen": true
+    },
+    "newsletterNotification": {
+      "subjectSeen": true,
+      "tagSeen": true,
+      "requestOrSentSeen": true,
+      "deliveredSeen": true
+    },
+    "note": "Read-only recent SMTP event scan. Recipient emails, message IDs, contact IDs, and event IDs are not stored."
+  },
+  "templatesSummary": {
+    "available": true,
+    "status": 200,
+    "templates19to30Present": {
+      "19": true,
+      "20": true,
+      "21": true,
+      "22": true,
+      "23": true,
+      "24": true,
+      "25": true,
+      "26": true,
+      "27": true,
+      "28": true,
+      "29": true,
+      "30": true
+    },
+    "note": "Template content not downloaded or stored."
+  },
+  "workflowSummary": {
+    "available": false,
+    "attempts": [
+      {
+        "endpoint": "/automation/workflows?limit=50&offset=0",
+        "ok": false,
+        "status": 404
+      },
+      {
+        "endpoint": "/workflows?limit=50&offset=0",
+        "ok": false,
+        "status": 404
+      }
+    ],
+    "note": "No workflow edits or activations performed. If unavailable, UI read-only verification remains needed."
+  },
+  "analyticsBoundary": "GA4/GTM/Meta were not checked by this Brevo script.",
+  "mutationBoundary": "Only GET requests to Brevo API were used by this script; no create/update/delete/send/activate calls were made."
+}

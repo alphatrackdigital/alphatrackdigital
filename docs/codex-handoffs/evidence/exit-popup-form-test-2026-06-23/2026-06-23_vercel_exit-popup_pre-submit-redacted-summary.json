@@ -1,0 +1,11 @@
+{
+  "route": "/service/conversion-tracking",
+  "popupVisible": true,
+  "qaIdentity": "[REDACTED_QA_EMAIL]",
+  "values": {
+    "firstName": "QA",
+    "website": "https://qa-example.alphatrack.digital",
+    "optIn": false
+  },
+  "note": "Exit popup was triggered by mouseout on a non-excluded page. Evidence redacted."
+}

@@ -19,6 +19,8 @@ This queue prioritizes evidence review without copying files, opening live tools
 | 2026-06-23 redacted Contact Us Brevo verification summary | Confirms Contact Us Brevo contact/list #8/source attributes/CRM deal/task/internal notification log for the existing QA submission. | Use as internal QA evidence and redacted Notion summary after commit; GA4/GTM/Meta and automations remain unverified. |
 | 2026-06-23 Vercel hydration fix console verification | Confirms deployed commit `6a623a1977d8cb34d891f7c073ac6871c5b03e07` no longer shows React `#418`/`#423` or hydration errors on checked Vercel routes. | Use as internal frontend QA evidence; continue lead-flow QA one approved flow at a time. GA4/GTM/Meta remain unverified. |
 | `docs/codex-handoffs/evidence/vercel-get-sanity-2026-06-23/2026-06-23_vercel_get_sanity_redacted-summary.json` | Confirms 11 key Vercel routes returned `200`, rendered visible content, attempted no non-GET/HEAD requests, and showed no `#418`, `#423`, or hydration-related errors. | Keep as internal GET-only Vercel evidence. Does not prove form submissions, Brevo routing, analytics delivery, webhooks, or workflow behavior. |
+| 2026-06-23 remaining lead-flow QA evidence | Tracks remaining lead-flow GET check, one Tracking Audit submission, one Newsletter submission, one Exit Popup submission, Book-a-call UI inspection, and read-only Brevo verification. | Use as current internal QA evidence. GA4/GTM/Meta, workflow UI state, and real booking behavior remain unverified. |
+| `docs/codex-handoffs/evidence/brevo-readonly-remaining-flow-verification-2026-06-23/*` | Confirms Brevo contact/list/source-history routing for lists `11`, `9`, and `10`, Tracking Audit CRM deal/task, Tracking Audit and Newsletter notification delivery evidence, and templates `19`-`30`. | Use as redacted Brevo proof. Do not expose QA identity or internal IDs. Workflow active/inactive state still needs read-only UI verification. |
 
 ## Priority 2 Evidence To Review Before Case-Study Drafting
 
@@ -44,7 +46,8 @@ This queue prioritizes evidence review without copying files, opening live tools
 
 - Current Vercel visual screenshots now exist for homepage, Contact Us, Contact thank-you, Book A Free Strategy Call, booking thank-you, Tracking Audit, newsletter confirmed, Conversion Tracking service page, Privacy Policy, Cookie Policy, and Terms of Service.
 - Current Vercel Contact Us frontend submission/redirect evidence now exists as redacted DOM/JSON evidence. No PNG screenshot was captured due to browser screenshot timeout.
-- Current Vercel form submission success states after safe controlled test submissions for Tracking Audit, Newsletter, Exit Popup, and Strategy Call. Existing visual thank-you/confirmed screenshots do not prove submissions occurred.
+- Current Vercel Tracking Audit frontend success evidence exists. Newsletter and Exit Popup have controlled submission evidence plus Brevo verification, but the saved DOM samples did not capture visible success text; capture fresh screenshots only if the user approves retesting or a non-submitting UI check can prove state.
+- Strategy Call booking success evidence remains missing because no meeting was booked.
 - Current Meta Events Manager browser/server deduplication view after approved test events.
 - Current GA4 DebugView/Realtime event views after approved test events.
 - Current Brevo attribute grouping/source lifecycle UI after explicit read-only UI approval.
@@ -87,6 +90,24 @@ This queue prioritizes evidence review without copying files, opening live tools
 - No forms were submitted, no submit buttons were clicked, no POST/PUT/PATCH/DELETE requests were sent, no webhook tests were run, and no live service settings were changed.
 - Remaining controlled lead-flow submissions were not run because the prior QA identity is redacted in local evidence and cannot be recovered safely.
 
+## Remaining Lead-Flow QA Notes
+
+- Evidence folders:
+  - `docs/codex-handoffs/evidence/remaining-lead-flow-qa-2026-06-23/`
+  - `docs/codex-handoffs/evidence/tracking-audit-form-test-2026-06-23/`
+  - `docs/codex-handoffs/evidence/newsletter-form-test-2026-06-23/`
+  - `docs/codex-handoffs/evidence/exit-popup-form-test-2026-06-23/`
+  - `docs/codex-handoffs/evidence/book-a-call-ui-check-2026-06-23/`
+  - `docs/codex-handoffs/evidence/brevo-readonly-remaining-flow-verification-2026-06-23/`
+- GET-only sanity recheck: all 11 key routes returned `200`, rendered visible content, attempted no non-GET/HEAD requests, and showed no `#418`, no `#423`, and no hydration-related errors.
+- Tracking Audit: submitted once; frontend evidence captured visible success text `Request received`; Brevo read-only verification confirmed list `11`, source history, CRM deal/task, and internal notification delivery evidence.
+- Newsletter: submitted once through the footer opt-in flow; frontend DOM sample did not capture visible success/confirmation text; Brevo read-only verification confirmed list `9`, source history, and internal notification delivery evidence.
+- Exit Popup: submitted once after triggering popup on `/service/conversion-tracking`; frontend DOM sample did not capture visible success text; Brevo read-only verification confirmed list `10` and source history.
+- Book-a-call: page inspected only; Brevo Meetings iframe was present; no meeting was booked and no webhook test was sent.
+- Templates `19`-`30` were present through read-only Brevo API template check. Template content was not downloaded or stored.
+- Brevo workflow API endpoints returned unavailable, so workflow active/inactive state remains read-only UI-unverified.
+- GA4/GTM/Meta read-only verification was not safely available in this session and remains unverified.
+
 ## Contact Us Brevo Verification Notes
 
 - Verification type: read-only Brevo verification, CRM verification, and transactional log verification.
@@ -101,14 +122,11 @@ This queue prioritizes evidence review without copying files, opening live tools
 - React `#418`/`#423` hydration errors are resolved for the checked Vercel routes on deployed commit `6a623a1977d8cb34d891f7c073ac6871c5b03e07`; monitor after future frontend deployments.
 - Contact Us screenshot capture should be retried only if needed; current redacted DOM evidence exists but no PNG was captured.
 - Contact Us form submission itself should not be repeated unless the user explicitly approves another controlled test.
-- Tracking Audit form submission on the active Vercel testing setup.
-- Newsletter subscription behavior on the active Vercel testing setup.
-- Exit popup submission on the active Vercel testing setup.
-- Private QA identity for remaining controlled form submissions; do not guess or reconstruct it from redacted evidence.
-- Brevo Meetings booking webhook behavior after the active server target is confirmed.
+- Newsletter and Exit Popup visible frontend success screenshots if needed; current downstream Brevo verification is stronger than the captured DOM samples.
+- Brevo Meetings booking webhook behavior after the active server target is confirmed and a real booking test is separately approved.
 - Meta CAPI/browser deduplication for `Lead` and `Subscribe`.
 - GA4 Measurement Protocol meeting event behavior.
-- Brevo workflow suppression for test and sales-converted contacts.
+- Brevo workflow active/inactive state and suppression for test and sales-converted contacts.
 
 ## Evidence To Keep Out Of Notion
 
@@ -126,6 +144,7 @@ This queue prioritizes evidence review without copying files, opening live tools
 - Redacted Contact Us frontend submission/redirect evidence from 2026-06-22 plus redacted Brevo contact/list/CRM/task/notification-log verification from 2026-06-23. GA4/GTM/Meta proof still needs separate approval.
 - Vercel hydration fix console verification from 2026-06-23 proving React `#418`/`#423` are resolved on checked test routes.
 - Vercel GET-only final sanity check from 2026-06-23 proving 11 key routes render on the working Vercel test URL without hydration-related errors.
+- Redacted remaining lead-flow QA evidence from 2026-06-23: Tracking Audit frontend success plus Brevo list/CRM/task/notification proof; Newsletter and Exit Popup Brevo routing proof; Book-a-call UI/iframe proof without booking.
 - Sanitized before/after website page screenshots from curated root or `.tmp-audit` assets.
 - Repo docs proving source lifecycle, consent mapping, and tracking implementation.
 - Git commits proving Meta CAPI/event ID and Brevo source lifecycle work.
@@ -175,3 +194,4 @@ This queue prioritizes evidence review without copying files, opening live tools
 | 2026-06-23 | Added redacted Brevo read-only verification summary for the existing Contact Us QA submission. Brevo contact/list #8/source attributes/CRM deal/task/internal notification log verified; GA4/GTM/Meta and automations remain unverified. | `EVIDENCE_REVIEW_QUEUE.md`, `EVIDENCE_ARCHIVE_INVENTORY.md`, `WEBSITE_AND_TRACKING_STATE.md`, `OPEN_ITEMS_FOR_NEXT_AGENT.md`, `NOTION_SYNC_SUMMARY.md` |
 | 2026-06-23 | Added Vercel hydration fix console verification. Deployed commit `6a623a1977d8cb34d891f7c073ac6871c5b03e07` was verified on the working Vercel test URL; React `#418`/`#423`, hydration errors, and new app runtime errors were absent on checked routes. | `EVIDENCE_REVIEW_QUEUE.md`, `EVIDENCE_ARCHIVE_INVENTORY.md`, `WEBSITE_AND_TRACKING_STATE.md`, `OPEN_ITEMS_FOR_NEXT_AGENT.md`, `NOTION_SYNC_SUMMARY.md` |
 | 2026-06-23 | Added Vercel GET-only final sanity check evidence for 11 routes. All returned `200`, rendered visible content, attempted no non-GET/HEAD requests, and showed no `#418`, `#423`, or hydration-related errors. Remaining form tests require the private QA identity. | `EVIDENCE_REVIEW_QUEUE.md`, `EVIDENCE_ARCHIVE_INVENTORY.md`, `WEBSITE_AND_TRACKING_STATE.md`, `OPEN_ITEMS_FOR_NEXT_AGENT.md`, `NOTION_SYNC_SUMMARY.md`, `docs/codex-handoffs/evidence/vercel-get-sanity-2026-06-23/2026-06-23_vercel_get_sanity_redacted-summary.json` |
+| 2026-06-23 | Added remaining lead-flow QA evidence. Tracking Audit, Newsletter, and Exit Popup were submitted once; Book-a-call UI was inspected without booking; Brevo read-only verification confirmed list/source-history routing, Tracking Audit CRM deal/task, Tracking Audit and Newsletter notification delivery evidence, and templates `19`-`30`. | `EVIDENCE_REVIEW_QUEUE.md`, `EVIDENCE_ARCHIVE_INVENTORY.md`, `WEBSITE_AND_TRACKING_STATE.md`, `OPEN_ITEMS_FOR_NEXT_AGENT.md`, `NOTION_SYNC_SUMMARY.md`, `docs/codex-handoffs/evidence/*2026-06-23/` |

@@ -1,0 +1,32 @@
+{
+  "route": "/book-a-call",
+  "finalPath": "/book-a-call",
+  "iframePresent": true,
+  "iframeSrcHost": "meet.brevo.com",
+  "bookingNotPerformed": true,
+  "bodyTextSample": "Skip to content Services Expertise Results About Us Blog Book A Free Strategy Call Home Book a Free Strategy Call FREE STRATEGY CALL Book a Strategy Call A simple 15-minute conversation to understand your current setup, identify the main point of friction, and help you leave with a clearer next move. How the call moves STEP 01 15 focused minutes A short call to understand your current setup and where growth is getting stuck. STEP 02 Straightforward advice We focus on the clearest next step, not a drawn-out sales conversation. STEP 03 Actionable outcome You should leave with more clarity on what to fix, test, or prioritise next. Loading the live booking calendar This booking page can take a few seconds to show up. Please wait while it loads. Preparing the live calendar Checking available time slots Getting the booking view ready Having trouble with the embedded scheduler? Use one of these options: Open scheduler Email us instead CLIENT FEEDBACK What the first experience feels like \" Working with AlphaTrack Digital Limited was an excellent experience. They delivered a sleek, modern, and highly functional website right on schedule. Edits were handled quickly, communication was seamles",
+  "responses": [],
+  "requestSummary": {
+    "GET website-internal-test.vercel.app/book-a-call": 1,
+    "GET website-internal-test.vercel.app/assets/index-DCNfQZ6f.js": 1,
+    "GET website-internal-test.vercel.app/assets/index-D3r9FGvI.css": 1,
+    "GET website-internal-test.vercel.app/logo-wordmark.png": 1,
+    "GET website-internal-test.vercel.app/assets/microsoft-clarity-kT2OK1-C.ico": 1,
+    "GET www.googletagmanager.com(external redacted path)": 2,
+    "GET connect.facebook.net(external redacted path)": 2,
+    "GET website-internal-test.vercel.app/assets/BookACall-VwstogXl.js": 1,
+    "GET website-internal-test.vercel.app/assets/Breadcrumbs-C3HKilqp.js": 1,
+    "GET website-internal-test.vercel.app/assets/clock--s9Km8-r.js": 1,
+    "GET website-internal-test.vercel.app/assets/lightbulb-CRrxJdh8.js": 1,
+    "GET meet.brevo.com(external redacted path)": 17,
+    "GET designsystem.brevo.com(external redacted path)": 2,
+    "GET meetings-api.brevo.com(external redacted path)": 2,
+    "GET conversations-widget.brevo.com(external redacted path)": 3,
+    "GET fe-conversations-widget.brevo.com(external redacted path)": 2,
+    "GET static.brevo.com(external redacted path)": 1
+  },
+  "consoleErrorCount": 4,
+  "consoleWarningCount": 1,
+  "hydrationRelated": [],
+  "pageErrors": []
+}

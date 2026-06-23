@@ -1,0 +1,7 @@
+{
+  "route": "/",
+  "formVisible": true,
+  "qaIdentity": "[REDACTED_QA_EMAIL]",
+  "optInRequiredByUi": true,
+  "note": "Normal footer newsletter form was used if visible. Evidence redacted."
+}
