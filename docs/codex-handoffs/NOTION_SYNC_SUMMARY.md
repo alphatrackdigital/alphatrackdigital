@@ -14,6 +14,7 @@ Do not update Notion from this file without user approval. This is a review-read
 - Brevo transactional webhook should not be registered until deployed endpoint is verified.
 - Brevo live state needs read-only UI verification before any activation or campaign operations.
 - Contact Us QA now has redacted proof of Vercel frontend success plus read-only Brevo contact/list #8/CRM task/internal notification-log verification.
+- Vercel hydration fix QA now has verified console evidence: deployed commit `6a623a1977d8cb34d891f7c073ac6871c5b03e07` shows no React `#418`/`#423`, no hydration errors, and no new application runtime errors on the checked test routes.
 
 ## SOPs To Create Or Update
 
@@ -86,6 +87,7 @@ Evidence records that should be added to Notion after approval:
 - `docs/codex-handoffs/EVIDENCE_REVIEW_QUEUE.md` as the evidence review workflow.
 - Historical Brevo QA note: `docs/brevo-qa-2026-06-14.md`, with clear caveat that live/current Vercel retest is still needed.
 - Historical Brevo readiness docs: `docs/brevo-campaign-ops-readiness.md`, `docs/brevo-crm-handoff.md`, and `docs/brevo-website-alignment.md`.
+- Vercel hydration fix console verification from 2026-06-23: checked `https://website-internal-test.vercel.app` routes `/`, `/contact-us`, `/contact-us/thank-you`, `/book-a-call`, `/offer/tracking-audit`, and `/newsletter/confirmed`; React `#418`/`#423` did not appear.
 
 Evidence records that should remain repo-only:
 
@@ -110,6 +112,7 @@ Case-study evidence now available:
 - Historical website page screenshots in root `tmp-*.png` files and `.tmp-audit/*.png`.
 - Root service-page screenshots such as `conversion-tracking-review.png`, `paid-media-review.png`, and `paid-media-desktop.png`.
 - Repo docs showing implementation of source lifecycle, consent mapping, Meta CAPI/event ID dedupe, GA4 Measurement Protocol, and Brevo lead flow mapping.
+- Vercel frontend QA evidence showing the hydration fix resolved React `#418`/`#423` on checked test routes.
 - Git commit evidence for the implementation sequence.
 
 Missing evidence needed before a client-safe case-study draft:
@@ -131,8 +134,9 @@ Contact Us evidence sync proposal:
 
 - Add a redacted evidence record for the 2026-06-22 Contact Us controlled QA submission: Vercel frontend submission, redirect, and `Message Received!` visible success state.
 - Add a redacted evidence record for the 2026-06-23 read-only Brevo verification: contact found, list `8` membership, expected source/service/consent/source lifecycle fields, CRM deal/task, and internal notification request/delivery log.
+- Add a Vercel frontend QA evidence record for the 2026-06-23 hydration fix verification: deployed commit `6a623a1977d8cb34d891f7c073ac6871c5b03e07`, checked routes, no React `#418`/`#423`, no hydration errors, and no new application runtime errors.
 - Keep QA identity, contact IDs, CRM IDs, recipient emails, internal record IDs, and transactional message IDs out of Notion.
-- Do not claim GA4/GTM/Meta, automation/workflow behavior, or human inbox review is verified.
+- Do not claim GA4/GTM/Meta delivery, form submissions beyond the approved Contact Us test, automation/workflow behavior, or human inbox review is verified.
 
 ## Hard Warning
 

@@ -8,15 +8,15 @@ Last updated: 2026-06-23.
 - Netlify is the future live deployment target after ATD purchases/subscribes to the paid Netlify plan.
 - Working updates should later be mirrored to Netlify and deployed live only after the paid Netlify plan is ready and the user explicitly approves deployment.
 - Do not treat Netlify paid deployment as the immediate blocker for current testing. The next safe technical step is Vercel development/server verification unless the user explicitly decides to handle Netlify subscription and deployment readiness first.
+- Active Vercel testing URL: `https://website-internal-test.vercel.app`. Avoid stale URL `https://atd-website-test.vercel.app` unless separately fixed.
 
 ## Priority 1: Urgent Blockers
 
 | Item | Next step | Verify before live changes |
 | --- | --- | --- |
-| Vercel development/server verification pending | Verify current Vercel test deployment and same-origin API behavior only after user approves testing | Current branch, deployed commit, Vercel test URL, env variable names only |
+| Vercel form/server verification pending | Hydration/frontend console verification passed on deployed commit `6a623a1977d8cb34d891f7c073ac6871c5b03e07`; next verify same-origin API/form behavior only after user approves testing | Current branch, deployed commit, Vercel test URL, env variable names only |
 | Contact Us analytics effects not verified | Verify GA4/GTM/Meta only after approval; Brevo contact/list #8/CRM task/internal notification log were verified read-only on 2026-06-23 | Do not repeat the Contact Us submission unless explicitly approved |
 | Latest backend/form behavior not fully current-test validated | Run safe Vercel checks before any live or Netlify claim | Safe non-POST checks first; controlled test submissions only with approval |
-| Contact Us React console errors observed | Reproduce and scope minified React errors `#418` and `#423` from the redacted console summary | Treat as QA follow-up, not confirmed launch blocker yet |
 | Brevo transactional webhook not live | Register only after the final live endpoint returns expected auth behavior | `BREVO_TRANSACTIONAL_WEBHOOK_SECRET` set by name only, endpoint not `404` |
 | Brevo Meetings validation pending | Test controlled booking only after active test/live server target is confirmed and approved | Webhook secret and endpoint configured by name only |
 | Suppression/blocklist uncertainty | Run controlled QA before live campaign traffic | Lists #13/#14 and workflow exclusions |
@@ -81,6 +81,7 @@ Last updated: 2026-06-23.
 - Vercel visual screenshot evidence was added on 2026-06-19.
 - Controlled Contact Us redacted form-test evidence was added on 2026-06-22.
 - Redacted read-only Brevo verification for the Contact Us QA submission was added on 2026-06-23.
+- Vercel hydration fix console verification was added on 2026-06-23. Deployed commit `6a623a1977d8cb34d891f7c073ac6871c5b03e07` was verified on `https://website-internal-test.vercel.app`; React `#418`/`#423`, hydration errors, and new app runtime errors were absent on checked routes.
 - Contact Us evidence verifies frontend submission, redirect, visible success state, Brevo contact/list #8/source attributes, CRM deal/task, and internal notification log. GA4/GTM/Meta, automation/workflow behavior, and human inbox review remain unverified.
 - Future evidence updates should be incremental and should add an `Evidence Update Log` entry.
 

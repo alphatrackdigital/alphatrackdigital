@@ -17,6 +17,7 @@ This queue prioritizes evidence review without copying files, opening live tools
 | `docs/codex-handoffs/evidence/vercel-visual-pass-2026-06-19/*.png` | Current Vercel visual page-render evidence for key pages and legal routes. | Keep as internal visual QA evidence; do not treat as form, webhook, Brevo, Meta, or GA4 verification. |
 | `docs/codex-handoffs/evidence/contact-us-form-test-2026-06-22/*` | Redacted evidence for one approved Contact Us frontend submission, redirect, and visible success state on the Vercel test URL. | Keep as partial internal QA evidence; Brevo/list #8/CRM/task/notification log has now been verified separately. |
 | 2026-06-23 redacted Contact Us Brevo verification summary | Confirms Contact Us Brevo contact/list #8/source attributes/CRM deal/task/internal notification log for the existing QA submission. | Use as internal QA evidence and redacted Notion summary after commit; GA4/GTM/Meta and automations remain unverified. |
+| 2026-06-23 Vercel hydration fix console verification | Confirms deployed commit `6a623a1977d8cb34d891f7c073ac6871c5b03e07` no longer shows React `#418`/`#423` or hydration errors on checked Vercel routes. | Use as internal frontend QA evidence; continue lead-flow QA one approved flow at a time. GA4/GTM/Meta remain unverified. |
 
 ## Priority 2 Evidence To Review Before Case-Study Drafting
 
@@ -36,7 +37,7 @@ This queue prioritizes evidence review without copying files, opening live tools
 | `.playwright-mcp/*.log` and `.playwright-mcp/*.yml` | Browser automation logs can be large and sensitive. | Keep out of Notion; archive or clean only with approval. |
 | Root `tmp-*.png` images | Many historical screenshots clutter root. | Later move curated safe files into a controlled evidence folder if approved. |
 | `test-results/.last-run.json` | Test runner state, not narrative evidence. | Keep internal only. |
-| Contact Us React console errors `#418` and `#423` | Observed in the redacted console summary after the approved Contact Us test. | Reproduce and scope in a later QA pass; do not treat as confirmed launch blocker yet. |
+| Contact Us pre-fix React console evidence | The redacted Contact Us console summary captured `#418` and `#423` before the hydration fix. | Keep as historical pre-fix evidence; current Vercel hydration verification resolved `#418`/`#423` for checked routes. |
 
 ## Evidence Needing Screenshots Added
 
@@ -63,7 +64,17 @@ This queue prioritizes evidence review without copying files, opening live tools
 - Brevo read-only verification on 2026-06-23 confirmed contact/list #8/source attributes/CRM deal/task/internal notification log for the existing QA submission.
 - Not verified: GA4/GTM/Meta delivery, automation/workflow behavior, or whether a team inbox user read the notification.
 - No screenshot PNG was captured due to browser screenshot timeout; redacted DOM/result/console evidence exists.
-- React console errors `#418` and `#423` need investigation in a later QA pass. Treat as a QA follow-up, not a confirmed launch blocker yet.
+- React console errors `#418` and `#423` were resolved for checked Vercel routes after deploying commit `6a623a1977d8cb34d891f7c073ac6871c5b03e07`; keep the redacted console file as historical pre-fix evidence.
+
+## Vercel Hydration Fix Verification Notes
+
+- Verification type: Vercel console verification / frontend rendering QA.
+- Base URL checked: `https://website-internal-test.vercel.app`.
+- Deployed commit verified: `6a623a1977d8cb34d891f7c073ac6871c5b03e07`.
+- Routes checked: `/`, `/contact-us`, `/contact-us/thank-you`, `/book-a-call`, `/offer/tracking-audit`, and `/newsletter/confirmed`.
+- Verified: React `#418` did not appear, React `#423` did not appear, hydration errors were not found, new application runtime errors were not found, and `#root data-prerendered` was `false` on all checked routes.
+- Expected blocked external request warnings came from QA blocking rules and included `www.googletagmanager.com`, `fonts.googleapis.com`, `cdn.gpteng.co`, `images.unsplash.com`, and `meet.brevo.com` on `/book-a-call`.
+- Not verified by this pass: GA4/GTM/Meta delivery, form submissions, webhooks, Brevo routing, Brevo automations/workflows, or human inbox review.
 
 ## Contact Us Brevo Verification Notes
 
@@ -76,7 +87,7 @@ This queue prioritizes evidence review without copying files, opening live tools
 ## Evidence Needing Live Retest
 
 - Contact Us remaining external checks after approved Vercel submission: GA4/GTM/Meta delivery, automation/workflow behavior, and human inbox review. Brevo contact/list #8/CRM deal/task/internal notification log have been verified read-only.
-- Contact Us React console errors `#418` and `#423` on the active Vercel testing setup.
+- React `#418`/`#423` hydration errors are resolved for the checked Vercel routes on deployed commit `6a623a1977d8cb34d891f7c073ac6871c5b03e07`; monitor after future frontend deployments.
 - Contact Us screenshot capture should be retried only if needed; current redacted DOM evidence exists but no PNG was captured.
 - Contact Us form submission itself should not be repeated unless the user explicitly approves another controlled test.
 - Tracking Audit form submission on the active Vercel testing setup.
@@ -101,6 +112,7 @@ This queue prioritizes evidence review without copying files, opening live tools
 
 - Sanitized Vercel testing screenshots showing visual page rendering for lead-flow and legal pages.
 - Redacted Contact Us frontend submission/redirect evidence from 2026-06-22 plus redacted Brevo contact/list/CRM/task/notification-log verification from 2026-06-23. GA4/GTM/Meta proof still needs separate approval.
+- Vercel hydration fix console verification from 2026-06-23 proving React `#418`/`#423` are resolved on checked test routes.
 - Sanitized before/after website page screenshots from curated root or `.tmp-audit` assets.
 - Repo docs proving source lifecycle, consent mapping, and tracking implementation.
 - Git commits proving Meta CAPI/event ID and Brevo source lifecycle work.
@@ -148,3 +160,4 @@ This queue prioritizes evidence review without copying files, opening live tools
 | 2026-06-19 | Added Vercel visual screenshot pass to review queue. Screenshots are visual-render evidence only; no forms, POST/webhook requests, or live-service changes were made. | `EVIDENCE_REVIEW_QUEUE.md`, `EVIDENCE_ARCHIVE_INVENTORY.md`, `WEBSITE_AND_TRACKING_STATE.md` |
 | 2026-06-22 | Added controlled Contact Us form-test evidence to review queue. Evidence verifies frontend submission, redirect, and visible success state only; Brevo, CRM, notifications, Meta, and GA4 remain unverified. | `EVIDENCE_REVIEW_QUEUE.md`, `EVIDENCE_ARCHIVE_INVENTORY.md`, `WEBSITE_AND_TRACKING_STATE.md`, `OPEN_ITEMS_FOR_NEXT_AGENT.md` |
 | 2026-06-23 | Added redacted Brevo read-only verification summary for the existing Contact Us QA submission. Brevo contact/list #8/source attributes/CRM deal/task/internal notification log verified; GA4/GTM/Meta and automations remain unverified. | `EVIDENCE_REVIEW_QUEUE.md`, `EVIDENCE_ARCHIVE_INVENTORY.md`, `WEBSITE_AND_TRACKING_STATE.md`, `OPEN_ITEMS_FOR_NEXT_AGENT.md`, `NOTION_SYNC_SUMMARY.md` |
+| 2026-06-23 | Added Vercel hydration fix console verification. Deployed commit `6a623a1977d8cb34d891f7c073ac6871c5b03e07` was verified on the working Vercel test URL; React `#418`/`#423`, hydration errors, and new app runtime errors were absent on checked routes. | `EVIDENCE_REVIEW_QUEUE.md`, `EVIDENCE_ARCHIVE_INVENTORY.md`, `WEBSITE_AND_TRACKING_STATE.md`, `OPEN_ITEMS_FOR_NEXT_AGENT.md`, `NOTION_SYNC_SUMMARY.md` |

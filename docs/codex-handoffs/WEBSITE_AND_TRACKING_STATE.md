@@ -13,8 +13,10 @@ Verified repo stack: Vite, React, TypeScript, React Router, Tailwind CSS, shadcn
 - Working updates should later be mirrored to Netlify before final live deployment.
 - Do not claim Netlify production validation is possible until the paid Netlify plan/account is ready and an approved deployment has happened.
 - Vercel visual page-render evidence now exists for selected pages from `https://website-internal-test.vercel.app`.
+- Vercel hydration fix console verification now exists for deployed commit `6a623a1977d8cb34d891f7c073ac6871c5b03e07`; React `#418`/`#423` and hydration errors did not appear on checked routes.
 - Contact Us has Vercel frontend submission evidence from 2026-06-22: one approved QA submission redirected to `/contact-us/thank-you` and showed `Message Received!`.
 - Contact Us has redacted read-only Brevo verification from 2026-06-23: contact/list #8/source attributes/CRM deal/CRM task/internal notification log were verified for the existing QA submission. GA4/GTM/Meta, automation/workflow behavior, and human inbox review remain `Unverified`.
+- Continue using `https://website-internal-test.vercel.app` for active Vercel testing. Avoid stale URL `https://atd-website-test.vercel.app` unless separately fixed.
 
 ## Main Pages / Flows Touched
 
@@ -52,6 +54,18 @@ This evidence verifies visual page rendering only. During capture, external GTM/
 
 Minor text/accessibility observation: styled headings may expose joined text in extracted text, such as `ThatMeasures` and `andStart`; review later during accessibility/content QA.
 
+## Vercel Hydration Fix Verification
+
+On 2026-06-23, deployed commit `6a623a1977d8cb34d891f7c073ac6871c5b03e07` was verified on `https://website-internal-test.vercel.app` with GET-only browser console checks.
+
+Routes checked: `/`, `/contact-us`, `/contact-us/thank-you`, `/book-a-call`, `/offer/tracking-audit`, and `/newsletter/confirmed`.
+
+Verified: React `#418` did not appear, React `#423` did not appear, hydration errors were not found, new application runtime errors were not found, and `#root data-prerendered` was `false` on all checked routes.
+
+Expected blocked external request warnings came from QA blocking rules and included `www.googletagmanager.com`, `fonts.googleapis.com`, `cdn.gpteng.co`, `images.unsplash.com`, and `meet.brevo.com` on `/book-a-call`.
+
+This evidence verifies the hydration fix on the Vercel test environment for the checked routes only. It does not verify form submissions, Brevo routing, GA4/GTM/Meta delivery, webhooks, or automation/workflow behavior.
+
 ## Controlled Contact Us Form Test Evidence
 
 On 2026-06-22, one approved Contact Us QA submission was completed on `https://website-internal-test.vercel.app/contact-us`. The test used a QA identity, selected `Analytics/Tracking`, left marketing opt-in unchecked, reached `https://website-internal-test.vercel.app/contact-us/thank-you`, and confirmed visible success state `Message Received!`.
@@ -60,7 +74,7 @@ Evidence is stored under `docs/codex-handoffs/evidence/contact-us-form-test-2026
 
 This evidence verifies the Contact Us frontend submission path, redirect, and visible success state only. It does not verify Brevo contact creation/update, Brevo list #8 membership, CRM deal/task creation, internal notification email delivery, Meta CAPI delivery, or GA4 event delivery.
 
-Console follow-up: the redacted console summary recorded repeated minified React errors `#418` and `#423`. This should be investigated, but is not yet a confirmed launch blocker.
+Console follow-up: the redacted console summary recorded repeated minified React errors `#418` and `#423` before the hydration fix. On 2026-06-23, Vercel console verification found no `#418`, no `#423`, and no hydration errors on the checked routes after deploying commit `6a623a1977d8cb34d891f7c073ac6871c5b03e07`.
 
 ## Contact Us Brevo Verification
 
@@ -143,8 +157,8 @@ Consent/banner or Consently installation was not verified in the current repo pa
 ## Known Issues
 
 - Visual page rendering has current Vercel screenshot evidence for selected pages.
+- React hydration errors `#418` and `#423` are resolved on the Vercel test deployment for the checked routes after commit `6a623a1977d8cb34d891f7c073ac6871c5b03e07`.
 - Contact Us frontend submission/redirect and Brevo contact/list #8/CRM task/internal notification log now have current evidence. GA4/GTM/Meta delivery, automation/workflow behavior, human inbox review, and broader form coverage are still not current-test validated.
-- Repeated minified React console errors `#418` and `#423` were observed during the Contact Us test; investigate and scope before treating as a launch blocker.
 - Netlify is a future live deployment target after paid plan purchase, not the immediate environment for current testing.
 - 2026-06-14 QA found contact-page submit interference from footer newsletter validation; verify this after current contact form changes.
 - Styled headings may expose joined text in extracted text, including `ThatMeasures` and `andStart`; review during accessibility/content QA.
@@ -154,12 +168,12 @@ Consent/banner or Consently installation was not verified in the current repo pa
 
 ## Suggested Retest Checklist
 
-1. Confirm active Vercel development/testing URL and deployed commit; visual-render screenshots exist for the 2026-06-19 Vercel pass.
+1. Use active Vercel development/testing URL `https://website-internal-test.vercel.app`; avoid stale URL `https://atd-website-test.vercel.app` unless separately fixed.
 2. Confirm Vercel same-origin API/server behavior with safe checks before form submissions.
 3. Do not repeat Contact Us submission unless explicitly approved; current evidence verifies redirect/success state and Brevo contact/list #8/CRM task/internal notification log.
 4. After approval, verify Contact Us Meta/GA4/GTM effects from the existing QA submission if available, or plan a new controlled submission if event windows have expired.
 5. Decide whether CRM notes are required for Contact Us; none were found in the read-only Brevo check.
-6. Investigate Contact Us React console errors `#418` and `#423` in a later QA pass.
+6. Monitor for React console regressions after future frontend deployments; `#418`/`#423` are resolved on the current checked Vercel routes.
 7. Submit controlled Tracking Audit test only after approval; verify list #11, attributes, notification, Meta/GTM event.
 8. Submit controlled Newsletter opt-in only after approval; verify DOI or direct capture, list #9, Subscribe event.
 9. Submit controlled Exit Popup test only after approval; verify list #10 and Lead event.
