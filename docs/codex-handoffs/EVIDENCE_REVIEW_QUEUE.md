@@ -18,6 +18,7 @@ This queue prioritizes evidence review without copying files, opening live tools
 | `docs/codex-handoffs/evidence/contact-us-form-test-2026-06-22/*` | Redacted evidence for one approved Contact Us frontend submission, redirect, and visible success state on the Vercel test URL. | Keep as partial internal QA evidence; Brevo/list #8/CRM/task/notification log has now been verified separately. |
 | 2026-06-23 redacted Contact Us Brevo verification summary | Confirms Contact Us Brevo contact/list #8/source attributes/CRM deal/task/internal notification log for the existing QA submission. | Use as internal QA evidence and redacted Notion summary after commit; GA4/GTM/Meta and automations remain unverified. |
 | 2026-06-23 Vercel hydration fix console verification | Confirms deployed commit `6a623a1977d8cb34d891f7c073ac6871c5b03e07` no longer shows React `#418`/`#423` or hydration errors on checked Vercel routes. | Use as internal frontend QA evidence; continue lead-flow QA one approved flow at a time. GA4/GTM/Meta remain unverified. |
+| `docs/codex-handoffs/evidence/vercel-get-sanity-2026-06-23/2026-06-23_vercel_get_sanity_redacted-summary.json` | Confirms 11 key Vercel routes returned `200`, rendered visible content, attempted no non-GET/HEAD requests, and showed no `#418`, `#423`, or hydration-related errors. | Keep as internal GET-only Vercel evidence. Does not prove form submissions, Brevo routing, analytics delivery, webhooks, or workflow behavior. |
 
 ## Priority 2 Evidence To Review Before Case-Study Drafting
 
@@ -76,6 +77,16 @@ This queue prioritizes evidence review without copying files, opening live tools
 - Expected blocked external request warnings came from QA blocking rules and included `www.googletagmanager.com`, `fonts.googleapis.com`, `cdn.gpteng.co`, `images.unsplash.com`, and `meet.brevo.com` on `/book-a-call`.
 - Not verified by this pass: GA4/GTM/Meta delivery, form submissions, webhooks, Brevo routing, Brevo automations/workflows, or human inbox review.
 
+## Vercel GET-Only Final Sanity Check Notes
+
+- Evidence file: `docs/codex-handoffs/evidence/vercel-get-sanity-2026-06-23/2026-06-23_vercel_get_sanity_redacted-summary.json`.
+- Base URL checked: `https://website-internal-test.vercel.app`.
+- Routes checked: `/`, `/contact-us`, `/contact-us/thank-you`, `/book-a-call`, `/book-a-call/thank-you`, `/offer/tracking-audit`, `/newsletter/confirmed`, `/service/conversion-tracking`, `/privacy-policy`, `/cookie-policy`, and `/terms-of-service`.
+- Verified: all 11 routes returned `200`, rendered visible body content, attempted no non-GET/HEAD requests, and showed no `#418`, no `#423`, and no hydration-related console/page errors.
+- Expected console errors were caused by third-party request blocking during QA, including GTM, fonts, images, GPT Engineer asset, and the Brevo meeting iframe.
+- No forms were submitted, no submit buttons were clicked, no POST/PUT/PATCH/DELETE requests were sent, no webhook tests were run, and no live service settings were changed.
+- Remaining controlled lead-flow submissions were not run because the prior QA identity is redacted in local evidence and cannot be recovered safely.
+
 ## Contact Us Brevo Verification Notes
 
 - Verification type: read-only Brevo verification, CRM verification, and transactional log verification.
@@ -93,6 +104,7 @@ This queue prioritizes evidence review without copying files, opening live tools
 - Tracking Audit form submission on the active Vercel testing setup.
 - Newsletter subscription behavior on the active Vercel testing setup.
 - Exit popup submission on the active Vercel testing setup.
+- Private QA identity for remaining controlled form submissions; do not guess or reconstruct it from redacted evidence.
 - Brevo Meetings booking webhook behavior after the active server target is confirmed.
 - Meta CAPI/browser deduplication for `Lead` and `Subscribe`.
 - GA4 Measurement Protocol meeting event behavior.
@@ -113,6 +125,7 @@ This queue prioritizes evidence review without copying files, opening live tools
 - Sanitized Vercel testing screenshots showing visual page rendering for lead-flow and legal pages.
 - Redacted Contact Us frontend submission/redirect evidence from 2026-06-22 plus redacted Brevo contact/list/CRM/task/notification-log verification from 2026-06-23. GA4/GTM/Meta proof still needs separate approval.
 - Vercel hydration fix console verification from 2026-06-23 proving React `#418`/`#423` are resolved on checked test routes.
+- Vercel GET-only final sanity check from 2026-06-23 proving 11 key routes render on the working Vercel test URL without hydration-related errors.
 - Sanitized before/after website page screenshots from curated root or `.tmp-audit` assets.
 - Repo docs proving source lifecycle, consent mapping, and tracking implementation.
 - Git commits proving Meta CAPI/event ID and Brevo source lifecycle work.
@@ -161,3 +174,4 @@ This queue prioritizes evidence review without copying files, opening live tools
 | 2026-06-22 | Added controlled Contact Us form-test evidence to review queue. Evidence verifies frontend submission, redirect, and visible success state only; Brevo, CRM, notifications, Meta, and GA4 remain unverified. | `EVIDENCE_REVIEW_QUEUE.md`, `EVIDENCE_ARCHIVE_INVENTORY.md`, `WEBSITE_AND_TRACKING_STATE.md`, `OPEN_ITEMS_FOR_NEXT_AGENT.md` |
 | 2026-06-23 | Added redacted Brevo read-only verification summary for the existing Contact Us QA submission. Brevo contact/list #8/source attributes/CRM deal/task/internal notification log verified; GA4/GTM/Meta and automations remain unverified. | `EVIDENCE_REVIEW_QUEUE.md`, `EVIDENCE_ARCHIVE_INVENTORY.md`, `WEBSITE_AND_TRACKING_STATE.md`, `OPEN_ITEMS_FOR_NEXT_AGENT.md`, `NOTION_SYNC_SUMMARY.md` |
 | 2026-06-23 | Added Vercel hydration fix console verification. Deployed commit `6a623a1977d8cb34d891f7c073ac6871c5b03e07` was verified on the working Vercel test URL; React `#418`/`#423`, hydration errors, and new app runtime errors were absent on checked routes. | `EVIDENCE_REVIEW_QUEUE.md`, `EVIDENCE_ARCHIVE_INVENTORY.md`, `WEBSITE_AND_TRACKING_STATE.md`, `OPEN_ITEMS_FOR_NEXT_AGENT.md`, `NOTION_SYNC_SUMMARY.md` |
+| 2026-06-23 | Added Vercel GET-only final sanity check evidence for 11 routes. All returned `200`, rendered visible content, attempted no non-GET/HEAD requests, and showed no `#418`, `#423`, or hydration-related errors. Remaining form tests require the private QA identity. | `EVIDENCE_REVIEW_QUEUE.md`, `EVIDENCE_ARCHIVE_INVENTORY.md`, `WEBSITE_AND_TRACKING_STATE.md`, `OPEN_ITEMS_FOR_NEXT_AGENT.md`, `NOTION_SYNC_SUMMARY.md`, `docs/codex-handoffs/evidence/vercel-get-sanity-2026-06-23/2026-06-23_vercel_get_sanity_redacted-summary.json` |

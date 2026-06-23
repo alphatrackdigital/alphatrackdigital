@@ -14,7 +14,8 @@ Last updated: 2026-06-23.
 
 | Item | Next step | Verify before live changes |
 | --- | --- | --- |
-| Vercel form/server verification pending | Hydration/frontend console verification passed on deployed commit `6a623a1977d8cb34d891f7c073ac6871c5b03e07`; next verify same-origin API/form behavior only after user approves testing | Current branch, deployed commit, Vercel test URL, env variable names only |
+| Vercel form/server verification pending | Hydration/frontend console verification and 11-route GET-only sanity check passed; next verify same-origin API/form behavior only after user approves testing and provides the private QA identity | Current branch, deployed commit, Vercel test URL, env variable names only |
+| Private QA identity unavailable in local evidence | Ask the user to provide the QA email/contact identifier privately before any remaining controlled form submissions | Do not guess, reconstruct, or extract identity details from redacted evidence |
 | Contact Us analytics effects not verified | Verify GA4/GTM/Meta only after approval; Brevo contact/list #8/CRM task/internal notification log were verified read-only on 2026-06-23 | Do not repeat the Contact Us submission unless explicitly approved |
 | Latest backend/form behavior not fully current-test validated | Run safe Vercel checks before any live or Netlify claim | Safe non-POST checks first; controlled test submissions only with approval |
 | Brevo transactional webhook not live | Register only after the final live endpoint returns expected auth behavior | `BREVO_TRANSACTIONAL_WEBHOOK_SECRET` set by name only, endpoint not `404` |
@@ -53,9 +54,10 @@ Last updated: 2026-06-23.
 5. If live checks are approved, inspect Vercel/Brevo/Netlify read-only first and avoid mutations.
 6. Do not activate, send, deploy, commit, push, or update Notion without explicit approval.
 7. If Vercel testing is approved, verify env variable names only; never print values.
-8. After any approved deploy in the future, run controlled endpoint checks before test submissions.
-9. After test submissions, record evidence in repo docs first.
-10. Prepare a Notion sync proposal; wait for approval before updating Notion.
+8. Before any remaining controlled form submission, confirm the private QA identity is available from the user; local evidence is intentionally redacted and does not contain the QA email/contact identifier.
+9. After any approved deploy in the future, run controlled endpoint checks before test submissions.
+10. After test submissions, record evidence in repo docs first.
+11. Prepare a Notion sync proposal; wait for approval before updating Notion.
 
 ## What To Verify Before Any Live Change
 
@@ -82,7 +84,9 @@ Last updated: 2026-06-23.
 - Controlled Contact Us redacted form-test evidence was added on 2026-06-22.
 - Redacted read-only Brevo verification for the Contact Us QA submission was added on 2026-06-23.
 - Vercel hydration fix console verification was added on 2026-06-23. Deployed commit `6a623a1977d8cb34d891f7c073ac6871c5b03e07` was verified on `https://website-internal-test.vercel.app`; React `#418`/`#423`, hydration errors, and new app runtime errors were absent on checked routes.
+- Vercel GET-only final sanity evidence was added on 2026-06-23 for 11 key routes on `https://website-internal-test.vercel.app`; all returned `200`, rendered visible content, attempted no non-GET/HEAD requests, and showed no hydration-related errors.
 - Contact Us evidence verifies frontend submission, redirect, visible success state, Brevo contact/list #8/source attributes, CRM deal/task, and internal notification log. GA4/GTM/Meta, automation/workflow behavior, and human inbox review remain unverified.
+- Remaining controlled lead-flow submissions were not run because the private QA identity is not recoverable from redacted local evidence.
 - Future evidence updates should be incremental and should add an `Evidence Update Log` entry.
 
 ## Suggested Prompt For Next Session

@@ -95,6 +95,7 @@ Safe for client-facing case study:
 | Contact Us Brevo CRM verification | CRM verification | Read-only Brevo CRM inspection completed 2026-06-23; contact/deal/task IDs redacted | Brevo, Website, Contact Us, Evidence Archive | Confirms a CRM deal was found and linked to the QA contact, and a CRM task was found and linked to the QA contact/deal. No CRM note was found. | Verified for Brevo Contact Us routing only | Yes, redacted summary only | Later | Keep as internal QA evidence. Decide later whether a CRM note is required; do not treat missing note as a blocker unless the CRM SOP requires one. |
 | Contact Us internal notification log verification | Transactional log verification | Read-only Brevo transactional log inspection completed 2026-06-23; recipient and message IDs redacted | Brevo, Website, Contact Us, Evidence Archive | Confirms the Contact Us internal notification transactional log had the expected subject/tag and request plus delivered events. Does not prove a human inbox user read the notification. | Verified for Brevo Contact Us routing only | Yes, redacted summary only | Later | Keep as internal QA evidence. Verify GA4/GTM/Meta separately. Human inbox review remains out of scope. |
 | Vercel hydration fix console verification | Vercel console verification / frontend rendering QA | Vercel GET-only browser console verification completed 2026-06-23 on `https://website-internal-test.vercel.app`; deployed commit `6a623a1977d8cb34d891f7c073ac6871c5b03e07` | Vercel, Website, Frontend QA, Evidence Archive | Confirms React hydration errors `#418` and `#423` did not appear, no hydration errors were found, no new application runtime errors were found, and `#root data-prerendered` was `false` on `/`, `/contact-us`, `/contact-us/thank-you`, `/book-a-call`, `/offer/tracking-audit`, and `/newsletter/confirmed`. Browser rendering was used with external requests blocked. | Verified for hydration fix on Vercel test environment | Yes | Later | Keep as internal QA evidence. Use redacted summary in Notion after commit. Continue remaining lead-flow QA one flow at a time; GA4/GTM/Meta delivery remains unverified. |
+| Vercel GET-only final sanity check | Vercel GET-only browser verification / redacted JSON summary | `docs/codex-handoffs/evidence/vercel-get-sanity-2026-06-23/2026-06-23_vercel_get_sanity_redacted-summary.json` | Vercel, Website, Frontend QA, Evidence Archive | Confirms 11 key routes returned `200`, rendered visible body content, attempted no non-GET/HEAD requests, and produced no `#418`, `#423`, or hydration-related console/page errors. External third-party requests were blocked during capture. | Verified for GET-only Vercel route rendering only | Yes | Later | Keep as internal QA evidence. Use redacted summary in Notion after review. Does not verify form submissions, Brevo routing, analytics delivery, webhooks, or workflow behavior. |
 
 ## Vercel Visual Screenshot Pass Notes
 
@@ -126,6 +127,18 @@ Safe for client-facing case study:
 - Expected blocked external request warnings were caused by QA blocking rules and included `www.googletagmanager.com`, `fonts.googleapis.com`, `cdn.gpteng.co`, `images.unsplash.com`, and `meet.brevo.com` on `/book-a-call`.
 - This evidence does not verify GA4/GTM/Meta delivery, Brevo automation/workflow behavior, or broader form/backend behavior.
 
+## Vercel GET-Only Final Sanity Check Notes
+
+- Verification date: 2026-06-23.
+- Base URL checked: `https://website-internal-test.vercel.app`.
+- Evidence file: `docs/codex-handoffs/evidence/vercel-get-sanity-2026-06-23/2026-06-23_vercel_get_sanity_redacted-summary.json`.
+- Routes checked: `/`, `/contact-us`, `/contact-us/thank-you`, `/book-a-call`, `/book-a-call/thank-you`, `/offer/tracking-audit`, `/newsletter/confirmed`, `/service/conversion-tracking`, `/privacy-policy`, `/cookie-policy`, and `/terms-of-service`.
+- Verified: all 11 routes returned `200`, rendered visible body content, attempted no non-GET/HEAD requests, and showed no `#418`, no `#423`, and no hydration-related console/page errors.
+- Expected console errors were caused by QA blocking rules for third-party requests, including `www.googletagmanager.com`, `fonts.googleapis.com`, `cdn.gpteng.co`, `images.unsplash.com`, and `meet.brevo.com`.
+- No forms were submitted, no submit buttons were clicked, no POST/PUT/PATCH/DELETE requests were sent, no webhook tests were run, and no live service settings were changed.
+- Remaining controlled lead-flow submissions were not run because the prior QA identity is not recoverable from local evidence; stored Contact Us evidence is intentionally redacted and contains no email-like value.
+- This evidence does not verify form submission behavior, Brevo routing, CRM creation, transactional notifications, GA4/GTM/Meta delivery, or automation/workflow behavior.
+
 ## Read-Only Brevo Contact Us Verification Notes
 
 - Verification date: 2026-06-23.
@@ -146,6 +159,7 @@ Safe for client-facing case study:
 - `docs/codex-handoffs/evidence/contact-us-form-test-2026-06-22/*` as redacted Contact Us frontend submission/redirect evidence only
 - Redacted 2026-06-23 Contact Us Brevo routing/CRM/task/notification-log verification summary
 - 2026-06-23 Vercel hydration fix console verification summary for checked routes
+- 2026-06-23 Vercel GET-only final sanity check summary for 11 key routes
 - `docs/brevo-qa-2026-06-14.md` as historical QA with clear gaps
 - `docs/brevo-campaign-ops-readiness.md` as historical readiness documentation
 - Git commit `decfa5b6bbc8fd276d4a343919c3c164fc5b5790`
@@ -183,8 +197,9 @@ Safe for client-facing case study:
 
 ## Missing Evidence Needed For Launch Readiness
 
-- Current Vercel hydration fix deployment/console verification is complete for the checked routes; broader Vercel form/server QA remains incomplete.
+- Current Vercel hydration fix deployment/console verification is complete for the checked routes, and the 11-route GET-only sanity check passed. Broader Vercel form/server QA remains incomplete.
 - Vercel form/server QA evidence for Tracking Audit, Newsletter, Exit Popup, and Strategy Call.
+- Private QA identity for remaining controlled form submissions. The existing local Contact Us evidence is redacted and cannot be used to recover the QA email/contact identifier.
 - Contact Us now has frontend submission/redirect evidence and Brevo contact/list #8/CRM task/internal notification log verification. GA4/GTM/Meta delivery, automation/workflow behavior, and human inbox review remain missing.
 - Current Meta Events Manager proof of browser/server event ID matching.
 - Current GA4 DebugView/Realtime proof for key events and meeting webhook.
@@ -236,3 +251,4 @@ Safe for client-facing case study:
 | 2026-06-22 | Added redacted evidence for one approved Contact Us frontend submission on the Vercel test URL. Verified redirect and visible success state only; Brevo, CRM, notification, Meta, and GA4 remain unverified. | `EVIDENCE_ARCHIVE_INVENTORY.md`, `EVIDENCE_REVIEW_QUEUE.md`, `WEBSITE_AND_TRACKING_STATE.md`, `OPEN_ITEMS_FOR_NEXT_AGENT.md` |
 | 2026-06-23 | Added redacted read-only Brevo verification summary for the existing Contact Us QA submission. Verified Brevo contact/list #8/source attributes/CRM deal/task/internal notification log; GA4/GTM/Meta and automations remain unverified. | `EVIDENCE_ARCHIVE_INVENTORY.md`, `EVIDENCE_REVIEW_QUEUE.md`, `WEBSITE_AND_TRACKING_STATE.md`, `OPEN_ITEMS_FOR_NEXT_AGENT.md`, `NOTION_SYNC_SUMMARY.md` |
 | 2026-06-23 | Added Vercel hydration fix console verification summary. Deployed commit `6a623a1977d8cb34d891f7c073ac6871c5b03e07` was verified on `https://website-internal-test.vercel.app`; React `#418`/`#423` and hydration errors did not appear on checked routes. GA4/GTM/Meta and broader lead-flow behavior remain unverified. | `EVIDENCE_ARCHIVE_INVENTORY.md`, `EVIDENCE_REVIEW_QUEUE.md`, `WEBSITE_AND_TRACKING_STATE.md`, `OPEN_ITEMS_FOR_NEXT_AGENT.md`, `NOTION_SYNC_SUMMARY.md` |
+| 2026-06-23 | Added Vercel GET-only final sanity check evidence for 11 key routes. All routes returned `200`, rendered visible content, attempted no non-GET/HEAD requests, and showed no `#418`, `#423`, or hydration-related errors. Remaining live form tests were not run because the QA identity is not available from redacted local evidence. | `EVIDENCE_ARCHIVE_INVENTORY.md`, `EVIDENCE_REVIEW_QUEUE.md`, `WEBSITE_AND_TRACKING_STATE.md`, `OPEN_ITEMS_FOR_NEXT_AGENT.md`, `NOTION_SYNC_SUMMARY.md`, `docs/codex-handoffs/evidence/vercel-get-sanity-2026-06-23/2026-06-23_vercel_get_sanity_redacted-summary.json` |
