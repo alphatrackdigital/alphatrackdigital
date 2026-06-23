@@ -1,6 +1,6 @@
 # Website And Tracking State
 
-Last updated: 2026-06-22.
+Last updated: 2026-06-23.
 
 ## Website Stack
 
@@ -13,13 +13,14 @@ Verified repo stack: Vite, React, TypeScript, React Router, Tailwind CSS, shadcn
 - Working updates should later be mirrored to Netlify before final live deployment.
 - Do not claim Netlify production validation is possible until the paid Netlify plan/account is ready and an approved deployment has happened.
 - Vercel visual page-render evidence now exists for selected pages from `https://website-internal-test.vercel.app`.
-- Contact Us has partial Vercel frontend submission evidence from 2026-06-22: one approved QA submission redirected to `/contact-us/thank-you` and showed `Message Received!`. Brevo, CRM, notification, Meta, and GA4 effects remain `Unverified`.
+- Contact Us has Vercel frontend submission evidence from 2026-06-22: one approved QA submission redirected to `/contact-us/thank-you` and showed `Message Received!`.
+- Contact Us has redacted read-only Brevo verification from 2026-06-23: contact/list #8/source attributes/CRM deal/CRM task/internal notification log were verified for the existing QA submission. GA4/GTM/Meta, automation/workflow behavior, and human inbox review remain `Unverified`.
 
 ## Main Pages / Flows Touched
 
 | Flow / page | Route | Status | Verification |
 | --- | --- | --- | --- |
-| Contact Us | `/contact-us` -> `/contact-us/thank-you/` | Form posts to lead endpoint, marks conversion intent, redirects after success | Partial Vercel frontend submission evidence, `src/pages/ContactUs.tsx`, tests |
+| Contact Us | `/contact-us` -> `/contact-us/thank-you/` | Form posts to lead endpoint, marks conversion intent, redirects after success | Vercel frontend submission evidence; redacted Brevo contact/list #8/CRM task/notification-log verification; `src/pages/ContactUs.tsx`, tests |
 | Book A Free Strategy Call | `/book-a-call` -> `/book-a-call/thank-you/` | Brevo Meetings embed/webhook plus client fallback events | docs, `api/brevo-meeting-webhook.ts` |
 | Tracking Audit | `/offer/tracking-audit` | Form posts to lead endpoint and pushes tracking audit event | `src/pages/TrackingLandingPage.tsx` |
 | Newsletter | footer/shared section | DOI-ready; pushes Subscribe event | code/docs/tests |
@@ -60,6 +61,16 @@ Evidence is stored under `docs/codex-handoffs/evidence/contact-us-form-test-2026
 This evidence verifies the Contact Us frontend submission path, redirect, and visible success state only. It does not verify Brevo contact creation/update, Brevo list #8 membership, CRM deal/task creation, internal notification email delivery, Meta CAPI delivery, or GA4 event delivery.
 
 Console follow-up: the redacted console summary recorded repeated minified React errors `#418` and `#423`. This should be investigated, but is not yet a confirmed launch blocker.
+
+## Contact Us Brevo Verification
+
+On 2026-06-23, read-only Brevo verification was completed for the existing approved Contact Us QA submission. The verification confirmed the Brevo contact exists, list `8` membership exists, source/lead source fields are `Contact Form` / `contact_form`, service interest is `Analytics/Tracking`, consent state is `not_provided`, first/latest source lifecycle fields exist, and source timestamps align with the test submission.
+
+CRM verification found a linked CRM deal and linked CRM task. No CRM note was found. Do not treat the missing CRM note as a blocker unless repo docs or an approved SOP explicitly require a note.
+
+Transactional log verification found the Contact Us internal notification with expected subject/tag and request plus delivered events. This does not prove a human inbox user read the notification.
+
+Still unverified for Contact Us: GA4/GTM/Meta delivery and automation/workflow behavior.
 
 ## Lead Source Capture
 
@@ -132,7 +143,7 @@ Consent/banner or Consently installation was not verified in the current repo pa
 ## Known Issues
 
 - Visual page rendering has current Vercel screenshot evidence for selected pages.
-- Contact Us frontend submission/redirect has partial current Vercel evidence, but Brevo/list #8, CRM, notification, Meta, GA4, and broader form/server behavior are not current-test validated.
+- Contact Us frontend submission/redirect and Brevo contact/list #8/CRM task/internal notification log now have current evidence. GA4/GTM/Meta delivery, automation/workflow behavior, human inbox review, and broader form coverage are still not current-test validated.
 - Repeated minified React console errors `#418` and `#423` were observed during the Contact Us test; investigate and scope before treating as a launch blocker.
 - Netlify is a future live deployment target after paid plan purchase, not the immediate environment for current testing.
 - 2026-06-14 QA found contact-page submit interference from footer newsletter validation; verify this after current contact form changes.
@@ -145,15 +156,16 @@ Consent/banner or Consently installation was not verified in the current repo pa
 
 1. Confirm active Vercel development/testing URL and deployed commit; visual-render screenshots exist for the 2026-06-19 Vercel pass.
 2. Confirm Vercel same-origin API/server behavior with safe checks before form submissions.
-3. Do not repeat Contact Us submission unless explicitly approved; current evidence verifies redirect/success state only.
-4. After approval for read-only checks, verify Contact Us Brevo list #8, attributes, CRM handoff, internal notification, and Meta/GA4/GTM effects from the existing QA submission.
-5. Investigate Contact Us React console errors `#418` and `#423` in a later QA pass.
-6. Submit controlled Tracking Audit test only after approval; verify list #11, attributes, notification, Meta/GTM event.
-7. Submit controlled Newsletter opt-in only after approval; verify DOI or direct capture, list #9, Subscribe event.
-8. Submit controlled Exit Popup test only after approval; verify list #10 and Lead event.
-9. Create controlled Brevo Meetings booking only after approval; verify list #7, sales alert, GA4 MP, Meta CAPI if configured.
-10. Confirm matching browser/server Meta event IDs.
-11. Confirm test/suppression contacts do not receive live nurture.
-12. Confirm no PII is sent into GA4 event params.
-13. Confirm debug/test modes are off after QA.
-14. After Netlify paid plan purchase and explicit approval, mirror working updates to Netlify and repeat deployment/live readiness checks.
+3. Do not repeat Contact Us submission unless explicitly approved; current evidence verifies redirect/success state and Brevo contact/list #8/CRM task/internal notification log.
+4. After approval, verify Contact Us Meta/GA4/GTM effects from the existing QA submission if available, or plan a new controlled submission if event windows have expired.
+5. Decide whether CRM notes are required for Contact Us; none were found in the read-only Brevo check.
+6. Investigate Contact Us React console errors `#418` and `#423` in a later QA pass.
+7. Submit controlled Tracking Audit test only after approval; verify list #11, attributes, notification, Meta/GTM event.
+8. Submit controlled Newsletter opt-in only after approval; verify DOI or direct capture, list #9, Subscribe event.
+9. Submit controlled Exit Popup test only after approval; verify list #10 and Lead event.
+10. Create controlled Brevo Meetings booking only after approval; verify list #7, sales alert, GA4 MP, Meta CAPI if configured.
+11. Confirm matching browser/server Meta event IDs.
+12. Confirm test/suppression contacts do not receive live nurture.
+13. Confirm no PII is sent into GA4 event params.
+14. Confirm debug/test modes are off after QA.
+15. After Netlify paid plan purchase and explicit approval, mirror working updates to Netlify and repeat deployment/live readiness checks.

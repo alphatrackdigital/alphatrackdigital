@@ -1,6 +1,6 @@
 # Notion Sync Summary
 
-Last updated: 2026-06-18.
+Last updated: 2026-06-23.
 
 Do not update Notion from this file without user approval. This is a review-ready sync proposal only.
 
@@ -13,6 +13,7 @@ Do not update Notion from this file without user approval. This is a review-read
 - Netlify is the future live deployment target after paid plan purchase, not the immediate blocker for current testing.
 - Brevo transactional webhook should not be registered until deployed endpoint is verified.
 - Brevo live state needs read-only UI verification before any activation or campaign operations.
+- Contact Us QA now has redacted proof of Vercel frontend success plus read-only Brevo contact/list #8/CRM task/internal notification-log verification.
 
 ## SOPs To Create Or Update
 
@@ -115,6 +116,7 @@ Missing evidence needed before a client-safe case-study draft:
 
 - Fresh Vercel testing screenshots for current Contact Us, Tracking Audit, Newsletter, Exit Popup, and Book A Free Strategy Call flows.
 - Approved proof that Vercel server/form handlers work in the current test setup.
+- Redacted Contact Us QA evidence is now available for frontend success and Brevo routing/CRM/notification-log verification. GA4/GTM/Meta remain missing.
 - Current Meta Events Manager and GA4 DebugView/Realtimes screenshots after approved test events.
 - Sanitized Brevo UI screenshots for attributes, lists, workflows, and suppression after explicit read-only approval.
 - Future Netlify deployment evidence after paid plan purchase and approved live deployment.
@@ -124,6 +126,13 @@ Corrected deployment context for Notion:
 - Vercel = current development/testing environment.
 - Netlify = future live deployment target after paid plan purchase.
 - Do not record Netlify as the current live blocker unless specifically referring to future live deployment readiness.
+
+Contact Us evidence sync proposal:
+
+- Add a redacted evidence record for the 2026-06-22 Contact Us controlled QA submission: Vercel frontend submission, redirect, and `Message Received!` visible success state.
+- Add a redacted evidence record for the 2026-06-23 read-only Brevo verification: contact found, list `8` membership, expected source/service/consent/source lifecycle fields, CRM deal/task, and internal notification request/delivery log.
+- Keep QA identity, contact IDs, CRM IDs, recipient emails, internal record IDs, and transactional message IDs out of Notion.
+- Do not claim GA4/GTM/Meta, automation/workflow behavior, or human inbox review is verified.
 
 ## Hard Warning
 

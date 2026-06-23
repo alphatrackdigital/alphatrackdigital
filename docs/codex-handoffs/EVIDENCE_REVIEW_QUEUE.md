@@ -1,6 +1,6 @@
 # Evidence Review Queue
 
-Last updated: 2026-06-22.
+Last updated: 2026-06-23.
 
 This queue prioritizes evidence review without copying files, opening live tools, or updating Notion. Use it alongside `EVIDENCE_ARCHIVE_INVENTORY.md`.
 
@@ -15,7 +15,8 @@ This queue prioritizes evidence review without copying files, opening live tools
 | `docs/brevo-website-alignment.md` | Maps lead flows and attributes. | Verify against Vercel test submissions before live work. |
 | `docs/codex-handoffs/WEBSITE_AND_TRACKING_STATE.md` | Current website/tracking state summary. | Keep updated with Vercel testing and future Netlify target context. |
 | `docs/codex-handoffs/evidence/vercel-visual-pass-2026-06-19/*.png` | Current Vercel visual page-render evidence for key pages and legal routes. | Keep as internal visual QA evidence; do not treat as form, webhook, Brevo, Meta, or GA4 verification. |
-| `docs/codex-handoffs/evidence/contact-us-form-test-2026-06-22/*` | Redacted evidence for one approved Contact Us frontend submission, redirect, and visible success state on the Vercel test URL. | Keep as partial internal QA evidence; verify Brevo/list #8/CRM/notification and Meta/GA4 separately after approval. |
+| `docs/codex-handoffs/evidence/contact-us-form-test-2026-06-22/*` | Redacted evidence for one approved Contact Us frontend submission, redirect, and visible success state on the Vercel test URL. | Keep as partial internal QA evidence; Brevo/list #8/CRM/task/notification log has now been verified separately. |
+| 2026-06-23 redacted Contact Us Brevo verification summary | Confirms Contact Us Brevo contact/list #8/source attributes/CRM deal/task/internal notification log for the existing QA submission. | Use as internal QA evidence and redacted Notion summary after commit; GA4/GTM/Meta and automations remain unverified. |
 
 ## Priority 2 Evidence To Review Before Case-Study Drafting
 
@@ -59,13 +60,22 @@ This queue prioritizes evidence review without copying files, opening live tools
 
 - Evidence folder: `docs/codex-handoffs/evidence/contact-us-form-test-2026-06-22/`.
 - Verified: one approved Contact Us frontend submission on `https://website-internal-test.vercel.app`, redirect to `/contact-us/thank-you`, and visible success state `Message Received!`.
-- Not verified: Brevo contact creation/update, Brevo list #8 membership, CRM deal/task creation, internal notification email delivery, Meta CAPI delivery, or GA4 event delivery.
+- Brevo read-only verification on 2026-06-23 confirmed contact/list #8/source attributes/CRM deal/task/internal notification log for the existing QA submission.
+- Not verified: GA4/GTM/Meta delivery, automation/workflow behavior, or whether a team inbox user read the notification.
 - No screenshot PNG was captured due to browser screenshot timeout; redacted DOM/result/console evidence exists.
 - React console errors `#418` and `#423` need investigation in a later QA pass. Treat as a QA follow-up, not a confirmed launch blocker yet.
 
+## Contact Us Brevo Verification Notes
+
+- Verification type: read-only Brevo verification, CRM verification, and transactional log verification.
+- Verified: QA contact exists in Brevo, list `8` membership exists, expected source/lead source/service interest/consent/source lifecycle/timestamp fields were present, CRM deal exists, CRM task exists, and internal notification log had expected subject/tag plus request and delivered events.
+- Missing: no CRM note was found. Decide later whether CRM notes are required; do not treat as a blocker unless approved SOP requires it.
+- Not verified: GA4/GTM/Meta delivery, automation/workflow behavior, or human inbox review.
+- Redaction: keep QA identity, contact IDs, CRM IDs, recipient emails, internal record IDs, and transactional message IDs out of repo docs and Notion.
+
 ## Evidence Needing Live Retest
 
-- Contact Us external effects after the approved Vercel submission: Brevo contact/list #8, CRM deal/task, internal notification, Meta CAPI, and GA4/GTM checks.
+- Contact Us remaining external checks after approved Vercel submission: GA4/GTM/Meta delivery, automation/workflow behavior, and human inbox review. Brevo contact/list #8/CRM deal/task/internal notification log have been verified read-only.
 - Contact Us React console errors `#418` and `#423` on the active Vercel testing setup.
 - Contact Us screenshot capture should be retried only if needed; current redacted DOM evidence exists but no PNG was captured.
 - Contact Us form submission itself should not be repeated unless the user explicitly approves another controlled test.
@@ -90,7 +100,7 @@ This queue prioritizes evidence review without copying files, opening live tools
 ## Evidence That Can Later Support The ATD Internal Case Study
 
 - Sanitized Vercel testing screenshots showing visual page rendering for lead-flow and legal pages.
-- Redacted Contact Us frontend submission/redirect evidence from 2026-06-22, after Brevo/CRM/analytics effects are verified separately.
+- Redacted Contact Us frontend submission/redirect evidence from 2026-06-22 plus redacted Brevo contact/list/CRM/task/notification-log verification from 2026-06-23. GA4/GTM/Meta proof still needs separate approval.
 - Sanitized before/after website page screenshots from curated root or `.tmp-audit` assets.
 - Repo docs proving source lifecycle, consent mapping, and tracking implementation.
 - Git commits proving Meta CAPI/event ID and Brevo source lifecycle work.
@@ -137,3 +147,4 @@ This queue prioritizes evidence review without copying files, opening live tools
 | 2026-06-18 | Initial evidence review queue created. No screenshots or evidence files were copied. | `EVIDENCE_REVIEW_QUEUE.md` |
 | 2026-06-19 | Added Vercel visual screenshot pass to review queue. Screenshots are visual-render evidence only; no forms, POST/webhook requests, or live-service changes were made. | `EVIDENCE_REVIEW_QUEUE.md`, `EVIDENCE_ARCHIVE_INVENTORY.md`, `WEBSITE_AND_TRACKING_STATE.md` |
 | 2026-06-22 | Added controlled Contact Us form-test evidence to review queue. Evidence verifies frontend submission, redirect, and visible success state only; Brevo, CRM, notifications, Meta, and GA4 remain unverified. | `EVIDENCE_REVIEW_QUEUE.md`, `EVIDENCE_ARCHIVE_INVENTORY.md`, `WEBSITE_AND_TRACKING_STATE.md`, `OPEN_ITEMS_FOR_NEXT_AGENT.md` |
+| 2026-06-23 | Added redacted Brevo read-only verification summary for the existing Contact Us QA submission. Brevo contact/list #8/source attributes/CRM deal/task/internal notification log verified; GA4/GTM/Meta and automations remain unverified. | `EVIDENCE_REVIEW_QUEUE.md`, `EVIDENCE_ARCHIVE_INVENTORY.md`, `WEBSITE_AND_TRACKING_STATE.md`, `OPEN_ITEMS_FOR_NEXT_AGENT.md`, `NOTION_SYNC_SUMMARY.md` |

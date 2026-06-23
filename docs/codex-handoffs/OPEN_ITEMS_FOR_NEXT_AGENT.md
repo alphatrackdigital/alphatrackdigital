@@ -1,6 +1,6 @@
 # Open Items For Next Agent
 
-Last updated: 2026-06-22.
+Last updated: 2026-06-23.
 
 ## Current Deployment Context
 
@@ -14,7 +14,7 @@ Last updated: 2026-06-22.
 | Item | Next step | Verify before live changes |
 | --- | --- | --- |
 | Vercel development/server verification pending | Verify current Vercel test deployment and same-origin API behavior only after user approves testing | Current branch, deployed commit, Vercel test URL, env variable names only |
-| Contact Us external effects not verified | Use read-only checks only after approval to verify the existing 2026-06-22 QA submission in Brevo/list #8/CRM/notifications and analytics tools | Do not repeat the Contact Us submission unless explicitly approved |
+| Contact Us analytics effects not verified | Verify GA4/GTM/Meta only after approval; Brevo contact/list #8/CRM task/internal notification log were verified read-only on 2026-06-23 | Do not repeat the Contact Us submission unless explicitly approved |
 | Latest backend/form behavior not fully current-test validated | Run safe Vercel checks before any live or Netlify claim | Safe non-POST checks first; controlled test submissions only with approval |
 | Contact Us React console errors observed | Reproduce and scope minified React errors `#418` and `#423` from the redacted console summary | Treat as QA follow-up, not confirmed launch blocker yet |
 | Brevo transactional webhook not live | Register only after the final live endpoint returns expected auth behavior | `BREVO_TRANSACTIONAL_WEBHOOK_SECRET` set by name only, endpoint not `404` |
@@ -32,6 +32,7 @@ Last updated: 2026-06-22.
 - Confirm `SERVICE_INTEREST` and `MONTHLY_BUDGET` schema fixes are deployed.
 - Review `EVIDENCE_ARCHIVE_INVENTORY.md` and `EVIDENCE_REVIEW_QUEUE.md` before adding new proof records.
 - Add or review evidence records for `docs/codex-handoffs/evidence/contact-us-form-test-2026-06-22/`; keep QA identity details redacted.
+- Decide whether Contact Us CRM notes are required; none were found during read-only Brevo verification.
 - Update Notion only after reviewing `NOTION_SYNC_SUMMARY.md`.
 
 ## Priority 3: Nice-To-Have Improvements
@@ -79,7 +80,8 @@ Last updated: 2026-06-22.
 - Initial evidence review queue completed on 2026-06-18.
 - Vercel visual screenshot evidence was added on 2026-06-19.
 - Controlled Contact Us redacted form-test evidence was added on 2026-06-22.
-- Contact Us evidence verifies frontend submission, redirect, and visible success state only; Brevo, CRM, notification, Meta, and GA4 remain unverified.
+- Redacted read-only Brevo verification for the Contact Us QA submission was added on 2026-06-23.
+- Contact Us evidence verifies frontend submission, redirect, visible success state, Brevo contact/list #8/source attributes, CRM deal/task, and internal notification log. GA4/GTM/Meta, automation/workflow behavior, and human inbox review remain unverified.
 - Future evidence updates should be incremental and should add an `Evidence Update Log` entry.
 
 ## Suggested Prompt For Next Session
