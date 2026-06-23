@@ -35,8 +35,7 @@ const prerender = async () => {
   }
 
   const withHead = replaceSection(template, "<!--app-seo-start-->", "<!--app-seo-end-->", head.trim());
-  const withHtml = replaceSection(withHead, "<!--app-html-start-->", "<!--app-html-end-->", html.trim());
-  const output = withHtml.replace('id="root" data-prerendered="false"', 'id="root" data-prerendered="true"');
+  const output = replaceSection(withHead, "<!--app-html-start-->", "<!--app-html-end-->", html.trim());
 
   await writeFile(templatePath, output, "utf8");
   await rm(path.join(distDir, "server"), { recursive: true, force: true });
