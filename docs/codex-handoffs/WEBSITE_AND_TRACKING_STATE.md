@@ -202,7 +202,8 @@ Consent/banner or Consently installation was not verified in the current repo pa
 - Contact Us frontend submission/redirect and Brevo contact/list #8/CRM task/internal notification log now have current evidence.
 - Tracking Audit frontend success plus Brevo list #11/source history/CRM deal/task/internal notification evidence now exists.
 - Newsletter and Exit Popup have controlled submission evidence and Brevo downstream verification, but their visible frontend success text was not captured in saved DOM samples.
-- GA4/GTM/Meta delivery, automation/workflow behavior, human inbox review, and real booking behavior are still not verified.
+- GA4/GTM/Meta delivery, human inbox review, and real booking behavior are still not verified.
+- Brevo workflow UI state is now verified from read-only Automations list visibility: Exit Popup Workflow, Newsletter Workflow, General Enquiry Workflow, Strategy Call Workflow, and Tracking Audit Nurture appeared active on 2026-06-23. Workflow internals, triggers, duplicate-enrollment rules, and suppression/exclusion behavior were not opened or verified. Tracking Audit Nurture being active conflicts with earlier inactive-until-approved expectations and should be reviewed before launch traffic.
 - Netlify is a future live deployment target after paid plan purchase, not the immediate environment for current testing.
 - 2026-06-14 QA found contact-page submit interference from footer newsletter validation; verify this after current contact form changes.
 - Styled headings may expose joined text in extracted text, including `ThatMeasures` and `andStart`; review during accessibility/content QA.
@@ -221,7 +222,7 @@ Consent/banner or Consently installation was not verified in the current repo pa
 7. Do not repeat Tracking Audit, Newsletter, or Exit Popup submissions unless explicitly approved; current redacted evidence exists.
 8. If needed, capture non-submitting UI screenshots for Newsletter/Exit Popup success states only after planning how to avoid duplicate submissions.
 9. Create controlled Brevo Meetings booking only after separate approval; verify list #7, sales alert, GA4 MP, Meta CAPI if configured.
-10. Verify Brevo workflow active/inactive state through read-only UI if approved; API workflow endpoints were unavailable.
+10. Review Brevo workflow internals only after explicit approval; visible UI state shows the five lead-flow workflows active, but triggers, steps, duplicate enrollment, and suppression/exclusion behavior remain unverified.
 11. Confirm matching browser/server Meta event IDs.
 12. Confirm test/suppression contacts do not receive live nurture.
 13. Confirm no PII is sent into GA4 event params.

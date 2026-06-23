@@ -15,7 +15,7 @@ Last updated: 2026-06-23.
 | Item | Next step | Verify before live changes |
 | --- | --- | --- |
 | Analytics delivery not verified | Verify GA4/GTM/Meta in read-only tools only after approval; form submissions may have generated events but were not confirmed in analytics UIs | Do not change tags, triggers, pixels, datasets, conversions, or settings |
-| Brevo workflow UI state not verified | Workflow API endpoints were unavailable; use read-only Brevo UI if approved to confirm active/inactive states and suppression rules | Do not activate or edit workflows |
+| Brevo workflows visible as active | Read-only Brevo UI showed Exit Popup Workflow, Newsletter Workflow, General Enquiry Workflow, Strategy Call Workflow, and Tracking Audit Nurture active; review whether this is intended, especially Tracking Audit Nurture | Do not pause, activate, edit, duplicate, or rebuild workflows without explicit approval |
 | Book-a-call real booking not tested | UI/iframe presence is verified, but no meeting was booked | Do not book a meeting or POST to webhook without separate approval |
 | Newsletter and Exit Popup frontend success text partial | Brevo downstream routing is verified, but saved DOM samples did not capture success text | Do not repeat submissions unless explicitly approved; consider non-submitting UI/screenshot review only |
 | Brevo transactional webhook not live | Register only after the final live endpoint returns expected auth behavior | `BREVO_TRANSACTIONAL_WEBHOOK_SECRET` set by name only, endpoint not `404` |
@@ -87,7 +87,7 @@ Last updated: 2026-06-23.
 - Vercel GET-only final sanity evidence was added on 2026-06-23 for 11 key routes on `https://website-internal-test.vercel.app`; all returned `200`, rendered visible content, attempted no non-GET/HEAD requests, and showed no hydration-related errors.
 - Contact Us evidence verifies frontend submission, redirect, visible success state, Brevo contact/list #8/source attributes, CRM deal/task, and internal notification log. GA4/GTM/Meta, automation/workflow behavior, and human inbox review remain unverified.
 - Remaining lead-flow QA evidence was added on 2026-06-23. Tracking Audit, Newsletter, and Exit Popup were submitted once; Book-a-call UI/iframe was inspected without booking; Brevo read-only verification confirmed list/source-history routing, Tracking Audit CRM deal/task, Tracking Audit and Newsletter notification delivery evidence, and templates `19`-`30`.
-- GA4/GTM/Meta delivery, Brevo workflow active/inactive state, human inbox review, and real booking behavior remain unverified.
+- Brevo workflow UI state was verified read-only on 2026-06-23: five visible lead-flow workflows were active, including Tracking Audit Nurture. Workflow triggers/steps/suppression internals were not opened. GA4/GTM/Meta delivery, human inbox review, and real booking behavior remain unverified.
 - Future evidence updates should be incremental and should add an `Evidence Update Log` entry.
 
 ## Suggested Prompt For Next Session

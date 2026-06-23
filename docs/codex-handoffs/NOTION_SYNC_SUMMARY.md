@@ -12,7 +12,7 @@ Do not update Notion from this file without user approval. This is a review-read
 - Vercel is the current development/testing environment for working site and server verification.
 - Netlify is the future live deployment target after paid plan purchase, not the immediate blocker for current testing.
 - Brevo transactional webhook should not be registered until deployed endpoint is verified.
-- Brevo live state needs read-only UI verification before any activation or campaign operations.
+- Brevo live workflow state now has a read-only UI finding: the visible lead-flow workflows appear active, including Tracking Audit Nurture. This should be logged as a risk/review item, not as launch approval.
 - Contact Us QA now has redacted proof of Vercel frontend success plus read-only Brevo contact/list #8/CRM task/internal notification-log verification.
 - Vercel hydration fix QA now has verified console evidence: deployed commit `6a623a1977d8cb34d891f7c073ac6871c5b03e07` shows no React `#418`/`#423`, no hydration errors, and no new application runtime errors on the checked test routes.
 - Vercel GET-only final sanity QA now has redacted evidence for 11 key routes on `https://website-internal-test.vercel.app`: all returned `200`, rendered visible content, attempted no non-GET/HEAD requests, and showed no hydration-related errors.
@@ -59,7 +59,7 @@ Do not update Notion from this file without user approval. This is a review-read
 2. Verify deployed backend commit and API endpoints.
 3. Register Brevo transactional webhook only after endpoint verification.
 4. Do not repeat Contact Us, Tracking Audit, Newsletter, or Exit Popup submissions unless a new controlled retest is explicitly approved.
-5. Verify Brevo workflow active/inactive state and suppression rules through read-only UI.
+5. Review Brevo workflow active state and suppression rules. Read-only UI shows Exit Popup Workflow, Newsletter Workflow, General Enquiry Workflow, Strategy Call Workflow, and Tracking Audit Nurture active; workflow internals were not opened or edited.
 6. Verify Brevo contact attribute grouping and source lifecycle attributes through read-only UI.
 7. Confirm Meta Events Manager deduplication for Lead/Subscribe events.
 8. Confirm GA4 DebugView/Realtime and turn off debug mode after testing.
@@ -78,7 +78,7 @@ Do not update Notion from this file without user approval. This is a review-read
 
 - Any creation/update of Agency OS pages, tasks, evidence records, SOPs, or comments.
 - Any link to GitHub issues/PRs if the user wants private/internal cleanup first.
-- Any statement that a Brevo workflow is live-ready.
+- Any statement that a Brevo workflow is live-ready. The current safe statement is only that the five visible lead-flow workflows appeared active in read-only UI; readiness, triggers, suppression, duplicate enrollment, and email-step correctness remain unverified.
 - Any deployment or live QA claim.
 
 ## Evidence Archive Sync Proposal
@@ -146,7 +146,8 @@ Contact Us evidence sync proposal:
 - Add a Vercel GET-only final sanity evidence record for the 2026-06-23 route check: 11 key routes checked, all `200`, no non-GET/HEAD requests attempted, no `#418`, no `#423`, and no hydration-related errors.
 - Keep QA identity, contact IDs, CRM IDs, recipient emails, internal record IDs, and transactional message IDs out of Notion.
 - Add redacted remaining lead-flow QA records for Tracking Audit, Newsletter, Exit Popup, Book-a-call UI inspection, and Brevo read-only verification.
-- Do not claim GA4/GTM/Meta delivery, Brevo workflow active/inactive state, real booking behavior, or human inbox review is verified.
+- Add a redacted workflow-risk record: Brevo Automations UI showed Exit Popup Workflow, Newsletter Workflow, General Enquiry Workflow, Strategy Call Workflow, and Tracking Audit Nurture active on 2026-06-23. Do not present this as approval or readiness; record it as a review item.
+- Do not claim GA4/GTM/Meta delivery, real booking behavior, workflow internals/suppression correctness, or human inbox review is verified.
 
 ## Hard Warning
 

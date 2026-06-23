@@ -1,0 +1,72 @@
+{
+  "checkedAt": "2026-06-23",
+  "scope": "Read-only Brevo workflow UI and analytics availability/status check after remaining lead-flow QA.",
+  "safetyBoundaries": [
+    "No forms were submitted.",
+    "No webhook tests were sent.",
+    "No Brevo workflow, contact, list, template, CRM record, sender, form, or attribute was edited.",
+    "No Brevo workflow was activated or paused by this pass.",
+    "No GA4, GTM, Meta, Google Ads, Vercel, Netlify, GitHub issue, or Notion setting was changed.",
+    "No secrets, QA identity details, contact IDs, CRM IDs, transactional message IDs, cookies, auth headers, API keys, or environment values are included."
+  ],
+  "brevoWorkflowUi": {
+    "verificationStatus": "Verified from read-only Brevo Automations UI for visible list rows only.",
+    "visibleRowsSummary": [
+      {
+        "workflow": "Exit Popup Workflow",
+        "status": "Active",
+        "notes": "Visible in Brevo Automations UI. Internal row IDs and counts are intentionally omitted."
+      },
+      {
+        "workflow": "Newsletter Workflow",
+        "status": "Active",
+        "notes": "Visible in Brevo Automations UI. Internal row IDs and counts are intentionally omitted."
+      },
+      {
+        "workflow": "General Enquiry Workflow",
+        "status": "Active",
+        "notes": "Visible in Brevo Automations UI. Internal row IDs and counts are intentionally omitted."
+      },
+      {
+        "workflow": "Strategy Call Workflow",
+        "status": "Active",
+        "notes": "Visible in Brevo Automations UI. Internal row IDs and counts are intentionally omitted."
+      },
+      {
+        "workflow": "Tracking Audit Nurture",
+        "status": "Active",
+        "notes": "Visible in Brevo Automations UI. This conflicts with prior expected inactive state and requires review before further testing or launch traffic."
+      }
+    ],
+    "riskNotes": [
+      "Earlier handoff notes expected Tracking Audit Nurture to remain inactive until approved; current read-only UI shows it active.",
+      "The UI row check did not open workflow editors or inspect every trigger/step/suppression rule.",
+      "Do not edit, pause, activate, deactivate, duplicate, or rebuild workflows without explicit user approval."
+    ]
+  },
+  "metaEventsManager": {
+    "verificationStatus": "Partial / not event-verified",
+    "summary": "ATD Meta Events Manager context was visible in Chrome, but the read-only event-row extraction timed out before usable Lead/Subscribe/browser/server deduplication evidence was captured.",
+    "notVerified": [
+      "Contact Us Lead event delivery",
+      "Tracking Audit Lead event delivery",
+      "Newsletter Subscribe event delivery",
+      "Exit Popup Lead event delivery",
+      "browser/server event pairing",
+      "event ID deduplication"
+    ]
+  },
+  "ga4": {
+    "verificationStatus": "Unverified",
+    "summary": "GA4 event rows were not safely verified in this pass. No GA4 settings were changed and no new events were generated for analytics testing."
+  },
+  "gtm": {
+    "verificationStatus": "Unverified",
+    "summary": "GTM event/debug evidence was not safely verified in this pass. No GTM tags, triggers, variables, preview state, or container settings were changed."
+  },
+  "recommendedNextActions": [
+    "Treat active Brevo workflows as a launch-readiness risk until the user decides whether to pause, inspect, or leave them active.",
+    "Perform a separate read-only Brevo workflow detail review only after explicit approval, focusing on triggers, list entry criteria, suppression/exclusion, duplicate enrollment, and email steps.",
+    "Perform GA4/GTM/Meta event verification in a stable read-only session or capture screenshots manually from the correct ATD browser profile; do not generate new events unless separately approved."
+  ]
+}

@@ -105,8 +105,8 @@ This queue prioritizes evidence review without copying files, opening live tools
 - Exit Popup: submitted once after triggering popup on `/service/conversion-tracking`; frontend DOM sample did not capture visible success text; Brevo read-only verification confirmed list `10` and source history.
 - Book-a-call: page inspected only; Brevo Meetings iframe was present; no meeting was booked and no webhook test was sent.
 - Templates `19`-`30` were present through read-only Brevo API template check. Template content was not downloaded or stored.
-- Brevo workflow API endpoints returned unavailable, so workflow active/inactive state remains read-only UI-unverified.
-- GA4/GTM/Meta read-only verification was not safely available in this session and remains unverified.
+- Brevo workflow API endpoints returned unavailable, but read-only Brevo Automations UI verification on 2026-06-23 showed five visible lead-flow workflow rows as active: Exit Popup Workflow, Newsletter Workflow, General Enquiry Workflow, Strategy Call Workflow, and Tracking Audit Nurture. This is a launch-readiness risk because earlier handoff notes expected Tracking Audit Nurture to remain inactive until approved.
+- GA4/GTM/Meta read-only event delivery remains unverified. Meta Events Manager was accessible in the ATD Chrome context, but event-row extraction did not produce usable Lead/Subscribe/browser-server deduplication evidence. GA4/GTM event evidence was not verified.
 
 ## Contact Us Brevo Verification Notes
 
@@ -126,7 +126,7 @@ This queue prioritizes evidence review without copying files, opening live tools
 - Brevo Meetings booking webhook behavior after the active server target is confirmed and a real booking test is separately approved.
 - Meta CAPI/browser deduplication for `Lead` and `Subscribe`.
 - GA4 Measurement Protocol meeting event behavior.
-- Brevo workflow active/inactive state and suppression for test and sales-converted contacts.
+- Brevo workflow detail review for triggers, email steps, duplicate enrollment, suppression, and exclusion behavior. Current visible UI state shows the five lead-flow workflows active, but workflow internals were not opened or edited.
 
 ## Evidence To Keep Out Of Notion
 
@@ -195,3 +195,4 @@ This queue prioritizes evidence review without copying files, opening live tools
 | 2026-06-23 | Added Vercel hydration fix console verification. Deployed commit `6a623a1977d8cb34d891f7c073ac6871c5b03e07` was verified on the working Vercel test URL; React `#418`/`#423`, hydration errors, and new app runtime errors were absent on checked routes. | `EVIDENCE_REVIEW_QUEUE.md`, `EVIDENCE_ARCHIVE_INVENTORY.md`, `WEBSITE_AND_TRACKING_STATE.md`, `OPEN_ITEMS_FOR_NEXT_AGENT.md`, `NOTION_SYNC_SUMMARY.md` |
 | 2026-06-23 | Added Vercel GET-only final sanity check evidence for 11 routes. All returned `200`, rendered visible content, attempted no non-GET/HEAD requests, and showed no `#418`, `#423`, or hydration-related errors. Remaining form tests require the private QA identity. | `EVIDENCE_REVIEW_QUEUE.md`, `EVIDENCE_ARCHIVE_INVENTORY.md`, `WEBSITE_AND_TRACKING_STATE.md`, `OPEN_ITEMS_FOR_NEXT_AGENT.md`, `NOTION_SYNC_SUMMARY.md`, `docs/codex-handoffs/evidence/vercel-get-sanity-2026-06-23/2026-06-23_vercel_get_sanity_redacted-summary.json` |
 | 2026-06-23 | Added remaining lead-flow QA evidence. Tracking Audit, Newsletter, and Exit Popup were submitted once; Book-a-call UI was inspected without booking; Brevo read-only verification confirmed list/source-history routing, Tracking Audit CRM deal/task, Tracking Audit and Newsletter notification delivery evidence, and templates `19`-`30`. | `EVIDENCE_REVIEW_QUEUE.md`, `EVIDENCE_ARCHIVE_INVENTORY.md`, `WEBSITE_AND_TRACKING_STATE.md`, `OPEN_ITEMS_FOR_NEXT_AGENT.md`, `NOTION_SYNC_SUMMARY.md`, `docs/codex-handoffs/evidence/*2026-06-23/` |
+| 2026-06-23 | Added read-only workflow and analytics status evidence. Brevo Automations UI showed Exit Popup Workflow, Newsletter Workflow, General Enquiry Workflow, Strategy Call Workflow, and Tracking Audit Nurture active; GA4/GTM/Meta event delivery remains unverified. | `EVIDENCE_REVIEW_QUEUE.md`, `EVIDENCE_ARCHIVE_INVENTORY.md`, `WEBSITE_AND_TRACKING_STATE.md`, `OPEN_ITEMS_FOR_NEXT_AGENT.md`, `NOTION_SYNC_SUMMARY.md`, `docs/codex-handoffs/evidence/read-only-workflow-analytics-status-2026-06-23/` |
