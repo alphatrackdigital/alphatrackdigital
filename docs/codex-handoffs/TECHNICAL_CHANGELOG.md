@@ -1,5 +1,14 @@
 # Technical Changelog
 
+## 2026-06-29 Ketch Ad Consent Propagation Correction
+
+- Owner Tag Assistant evidence showed a mismatch: `atd_consent_update` contained granted advertising fields while GTM's actual Consent state retained them as denied.
+- Replaced the plain-array Ketch update with `gtag("consent", "update", consentUpdate)`.
+- The update explicitly carries `analytics_storage`, `ad_storage`, `ad_user_data`, and `ad_personalization`, then emits `atd_consent_update`.
+- Added a regression test and a reusable GTM runtime-consent/network matrix runner.
+- Corrected Vercel preview: `https://atd-website-test-o6l381b8e-alphatrackdigitals-projects.vercel.app`.
+- GTM Version 9 remains unchanged and published. The earlier `atd-production-dist-c0f6343.zip` is superseded.
+
 Last updated: 2026-06-24.
 
 ## 2026-06-29 Ketch / GTM / Clarity Publish

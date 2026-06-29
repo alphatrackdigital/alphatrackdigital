@@ -1,5 +1,13 @@
 # Ketch Final Preview QA - 2026-06-24
 
+## 2026-06-29 Ad Consent Propagation Correction
+
+Owner Tag Assistant evidence found that the diagnostic event could report advertising consent granted while GTM retained those fields as denied. The bridge was issuing a plain dataLayer array instead of the real gtag consent command. The corrected bridge calls `gtag("consent", "update", consentUpdate)` with all four optional fields before `atd_consent_update`.
+
+Corrected preview: `https://atd-website-test-o6l381b8e-alphatrackdigitals-projects.vercel.app`
+
+GTM runtime consent registry and network verification passed the required fresh, Reject All, Accept All, Analytics-only, and Targeted Advertising-only states. Tag Assistant connected, but its timeline UI remained blocked from automation by another extension panel. GTM Version 9 and Ketch configuration were not changed.
+
 ## 2026-06-29 Owner-Approved Publish Update
 
 - GTM workspace 9 was published as Version 9 at 2026-06-29 20:33 Africa/Lagos.

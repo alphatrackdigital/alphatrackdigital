@@ -188,6 +188,16 @@
           return update;
         }
 
+        function completeConsentUpdate(update) {
+          var current = w.__atdConsentState || {};
+          return {
+            analytics_storage: update.analytics_storage || current.analytics_storage || "denied",
+            ad_storage: update.ad_storage || current.ad_storage || "denied",
+            ad_user_data: update.ad_user_data || current.ad_user_data || "denied",
+            ad_personalization: update.ad_personalization || current.ad_personalization || "denied"
+          };
+        }
+
         function entryGrantsOptionalConsent(entry) {
           if (Array.isArray(entry) || Object.prototype.toString.call(entry) === "[object Arguments]") {
             return entry[0] === "consent" && entry[1] === "update" && recordGrantsOptionalConsent(entry[2]);
@@ -232,16 +242,15 @@
 
             var ketchUpdate = ketchPurposeConsentUpdate(arguments[index]);
             if (ketchUpdate) {
-              w[l].push(["consent", "update", ketchUpdate]);
-              setTimeout(function() {
-                w[l].push({
-                  event: "atd_consent_update",
-                  analytics_storage: w.__atdConsentState.analytics_storage || "denied",
-                  ad_storage: w.__atdConsentState.ad_storage || "denied",
-                  ad_user_data: w.__atdConsentState.ad_user_data || "denied",
-                  ad_personalization: w.__atdConsentState.ad_personalization || "denied"
-                });
-              }, 0);
+              var consentUpdate = completeConsentUpdate(ketchUpdate);
+              w.gtag("consent", "update", consentUpdate);
+              w[l].push({
+                event: "atd_consent_update",
+                analytics_storage: consentUpdate.analytics_storage,
+                ad_storage: consentUpdate.ad_storage,
+                ad_user_data: consentUpdate.ad_user_data,
+                ad_personalization: consentUpdate.ad_personalization
+              });
             }
 
             if (entryGrantsOptionalConsent(arguments[index])) {

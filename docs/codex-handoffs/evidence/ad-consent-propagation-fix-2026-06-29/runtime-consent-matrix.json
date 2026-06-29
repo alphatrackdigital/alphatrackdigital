@@ -1,0 +1,377 @@
+{
+  "generatedAt": "2026-06-29T20:54:12.386Z",
+  "base": "https://atd-website-test-o6l381b8e-alphatrackdigitals-projects.vercel.app",
+  "method": "GTM runtime consent registry (google_tag_data.ics) plus network requests; Tag Assistant timeline UI was extension-blocked.",
+  "scenarios": [
+    {
+      "name": "fresh_then_reject_all",
+      "before": {
+        "state": {
+          "atdConsentState": {
+            "analytics_storage": "denied",
+            "ad_storage": "denied",
+            "ad_user_data": "denied",
+            "ad_personalization": "denied",
+            "personalization_storage": "denied",
+            "functionality_storage": "granted",
+            "security_storage": "granted",
+            "wait_for_update": 500
+          },
+          "gtmConsent": {
+            "analytics_storage": null,
+            "ad_storage": null,
+            "ad_user_data": null,
+            "ad_personalization": null,
+            "personalization_storage": null,
+            "functionality_storage": null,
+            "security_storage": null
+          },
+          "diagnostic": null
+        },
+        "requests": {
+          "gtm": 0,
+          "ga": 0,
+          "ads": 0,
+          "meta": 0,
+          "brevo": 0,
+          "clarity": 0
+        }
+      },
+      "after": {
+        "state": {
+          "atdConsentState": {
+            "analytics_storage": "denied",
+            "ad_storage": "denied",
+            "ad_user_data": "denied",
+            "ad_personalization": "denied",
+            "personalization_storage": "denied",
+            "functionality_storage": "granted",
+            "security_storage": "granted",
+            "wait_for_update": 500
+          },
+          "gtmConsent": {
+            "analytics_storage": null,
+            "ad_storage": null,
+            "ad_user_data": null,
+            "ad_personalization": null,
+            "personalization_storage": null,
+            "functionality_storage": null,
+            "security_storage": null
+          },
+          "diagnostic": {
+            "event": "atd_consent_update",
+            "analytics_storage": "denied",
+            "ad_storage": "denied",
+            "ad_user_data": "denied",
+            "ad_personalization": "denied"
+          }
+        },
+        "requests": {
+          "gtm": 0,
+          "ga": 0,
+          "ads": 0,
+          "meta": 0,
+          "brevo": 0,
+          "clarity": 0
+        }
+      }
+    },
+    {
+      "name": "accept_all",
+      "before": {
+        "state": {
+          "atdConsentState": {
+            "analytics_storage": "denied",
+            "ad_storage": "denied",
+            "ad_user_data": "denied",
+            "ad_personalization": "denied",
+            "personalization_storage": "denied",
+            "functionality_storage": "granted",
+            "security_storage": "granted",
+            "wait_for_update": 500
+          },
+          "gtmConsent": {
+            "analytics_storage": null,
+            "ad_storage": null,
+            "ad_user_data": null,
+            "ad_personalization": null,
+            "personalization_storage": null,
+            "functionality_storage": null,
+            "security_storage": null
+          },
+          "diagnostic": null
+        },
+        "requests": {
+          "gtm": 0,
+          "ga": 0,
+          "ads": 0,
+          "meta": 0,
+          "brevo": 0,
+          "clarity": 0
+        }
+      },
+      "after": {
+        "state": {
+          "atdConsentState": {
+            "analytics_storage": "granted",
+            "ad_storage": "granted",
+            "ad_user_data": "granted",
+            "ad_personalization": "granted",
+            "personalization_storage": "denied",
+            "functionality_storage": "granted",
+            "security_storage": "granted",
+            "wait_for_update": 500
+          },
+          "gtmConsent": {
+            "analytics_storage": {
+              "default": false,
+              "update": true,
+              "granted": true
+            },
+            "ad_storage": {
+              "default": false,
+              "update": true,
+              "granted": true
+            },
+            "ad_user_data": {
+              "default": false,
+              "update": true,
+              "granted": true
+            },
+            "ad_personalization": {
+              "default": false,
+              "update": true,
+              "granted": true
+            },
+            "personalization_storage": {
+              "default": false,
+              "granted": false
+            },
+            "functionality_storage": {
+              "default": true,
+              "granted": true
+            },
+            "security_storage": {
+              "default": true,
+              "granted": true
+            }
+          },
+          "diagnostic": {
+            "event": "atd_consent_update",
+            "analytics_storage": "granted",
+            "ad_storage": "granted",
+            "ad_user_data": "granted",
+            "ad_personalization": "granted",
+            "gtm.uniqueEventId": 20
+          }
+        },
+        "requests": {
+          "gtm": 1,
+          "ga": 0,
+          "ads": 0,
+          "meta": 0,
+          "brevo": 5,
+          "clarity": 4
+        }
+      }
+    },
+    {
+      "name": "analytics_only",
+      "before": {
+        "state": {
+          "atdConsentState": {
+            "analytics_storage": "denied",
+            "ad_storage": "denied",
+            "ad_user_data": "denied",
+            "ad_personalization": "denied",
+            "personalization_storage": "denied",
+            "functionality_storage": "granted",
+            "security_storage": "granted",
+            "wait_for_update": 500
+          },
+          "gtmConsent": {
+            "analytics_storage": null,
+            "ad_storage": null,
+            "ad_user_data": null,
+            "ad_personalization": null,
+            "personalization_storage": null,
+            "functionality_storage": null,
+            "security_storage": null
+          },
+          "diagnostic": null
+        },
+        "requests": {
+          "gtm": 0,
+          "ga": 0,
+          "ads": 0,
+          "meta": 0,
+          "brevo": 0,
+          "clarity": 0
+        }
+      },
+      "after": {
+        "state": {
+          "atdConsentState": {
+            "analytics_storage": "granted",
+            "ad_storage": "denied",
+            "ad_user_data": "denied",
+            "ad_personalization": "denied",
+            "personalization_storage": "denied",
+            "functionality_storage": "granted",
+            "security_storage": "granted",
+            "wait_for_update": 500
+          },
+          "gtmConsent": {
+            "analytics_storage": {
+              "default": false,
+              "update": true,
+              "granted": true
+            },
+            "ad_storage": {
+              "default": false,
+              "update": false,
+              "granted": false
+            },
+            "ad_user_data": {
+              "default": false,
+              "update": false,
+              "granted": false
+            },
+            "ad_personalization": {
+              "default": false,
+              "update": false,
+              "granted": false
+            },
+            "personalization_storage": {
+              "default": false,
+              "granted": false
+            },
+            "functionality_storage": {
+              "default": true,
+              "granted": true
+            },
+            "security_storage": {
+              "default": true,
+              "granted": true
+            }
+          },
+          "diagnostic": {
+            "event": "atd_consent_update",
+            "analytics_storage": "granted",
+            "ad_storage": "denied",
+            "ad_user_data": "denied",
+            "ad_personalization": "denied",
+            "gtm.uniqueEventId": 20
+          }
+        },
+        "requests": {
+          "gtm": 1,
+          "ga": 0,
+          "ads": 0,
+          "meta": 0,
+          "brevo": 5,
+          "clarity": 4
+        }
+      }
+    },
+    {
+      "name": "targeted_advertising_only",
+      "before": {
+        "state": {
+          "atdConsentState": {
+            "analytics_storage": "denied",
+            "ad_storage": "denied",
+            "ad_user_data": "denied",
+            "ad_personalization": "denied",
+            "personalization_storage": "denied",
+            "functionality_storage": "granted",
+            "security_storage": "granted",
+            "wait_for_update": 500
+          },
+          "gtmConsent": {
+            "analytics_storage": null,
+            "ad_storage": null,
+            "ad_user_data": null,
+            "ad_personalization": null,
+            "personalization_storage": null,
+            "functionality_storage": null,
+            "security_storage": null
+          },
+          "diagnostic": null
+        },
+        "requests": {
+          "gtm": 0,
+          "ga": 0,
+          "ads": 0,
+          "meta": 0,
+          "brevo": 0,
+          "clarity": 0
+        }
+      },
+      "after": {
+        "state": {
+          "atdConsentState": {
+            "analytics_storage": "denied",
+            "ad_storage": "granted",
+            "ad_user_data": "granted",
+            "ad_personalization": "granted",
+            "personalization_storage": "denied",
+            "functionality_storage": "granted",
+            "security_storage": "granted",
+            "wait_for_update": 500
+          },
+          "gtmConsent": {
+            "analytics_storage": {
+              "default": false,
+              "update": false,
+              "granted": false
+            },
+            "ad_storage": {
+              "default": false,
+              "update": true,
+              "granted": true
+            },
+            "ad_user_data": {
+              "default": false,
+              "update": true,
+              "granted": true
+            },
+            "ad_personalization": {
+              "default": false,
+              "update": true,
+              "granted": true
+            },
+            "personalization_storage": {
+              "default": false,
+              "granted": false
+            },
+            "functionality_storage": {
+              "default": true,
+              "granted": true
+            },
+            "security_storage": {
+              "default": true,
+              "granted": true
+            }
+          },
+          "diagnostic": {
+            "event": "atd_consent_update",
+            "analytics_storage": "denied",
+            "ad_storage": "granted",
+            "ad_user_data": "granted",
+            "ad_personalization": "granted",
+            "gtm.uniqueEventId": 20
+          }
+        },
+        "requests": {
+          "gtm": 1,
+          "ga": 0,
+          "ads": 0,
+          "meta": 0,
+          "brevo": 0,
+          "clarity": 0
+        }
+      }
+    }
+  ]
+}

@@ -1,5 +1,14 @@
 # Website And Tracking State
 
+## 2026-06-29 Ad Consent Propagation Correction
+
+- Owner manual Tag Assistant testing exposed a Consent Mode mismatch after Accept All: analytics was granted in GTM, but the three advertising fields remained denied despite granted values in the diagnostic dataLayer event.
+- Root cause was a plain dataLayer array used in place of the real gtag Consent Mode update.
+- The Ketch bridge now completes all four optional fields, calls `gtag("consent", "update", consentUpdate)`, and only then pushes `atd_consent_update`.
+- Preview `https://atd-website-test-o6l381b8e-alphatrackdigitals-projects.vercel.app` passed runtime GTM consent-state and network checks for fresh visit, Reject All, Accept All, Analytics-only, and Targeted Advertising-only.
+- GTM Version 9 remains published; Clarity remains GTM-only under `analytics_storage`.
+- The previous deployment ZIP is superseded. Manual cPanel deployment of the corrected package and full production QA remain pending.
+
 Last updated: 2026-06-24.
 
 ## 2026-06-29 Published State

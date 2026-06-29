@@ -1,5 +1,14 @@
 # Open Items For Next Agent
 
+## 2026-06-29 Ad Consent Propagation Fix
+
+- Owner Tag Assistant evidence found that the diagnostic event reported advertising consent granted while GTM's Consent tab retained denied ad fields.
+- The repo bridge used a plain dataLayer array for the Ketch-derived consent update. It now calls the real `gtag("consent", "update", state)` API with all four optional fields before `atd_consent_update`.
+- Corrected preview `https://atd-website-test-o6l381b8e-alphatrackdigitals-projects.vercel.app` passed GTM runtime-consent and network verification for fresh visit, Reject All, Accept All, Analytics-only, and Targeted Advertising-only.
+- GTM Version 9 remains published; no GTM or Ketch setting changed.
+- `atd-production-dist-c0f6343.zip` is superseded. Use the corrected package prepared from the fix commit.
+- Manual cPanel deployment, owner production QA, and Cookie Policy workaround approval remain pending.
+
 Last updated: 2026-06-25.
 
 ## Current Deployment Context
