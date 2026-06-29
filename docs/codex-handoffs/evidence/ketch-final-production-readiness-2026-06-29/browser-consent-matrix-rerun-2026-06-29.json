@@ -1,0 +1,1229 @@
+{
+  "base": "https://atd-website-test-lxj2vgs9r-alphatrackdigitals-projects.vercel.app",
+  "generatedAt": "2026-06-29T02:41:12.917Z",
+  "chromeConstraint": "Tag Assistant timeline is supplemented by this isolated browser network/dataLayer matrix because its injected extension panel blocks automation of the connected timeline tab.",
+  "pagesBeforeConsent": [
+    {
+      "route": "/",
+      "summary": {
+        "counts": {
+          "ketch": 7,
+          "gtmJs": 0,
+          "gtagJs": 0,
+          "gaCollect": 0,
+          "googleAds": 0,
+          "meta": 0,
+          "linkedin": 0,
+          "brevoTracking": 0,
+          "brevoSchedulerEssential": 0,
+          "clarity": 0,
+          "oldCmp": 0
+        },
+        "samples": {
+          "ketch": [
+            "global.ketchcdn.com/web/v3/config/alphatrack_digital/website_smart_tag/boot.js",
+            "global.ketchcdn.com/web/v3/ip",
+            "global.ketchcdn.com/web/v3/config/alphatrack_digital/website_smart_tag/production/default/en/config.json",
+            "global.ketchcdn.com/web/v2/log",
+            "global.ketchcdn.com/web/v3/consent/alphatrack_digital/get",
+            "global.ketchcdn.com/gvl/eu/vendor-list.json",
+            "global.ketchcdn.com/web/v2/assetsv1/orgs/alphatrack_digital/1775683967233/test/logo-gXKve_iq.png"
+          ]
+        }
+      },
+      "state": {
+        "consent": [],
+        "ketchEvents": [
+          {
+            "event": "ketchPermitChanged"
+          },
+          {
+            "event": "switchbitPermitChanged"
+          }
+        ],
+        "atdConsentState": {
+          "analytics_storage": "denied",
+          "ad_storage": "denied",
+          "ad_user_data": "denied",
+          "ad_personalization": "denied",
+          "personalization_storage": "denied",
+          "functionality_storage": "granted",
+          "security_storage": "granted",
+          "wait_for_update": 500
+        },
+        "bodyHasBanner": true
+      }
+    },
+    {
+      "route": "/contact-us",
+      "summary": {
+        "counts": {
+          "ketch": 7,
+          "gtmJs": 0,
+          "gtagJs": 0,
+          "gaCollect": 0,
+          "googleAds": 0,
+          "meta": 0,
+          "linkedin": 0,
+          "brevoTracking": 0,
+          "brevoSchedulerEssential": 0,
+          "clarity": 0,
+          "oldCmp": 0
+        },
+        "samples": {
+          "ketch": [
+            "global.ketchcdn.com/web/v3/config/alphatrack_digital/website_smart_tag/boot.js",
+            "global.ketchcdn.com/web/v3/ip",
+            "global.ketchcdn.com/web/v3/config/alphatrack_digital/website_smart_tag/production/default/en/config.json",
+            "global.ketchcdn.com/web/v2/log",
+            "global.ketchcdn.com/web/v3/consent/alphatrack_digital/get",
+            "global.ketchcdn.com/gvl/eu/vendor-list.json",
+            "global.ketchcdn.com/web/v2/assetsv1/orgs/alphatrack_digital/1775683967233/test/logo-gXKve_iq.png"
+          ]
+        }
+      },
+      "state": {
+        "consent": [],
+        "ketchEvents": [
+          {
+            "event": "ketchPermitChanged"
+          },
+          {
+            "event": "switchbitPermitChanged"
+          }
+        ],
+        "atdConsentState": {
+          "analytics_storage": "denied",
+          "ad_storage": "denied",
+          "ad_user_data": "denied",
+          "ad_personalization": "denied",
+          "personalization_storage": "denied",
+          "functionality_storage": "granted",
+          "security_storage": "granted",
+          "wait_for_update": 500
+        },
+        "bodyHasBanner": true
+      }
+    },
+    {
+      "route": "/book-a-call",
+      "summary": {
+        "counts": {
+          "ketch": 7,
+          "gtmJs": 0,
+          "gtagJs": 0,
+          "gaCollect": 0,
+          "googleAds": 0,
+          "meta": 0,
+          "linkedin": 0,
+          "brevoTracking": 0,
+          "brevoSchedulerEssential": 22,
+          "clarity": 0,
+          "oldCmp": 0
+        },
+        "samples": {
+          "ketch": [
+            "global.ketchcdn.com/web/v3/config/alphatrack_digital/website_smart_tag/boot.js",
+            "global.ketchcdn.com/web/v3/ip",
+            "global.ketchcdn.com/web/v3/config/alphatrack_digital/website_smart_tag/production/default/en/config.json",
+            "global.ketchcdn.com/web/v2/log",
+            "global.ketchcdn.com/web/v3/consent/alphatrack_digital/get",
+            "global.ketchcdn.com/gvl/eu/vendor-list.json",
+            "global.ketchcdn.com/web/v2/assetsv1/orgs/alphatrack_digital/1775683967233/test/logo-gXKve_iq.png"
+          ],
+          "brevoSchedulerEssential": [
+            "meet.brevo.com/meet-atd/borderless",
+            "meet.brevo.com/meet-atd/chunk-3QCBEWZO.js",
+            "meet.brevo.com/meet-atd/chunk-SPDZE2WO.js",
+            "meet.brevo.com/meet-atd/chunk-EOSGJOM5.js",
+            "meet.brevo.com/meet-atd/chunk-WWX6BADO.js",
+            "meet.brevo.com/styles-C6TSSN7T.css",
+            "meet.brevo.com/chunk-3QCBEWZO.js",
+            "meet.brevo.com/chunk-SPDZE2WO.js"
+          ]
+        }
+      },
+      "state": {
+        "consent": [],
+        "ketchEvents": [
+          {
+            "event": "ketchPermitChanged"
+          },
+          {
+            "event": "switchbitPermitChanged"
+          }
+        ],
+        "atdConsentState": {
+          "analytics_storage": "denied",
+          "ad_storage": "denied",
+          "ad_user_data": "denied",
+          "ad_personalization": "denied",
+          "personalization_storage": "denied",
+          "functionality_storage": "granted",
+          "security_storage": "granted",
+          "wait_for_update": 500
+        },
+        "bodyHasBanner": true
+      }
+    },
+    {
+      "route": "/offer/tracking-audit",
+      "summary": {
+        "counts": {
+          "ketch": 7,
+          "gtmJs": 0,
+          "gtagJs": 0,
+          "gaCollect": 0,
+          "googleAds": 0,
+          "meta": 0,
+          "linkedin": 0,
+          "brevoTracking": 0,
+          "brevoSchedulerEssential": 0,
+          "clarity": 0,
+          "oldCmp": 0
+        },
+        "samples": {
+          "ketch": [
+            "global.ketchcdn.com/web/v3/config/alphatrack_digital/website_smart_tag/boot.js",
+            "global.ketchcdn.com/web/v3/ip",
+            "global.ketchcdn.com/web/v3/config/alphatrack_digital/website_smart_tag/production/default/en/config.json",
+            "global.ketchcdn.com/web/v2/log",
+            "global.ketchcdn.com/web/v3/consent/alphatrack_digital/get",
+            "global.ketchcdn.com/gvl/eu/vendor-list.json",
+            "global.ketchcdn.com/web/v2/assetsv1/orgs/alphatrack_digital/1775683967233/test/logo-gXKve_iq.png"
+          ]
+        }
+      },
+      "state": {
+        "consent": [],
+        "ketchEvents": [
+          {
+            "event": "ketchPermitChanged"
+          },
+          {
+            "event": "switchbitPermitChanged"
+          }
+        ],
+        "atdConsentState": {
+          "analytics_storage": "denied",
+          "ad_storage": "denied",
+          "ad_user_data": "denied",
+          "ad_personalization": "denied",
+          "personalization_storage": "denied",
+          "functionality_storage": "granted",
+          "security_storage": "granted",
+          "wait_for_update": 500
+        },
+        "bodyHasBanner": true
+      }
+    },
+    {
+      "route": "/book-a-call/thank-you",
+      "summary": {
+        "counts": {
+          "ketch": 7,
+          "gtmJs": 0,
+          "gtagJs": 0,
+          "gaCollect": 0,
+          "googleAds": 0,
+          "meta": 0,
+          "linkedin": 0,
+          "brevoTracking": 0,
+          "brevoSchedulerEssential": 0,
+          "clarity": 0,
+          "oldCmp": 0
+        },
+        "samples": {
+          "ketch": [
+            "global.ketchcdn.com/web/v3/config/alphatrack_digital/website_smart_tag/boot.js",
+            "global.ketchcdn.com/web/v3/ip",
+            "global.ketchcdn.com/web/v3/config/alphatrack_digital/website_smart_tag/production/default/en/config.json",
+            "global.ketchcdn.com/web/v2/log",
+            "global.ketchcdn.com/web/v3/consent/alphatrack_digital/get",
+            "global.ketchcdn.com/gvl/eu/vendor-list.json",
+            "global.ketchcdn.com/web/v2/assetsv1/orgs/alphatrack_digital/1775683967233/test/logo-gXKve_iq.png"
+          ]
+        }
+      },
+      "state": {
+        "consent": [],
+        "ketchEvents": [
+          {
+            "event": "ketchPermitChanged"
+          },
+          {
+            "event": "switchbitPermitChanged"
+          }
+        ],
+        "atdConsentState": {
+          "analytics_storage": "denied",
+          "ad_storage": "denied",
+          "ad_user_data": "denied",
+          "ad_personalization": "denied",
+          "personalization_storage": "denied",
+          "functionality_storage": "granted",
+          "security_storage": "granted",
+          "wait_for_update": 500
+        },
+        "bodyHasBanner": true
+      }
+    },
+    {
+      "route": "/privacy-policy",
+      "summary": {
+        "counts": {
+          "ketch": 7,
+          "gtmJs": 0,
+          "gtagJs": 0,
+          "gaCollect": 0,
+          "googleAds": 0,
+          "meta": 0,
+          "linkedin": 0,
+          "brevoTracking": 0,
+          "brevoSchedulerEssential": 0,
+          "clarity": 0,
+          "oldCmp": 0
+        },
+        "samples": {
+          "ketch": [
+            "global.ketchcdn.com/web/v3/config/alphatrack_digital/website_smart_tag/boot.js",
+            "global.ketchcdn.com/web/v3/ip",
+            "global.ketchcdn.com/web/v3/config/alphatrack_digital/website_smart_tag/production/default/en/config.json",
+            "global.ketchcdn.com/web/v2/log",
+            "global.ketchcdn.com/web/v3/consent/alphatrack_digital/get",
+            "global.ketchcdn.com/gvl/eu/vendor-list.json",
+            "global.ketchcdn.com/web/v2/assetsv1/orgs/alphatrack_digital/1775683967233/test/logo-gXKve_iq.png"
+          ]
+        }
+      },
+      "state": {
+        "consent": [],
+        "ketchEvents": [
+          {
+            "event": "ketchPermitChanged"
+          },
+          {
+            "event": "switchbitPermitChanged"
+          }
+        ],
+        "atdConsentState": {
+          "analytics_storage": "denied",
+          "ad_storage": "denied",
+          "ad_user_data": "denied",
+          "ad_personalization": "denied",
+          "personalization_storage": "denied",
+          "functionality_storage": "granted",
+          "security_storage": "granted",
+          "wait_for_update": 500
+        },
+        "bodyHasBanner": true
+      }
+    },
+    {
+      "route": "/cookie-policy",
+      "summary": {
+        "counts": {
+          "ketch": 7,
+          "gtmJs": 0,
+          "gtagJs": 0,
+          "gaCollect": 0,
+          "googleAds": 0,
+          "meta": 0,
+          "linkedin": 0,
+          "brevoTracking": 0,
+          "brevoSchedulerEssential": 0,
+          "clarity": 0,
+          "oldCmp": 0
+        },
+        "samples": {
+          "ketch": [
+            "global.ketchcdn.com/web/v3/config/alphatrack_digital/website_smart_tag/boot.js",
+            "global.ketchcdn.com/web/v3/ip",
+            "global.ketchcdn.com/web/v3/config/alphatrack_digital/website_smart_tag/production/default/en/config.json",
+            "global.ketchcdn.com/web/v2/log",
+            "global.ketchcdn.com/web/v3/consent/alphatrack_digital/get",
+            "global.ketchcdn.com/gvl/eu/vendor-list.json",
+            "global.ketchcdn.com/web/v2/assetsv1/orgs/alphatrack_digital/1775683967233/test/logo-gXKve_iq.png"
+          ]
+        }
+      },
+      "state": {
+        "consent": [],
+        "ketchEvents": [
+          {
+            "event": "ketchPermitChanged"
+          },
+          {
+            "event": "switchbitPermitChanged"
+          }
+        ],
+        "atdConsentState": {
+          "analytics_storage": "denied",
+          "ad_storage": "denied",
+          "ad_user_data": "denied",
+          "ad_personalization": "denied",
+          "personalization_storage": "denied",
+          "functionality_storage": "granted",
+          "security_storage": "granted",
+          "wait_for_update": 500
+        },
+        "bodyHasBanner": true
+      }
+    },
+    {
+      "route": "/terms-of-service",
+      "summary": {
+        "counts": {
+          "ketch": 7,
+          "gtmJs": 0,
+          "gtagJs": 0,
+          "gaCollect": 0,
+          "googleAds": 0,
+          "meta": 0,
+          "linkedin": 0,
+          "brevoTracking": 0,
+          "brevoSchedulerEssential": 0,
+          "clarity": 0,
+          "oldCmp": 0
+        },
+        "samples": {
+          "ketch": [
+            "global.ketchcdn.com/web/v3/config/alphatrack_digital/website_smart_tag/boot.js",
+            "global.ketchcdn.com/web/v3/ip",
+            "global.ketchcdn.com/web/v3/config/alphatrack_digital/website_smart_tag/production/default/en/config.json",
+            "global.ketchcdn.com/web/v2/log",
+            "global.ketchcdn.com/web/v3/consent/alphatrack_digital/get",
+            "global.ketchcdn.com/gvl/eu/vendor-list.json",
+            "global.ketchcdn.com/web/v2/assetsv1/orgs/alphatrack_digital/1775683967233/test/logo-gXKve_iq.png"
+          ]
+        }
+      },
+      "state": {
+        "consent": [],
+        "ketchEvents": [
+          {
+            "event": "ketchPermitChanged"
+          },
+          {
+            "event": "switchbitPermitChanged"
+          }
+        ],
+        "atdConsentState": {
+          "analytics_storage": "denied",
+          "ad_storage": "denied",
+          "ad_user_data": "denied",
+          "ad_personalization": "denied",
+          "personalization_storage": "denied",
+          "functionality_storage": "granted",
+          "security_storage": "granted",
+          "wait_for_update": 500
+        },
+        "bodyHasBanner": true
+      }
+    }
+  ],
+  "scenarios": [
+    {
+      "name": "reject_all",
+      "button": "Reject All",
+      "before": {
+        "counts": {
+          "ketch": 7,
+          "gtmJs": 0,
+          "gtagJs": 0,
+          "gaCollect": 0,
+          "googleAds": 0,
+          "meta": 0,
+          "linkedin": 0,
+          "brevoTracking": 0,
+          "brevoSchedulerEssential": 0,
+          "clarity": 0,
+          "oldCmp": 0
+        },
+        "samples": {
+          "ketch": [
+            "global.ketchcdn.com/web/v3/config/alphatrack_digital/website_smart_tag/boot.js",
+            "global.ketchcdn.com/web/v3/ip",
+            "global.ketchcdn.com/web/v3/config/alphatrack_digital/website_smart_tag/production/default/en/config.json",
+            "global.ketchcdn.com/web/v2/log",
+            "global.ketchcdn.com/web/v3/consent/alphatrack_digital/get",
+            "global.ketchcdn.com/gvl/eu/vendor-list.json",
+            "global.ketchcdn.com/web/v2/assetsv1/orgs/alphatrack_digital/1775683967233/test/logo-gXKve_iq.png"
+          ]
+        }
+      },
+      "after": {
+        "counts": {
+          "ketch": 8,
+          "gtmJs": 0,
+          "gtagJs": 0,
+          "gaCollect": 0,
+          "googleAds": 0,
+          "meta": 0,
+          "linkedin": 0,
+          "brevoTracking": 0,
+          "brevoSchedulerEssential": 0,
+          "clarity": 0,
+          "oldCmp": 0
+        },
+        "samples": {
+          "ketch": [
+            "global.ketchcdn.com/web/v3/config/alphatrack_digital/website_smart_tag/boot.js",
+            "global.ketchcdn.com/web/v3/ip",
+            "global.ketchcdn.com/web/v3/config/alphatrack_digital/website_smart_tag/production/default/en/config.json",
+            "global.ketchcdn.com/web/v2/log",
+            "global.ketchcdn.com/web/v3/consent/alphatrack_digital/get",
+            "global.ketchcdn.com/gvl/eu/vendor-list.json",
+            "global.ketchcdn.com/web/v2/assetsv1/orgs/alphatrack_digital/1775683967233/test/logo-gXKve_iq.png",
+            "global.ketchcdn.com/web/v3/consent/alphatrack_digital/update"
+          ]
+        }
+      },
+      "all": {
+        "counts": {
+          "ketch": 13,
+          "gtmJs": 0,
+          "gtagJs": 0,
+          "gaCollect": 0,
+          "googleAds": 0,
+          "meta": 0,
+          "linkedin": 0,
+          "brevoTracking": 0,
+          "brevoSchedulerEssential": 0,
+          "clarity": 0,
+          "oldCmp": 0
+        },
+        "samples": {
+          "ketch": [
+            "global.ketchcdn.com/web/v3/config/alphatrack_digital/website_smart_tag/boot.js",
+            "global.ketchcdn.com/web/v3/ip",
+            "global.ketchcdn.com/web/v3/config/alphatrack_digital/website_smart_tag/production/default/en/config.json",
+            "global.ketchcdn.com/web/v2/log",
+            "global.ketchcdn.com/web/v3/consent/alphatrack_digital/get",
+            "global.ketchcdn.com/gvl/eu/vendor-list.json",
+            "global.ketchcdn.com/web/v2/assetsv1/orgs/alphatrack_digital/1775683967233/test/logo-gXKve_iq.png",
+            "global.ketchcdn.com/web/v3/consent/alphatrack_digital/update"
+          ]
+        }
+      },
+      "state": {
+        "consent": [
+          {
+            "action": "update",
+            "state": {
+              "analytics_storage": "denied",
+              "ad_storage": "denied",
+              "ad_user_data": "denied",
+              "ad_personalization": "denied"
+            }
+          },
+          {
+            "action": "update",
+            "state": {
+              "analytics_storage": "denied",
+              "ad_storage": "denied",
+              "ad_user_data": "denied",
+              "ad_personalization": "denied"
+            }
+          }
+        ],
+        "ketchEvents": [
+          {
+            "event": "ketchPermitChanged"
+          },
+          {
+            "event": "switchbitPermitChanged"
+          },
+          {
+            "event": "ketchPermitChanged",
+            "analytics___measurement": false,
+            "targeted_advertising": false
+          },
+          {
+            "event": "switchbitPermitChanged",
+            "analytics___measurement": false,
+            "targeted_advertising": false
+          }
+        ],
+        "atdConsentState": {
+          "analytics_storage": "denied",
+          "ad_storage": "denied",
+          "ad_user_data": "denied",
+          "ad_personalization": "denied",
+          "personalization_storage": "denied",
+          "functionality_storage": "granted",
+          "security_storage": "granted",
+          "wait_for_update": 500
+        },
+        "bodyHasBanner": false
+      },
+      "persisted": {
+        "consent": [
+          {
+            "action": "update",
+            "state": {
+              "analytics_storage": "denied",
+              "ad_storage": "denied",
+              "ad_user_data": "denied",
+              "ad_personalization": "denied"
+            }
+          },
+          {
+            "action": "update",
+            "state": {
+              "analytics_storage": "denied",
+              "ad_storage": "denied",
+              "ad_user_data": "denied",
+              "ad_personalization": "denied"
+            }
+          }
+        ],
+        "ketchEvents": [
+          {
+            "event": "ketchPermitChanged",
+            "analytics___measurement": false,
+            "targeted_advertising": false
+          },
+          {
+            "event": "switchbitPermitChanged",
+            "analytics___measurement": false,
+            "targeted_advertising": false
+          }
+        ],
+        "atdConsentState": {
+          "analytics_storage": "denied",
+          "ad_storage": "denied",
+          "ad_user_data": "denied",
+          "ad_personalization": "denied",
+          "personalization_storage": "denied",
+          "functionality_storage": "granted",
+          "security_storage": "granted",
+          "wait_for_update": 500
+        },
+        "bodyHasBanner": false
+      }
+    },
+    {
+      "name": "accept_all",
+      "button": "Accept All",
+      "before": {
+        "counts": {
+          "ketch": 7,
+          "gtmJs": 0,
+          "gtagJs": 0,
+          "gaCollect": 0,
+          "googleAds": 0,
+          "meta": 0,
+          "linkedin": 0,
+          "brevoTracking": 0,
+          "brevoSchedulerEssential": 0,
+          "clarity": 0,
+          "oldCmp": 0
+        },
+        "samples": {
+          "ketch": [
+            "global.ketchcdn.com/web/v3/config/alphatrack_digital/website_smart_tag/boot.js",
+            "global.ketchcdn.com/web/v3/ip",
+            "global.ketchcdn.com/web/v3/config/alphatrack_digital/website_smart_tag/production/default/en/config.json",
+            "global.ketchcdn.com/web/v2/log",
+            "global.ketchcdn.com/web/v3/consent/alphatrack_digital/get",
+            "global.ketchcdn.com/gvl/eu/vendor-list.json",
+            "global.ketchcdn.com/web/v2/assetsv1/orgs/alphatrack_digital/1775683967233/test/logo-gXKve_iq.png"
+          ]
+        }
+      },
+      "after": {
+        "counts": {
+          "ketch": 8,
+          "gtmJs": 1,
+          "gtagJs": 0,
+          "gaCollect": 1,
+          "googleAds": 0,
+          "meta": 0,
+          "linkedin": 0,
+          "brevoTracking": 5,
+          "brevoSchedulerEssential": 0,
+          "clarity": 0,
+          "oldCmp": 0
+        },
+        "samples": {
+          "ketch": [
+            "global.ketchcdn.com/web/v3/config/alphatrack_digital/website_smart_tag/boot.js",
+            "global.ketchcdn.com/web/v3/ip",
+            "global.ketchcdn.com/web/v3/config/alphatrack_digital/website_smart_tag/production/default/en/config.json",
+            "global.ketchcdn.com/web/v2/log",
+            "global.ketchcdn.com/web/v3/consent/alphatrack_digital/get",
+            "global.ketchcdn.com/gvl/eu/vendor-list.json",
+            "global.ketchcdn.com/web/v2/assetsv1/orgs/alphatrack_digital/1775683967233/test/logo-gXKve_iq.png",
+            "global.ketchcdn.com/web/v3/consent/alphatrack_digital/update"
+          ],
+          "brevoTracking": [
+            "conversations-widget.brevo.com/brevo-conversations.js",
+            "conversations-widget.brevo.com/",
+            "fe-conversations-widget.brevo.com/04c289c4972dd25d625b24a6b57744163162a2c7.css",
+            "conversations-widget.brevo.com/meteor_runtime_config.js",
+            "fe-conversations-widget.brevo.com/1dc12005629c61b37b5c4d4a57883461da107f86.js"
+          ],
+          "gtmJs": [
+            "www.googletagmanager.com/gtm.js"
+          ],
+          "gaCollect": [
+            "www.google-analytics.com/g/collect"
+          ]
+        }
+      },
+      "all": {
+        "counts": {
+          "ketch": 13,
+          "gtmJs": 2,
+          "gtagJs": 0,
+          "gaCollect": 1,
+          "googleAds": 0,
+          "meta": 0,
+          "linkedin": 0,
+          "brevoTracking": 10,
+          "brevoSchedulerEssential": 0,
+          "clarity": 0,
+          "oldCmp": 0
+        },
+        "samples": {
+          "ketch": [
+            "global.ketchcdn.com/web/v3/config/alphatrack_digital/website_smart_tag/boot.js",
+            "global.ketchcdn.com/web/v3/ip",
+            "global.ketchcdn.com/web/v3/config/alphatrack_digital/website_smart_tag/production/default/en/config.json",
+            "global.ketchcdn.com/web/v2/log",
+            "global.ketchcdn.com/web/v3/consent/alphatrack_digital/get",
+            "global.ketchcdn.com/gvl/eu/vendor-list.json",
+            "global.ketchcdn.com/web/v2/assetsv1/orgs/alphatrack_digital/1775683967233/test/logo-gXKve_iq.png",
+            "global.ketchcdn.com/web/v3/consent/alphatrack_digital/update"
+          ],
+          "brevoTracking": [
+            "conversations-widget.brevo.com/brevo-conversations.js",
+            "conversations-widget.brevo.com/",
+            "fe-conversations-widget.brevo.com/04c289c4972dd25d625b24a6b57744163162a2c7.css",
+            "conversations-widget.brevo.com/meteor_runtime_config.js",
+            "fe-conversations-widget.brevo.com/1dc12005629c61b37b5c4d4a57883461da107f86.js",
+            "conversations-widget.brevo.com/brevo-conversations.js",
+            "conversations-widget.brevo.com/",
+            "fe-conversations-widget.brevo.com/04c289c4972dd25d625b24a6b57744163162a2c7.css"
+          ],
+          "gtmJs": [
+            "www.googletagmanager.com/gtm.js",
+            "www.googletagmanager.com/gtm.js"
+          ],
+          "gaCollect": [
+            "www.google-analytics.com/g/collect"
+          ]
+        }
+      },
+      "state": {
+        "consent": [
+          {
+            "action": "update",
+            "state": {
+              "analytics_storage": "granted",
+              "ad_storage": "granted",
+              "ad_user_data": "granted",
+              "ad_personalization": "granted"
+            }
+          },
+          {
+            "action": "update",
+            "state": {
+              "analytics_storage": "granted",
+              "ad_storage": "granted",
+              "ad_user_data": "granted",
+              "ad_personalization": "granted"
+            }
+          }
+        ],
+        "ketchEvents": [
+          {
+            "event": "ketchPermitChanged"
+          },
+          {
+            "event": "switchbitPermitChanged"
+          },
+          {
+            "event": "ketchPermitChanged",
+            "analytics___measurement": true,
+            "targeted_advertising": true
+          },
+          {
+            "event": "switchbitPermitChanged",
+            "analytics___measurement": true,
+            "targeted_advertising": true
+          }
+        ],
+        "atdConsentState": {
+          "analytics_storage": "granted",
+          "ad_storage": "granted",
+          "ad_user_data": "granted",
+          "ad_personalization": "granted",
+          "personalization_storage": "denied",
+          "functionality_storage": "granted",
+          "security_storage": "granted",
+          "wait_for_update": 500
+        },
+        "bodyHasBanner": false
+      },
+      "persisted": {
+        "consent": [
+          {
+            "action": "update",
+            "state": {
+              "analytics_storage": "granted",
+              "ad_storage": "granted",
+              "ad_user_data": "granted",
+              "ad_personalization": "granted"
+            }
+          },
+          {
+            "action": "update",
+            "state": {
+              "analytics_storage": "granted",
+              "ad_storage": "granted",
+              "ad_user_data": "granted",
+              "ad_personalization": "granted"
+            }
+          }
+        ],
+        "ketchEvents": [
+          {
+            "event": "ketchPermitChanged",
+            "analytics___measurement": true,
+            "targeted_advertising": true
+          },
+          {
+            "event": "switchbitPermitChanged",
+            "analytics___measurement": true,
+            "targeted_advertising": true
+          }
+        ],
+        "atdConsentState": {
+          "analytics_storage": "granted",
+          "ad_storage": "granted",
+          "ad_user_data": "granted",
+          "ad_personalization": "granted",
+          "personalization_storage": "denied",
+          "functionality_storage": "granted",
+          "security_storage": "granted",
+          "wait_for_update": 500
+        },
+        "bodyHasBanner": false
+      }
+    },
+    {
+      "name": "analytics_only",
+      "before": {
+        "counts": {
+          "ketch": 7,
+          "gtmJs": 0,
+          "gtagJs": 0,
+          "gaCollect": 0,
+          "googleAds": 0,
+          "meta": 0,
+          "linkedin": 0,
+          "brevoTracking": 0,
+          "brevoSchedulerEssential": 0,
+          "clarity": 0,
+          "oldCmp": 0
+        },
+        "samples": {
+          "ketch": [
+            "global.ketchcdn.com/web/v3/config/alphatrack_digital/website_smart_tag/boot.js",
+            "global.ketchcdn.com/web/v3/ip",
+            "global.ketchcdn.com/web/v3/config/alphatrack_digital/website_smart_tag/production/default/en/config.json",
+            "global.ketchcdn.com/web/v2/log",
+            "global.ketchcdn.com/web/v3/consent/alphatrack_digital/get",
+            "global.ketchcdn.com/gvl/eu/vendor-list.json",
+            "global.ketchcdn.com/web/v2/assetsv1/orgs/alphatrack_digital/1775683967233/test/logo-gXKve_iq.png"
+          ]
+        }
+      },
+      "after": {
+        "counts": {
+          "ketch": 10,
+          "gtmJs": 1,
+          "gtagJs": 0,
+          "gaCollect": 1,
+          "googleAds": 0,
+          "meta": 0,
+          "linkedin": 0,
+          "brevoTracking": 5,
+          "brevoSchedulerEssential": 0,
+          "clarity": 0,
+          "oldCmp": 0
+        },
+        "samples": {
+          "ketch": [
+            "global.ketchcdn.com/web/v3/config/alphatrack_digital/website_smart_tag/boot.js",
+            "global.ketchcdn.com/web/v3/ip",
+            "global.ketchcdn.com/web/v3/config/alphatrack_digital/website_smart_tag/production/default/en/config.json",
+            "global.ketchcdn.com/web/v2/log",
+            "global.ketchcdn.com/web/v3/consent/alphatrack_digital/get",
+            "global.ketchcdn.com/gvl/eu/vendor-list.json",
+            "global.ketchcdn.com/web/v2/assetsv1/orgs/alphatrack_digital/1775683967233/test/logo-gXKve_iq.png",
+            "global.ketchcdn.com/gvl/eu/vendor-list.json"
+          ],
+          "brevoTracking": [
+            "conversations-widget.brevo.com/brevo-conversations.js",
+            "conversations-widget.brevo.com/",
+            "fe-conversations-widget.brevo.com/04c289c4972dd25d625b24a6b57744163162a2c7.css",
+            "conversations-widget.brevo.com/meteor_runtime_config.js",
+            "fe-conversations-widget.brevo.com/1dc12005629c61b37b5c4d4a57883461da107f86.js"
+          ],
+          "gtmJs": [
+            "www.googletagmanager.com/gtm.js"
+          ],
+          "gaCollect": [
+            "www.google-analytics.com/g/collect"
+          ]
+        }
+      },
+      "all": {
+        "counts": {
+          "ketch": 15,
+          "gtmJs": 2,
+          "gtagJs": 0,
+          "gaCollect": 1,
+          "googleAds": 0,
+          "meta": 0,
+          "linkedin": 0,
+          "brevoTracking": 10,
+          "brevoSchedulerEssential": 0,
+          "clarity": 0,
+          "oldCmp": 0
+        },
+        "samples": {
+          "ketch": [
+            "global.ketchcdn.com/web/v3/config/alphatrack_digital/website_smart_tag/boot.js",
+            "global.ketchcdn.com/web/v3/ip",
+            "global.ketchcdn.com/web/v3/config/alphatrack_digital/website_smart_tag/production/default/en/config.json",
+            "global.ketchcdn.com/web/v2/log",
+            "global.ketchcdn.com/web/v3/consent/alphatrack_digital/get",
+            "global.ketchcdn.com/gvl/eu/vendor-list.json",
+            "global.ketchcdn.com/web/v2/assetsv1/orgs/alphatrack_digital/1775683967233/test/logo-gXKve_iq.png",
+            "global.ketchcdn.com/gvl/eu/vendor-list.json"
+          ],
+          "brevoTracking": [
+            "conversations-widget.brevo.com/brevo-conversations.js",
+            "conversations-widget.brevo.com/",
+            "fe-conversations-widget.brevo.com/04c289c4972dd25d625b24a6b57744163162a2c7.css",
+            "conversations-widget.brevo.com/meteor_runtime_config.js",
+            "fe-conversations-widget.brevo.com/1dc12005629c61b37b5c4d4a57883461da107f86.js",
+            "conversations-widget.brevo.com/brevo-conversations.js",
+            "conversations-widget.brevo.com/",
+            "fe-conversations-widget.brevo.com/04c289c4972dd25d625b24a6b57744163162a2c7.css"
+          ],
+          "gtmJs": [
+            "www.googletagmanager.com/gtm.js",
+            "www.googletagmanager.com/gtm.js"
+          ],
+          "gaCollect": [
+            "www.google-analytics.com/g/collect"
+          ]
+        }
+      },
+      "state": {
+        "consent": [
+          {
+            "action": "update",
+            "state": {
+              "analytics_storage": "granted",
+              "ad_storage": "denied",
+              "ad_user_data": "denied",
+              "ad_personalization": "denied"
+            }
+          },
+          {
+            "action": "update",
+            "state": {
+              "analytics_storage": "granted",
+              "ad_storage": "denied",
+              "ad_user_data": "denied",
+              "ad_personalization": "denied"
+            }
+          }
+        ],
+        "ketchEvents": [
+          {
+            "event": "ketchPermitChanged"
+          },
+          {
+            "event": "switchbitPermitChanged"
+          },
+          {
+            "event": "ketchPermitChanged",
+            "analytics___measurement": true,
+            "targeted_advertising": false
+          },
+          {
+            "event": "switchbitPermitChanged",
+            "analytics___measurement": true,
+            "targeted_advertising": false
+          }
+        ],
+        "atdConsentState": {
+          "analytics_storage": "granted",
+          "ad_storage": "denied",
+          "ad_user_data": "denied",
+          "ad_personalization": "denied",
+          "personalization_storage": "denied",
+          "functionality_storage": "granted",
+          "security_storage": "granted",
+          "wait_for_update": 500
+        },
+        "bodyHasBanner": false
+      },
+      "persisted": {
+        "consent": [
+          {
+            "action": "update",
+            "state": {
+              "analytics_storage": "granted",
+              "ad_storage": "denied",
+              "ad_user_data": "denied",
+              "ad_personalization": "denied"
+            }
+          },
+          {
+            "action": "update",
+            "state": {
+              "analytics_storage": "granted",
+              "ad_storage": "denied",
+              "ad_user_data": "denied",
+              "ad_personalization": "denied"
+            }
+          }
+        ],
+        "ketchEvents": [
+          {
+            "event": "ketchPermitChanged",
+            "analytics___measurement": true,
+            "targeted_advertising": false
+          },
+          {
+            "event": "switchbitPermitChanged",
+            "analytics___measurement": true,
+            "targeted_advertising": false
+          }
+        ],
+        "atdConsentState": {
+          "analytics_storage": "granted",
+          "ad_storage": "denied",
+          "ad_user_data": "denied",
+          "ad_personalization": "denied",
+          "personalization_storage": "denied",
+          "functionality_storage": "granted",
+          "security_storage": "granted",
+          "wait_for_update": 500
+        },
+        "bodyHasBanner": false
+      }
+    },
+    {
+      "name": "targeted_only",
+      "before": {
+        "counts": {
+          "ketch": 7,
+          "gtmJs": 0,
+          "gtagJs": 0,
+          "gaCollect": 0,
+          "googleAds": 0,
+          "meta": 0,
+          "linkedin": 0,
+          "brevoTracking": 0,
+          "brevoSchedulerEssential": 0,
+          "clarity": 0,
+          "oldCmp": 0
+        },
+        "samples": {
+          "ketch": [
+            "global.ketchcdn.com/web/v3/config/alphatrack_digital/website_smart_tag/boot.js",
+            "global.ketchcdn.com/web/v3/ip",
+            "global.ketchcdn.com/web/v3/config/alphatrack_digital/website_smart_tag/production/default/en/config.json",
+            "global.ketchcdn.com/web/v2/log",
+            "global.ketchcdn.com/web/v3/consent/alphatrack_digital/get",
+            "global.ketchcdn.com/gvl/eu/vendor-list.json",
+            "global.ketchcdn.com/web/v2/assetsv1/orgs/alphatrack_digital/1775683967233/test/logo-gXKve_iq.png"
+          ]
+        }
+      },
+      "after": {
+        "counts": {
+          "ketch": 10,
+          "gtmJs": 1,
+          "gtagJs": 0,
+          "gaCollect": 0,
+          "googleAds": 0,
+          "meta": 0,
+          "linkedin": 0,
+          "brevoTracking": 0,
+          "brevoSchedulerEssential": 0,
+          "clarity": 0,
+          "oldCmp": 0
+        },
+        "samples": {
+          "ketch": [
+            "global.ketchcdn.com/web/v3/config/alphatrack_digital/website_smart_tag/boot.js",
+            "global.ketchcdn.com/web/v3/ip",
+            "global.ketchcdn.com/web/v3/config/alphatrack_digital/website_smart_tag/production/default/en/config.json",
+            "global.ketchcdn.com/web/v2/log",
+            "global.ketchcdn.com/web/v3/consent/alphatrack_digital/get",
+            "global.ketchcdn.com/gvl/eu/vendor-list.json",
+            "global.ketchcdn.com/web/v2/assetsv1/orgs/alphatrack_digital/1775683967233/test/logo-gXKve_iq.png",
+            "global.ketchcdn.com/gvl/eu/vendor-list.json"
+          ],
+          "gtmJs": [
+            "www.googletagmanager.com/gtm.js"
+          ]
+        }
+      },
+      "all": {
+        "counts": {
+          "ketch": 15,
+          "gtmJs": 2,
+          "gtagJs": 0,
+          "gaCollect": 0,
+          "googleAds": 0,
+          "meta": 0,
+          "linkedin": 0,
+          "brevoTracking": 0,
+          "brevoSchedulerEssential": 0,
+          "clarity": 0,
+          "oldCmp": 0
+        },
+        "samples": {
+          "ketch": [
+            "global.ketchcdn.com/web/v3/config/alphatrack_digital/website_smart_tag/boot.js",
+            "global.ketchcdn.com/web/v3/ip",
+            "global.ketchcdn.com/web/v3/config/alphatrack_digital/website_smart_tag/production/default/en/config.json",
+            "global.ketchcdn.com/web/v2/log",
+            "global.ketchcdn.com/web/v3/consent/alphatrack_digital/get",
+            "global.ketchcdn.com/gvl/eu/vendor-list.json",
+            "global.ketchcdn.com/web/v2/assetsv1/orgs/alphatrack_digital/1775683967233/test/logo-gXKve_iq.png",
+            "global.ketchcdn.com/gvl/eu/vendor-list.json"
+          ],
+          "gtmJs": [
+            "www.googletagmanager.com/gtm.js",
+            "www.googletagmanager.com/gtm.js"
+          ]
+        }
+      },
+      "state": {
+        "consent": [
+          {
+            "action": "update",
+            "state": {
+              "analytics_storage": "denied",
+              "ad_storage": "granted",
+              "ad_user_data": "granted",
+              "ad_personalization": "granted"
+            }
+          },
+          {
+            "action": "update",
+            "state": {
+              "analytics_storage": "denied",
+              "ad_storage": "granted",
+              "ad_user_data": "granted",
+              "ad_personalization": "granted"
+            }
+          }
+        ],
+        "ketchEvents": [
+          {
+            "event": "ketchPermitChanged"
+          },
+          {
+            "event": "switchbitPermitChanged"
+          },
+          {
+            "event": "ketchPermitChanged",
+            "analytics___measurement": false,
+            "targeted_advertising": true
+          },
+          {
+            "event": "switchbitPermitChanged",
+            "analytics___measurement": false,
+            "targeted_advertising": true
+          }
+        ],
+        "atdConsentState": {
+          "analytics_storage": "denied",
+          "ad_storage": "granted",
+          "ad_user_data": "granted",
+          "ad_personalization": "granted",
+          "personalization_storage": "denied",
+          "functionality_storage": "granted",
+          "security_storage": "granted",
+          "wait_for_update": 500
+        },
+        "bodyHasBanner": false
+      },
+      "persisted": {
+        "consent": [
+          {
+            "action": "update",
+            "state": {
+              "analytics_storage": "denied",
+              "ad_storage": "granted",
+              "ad_user_data": "granted",
+              "ad_personalization": "granted"
+            }
+          },
+          {
+            "action": "update",
+            "state": {
+              "analytics_storage": "denied",
+              "ad_storage": "granted",
+              "ad_user_data": "granted",
+              "ad_personalization": "granted"
+            }
+          }
+        ],
+        "ketchEvents": [
+          {
+            "event": "ketchPermitChanged",
+            "analytics___measurement": false,
+            "targeted_advertising": true
+          },
+          {
+            "event": "switchbitPermitChanged",
+            "analytics___measurement": false,
+            "targeted_advertising": true
+          }
+        ],
+        "atdConsentState": {
+          "analytics_storage": "denied",
+          "ad_storage": "granted",
+          "ad_user_data": "granted",
+          "ad_personalization": "granted",
+          "personalization_storage": "denied",
+          "functionality_storage": "granted",
+          "security_storage": "granted",
+          "wait_for_update": 500
+        },
+        "bodyHasBanner": false
+      }
+    }
+  ],
+  "floatingTrigger": {
+    "triggerVisible": true,
+    "reopened": true
+  },
+  "checks": {
+    "pages_pre_consent_no_optional": true,
+    "pages_pre_consent_banner": true,
+    "reject_all_before_no_optional": true,
+    "reject_all_denies": true,
+    "accept_all_before_no_optional": true,
+    "accept_all_grants": true,
+    "analytics_only_expected": true,
+    "targeted_only_expected": true,
+    "no_clarity_all": true,
+    "no_old_cmp_all": true,
+    "floating_trigger_reopens": true
+  }
+}

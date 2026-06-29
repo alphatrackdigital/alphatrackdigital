@@ -1,0 +1,16 @@
+{
+  "generatedAt": "2026-06-29T02:12:15.045Z",
+  "preview": "https://atd-website-test-bizccowc5-alphatrackdigitals-projects.vercel.app",
+  "configObserved": true,
+  "policyLinks": {
+    "privacyPolicy": "https://www.alphatrack.digital/privacy-policy",
+    "cookiePolicy": null,
+    "termsOfService": "https://www.alphatrack.digital/terms-of-service"
+  },
+  "purposesObserved": [
+    "analytics___measurement",
+    "targeted_advertising"
+  ],
+  "consentOptInPresent": true,
+  "dedicatedCookiePolicyReferencePresent": false
+}

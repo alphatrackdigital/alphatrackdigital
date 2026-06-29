@@ -1,6 +1,10 @@
 # Evidence Review Queue
 
-Last updated: 2026-06-23.
+Last updated: 2026-06-29.
+
+## Current Release Status
+
+GTM Version 9 is published and release commit `c0f63437d9ba8d36be9dea3c7b8747a6d9275ba8` is on `main`. The cPanel deployment package is prepared for manual deployment by the dev guy. Production deployment, the owner-run six-scenario matrix, and stakeholder/legal approval of the Cookie Policy workaround remain pending. Historical screenshots and raw intermediate QA captures were archived outside the repository on 2026-06-29.
 
 This queue prioritizes evidence review without copying files, opening live tools, or updating Notion. Use it alongside `EVIDENCE_ARCHIVE_INVENTORY.md`.
 
@@ -21,6 +25,8 @@ This queue prioritizes evidence review without copying files, opening live tools
 | `docs/codex-handoffs/evidence/vercel-get-sanity-2026-06-23/2026-06-23_vercel_get_sanity_redacted-summary.json` | Confirms 11 key Vercel routes returned `200`, rendered visible content, attempted no non-GET/HEAD requests, and showed no `#418`, `#423`, or hydration-related errors. | Keep as internal GET-only Vercel evidence. Does not prove form submissions, Brevo routing, analytics delivery, webhooks, or workflow behavior. |
 | 2026-06-23 remaining lead-flow QA evidence | Tracks remaining lead-flow GET check, one Tracking Audit submission, one Newsletter submission, one Exit Popup submission, Book-a-call UI inspection, and read-only Brevo verification. | Use as current internal QA evidence. GA4/GTM/Meta, workflow UI state, and real booking behavior remain unverified. |
 | `docs/codex-handoffs/evidence/brevo-readonly-remaining-flow-verification-2026-06-23/*` | Confirms Brevo contact/list/source-history routing for lists `11`, `9`, and `10`, Tracking Audit CRM deal/task, Tracking Audit and Newsletter notification delivery evidence, and templates `19`-`30`. | Use as redacted Brevo proof. Do not expose QA identity or internal IDs. Workflow active/inactive state still needs read-only UI verification. |
+| `docs/codex-handoffs/KETCH_REMEDIATION_PREVIEW_QA_2026-06-24.md` and `docs/codex-handoffs/evidence/ketch-remediation-preview-qa-2026-06-24/*` | Current Ketch remediation evidence proves the Brevo Conversations repo gate and documents the remaining Ketch/GTM blockers. | Use before any Ketch/GTM/Clarity action. Do not deploy production, publish GTM, or install Clarity until repeat QA passes. |
+| `docs/codex-handoffs/KETCH_GTM_STRICT_PREVIEW_QA_2026-06-24.md` and `docs/codex-handoffs/evidence/ketch-gtm-strict-preview-qa-2026-06-24/*` | Current strict preview evidence proves GTM and GTM-managed non-essential tags are blocked until optional Consent Mode grants. | Use as the latest Ketch repo-side QA record. Ketch/GTM dashboard remediation is still required before production. |
 
 ## Priority 2 Evidence To Review Before Case-Study Drafting
 
@@ -47,9 +53,9 @@ This queue prioritizes evidence review without copying files, opening live tools
 - Current Vercel visual screenshots now exist for homepage, Contact Us, Contact thank-you, Book A Free Strategy Call, booking thank-you, Tracking Audit, newsletter confirmed, Conversion Tracking service page, Privacy Policy, Cookie Policy, and Terms of Service.
 - Current Vercel Contact Us frontend submission/redirect evidence now exists as redacted DOM/JSON evidence. No PNG screenshot was captured due to browser screenshot timeout.
 - Current Vercel Tracking Audit frontend success evidence exists. Newsletter and Exit Popup have controlled submission evidence plus Brevo verification, but the saved DOM samples did not capture visible success text; capture fresh screenshots only if the user approves retesting or a non-submitting UI check can prove state.
-- Strategy Call booking success evidence remains missing because no meeting was booked.
+- Strategy Call booking success evidence now exists as redacted JSON/DOM-derived summary; no screenshot was saved because confirmation contained private meeting details.
 - Current Meta Events Manager browser/server deduplication view after approved test events.
-- Current GA4 DebugView/Realtime event views after approved test events.
+- GA4 Realtime event evidence exists for recent booking-related events, but event parameter quality and PII exclusion still need review.
 - Current Brevo attribute grouping/source lifecycle UI after explicit read-only UI approval.
 - Future Netlify deployed frontend and backend endpoint proof after paid plan purchase and approved deployment.
 
@@ -155,6 +161,22 @@ This queue prioritizes evidence review without copying files, opening live tools
 - Important limitation: Brevo's pause wording says no new contacts can enter the automation but active contacts will continue. Because the user declined removing or stopping already-active contacts, already-active Tracking Audit Nurture contacts may still continue.
 - No workflow internals, contacts, lists, templates, forms, CRM records, campaigns, sender settings, or attributes were edited.
 
+## Final Launch-Readiness QA Notes
+
+- Review date: 2026-06-24.
+- Evidence folders:
+  - `docs/codex-handoffs/evidence/book-a-call-booking-test-2026-06-24/`
+  - `docs/codex-handoffs/evidence/final-launch-readiness-readonly-2026-06-24/`
+- Vercel GET-only sanity checked `/`, `/book-a-call`, `/book-a-call/thank-you`, `/offer/tracking-audit`, `/newsletter/confirmed`, `/service/conversion-tracking`, `/privacy-policy`, `/cookie-policy`, and `/terms-of-service`. All rendered visible content and showed no React `#418` or `#423` errors.
+- Book-a-call: one approved QA booking was completed through the Brevo Meetings iframe. Confirmation was visible, a calendar invite notice appeared, and the meeting URL was redacted/omitted.
+- Brevo Book-a-call verification: contact found, list `Website - Strategy Call Bookings #7` verified, Strategy Call confirmation email sent/delivered evidence found. CRM deal/task and custom meeting webhook delivery were not verified.
+- Attribution risk: visible Brevo contact fields showed `SOURCE` as `Strategy Call Booking`, but `LEAD_SOURCE` and first/latest lifecycle fields still appeared to show the earlier Exit Popup state.
+- Workflow list status: Exit Popup Workflow, Newsletter Workflow, General Enquiry Workflow, and Strategy Call Workflow remained active. Tracking Audit Nurture remained paused, with two active contacts still shown.
+- GA4 Realtime: accessible and showed recent `generate_lead`, `meeting_booked_confirmed`, and `meeting_booking_redirect` events. Event parameter quality, browser/server deduplication, and PII exclusion were not verified.
+- GTM: ATD container `GTM-MVXWCTZ8` was visible read-only. Preview, publish, and event firing were not tested.
+- Meta: ATD Web dataset was visible with Pixel and Conversions API indicators, but recent event rows and deduplication proof were not found in the sampled read-only views.
+- Netlify: no deployment attempted; remains future live deployment target after paid plan purchase and explicit approval.
+
 ## Contact Us Brevo Verification Notes
 
 - Verification type: read-only Brevo verification, CRM verification, and transactional log verification.
@@ -245,3 +267,7 @@ This queue prioritizes evidence review without copying files, opening live tools
 | 2026-06-23 | Added read-only workflow and analytics status evidence. Brevo Automations UI showed Exit Popup Workflow, Newsletter Workflow, General Enquiry Workflow, Strategy Call Workflow, and Tracking Audit Nurture active; GA4/GTM/Meta event delivery remains unverified. | `EVIDENCE_REVIEW_QUEUE.md`, `EVIDENCE_ARCHIVE_INVENTORY.md`, `WEBSITE_AND_TRACKING_STATE.md`, `OPEN_ITEMS_FOR_NEXT_AGENT.md`, `NOTION_SYNC_SUMMARY.md`, `docs/codex-handoffs/evidence/read-only-workflow-analytics-status-2026-06-23/` |
 | 2026-06-24 | Added read-only Brevo workflow detail review evidence. Tracking Audit Nurture is active, starts from list `#11`, sends five visible emails with wait steps, has no visible configured exit/suppression condition, and recent logs show a redacted contact was sent the first workflow email and entered a wait step. | `EVIDENCE_REVIEW_QUEUE.md`, `EVIDENCE_ARCHIVE_INVENTORY.md`, `WEBSITE_AND_TRACKING_STATE.md`, `OPEN_ITEMS_FOR_NEXT_AGENT.md`, `NOTION_SYNC_SUMMARY.md`, `docs/codex-handoffs/evidence/brevo-workflow-detail-review-2026-06-24/` |
 | 2026-06-24 | Added approved pause evidence for Tracking Audit Nurture. Workflow status changed from active to paused; the other four visible lead-flow workflows remained active. Active contacts still appeared in Tracking Audit Nurture after pause, so already-active contact handling remains a separate decision. | `EVIDENCE_REVIEW_QUEUE.md`, `EVIDENCE_ARCHIVE_INVENTORY.md`, `WEBSITE_AND_TRACKING_STATE.md`, `OPEN_ITEMS_FOR_NEXT_AGENT.md`, `NOTION_SYNC_SUMMARY.md`, `docs/codex-handoffs/evidence/brevo-workflow-detail-review-2026-06-24/2026-06-24_brevo_tracking-audit-nurture-paused-redacted-summary.json` |
+| 2026-06-24 | Added final launch-readiness QA evidence. One approved Book-a-call booking was completed and verified through Brevo list #7 plus confirmation email logs; workflow list state was rechecked; GA4 Realtime showed recent booking/key events; GTM container was visible; Meta event/deduplication proof remains unverified; Netlify remains future deployment. | `EVIDENCE_REVIEW_QUEUE.md`, `EVIDENCE_ARCHIVE_INVENTORY.md`, `WEBSITE_AND_TRACKING_STATE.md`, `OPEN_ITEMS_FOR_NEXT_AGENT.md`, `NOTION_SYNC_SUMMARY.md`, `docs/codex-handoffs/evidence/book-a-call-booking-test-2026-06-24/`, `docs/codex-handoffs/evidence/final-launch-readiness-readonly-2026-06-24/` |
+| 2026-06-24 | Added Ketch preview QA evidence. Non-production Vercel deployment `dpl_EJzFbvDGGMPzB3tBnMNfZqVMaYEK` was verified for Ketch/GTM script order and banner rendering. Production readiness failed because GA4/Brevo/Meta/Google Ads fired before consent and Ketch purposes were misconfigured. Evidence JSON is redacted for cookies, storage values, and third-party query values. | `KETCH_PREVIEW_QA_2026-06-24.md`, `KETCH_CONSENT_READINESS_2026-06-24.md`, `WEBSITE_AND_TRACKING_STATE.md`, `OPEN_ITEMS_FOR_NEXT_AGENT.md`, `TECHNICAL_CHANGELOG.md`, `docs/codex-handoffs/evidence/ketch-preview-qa-2026-06-24/` |
+| 2026-06-24 | Added Ketch remediation preview QA evidence. Non-production Vercel deployment `dpl_5QuDEghwXXvgQmB1Qznj6GyuDwRs` verified the Brevo Conversations repo gate, public Ketch config mismatch, and remaining pre-consent GA4/Meta/Google Ads blockers. | `KETCH_REMEDIATION_PREVIEW_QA_2026-06-24.md`, `WEBSITE_AND_TRACKING_STATE.md`, `OPEN_ITEMS_FOR_NEXT_AGENT.md`, `TECHNICAL_CHANGELOG.md`, `docs/codex-handoffs/evidence/ketch-remediation-preview-qa-2026-06-24/`, `src/test/whatsapp-widget.consent.test.tsx` |
+| 2026-06-24 | Added strict GTM-gated Ketch preview QA evidence. Non-production Vercel deployment `dpl_EG6Gcc6D3z5syrVeGoi48piH4o3T` verified no GTM/GA4/Meta/Google Ads/LinkedIn/Brevo Conversations/Clarity pre-consent requests in checked flows, while Ketch dashboard purpose/mapping issues remain. | `KETCH_GTM_STRICT_PREVIEW_QA_2026-06-24.md`, `WEBSITE_AND_TRACKING_STATE.md`, `OPEN_ITEMS_FOR_NEXT_AGENT.md`, `TECHNICAL_CHANGELOG.md`, `docs/codex-handoffs/evidence/ketch-gtm-strict-preview-qa-2026-06-24/` |

@@ -1,0 +1,266 @@
+{
+  "generatedAt": "2026-06-29T02:38:37.023Z",
+  "base": "https://atd-website-test-lxj2vgs9r-alphatrackdigitals-projects.vercel.app",
+  "route": "/book-a-call/thank-you",
+  "scenarios": [
+    {
+      "name": "analytics_only",
+      "requestedConsent": {
+        "analytics": true,
+        "advertising": false
+      },
+      "beforeThankYou": {
+        "counts": {
+          "ga": 0,
+          "ads": 0,
+          "meta": 0,
+          "linkedin": 0,
+          "brevo": 2,
+          "clarity": 0
+        },
+        "samples": {
+          "brevo": [
+            "conversations-widget.brevo.com/brevo-conversations.js",
+            "conversations-widget.brevo.com/"
+          ]
+        }
+      },
+      "afterThankYou": {
+        "counts": {
+          "ga": 4,
+          "ads": 0,
+          "meta": 0,
+          "linkedin": 0,
+          "brevo": 10,
+          "clarity": 0
+        },
+        "samples": {
+          "brevo": [
+            "conversations-widget.brevo.com/brevo-conversations.js",
+            "conversations-widget.brevo.com/",
+            "fe-conversations-widget.brevo.com/04c289c4972dd25d625b24a6b57744163162a2c7.css",
+            "conversations-widget.brevo.com/meteor_runtime_config.js",
+            "fe-conversations-widget.brevo.com/1dc12005629c61b37b5c4d4a57883461da107f86.js",
+            "conversations-widget.brevo.com/brevo-conversations.js"
+          ],
+          "ga": [
+            "www.google-analytics.com/g/collect",
+            "www.google-analytics.com/g/collect",
+            "www.google-analytics.com/g/collect",
+            "www.google-analytics.com/g/collect"
+          ]
+        }
+      },
+      "thankYouRequestDelta": {
+        "counts": {
+          "ga": 4,
+          "ads": 0,
+          "meta": 0,
+          "linkedin": 0,
+          "brevo": 8,
+          "clarity": 0
+        },
+        "samples": {
+          "brevo": [
+            "fe-conversations-widget.brevo.com/04c289c4972dd25d625b24a6b57744163162a2c7.css",
+            "conversations-widget.brevo.com/meteor_runtime_config.js",
+            "fe-conversations-widget.brevo.com/1dc12005629c61b37b5c4d4a57883461da107f86.js",
+            "conversations-widget.brevo.com/brevo-conversations.js",
+            "conversations-widget.brevo.com/",
+            "fe-conversations-widget.brevo.com/04c289c4972dd25d625b24a6b57744163162a2c7.css"
+          ],
+          "ga": [
+            "www.google-analytics.com/g/collect",
+            "www.google-analytics.com/g/collect",
+            "www.google-analytics.com/g/collect",
+            "www.google-analytics.com/g/collect"
+          ]
+        }
+      },
+      "consentState": {
+        "analytics_storage": "granted",
+        "ad_storage": "denied",
+        "ad_user_data": "denied",
+        "ad_personalization": "denied",
+        "personalization_storage": "denied",
+        "functionality_storage": "granted",
+        "security_storage": "granted",
+        "wait_for_update": 500
+      },
+      "dataLayerEvents": [
+        "atd_route_view",
+        "generate_lead",
+        "meeting_booking_redirect"
+      ]
+    },
+    {
+      "name": "targeted_advertising_only",
+      "requestedConsent": {
+        "analytics": false,
+        "advertising": true
+      },
+      "beforeThankYou": {
+        "counts": {
+          "ga": 0,
+          "ads": 0,
+          "meta": 0,
+          "linkedin": 0,
+          "brevo": 0,
+          "clarity": 0
+        },
+        "samples": {}
+      },
+      "afterThankYou": {
+        "counts": {
+          "ga": 0,
+          "ads": 0,
+          "meta": 2,
+          "linkedin": 0,
+          "brevo": 0,
+          "clarity": 0
+        },
+        "samples": {
+          "meta": [
+            "connect.facebook.net/en_US/fbevents.js",
+            "connect.facebook.net/signals/config/955663116586662"
+          ]
+        }
+      },
+      "thankYouRequestDelta": {
+        "counts": {
+          "ga": 0,
+          "ads": 0,
+          "meta": 2,
+          "linkedin": 0,
+          "brevo": 0,
+          "clarity": 0
+        },
+        "samples": {
+          "meta": [
+            "connect.facebook.net/en_US/fbevents.js",
+            "connect.facebook.net/signals/config/955663116586662"
+          ]
+        }
+      },
+      "consentState": {
+        "analytics_storage": "denied",
+        "ad_storage": "granted",
+        "ad_user_data": "granted",
+        "ad_personalization": "granted",
+        "personalization_storage": "denied",
+        "functionality_storage": "granted",
+        "security_storage": "granted",
+        "wait_for_update": 500
+      },
+      "dataLayerEvents": [
+        "atd_route_view",
+        "generate_lead",
+        "meeting_booking_redirect"
+      ]
+    },
+    {
+      "name": "accept_all_equivalent",
+      "requestedConsent": {
+        "analytics": true,
+        "advertising": true
+      },
+      "beforeThankYou": {
+        "counts": {
+          "ga": 0,
+          "ads": 0,
+          "meta": 0,
+          "linkedin": 0,
+          "brevo": 2,
+          "clarity": 0
+        },
+        "samples": {
+          "brevo": [
+            "conversations-widget.brevo.com/brevo-conversations.js",
+            "conversations-widget.brevo.com/"
+          ]
+        }
+      },
+      "afterThankYou": {
+        "counts": {
+          "ga": 3,
+          "ads": 0,
+          "meta": 2,
+          "linkedin": 0,
+          "brevo": 10,
+          "clarity": 0
+        },
+        "samples": {
+          "brevo": [
+            "conversations-widget.brevo.com/brevo-conversations.js",
+            "conversations-widget.brevo.com/",
+            "fe-conversations-widget.brevo.com/04c289c4972dd25d625b24a6b57744163162a2c7.css",
+            "conversations-widget.brevo.com/meteor_runtime_config.js",
+            "fe-conversations-widget.brevo.com/1dc12005629c61b37b5c4d4a57883461da107f86.js",
+            "conversations-widget.brevo.com/brevo-conversations.js"
+          ],
+          "meta": [
+            "connect.facebook.net/en_US/fbevents.js",
+            "connect.facebook.net/signals/config/955663116586662"
+          ],
+          "ga": [
+            "www.google-analytics.com/g/collect",
+            "www.google-analytics.com/g/collect",
+            "www.google-analytics.com/g/collect"
+          ]
+        }
+      },
+      "thankYouRequestDelta": {
+        "counts": {
+          "ga": 3,
+          "ads": 0,
+          "meta": 2,
+          "linkedin": 0,
+          "brevo": 8,
+          "clarity": 0
+        },
+        "samples": {
+          "brevo": [
+            "fe-conversations-widget.brevo.com/04c289c4972dd25d625b24a6b57744163162a2c7.css",
+            "conversations-widget.brevo.com/meteor_runtime_config.js",
+            "fe-conversations-widget.brevo.com/1dc12005629c61b37b5c4d4a57883461da107f86.js",
+            "conversations-widget.brevo.com/brevo-conversations.js",
+            "conversations-widget.brevo.com/",
+            "fe-conversations-widget.brevo.com/04c289c4972dd25d625b24a6b57744163162a2c7.css"
+          ],
+          "meta": [
+            "connect.facebook.net/en_US/fbevents.js",
+            "connect.facebook.net/signals/config/955663116586662"
+          ],
+          "ga": [
+            "www.google-analytics.com/g/collect",
+            "www.google-analytics.com/g/collect",
+            "www.google-analytics.com/g/collect"
+          ]
+        }
+      },
+      "consentState": {
+        "analytics_storage": "granted",
+        "ad_storage": "granted",
+        "ad_user_data": "granted",
+        "ad_personalization": "granted",
+        "personalization_storage": "denied",
+        "functionality_storage": "granted",
+        "security_storage": "granted",
+        "wait_for_update": 500
+      },
+      "dataLayerEvents": [
+        "atd_route_view",
+        "generate_lead",
+        "meeting_booking_redirect"
+      ]
+    }
+  ],
+  "interpretation": {
+    "linkedinConfigured": false,
+    "googleAdsConversionConfigured": false,
+    "googleAdsConfiguredComponent": "Conversion Linker only",
+    "metaExpectedAfterAdvertisingConsent": true,
+    "metaObservedAfterAdvertisingConsent": true,
+    "metaObservedWithoutAdvertisingConsent": false
+  }
+}
