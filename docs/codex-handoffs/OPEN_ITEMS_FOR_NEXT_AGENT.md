@@ -6,8 +6,9 @@
 - The repo bridge used a plain dataLayer array for the Ketch-derived consent update. It now calls the real `gtag("consent", "update", state)` API with all four optional fields before `atd_consent_update`.
 - Corrected preview `https://atd-website-test-o6l381b8e-alphatrackdigitals-projects.vercel.app` passed GTM runtime-consent and network verification for fresh visit, Reject All, Accept All, Analytics-only, and Targeted Advertising-only.
 - GTM Version 9 remains published; no GTM or Ketch setting changed.
-- `atd-production-dist-c0f6343.zip` is superseded. Use the corrected package prepared from the fix commit.
-- Manual cPanel deployment, owner production QA, and Cookie Policy workaround approval remain pending.
+- Dev deployment workflow: pull latest `main` and deploy commit `9d5b8eaa175bf0a857a63bfb1bf117b1606b5e79` through the existing Namecheap/cPanel process.
+- `atd-production-dist-ad-consent-fix-9d5b8ea.zip` is fallback/reference only. `atd-production-dist-c0f6343.zip` is superseded and must not be used.
+- Manual cPanel deployment, owner production QA, and Cookie Policy workaround approval remain pending. Clarity funnels, smart events, first-recording masking review, and later AI Visibility evaluation are post-deployment follow-ups, not launch blockers.
 
 Last updated: 2026-06-25.
 

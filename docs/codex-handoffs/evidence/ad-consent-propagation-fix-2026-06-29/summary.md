@@ -13,6 +13,7 @@ Date: 2026-06-29
   - Analytics-only: analytics granted; all three ad fields denied; Clarity loaded; Meta/Ads blocked.
   - Targeted Advertising-only: analytics denied; all three ad fields granted; Clarity, GA collect, and Brevo Conversations blocked.
 - GTM Version 9 remains published; no GTM or Ketch setting changed.
-- `atd-production-dist-c0f6343.zip` is superseded. A corrected package must be used for manual Namecheap/cPanel deployment.
+- Production-ready commit: `9d5b8eaa175bf0a857a63bfb1bf117b1606b5e79`. The dev guy should pull latest `main` and use the existing Namecheap/cPanel workflow.
+- `atd-production-dist-ad-consent-fix-9d5b8ea.zip` is fallback/reference only. `atd-production-dist-c0f6343.zip` is superseded and must not be used.
 - Full production six-scenario QA remains pending owner verification after manual deployment.
 - Cookie Policy workaround remains pending stakeholder/legal approval.

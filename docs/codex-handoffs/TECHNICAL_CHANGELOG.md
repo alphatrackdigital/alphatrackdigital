@@ -7,7 +7,8 @@
 - The update explicitly carries `analytics_storage`, `ad_storage`, `ad_user_data`, and `ad_personalization`, then emits `atd_consent_update`.
 - Added a regression test and a reusable GTM runtime-consent/network matrix runner.
 - Corrected Vercel preview: `https://atd-website-test-o6l381b8e-alphatrackdigitals-projects.vercel.app`.
-- GTM Version 9 remains unchanged and published. The earlier `atd-production-dist-c0f6343.zip` is superseded.
+- GTM Version 9 remains unchanged and published. Production-ready commit is `9d5b8eaa175bf0a857a63bfb1bf117b1606b5e79`.
+- Dev deployment uses Git pull from `main` and the existing Namecheap/cPanel workflow. `atd-production-dist-ad-consent-fix-9d5b8ea.zip` is fallback/reference only; `atd-production-dist-c0f6343.zip` is superseded.
 
 Last updated: 2026-06-24.
 

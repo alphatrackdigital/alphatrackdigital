@@ -2,7 +2,7 @@
 
 This folder contains local handoff documentation for AlphaTrack Digital / ATD MarTech work. It is repo-side source material for future Codex, ChatGPT, Claude, or human review before anything is copied into Notion or used for live operations.
 
-Current release: GTM Version 9 is published; commit `c0f63437d9ba8d36be9dea3c7b8747a6d9275ba8` is on `main`; the cPanel deployment ZIP is prepared outside the repository for manual deployment by the dev guy. Production consent QA and the Cookie Policy workaround decision remain pending.
+Current release: GTM Version 9 is published and production-ready commit `9d5b8eaa175bf0a857a63bfb1bf117b1606b5e79` is on `main`. The dev guy deploys by pulling `main` and using the existing Namecheap/cPanel workflow. `atd-production-dist-ad-consent-fix-9d5b8ea.zip` is fallback/reference only; `atd-production-dist-c0f6343.zip` is superseded. Production consent QA and the Cookie Policy workaround decision remain pending.
 
 Read first:
 
