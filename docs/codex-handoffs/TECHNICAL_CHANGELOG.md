@@ -1,6 +1,13 @@
 # Technical Changelog
 
-Last updated: 2026-06-17.
+Last updated: 2026-06-24.
+
+## 2026-06-29 Ketch / GTM / Clarity Publish
+
+- Added deterministic `atd_consent_update` emission to the Ketch bridge after Consent Mode updates.
+- Microsoft Clarity project `xbn6g2k18j` remains GTM-only and requires `analytics_storage`.
+- Published GTM workspace 9 as Version 9, `ATD Ketch Consent + Clarity Analytics Gating - 2026-06-29`.
+- Fresh visit and Accept All passed on preview `https://atd-website-test-4g37aalfr-alphatrackdigitals-projects.vercel.app`; remaining production consent scenarios are pending owner verification.
 
 ## Repo State Reviewed
 
@@ -64,6 +71,16 @@ Key files touched by recent martech work:
 
 ## Tracking / Analytics Changes
 
+- 2026-06-24 Ketch CMP migration prep: `index.html` now sets Google Consent Mode v2 denied defaults before GTM, loads the Ketch Smart Tag before GTM, preserves container `GTM-MVXWCTZ8`, and removes the expired Consently injector.
+- 2026-06-24 Ketch preview QA: Vercel preview deployment succeeded, but production readiness is blocked by Ketch purpose misconfiguration and pre-consent GA4/Brevo/Meta/Google Ads activity. No production deploy, GTM publish, or Clarity install was performed.
+- 2026-06-24 Ketch remediation: `src/components/shared/WhatsAppWidget.tsx` now gates Brevo Conversations behind analytics/measurement consent and `src/test/whatsapp-widget.consent.test.tsx` verifies no pre-consent chat script injection. Repeat Vercel preview deployment `dpl_5QuDEghwXXvgQmB1Qznj6GyuDwRs` still failed production readiness because public Ketch config exposes only `targeted_advertising`, leaves Cookie Policy blank, maps `analytics_storage` to missing `analytics___measurement`, and GA4/Meta/Google Ads still fire before consent.
+- 2026-06-24 strict GTM gate: `index.html` now observes `dataLayer` and only inserts GTM after an explicit optional Consent Mode grant. The GTM noscript iframe was removed because it could load GTM before Ketch consent. Vercel preview deployment `dpl_EG6Gcc6D3z5syrVeGoi48piH4o3T` verified no GTM/GA4/Meta/Google Ads/LinkedIn/Brevo Conversations/Clarity pre-consent requests in checked flows; Ketch dashboard purpose/mapping issues remain.
+- 2026-06-24 GTM consent follow-up: Codex Chrome extension access was restored and signed-in Chrome opened GTM container `GTM-MVXWCTZ8` in workspace mode. Consent Overview was used to configure draft-only additional consent checks. GA4 config/event tags: 14 tags require `analytics_storage`. Meta Custom HTML tags: 7 tags require `ad_storage`, `ad_personalization`, and `ad_user_data`. Google Ads Conversion Linker: 1 tag requires `ad_storage`, `ad_personalization`, and `ad_user_data`. Workspace Changes showed `22`; no GTM publish occurred. GTM Templates showed no tag or variable templates, so no Ketch GTM template is installed. GTM Preview connected to the Vercel preview URL, but Tag Assistant timeline inspection was blocked by Chrome's extension UI automation guard. LinkedIn was not visible; Clarity was not installed.
+- 2026-06-25 GTM-consent preview follow-up: `index.html` now releases GTM after either analytics consent or targeted-advertising consent and adds a narrow GA transport guard that blocks `google-analytics.com/collect` and `google-analytics.com/g/collect` while `analytics_storage` is not granted. Vercel preview deployment `dpl_Fj3xYipZUf7hdqsw52xGrNeYm2vL` at `https://atd-website-test-bizccowc5-alphatrackdigitals-projects.vercel.app` passed the automated consent matrix. No production deploy, GTM publish, or Clarity install occurred.
+- 2026-06-25 final pre-production Ketch rerun: fresh automated page/network QA passed on `https://atd-website-test-bizccowc5-alphatrackdigitals-projects.vercel.app`; evidence saved to `docs/codex-handoffs/evidence/ketch-final-gtm-consent-2026-06-25/browser-consent-matrix-rerun-2026-06-25.json` with runner `run-preview-consent-matrix-2026-06-25.mjs`. Confirmed denied defaults, no optional requests before consent, Reject All denied analytics/ad consent, Accept All granted analytics/ad consent, Analytics-only allowed GA4/Brevo Conversations while ads stayed blocked, Targeted Advertising-only kept GA collect blocked, saved choices persisted, and `Show Preferences` reopened preferences. Tag Assistant timeline capture remains outstanding because non-interrupting Chrome extension control failed before attach and the active Chrome instance had no remote-debugging port. No production deploy, GTM publish, or Clarity install occurred.
+- 2026-06-25 Ketch production approval pack: `KETCH_FINAL_PREVIEW_QA_2026-06-24.md` now includes the final `NO-GO / BLOCKED` production go/no-go table and launch checklist. Production remains blocked until GTM Preview / Tag Assistant timeline proof, Google Ads/Meta/LinkedIn delivery confirmation after consent only, Ketch Cookie Policy resolution or approved workaround, explicit GTM publish approval, and explicit production deploy approval are complete. No production deploy, GTM publish, or Clarity install occurred.
+- 2026-06-25 Ketch final verification continuation: automated page/network QA was rerun and passed again on the approved preview, updating `browser-consent-matrix-rerun-2026-06-25.json` with latest timestamp `2026-06-25T21:38:51.615Z`. Added sanitized blocker record `final-verification-blockers-2026-06-25.json`. Public Ketch config still lacks a Cookie Policy URL while Privacy Policy and Terms URLs are present; website legal pages return `200`. Local Chrome checks showed Chrome running and the Codex Chrome Extension/native host installed/enabled, but non-interrupting Chrome control still failed before attach and no remote-debugging port was available, so GTM Tag Assistant timeline proof and private Ketch dashboard remediation remain blocked without explicit foreground-browser authorization. No production deploy, GTM publish, or Clarity install occurred.
+- 2026-06-25 Chrome retry for Ketch/GTM: after Codex restart, Chrome browser control attached successfully. GTM container `GTM-MVXWCTZ8` opened in workspace `9` with `Workspace Changes: 22`; Tag Assistant connected to the approved preview URL and opened a `gtm_debug` site tab, but connected timeline automation was blocked by a Chrome extension UI overlay on the Tag Assistant page. Ketch dashboard access worked; Cookie Policy document remains `Undeployed`, URL `https://www.alphatrack.digital/cookie-policy`, current type `Privacy Policy`, and available types are `Privacy Policy`, `Terms of Service`, `DPIA`, `DPA`, `MSA`, and `Other` only. Evidence saved to `chrome-retry-ketch-cookie-policy-2026-06-25.json`. No production deploy, GTM publish, or Clarity install occurred.
 - SPA route events push `atd_route_view`.
 - Conversion route events include `generate_lead`, `meeting_booking_redirect`, and `contact_form_submit`.
 - Direct lead submissions push `tracking_audit_submit`, `newsletter_subscribe`, and `exit_popup_success`.
@@ -135,6 +152,11 @@ No tests were run during this documentation-only pass.
 
 Previously documented validation includes focused tests, full test suite, lint, and production build passing during 2026-06-15/2026-06-16 readiness work. Treat those as historical until rerun after the next code or deploy change.
 
+2026-06-24 Ketch remediation validation:
+
+- `npx vitest run src/test/whatsapp-widget.consent.test.tsx`
+- `npm run build:client`
+
 ## Debug / Cleanup Risks
 
 - Confirm `GA4_MEASUREMENT_PROTOCOL_DEBUG_MODE=false` in production.
@@ -142,3 +164,17 @@ Previously documented validation includes focused tests, full test suite, lint, 
 - Confirm latest contact schema fixes are deployed before live QA.
 - Confirm newsletter alert routing matches approved `marketing@` map.
 - Confirm no secret values are committed or copied to Notion.
+
+## 2026-06-29 Ketch/GTM Production Readiness
+
+- Added `docs/codex-handoffs/evidence/ketch-final-production-readiness-2026-06-29/`.
+- Re-ran the full eight-route consent matrix; all existing matrix checks passed.
+- Added focused `/book-a-call/thank-you` delivery QA. Meta Pixel resources loaded under Analytics-only consent while all advertising consent fields were denied.
+- Corrected the Meta status audit: all seven tags have the required three ad consent checks, but no visible pause or malware warning exists. Hidden repeated GTM accessibility text caused the earlier false classification.
+- Identified `Meta | CONV | Lead | booking_confirmation | web` as the Analytics-only leak path through `generate_lead` and the sequenced Meta base tag.
+- Added a fail-closed Meta transport guard to `index.html`.
+- Deployed preview `dpl_CPkCiBDpW2oEqgzu56ykqVGDyeZx` and reran the matrices. Analytics-only now produces zero Meta requests on `/book-a-call/thank-you`; advertising-only and Accept All allow Meta after all ad fields grant.
+- Confirmed no LinkedIn tag, Google Ads conversion/remarketing tag, or Clarity tag exists. Google Ads has only a Conversion Linker.
+- Rechecked deployed Ketch public config: Analytics and Targeted Advertising remain opt-in; Privacy Policy and Terms links exist; Cookie Policy link remains absent.
+- No GTM publish, production deploy, Ketch document mutation, or Clarity installation occurred.
+- 2026-06-29: Verified Microsoft Clarity project `xbn6g2k18j` and observed Balanced masking, cookies on, bot detection on, one AlphaTrack admin, and incomplete installation. Saved GTM tag `Clarity | BASE | analytics_measurement | all_pages | web` with the standard loader, All Pages trigger, and additional consent `analytics_storage`. Pre-publish QA stopped because Chrome blocked the connected Tag Assistant timeline while another extension UI was open. No GTM publish or production deploy occurred.

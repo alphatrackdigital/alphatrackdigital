@@ -1,0 +1,46 @@
+{
+  "date": "2026-06-29",
+  "target": "https://atd-website-test-lxj2vgs9r-alphatrackdigitals-projects.vercel.app",
+  "method": "GTM debug target with DOM-loaded script inspection and Ketch UI state; Tag Assistant timeline UI remained blocked by another Chrome extension panel",
+  "status": "historical_pre_fix_failure",
+  "scenarios": {
+    "fresh_first_visit": {
+      "status": "pass",
+      "observed_optional_tag_urls": [],
+      "ketch_banner_visible": true
+    },
+    "reject_all": {
+      "status": "pass",
+      "observed_optional_tag_urls": [],
+      "show_preferences_visible": true
+    },
+    "accept_all": {
+      "status": "fail",
+      "observed": {
+        "gtm": true,
+        "brevo_conversations": true,
+        "clarity": false
+      },
+      "failure": "After Accept All plus Confirm, GTM and Brevo Conversations loaded but the Clarity loader did not appear."
+    },
+    "analytics_only": {
+      "status": "not_run"
+    },
+    "targeted_advertising_only": {
+      "status": "not_run"
+    },
+    "reload_after_saved_choice": {
+      "status": "not_run"
+    }
+  },
+  "focused_post_fix_verification": {
+    "target": "https://atd-website-test-4g37aalfr-alphatrackdigitals-projects.vercel.app",
+    "fresh_first_visit": "pass",
+    "accept_all": "pass",
+    "remaining_scenarios": "pending owner manual production verification"
+  },
+  "owner_publish_approval": true,
+  "gtm_published": true,
+  "gtm_version": 9,
+  "production_deployed": false
+}

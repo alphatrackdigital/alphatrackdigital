@@ -3,30 +3,263 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- Google Tag Manager -->
+    <!-- Google Consent Mode v2 default state -->
     <script>
-      (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-      })(window,document,'script','dataLayer','GTM-MVXWCTZ8');
+      window.dataLayer = window.dataLayer || [];
+      window.__atdConsentState = window.__atdConsentState || {};
+      function atdApplyConsentState(state){
+        if (!state || typeof state !== "object") return;
+        Object.keys(state).forEach(function(key) {
+          window.__atdConsentState[key] = state[key];
+        });
+      }
+      function gtag(){
+        if (arguments[0] === "consent" && (arguments[1] === "default" || arguments[1] === "update")) {
+          atdApplyConsentState(arguments[2]);
+        }
+        dataLayer.push(arguments);
+      }
+      gtag('consent', 'default', {
+        analytics_storage: 'denied',
+        ad_storage: 'denied',
+        ad_user_data: 'denied',
+        ad_personalization: 'denied',
+        personalization_storage: 'denied',
+        functionality_storage: 'granted',
+        security_storage: 'granted',
+        wait_for_update: 500
+      });
     </script>
-    <!-- End Google Tag Manager -->
+    <!-- Block analytics and advertising transports until their consent is granted. -->
     <script>
-      (function () {
-        const allowedHosts = new Set(["alphatrack.digital", "www.alphatrack.digital"]);
-        const params = new URLSearchParams(window.location.search);
-
-        if (!allowedHosts.has(window.location.hostname) && params.get("consently-preview") !== "1") {
-          return;
+      (function(w){
+        function analyticsGranted() {
+          return w.__atdConsentState && w.__atdConsentState.analytics_storage === "granted";
         }
 
-        const script = document.createElement("script");
-        script.src = "https://app.consently.net/consently.js";
-        script.setAttribute("data-bannerid", "69d839dd9a39ae7fe289dbf5");
-        document.head.appendChild(script);
-      })();
+        function advertisingGranted() {
+          return w.__atdConsentState &&
+            w.__atdConsentState.ad_storage === "granted" &&
+            w.__atdConsentState.ad_user_data === "granted" &&
+            w.__atdConsentState.ad_personalization === "granted";
+        }
+
+        function requestUrl(input) {
+          try {
+            return new URL(typeof input === "string" ? input : input && input.url, w.location.href);
+          } catch (error) {
+            return null;
+          }
+        }
+
+        function isBlockedTrackingRequest(input) {
+          var url = requestUrl(input);
+          if (!url) return false;
+
+          if (
+            !analyticsGranted() &&
+            /(^|\.)google-analytics\.com$/i.test(url.hostname) &&
+            /\/(?:g\/collect|collect)/i.test(url.pathname)
+          ) {
+            return true;
+          }
+
+          return (
+            !advertisingGranted() &&
+            (
+              /(^|\.)connect\.facebook\.net$/i.test(url.hostname) ||
+              /(^|\.)facebook\.com$/i.test(url.hostname)
+            )
+          );
+        }
+
+        if (w.navigator && typeof w.navigator.sendBeacon === "function") {
+          var originalSendBeacon = w.navigator.sendBeacon.bind(w.navigator);
+          w.navigator.sendBeacon = function(url, data) {
+            if (isBlockedTrackingRequest(url)) return true;
+            return originalSendBeacon(url, data);
+          };
+        }
+
+        if (typeof w.fetch === "function") {
+          var originalFetch = w.fetch.bind(w);
+          w.fetch = function(input, init) {
+            if (isBlockedTrackingRequest(input)) return Promise.resolve(new Response(null, { status: 204 }));
+            return originalFetch(input, init);
+          };
+        }
+
+        if (w.XMLHttpRequest && w.XMLHttpRequest.prototype) {
+          var originalOpen = w.XMLHttpRequest.prototype.open;
+          var originalSend = w.XMLHttpRequest.prototype.send;
+          w.XMLHttpRequest.prototype.open = function(method, url) {
+            this.__atdBlockedTrackingRequest = isBlockedTrackingRequest(url);
+            return originalOpen.apply(this, arguments);
+          };
+          w.XMLHttpRequest.prototype.send = function() {
+            if (this.__atdBlockedTrackingRequest) return;
+            return originalSend.apply(this, arguments);
+          };
+        }
+
+        var imageSrcDescriptor = Object.getOwnPropertyDescriptor(w.HTMLImageElement && w.HTMLImageElement.prototype, "src");
+        if (imageSrcDescriptor && imageSrcDescriptor.set) {
+          Object.defineProperty(w.HTMLImageElement.prototype, "src", {
+            configurable: true,
+            enumerable: imageSrcDescriptor.enumerable,
+            get: imageSrcDescriptor.get,
+            set: function(value) {
+              if (isBlockedTrackingRequest(value)) return;
+              imageSrcDescriptor.set.call(this, value);
+            }
+          });
+        }
+
+        var scriptSrcDescriptor = Object.getOwnPropertyDescriptor(w.HTMLScriptElement && w.HTMLScriptElement.prototype, "src");
+        if (scriptSrcDescriptor && scriptSrcDescriptor.set) {
+          Object.defineProperty(w.HTMLScriptElement.prototype, "src", {
+            configurable: true,
+            enumerable: scriptSrcDescriptor.enumerable,
+            get: scriptSrcDescriptor.get,
+            set: function(value) {
+              if (isBlockedTrackingRequest(value)) return;
+              scriptSrcDescriptor.set.call(this, value);
+            }
+          });
+        }
+      })(window);
     </script>
+    <!-- GTM is released only after Ketch/Consent Mode grants optional consent. -->
+    <script>
+      (function(w,d,s,l,i){
+        var optionalConsentKeys = {
+          analytics_storage: true,
+          ad_storage: true,
+          ad_user_data: true,
+          ad_personalization: true
+        };
+        var originalPush = w[l].push.bind(w[l]);
+        var gtmLoaded = false;
+        var gtmLoadScheduled = false;
+
+        function normalizeKey(key) {
+          return String(key).toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/^_|_$/g, "");
+        }
+
+        function isGranted(value) {
+          return value === true || value === "true" || value === "granted" || value === "1";
+        }
+
+        function recordGrantsOptionalConsent(record) {
+          if (!record || typeof record !== "object") return false;
+          return Object.keys(record).some(function(key) {
+            var normalizedKey = normalizeKey(key);
+            return isGranted(record[key]) && optionalConsentKeys[normalizedKey];
+          });
+        }
+
+        function recordHasKey(record, key) {
+          return Object.prototype.hasOwnProperty.call(record, key);
+        }
+
+        function applyConsentState(record) {
+          if (w.atdApplyConsentState) {
+            w.atdApplyConsentState(record);
+          }
+        }
+
+        function ketchPurposeConsentUpdate(entry) {
+          if (!entry || typeof entry !== "object") return null;
+          if (entry.event !== "ketchPermitChanged" && entry.event !== "switchbitPermitChanged") return null;
+          if (!recordHasKey(entry, "analytics___measurement") && !recordHasKey(entry, "targeted_advertising")) return null;
+
+          var update = {};
+          if (recordHasKey(entry, "analytics___measurement")) {
+            update.analytics_storage = isGranted(entry.analytics___measurement) ? "granted" : "denied";
+          }
+
+          if (recordHasKey(entry, "targeted_advertising")) {
+            var adConsent = isGranted(entry.targeted_advertising) ? "granted" : "denied";
+            update.ad_storage = adConsent;
+            update.ad_user_data = adConsent;
+            update.ad_personalization = adConsent;
+          }
+
+          return update;
+        }
+
+        function entryGrantsOptionalConsent(entry) {
+          if (Array.isArray(entry) || Object.prototype.toString.call(entry) === "[object Arguments]") {
+            return entry[0] === "consent" && entry[1] === "update" && recordGrantsOptionalConsent(entry[2]);
+          }
+
+          if (entry && typeof entry === "object") {
+            return recordGrantsOptionalConsent(entry);
+          }
+
+          return false;
+        }
+
+        function loadGtm() {
+          if (gtmLoaded) return;
+          gtmLoaded = true;
+          w[l].push({"gtm.start": new Date().getTime(), event: "gtm.js"});
+          var f = d.getElementsByTagName(s)[0];
+          var j = d.createElement(s);
+          var dl = l !== "dataLayer" ? "&l=" + l : "";
+          j.async = true;
+          j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+          f.parentNode.insertBefore(j, f);
+        }
+
+        function scheduleLoadGtm() {
+          if (gtmLoaded || gtmLoadScheduled) return;
+          gtmLoadScheduled = true;
+          setTimeout(loadGtm, 0);
+        }
+
+        w[l].push = function() {
+          var result = originalPush.apply(w[l], arguments);
+          for (var index = 0; index < arguments.length; index += 1) {
+            if (
+              arguments[index] &&
+              (Array.isArray(arguments[index]) || Object.prototype.toString.call(arguments[index]) === "[object Arguments]") &&
+              arguments[index][0] === "consent" &&
+              (arguments[index][1] === "default" || arguments[index][1] === "update")
+            ) {
+              applyConsentState(arguments[index][2]);
+            }
+
+            var ketchUpdate = ketchPurposeConsentUpdate(arguments[index]);
+            if (ketchUpdate) {
+              w[l].push(["consent", "update", ketchUpdate]);
+              setTimeout(function() {
+                w[l].push({
+                  event: "atd_consent_update",
+                  analytics_storage: w.__atdConsentState.analytics_storage || "denied",
+                  ad_storage: w.__atdConsentState.ad_storage || "denied",
+                  ad_user_data: w.__atdConsentState.ad_user_data || "denied",
+                  ad_personalization: w.__atdConsentState.ad_personalization || "denied"
+                });
+              }, 0);
+            }
+
+            if (entryGrantsOptionalConsent(arguments[index])) {
+              scheduleLoadGtm();
+              break;
+            }
+          }
+          return result;
+        };
+
+        if (w[l].some(entryGrantsOptionalConsent)) {
+          scheduleLoadGtm();
+        }
+      })(window,document,"script","dataLayer","GTM-MVXWCTZ8");
+    </script>
+    <!-- Ketch Smart Tag -->
+    <script src="https://global.ketchcdn.com/web/v3/config/alphatrack_digital/website_smart_tag/boot.js"></script>
+    <!-- End Ketch Smart Tag -->
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png?v=20260415a" />
     <link rel="icon" href="/favicon.ico?v=20260415a" sizes="any" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=20260415a" />
@@ -92,10 +325,6 @@
   </head>
 
   <body>
-    <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MVXWCTZ8"
-    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-    <!-- End Google Tag Manager (noscript) -->
     <div id="root" data-prerendered="false">
       <!--app-html-start-->
       <style>

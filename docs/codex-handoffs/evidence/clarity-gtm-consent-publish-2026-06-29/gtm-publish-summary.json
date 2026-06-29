@@ -1,0 +1,20 @@
+{
+  "published_at": "2026-06-29T20:33:00+01:00",
+  "container": "GTM-MVXWCTZ8",
+  "workspace": 9,
+  "version": 9,
+  "version_name": "ATD Ketch Consent + Clarity Analytics Gating - 2026-06-29",
+  "clarity_project_id": "xbn6g2k18j",
+  "clarity_tag": "Clarity | BASE | analytics_measurement | all_pages | web",
+  "clarity_consent": ["analytics_storage"],
+  "clarity_post_consent_trigger": "TR | CONSENT | analytics_granted | atd_consent_update | global",
+  "visible_security_warning_before_publish": false,
+  "publish_flow_available": true,
+  "preview_verification": {
+    "target": "https://atd-website-test-4g37aalfr-alphatrackdigitals-projects.vercel.app",
+    "fresh_visit": "pass",
+    "accept_all": "pass",
+    "remaining_scenarios": "pending owner manual verification"
+  },
+  "production_deployment": "pending"
+}
