@@ -2,6 +2,8 @@
 
 Vite + React + TypeScript marketing site (shadcn-ui/Radix, Tailwind, React Router, SSR prerender for homepage). See [README.md](README.md) for branch roles, hosting, and staging URLs. Do not duplicate that here.
 
+Claude Code acts as the backup/continuation agent when Codex hits a usage limit mid-task. See [docs/codex-handoffs/AI_AGENT_CONTINUITY_PROTOCOL.md](docs/codex-handoffs/AI_AGENT_CONTINUITY_PROTOCOL.md) for agent roles, the mandatory startup/handoff routine, and safety boundaries before picking up Codex's work.
+
 ## Usage discipline
 
 - Do not run repo-wide searches or exploration agents for things a single targeted `Grep`/`Glob` can answer.

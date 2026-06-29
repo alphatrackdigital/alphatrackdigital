@@ -5,8 +5,8 @@ Last updated: 2026-06-29.
 ## Current Release Status
 
 - GTM container `GTM-MVXWCTZ8` is live as Version 9.
-- Release commit `c0f63437d9ba8d36be9dea3c7b8747a6d9275ba8` is on `main`.
-- `atd-production-dist-c0f6343.zip` and its deployment note were prepared outside the repository for the dev guy.
+- Production-ready commit is `9d5b8eaa175bf0a857a63bfb1bf117b1606b5e79`, on `main`.
+- `atd-production-dist-ad-consent-fix-9d5b8ea.zip` is the current fallback/reference package; the previous `atd-production-dist-c0f6343.zip` is superseded and must not be used.
 - Namecheap/cPanel deployment is manual and remains pending.
 - Full production six-scenario consent QA remains pending owner verification.
 - The Cookie Policy workaround remains pending stakeholder/legal approval.

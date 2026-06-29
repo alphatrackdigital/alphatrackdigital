@@ -2,6 +2,8 @@
 
 These rules apply to Codex work in this repository. They are intended to preserve usage while keeping implementation quality high.
 
+If Codex hits a usage limit mid-task, Claude Code is the backup/continuation agent. See [docs/codex-handoffs/AI_AGENT_CONTINUITY_PROTOCOL.md](docs/codex-handoffs/AI_AGENT_CONTINUITY_PROTOCOL.md) for agent roles, the mandatory startup/handoff routine, and safety boundaries.
+
 ## Usage Discipline
 
 - Keep routine responses concise. Summarize only what changed, what was skipped, and any blocker.

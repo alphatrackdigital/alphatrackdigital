@@ -1,5 +1,11 @@
 # Open Items For Next Agent
 
+## 2026-06-29 Codex to Claude Code Continuity Handoff
+
+- Codex hit its usage limit mid-task while updating documentation. Claude Code took over to inspect the working tree and finish the documentation-only task safely.
+- See `docs/codex-handoffs/AI_AGENT_CONTINUITY_PROTOCOL.md` for the agent roles, mandatory startup/handoff routine, reusable continuation prompts, and safety boundaries that now govern Codex/Claude Code handoffs in this repo.
+- No live tools were touched during this handoff. No source code was changed. Only documentation files were updated.
+
 ## 2026-06-29 Ad Consent Propagation Fix
 
 - Owner Tag Assistant evidence found that the diagnostic event reported advertising consent granted while GTM's Consent tab retained denied ad fields.

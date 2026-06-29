@@ -26,7 +26,7 @@ Do not update Notion from this file without user approval. This is a review-read
 | Brevo Workflow QA SOP | Add suppression/blocklist retest requirements and "no activation without approval" rule |
 | Website Lead Capture QA SOP | Add Contact Us, Tracking Audit, Newsletter, Exit Popup, and Brevo Meetings retest checklist |
 | Meta/GA4 Conversion QA SOP | Add browser/server event ID matching checks |
-| Agent Handoff SOP | Link repo handoff docs and require secret redaction |
+| Agent Handoff SOP | Link repo handoff docs, the new `AI_AGENT_CONTINUITY_PROTOCOL.md`, and require secret redaction |
 
 ## Evidence Records To Create Or Update
 

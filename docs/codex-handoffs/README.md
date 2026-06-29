@@ -6,13 +6,14 @@ Current release: GTM Version 9 is published and production-ready commit `9d5b8ea
 
 Read first:
 
-1. `ATD_MASTER_CODEX_WORKLOG.md`
-2. `OPEN_ITEMS_FOR_NEXT_AGENT.md`
-3. `BREVO_CURRENT_STATE.md`
-4. `KETCH_CONSENT_READINESS_2026-06-24.md`
-5. `KETCH_PREVIEW_QA_2026-06-24.md`
-6. `KETCH_REMEDIATION_PREVIEW_QA_2026-06-24.md`
-7. `KETCH_GTM_STRICT_PREVIEW_QA_2026-06-24.md`
+1. `AI_AGENT_CONTINUITY_PROTOCOL.md` (agent roles, startup/handoff routine, safety boundaries)
+2. `ATD_MASTER_CODEX_WORKLOG.md`
+3. `OPEN_ITEMS_FOR_NEXT_AGENT.md`
+4. `BREVO_CURRENT_STATE.md`
+5. `KETCH_CONSENT_READINESS_2026-06-24.md`
+6. `KETCH_PREVIEW_QA_2026-06-24.md`
+7. `KETCH_REMEDIATION_PREVIEW_QA_2026-06-24.md`
+8. `KETCH_GTM_STRICT_PREVIEW_QA_2026-06-24.md`
 
 Future agents should update this folder after major work with what changed, what was verified, blockers, risks, and exact next steps. Keep verified facts separate from unverified notes.
 
