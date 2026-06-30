@@ -1,5 +1,15 @@
 # Open Items For Next Agent
 
+## 2026-06-30 Canonical Vercel Test Ground
+
+- Canonical test URL: `https://website-internal-test.vercel.app/`.
+- A clean Vercel preview was deployed from commit `470696ba949da22464b95f5fe76b4ea1ecac511e`, and the test-only canonical alias was reassigned to it.
+- The alias previously served an older deployment tied to `c0f6343`; this explains the stale consent-bridge mismatch observed there.
+- The new deployment contains the real `gtag("consent", "update", consentUpdate)` call and all four optional consent fields.
+- Accept All loaded GTM and Clarity without console errors. GA4, Meta, and Ads/DoubleClick were not observed; manual Tag Assistant consent-registry proof remains open.
+- Evidence: `docs/codex-handoffs/evidence/test-ground-deployment-consent-retest-2026-06-30/summary.md`.
+- No Vercel production promotion, Namecheap/cPanel deployment, form submission, or webhook test occurred.
+
 ## 2026-06-30 GTM Analytics/Ads Diagnostic
 
 - GTM and Clarity loaded after Accept All, so container release and analytics consent are working.

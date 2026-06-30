@@ -6,6 +6,7 @@ Last updated: 2026-06-30.
 
 | Evidence | Status | Next action |
 | --- | --- | --- |
+| `docs/codex-handoffs/evidence/test-ground-deployment-consent-retest-2026-06-30/summary.md` | Canonical test alias now serves clean `main` at `470696b`; deployed HTML contains the real gtag consent update; Accept All loaded GTM and Clarity. | Run owner/manual Tag Assistant on the canonical alias to confirm actual ad-consent registry values and tag firing. |
 | `docs/codex-handoffs/evidence/gtm-ga4-meta-ads-diagnostic-2026-06-30/summary.md` | GTM/Clarity release verified. Meta is likely trigger-context related; Ads delivery tags are absent beyond Conversion Linker; GA4 remains unresolved because Tag Assistant reported not connected. | Owner/manual read-only Tag Assistant review of GA4 trigger, exception, consent, and measurement-variable resolution. Review allowed-hostname logic separately before proposing changes. |
 | `docs/codex-handoffs/evidence/clarity-test-ground-qa-2026-06-30/summary.md` | Ketch/GTM/Clarity consent-gating passed. GA4, Meta, Google Ads, and DoubleClick proof remains open because no requests fired even on Accept All. | Use read-only GTM Preview and tag-firing inspection to determine the root cause. Do not change tags, triggers, variables, consent settings, or workspace configuration. |
 
@@ -266,6 +267,7 @@ This queue prioritizes evidence review without copying files, opening live tools
 
 | Date | Update | Files changed |
 | --- | --- | --- |
+| 2026-06-30 | Deployed a clean Vercel preview from `470696b`, reassigned the test-only canonical alias, verified the consent fix in deployed HTML, and retested Accept All. GTM/Clarity loaded; GA4/Meta/Ads and manual consent-registry proof remain open. | `EVIDENCE_REVIEW_QUEUE.md`, `EVIDENCE_ARCHIVE_INVENTORY.md`, `WEBSITE_AND_TRACKING_STATE.md`, `OPEN_ITEMS_FOR_NEXT_AGENT.md`, `docs/codex-handoffs/evidence/test-ground-deployment-consent-retest-2026-06-30/summary.md` |
 | 2026-06-30 | Added read-only GTM analytics/ads diagnostic. GTM and Clarity loaded after Accept All; Meta likely did not match the homepage test context; only Conversion Linker is configured for Google Ads; GA4 remains blocked on manual Tag Assistant inspection. No live changes, form submissions, or webhook tests occurred. | `EVIDENCE_REVIEW_QUEUE.md`, `EVIDENCE_ARCHIVE_INVENTORY.md`, `WEBSITE_AND_TRACKING_STATE.md`, `OPEN_ITEMS_FOR_NEXT_AGENT.md`, `docs/codex-handoffs/evidence/gtm-ga4-meta-ads-diagnostic-2026-06-30/summary.md` |
 | 2026-06-30 | Added Clarity test-ground QA evidence and queued read-only GTM Preview/tag-firing diagnosis for GA4, Meta, Google Ads, and DoubleClick non-firing. No live changes, form submissions, or webhook tests occurred. | `EVIDENCE_REVIEW_QUEUE.md`, `EVIDENCE_ARCHIVE_INVENTORY.md`, `WEBSITE_AND_TRACKING_STATE.md`, `OPEN_ITEMS_FOR_NEXT_AGENT.md`, `docs/codex-handoffs/evidence/clarity-test-ground-qa-2026-06-30/summary.md` |
 | 2026-06-18 | Initial evidence review queue created. No screenshots or evidence files were copied. | `EVIDENCE_REVIEW_QUEUE.md` |

@@ -1,5 +1,16 @@
 # Website And Tracking State
 
+## 2026-06-30 Canonical Test Deployment
+
+- `https://website-internal-test.vercel.app/` is now the canonical Vercel test URL.
+- It points to a new READY preview built from `470696ba949da22464b95f5fe76b4ea1ecac511e`.
+- Before reassignment, the alias served an older deployment tied to `c0f6343`; do not use prior alias behavior as proof of the current consent bridge.
+- The deployed HTML contains the real `gtag("consent", "update", consentUpdate)` call before the `atd_consent_update` diagnostic and carries all four optional Consent Mode fields.
+- Accept All loaded GTM and Clarity. GA4, Meta, and Ads/DoubleClick were not observed, and manual Tag Assistant registry proof remains open.
+- Only the Vercel preview and test alias were changed. No production promotion or Namecheap/cPanel deployment occurred.
+
+Evidence: `docs/codex-handoffs/evidence/test-ground-deployment-consent-retest-2026-06-30/summary.md`.
+
 ## 2026-06-30 GTM Diagnostic Follow-Up
 
 - Accept All released GTM and Clarity on the test preview.
