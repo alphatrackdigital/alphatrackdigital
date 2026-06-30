@@ -1,5 +1,12 @@
 # Open Items For Next Agent
 
+## 2026-06-30 Google Ads Audience Source Check
+
+- Google Ads website-visitor audience source already exists and is already populated via the linked GA4 property (not a separate Google Ads website tag). Segments observed: "All Users of AlphaTrack Digital" (48 members, below minimum size to serve ads), "Purchasers of AlphaTrack Digital" (0 members), and an auto-generated "AdWords optimized list".
+- GTM `GTM-MVXWCTZ8` still has only the Conversion Linker for Google Ads; no separate Google Ads base/audience gtag exists or was added. Owner decided this is sufficient for future remarketing readiness; no GTM change was made.
+- Google Ads campaigns, conversion actions, conversion tags, enhanced conversions, and billing remain untouched/deferred. Two pre-existing conversion actions were observed read-only only (status "No recent conversions").
+- Evidence: `docs/codex-handoffs/evidence/google-ads-audience-source-setup-2026-06-30/summary.md`.
+
 ## 2026-06-30 Final Test-Ground QA
 
 - Consent matrix passed on the canonical test deployment: Accept All, Reject All, Analytics-only, and Targeted Advertising-only.

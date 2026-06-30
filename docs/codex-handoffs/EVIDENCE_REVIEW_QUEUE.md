@@ -2,6 +2,12 @@
 
 Last updated: 2026-06-30.
 
+## 2026-06-30 Google Ads Audience Source Check
+
+| Evidence | Status | Next action |
+| --- | --- | --- |
+| `docs/codex-handoffs/evidence/google-ads-audience-source-setup-2026-06-30/summary.md` | Google Ads website-visitor audience source confirmed already live via linked GA4 property; no GTM change made (owner-approved no-op). | Revisit audience size after traffic accumulates; resolve account payment-method warning before any future campaign launch. |
+
 ## 2026-06-30 Test-Ground Follow-Up
 
 | Evidence | Status | Next action |

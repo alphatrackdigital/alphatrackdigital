@@ -1,5 +1,12 @@
 # Notion Sync Summary
 
+## 2026-06-30 Google Ads Audience Source Proposal
+
+- Google Ads website-visitor audience source already exists for AlphaTrack Digital, populated via the linked GA4 property (no separate Google Ads website tag needed or added).
+- No GTM change, no GTM publish, no Google Ads campaign/conversion action/conversion tag/billing change.
+- Repo source: `docs/codex-handoffs/evidence/google-ads-audience-source-setup-2026-06-30/summary.md`.
+- This is a sync proposal only. Notion was not updated directly.
+
 ## 2026-06-30 Final Test-Ground QA Proposal
 
 - Canonical Vercel test URL now passes Accept All, Reject All, Analytics-only, and Targeted Advertising-only consent states.

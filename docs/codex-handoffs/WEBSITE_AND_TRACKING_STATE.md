@@ -1,5 +1,12 @@
 # Website And Tracking State
 
+## 2026-06-30 Google Ads Audience Source
+
+- Confirmed (read-only, then owner-approved no-op) that the Google Ads website-visitor audience source already exists for `Alpha Track Digital Limited` and is populated via the linked GA4 property, not a separate Google Ads website tag. Segments: "All Users of AlphaTrack Digital" (48 members), "Purchasers of AlphaTrack Digital" (0 members), auto-generated "AdWords optimized list".
+- GTM `GTM-MVXWCTZ8` Default Workspace 10 remained at 0 changes; only the existing Conversion Linker tag represents Google Ads in GTM. No base/audience gtag was added since the GA4-linked audience already satisfies future remarketing readiness.
+- No GTM publish occurred. Google Ads campaigns, conversion actions, conversion tags, enhanced conversions, and billing were not touched.
+- Evidence: `docs/codex-handoffs/evidence/google-ads-audience-source-setup-2026-06-30/summary.md`.
+
 ## 2026-06-30 Final Test-Ground Result
 
 - Canonical test URL: `https://website-internal-test.vercel.app/`.
