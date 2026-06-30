@@ -1,5 +1,12 @@
 # Notion Sync Summary
 
+## 2026-06-30 Cookie Policy Resolution Proposal
+
+- Cookie Policy content tightened to remove inactive provider references and keep internal implementation details (tag IDs, account IDs, audience sizes, QA history, Cookiebot) out of the public page.
+- Lint and build both passed; no live dashboards or production settings were changed.
+- Repo source: `docs/codex-handoffs/evidence/cookie-policy-resolution-2026-06-30/summary.md`.
+- This is a sync proposal only. Notion was not updated directly.
+
 ## 2026-06-30 Google Ads Audience Source Proposal
 
 - Google Ads website-visitor audience source already exists for AlphaTrack Digital, populated via the linked GA4 property (no separate Google Ads website tag needed or added).

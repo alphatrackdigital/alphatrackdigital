@@ -1,5 +1,14 @@
 # Open Items For Next Agent
 
+## 2026-06-30 Cookie Policy Resolution
+
+- Tightened the existing Cookie Policy content (`src/content/legal/cookie-policy.md`, route `src/pages/CookiePolicy.tsx`) per owner-supplied Section 4/5 text. Removed inactive provider mentions (LinkedIn Ads/Insight Tag), explicit tool naming (GTM, Google Ads as a named tool), and the "cookie scanner table" reference. "Last Updated" date moved to June 30, 2026.
+- No GTM container/tag IDs, account IDs, audience sizes, internal QA history, or Cookiebot mentions exist in the public page. Cookie Policy <-> Privacy Policy cross-links and footer links were already correctly wired; no changes needed there.
+- `npm run lint` and `npm run build` (client+server+prerender) both passed.
+- No Ketch dashboard, GTM publish, or other live service settings were changed.
+- Cookie Policy content blocker is now cleared. Namecheap/cPanel deployment remains conditional pending Book-a-call CRM/webhook decision, explicit deployment approval, and full production consent QA.
+- Evidence: `docs/codex-handoffs/evidence/cookie-policy-resolution-2026-06-30/summary.md`.
+
 ## 2026-06-30 Google Ads Audience Source Check
 
 - Google Ads website-visitor audience source already exists and is already populated via the linked GA4 property (not a separate Google Ads website tag). Segments observed: "All Users of AlphaTrack Digital" (48 members, below minimum size to serve ads), "Purchasers of AlphaTrack Digital" (0 members), and an auto-generated "AdWords optimized list".

@@ -1,6 +1,6 @@
 # Cookie Policy
 
-**Last Updated: May 20, 2026**
+**Last Updated: June 30, 2026**
 
 This Cookie Policy explains how **Alpha Track Digital Limited** ("AlphaTrack Digital," "we," "us," or "our") uses cookies and similar technologies on **https://alphatrack.digital/**.
 
@@ -59,29 +59,31 @@ These cookies may be used when our website includes social media links, embedded
 
 ---
 
-## 4. Third-Party Cookies and Tools
+## 4. Third-Party Cookies and Similar Technologies
 
-Some cookies on our website may be placed by third-party service providers that help us with analytics, advertising, website performance, CRM, marketing automation, form handling, and campaign measurement.
+Some cookies and similar technologies on our website may be placed or supported by trusted third-party service providers that help us operate the website, understand website performance, improve user experience, measure campaigns, and support marketing or remarketing where permitted.
 
-These third parties may include tools such as:
+Depending on your consent choices and our active website configuration, these providers may include:
 
-- Google Analytics
-- Google Tag Manager
-- Google Ads
-- Meta/Facebook Pixel
-- LinkedIn Ads or Insight Tag
+- Google Analytics and related Google measurement services
 - Microsoft Clarity
-- Email marketing, CRM, form, automation, or reporting tools
+- Meta advertising and remarketing technologies
+- Google advertising or remarketing services
+- Form, CRM, email, automation, or reporting tools used to process enquiries and manage communications
 
-The exact cookies used may change over time as we update our website, tracking setup, marketing campaigns, or service providers. Third-party providers may process cookie-related data according to their own privacy and cookie policies.
+These providers may process cookie-related or usage data according to their own privacy and cookie policies. The exact technologies used may change over time as we update our website, analytics setup, marketing campaigns, or service providers.
+
+Analytics and advertising technologies are used only where your consent choices allow them, except where a cookie or similar technology is strictly necessary for the website to function.
 
 ---
 
 ## 5. Cookies Currently Used on Our Website
 
-We may maintain a cookie list or cookie table showing cookies detected on our website, including their name, provider, category, purpose, and duration.
+The specific cookies and similar technologies used on our website may change over time depending on our website features, analytics setup, advertising configuration, and service providers.
 
-Where available, this information will be displayed through our cookie consent banner, cookie preference center, or cookie scanner table. Cookie details may change when website tools, plugins, analytics settings, advertising campaigns, or third-party platforms change.
+Where available, our cookie banner or preference center may provide more information about the categories of cookies used and allow you to manage your choices.
+
+We periodically review the cookies and similar technologies used on our website to keep this Cookie Policy accurate and up to date.
 
 ---
 

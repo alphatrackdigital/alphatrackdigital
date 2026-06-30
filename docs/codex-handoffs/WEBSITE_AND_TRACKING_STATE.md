@@ -1,5 +1,13 @@
 # Website And Tracking State
 
+## 2026-06-30 Cookie Policy Resolution
+
+- Cookie Policy content (`src/content/legal/cookie-policy.md`) tightened: Section 4 and Section 5 replaced with general, accurate third-party provider categories; inactive LinkedIn Ads/Insight Tag reference removed; "Last Updated" set to June 30, 2026.
+- Confirmed no GTM/account IDs, audience sizes, internal QA history, or Cookiebot mentions in the public page. Cookie Policy, Privacy Policy, and footer cross-links were already correctly wired (no changes needed).
+- `npm run lint` and `npm run build` both passed. No live dashboards (Ketch, GTM, GA4, Meta, Google Ads, Clarity, Brevo, Vercel, Netlify, Namecheap/cPanel, Notion) were changed.
+- Cookie Policy content blocker is cleared. Namecheap/cPanel deployment remains conditional on the remaining items below.
+- Evidence: `docs/codex-handoffs/evidence/cookie-policy-resolution-2026-06-30/summary.md`.
+
 ## 2026-06-30 Google Ads Audience Source
 
 - Confirmed (read-only, then owner-approved no-op) that the Google Ads website-visitor audience source already exists for `Alpha Track Digital Limited` and is populated via the linked GA4 property, not a separate Google Ads website tag. Segments: "All Users of AlphaTrack Digital" (48 members), "Purchasers of AlphaTrack Digital" (0 members), auto-generated "AdWords optimized list".

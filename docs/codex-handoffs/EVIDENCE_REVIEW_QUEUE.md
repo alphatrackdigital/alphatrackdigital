@@ -2,6 +2,12 @@
 
 Last updated: 2026-06-30.
 
+## 2026-06-30 Cookie Policy Resolution
+
+| Evidence | Status | Next action |
+| --- | --- | --- |
+| `docs/codex-handoffs/evidence/cookie-policy-resolution-2026-06-30/summary.md` | Cookie Policy Section 4/5 tightened; lint/build passed; no live dashboards changed. Content blocker cleared. | Resolve remaining Namecheap/cPanel gates: Book-a-call CRM/webhook decision, explicit deployment approval, full production consent QA. |
+
 ## 2026-06-30 Google Ads Audience Source Check
 
 | Evidence | Status | Next action |
