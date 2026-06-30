@@ -1,5 +1,14 @@
 # Open Items For Next Agent
 
+## 2026-06-30 GTM Analytics/Ads Diagnostic
+
+- GTM and Clarity loaded after Accept All, so container release and analytics consent are working.
+- Meta non-firing on the untouched homepage is most likely trigger-context related: the base tag uses an allowed-hostnames page-view trigger, while conversion tags require events that were not exercised.
+- Google Ads/DoubleClick delivery is not configured beyond Conversion Linker; delivery requests are therefore not expected from the homepage check.
+- GA4 remains unresolved. Tag Assistant listed the domain as active but its injected badge reported `Tag Assistant Not Connected`, blocking tag-level trigger and exception inspection.
+- Evidence: `docs/codex-handoffs/evidence/gtm-ga4-meta-ads-diagnostic-2026-06-30/summary.md`.
+- No fixes were applied, no live services changed, and no forms or webhooks were submitted.
+
 ## 2026-06-30 Clarity Test-Ground QA
 
 - **Passed:** Ketch behavior, GTM Consent Mode updates, and Microsoft Clarity project `xbn6g2k18j` consent-gating on the non-production test ground. Clarity loaded only when `analytics_storage` was granted.

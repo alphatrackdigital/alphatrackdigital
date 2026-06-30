@@ -1,5 +1,16 @@
 # Website And Tracking State
 
+## 2026-06-30 GTM Diagnostic Follow-Up
+
+- Accept All released GTM and Clarity on the test preview.
+- Meta: likely trigger-context mismatch on the homepage. The base tag uses an allowed-hostnames page-view trigger; conversion tags require explicit repo events that were not exercised.
+- Google Ads/DoubleClick: only Conversion Linker is configured, not conversion or remarketing delivery tags.
+- GA4: still unresolved because the Tag Assistant badge reported `Not Connected` after the domain was added and opened in debug mode.
+- Classification: Meta `triggers do not match test context`; Ads delivery tags absent; GA4 `unknown / needs manual GTM review`, with a preview/browser-extension diagnostic blocker.
+- No live settings were changed and no form or webhook was submitted.
+
+Evidence: `docs/codex-handoffs/evidence/gtm-ga4-meta-ads-diagnostic-2026-06-30/summary.md`.
+
 ## 2026-06-30 Test-Ground Tracking Status
 
 | Area | Status |

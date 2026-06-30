@@ -6,6 +6,7 @@ Last updated: 2026-06-30.
 
 | Evidence | Status | Next action |
 | --- | --- | --- |
+| `docs/codex-handoffs/evidence/gtm-ga4-meta-ads-diagnostic-2026-06-30/summary.md` | GTM/Clarity release verified. Meta is likely trigger-context related; Ads delivery tags are absent beyond Conversion Linker; GA4 remains unresolved because Tag Assistant reported not connected. | Owner/manual read-only Tag Assistant review of GA4 trigger, exception, consent, and measurement-variable resolution. Review allowed-hostname logic separately before proposing changes. |
 | `docs/codex-handoffs/evidence/clarity-test-ground-qa-2026-06-30/summary.md` | Ketch/GTM/Clarity consent-gating passed. GA4, Meta, Google Ads, and DoubleClick proof remains open because no requests fired even on Accept All. | Use read-only GTM Preview and tag-firing inspection to determine the root cause. Do not change tags, triggers, variables, consent settings, or workspace configuration. |
 
 Cookie Policy workaround approval remains pending. Book-a-call CRM/webhook proof remains incomplete. Namecheap/cPanel deployment is not approved and was not performed.
@@ -265,6 +266,7 @@ This queue prioritizes evidence review without copying files, opening live tools
 
 | Date | Update | Files changed |
 | --- | --- | --- |
+| 2026-06-30 | Added read-only GTM analytics/ads diagnostic. GTM and Clarity loaded after Accept All; Meta likely did not match the homepage test context; only Conversion Linker is configured for Google Ads; GA4 remains blocked on manual Tag Assistant inspection. No live changes, form submissions, or webhook tests occurred. | `EVIDENCE_REVIEW_QUEUE.md`, `EVIDENCE_ARCHIVE_INVENTORY.md`, `WEBSITE_AND_TRACKING_STATE.md`, `OPEN_ITEMS_FOR_NEXT_AGENT.md`, `docs/codex-handoffs/evidence/gtm-ga4-meta-ads-diagnostic-2026-06-30/summary.md` |
 | 2026-06-30 | Added Clarity test-ground QA evidence and queued read-only GTM Preview/tag-firing diagnosis for GA4, Meta, Google Ads, and DoubleClick non-firing. No live changes, form submissions, or webhook tests occurred. | `EVIDENCE_REVIEW_QUEUE.md`, `EVIDENCE_ARCHIVE_INVENTORY.md`, `WEBSITE_AND_TRACKING_STATE.md`, `OPEN_ITEMS_FOR_NEXT_AGENT.md`, `docs/codex-handoffs/evidence/clarity-test-ground-qa-2026-06-30/summary.md` |
 | 2026-06-18 | Initial evidence review queue created. No screenshots or evidence files were copied. | `EVIDENCE_REVIEW_QUEUE.md` |
 | 2026-06-19 | Added Vercel visual screenshot pass to review queue. Screenshots are visual-render evidence only; no forms, POST/webhook requests, or live-service changes were made. | `EVIDENCE_REVIEW_QUEUE.md`, `EVIDENCE_ARCHIVE_INVENTORY.md`, `WEBSITE_AND_TRACKING_STATE.md` |
