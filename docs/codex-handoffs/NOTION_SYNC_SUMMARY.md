@@ -1,5 +1,17 @@
 # Notion Sync Summary
 
+## 2026-06-30 Final Test-Ground QA Proposal
+
+- Canonical Vercel test URL now passes Accept All, Reject All, Analytics-only, and Targeted Advertising-only consent states.
+- GA4 virtual route page views, Meta PageView, Clarity analytics gating, and Google Ads Conversion Linker consent behavior are verified.
+- Google Ads conversion tracking is deferred until Google Ads launch; no delivery or conversion tags are required now.
+- GTM Version 9 remains published with a clean workspace; no GTM change or publish occurred in the final sprint.
+- Three Clarity funnels were created without save failures. No private recordings were viewed.
+- Existing lead-flow evidence was reused; no repeat forms, bookings, or webhooks were submitted.
+- Production deployment remains conditional on the Cookie Policy implementation decision, any required Book-a-call CRM/webhook proof, and explicit Namecheap/cPanel approval.
+- Repo source: `docs/codex-handoffs/evidence/final-test-ground-qa-2026-06-30/summary.md`.
+- This is a sync proposal only. Notion was not updated directly.
+
 Last updated: 2026-06-23.
 
 Do not update Notion from this file without user approval. This is a review-ready sync proposal only.

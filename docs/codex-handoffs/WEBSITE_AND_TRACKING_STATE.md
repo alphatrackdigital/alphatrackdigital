@@ -1,5 +1,18 @@
 # Website And Tracking State
 
+## 2026-06-30 Final Test-Ground Result
+
+- Canonical test URL: `https://website-internal-test.vercel.app/`.
+- Consent states passed: Accept All, Reject All, Analytics-only, and Targeted Advertising-only.
+- GA4: base tag loaded with analytics consent; `send_page_view=false`; virtual `page_view` uses `atd_route_view` and sent successfully.
+- Meta: PageView sent only with advertising consent and stayed absent for Reject All and Analytics-only.
+- Clarity: collected only with analytics consent.
+- Google Ads: Conversion Linker only, correctly consent-gated; conversion tracking deferred until Google Ads launch.
+- GTM: published Version 9; Default Workspace 10 clean; no sprint changes or publish.
+- Production recommendation: conditional on the Cookie Policy implementation decision, any required Book-a-call CRM/webhook proof, and explicit Namecheap/cPanel approval.
+
+Evidence: `docs/codex-handoffs/evidence/final-test-ground-qa-2026-06-30/summary.md`.
+
 ## 2026-06-30 Canonical Test Deployment
 
 - `https://website-internal-test.vercel.app/` is now the canonical Vercel test URL.

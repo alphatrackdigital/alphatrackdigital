@@ -1,5 +1,16 @@
 # Open Items For Next Agent
 
+## 2026-06-30 Final Test-Ground QA
+
+- Consent matrix passed on the canonical test deployment: Accept All, Reject All, Analytics-only, and Targeted Advertising-only.
+- GA4 virtual route page views, Meta PageView, Clarity collection, and Conversion Linker behavior were observed in their allowed consent states.
+- GTM Version 9 remains published; Default Workspace 10 is clean with `0` changes. No GTM fix or publish was needed.
+- Google Ads conversion tracking is deferred until Google Ads launch. Conversion Linker remains configured and consent-gated; no delivery/conversion tags were created.
+- No repeat forms, bookings, or webhooks were submitted because existing lead-flow evidence was sufficient.
+- Remaining launch decisions: exact Cookie Policy workaround; whether Book-a-call CRM deal/task and custom webhook proof are mandatory before production; explicit Namecheap/cPanel approval.
+- Namecheap/cPanel recommendation: **conditional**.
+- Evidence: `docs/codex-handoffs/evidence/final-test-ground-qa-2026-06-30/summary.md`.
+
 ## 2026-06-30 Canonical Vercel Test Ground
 
 - Canonical test URL: `https://website-internal-test.vercel.app/`.
