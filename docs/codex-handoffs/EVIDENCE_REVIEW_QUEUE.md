@@ -1,6 +1,14 @@
 # Evidence Review Queue
 
-Last updated: 2026-06-29.
+Last updated: 2026-06-30.
+
+## 2026-06-30 Test-Ground Follow-Up
+
+| Evidence | Status | Next action |
+| --- | --- | --- |
+| `docs/codex-handoffs/evidence/clarity-test-ground-qa-2026-06-30/summary.md` | Ketch/GTM/Clarity consent-gating passed. GA4, Meta, Google Ads, and DoubleClick proof remains open because no requests fired even on Accept All. | Use read-only GTM Preview and tag-firing inspection to determine the root cause. Do not change tags, triggers, variables, consent settings, or workspace configuration. |
+
+Cookie Policy workaround approval remains pending. Book-a-call CRM/webhook proof remains incomplete. Namecheap/cPanel deployment is not approved and was not performed.
 
 ## Current Release Status
 
@@ -257,6 +265,7 @@ This queue prioritizes evidence review without copying files, opening live tools
 
 | Date | Update | Files changed |
 | --- | --- | --- |
+| 2026-06-30 | Added Clarity test-ground QA evidence and queued read-only GTM Preview/tag-firing diagnosis for GA4, Meta, Google Ads, and DoubleClick non-firing. No live changes, form submissions, or webhook tests occurred. | `EVIDENCE_REVIEW_QUEUE.md`, `EVIDENCE_ARCHIVE_INVENTORY.md`, `WEBSITE_AND_TRACKING_STATE.md`, `OPEN_ITEMS_FOR_NEXT_AGENT.md`, `docs/codex-handoffs/evidence/clarity-test-ground-qa-2026-06-30/summary.md` |
 | 2026-06-18 | Initial evidence review queue created. No screenshots or evidence files were copied. | `EVIDENCE_REVIEW_QUEUE.md` |
 | 2026-06-19 | Added Vercel visual screenshot pass to review queue. Screenshots are visual-render evidence only; no forms, POST/webhook requests, or live-service changes were made. | `EVIDENCE_REVIEW_QUEUE.md`, `EVIDENCE_ARCHIVE_INVENTORY.md`, `WEBSITE_AND_TRACKING_STATE.md` |
 | 2026-06-22 | Added controlled Contact Us form-test evidence to review queue. Evidence verifies frontend submission, redirect, and visible success state only; Brevo, CRM, notifications, Meta, and GA4 remain unverified. | `EVIDENCE_REVIEW_QUEUE.md`, `EVIDENCE_ARCHIVE_INVENTORY.md`, `WEBSITE_AND_TRACKING_STATE.md`, `OPEN_ITEMS_FOR_NEXT_AGENT.md` |

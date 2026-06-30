@@ -1,5 +1,14 @@
 # Open Items For Next Agent
 
+## 2026-06-30 Clarity Test-Ground QA
+
+- **Passed:** Ketch behavior, GTM Consent Mode updates, and Microsoft Clarity project `xbn6g2k18j` consent-gating on the non-production test ground. Clarity loaded only when `analytics_storage` was granted.
+- **Still open:** GA4 network/event proof, Meta Pixel/event proof, and Google Ads/DoubleClick proof. None fired in any tested state, including Accept All.
+- **Root cause:** Unknown / needs GTM Preview and tag-firing inspection. Do not change GTM while diagnosing.
+- **Still pending/incomplete:** Cookie Policy workaround approval; Book-a-call CRM deal/task and custom webhook proof; Namecheap/cPanel deployment approval and execution.
+- Evidence: `docs/codex-handoffs/evidence/clarity-test-ground-qa-2026-06-30/summary.md`.
+- No live services were changed, no forms were submitted, and no webhook tests were run during this QA.
+
 ## 2026-06-29 Codex to Claude Code Continuity Handoff
 
 - Codex hit its usage limit mid-task while updating documentation. Claude Code took over to inspect the working tree and finish the documentation-only task safely.

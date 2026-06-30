@@ -291,6 +291,7 @@ Safe for client-facing case study:
 
 | Date | Update | Files changed |
 | --- | --- | --- |
+| 2026-06-30 | Added redacted Clarity test-ground QA summary. Ketch/GTM/Clarity gating passed; GA4, Meta, Google Ads, and DoubleClick network/event proof remains open because no requests were observed even on Accept All. Root cause remains unknown pending read-only GTM Preview/tag-firing inspection. No live changes, form submissions, or webhook tests occurred. | `docs/codex-handoffs/evidence/clarity-test-ground-qa-2026-06-30/summary.md`, `OPEN_ITEMS_FOR_NEXT_AGENT.md`, `WEBSITE_AND_TRACKING_STATE.md`, `EVIDENCE_ARCHIVE_INVENTORY.md`, `EVIDENCE_REVIEW_QUEUE.md` |
 | 2026-06-18 | Initial evidence archive inventory created from repo docs, safe file listings, existing handoff docs, and local project artifact references. No evidence files were copied. | `EVIDENCE_ARCHIVE_INVENTORY.md`, `EVIDENCE_REVIEW_QUEUE.md` |
 | 2026-06-19 | Added 11 Vercel visual page-render screenshots from `https://website-internal-test.vercel.app`. No form submissions, POST/webhook requests, tracking verification, or live-service changes were made. | `EVIDENCE_ARCHIVE_INVENTORY.md`, `EVIDENCE_REVIEW_QUEUE.md`, `WEBSITE_AND_TRACKING_STATE.md` |
 | 2026-06-22 | Added redacted evidence for one approved Contact Us frontend submission on the Vercel test URL. Verified redirect and visible success state only; Brevo, CRM, notification, Meta, and GA4 remain unverified. | `EVIDENCE_ARCHIVE_INVENTORY.md`, `EVIDENCE_REVIEW_QUEUE.md`, `WEBSITE_AND_TRACKING_STATE.md`, `OPEN_ITEMS_FOR_NEXT_AGENT.md` |

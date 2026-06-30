@@ -1,5 +1,20 @@
 # Website And Tracking State
 
+## 2026-06-30 Test-Ground Tracking Status
+
+| Area | Status |
+| --- | --- |
+| Ketch/GTM/Clarity test-ground QA | Passed |
+| GA4 network/event proof | Still open; no requests observed even on Accept All |
+| Meta Pixel/event proof | Still open; no requests observed even on Accept All |
+| Google Ads/DoubleClick proof | Still open; no requests observed even on Accept All |
+| Non-firing root cause | Unknown / needs GTM Preview and tag-firing inspection |
+| Cookie Policy workaround approval | Still pending |
+| Book-a-call CRM/webhook proof | Still incomplete |
+| Namecheap/cPanel deployment | Not approved and not done |
+
+The 2026-06-30 check used `https://atd-website-test-o6l381b8e-alphatrackdigitals-projects.vercel.app/`. Clarity project `xbn6g2k18j` loaded only when `analytics_storage` was granted. Legal pages rendered correctly. No live services were changed, no forms were submitted, and no webhook tests were run. See `docs/codex-handoffs/evidence/clarity-test-ground-qa-2026-06-30/summary.md`.
+
 ## 2026-06-29 Ad Consent Propagation Correction
 
 - Owner manual Tag Assistant testing exposed a Consent Mode mismatch after Accept All: analytics was granted in GTM, but the three advertising fields remained denied despite granted values in the diagnostic dataLayer event.
