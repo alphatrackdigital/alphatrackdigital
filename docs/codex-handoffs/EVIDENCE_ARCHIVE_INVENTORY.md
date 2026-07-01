@@ -9,7 +9,13 @@ Last updated: 2026-06-29.
 - `atd-production-dist-ad-consent-fix-9d5b8ea.zip` is the current fallback/reference package; the previous `atd-production-dist-c0f6343.zip` is superseded and must not be used.
 - Namecheap/cPanel deployment is manual and remains pending.
 - Full production six-scenario consent QA remains pending owner verification.
-- The Cookie Policy workaround remains pending stakeholder/legal approval.
+- The Cookie Policy blocker was cleared in commit `5e11ddc` and confirmed on the canonical Vercel test ground.
+
+## 2026-07-01 Brevo List Organization
+
+| Evidence | Type | Path | Area | What it proves | Verification | Safe for Notion | Case study | Next action |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Brevo list organization summary | Doc | `docs/codex-handoffs/evidence/brevo-list-organization-2026-07-01/summary.md` | Brevo, CRM operations | Two ATD folders were created and existing lists `#7`-`#14` were moved without renaming, recreating, deleting, or changing IDs; lists `#4` and `#5` remained untouched. | Verified in Brevo UI and folder-list responses | Yes | Later | Retain as operational evidence; no launch action required. |
 - Historical screenshots, raw scenario captures, and copied GTM tag-list dumps referenced below were moved to the external 2026-06-29 cleanup archive. They are intentionally not repository evidence.
 
 ## Purpose
@@ -291,6 +297,7 @@ Safe for client-facing case study:
 
 | Date | Update | Files changed |
 | --- | --- | --- |
+| 2026-07-01 | Organized existing Brevo lists into two ATD folders with names/IDs preserved; no contacts, workflows, forms, API/env configuration, or deployments changed. Also corrected current launch status so Cookie Policy is no longer a blocker. | `docs/codex-handoffs/evidence/brevo-list-organization-2026-07-01/summary.md`, `OPEN_ITEMS_FOR_NEXT_AGENT.md`, `WEBSITE_AND_TRACKING_STATE.md`, `EVIDENCE_ARCHIVE_INVENTORY.md`, `EVIDENCE_REVIEW_QUEUE.md`, `NOTION_SYNC_SUMMARY.md` |
 | 2026-06-30 | Added final test-ground QA, manual Tag Assistant consent proof, and Clarity funnel summaries. Consent matrix, GA4 route page view, Meta PageView, Clarity gating, and Conversion Linker behavior passed. Google Ads conversions are deferred. Namecheap/cPanel readiness is conditional. | `docs/codex-handoffs/evidence/tag-assistant-consent-proof-2026-06-30/summary.md`, `docs/codex-handoffs/evidence/clarity-funnels-setup-2026-06-30/summary.md`, `docs/codex-handoffs/evidence/final-test-ground-qa-2026-06-30/summary.md`, `OPEN_ITEMS_FOR_NEXT_AGENT.md`, `WEBSITE_AND_TRACKING_STATE.md`, `EVIDENCE_ARCHIVE_INVENTORY.md`, `EVIDENCE_REVIEW_QUEUE.md`, `NOTION_SYNC_SUMMARY.md` |
 | 2026-06-30 | Added canonical test-ground deployment and consent retest evidence. Deployed clean `main` at `470696b` to a Vercel preview, reassigned only the test alias, verified the real gtag consent update in deployed HTML, and confirmed GTM/Clarity after Accept All. GA4/Meta/Ads and manual GTM registry proof remain open. | `docs/codex-handoffs/evidence/test-ground-deployment-consent-retest-2026-06-30/summary.md`, `OPEN_ITEMS_FOR_NEXT_AGENT.md`, `WEBSITE_AND_TRACKING_STATE.md`, `EVIDENCE_ARCHIVE_INVENTORY.md`, `EVIDENCE_REVIEW_QUEUE.md` |
 | 2026-06-30 | Added read-only GTM analytics/ads diagnostic. GTM and Clarity loaded after Accept All; Meta is likely blocked by test-context triggers; Ads/DoubleClick delivery tags are not configured beyond Conversion Linker; GA4 remains unresolved because Tag Assistant reported not connected. No live changes, forms, or webhook tests occurred. | `docs/codex-handoffs/evidence/gtm-ga4-meta-ads-diagnostic-2026-06-30/summary.md`, `OPEN_ITEMS_FOR_NEXT_AGENT.md`, `WEBSITE_AND_TRACKING_STATE.md`, `EVIDENCE_ARCHIVE_INVENTORY.md`, `EVIDENCE_REVIEW_QUEUE.md` |

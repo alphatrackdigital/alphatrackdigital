@@ -1,5 +1,22 @@
 # Open Items For Next Agent
 
+## 2026-07-01 Brevo List Organization
+
+- Created `ATD - Website Lead Capture` and moved existing lists `#7`-`#11` into it.
+- Created `ATD - Lifecycle & QA` and moved existing lists `#12`-`#14` into it.
+- List names and IDs were preserved. Lists `#5 identified_contacts` and `#4 Contacts involved in conversations` remained untouched in their original folders.
+- No contacts, automations/workflows, forms, API/env configuration, attributes, segments, CRM pipelines, or deployment settings were changed.
+- This is operational cleanup, not a launch blocker.
+- Evidence: `docs/codex-handoffs/evidence/brevo-list-organization-2026-07-01/summary.md`.
+
+## Current Pre-Production Decisions
+
+Cookie Policy is cleared in commit `5e11ddc` and confirmed deployed on the canonical Vercel test ground. Form submission, Brevo widget, and exit-popup/Ketch-modal blockers are cleared in commits `0db41a4` and `9ac9d60`.
+
+1. Decide whether optional Book-a-call CRM deal/task and custom webhook proof is required before production.
+2. Obtain explicit Namecheap/cPanel deployment approval.
+3. Complete production six-scenario consent QA after deployment.
+
 ## 2026-07-01 Form/Widget/Popup Fix
 
 - Root cause of "all forms failing" on the canonical Vercel test alias: `BREVO_API_KEY` and related Brevo list-ID env vars were scoped only to Production in Vercel project settings, not Preview. Extended to Production+Preview via the Vercel dashboard (values never read/typed by the agent). Contact Us, Tracking Audit, Newsletter, and Exit Popup all verified working post-fix with dataLayer events firing correctly.
@@ -32,7 +49,7 @@
 - GTM Version 9 remains published; Default Workspace 10 is clean with `0` changes. No GTM fix or publish was needed.
 - Google Ads conversion tracking is deferred until Google Ads launch. Conversion Linker remains configured and consent-gated; no delivery/conversion tags were created.
 - No repeat forms, bookings, or webhooks were submitted because existing lead-flow evidence was sufficient.
-- Remaining launch decisions: exact Cookie Policy workaround; whether Book-a-call CRM deal/task and custom webhook proof are mandatory before production; explicit Namecheap/cPanel approval.
+- Remaining launch decisions: whether Book-a-call CRM deal/task and custom webhook proof are mandatory before production; explicit Namecheap/cPanel approval; production six-scenario consent QA after deployment.
 - Namecheap/cPanel recommendation: **conditional**.
 - Evidence: `docs/codex-handoffs/evidence/final-test-ground-qa-2026-06-30/summary.md`.
 
@@ -60,7 +77,7 @@
 - **Passed:** Ketch behavior, GTM Consent Mode updates, and Microsoft Clarity project `xbn6g2k18j` consent-gating on the non-production test ground. Clarity loaded only when `analytics_storage` was granted.
 - **Still open:** GA4 network/event proof, Meta Pixel/event proof, and Google Ads/DoubleClick proof. None fired in any tested state, including Accept All.
 - **Root cause:** Unknown / needs GTM Preview and tag-firing inspection. Do not change GTM while diagnosing.
-- **Still pending/incomplete:** Cookie Policy workaround approval; Book-a-call CRM deal/task and custom webhook proof; Namecheap/cPanel deployment approval and execution.
+- **Still pending/incomplete:** Book-a-call CRM deal/task and custom webhook proof decision; Namecheap/cPanel deployment approval and execution; production six-scenario consent QA after deployment. The Cookie Policy blocker was cleared on 2026-06-30.
 - Evidence: `docs/codex-handoffs/evidence/clarity-test-ground-qa-2026-06-30/summary.md`.
 - No live services were changed, no forms were submitted, and no webhook tests were run during this QA.
 
@@ -78,7 +95,7 @@
 - GTM Version 9 remains published; no GTM or Ketch setting changed.
 - Dev deployment workflow: pull latest `main` and deploy commit `9d5b8eaa175bf0a857a63bfb1bf117b1606b5e79` through the existing Namecheap/cPanel process.
 - `atd-production-dist-ad-consent-fix-9d5b8ea.zip` is fallback/reference only. `atd-production-dist-c0f6343.zip` is superseded and must not be used.
-- Manual cPanel deployment, owner production QA, and Cookie Policy workaround approval remain pending. Clarity funnels, smart events, first-recording masking review, and later AI Visibility evaluation are post-deployment follow-ups, not launch blockers.
+- Manual cPanel deployment approval/execution and owner production QA remain pending. Cookie Policy is cleared. Clarity funnels, smart events, first-recording masking review, and later AI Visibility evaluation are post-deployment follow-ups, not launch blockers.
 
 Last updated: 2026-06-25.
 
@@ -95,7 +112,7 @@ Last updated: 2026-06-25.
 | Item | Next step | Verify before live changes |
 | --- | --- | --- |
 | Analytics delivery partially verified | GA4 Realtime showed recent `generate_lead`, `meeting_booked_confirmed`, and `meeting_booking_redirect` after the approved booking test; GTM container was visible; Meta event/deduplication proof remains missing | Do not change tags, triggers, pixels, datasets, conversions, or settings |
-| Ketch consent QA blocked for production approval | Current preview `https://atd-website-test-bizccowc5-alphatrackdigitals-projects.vercel.app` passes the automated repo-side consent matrix, including the latest 2026-06-25 rerun in `browser-consent-matrix-rerun-2026-06-25.json` with timestamp `2026-06-25T21:38:51.615Z`. Chrome control now works, GTM workspace `9` opens with `Workspace Changes: 22`, and Tag Assistant connected to the preview URL, but connected timeline automation is blocked by a Chrome extension UI overlay. Ketch dashboard confirms the Cookie Policy document remains `Undeployed`, typed as `Privacy Policy`, and no dedicated `Cookie Policy` type exists. Final production status is `NO-GO / BLOCKED` until Tag Assistant timeline proof, ad-platform delivery confirmation after consent, Cookie Policy workaround/support decision, GTM publish approval, and production deploy approval are complete | Do not deploy production; do not install Clarity; publish GTM only after timeline/ad-platform evidence is actually good |
+| Historical Ketch consent QA | The 2026-06-25 `NO-GO / BLOCKED` assessment was superseded by GTM Version 9 publish, final test-ground consent proof, and the Cookie Policy fix in `5e11ddc`. | Retain as historical evidence; current gates are the three items in `Current Pre-Production Decisions` above. |
 | Tracking Audit Nurture paused; active contacts still visible | User approved pausing only Tracking Audit Nurture on 2026-06-24; Brevo status showed `Paused`, but active contacts still appeared in workflow steps after the pause; user declined removing/stopping those active contacts | Do not reactivate or edit without approval; review workflow internals before any future reactivation |
 | Book-a-call CRM/webhook proof incomplete | One approved booking was completed and Brevo list #7 plus confirmation email delivery were verified; CRM deal/task and custom meeting webhook delivery were not verified | Do not book another meeting or POST to webhook without separate approval |
 | Newsletter and Exit Popup frontend success text partial | Brevo downstream routing is verified, but saved DOM samples did not capture success text | Do not repeat submissions unless explicitly approved; consider non-submitting UI/screenshot review only |
@@ -144,7 +161,7 @@ Last updated: 2026-06-25.
 9. After any approved deploy in the future, run controlled endpoint checks before test submissions.
 10. After test submissions, record evidence in repo docs first.
 11. Prepare a Notion sync proposal; wait for approval before updating Notion.
-12. For Ketch, keep the current preview intact. The automated page/network matrix passed again on 2026-06-25, but production remains `NO-GO / BLOCKED`. Required gates are: Tag Assistant timeline proof, Google Ads/Meta/LinkedIn delivery confirmation after consent only, Cookie Policy attachment or approved workaround, explicit GTM publish approval, and explicit production deploy approval. GTM Consent Overview already shows GA4 config/events requiring `analytics_storage`; Meta tags requiring `ad_storage`, `ad_personalization`, and `ad_user_data`; Google Ads Conversion Linker requiring the same ad fields; LinkedIn was not visible in the sampled tag list; Clarity must remain uninstalled. Chrome browser control now attaches. Tag Assistant connected to the preview URL, but the connected timeline page is blocked until the Chrome extension UI overlay on that page is manually dismissed.
+12. Treat the 2026-06-25 Ketch `NO-GO / BLOCKED` checklist as superseded historical context. GTM Version 9 and final test-ground consent proof are complete, and Cookie Policy is cleared. Do not change Ketch or publish GTM without new owner approval.
 
 ## What To Verify Before Any Live Change
 
@@ -200,7 +217,7 @@ Evidence: `docs/codex-handoffs/evidence/ketch-final-production-readiness-2026-06
 - Ketch GTM-consent preview follow-up was added on 2026-06-25. Preview `https://atd-website-test-bizccowc5-alphatrackdigitals-projects.vercel.app` passed the automated consent matrix after the repo-side GTM release update and GA transport guard. Evidence is in `docs/codex-handoffs/evidence/ketch-final-gtm-consent-2026-06-25/`. No production deploy, GTM publish, or Clarity install occurred.
 - Ketch final pre-production rerun was added on 2026-06-25. Fresh automated page/network QA passed on the same preview URL and saved `docs/codex-handoffs/evidence/ketch-final-gtm-consent-2026-06-25/browser-consent-matrix-rerun-2026-06-25.json`. Tag Assistant timeline capture remains outstanding because non-interrupting Chrome extension control failed and the active Chrome instance had no remote-debugging port.
 - Ketch production approval pack was added on 2026-06-25 in `KETCH_FINAL_PREVIEW_QA_2026-06-24.md`. It marks production `NO-GO / BLOCKED`, adds the final go/no-go table, and lists the launch checklist. No GTM publish, production deploy, or Clarity install occurred.
-- Ketch final verification blocker evidence was added on 2026-06-25 at `docs/codex-handoffs/evidence/ketch-final-gtm-consent-2026-06-25/final-verification-blockers-2026-06-25.json`. It records that GTM Tag Assistant timeline proof, ad-platform post-consent delivery confirmation, and private Ketch Cookie Policy remediation remain blocked by non-interrupting browser access constraints.
+- Ketch final verification blocker evidence was added on 2026-06-25 at `docs/codex-handoffs/evidence/ketch-final-gtm-consent-2026-06-25/final-verification-blockers-2026-06-25.json`. This is historical evidence superseded by the later GTM publish, final test-ground proof, and Cookie Policy clearance.
 - Ketch Chrome retry evidence was added on 2026-06-25 at `docs/codex-handoffs/evidence/ketch-final-gtm-consent-2026-06-25/chrome-retry-ketch-cookie-policy-2026-06-25.json`. It records that Chrome control attached, GTM and Ketch dashboards were accessible, Tag Assistant connected but timeline automation was blocked by a Chrome extension UI overlay, and Ketch has no dedicated Cookie Policy document type.
 - Ketch Cookie Policy public-config check was added on 2026-06-25. Ketch public config includes Privacy Policy and Terms of Service URLs but no Cookie Policy URL; website legal pages all return `200`. Treat dedicated Cookie Policy attachment as a Ketch dashboard/vendor support item unless the user explicitly approves the live website Cookie Policy link as the production workaround.
 - Future evidence updates should be incremental and should add an `Evidence Update Log` entry.
@@ -221,4 +238,4 @@ Continue the AlphaTrack Digital / ATD MarTech handoff from repo docs under docs/
 - Clarity project `xbn6g2k18j` requires `analytics_storage` and uses the deterministic repo-side `atd_consent_update` post-consent event.
 - Fresh visit and Accept All passed on the non-production preview before publish.
 - The owner approved publish and production deployment with the remaining six-scenario production matrix to be completed manually afterward.
-- Cookie Policy attachment/workaround approval remains pending stakeholder/legal review.
+- Cookie Policy blocker was cleared in commit `5e11ddc`; the live website policy is the approved launch treatment.

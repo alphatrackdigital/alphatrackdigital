@@ -1,5 +1,11 @@
 # Evidence Review Queue
 
+## 2026-07-01 Brevo List Organization
+
+| Evidence | Status | Next action |
+| --- | --- | --- |
+| `docs/codex-handoffs/evidence/brevo-list-organization-2026-07-01/summary.md` | Verified operational cleanup: two ATD folders created; existing lists `#7`-`#14` moved with names and IDs preserved; lists `#4` and `#5` untouched. No contacts, workflows, forms, API/env configuration, or deployments changed. | Retain as operational evidence; no launch action required. |
+
 Last updated: 2026-07-01.
 
 ## 2026-07-01 Form/Widget/Popup Fix
@@ -24,18 +30,18 @@ Last updated: 2026-07-01.
 
 | Evidence | Status | Next action |
 | --- | --- | --- |
-| `docs/codex-handoffs/evidence/final-test-ground-qa-2026-06-30/summary.md` | Final consent/GA4/Meta/Clarity/Conversion Linker test-ground QA passed; production readiness is conditional. | Obtain Cookie Policy implementation decision, decide whether Book-a-call CRM/webhook proof is a launch gate, then request explicit Namecheap/cPanel approval. |
+| `docs/codex-handoffs/evidence/final-test-ground-qa-2026-06-30/summary.md` | Final consent/GA4/Meta/Clarity/Conversion Linker test-ground QA passed; production readiness is conditional. Cookie Policy was subsequently cleared in `5e11ddc`. | Decide whether Book-a-call CRM/webhook proof is a launch gate, request explicit Namecheap/cPanel approval, then run production consent QA after deployment. |
 | `docs/codex-handoffs/evidence/tag-assistant-consent-proof-2026-06-30/summary.md` | Accept All manual Consent Mode proof complete. | Retain as launch evidence; repeat on production only after an approved deploy. |
 | `docs/codex-handoffs/evidence/clarity-funnels-setup-2026-06-30/summary.md` | Three funnels created without save failures. | Validate with production traffic later; defer Smart Events, masking review, and AI Visibility review. |
 | `docs/codex-handoffs/evidence/test-ground-deployment-consent-retest-2026-06-30/summary.md` | Canonical test alias now serves clean `main` at `470696b`; deployed HTML contains the real gtag consent update; Accept All loaded GTM and Clarity. | Run owner/manual Tag Assistant on the canonical alias to confirm actual ad-consent registry values and tag firing. |
 | `docs/codex-handoffs/evidence/gtm-ga4-meta-ads-diagnostic-2026-06-30/summary.md` | GTM/Clarity release verified. Meta is likely trigger-context related; Ads delivery tags are absent beyond Conversion Linker; GA4 remains unresolved because Tag Assistant reported not connected. | Owner/manual read-only Tag Assistant review of GA4 trigger, exception, consent, and measurement-variable resolution. Review allowed-hostname logic separately before proposing changes. |
 | `docs/codex-handoffs/evidence/clarity-test-ground-qa-2026-06-30/summary.md` | Ketch/GTM/Clarity consent-gating passed. GA4, Meta, Google Ads, and DoubleClick proof remains open because no requests fired even on Accept All. | Use read-only GTM Preview and tag-firing inspection to determine the root cause. Do not change tags, triggers, variables, consent settings, or workspace configuration. |
 
-Cookie Policy workaround approval remains pending. Book-a-call CRM/webhook proof remains incomplete. Namecheap/cPanel deployment is not approved and was not performed.
+Cookie Policy is cleared in `5e11ddc`. Book-a-call CRM/webhook proof remains an optional gate decision. Namecheap/cPanel deployment is not approved and was not performed; production six-scenario consent QA remains post-deployment.
 
 ## Current Release Status
 
-GTM Version 9 is published and release commit `c0f63437d9ba8d36be9dea3c7b8747a6d9275ba8` is on `main`. The cPanel deployment package is prepared for manual deployment by the dev guy. Production deployment, the owner-run six-scenario matrix, and stakeholder/legal approval of the Cookie Policy workaround remain pending. Historical screenshots and raw intermediate QA captures were archived outside the repository on 2026-06-29.
+GTM Version 9 is published. The cPanel deployment package is prepared for manual deployment by the dev guy. Explicit production deployment approval and the post-deployment owner-run six-scenario matrix remain pending; Cookie Policy is cleared. Historical screenshots and raw intermediate QA captures were archived outside the repository on 2026-06-29.
 
 This queue prioritizes evidence review without copying files, opening live tools, or updating Notion. Use it alongside `EVIDENCE_ARCHIVE_INVENTORY.md`.
 
@@ -288,6 +294,7 @@ This queue prioritizes evidence review without copying files, opening live tools
 
 | Date | Update | Files changed |
 | --- | --- | --- |
+| 2026-07-01 | Added verified Brevo list-organization evidence and corrected current launch status so Cookie Policy is no longer a blocker. | `EVIDENCE_REVIEW_QUEUE.md`, `EVIDENCE_ARCHIVE_INVENTORY.md`, `WEBSITE_AND_TRACKING_STATE.md`, `OPEN_ITEMS_FOR_NEXT_AGENT.md`, `NOTION_SYNC_SUMMARY.md`, `docs/codex-handoffs/evidence/brevo-list-organization-2026-07-01/summary.md` |
 | 2026-06-30 | Added final test-ground QA, Tag Assistant consent proof, and Clarity funnel setup evidence. No GTM/source/Vercel changes or submissions were made in this sprint. | `EVIDENCE_REVIEW_QUEUE.md`, `EVIDENCE_ARCHIVE_INVENTORY.md`, `WEBSITE_AND_TRACKING_STATE.md`, `OPEN_ITEMS_FOR_NEXT_AGENT.md`, `NOTION_SYNC_SUMMARY.md`, `docs/codex-handoffs/evidence/*2026-06-30/summary.md` |
 | 2026-06-30 | Deployed a clean Vercel preview from `470696b`, reassigned the test-only canonical alias, verified the consent fix in deployed HTML, and retested Accept All. GTM/Clarity loaded; GA4/Meta/Ads and manual consent-registry proof remain open. | `EVIDENCE_REVIEW_QUEUE.md`, `EVIDENCE_ARCHIVE_INVENTORY.md`, `WEBSITE_AND_TRACKING_STATE.md`, `OPEN_ITEMS_FOR_NEXT_AGENT.md`, `docs/codex-handoffs/evidence/test-ground-deployment-consent-retest-2026-06-30/summary.md` |
 | 2026-06-30 | Added read-only GTM analytics/ads diagnostic. GTM and Clarity loaded after Accept All; Meta likely did not match the homepage test context; only Conversion Linker is configured for Google Ads; GA4 remains blocked on manual Tag Assistant inspection. No live changes, form submissions, or webhook tests occurred. | `EVIDENCE_REVIEW_QUEUE.md`, `EVIDENCE_ARCHIVE_INVENTORY.md`, `WEBSITE_AND_TRACKING_STATE.md`, `OPEN_ITEMS_FOR_NEXT_AGENT.md`, `docs/codex-handoffs/evidence/gtm-ga4-meta-ads-diagnostic-2026-06-30/summary.md` |

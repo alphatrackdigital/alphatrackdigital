@@ -1,5 +1,16 @@
 # Notion Sync Summary
 
+## 2026-07-01 Brevo List Organization Proposal
+
+- Created `ATD - Website Lead Capture` and moved existing lists `#7`-`#11` into it.
+- Created `ATD - Lifecycle & QA` and moved existing lists `#12`-`#14` into it.
+- Existing list names and IDs were preserved; lists `#5 identified_contacts` and `#4 Contacts involved in conversations` remained untouched.
+- No contacts, automations/workflows, forms, API/env configuration, attributes, segments, CRM pipelines, or deployment settings were changed.
+- This is operational cleanup, not launch-blocking.
+- Current remaining deployment decisions are optional Book-a-call CRM/webhook proof, explicit Namecheap/cPanel approval, and production six-scenario consent QA after deployment. Cookie Policy is cleared in commit `5e11ddc`.
+- Repo source: `docs/codex-handoffs/evidence/brevo-list-organization-2026-07-01/summary.md`.
+- This is a sync proposal only. Notion was not updated directly.
+
 ## 2026-07-01 Form/Widget/Popup Fix Proposal
 
 - Fixed all four lead forms failing on the test ground (Vercel Preview environment variable scope gap, not a code bug), the Brevo support-chat widget being incorrectly gated behind analytics consent, and the exit popup being able to open behind/over the Ketch consent modal.
@@ -30,7 +41,7 @@
 - GTM Version 9 remains published with a clean workspace; no GTM change or publish occurred in the final sprint.
 - Three Clarity funnels were created without save failures. No private recordings were viewed.
 - Existing lead-flow evidence was reused; no repeat forms, bookings, or webhooks were submitted.
-- Production deployment remains conditional on the Cookie Policy implementation decision, any required Book-a-call CRM/webhook proof, and explicit Namecheap/cPanel approval.
+- Production deployment remains conditional on any required Book-a-call CRM/webhook proof, explicit Namecheap/cPanel approval, and production six-scenario consent QA after deployment. Cookie Policy is cleared.
 - Repo source: `docs/codex-handoffs/evidence/final-test-ground-qa-2026-06-30/summary.md`.
 - This is a sync proposal only. Notion was not updated directly.
 

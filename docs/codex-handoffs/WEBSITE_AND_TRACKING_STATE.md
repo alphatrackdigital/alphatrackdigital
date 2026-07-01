@@ -1,5 +1,20 @@
 # Website And Tracking State
 
+## 2026-07-01 Brevo List Organization
+
+- Created `ATD - Website Lead Capture`; existing lists `#7`-`#11` now reside there.
+- Created `ATD - Lifecycle & QA`; existing lists `#12`-`#14` now reside there.
+- List names and IDs were preserved. Lists `#5` and `#4` remain untouched in `marketing_automation` and `Conversations contacts`.
+- No contacts, automations/workflows, forms, API/env configuration, attributes, segments, CRM pipelines, or deployment settings were changed.
+- This is operational cleanup, not launch-blocking.
+- Evidence: `docs/codex-handoffs/evidence/brevo-list-organization-2026-07-01/summary.md`.
+
+## Current Launch Gate Summary
+
+- Cleared: Cookie Policy in commit `5e11ddc`, confirmed deployed on the canonical Vercel test ground.
+- Cleared: form submissions, independent Brevo widget loading, and exit-popup/Ketch-modal conflict in commits `0db41a4` and `9ac9d60`.
+- Remaining decisions: optional Book-a-call CRM/webhook proof, explicit Namecheap/cPanel deployment approval, and production six-scenario consent QA after deployment.
+
 ## 2026-07-01 Form/Widget/Popup Fix
 
 - Fixed root cause of all four lead forms (Contact Us, Tracking Audit, Newsletter, Exit Popup) showing generic errors on the canonical Vercel test alias: `BREVO_API_KEY`, `BREVO_LIST_ID`, `BREVO_NEWSLETTER_LIST_ID`, `BREVO_AUDIT_LIST_ID`, `BREVO_CONTACT_LIST_ID` were Production-only in Vercel; extended to Preview via the dashboard (values never exposed). All four forms verified working with correct dataLayer events on a fresh preview deployment.
@@ -32,7 +47,7 @@
 - Clarity: collected only with analytics consent.
 - Google Ads: Conversion Linker only, correctly consent-gated; conversion tracking deferred until Google Ads launch.
 - GTM: published Version 9; Default Workspace 10 clean; no sprint changes or publish.
-- Production recommendation: conditional on the Cookie Policy implementation decision, any required Book-a-call CRM/webhook proof, and explicit Namecheap/cPanel approval.
+- Production recommendation: conditional on any required Book-a-call CRM/webhook proof, explicit Namecheap/cPanel approval, and production six-scenario consent QA after deployment. Cookie Policy is cleared.
 
 Evidence: `docs/codex-handoffs/evidence/final-test-ground-qa-2026-06-30/summary.md`.
 
@@ -67,7 +82,7 @@ Evidence: `docs/codex-handoffs/evidence/gtm-ga4-meta-ads-diagnostic-2026-06-30/s
 | Meta Pixel/event proof | Still open; no requests observed even on Accept All |
 | Google Ads/DoubleClick proof | Still open; no requests observed even on Accept All |
 | Non-firing root cause | Unknown / needs GTM Preview and tag-firing inspection |
-| Cookie Policy workaround approval | Still pending |
+| Cookie Policy | Cleared in `5e11ddc`; confirmed on the canonical Vercel test ground |
 | Book-a-call CRM/webhook proof | Still incomplete |
 | Namecheap/cPanel deployment | Not approved and not done |
 
@@ -95,7 +110,7 @@ Last updated: 2026-06-24.
 - Clarity is not directly installed in repository source.
 - Fresh visit and Accept All passed on the non-production preview before publish.
 - Full six-scenario production consent QA remains pending owner verification.
-- Cookie Policy remains live at `/cookie-policy`; the Ketch-specific workaround remains pending stakeholder/legal approval.
+- Cookie Policy remains live at `/cookie-policy`; the launch blocker was cleared in commit `5e11ddc`.
 
 ## Website Stack
 
@@ -315,7 +330,7 @@ Ketch/GTM consent updates are still pending dashboard/browser verification. See 
 
 2026-06-25 Ketch dashboard Cookie Policy retry: private Ketch dashboard access worked. The `Cookie Policy` document exists with URL `https://www.alphatrack.digital/cookie-policy`, status `Undeployed`, and current type `Privacy Policy`. Available document types are `Privacy Policy`, `Terms of Service`, `DPIA`, `DPA`, `MSA`, and `Other`; no dedicated `Cookie Policy` type is available. No Ketch document, purpose, theme, system, tracker, or jurisdiction was deleted or changed. Evidence: `docs/codex-handoffs/evidence/ketch-final-gtm-consent-2026-06-25/chrome-retry-ketch-cookie-policy-2026-06-25.json`.
 
-2026-06-25 production approval status: Ketch is `NO-GO / BLOCKED` for production even though automated preview QA passed. Production launch requires five remaining gates: GTM Preview / Tag Assistant timeline proof, Google Ads/Meta/LinkedIn delivery confirmation after consent only, Ketch Cookie Policy resolution or approved workaround, explicit approval to publish GTM, and explicit approval to deploy production. See `KETCH_FINAL_PREVIEW_QA_2026-06-24.md` for the final go/no-go table and production launch checklist.
+2026-06-25 historical production approval status: Ketch was `NO-GO / BLOCKED` at that point. This assessment is superseded by the later GTM Version 9 publish, final test-ground consent proof, and Cookie Policy clearance in `5e11ddc`. See `KETCH_FINAL_PREVIEW_QA_2026-06-24.md` only for historical context.
 
 2026-06-25 Cookie Policy config check: Ketch public config includes Privacy Policy and Terms of Service URLs, but no `cookie-policy` URL. A final public recheck on 2026-06-25 returned `200` for the Ketch config endpoint and for website legal pages `/privacy-policy`, `/cookie-policy`, and `/terms-of-service`. The Ketch preference `privacyPolicy` tab appears hidden with an empty document id in public config. Treat Cookie Policy attachment as a Ketch dashboard/vendor support item; keep the website Cookie Policy page live as the current workaround unless the user explicitly approves that workaround for production.
 
@@ -341,7 +356,7 @@ Ketch/GTM consent updates are still pending dashboard/browser verification. See 
 - Newsletter internal notification delivery evidence exists in Brevo SMTP logs; human inbox review remains out of scope.
 - Production transactional webhook endpoint should not be registered until deployed and verified.
 - Ketch production readiness is not complete until Tag Assistant confirms the unpublished GTM consent-check draft behaves correctly and the Cookie Policy is deployed/attached in Ketch.
-- Ketch preview QA is currently blocked for production approval, not for repo-side consent behavior: pre-consent GTM/GA4/ads leaks are controlled in preview, Ketch purposes expose Analytics plus Targeted Advertising correctly, and the automated consent matrix passes. Remaining items are Cookie Policy attachment status, Tag Assistant timeline proof, ad-platform delivery confirmation, and explicit approval before any production/GTM publish/Clarity work.
+- The older Ketch preview `NO-GO` assessment is superseded. Current pre-production decisions are optional Book-a-call CRM/webhook proof, explicit Namecheap/cPanel deployment approval, and production six-scenario consent QA after deployment.
 - Unknown/random URLs returning `200` is a separate routing/404 SEO cleanup item and should not block Ketch implementation.
 
 ## Suggested Retest Checklist
