@@ -63,6 +63,27 @@ const getDismissedUntil = () => {
   return value ? Number(value) : 0;
 };
 
+const CONSENT_UI_RETRY_MS = 1000;
+const CONSENT_UI_MAX_RETRIES = 30;
+
+// Ketch renders its banner and preference center into #lanyard_root, backed by an
+// element marked data-ketch-backdrop="true" (or a role="dialog") whenever consent UI
+// is actively shown. The exit popup must never open on top of or behind that UI.
+const isConsentUiVisible = () => {
+  if (typeof document === "undefined") return false;
+
+  const isElementVisible = (element: Element | null) => {
+    if (!element) return false;
+    const rect = element.getBoundingClientRect();
+    return rect.width > 0 && rect.height > 0;
+  };
+
+  return (
+    isElementVisible(document.querySelector('[data-ketch-backdrop="true"]')) ||
+    isElementVisible(document.querySelector('#lanyard_root [role="dialog"]'))
+  );
+};
+
 const isExcludedPath = (pathname: string) =>
   EXCLUDED_PATHS.some((path) => pathname === path || pathname.startsWith(`${path}/`)) ||
   pathname.includes("thank-you");
@@ -117,10 +138,20 @@ const ExitIntentPopup = () => {
 
     const mobileQuery = window.matchMedia(MOBILE_QUERY);
     let timeoutId: number | undefined;
+    let retryTimeoutId: number | undefined;
     let hasTriggered = false;
+    let consentRetryCount = 0;
 
     const trigger = () => {
       if (hasTriggered) return;
+
+      if (isConsentUiVisible()) {
+        if (consentRetryCount >= CONSENT_UI_MAX_RETRIES) return;
+        consentRetryCount += 1;
+        retryTimeoutId = window.setTimeout(trigger, CONSENT_UI_RETRY_MS);
+        return;
+      }
+
       hasTriggered = true;
       openPopup();
     };
@@ -150,6 +181,7 @@ const ExitIntentPopup = () => {
       document.removeEventListener("mouseout", handleMouseOut);
       window.removeEventListener("scroll", handleScroll);
       if (timeoutId) window.clearTimeout(timeoutId);
+      if (retryTimeoutId) window.clearTimeout(retryTimeoutId);
     };
   }, [excluded, openPopup]);
 
