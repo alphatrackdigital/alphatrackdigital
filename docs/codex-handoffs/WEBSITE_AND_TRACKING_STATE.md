@@ -1,5 +1,13 @@
 # Website And Tracking State
 
+## 2026-07-01 Form/Widget/Popup Fix
+
+- Fixed root cause of all four lead forms (Contact Us, Tracking Audit, Newsletter, Exit Popup) showing generic errors on the canonical Vercel test alias: `BREVO_API_KEY`, `BREVO_LIST_ID`, `BREVO_NEWSLETTER_LIST_ID`, `BREVO_AUDIT_LIST_ID`, `BREVO_CONTACT_LIST_ID` were Production-only in Vercel; extended to Preview via the dashboard (values never exposed). All four forms verified working with correct dataLayer events on a fresh preview deployment.
+- Brevo Conversations widget no longer requires analytics/ad consent to load (treated as functional/support communication); confirmed it still loads under Reject All while Clarity and Meta remain correctly consent-gated (no regression).
+- Exit-intent popup now has a state-based guard that prevents it opening while Ketch's consent banner or preference center is visible, with automatic retry once dismissed. Verified via both automated test and live QA on the canonical alias.
+- `npm run lint`, `npx vitest run`, and `npm run build` all passed. Canonical test alias reassigned to the new fixed preview deployment. No Namecheap/cPanel, GTM publish, or other live dashboard changes.
+- Evidence: `docs/codex-handoffs/evidence/form-widget-popup-fix-2026-06-30/summary.md`.
+
 ## 2026-06-30 Cookie Policy Resolution
 
 - Cookie Policy content (`src/content/legal/cookie-policy.md`) tightened: Section 4 and Section 5 replaced with general, accurate third-party provider categories; inactive LinkedIn Ads/Insight Tag reference removed; "Last Updated" set to June 30, 2026.

@@ -1,6 +1,12 @@
 # Evidence Review Queue
 
-Last updated: 2026-06-30.
+Last updated: 2026-07-01.
+
+## 2026-07-01 Form/Widget/Popup Fix
+
+| Evidence | Status | Next action |
+| --- | --- | --- |
+| `docs/codex-handoffs/evidence/form-widget-popup-fix-2026-06-30/summary.md` | Form failures fixed (Vercel Preview env var scope), Brevo widget consent-gating fixed, exit-popup/Ketch-modal conflict fixed. Lint/build/tests passed; canonical alias redeployed. | Repeat full production consent QA and Book-a-call CRM/webhook proof decision before Namecheap/cPanel approval. |
 
 ## 2026-06-30 Cookie Policy Resolution
 

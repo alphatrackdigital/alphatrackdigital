@@ -1,5 +1,14 @@
 # Open Items For Next Agent
 
+## 2026-07-01 Form/Widget/Popup Fix
+
+- Root cause of "all forms failing" on the canonical Vercel test alias: `BREVO_API_KEY` and related Brevo list-ID env vars were scoped only to Production in Vercel project settings, not Preview. Extended to Production+Preview via the Vercel dashboard (values never read/typed by the agent). Contact Us, Tracking Audit, Newsletter, and Exit Popup all verified working post-fix with dataLayer events firing correctly.
+- Brevo Conversations chat widget (`src/components/shared/WhatsAppWidget.tsx`) no longer gated behind analytics consent; it now loads as functional/support communication regardless of consent state, confirmed to still load under Reject All while Clarity/Meta remain correctly consent-gated.
+- Exit-intent popup (`src/components/shared/ExitIntentPopup.tsx`) now has a state-based guard against opening while the Ketch consent banner/preference center is visible, with a capped retry so it still opens normally once consent UI is dismissed. Verified via automated test that it correctly stays closed during the Ketch banner/Purposes/Confirm flow and opens right after.
+- `npm run lint`, `npx vitest run` (65 tests), and `npm run build` all passed.
+- New Vercel preview deployed and canonical test alias `https://website-internal-test.vercel.app/` reassigned to it. No Namecheap/cPanel deployment, no GTM publish, no Ketch/GA4/Meta/Google Ads/Clarity/Brevo/Netlify/Notion dashboard changes.
+- Evidence: `docs/codex-handoffs/evidence/form-widget-popup-fix-2026-06-30/summary.md`.
+
 ## 2026-06-30 Cookie Policy Resolution
 
 - Tightened the existing Cookie Policy content (`src/content/legal/cookie-policy.md`, route `src/pages/CookiePolicy.tsx`) per owner-supplied Section 4/5 text. Removed inactive provider mentions (LinkedIn Ads/Insight Tag), explicit tool naming (GTM, Google Ads as a named tool), and the "cookie scanner table" reference. "Last Updated" date moved to June 30, 2026.

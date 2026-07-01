@@ -1,5 +1,13 @@
 # Notion Sync Summary
 
+## 2026-07-01 Form/Widget/Popup Fix Proposal
+
+- Fixed all four lead forms failing on the test ground (Vercel Preview environment variable scope gap, not a code bug), the Brevo support-chat widget being incorrectly gated behind analytics consent, and the exit popup being able to open behind/over the Ketch consent modal.
+- Lint, tests, and build all passed; canonical test alias redeployed with the fix.
+- No production hosting, GTM publish, or other live dashboard changes.
+- Repo source: `docs/codex-handoffs/evidence/form-widget-popup-fix-2026-06-30/summary.md`.
+- This is a sync proposal only. Notion was not updated directly.
+
 ## 2026-06-30 Cookie Policy Resolution Proposal
 
 - Cookie Policy content tightened to remove inactive provider references and keep internal implementation details (tag IDs, account IDs, audience sizes, QA history, Cookiebot) out of the public page.
