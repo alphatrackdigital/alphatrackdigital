@@ -279,6 +279,53 @@ describe("leads function", () => {
     expect(metaPayload.data[0].user_data.em[0]).toMatch(/^[a-f0-9]{64}$/);
   });
 
+  it("maps tracking audit captures to Meta Lead with the browser event ID", async () => {
+    process.env.META_PIXEL_ID = "123456789";
+    process.env.META_CAPI_ACCESS_TOKEN = "meta-token";
+
+    const fetchMock = vi
+      .fn()
+      .mockResolvedValueOnce(new Response("", { status: 404 }))
+      .mockResolvedValueOnce(new Response(JSON.stringify({ id: 456 }), { status: 201 }))
+      .mockResolvedValueOnce(new Response(JSON.stringify({ contacts: { success: ["grace@example.com"], failure: [] } }), { status: 201 }))
+      .mockResolvedValueOnce(new Response(JSON.stringify({ id: "deal-1" }), { status: 201 }))
+      .mockResolvedValueOnce(new Response(JSON.stringify({ id: "task-1" }), { status: 201 }))
+      .mockResolvedValueOnce(new Response(JSON.stringify({ messageId: "message-1" }), { status: 201 }))
+      .mockResolvedValueOnce(new Response(JSON.stringify({ events_received: 1 }), { status: 200 }));
+    vi.stubGlobal("fetch", fetchMock);
+
+    const response = await handler(buildRequest({
+      source: "tracking_audit_offer",
+      firstName: "Grace",
+      lastName: "Hopper",
+      email: "grace@example.com",
+      websiteUrl: "https://example.com",
+      monthlyAdSpend: "5k to 20k per month",
+      adPlatforms: "Google Ads, Meta Ads",
+      metaEventId: "atd-tracking-audit-event-1",
+    }));
+
+    expect(response.status).toBe(200);
+    await expect(response.json()).resolves.toMatchObject({
+      ok: true,
+      duplicate: false,
+      metaEventId: "atd-tracking-audit-event-1",
+    });
+
+    const [, metaInit] = fetchMock.mock.calls[6];
+    expect(JSON.parse(metaInit.body)).toMatchObject({
+      data: [{
+        event_name: "Lead",
+        event_id: "atd-tracking-audit-event-1",
+        custom_data: {
+          lead_source: "tracking_audit_offer",
+          content_name: "Tracking Audit Landing Page",
+          website_route: "/offer/tracking-audit",
+        },
+      }],
+    });
+  });
+
   it("does not fail lead capture when Meta Conversions API rejects the event", async () => {
     process.env.META_PIXEL_ID = "123456789";
     process.env.META_CAPI_ACCESS_TOKEN = "meta-token";
@@ -313,7 +360,38 @@ describe("leads function", () => {
     expect(fetchMock).toHaveBeenCalledTimes(7);
   });
 
+  it("captures tracking audit leads safely when Meta CAPI env vars are missing", async () => {
+    const fetchMock = vi
+      .fn()
+      .mockResolvedValueOnce(new Response("", { status: 404 }))
+      .mockResolvedValueOnce(new Response(JSON.stringify({ id: 456 }), { status: 201 }))
+      .mockResolvedValueOnce(new Response(JSON.stringify({ contacts: { success: ["grace@example.com"], failure: [] } }), { status: 201 }))
+      .mockResolvedValueOnce(new Response(JSON.stringify({ id: "deal-1" }), { status: 201 }))
+      .mockResolvedValueOnce(new Response(JSON.stringify({ id: "task-1" }), { status: 201 }))
+      .mockResolvedValueOnce(new Response(JSON.stringify({ messageId: "message-1" }), { status: 201 }));
+    vi.stubGlobal("fetch", fetchMock);
+    vi.spyOn(console, "info").mockImplementation(() => undefined);
+
+    const response = await handler(buildRequest({
+      source: "tracking_audit_offer",
+      firstName: "Grace",
+      lastName: "Hopper",
+      email: "grace@example.com",
+      websiteUrl: "https://example.com",
+      monthlyAdSpend: "5k to 20k per month",
+      adPlatforms: "Google Ads, Meta Ads",
+      metaEventId: "atd-tracking-audit-no-capi",
+    }));
+
+    expect(response.status).toBe(200);
+    await expect(response.json()).resolves.toMatchObject({ ok: true, duplicate: false });
+    expect(fetchMock.mock.calls.filter(([url]) => String(url).includes("graph.facebook.com"))).toHaveLength(0);
+  });
+
   it("does not resend notifications for duplicate tracking audit submissions", async () => {
+    process.env.META_PIXEL_ID = "123456789";
+    process.env.META_CAPI_ACCESS_TOKEN = "meta-token";
+
     const fetchMock = vi
       .fn()
       .mockImplementation(() => Promise.resolve(new Response(JSON.stringify({ id: 456 }), { status: 201 })));
@@ -328,6 +406,7 @@ describe("leads function", () => {
       monthlyAdSpend: "5k to 20k per month",
       adPlatforms: "Google Ads, Meta Ads",
       optIn: true,
+      metaEventId: "atd-tracking-audit-dedupe-1",
     };
 
     const firstResponse = await handler(buildRequest(payload));
@@ -336,8 +415,9 @@ describe("leads function", () => {
     const secondResponse = await handler(buildRequest(payload));
     await expect(secondResponse.json()).resolves.toMatchObject({ ok: true, duplicate: true });
 
-    expect(fetchMock).toHaveBeenCalledTimes(9);
+    expect(fetchMock).toHaveBeenCalledTimes(10);
     expect(fetchMock.mock.calls.filter(([url]) => url === "https://api.brevo.com/v3/smtp/email")).toHaveLength(1);
+    expect(fetchMock.mock.calls.filter(([url]) => String(url).includes("graph.facebook.com"))).toHaveLength(1);
   });
 
   it("falls back to direct newsletter capture when Brevo DOI is not active", async () => {
