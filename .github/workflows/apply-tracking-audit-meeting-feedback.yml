@@ -39,6 +39,7 @@ jobs:
       - name: Run affected unit and integration tests
         run: >-
           npx vitest run
+          src/test/tracking-audit-spend.test.tsx
           src/test/tracking-landing.accessibility.test.tsx
           src/test/tracking-audit-professional-services.test.tsx
           src/test/tracking-audit-education.test.tsx
