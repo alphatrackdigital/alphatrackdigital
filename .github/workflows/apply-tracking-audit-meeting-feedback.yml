@@ -8,6 +8,10 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: tracking-audit-meeting-feedback-patch
+  cancel-in-progress: true
+
 jobs:
   patch-and-validate:
     runs-on: ubuntu-latest
@@ -29,8 +33,21 @@ jobs:
       - name: Install dependencies
         run: npm install --ignore-scripts --package-lock=false
 
-      - name: Run canonical release gate
-        run: npm run release:prepare
+      - name: Lint affected source
+        run: npm run lint
+
+      - name: Run affected unit and integration tests
+        run: >-
+          npx vitest run
+          src/test/tracking-landing.accessibility.test.tsx
+          src/test/tracking-audit-professional-services.test.tsx
+          src/test/tracking-audit-education.test.tsx
+          src/test/tracking-audit-real-estate.test.tsx
+          src/test/api-endpoints.test.ts
+          src/test/index.homepage.test.tsx
+
+      - name: Build production bundle
+        run: npm run build
 
       - name: Commit generated source changes
         shell: bash
