@@ -3,6 +3,7 @@ import { HelmetProvider } from "react-helmet-async";
 import App from "./App.tsx";
 import "./index.css";
 import "./tracking-audit-copy-cleanup.css";
+import "./tracking-audit-journey-sequence.css";
 
 const rootElement = document.getElementById("root");
 
