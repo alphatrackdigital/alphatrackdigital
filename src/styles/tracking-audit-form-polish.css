@@ -1,0 +1,56 @@
+#tracking-audit-form:has(#f-industry) #step2-decision-spend {
+  font-size: 0;
+}
+
+#tracking-audit-form:has(#f-industry) #step2-decision-spend::after {
+  content: "Marketing setup";
+  font-size: 10px;
+  line-height: 1rem;
+  letter-spacing: 0.18em;
+}
+
+#tracking-audit-form:has(#f-industry) section[aria-labelledby="step2-advertising"] {
+  margin-top: 0.875rem !important;
+  border-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+#tracking-audit-form:has(#f-industry) #step2-advertising {
+  display: none;
+}
+
+#tracking-audit-form div:has(> label[for="f-spend"] + div [aria-label="Monthly ad spend currency"]) {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  column-gap: 0.75rem;
+  align-items: center;
+}
+
+#tracking-audit-form div:has(> label[for="f-spend"] + div [aria-label="Monthly ad spend currency"]) > label[for="f-spend"] {
+  grid-column: 1;
+  grid-row: 1;
+  margin-bottom: 0.375rem;
+}
+
+#tracking-audit-form div:has(> label[for="f-spend"] + div [aria-label="Monthly ad spend currency"]) > label[for="f-spend"] + div {
+  grid-column: 2;
+  grid-row: 1;
+  margin-bottom: 0.375rem;
+}
+
+#tracking-audit-form div:has(> label[for="f-spend"] + div [aria-label="Monthly ad spend currency"]) > label[for="f-spend"] + div > span {
+  display: none;
+}
+
+#tracking-audit-form div:has(> label[for="f-spend"] + div [aria-label="Monthly ad spend currency"]) > div.relative {
+  grid-column: 1 / -1;
+  grid-row: 2;
+}
+
+#tracking-audit-form div:has(> label[for="f-spend"] + div [aria-label="Monthly ad spend currency"]) > p:not([role="alert"]) {
+  display: none;
+}
+
+#tracking-audit-form div:has(#f-primary-platform) > p:last-child {
+  display: none;
+}
