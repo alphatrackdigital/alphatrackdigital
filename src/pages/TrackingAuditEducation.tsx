@@ -40,6 +40,7 @@ import { companyProfile } from "@/data/companyProfile";
 import { submitLead } from "@/lib/leads";
 import { withCampaignSearch } from "@/lib/campaignAttribution";
 import { pushLeadSubmissionEvent } from "@/lib/tracking";
+import { GHS_TRACKING_AUDIT_SPEND_OPTIONS, TRACKING_AUDIT_SPEND_VALUES } from "@/lib/trackingAuditSpend";
 
 const TRACKING_AUDIT_THEME_STORAGE_KEY = "atd-tracking-audit-theme";
 
@@ -90,7 +91,7 @@ const auditSchema = z.object({
     required_error: "Select your decision role",
   }),
   monthlyAdSpendBand: z.enum(
-    ["paused_or_not_spending", "under_1500", "1500_2999", "3000_5999", "6000_14999", "15000_plus", "not_sure"],
+    TRACKING_AUDIT_SPEND_VALUES,
     { required_error: "Select a spend range" },
   ),
   adPlatforms: z.array(z.enum(["meta_ads", "google_ads", "microsoft_ads", "linkedin_ads", "tiktok_ads", "other", "none_currently"])).min(1, "Select at least one option"),
@@ -127,15 +128,7 @@ const DECISION_OPTIONS = [
   { value: "researching", label: "I’m researching" },
 ] as const;
 
-const SPEND_OPTIONS = [
-  { value: "paused_or_not_spending", label: "Not spending" },
-  { value: "under_1500", label: "Under GHS 1.5k" },
-  { value: "1500_2999", label: "GHS 1.5k–3k" },
-  { value: "3000_5999", label: "GHS 3k–6k" },
-  { value: "6000_14999", label: "GHS 6k–15k" },
-  { value: "15000_plus", label: "GHS 15k+" },
-  { value: "not_sure", label: "Not sure" },
-] as const;
+const SPEND_OPTIONS = GHS_TRACKING_AUDIT_SPEND_OPTIONS;
 
 const PLATFORM_OPTIONS: Array<{ value: AuditPlatform; label: string }> = [
   { value: "meta_ads", label: "Meta" },
@@ -277,7 +270,7 @@ const AUDIT_FAQS: FAQItem[] = [
   },
   {
     question: "How quickly will we hear back?",
-    answer: "We aim to review applications within one business day. If your application is accepted, we’ll confirm the audit scope and timing before we begin.",
+    answer: "We review applications in order. If your application is accepted, we’ll confirm the audit scope and timing by email before we begin.",
   },
 ] as const;
 
@@ -926,7 +919,7 @@ const TrackingAuditEducation = () => {
                 >
                   <motion.span
                     data-journey-chip
-                    className="block rounded-full border border-amber-300/25 bg-background/95 px-3 py-1.5 text-[11px] font-semibold text-amber-100/70 shadow-[0_8px_24px_rgba(0,0,0,0.10)] backdrop-blur"
+                    className="block rounded-full border border-amber-300/25 bg-background/95 px-3 py-1.5 text-[11px] font-semibold text-amber-100/95 shadow-[0_8px_24px_rgba(0,0,0,0.10)] backdrop-blur"
                     animate={
                       prefersReducedMotion
                         ? { opacity: 0.9, y: 0 }
@@ -1023,7 +1016,7 @@ const TrackingAuditEducation = () => {
                   </p>
                   <h3 className="mt-0.5 text-base font-semibold">{title}</h3>
                   {JOURNEY_BREAKS[index] && (
-                    <p className="mt-1.5 text-[11px] text-amber-100/60">{JOURNEY_BREAKS[index].label}</p>
+                    <p className="mt-1.5 text-[11px] text-amber-100/90">{JOURNEY_BREAKS[index].label}</p>
                   )}
                 </div>
               </motion.div>

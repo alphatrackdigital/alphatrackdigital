@@ -288,7 +288,6 @@ const homepageSchema = {
       ],
       contactPoint: {
         "@type": "ContactPoint",
-        telephone: companyProfile.contact.phoneHref.replace("tel:", ""),
         email: companyProfile.contact.email,
         contactType: "sales",
       },
