@@ -38,6 +38,7 @@ import { companyProfile } from "@/data/companyProfile";
 import { submitLead } from "@/lib/leads";
 import { withCampaignSearch } from "@/lib/campaignAttribution";
 import { pushLeadSubmissionEvent } from "@/lib/tracking";
+import { TRACKING_AUDIT_SPEND_VALUES, useGeneralAuditSpendCurrency } from "@/lib/trackingAuditSpend";
 
 const normalizeWebsiteUrl = (value: string) => {
   const trimmed = value.trim();
@@ -76,7 +77,7 @@ const auditSchema = z.object({
     .min(1, "Enter your website")
     .max(500)
     .refine(isValidWebsiteUrl, "Enter a valid website, e.g. company.com"),
-  industry: z.enum(["professional_services", "education_training", "ecommerce_dtc", "real_estate", "other"], {
+  industry: z.enum(["professional_services", "education_training", "ecommerce_dtc", "real_estate", "saas", "other"], {
     required_error: "Select your industry",
   }),
   role: z.enum(["founder_ceo", "marketing_lead", "growth_performance", "operations_commercial", "other"], {
@@ -86,7 +87,7 @@ const auditSchema = z.object({
     required_error: "Select your decision role",
   }),
   monthlyAdSpendBand: z.enum(
-    ["paused_or_not_spending", "under_1500", "1500_2999", "3000_5999", "6000_14999", "15000_plus", "not_sure"],
+    TRACKING_AUDIT_SPEND_VALUES,
     { required_error: "Select a spend range" },
   ),
   adPlatforms: z.array(z.enum(["meta_ads", "google_ads", "microsoft_ads", "linkedin_ads", "tiktok_ads", "other", "none_currently"])).min(1, "Select at least one option"),
@@ -118,6 +119,7 @@ const INDUSTRY_OPTIONS = [
   { value: "education_training", label: "Education / training" },
   { value: "ecommerce_dtc", label: "Ecommerce / DTC" },
   { value: "real_estate", label: "Real estate" },
+  { value: "saas", label: "SaaS" },
   { value: "other", label: "Other" },
 ] as const;
 
@@ -134,16 +136,6 @@ const DECISION_OPTIONS = [
   { value: "strong_influence", label: "Strong influence" },
   { value: "contributor", label: "Contributor" },
   { value: "researching", label: "Researching" },
-] as const;
-
-const SPEND_OPTIONS = [
-  { value: "paused_or_not_spending", label: "Not spending" },
-  { value: "under_1500", label: "Under GHS 1.5k" },
-  { value: "1500_2999", label: "GHS 1.5k–3k" },
-  { value: "3000_5999", label: "GHS 3k–6k" },
-  { value: "6000_14999", label: "GHS 6k–15k" },
-  { value: "15000_plus", label: "GHS 15k+" },
-  { value: "not_sure", label: "Not sure" },
 ] as const;
 
 const PLATFORM_OPTIONS: Array<{ value: AuditPlatform; label: string }> = [
@@ -250,7 +242,7 @@ const AUDIT_FAQS: FAQItem[] = [
   },
   {
     question: "How long does the review take?",
-    answer: "We aim to review applications within one business day. If your application is accepted, we’ll confirm the audit timing before we begin.",
+    answer: "We review applications in order. If your application is accepted, we’ll confirm the audit scope and timing by email before we begin.",
   },
   {
     question: "What if our setup is more complex?",
@@ -288,6 +280,7 @@ const Field = ({ label, htmlFor, error, children }: { label: string; htmlFor: st
 const TrackingLandingPage = () => {
   const location = useLocation();
   const finalCtaTo = withCampaignSearch(TRACKING_AUDIT_ANCHOR_CTA.to, location.search);
+  const { currency: spendCurrency, setCurrency: setSpendCurrency, options: spendOptions } = useGeneralAuditSpendCurrency();
   const [step, setStep] = useState<1 | 2 | 3>(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -302,6 +295,7 @@ const TrackingLandingPage = () => {
     handleSubmit,
     control,
     trigger,
+    resetField,
     formState: { errors },
   } = useForm<AuditFormData>({
     resolver: zodResolver(auditSchema),
@@ -594,9 +588,34 @@ const TrackingLandingPage = () => {
                             )} />
                           </Field>
                           <Field label="Monthly ad spend" htmlFor="f-spend" error={errors.monthlyAdSpendBand?.message}>
+                            <div className="mb-2 flex items-center justify-between gap-3">
+                              <span className="text-[11px] leading-4 text-muted-foreground">Amounts shown in {spendCurrency}.</span>
+                              <div className="inline-flex rounded-lg border border-white/[0.08] bg-white/[0.025] p-0.5" role="group" aria-label="Monthly ad spend currency">
+                                {(["GHS", "USD"] as const).map((currency) => (
+                                  <button
+                                    key={currency}
+                                    type="button"
+                                    aria-pressed={spendCurrency === currency}
+                                    onClick={() => {
+                                      if (currency === spendCurrency) return;
+                                      resetField("monthlyAdSpendBand");
+                                      setSpendCurrency(currency);
+                                    }}
+                                    className={`rounded-md px-2.5 py-1 text-[11px] font-semibold transition-colors ${
+                                      spendCurrency === currency
+                                        ? "bg-primary/15 text-primary"
+                                        : "text-muted-foreground hover:text-foreground"
+                                    }`}
+                                  >
+                                    {currency}
+                                  </button>
+                                ))}
+                              </div>
+                            </div>
                             <Controller control={control} name="monthlyAdSpendBand" render={({ field }) => (
-                              <FormSelect id="f-spend" label="Monthly ad spend" value={field.value} onValueChange={field.onChange} options={SPEND_OPTIONS} placeholder="Select spend range" error={errors.monthlyAdSpendBand?.message} />
+                              <FormSelect id="f-spend" label="Monthly ad spend" value={field.value} onValueChange={field.onChange} options={spendOptions} placeholder="Select spend range" error={errors.monthlyAdSpendBand?.message} />
                             )} />
+                            <p className="mt-1.5 text-[10px] leading-4 text-muted-foreground/70">Ghana visitors are shown cedis when location is available. You can change the currency above.</p>
                           </Field>
                         </section>
 

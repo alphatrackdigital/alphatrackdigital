@@ -216,7 +216,7 @@ export const TrackingAuditSuccessState = () => (
       Thanks — we’ve received your Tracking Audit application.
     </p>
     <p className="mx-auto mt-1.5 max-w-sm text-[12px] leading-5 text-muted-foreground">
-      We’ll review it and email you within one business day if the audit is a good fit.
+      We’ll review it for fit and email you with the next step and timing if the audit is accepted.
     </p>
     <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-primary/15 bg-primary/[0.045] px-3 py-1.5 text-[11px] font-medium text-foreground/72">
       <ShieldCheck className="h-3.5 w-3.5 shrink-0 text-primary" aria-hidden="true" />

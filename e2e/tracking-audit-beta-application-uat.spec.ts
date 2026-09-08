@@ -65,7 +65,7 @@ const assertPremiumSuccessState = async (page: Page) => {
     page.getByText("Thanks — we’ve received your Tracking Audit application.", { exact: true }),
   ).toBeVisible();
   await expect(
-    page.getByText("We’ll review it and email you within one business day if the audit is a good fit.", { exact: true }),
+    page.getByText("We’ll review it for fit and email you with the next step and timing if the audit is accepted.", { exact: true }),
   ).toBeVisible();
   await expect(
     page.getByText("No passwords or account credentials are required.", { exact: true }),
@@ -143,7 +143,7 @@ test.describe("Tracking Audit Beta application contract UAT", () => {
     await selectCombobox(page, "Industry", "Other");
     await selectCombobox(page, "Your role", "Founder / CEO");
     await selectCombobox(page, "Your role in this decision", "Final decision maker");
-    await selectCombobox(page, "Monthly ad spend", "GHS 3k–6k");
+    await selectCombobox(page, "Monthly ad spend", "$500–999");
     await selectCombobox(page, "Main ad platform", "Meta");
     await page.getByRole("button", { name: "Continue", exact: true }).click();
 
@@ -180,7 +180,7 @@ test.describe("Tracking Audit Beta application contract UAT", () => {
 
     await selectCombobox(page, "Your role", "Founder / Managing Partner");
     await selectCombobox(page, "Are you involved in choosing a provider?", "I help choose");
-    await selectCombobox(page, "Rough monthly ad spend", "GHS 3k–6k");
+    await selectCombobox(page, "Rough monthly ad spend", "GHS 5,000–9,999");
     await selectCombobox(page, "Main ad platform", "Google");
     await page.getByRole("button", { name: "Continue", exact: true }).click();
 
@@ -217,7 +217,7 @@ test.describe("Tracking Audit Beta application contract UAT", () => {
 
     await selectCombobox(page, "Your role", "Founder / Director");
     await selectCombobox(page, "Are you involved in choosing a provider?", "I help choose");
-    await selectCombobox(page, "Rough monthly ad spend", "GHS 3k–6k");
+    await selectCombobox(page, "Rough monthly ad spend", "GHS 5,000–9,999");
     await selectCombobox(page, "Main ad platform", "Google");
     await page.getByRole("button", { name: "Continue", exact: true }).click();
 
@@ -254,7 +254,7 @@ test.describe("Tracking Audit Beta application contract UAT", () => {
 
     await selectCombobox(page, "Your role", "Founder / Director");
     await selectCombobox(page, "Are you involved in choosing a provider?", "I help choose");
-    await selectCombobox(page, "Rough monthly ad spend", "GHS 3k–6k");
+    await selectCombobox(page, "Rough monthly ad spend", "GHS 5,000–9,999");
     await selectCombobox(page, "Main ad platform", "Google");
     await page.getByRole("button", { name: "Continue", exact: true }).click();
 
