@@ -31,6 +31,9 @@ export const getLeadsEndpoint = () =>
 export const getBrevoSubscribeEndpoint = () =>
   resolveApiEndpoint("/api/brevo-subscribe", import.meta.env.VITE_BREVO_SUBSCRIBE_ENDPOINT);
 
+export const getVisitorCountryEndpoint = () =>
+  resolveApiEndpoint("/api/visitor-country", import.meta.env.VITE_VISITOR_COUNTRY_ENDPOINT);
+
 /**
  * The admin API is served by the separate backend repository
  * (`alphatrackdigital/atd-backend-test`), not by this repo's `api/` folder,
