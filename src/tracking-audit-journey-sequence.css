@@ -1,0 +1,127 @@
+@media (prefers-reduced-motion: no-preference) {
+  [data-journey-sequence] > div:first-child > div:nth-child(2) {
+    animation: atd-journey-line 10s linear infinite !important;
+  }
+
+  [data-journey-sequence] > div:first-child > span:nth-child(3) {
+    animation: atd-journey-dot 10s linear infinite !important;
+  }
+
+  [data-journey-sequence] [data-journey-break="0"] [data-journey-chip] {
+    animation: atd-journey-chip-1 10s linear infinite !important;
+  }
+
+  [data-journey-sequence] [data-journey-break="1"] [data-journey-chip] {
+    animation: atd-journey-chip-2 10s linear infinite !important;
+  }
+
+  [data-journey-sequence] [data-journey-break="2"] [data-journey-chip] {
+    animation: atd-journey-chip-3 10s linear infinite !important;
+  }
+
+  [data-journey-sequence] [data-journey-break="0"] [data-journey-diamond] > span {
+    animation: atd-journey-diamond-1 10s linear infinite !important;
+  }
+
+  [data-journey-sequence] [data-journey-break="1"] [data-journey-diamond] > span {
+    animation: atd-journey-diamond-2 10s linear infinite !important;
+  }
+
+  [data-journey-sequence] [data-journey-break="2"] [data-journey-diamond] > span {
+    animation: atd-journey-diamond-3 10s linear infinite !important;
+  }
+
+  [data-journey-sequence] [data-journey-node="0"] {
+    animation: atd-journey-node-1 10s linear infinite !important;
+  }
+
+  [data-journey-sequence] [data-journey-node="1"] {
+    animation: atd-journey-node-2 10s linear infinite !important;
+  }
+
+  [data-journey-sequence] [data-journey-node="2"] {
+    animation: atd-journey-node-3 10s linear infinite !important;
+  }
+
+  [data-journey-sequence] [data-journey-node="3"] {
+    animation: atd-journey-node-4 10s linear infinite !important;
+  }
+}
+
+@keyframes atd-journey-line {
+  0% { opacity: 0; transform: scaleX(0); }
+  2% { opacity: 0.95; transform: scaleX(0.0222); }
+  90% { opacity: 0.82; transform: scaleX(1); }
+  96% { opacity: 0.82; transform: scaleX(1); }
+  100% { opacity: 0; transform: scaleX(1); }
+}
+
+@keyframes atd-journey-dot {
+  0% { left: 12.5%; opacity: 0.2; }
+  2% { left: 14.1667%; opacity: 1; }
+  90% { left: 87.5%; opacity: 1; }
+  96% { left: 87.5%; opacity: 0.9; }
+  100% { left: 87.5%; opacity: 0; }
+}
+
+@keyframes atd-journey-chip-1 {
+  0%, 14% { opacity: 0; transform: translateY(0); }
+  15% { opacity: 0.72; transform: translateY(0); }
+  18% { opacity: 1; transform: translateY(-2px); }
+  22% { opacity: 0.88; transform: translateY(0); }
+  96% { opacity: 0.88; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(0); }
+}
+
+@keyframes atd-journey-chip-2 {
+  0%, 44% { opacity: 0; transform: translateY(0); }
+  45% { opacity: 0.72; transform: translateY(0); }
+  48% { opacity: 1; transform: translateY(-2px); }
+  52% { opacity: 0.88; transform: translateY(0); }
+  96% { opacity: 0.88; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(0); }
+}
+
+@keyframes atd-journey-chip-3 {
+  0%, 74% { opacity: 0; transform: translateY(0); }
+  75% { opacity: 0.72; transform: translateY(0); }
+  78% { opacity: 1; transform: translateY(-2px); }
+  82% { opacity: 0.88; transform: translateY(0); }
+  96% { opacity: 0.88; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(0); }
+}
+
+@keyframes atd-journey-diamond-1 {
+  0%, 14%, 22%, 100% { opacity: 0.72; transform: rotate(45deg) scale(1); }
+  18% { opacity: 1; transform: rotate(45deg) scale(1.42); }
+}
+
+@keyframes atd-journey-diamond-2 {
+  0%, 44%, 52%, 100% { opacity: 0.72; transform: rotate(45deg) scale(1); }
+  48% { opacity: 1; transform: rotate(45deg) scale(1.42); }
+}
+
+@keyframes atd-journey-diamond-3 {
+  0%, 74%, 82%, 100% { opacity: 0.72; transform: rotate(45deg) scale(1); }
+  78% { opacity: 1; transform: rotate(45deg) scale(1.42); }
+}
+
+@keyframes atd-journey-node-1 {
+  0%, 6%, 100% { transform: scale(1); box-shadow: 0 8px 24px rgba(0,0,0,0.10); }
+  3% { transform: scale(1.075); box-shadow: 0 0 32px rgba(51,204,153,0.24); }
+}
+
+@keyframes atd-journey-node-2 {
+  0%, 27%, 33%, 100% { transform: scale(1); box-shadow: 0 8px 24px rgba(0,0,0,0.10); }
+  30% { transform: scale(1.075); box-shadow: 0 0 32px rgba(51,204,153,0.24); }
+}
+
+@keyframes atd-journey-node-3 {
+  0%, 57%, 63%, 100% { transform: scale(1); box-shadow: 0 8px 24px rgba(0,0,0,0.10); }
+  60% { transform: scale(1.075); box-shadow: 0 0 32px rgba(51,204,153,0.24); }
+}
+
+@keyframes atd-journey-node-4 {
+  0%, 87%, 93%, 100% { transform: scale(1); box-shadow: 0 8px 24px rgba(0,0,0,0.10); }
+  90% { transform: scale(1.075); box-shadow: 0 0 32px rgba(51,204,153,0.24); }
+}
