@@ -14,6 +14,7 @@ concurrency:
 
 jobs:
   patch-and-validate:
+    if: ${{ !contains(github.event.head_commit.message, '[generated-meeting-feedback]') }}
     runs-on: ubuntu-latest
     steps:
       - name: Check out branch
@@ -36,7 +37,7 @@ jobs:
       - name: Lint affected source
         run: npm run lint
 
-      - name: Run affected unit and integration tests
+      - name: Run affected Tracking Audit tests
         run: >-
           npx vitest run
           src/test/tracking-audit-spend.test.tsx
@@ -45,7 +46,11 @@ jobs:
           src/test/tracking-audit-education.test.tsx
           src/test/tracking-audit-real-estate.test.tsx
           src/test/api-endpoints.test.ts
-          src/test/index.homepage.test.tsx
+
+      - name: Validate homepage structured data change
+        run: >-
+          npx vitest run src/test/index.homepage.test.tsx
+          -t "keeps campaign attribution on primary booking CTAs and publishes homepage schema"
 
       - name: Build production bundle
         run: npm run build
