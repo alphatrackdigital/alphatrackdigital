@@ -3,6 +3,7 @@ import { ArrowDown, Check, CheckCircle2, ChevronDown, ShieldCheck } from "lucide
 import { Link } from "react-router-dom";
 
 import { Button } from "@/components/ui/button";
+import "@/styles/tracking-audit-form-polish.css";
 
 type TrackingAuditFormSelectOption = {
   value: string;
@@ -228,70 +229,18 @@ export const TrackingAuditSuccessState = () => (
   </div>
 );
 
-const trackingAuditFormPolishStyles = `
-  #tracking-audit-form:has(#f-industry) #step2-decision-spend {
-    font-size: 0;
-  }
-  #tracking-audit-form:has(#f-industry) #step2-decision-spend::after {
-    content: "Marketing setup";
-    font-size: 10px;
-    line-height: 1rem;
-    letter-spacing: 0.18em;
-  }
-  #tracking-audit-form:has(#f-industry) section[aria-labelledby="step2-advertising"] {
-    margin-top: 0.875rem !important;
-    border-top: 0 !important;
-    padding-top: 0 !important;
-  }
-  #tracking-audit-form:has(#f-industry) #step2-advertising {
-    display: none;
-  }
-  #tracking-audit-form div:has(> label[for="f-spend"] + div [aria-label="Monthly ad spend currency"]) {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    column-gap: 0.75rem;
-    align-items: center;
-  }
-  #tracking-audit-form div:has(> label[for="f-spend"] + div [aria-label="Monthly ad spend currency"]) > label[for="f-spend"] {
-    grid-column: 1;
-    grid-row: 1;
-    margin-bottom: 0.375rem;
-  }
-  #tracking-audit-form div:has(> label[for="f-spend"] + div [aria-label="Monthly ad spend currency"]) > label[for="f-spend"] + div {
-    grid-column: 2;
-    grid-row: 1;
-    margin-bottom: 0.375rem;
-  }
-  #tracking-audit-form div:has(> label[for="f-spend"] + div [aria-label="Monthly ad spend currency"]) > label[for="f-spend"] + div > span {
-    display: none;
-  }
-  #tracking-audit-form div:has(> label[for="f-spend"] + div [aria-label="Monthly ad spend currency"]) > div.relative {
-    grid-column: 1 / -1;
-    grid-row: 2;
-  }
-  #tracking-audit-form div:has(> label[for="f-spend"] + div [aria-label="Monthly ad spend currency"]) > p:not([role="alert"]) {
-    display: none;
-  }
-  #tracking-audit-form div:has(#f-primary-platform) > p:last-child {
-    display: none;
-  }
-`;
-
 export const TrackingAuditHumanReviewBadge = () => (
-  <>
-    <style>{trackingAuditFormPolishStyles}</style>
-    <div
-      className="pointer-events-none absolute left-1/2 top-4 z-40 -translate-x-1/2 sm:top-7"
-      data-human-review-badge
-      aria-label="Human-reviewed audit. Not an automated report."
-    >
-      <div className="inline-flex h-7 items-center gap-1.5 rounded-full border border-amber-500/20 bg-amber-400/[0.08] px-2.5 text-[10px] font-semibold uppercase tracking-[0.08em] text-amber-700 shadow-[0_4px_14px_rgba(116,73,8,0.08)] backdrop-blur-md dark:text-amber-200/85">
-        <ShieldCheck className="h-3.5 w-3.5 shrink-0 text-amber-600 dark:text-amber-300/85" aria-hidden="true" />
-        <span className="whitespace-nowrap">Human-reviewed audit</span>
-        <span className="sr-only">Not an automated report</span>
-      </div>
+  <div
+    className="pointer-events-none absolute left-1/2 top-4 z-40 -translate-x-1/2 sm:top-7"
+    data-human-review-badge
+    aria-label="Human-reviewed audit. Not an automated report."
+  >
+    <div className="inline-flex h-7 items-center gap-1.5 rounded-full border border-amber-500/20 bg-amber-400/[0.08] px-2.5 text-[10px] font-semibold uppercase tracking-[0.08em] text-amber-700 shadow-[0_4px_14px_rgba(116,73,8,0.08)] backdrop-blur-md dark:text-amber-200/85">
+      <ShieldCheck className="h-3.5 w-3.5 shrink-0 text-amber-600 dark:text-amber-300/85" aria-hidden="true" />
+      <span className="whitespace-nowrap">Human-reviewed audit</span>
+      <span className="sr-only">Not an automated report</span>
     </div>
-  </>
+  </div>
 );
 
 export const TrackingAuditReviewCue = () => (
