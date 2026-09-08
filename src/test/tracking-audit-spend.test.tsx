@@ -56,6 +56,38 @@ describe("Tracking Audit spend bands", () => {
     expect(result.current.options[1]?.value).toBe("ghs_5000_9999");
   });
 
+  it("does not expose spend choices until a delayed country lookup settles", async () => {
+    let resolveLookup: ((response: Response) => void) | undefined;
+    vi.stubGlobal(
+      "fetch",
+      vi.fn().mockImplementation(
+        () =>
+          new Promise<Response>((resolve) => {
+            resolveLookup = resolve;
+          }),
+      ),
+    );
+
+    const { result } = renderHook(() => useGeneralAuditSpendCurrency());
+
+    expect(result.current.isAutoDetected).toBe(false);
+    expect(result.current.options).toEqual([]);
+
+    await act(async () => {
+      resolveLookup?.(
+        new Response(JSON.stringify({ ok: true, countryCode: "GH" }), {
+          status: 200,
+          headers: { "content-type": "application/json" },
+        }),
+      );
+      await Promise.resolve();
+    });
+
+    await waitFor(() => expect(result.current.isAutoDetected).toBe(true));
+    expect(result.current.currency).toBe("GHS");
+    expect(result.current.options[1]?.value).toBe("ghs_5000_9999");
+  });
+
   it("uses USD for visitors outside Ghana", async () => {
     vi.stubGlobal(
       "fetch",
@@ -80,6 +112,7 @@ describe("Tracking Audit spend bands", () => {
     act(() => result.current.setCurrency("GHS"));
 
     expect(result.current.currency).toBe("GHS");
+    expect(result.current.options[1]?.value).toBe("ghs_5000_9999");
     expect(window.localStorage.getItem("atd-tracking-audit-spend-currency")).toBe("GHS");
   });
 });
