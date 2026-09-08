@@ -43,6 +43,7 @@ export const USD_TRACKING_AUDIT_SPEND_OPTIONS: TrackingAuditSpendOption[] = [
 ];
 
 const STORAGE_KEY = "atd-tracking-audit-spend-currency";
+const GEO_LOOKUP_TIMEOUT_MS = 1500;
 
 const readStoredCurrency = (): TrackingAuditSpendCurrency | null => {
   if (typeof window === "undefined") return null;
@@ -62,7 +63,7 @@ export const useGeneralAuditSpendCurrency = () => {
   const [currency, setCurrencyState] = useState<TrackingAuditSpendCurrency>(
     storedCurrency ?? (browserLooksGhanaian() ? "GHS" : "USD"),
   );
-  const [isAutoDetected, setIsAutoDetected] = useState(false);
+  const [isAutoDetected, setIsAutoDetected] = useState(Boolean(storedCurrency));
 
   useEffect(() => {
     if (storedCurrency) {
@@ -71,6 +72,8 @@ export const useGeneralAuditSpendCurrency = () => {
     }
 
     const controller = new AbortController();
+    const timeout = window.setTimeout(() => controller.abort(), GEO_LOOKUP_TIMEOUT_MS);
+
     fetch(getVisitorCountryEndpoint(), {
       method: "GET",
       headers: { Accept: "application/json" },
@@ -86,9 +89,15 @@ export const useGeneralAuditSpendCurrency = () => {
       .catch(() => {
         // Keep the browser-derived fallback. Currency can always be changed manually.
       })
-      .finally(() => setIsAutoDetected(true));
+      .finally(() => {
+        window.clearTimeout(timeout);
+        setIsAutoDetected(true);
+      });
 
-    return () => controller.abort();
+    return () => {
+      window.clearTimeout(timeout);
+      controller.abort();
+    };
   }, [storedCurrency]);
 
   const setCurrency = (next: TrackingAuditSpendCurrency) => {
@@ -98,8 +107,11 @@ export const useGeneralAuditSpendCurrency = () => {
   };
 
   const options = useMemo(
-    () => (currency === "GHS" ? GHS_TRACKING_AUDIT_SPEND_OPTIONS : USD_TRACKING_AUDIT_SPEND_OPTIONS),
-    [currency],
+    () => {
+      if (!isAutoDetected) return [];
+      return currency === "GHS" ? GHS_TRACKING_AUDIT_SPEND_OPTIONS : USD_TRACKING_AUDIT_SPEND_OPTIONS;
+    },
+    [currency, isAutoDetected],
   );
 
   return { currency, setCurrency, options, isAutoDetected };
