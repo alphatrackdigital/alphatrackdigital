@@ -1,0 +1,11 @@
+.tracking-audit-form-card div:has(> [role="group"][aria-label="Monthly ad spend currency"]) > span {
+  display: none;
+}
+
+.tracking-audit-form-card div:has(> [role="group"][aria-label="Monthly ad spend currency"]) {
+  justify-content: flex-end;
+}
+
+.tracking-audit-form-card div:has(> button#f-spend) + p:not([role="alert"]) {
+  display: none;
+}
